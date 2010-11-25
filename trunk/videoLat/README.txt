@@ -23,8 +23,15 @@ Binary installers and source code can be downloaded via
 <http://videolat.sourceforge.net>. Installation is optional: videoLat can
 run in-place.
 
+Usage
+=====
+
 Instructions on using videoLat are available in the built-in help page and
 on <http://videolat.sourceforge.net>.
+
+Change Log
+==========
+0.51: Added missing Help book
 
 Build Instructions
 ==================
