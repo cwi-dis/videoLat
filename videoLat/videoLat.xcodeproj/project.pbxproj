@@ -35,6 +35,7 @@
 		04AF710C129A7EE700BF94CF /* sw_ta2vcecut.py in Resources */ = {isa = PBXBuildFile; fileRef = 04AF710B129A7EE700BF94CF /* sw_ta2vcecut.py */; };
 		04AF7116129A7EFC00BF94CF /* pp_summary in Resources */ = {isa = PBXBuildFile; fileRef = 04AF710D129A7EFC00BF94CF /* pp_summary */; };
 		04AF71E4129AAE4900BF94CF /* appDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 04AF71E3129AAE4900BF94CF /* appDelegate.m */; };
+		04E401AC129E711900B3227F /* help in Resources */ = {isa = PBXBuildFile; fileRef = 04E401A7129E711900B3227F /* help */; };
 		04ED0E5B121F22D0005B205E /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04ED0E5A121F22D0005B205E /* QuartzCore.framework */; };
 		04F71800129348620016CFA4 /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 04F717FF129348620016CFA4 /* icon.icns */; };
 		1DDD58160DA1D0A300B32029 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DDD58140DA1D0A300B32029 /* MainMenu.xib */; };
@@ -60,6 +61,9 @@
 		040F2773121F3C3D003C3A4E /* genQRcodes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = genQRcodes.m; sourceTree = "<group>"; };
 		040F2777121F3C51003C3A4E /* findQRcodes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = findQRcodes.h; sourceTree = "<group>"; };
 		040F2778121F3C51003C3A4E /* findQRcodes.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = findQRcodes.mm; sourceTree = "<group>"; };
+		04105A3C129E7C650005AABA /* COPYING */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = COPYING; sourceTree = "<group>"; };
+		04105A3D129E7C650005AABA /* internalize_dylibs.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = internalize_dylibs.py; sourceTree = "<group>"; };
+		04105A3E129E7C650005AABA /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
 		0430BD5B122306C400E14F88 /* output.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = output.h; sourceTree = "<group>"; };
 		0430BD5C122306C400E14F88 /* output.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = output.m; sourceTree = "<group>"; };
 		043153A4122EACB000D64AD2 /* OutputView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OutputView.h; sourceTree = "<group>"; };
@@ -77,6 +81,7 @@
 		04AF710D129A7EFC00BF94CF /* pp_summary */ = {isa = PBXFileReference; lastKnownFileType = folder; path = pp_summary; sourceTree = "<group>"; };
 		04AF71E2129AAE4900BF94CF /* appDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = appDelegate.h; sourceTree = "<group>"; };
 		04AF71E3129AAE4900BF94CF /* appDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = appDelegate.m; sourceTree = "<group>"; };
+		04E401A7129E711900B3227F /* help */ = {isa = PBXFileReference; lastKnownFileType = folder; path = help; sourceTree = "<group>"; };
 		04ED0E5A121F22D0005B205E /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		04F717FF129348620016CFA4 /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = icon.icns; sourceTree = "<group>"; };
 		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -111,6 +116,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		04105A3B129E7C2F0005AABA /* Helper Files */ = {
+			isa = PBXGroup;
+			children = (
+				04105A3C129E7C650005AABA /* COPYING */,
+				04105A3D129E7C650005AABA /* internalize_dylibs.py */,
+				04105A3E129E7C650005AABA /* README.txt */,
+			);
+			name = "Helper Files";
+			sourceTree = "<group>";
+		};
 		04CF18461221B11700CB32C8 /* zbar */ = {
 			isa = PBXGroup;
 			children = (
@@ -183,6 +198,7 @@
 		29B97314FDCFA39411CA2CEA /* iSight */ = {
 			isa = PBXGroup;
 			children = (
+				04105A3B129E7C2F0005AABA /* Helper Files */,
 				04CF18481221B11F00CB32C8 /* zint */,
 				04CF18461221B11700CB32C8 /* zbar */,
 				080E96DDFE201D6D7F000001 /* Classes */,
@@ -206,6 +222,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				04E401A7129E711900B3227F /* help */,
 				04AF710D129A7EFC00BF94CF /* pp_summary */,
 				04AF710B129A7EE700BF94CF /* sw_ta2vcecut.py */,
 				04F717FF129348620016CFA4 /* icon.icns */,
@@ -282,6 +299,7 @@
 				04F71800129348620016CFA4 /* icon.icns in Resources */,
 				04AF710C129A7EE700BF94CF /* sw_ta2vcecut.py in Resources */,
 				04AF7116129A7EFC00BF94CF /* pp_summary in Resources */,
+				04E401AC129E711900B3227F /* help in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -299,7 +317,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "VERSION=0.5\nif [ $BUILD_STYLE != \"Release\" ]; then\n\techo \"Only for Release builds\"\n\texit 1\nfi\nrm -rf videoLat-$VERSION videoLat-$VERSION.zip\nmkdir videoLat-$VERSION\nditto build/Release/videoLat.app videoLat-$VERSION/videoLat.app\ncp README.txt COPYING videoLat-$VERSION/\nzip -r videoLat-$VERSION.zip videoLat-$VERSION\n\n";
+			shellScript = "\nif [ $BUILD_STYLE != \"Release\" ]; then\n\techo \"Only for Release builds\"\n\texit 1\nfi\nrm -rf videoLat-$videoLatVersion videoLat-$videoLatVersion.zip\nmkdir videoLat-$videoLatVersion\nditto build/Release/videoLat.app videoLat-$videoLatVersion/videoLat.app\ncp README.txt COPYING videoLat-$videoLatVersion/\nzip -r videoLat-$videoLatVersion.zip videoLat-$videoLatVersion\n\n";
 		};
 		0499439B129C033A00F8E2ED /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -446,6 +464,7 @@
 				PREBINDING = NO;
 				SDKROOT = "";
 				USER_HEADER_SEARCH_PATHS = "thirdParty/zint-2.3.2/backend thirdParty/zbar-0.10-src/include";
+				videoLatVersion = 0.51;
 			};
 			name = Debug;
 		};
@@ -463,6 +482,7 @@
 				PREBINDING = NO;
 				SDKROOT = "";
 				USER_HEADER_SEARCH_PATHS = "thirdParty/zint-2.3.2/backend thirdParty/zbar-0.10-src/include";
+				videoLatVersion = 0.51;
 			};
 			name = Release;
 		};

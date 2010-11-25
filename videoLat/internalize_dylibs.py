@@ -68,7 +68,9 @@ class Internalizer:
 
 	def add(self, src, copy=False):
 		if self.instlibdir and os.path.commonprefix([src, self.instlibdir]) == self.instlibdir:
-			src = self.staginglibdir + src[len(self.instlibdir):]
+			newsrc = self.staginglibdir + src[len(self.instlibdir):]
+			if os.path.exists(newsrc):
+				src = newsrc
 		while os.path.islink(src):
 			src = os.path.realpath(src)
 		if src in self.todo or src in self.done:
