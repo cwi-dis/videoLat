@@ -31,6 +31,8 @@ on <http://videolat.sourceforge.net>.
 
 Change Log
 ==========
+0.52: Fixed race condition that could cause early crash
+0.52: Fixed race condition that could cause negative latencies
 0.51: Added missing Help book
 
 Build Instructions
