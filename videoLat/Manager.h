@@ -37,6 +37,8 @@
     uint64_t outputStartTime;
 	uint64_t outputAddedOverhead;
     NSString *outputCode;
+    bool outputCodeHasBeenReported;
+    NSString *lastOutputCode;
     NSString *lastInputCode;
     // Black/white detection
     int blacklevel;
