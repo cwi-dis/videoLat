@@ -140,8 +140,8 @@
     withSampleBuffer:(QTSampleBuffer *)sampleBuffer
     fromConnection:(QTCaptureConnection *)connection
 {
-    [manager newInputStart];
 	UInt64 now = CVGetCurrentHostTime();
+    [manager newInputStart];
 //    NSLog(@"Got video frame %lld %lld size %dx%d\n", 1000000LL*timestamp.timeValue / timestamp.timeScale, now_micro, (int)CVPixelBufferGetWidth(videoFrame), (int)CVPixelBufferGetHeight(videoFrame));
     OSType format = CVPixelBufferGetPixelFormatType(videoFrame);
 	NSNumber *nHostTime = [sampleBuffer attributeForKey: QTSampleBufferHostTimeAttribute];

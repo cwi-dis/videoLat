@@ -12,6 +12,12 @@
 
 // Screen refresh callback (plain C)
 
+// This define seems to cause more trouble than it's worth. The intention was
+// to wait with generating the "data transmitted" message until the vertical retrace.
+// but sometimes the data is captured before that.
+#undef XMIT_TIME_AT_RETRACE_TIME
+
+#ifdef XMIT_TIME_AT_RETRACE_TIME
 static void
 MyScreenRefreshCallback(CGRectCount count, const CGRect *rects, void *userArg)
 {
@@ -20,7 +26,7 @@ MyScreenRefreshCallback(CGRectCount count, const CGRect *rects, void *userArg)
 	assert(count);
 	[itself refreshCallback: count rects: rects];
 }
-
+#endif // XMIT_TIME_AT_RETRACE_TIME
 
 @implementation OutputView
 
@@ -36,7 +42,9 @@ MyScreenRefreshCallback(CGRectCount count, const CGRect *rects, void *userArg)
 
 - (void) awakeFromNib 
 {
+#ifdef XMIT_TIME_AT_RETRACE_TIME
 	CGRegisterScreenRefreshCallback(MyScreenRefreshCallback, (void *)self);
+#endif
 }
 
 - (IBAction)toggleFullscreen: (NSMenuItem*)sender
@@ -55,10 +63,12 @@ MyScreenRefreshCallback(CGRectCount count, const CGRect *rects, void *userArg)
 - (void)drawRect:(NSRect)dirtyRect {
     // Drawing code here.
     //NSLog(@"outputView willDisplayImage\n");
-    CIImage *newImage = [manager newOutputStart];
+    CIImage *newImage = [[manager newOutputStart] retain];
     assert(newImage);
     if (settings.mirrorView) {
-        newImage = [newImage imageByApplyingTransform: CGAffineTransformMakeScale(-1.0, 1.0)];
+        CIImage *mirror = [newImage imageByApplyingTransform: CGAffineTransformMakeScale(-1.0, 1.0)];
+        [newImage release];
+        newImage = [mirror retain];
     }
 	// We do not output our log message immedeately, we wait for the next refresh.
     // xxx draw newImage
@@ -69,11 +79,18 @@ MyScreenRefreshCallback(CGRectCount count, const CGRect *rects, void *userArg)
     width = height = ((width < height)? width : height)/* - 60*/;
     dstRect = NSMakeRect(NSMidX(dstRect)-width/2, NSMidY(dstRect)-height/2, width, height);
     [newImage drawInRect:dstRect fromRect:NSRectFromCGRect([newImage extent]) operation:NSCompositeCopy fraction:1];
+#ifndef XMIT_TIME_AT_RETRACE_TIME
+    [manager newOutputDone];
+#endif
+    [newImage release];
 }
 
 
 - (void)refreshCallback: (CGRectCount)count rects: (const CGRect *)rectArray
 {
+#ifndef XMIT_TIME_AT_RETRACE_TIME
+    assert(0);
+#else
 	if (!newOutputDone) return;
 	// Our window rectangle is in AppKit coordinates (lowerleft of main screen is 0,0),
 	// but CG coordinates use topleft of main screen is 0,0.
@@ -114,6 +131,7 @@ MyScreenRefreshCallback(CGRectCount count, const CGRect *rects, void *userArg)
 		}
 		rectArray++;
 	}
+#endif // XMIT_TIME_AT_RETRACE_TIME
 }
 
 @end
