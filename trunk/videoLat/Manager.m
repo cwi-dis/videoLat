@@ -18,6 +18,7 @@
 - (void) awakeFromNib 
 {
     @synchronized(self) {
+        [[settings window] setReleasedWhenClosed: false];
         foundQRcode = false;
         found_total = 0;
         found_ok = 0;
@@ -54,18 +55,27 @@
             if (delegate) [delegate release];
             delegate = nil;
         }
+        NSWindow *w = nil;
+        if (outputView) w = [outputView window];
         if (settings.xmit) {
-            if (![[outputView window] isVisible])
-                [[outputView window] orderFront: self];
+            if (w && ![w isVisible])
+                [w orderFront: self];
         } else {
-            [[outputView window] orderOut: self];
+            if (w) [w orderOut: self];
         }
+#if 1
+        // This does not work: hiding and re-showing the live video window
+        // actually seems to create a new one. So then the outlet isn't
+        // valid anymore.
+        w = nil;
+        if (inputView) w = [inputView window];
         if (settings.recv) {
-            if (![[inputView window] isVisible])
-                [[inputView window] orderFront: self];
+            if (w && ![w isVisible])
+                [w orderFront: self];
         } else {
-            [[inputView window] orderOut: self];
+            if (w) [w orderOut: self];
         }
+#endif
         [outputView setNeedsDisplay: YES];
     }
 }

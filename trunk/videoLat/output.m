@@ -18,6 +18,7 @@
 {
     self = [super init];
     initialized = false;
+    terminating = false;
     fp = NULL;
     epoch = 0;
     epoch = [self now];    
@@ -53,7 +54,9 @@
 
 - (void) terminate
 {
+    if (terminating) return;
     @synchronized(self) {
+        terminating = true;
         if (initialized && fp) {
             fclose(fp);
             if (settings.summarize) {
@@ -96,6 +99,7 @@
 
 - (void) output: (const char*)name event: (const char*)event data: (const char*)data start: (uint64_t)startTime
 {
+    if (terminating) return;
     @synchronized(self) {
         if (!initialized) [self openFile];
         int64_t now = [self now];
@@ -106,6 +110,7 @@
 
 - (void) output: (const char*)name event: (const char*)event data: (const char*)data
 {
+    if (terminating) return;
     @synchronized(self) {
         if (!initialized) [self openFile];
         int64_t now = [self now];

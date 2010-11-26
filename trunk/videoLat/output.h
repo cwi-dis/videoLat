@@ -15,6 +15,7 @@
     uint64_t epoch;
     FILE *fp;
     bool initialized;
+    bool terminating;
 }
 - (Output*) init;
 - (void)openFile;
