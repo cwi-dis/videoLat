@@ -17,6 +17,9 @@ def opencsv(filename):
     return reader
 
 class Summary:
+    NUMBER_OF_BINS=100
+    STEPSIZES=[1,2,5,10,20,50,100,200,500,1000,2000,5000,10000,20000,50000,100000,200000,500000]
+    
     def __init__(self):
         self.xmit_times = {}
         self.recv_times = {}
@@ -88,7 +91,18 @@ class Summary:
         fp.write('%s,%s,%s,%s,%s\n' % (len(delays),min(delays), max(delays), mean, stddev))
         fp.write('\n')
         fp.write('bin,lwbound,upbound,fraction,cumfraction\n')
-        hist, lwbound, dbound, _ = stats.lrelfreq(delays, numbins=100)
+        
+        # Find reasonable bounds
+        stepsize = (max(delays)-min(delays)) / self.NUMBER_OF_BINS
+        for rounded_stepsize in self.STEPSIZES:
+            if rounded_stepsize > stepsize:
+                stepsize = rounded_stepsize
+                break
+        lwb = int(min(delays)/stepsize)*stepsize
+        upb = lwb + self.NUMBER_OF_BINS*stepsize
+        assert lwb <= min(delays)
+        assert upb >= max(delays)
+        hist, lwbound, dbound, _ = stats.lrelfreq(delays, self.NUMBER_OF_BINS, [lwb, upb])
         bin = 0
         cum = 0
         for fraction in hist:
