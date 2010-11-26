@@ -45,6 +45,8 @@ MyScreenRefreshCallback(CGRectCount count, const CGRect *rects, void *userArg)
 #ifdef XMIT_TIME_AT_RETRACE_TIME
 	CGRegisterScreenRefreshCallback(MyScreenRefreshCallback, (void *)self);
 #endif
+    [[self window] setReleasedWhenClosed: false];
+
 }
 
 - (IBAction)toggleFullscreen: (NSMenuItem*)sender

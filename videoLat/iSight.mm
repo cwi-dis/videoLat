@@ -8,6 +8,8 @@
 {    
     // Setup for callbacks 
     [selfView setDelegate: self];
+    [[selfView window] setReleasedWhenClosed: false];
+
 	NSLog(@"Devices: %@\n", [self deviceNames]);
 	
 	/* Select the default Video input device */
@@ -133,6 +135,7 @@
     //NSLog(@"selfView willDisplayImage\n");
     return [image imageByApplyingTransform: CGAffineTransformMakeScale(-1.0, 1.0)];
 #endif
+    NSLog(@"WillDisplayImage %@", view);
 }
 
 - (void)captureOutput:(QTCaptureOutput *)captureOutput 
