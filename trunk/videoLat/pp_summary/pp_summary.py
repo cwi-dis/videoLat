@@ -88,20 +88,23 @@ class Summary:
         fp.write('count,min,max,mean,stddev\n')
         mean = stats.lmean(delays)
         stddev = stats.lsamplestdev(delays)
-        fp.write('%s,%s,%s,%s,%s\n' % (len(delays),min(delays), max(delays), mean, stddev))
+        ndelays, mindelay, maxdelay = len(delays),min(delays), max(delays)
+        fp.write('%s,%s,%s,%s,%s\n' % (ndelays, mindelay, maxdelay, mean, stddev))
         fp.write('\n')
         fp.write('bin,lwbound,upbound,fraction,cumfraction\n')
         
         # Find reasonable bounds
-        stepsize = (max(delays)-min(delays)) / self.NUMBER_OF_BINS
+        stepsize = (maxdelay-mindelay) / self.NUMBER_OF_BINS
         for rounded_stepsize in self.STEPSIZES:
             if rounded_stepsize > stepsize:
                 stepsize = rounded_stepsize
                 break
-        lwb = int(min(delays)/stepsize)*stepsize
+        headroom = (stepsize*self.NUMBER_OF_BINS) - (maxdelay-mindelay)
+        assert headroom >= 0
+        lwb = int((mindelay-headroom/2)/stepsize)*stepsize
         upb = lwb + self.NUMBER_OF_BINS*stepsize
-        assert lwb <= min(delays)
-        assert upb >= max(delays)
+        assert lwb <= mindelay
+        assert upb >= maxdelay
         hist, lwbound, dbound, _ = stats.lrelfreq(delays, self.NUMBER_OF_BINS, [lwb, upb])
         bin = 0
         cum = 0
