@@ -97,8 +97,7 @@
         if (outputStartTime == 0) outputStartTime = [output now];
 #endif
         outputAddedOverhead = 0;
-    //    assert(settings.xmitBlackWhite || settings.xmitQRcode || settings.xmitAuto);
-        if (settings.xmitBlackWhite) {
+        if (settings.datatypeBlackWhite) {
             // XXX Do black/white
             if (!settings.waitForDetection) {
                 currentColorIsWhite = !currentColorIsWhite;
@@ -165,10 +164,12 @@
         if (outputStartTime == 0 || outputCodeHasBeenReported) return;
         assert(outputAddedOverhead < [output now]);
         assert(strcmp([outputCode UTF8String], "BadCookie") != 0);
-        if (settings.xmitQRcode) {
+        if (settings.datatypeQRCode) {
             [output output: "macVideoXmit" event: "generated" data: [outputCode UTF8String] start: [output now] - outputAddedOverhead];
-        } else if (settings.xmitBlackWhite) {
+        } else if (settings.datatypeBlackWhite) {
             [output output: "blackWhiteXmit" event: currentColorIsWhite?"white":"black" data: [outputCode UTF8String] start: [output now] - outputAddedOverhead];
+        } else {
+            assert(0);
         }
         outputCodeHasBeenReported = true;
         outputStartTime = 0;
@@ -220,7 +221,7 @@
 {
     @synchronized(self) {
         assert(inputStartTime != 0);
-        if (settings.running && settings.xmitBlackWhite) {
+        if (settings.running && settings.datatypeBlackWhite) {
             // Wait for black/white, if possible
             NSRect area = settings.blackWhiteRect;
             if (NSIsEmptyRect(area)) {
