@@ -129,9 +129,31 @@
 	assumying that your setup is symmetric (same hardware on both sides,
 	symmetric network connection). </p>
 
-<h2 id="asymmetric">Asymetric Measurement</h2>
+<h2 id="asymmetric-self">Asymetric Self-measurement</h2>
 
-	<p>Asymetric measurement is not practical yet in this release.</p> 
+	<p>Asymmetric measurement is not practical yet in this release.</p>
+	
+	<p>For asymmetric measurements you use two videoLat systems, one on the
+	sending side and one on the receiving side. This means that the symmetric
+	self-measurement is not good enough: you need to independently measure
+	display latency (on the sending side) and capture latency (on the receiving
+	side). videoLat can do these measurements if you first buy and build some
+	hardware. Buy a <a href="http://labjack.com/u3">LabJack U3</a>, and build
+	the following hardware:</p>
+	
+	<img src="hardware.png" />
+	
+	<p>Display latency is now measured by attaching the phototransistor to the
+	output screen and letting videoLat do black/white output measurements.</p>
+
+	<p>Capture latency is measured by pointing the camera at the LED,
+	indicating the LED position in the self-view window and doing black/white
+	input measurements. </p>
+	
+<h2 id="asymmetric-self">Asymetric Measurement</h2>
+
+	<p>Asymmetric measurement is not practical yet in this release.</p>
+	
 	
 <h2 id="license">Licensing and Copyright</h2>
 
