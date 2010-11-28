@@ -11,8 +11,8 @@
 @implementation SettingsView
 
 @synthesize xmit;
-@synthesize xmitQRcode;
-@synthesize xmitBlackWhite;
+@synthesize datatypeQRCode;
+@synthesize datatypeBlackWhite;
 @synthesize mirrorView;
 
 @synthesize recv;
@@ -37,8 +37,8 @@
 - (void)awakeFromNib
 {
 	xmit = true;
-    xmitQRcode = true;
-    xmitBlackWhite = false;
+    datatypeQRCode = true;
+    datatypeBlackWhite = false;
     mirrorView = false;
 
     recv = true;
@@ -67,11 +67,13 @@
 
 - (IBAction)buttonChanged: (id) sender
 {
+    // Data type (Note: measurement-type popup change is handled by roleChange:)
+    NSButtonCell *selCell = [bDataType selectedCell];
+    datatypeQRCode = selCell == bDataTypeQRCode;
+    datatypeBlackWhite = selCell == bDataTypeBlackWhite;
+    
     // Transmission
     xmit = [bXmit state] == NSOnState;
-    NSButtonCell *selCell = [bXmitRadio selectedCell];
-    xmitQRcode = selCell == bXmitQRcode;
-    xmitBlackWhite = selCell == bXmitBlackWhite;
     mirrorView = [bMirror state] == NSOnState;
 
     // Reception
@@ -93,25 +95,37 @@
 
 - (IBAction)roleChanged: (id) sender
 {
-    NSButtonCell *selCell = [bRole selectedCell];
+    NSMenuItem *selItem = [bRole selectedItem];
     BOOL enabled = NO;
-    if (selCell == bRoleSend) {
+    if ([selItem tag] == roleXmitOnly) {
         [bXmit setState: NSOnState];
         [bRecv setState: NSOffState];
-        [bXmitRadio selectCell: bXmitQRcode];
+        [bDataType selectCell: bDataTypeQRCode];
         [bWait setState: NSOffState];
         [bRunPython setState: NSOffState];
-    } else if (selCell == bRoleRecv) {
+    } else if ([selItem tag] == roleRecvOnly) {
         [bXmit setState: NSOffState];
         [bRecv setState: NSOnState];
-        [bXmitRadio selectCell: nil];
+        [bDataType selectCell: nil];
         [bWait setState: NSOffState];
         [bRunPython setState: NSOffState];
-    } else if (selCell == bRoleBoth) {
+    } else if ([selItem tag] == roleRoundTrip) {
         [bXmit setState: NSOnState];
         [bRecv setState: NSOnState];
-        [bXmitRadio selectCell: bXmitQRcode];
+        [bDataType selectCell: bDataTypeQRCode];
         [bWait setState: NSOnState];
+        [bRunPython setState: NSOffState];
+    } else if ([selItem tag] == roleXmitSelf) {
+        [bXmit setState: NSOnState];
+        [bRecv setState: NSOffState];
+        [bDataType selectCell: bDataTypeBlackWhite];
+        [bWait setState: NSOffState];
+        [bRunPython setState: NSOffState];
+    } else if ([selItem tag] == roleRecvSelf) {
+        [bXmit setState: NSOffState];
+        [bRecv setState: NSOnState];
+        [bDataType selectCell: bDataTypeBlackWhite];
+        [bWait setState: NSOffState];
         [bRunPython setState: NSOffState];
     } else {
         // Leave buttons as-is
@@ -119,7 +133,7 @@
     }
     [bXmit setEnabled: enabled];
     [bRecv setEnabled: enabled];
-    [bXmitRadio setEnabled: enabled];
+    [bDataType setEnabled: enabled];
     [bWait setEnabled: enabled];
     [bRunPython setEnabled: enabled];
     

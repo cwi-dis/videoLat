@@ -7,20 +7,26 @@
 
 #import <Cocoa/Cocoa.h>
 
+// NOTE: These tags must be set in Interface Builder too.
+enum RoleTag {
+    roleManual = 0,
+    roleRoundTrip = 1,
+    roleXmitOnly = 2,
+    roleRecvOnly = 3,
+    roleXmitSelf = 4,
+    roleRecvSelf = 5
+};
+
 @interface SettingsView : NSView {
 
     // Global section
-    IBOutlet NSMatrix *bRole;
-    IBOutlet NSButtonCell *bRoleSend;
-    IBOutlet NSButtonCell *bRoleRecv;
-    IBOutlet NSButtonCell *bRoleBoth;
-    IBOutlet NSButtonCell *bRoleManual;
-
+    IBOutlet NSPopUpButton *bRole;
+    IBOutlet NSMatrix *bDataType;
+    IBOutlet NSButtonCell *bDataTypeBlackWhite;
+    IBOutlet NSButtonCell *bDataTypeQRCode;
+    
     // Transmission section
     IBOutlet NSButton *bXmit;
-    IBOutlet NSMatrix *bXmitRadio;
-    IBOutlet NSButtonCell *bXmitBlackWhite;
-    IBOutlet NSButtonCell *bXmitQRcode;
     IBOutlet NSButton *bMirror;
  
     // Reception section
@@ -46,8 +52,8 @@
   @public
     // Tranmsmission
     bool xmit;
-    bool xmitBlackWhite;
-    bool xmitQRcode;
+    bool datatypeBlackWhite;
+    bool datatypeQRCode;
     bool mirrorView;
 
     // Reception
@@ -72,8 +78,8 @@
 }
 
 @property(readonly) bool xmit;
-@property(readonly) bool xmitQRcode;
-@property(readonly) bool xmitBlackWhite;
+@property(readonly) bool datatypeQRCode;
+@property(readonly) bool datatypeBlackWhite;
 @property(readonly) bool mirrorView;
 
 @property bool recv;
