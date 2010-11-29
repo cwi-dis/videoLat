@@ -98,6 +98,7 @@
 {
     NSMenuItem *selItem = [bRole selectedItem];
     BOOL enabled = NO;
+	BOOL needCam = NO;
     if ([selItem tag] == roleXmitOnly) {
         [bXmit setState: NSOnState];
         [bRecv setState: NSOffState];
@@ -110,12 +111,14 @@
         [bDataType selectCell: nil];
         [bWait setState: NSOffState];
         [bRunPython setState: NSOffState];
+		needCam = YES;
     } else if ([selItem tag] == roleRoundTrip) {
         [bXmit setState: NSOnState];
         [bRecv setState: NSOnState];
         [bDataType selectCell: bDataTypeQRCode];
         [bWait setState: NSOnState];
         [bRunPython setState: NSOffState];
+		needCam = YES;
     } else if ([selItem tag] == roleXmitSelf) {
         [bXmit setState: NSOnState];
         [bRecv setState: NSOffState];
@@ -128,17 +131,21 @@
         [bDataType selectCell: bDataTypeBlackWhite];
         [bWait setState: NSOffState];
         [bRunPython setState: NSOffState];
+		needCam = YES;
     } else {
         // Leave buttons as-is
         enabled = YES;
     }
     [bXmit setEnabled: enabled];
-    [bRecv setEnabled: enabled];
+    [bRecv setEnabled: (enabled && [inputHandler available])];
     [bDataType setEnabled: enabled];
     [bWait setEnabled: enabled];
     [bRunPython setEnabled: enabled];
     
     [self buttonChanged: self];
+	if (needCam && ![inputHandler available] && sender != self) {
+		NSRunAlertPanel(@"Error", @"This mode requires a camera", nil, nil, nil);
+	}
 }
 
 - (void)chooseFile: (id) sender

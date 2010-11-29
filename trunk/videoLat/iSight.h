@@ -14,6 +14,7 @@
 	QTCaptureSession *session;
 }
 
+- (bool)available;
 - (QTCaptureDevice*)deviceWithName: (NSString*)name;
 - (NSArray*) deviceNames;
 - (void)switchToDevice: (QTCaptureDevice*)dev;

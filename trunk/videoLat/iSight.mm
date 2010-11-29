@@ -6,6 +6,8 @@
 
 - (void) awakeFromNib 
 {    
+	outputCapturer = nil;
+
     // Setup for callbacks 
     [selfView setDelegate: self];
     [[selfView window] setReleasedWhenClosed: false];
@@ -22,15 +24,19 @@
 	if (dev == NULL) {
 		NSLog(@"Cannot find any video device\n");
 		NSRunAlertPanel(
-			@"Error",
-			@"No suitable video input device found.", 
+			@"Warning",
+			@"No suitable video input device found, reception disabled.", 
 			nil, nil, nil);
-		exit(1);
+		return;
 	}
-	outputCapturer = nil;
 	
 	[self switchToDevice: dev];
 	
+}
+
+- (bool)available
+{
+	return session != nil && outputCapturer != nil;
 }
 
 - (NSArray*) deviceNames
