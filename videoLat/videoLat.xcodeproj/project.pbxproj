@@ -32,6 +32,7 @@
 		048501CF1296B4FD004DD75B /* libzbar.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 048501CE1296B4FD004DD75B /* libzbar.a */; };
 		04970CC7122712BA0014B897 /* SettingsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04970CC6122712BA0014B897 /* SettingsView.m */; };
 		0498384B1227A4F2001D87DA /* Manager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0498384A1227A4F2001D87DA /* Manager.m */; };
+		04ACAE5912A3A6C200162513 /* measurements-summary-graphs-template.numbers in Resources */ = {isa = PBXBuildFile; fileRef = 04ACAE5812A3A6C200162513 /* measurements-summary-graphs-template.numbers */; };
 		04AF710C129A7EE700BF94CF /* sw_ta2vcecut.py in Resources */ = {isa = PBXBuildFile; fileRef = 04AF710B129A7EE700BF94CF /* sw_ta2vcecut.py */; };
 		04AF7116129A7EFC00BF94CF /* pp_summary in Resources */ = {isa = PBXBuildFile; fileRef = 04AF710D129A7EFC00BF94CF /* pp_summary */; };
 		04AF71E4129AAE4900BF94CF /* appDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 04AF71E3129AAE4900BF94CF /* appDelegate.m */; };
@@ -77,6 +78,7 @@
 		04970CC6122712BA0014B897 /* SettingsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsView.m; sourceTree = "<group>"; };
 		049838491227A4F2001D87DA /* Manager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Manager.h; sourceTree = "<group>"; };
 		0498384A1227A4F2001D87DA /* Manager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Manager.m; sourceTree = "<group>"; };
+		04ACAE5812A3A6C200162513 /* measurements-summary-graphs-template.numbers */ = {isa = PBXFileReference; lastKnownFileType = file; path = "measurements-summary-graphs-template.numbers"; sourceTree = "<group>"; };
 		04AF710B129A7EE700BF94CF /* sw_ta2vcecut.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = sw_ta2vcecut.py; sourceTree = "<group>"; };
 		04AF710D129A7EFC00BF94CF /* pp_summary */ = {isa = PBXFileReference; lastKnownFileType = folder; path = pp_summary; sourceTree = "<group>"; };
 		04AF71E2129AAE4900BF94CF /* appDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = appDelegate.h; sourceTree = "<group>"; };
@@ -222,6 +224,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				04ACAE5812A3A6C200162513 /* measurements-summary-graphs-template.numbers */,
 				04E401A7129E711900B3227F /* help */,
 				04AF710D129A7EFC00BF94CF /* pp_summary */,
 				04AF710B129A7EE700BF94CF /* sw_ta2vcecut.py */,
@@ -300,6 +303,7 @@
 				04AF710C129A7EE700BF94CF /* sw_ta2vcecut.py in Resources */,
 				04AF7116129A7EFC00BF94CF /* pp_summary in Resources */,
 				04E401AC129E711900B3227F /* help in Resources */,
+				04ACAE5912A3A6C200162513 /* measurements-summary-graphs-template.numbers in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -464,7 +468,7 @@
 				PREBINDING = NO;
 				SDKROOT = "";
 				USER_HEADER_SEARCH_PATHS = "thirdParty/zint-2.3.2/backend thirdParty/zbar-0.10-src/include";
-				videoLatVersion = 0.52;
+				videoLatVersion = 0.53;
 			};
 			name = Debug;
 		};
@@ -482,7 +486,7 @@
 				PREBINDING = NO;
 				SDKROOT = "";
 				USER_HEADER_SEARCH_PATHS = "thirdParty/zint-2.3.2/backend thirdParty/zbar-0.10-src/include";
-				videoLatVersion = 0.52;
+				videoLatVersion = 0.53;
 			};
 			name = Release;
 		};

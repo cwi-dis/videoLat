@@ -55,6 +55,7 @@
     fileName = [NSString stringWithUTF8String: "/tmp/measurements.csv"];
 	[bCameras addItemsWithTitles: [inputHandler deviceNames]];
     [self updateButtons: self];
+	[self roleChanged: self];
 }
 
 - (IBAction)cameraChanged: (id) sender
@@ -143,6 +144,10 @@
 - (void)chooseFile: (id) sender
 {
     NSSavePanel *savePanel = [NSSavePanel savePanel];
+	[savePanel setExtensionHidden: NO];
+	[savePanel setAllowedFileTypes:[NSArray arrayWithObject:@"csv"]];
+	[ savePanel setAllowsOtherFileTypes:YES];
+	[savePanel setNameFieldStringValue: @"measurements"];
     if ([savePanel runModal] == NSFileHandlingPanelOKButton) {
         NSURL *selUrl = [savePanel URL];
         assert([selUrl isFileURL]);
