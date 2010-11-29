@@ -60,15 +60,19 @@
         if (initialized && fp) {
             fclose(fp);
             if (settings.summarize) {
+                char *mono = "";
+                if (settings.datatypeBlackWhite)
+                    mono = "--monochrome";
                 NSBundle *bundle = [NSBundle mainBundle];
                 NSString *cmd_path = [bundle pathForResource:@"pp_summary" ofType:nil];
 				NSString *tmpl_path = [bundle pathForResource:@"measurements-summary-graphs-template" ofType:@"numbers"];
                 NSString *script_text = [NSString stringWithFormat:
                     @"tell application \"Terminal\"\n"
-                     "do script \"python '%@' --template '%@' '%@' && exit\"\n"
+                     "do script \"python '%@' --template '%@' %s '%@' && exit\"\n"
                      "end tell\n",
                      cmd_path,
 					 tmpl_path,
+                     mono,
                      settings.fileName];
                 NSAppleScript *script = [[NSAppleScript alloc] initWithSource: script_text];
                 NSDictionary *error = nil;;
@@ -105,7 +109,7 @@
     @synchronized(self) {
         if (!initialized) [self openFile];
         int64_t now = [self now];
-        assert(now > startTime);
+        assert(now >= startTime);
         fprintf(fp, "%lld,%s,%s,%s,overhead,%lld\n", now, name, event, data, now-startTime);
     }
 }

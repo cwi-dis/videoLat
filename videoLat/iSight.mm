@@ -161,15 +161,9 @@
 	CGRect ibounds = [image extent];
 	xFactor = ibounds.size.width / wbounds.size.width;
 	yFactor = ibounds.size.height / wbounds.size.height;
-#if 1
-    // Non-mirrored better than mirrored?
+
+    // Noneed to process, show original image.
     return nil;
-#else
-    // For the self view simply mirror the image and return it.
-    //NSLog(@"selfView willDisplayImage\n");
-    return [image imageByApplyingTransform: CGAffineTransformMakeScale(-1.0, 1.0)];
-#endif
-    NSLog(@"WillDisplayImage %@", view);
 }
 
 - (void)focusRectSelected: (NSRect)theRect
