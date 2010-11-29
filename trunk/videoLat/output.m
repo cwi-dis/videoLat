@@ -62,11 +62,13 @@
             if (settings.summarize) {
                 NSBundle *bundle = [NSBundle mainBundle];
                 NSString *cmd_path = [bundle pathForResource:@"pp_summary" ofType:nil];
+				NSString *tmpl_path = [bundle pathForResource:@"measurements-summary-graphs-template" ofType:@"numbers"];
                 NSString *script_text = [NSString stringWithFormat:
                     @"tell application \"Terminal\"\n"
-                     "do script \"python '%@' '%@' && exit\"\n"
+                     "do script \"python '%@' --template '%@' '%@' && exit\"\n"
                      "end tell\n",
                      cmd_path,
+					 tmpl_path,
                      settings.fileName];
                 NSAppleScript *script = [[NSAppleScript alloc] initWithSource: script_text];
                 NSDictionary *error = nil;;
