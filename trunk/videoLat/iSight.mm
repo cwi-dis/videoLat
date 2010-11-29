@@ -17,9 +17,9 @@
 	NSLog(@"Mouse up (%d,%d)\n", (int)upPoint.x, (int)upPoint.y);
 	NSRect frame = [self frame];
 	float top = frame.size.height - std::max(upPoint.y, downPoint.y);
-	float height = abs(upPoint.x - downPoint.x);
-	float left = std::min(upPoint.y, downPoint.y);
-	float width = abs(upPoint.y - downPoint.y);
+	float height = abs(upPoint.y - downPoint.y);
+	float left = std::min(upPoint.x, downPoint.x);
+	float width = abs(upPoint.x - downPoint.x);
 	NSRect r = {{left, top}, {width, height}};
 	[[self delegate] focusRectSelected: r];
 }
