@@ -52,6 +52,7 @@
 // "Delegate" method for SettingsView:
 - (void)settingsChanged;
 
+- (void)triggerNewOutputValue;
 - (CIImage *)newOutputStart;
 - (void)newOutputDone;
 
@@ -64,4 +65,6 @@
     height: (int)h
     format: (const char*)formatStr
     size: (int)size;
+	
+- (void)setBlackWhiteRect: (NSRect)theRect;
 @end

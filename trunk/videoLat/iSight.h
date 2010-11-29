@@ -6,12 +6,23 @@
 #import "SettingsView.h"
 #import "Manager.h"
 
+@interface MyQTCaptureView : QTCaptureView
+{
+	NSPoint downPoint;
+}
+
+- (void)mouseDown: (NSEvent *)theEvent;
+- (void)mouseUp: (NSEvent *)theEvent;
+
+@end
+
 @interface iSight : NSObject {
     IBOutlet SettingsView *settings;
     IBOutlet Manager *manager;
     IBOutlet QTCaptureView *selfView;
     QTCaptureVideoPreviewOutput *outputCapturer;
 	QTCaptureSession *session;
+	float xFactor, yFactor;
 }
 
 - (bool)available;
