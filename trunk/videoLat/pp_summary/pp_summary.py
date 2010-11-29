@@ -42,12 +42,18 @@ class Summary:
         self.template = None
         # The event/subevent codes we are looking for:
         self.xmit_event = 'macVideoXmit'
-        self.xmit_subevent = 'generated'
+        self.xmit_subevents = ['generated']
         self.recv_event = 'macVideoGrab'
-        self.recv_subevent = 'data'
+        self.recv_subevents = ['data']
         
     def set_template(self, template):
         self.template = template
+        
+    def set_monochrome(self):
+        self.xmit_event = 'blackWhiteXmit'
+        self.xmit_subevents = ['black', 'white']
+        self.recv_event = 'blackWhiteGrab'
+        self.recv_subevents = ['black', 'white']
         
     def read_xmit_times(self, filename):
         """Read the videoLat output file containing the transmission timestamps"""
@@ -57,7 +63,7 @@ class Summary:
         
     def process_xmit_time(self, row):
         """Process a single transmission timestamp line"""
-        if len(row) >= 6 and row[1] == self.xmit_event and row[2] == self.xmit_subevent:
+        if len(row) >= 6 and row[1] == self.xmit_event and row[2] in self.xmit_subevents:
             timestamp = int(row[0])
             data = row[3]
             if row[4] == 'overhead':
@@ -79,7 +85,7 @@ class Summary:
             self.process_recv_time(row)
         
     def process_recv_time(self, row):
-        if len(row) >= 6 and row[1] == self.recv_event and row[2] == self.recv_subevent:
+        if len(row) >= 6 and row[1] == self.recv_event and row[2] in self.recv_subevents:
             timestamp = int(row[0])
             data = row[3]
             if row[4] == 'overhead':
@@ -178,6 +184,8 @@ def main():
         metavar="FILE", help="merge summary data into template FILE")
     parser.add_option("-v", "--verbose", dest="verbose", action="store_true",
         help="verbose messages during processing")
+    parser.add_option("-m", "--monochrome", dest="monochrome", action="store_true",
+        help="detect monochrome, not QRcodes")
     opts, args = parser.parse_args()
     if not args:
         parser.print_help()
@@ -186,6 +194,8 @@ def main():
     worker = Summary()
     if opts.template:
         worker.set_template(opts.template)
+    if opts.monochrome:
+        worker.set_monochrome()
     global VERBOSE
     VERBOSE = opts.verbose
 

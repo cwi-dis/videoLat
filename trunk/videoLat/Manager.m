@@ -348,6 +348,7 @@
         settings.detectString = [[NSString stringWithFormat: @" %d of %d", found_ok, found_total] retain];
         [settings updateButtonsIfNeeded];
     }
+    return;
 	// Bah. @synchronised means we can't really do error messages in the normal place,
 	// it may lead to a deadlock if the mainloop needs the lock.
 bad:
