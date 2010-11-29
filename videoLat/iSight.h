@@ -34,6 +34,8 @@
 // Delegate method for QTCaptureView:
 - (CIImage *)view:(QTCaptureView *)view willDisplayImage:(CIImage *)image;
 
+// Private delegate method for same:
+- (void)focusRectSelected: (NSRect)theRect;
 
 // Delegate method for QTCaptureVideoPreviewOutput:
 - (void)captureOutput:(QTCaptureOutput *)captureOutput 

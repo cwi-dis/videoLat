@@ -366,7 +366,7 @@ bad2:
 
 - (void)setBlackWhiteRect: (NSRect)theRect
 {
-	settings.blackWhiteRect;
+	settings.blackWhiteRect = theRect;
 	[settings updateButtonsIfNeeded];
 }
 @end
