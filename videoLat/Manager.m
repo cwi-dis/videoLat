@@ -80,6 +80,11 @@
     }
 }
 
+- (void)triggerNewOutputValue
+{
+	[outputView setNeedsDisplay: YES];
+}
+
 - (CIImage *)newOutputStart
 {
     @synchronized(self) {
@@ -175,7 +180,7 @@
         outputStartTime = 0;
         outputAddedOverhead = 0;
         if (!settings.waitForDetection) {
-            [outputView setNeedsDisplay: YES];
+			[self performSelectorOnMainThread: @selector(triggerNewOutputValue) withObject: nil waitUntilDone: NO];
         }
     }
 }
@@ -225,13 +230,9 @@
             // Wait for black/white, if possible
             NSRect area = settings.blackWhiteRect;
             if (NSIsEmptyRect(area)) {
-                NSRunAlertPanel(
-                    @"Alert",
-                    @"Please detect at least one QRcode first to determine position.", 
-                    nil, nil, nil);
                 settings.recv = false;
                 inputStartTime = 0;
-                return;
+                goto bad;
             }
             // Detect black/white
             int pixelstep, pixelstart;
@@ -245,14 +246,9 @@
                 pixelstep = 2;
                 pixelstart = 1;
             } else {
-                 NSRunAlertPanel(
-                    @"Alert",
-                    @"Black/White detection only implemented for greyscale capture, not \"%s\".", 
-                    nil, nil, nil,
-                    formatStr);
                 settings.recv = false;
                 inputStartTime = 0;
-                return;
+                goto bad2;
             }
             int minx, x, maxx, miny, y, maxy, ystep;
             minx = area.origin.x + (area.size.width/4);
@@ -352,5 +348,25 @@
         settings.detectString = [[NSString stringWithFormat: @" %d of %d", found_ok, found_total] retain];
         [settings updateButtonsIfNeeded];
     }
+	// Bah. @synchronised means we can't really do error messages in the normal place,
+	// it may lead to a deadlock if the mainloop needs the lock.
+bad:
+	NSRunAlertPanel(
+		@"Alert",
+		@"Please detect at least one QRcode first to determine position.", 
+		nil, nil, nil);
+	return;
+bad2:
+	NSRunAlertPanel(
+		@"Alert",
+		@"Black/White detection only implemented for greyscale capture, not \"%s\".", 
+		nil, nil, nil,
+		formatStr);
+}
+
+- (void)setBlackWhiteRect: (NSRect)theRect
+{
+	settings.blackWhiteRect;
+	[settings updateButtonsIfNeeded];
 }
 @end

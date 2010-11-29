@@ -2,6 +2,30 @@
 #import <QuartzCore/QuartzCore.h>
 #import <mach/mach.h>
 #import <mach/mach_time.h>
+#import <limits>
+
+@implementation MyQTCaptureView
+- (void)mouseDown: (NSEvent *)theEvent
+{
+	downPoint = [theEvent locationInWindow];
+	NSLog(@"Mouse down (%d,%d)\n", (int)downPoint.x, (int)downPoint.y);
+}
+
+- (void)mouseUp: (NSEvent *)theEvent
+{
+	NSPoint upPoint = [theEvent locationInWindow];
+	NSLog(@"Mouse up (%d,%d)\n", (int)upPoint.x, (int)upPoint.y);
+	NSRect frame = [self frame];
+	float top = frame.size.height - std::max(upPoint.y, downPoint.y);
+	float height = abs(upPoint.x - downPoint.x);
+	float left = std::min(upPoint.y, downPoint.y);
+	float width = abs(upPoint.y - downPoint.y);
+	NSRect r = {{left, top}, {width, height}};
+	[[self delegate] focusRectSelected: r];
+}
+
+@end
+
 @implementation iSight
 
 - (void) awakeFromNib 
@@ -133,6 +157,10 @@
 
 - (CIImage *)view:(QTCaptureView *)view willDisplayImage:(CIImage *)image
 {
+	NSRect wbounds = [view previewBounds];
+	CGRect ibounds = [image extent];
+	xFactor = ibounds.size.width / wbounds.size.width;
+	yFactor = ibounds.size.height / wbounds.size.height;
 #if 1
     // Non-mirrored better than mirrored?
     return nil;
@@ -142,6 +170,16 @@
     return [image imageByApplyingTransform: CGAffineTransformMakeScale(-1.0, 1.0)];
 #endif
     NSLog(@"WillDisplayImage %@", view);
+}
+
+- (void)focusRectSelected: (NSRect)theRect
+{
+	theRect.origin.x *= xFactor;
+	theRect.origin.y *= yFactor;
+	theRect.size.width *= xFactor;
+	theRect.size.height *= yFactor;
+	NSLog(@"FocusRectSelected %d, %d, %d, %d\n", (int)theRect.origin.x, (int)theRect.origin.y, (int)theRect.size.width, (int)theRect.size.height);
+	[manager setBlackWhiteRect: theRect];
 }
 
 - (void)captureOutput:(QTCaptureOutput *)captureOutput 
