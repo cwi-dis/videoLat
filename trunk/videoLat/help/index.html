@@ -129,7 +129,7 @@
 	assumying that your setup is symmetric (same hardware on both sides,
 	symmetric network connection). </p>
 
-<h2 id="asymmetric-self">Asymetric Self-measurement</h2>
+<h2 id="asymmetric-self-setup">Asymetric Self-measurement Setup</h2>
 
 	<p>Asymmetric measurement is not practical yet in this release.</p>
 	
@@ -141,7 +141,36 @@
 	hardware. Buy a <a href="http://labjack.com/u3">LabJack U3</a>, and build
 	the following hardware:</p>
 	
-	<img src="hardware.png" />
+	<img src="hardware.png" alt="Diagram of hardware to build">
+	
+	<p>LabJack suggest you connect the U3 to a USB 2.0 port on your computer
+	for fastest response time. </p>.
+	
+	<p>Use a bit of cardboard to fold a little tube around the phototransistor,
+	so that it only picks up the light you want it to pick up. Eventually you
+	will point the phototransistor at your screen, so you may want to rig
+	something together to hold it there. Technical Lego, wood, cardboard, 
+	whatever works for you. </p>
+	
+	<p>Next, you need to install the LabJack USB drivers (just 2 user libraries
+	installed in /usr/local, no kernel drivers). Download them from the LabJack
+	<a href="http://labjack.com/support/linux-and-mac-os-x-drivers">Linux
+	and Mac OS X drivers</a> page.</p>
+	
+	<p>Once you have bought, built and installed all these prerequisites you
+	should test them. Point the photodiode at the LED (with as little
+	outside light as possible) and run videoLat with the following settings
+	(set <i>mode</i> to <i>manual</i>): datatype <i>Black/White</i>,
+	transmit <i>off</i>, receive <i>off</i> and coordination <i>USB hardware
+	assist</i>. This will turn the LED on, wait for light on the phototransistor,
+	turn the LED off, wait for no light, etc.</p>
+	
+	<p>You should expect to see a 4ms delay, with very low standard deviation.
+	<em>XXXJACK Check this!</em></p>
+	
+<h2 id="asymmetric-self">Asymetric Self-measurement</h2>
+
+	<p>Asymmetric measurement is not practical yet in this release.</p>
 	
 	<p>Display latency is now measured by attaching the phototransistor to the
 	output screen and letting videoLat do black/white output measurements.</p>
@@ -150,7 +179,7 @@
 	indicating the LED position in the self-view window and doing black/white
 	input measurements. </p>
 	
-<h2 id="asymmetric-self">Asymetric Measurement</h2>
+<h2 id="asymmetric">Asymetric Measurement</h2>
 
 	<p>Asymmetric measurement is not practical yet in this release.</p>
 	
@@ -166,6 +195,10 @@
 	reader and the Zint bar code generator. These tools are Copyright (c)
 	Jeff Brown, Timothy B. Terriberry and "Robin", and licensed under LGPL
 	and GPL.</p>
+	
+	<p>The labjack Python driver and liblabjack are Copyright (c) 2010 LabJack
+	corporation and under a BSD-like license. They use libusb which is licensed
+	under LGPL. </p>
 
 </body>
 </html>
