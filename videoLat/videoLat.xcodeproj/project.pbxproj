@@ -30,6 +30,8 @@
 		046D1590122D4E4D00222461 /* Python.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 046D158F122D4E4D00222461 /* Python.framework */; };
 		048501CC1296B488004DD75B /* libzint.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 048501CB1296B488004DD75B /* libzint.dylib */; };
 		048501CF1296B4FD004DD75B /* libzbar.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 048501CE1296B4FD004DD75B /* libzbar.a */; };
+		0496507512A84DF400F2E9D4 /* sw_labjack.py in Resources */ = {isa = PBXBuildFile; fileRef = 0496507412A84DF400F2E9D4 /* sw_labjack.py */; };
+		0496509C12A8529D00F2E9D4 /* pylabjack in Resources */ = {isa = PBXBuildFile; fileRef = 0496509212A8529D00F2E9D4 /* pylabjack */; };
 		04970CC7122712BA0014B897 /* SettingsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04970CC6122712BA0014B897 /* SettingsView.m */; };
 		0498384B1227A4F2001D87DA /* Manager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0498384A1227A4F2001D87DA /* Manager.m */; };
 		04ACAE5912A3A6C200162513 /* measurements-summary-graphs-template.numbers in Resources */ = {isa = PBXBuildFile; fileRef = 04ACAE5812A3A6C200162513 /* measurements-summary-graphs-template.numbers */; };
@@ -74,6 +76,8 @@
 		046D158F122D4E4D00222461 /* Python.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Python.framework; path = /System/Library/Frameworks/Python.framework; sourceTree = "<absolute>"; };
 		048501CB1296B488004DD75B /* libzint.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libzint.dylib; path = "thirdParty/zint-2.3.2/build/backend/libzint.dylib"; sourceTree = "<group>"; };
 		048501CE1296B4FD004DD75B /* libzbar.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libzbar.a; path = "thirdParty/zbar-0.10-src/zbar/.libs/libzbar.a"; sourceTree = "<group>"; };
+		0496507412A84DF400F2E9D4 /* sw_labjack.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = sw_labjack.py; sourceTree = "<group>"; };
+		0496509212A8529D00F2E9D4 /* pylabjack */ = {isa = PBXFileReference; lastKnownFileType = folder; path = pylabjack; sourceTree = "<group>"; };
 		04970CC5122712BA0014B897 /* SettingsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsView.h; sourceTree = "<group>"; };
 		04970CC6122712BA0014B897 /* SettingsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsView.m; sourceTree = "<group>"; };
 		049838491227A4F2001D87DA /* Manager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Manager.h; sourceTree = "<group>"; };
@@ -224,6 +228,8 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				0496509212A8529D00F2E9D4 /* pylabjack */,
+				0496507412A84DF400F2E9D4 /* sw_labjack.py */,
 				04ACAE5812A3A6C200162513 /* measurements-summary-graphs-template.numbers */,
 				04E401A7129E711900B3227F /* help */,
 				04AF710D129A7EFC00BF94CF /* pp_summary */,
@@ -304,6 +310,8 @@
 				04AF7116129A7EFC00BF94CF /* pp_summary in Resources */,
 				04E401AC129E711900B3227F /* help in Resources */,
 				04ACAE5912A3A6C200162513 /* measurements-summary-graphs-template.numbers in Resources */,
+				0496507512A84DF400F2E9D4 /* sw_labjack.py in Resources */,
+				0496509C12A8529D00F2E9D4 /* pylabjack in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

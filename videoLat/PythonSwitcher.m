@@ -36,15 +36,14 @@
 		Py_FatalError("can't create __main__ module");
 	dict = PyModule_GetDict(m);
 	assert(dict);
-	PyObject *rv = PyRun_File(fp, cPath, Py_file_input, dict, dict);
+	int rv = PyRun_SimpleFile(fp, cPath);
 	fclose(fp);
-	if (rv == NULL) {
+	if (rv < 0) {
 		PyErr_Print();
 		NSString *msg = [NSString stringWithFormat: @"Cannot run script \"%@\".", script];
 		NSRunAlertPanel(@"PythonRunner", msg, nil, nil, nil);
 		return nil;
 	}
-	Py_DECREF(rv);
 	return self;
 }
 
