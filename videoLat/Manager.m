@@ -49,13 +49,18 @@
             [current_qrcode release];
             current_qrcode = nil;
         }
-        if (settings.coordTestSystem) {
-            if (delegate == nil) 
-                delegate = [[PythonSwitcher alloc] init];
-        } else {
-            if (delegate) [delegate release];
-            delegate = nil;
-        }
+        if ([settings.coordHelper isEqualToString: @"None"]) {
+			if (delegate) [delegate release];
+			delegate = nil;
+		} else {
+			if (delegate && ![settings.coordHelper isEqualToString: [delegate script]]) {
+				[delegate release];
+				delegate = nil;
+			}
+            if (delegate == nil) { 
+                delegate = [[PythonSwitcher alloc] initWithScript: settings.coordHelper];
+			}
+		}
         NSWindow *w = nil;
         if (outputView) w = [outputView window];
         if (settings.xmit) {

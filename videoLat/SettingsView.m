@@ -22,8 +22,7 @@
 @synthesize foundQRcode;
 
 @synthesize waitForDetection;
-@synthesize coordTestSystem;
-@synthesize coordLabJack;
+@synthesize coordHelper;
 @synthesize waitDelay;
 
 @synthesize running;
@@ -46,8 +45,7 @@
     recv = true;
 
     waitForDetection = true;
-	coordTestSystem = false;
-	coordLabJack = false;
+	coordHelper = [NSString stringWithUTF8String: "None"];
 	waitDelay = 0;
 
     running = false;
@@ -87,8 +85,8 @@
 
     // Coordination
     waitForDetection = [bWait state] == NSOnState;
-	coordTestSystem = [bCoordTestSystem state] == NSOnState;
-	coordLabJack = [bCoordLabJack state] == NSOnState;
+	NSMenuItem *selHelper = [bCoordHelper selectedCell];
+	coordHelper = [selHelper title];
 	waitDelay = [bWaitDelay intValue];
     
     // Output
@@ -111,38 +109,33 @@
         [bRecv setState: NSOffState];
         [bDataType selectCell: bDataTypeQRCode];
         [bWait setState: NSOffState];
-        [bCoordTestSystem setState: NSOffState];
-		[bCoordLabJack setState: NSOffState];
+        [bCoordHelper selectItemWithTitle: @"None"];
     } else if ([selItem tag] == roleRecvOnly) {
         [bXmit setState: NSOffState];
         [bRecv setState: NSOnState];
         [bDataType selectCell: nil];
         [bWait setState: NSOffState];
-        [bCoordTestSystem setState: NSOffState];
-		[bCoordLabJack setState: NSOffState];
+        [bCoordHelper selectItemWithTitle: @"None"];
 		needCam = YES;
     } else if ([selItem tag] == roleRoundTrip) {
         [bXmit setState: NSOnState];
         [bRecv setState: NSOnState];
         [bDataType selectCell: bDataTypeQRCode];
         [bWait setState: NSOnState];
-        [bCoordTestSystem setState: NSOffState];
-		[bCoordLabJack setState: NSOffState];
+        [bCoordHelper selectItemWithTitle: @"None"];
 		needCam = YES;
     } else if ([selItem tag] == roleXmitSelf) {
         [bXmit setState: NSOnState];
         [bRecv setState: NSOffState];
         [bDataType selectCell: bDataTypeBlackWhite];
-		[bCoordLabJack setState: NSOnState];
         [bWait setState: NSOnState];
-        [bCoordTestSystem setState: NSOffState];
+        [bCoordHelper selectItemWithTitle: @"sw_labjack"];
     } else if ([selItem tag] == roleRecvSelf) {
         [bXmit setState: NSOffState];
         [bRecv setState: NSOnState];
         [bDataType selectCell: bDataTypeBlackWhite];
         [bWait setState: NSOnState];
-        [bCoordTestSystem setState: NSOffState];
-		[bCoordLabJack setState: NSOnState];
+        [bCoordHelper selectItemWithTitle: @"sw_labjack"];
 		needCam = YES;
     } else {
         // Leave buttons as-is
@@ -156,8 +149,6 @@
     [bRecv setEnabled: (enabled && hasCam)];
     [bDataType setEnabled: enabled];
     [bWait setEnabled: enabled];
-    [bCoordTestSystem setEnabled: enabled];
-	[bCoordLabJack setEnabled: enabled];
     
     [self buttonChanged: self];
 	if (needCam && !hasCam && sender != self) {
@@ -208,8 +199,7 @@
 
     // Coordination
     [bWait setState: waitForDetection?NSOnState:NSOffState];
-	[bCoordTestSystem setState: coordTestSystem?NSOnState:NSOffState];
-	[bCoordLabJack setState: coordLabJack?NSOnState:NSOffState];
+    [bCoordHelper selectItemWithTitle: coordHelper];
 	[bWaitDelay setIntValue: waitDelay];
 
     // Output
