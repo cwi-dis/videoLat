@@ -22,7 +22,9 @@
 @synthesize foundQRcode;
 
 @synthesize waitForDetection;
-@synthesize runPython;
+@synthesize coordTestSystem;
+@synthesize coordLabJack;
+@synthesize waitDelay;
 
 @synthesize running;
 @synthesize summarize;
@@ -44,7 +46,9 @@
     recv = true;
 
     waitForDetection = true;
-	runPython = false;
+	coordTestSystem = false;
+	coordLabJack = false;
+	waitDelay = 0;
 
     running = false;
 	summarize = true;
@@ -83,7 +87,9 @@
 
     // Coordination
     waitForDetection = [bWait state] == NSOnState;
-	runPython = [bRunPython state] == NSOnState;
+	coordTestSystem = [bCoordTestSystem state] == NSOnState;
+	coordLabJack = [bCoordLabJack state] == NSOnState;
+	waitDelay = [bWaitDelay intValue];
     
     // Output
     fileName = [[bFilename stringValue] retain];
@@ -99,51 +105,62 @@
     NSMenuItem *selItem = [bRole selectedItem];
     BOOL enabled = NO;
 	BOOL needCam = NO;
+	BOOL hasCam = [inputHandler available];
     if ([selItem tag] == roleXmitOnly) {
         [bXmit setState: NSOnState];
         [bRecv setState: NSOffState];
         [bDataType selectCell: bDataTypeQRCode];
         [bWait setState: NSOffState];
-        [bRunPython setState: NSOffState];
+        [bCoordTestSystem setState: NSOffState];
+		[bCoordLabJack setState: NSOffState];
     } else if ([selItem tag] == roleRecvOnly) {
         [bXmit setState: NSOffState];
         [bRecv setState: NSOnState];
         [bDataType selectCell: nil];
         [bWait setState: NSOffState];
-        [bRunPython setState: NSOffState];
+        [bCoordTestSystem setState: NSOffState];
+		[bCoordLabJack setState: NSOffState];
 		needCam = YES;
     } else if ([selItem tag] == roleRoundTrip) {
         [bXmit setState: NSOnState];
         [bRecv setState: NSOnState];
         [bDataType selectCell: bDataTypeQRCode];
         [bWait setState: NSOnState];
-        [bRunPython setState: NSOffState];
+        [bCoordTestSystem setState: NSOffState];
+		[bCoordLabJack setState: NSOffState];
 		needCam = YES;
     } else if ([selItem tag] == roleXmitSelf) {
         [bXmit setState: NSOnState];
         [bRecv setState: NSOffState];
         [bDataType selectCell: bDataTypeBlackWhite];
-        [bWait setState: NSOffState];
-        [bRunPython setState: NSOffState];
+		[bCoordLabJack setState: NSOnState];
+        [bWait setState: NSOnState];
+        [bCoordTestSystem setState: NSOffState];
     } else if ([selItem tag] == roleRecvSelf) {
         [bXmit setState: NSOffState];
         [bRecv setState: NSOnState];
         [bDataType selectCell: bDataTypeBlackWhite];
-        [bWait setState: NSOffState];
-        [bRunPython setState: NSOffState];
+        [bWait setState: NSOnState];
+        [bCoordTestSystem setState: NSOffState];
+		[bCoordLabJack setState: NSOnState];
 		needCam = YES;
     } else {
         // Leave buttons as-is
         enabled = YES;
     }
+	if (!hasCam) {
+		[bRecv setState: NSOffState];
+	}
+
     [bXmit setEnabled: enabled];
-    [bRecv setEnabled: (enabled && [inputHandler available])];
+    [bRecv setEnabled: (enabled && hasCam)];
     [bDataType setEnabled: enabled];
     [bWait setEnabled: enabled];
-    [bRunPython setEnabled: enabled];
+    [bCoordTestSystem setEnabled: enabled];
+	[bCoordLabJack setEnabled: enabled];
     
     [self buttonChanged: self];
-	if (needCam && ![inputHandler available] && sender != self) {
+	if (needCam && !hasCam && sender != self) {
 		NSRunAlertPanel(@"Error", @"This mode requires a camera", nil, nil, nil);
 	}
 }
@@ -191,7 +208,9 @@
 
     // Coordination
     [bWait setState: waitForDetection?NSOnState:NSOffState];
-	[bRunPython setState: runPython?NSOnState:NSOffState];
+	[bCoordTestSystem setState: coordTestSystem?NSOnState:NSOffState];
+	[bCoordLabJack setState: coordLabJack?NSOnState:NSOffState];
+	[bWaitDelay setIntValue: waitDelay];
 
     // Output
     [bFilename setStringValue: fileName];
