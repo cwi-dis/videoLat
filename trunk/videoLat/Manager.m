@@ -34,6 +34,7 @@
         outputCodeHasBeenReported = true;
         lastOutputCode = nil;
         lastInputCode = nil;
+		triggerWaiting = false;
         
     //    output = [[Output alloc] init];
         genner = [[GenQRcodes alloc] init];
@@ -48,7 +49,7 @@
             [current_qrcode release];
             current_qrcode = nil;
         }
-        if (settings.runPython) {
+        if (settings.coordTestSystem) {
             if (delegate == nil) 
                 delegate = [[PythonSwitcher alloc] init];
         } else {
@@ -80,8 +81,25 @@
     }
 }
 
+- (void)triggerNewOutputValueAfterDelay
+{
+	if (settings.waitDelay) {
+		@synchronized(self) {
+			if (triggerWaiting) return;
+			NSTimeInterval delay = (double)settings.waitDelay / 1000.0;
+			[self performSelector: @selector(triggerNewOutputValue) withObject: nil afterDelay: delay];
+			triggerWaiting = true;
+		}
+	} else {
+		[outputView setNeedsDisplay: YES];
+	}
+}
+
 - (void)triggerNewOutputValue
 {
+	@synchronized(self) {
+		triggerWaiting = false;
+	}
 	[outputView setNeedsDisplay: YES];
 }
 
@@ -180,7 +198,7 @@
         outputStartTime = 0;
         outputAddedOverhead = 0;
         if (!settings.waitForDetection) {
-			[self performSelectorOnMainThread: @selector(triggerNewOutputValue) withObject: nil waitUntilDone: NO];
+			[self performSelectorOnMainThread: @selector(triggerNewOutputValueAfterDelay) withObject: nil waitUntilDone: NO];
         }
     }
 }
@@ -284,7 +302,7 @@
                 [outputCode release];
                 outputCode = [[NSString stringWithFormat:@"%lld", [output now]] retain];
                 outputCodeHasBeenReported = false;
-                [outputView setNeedsDisplay: YES];
+                [self performSelectorOnMainThread: @selector(triggerNewOutputValueAfterDelay) withObject: nil waitUntilDone: NO];
 
             }
             inputStartTime = 0;
@@ -301,7 +319,7 @@
                 if (strcmp(code, [outputCode UTF8String]) == 0) {
                     // outputStartTime = 0;
                     // Correct. Prepare for creating a new QRcode.
-                    [outputView setNeedsDisplay: YES];
+                    //XXX [self performSelectorOnMainThread: @selector(triggerNewOutputValueAfterDelay) withObject: nil waitUntilDone: NO];
                     if (current_qrcode == nil) {
                         // We found the last one already, don't count it again.
                         return;
@@ -322,7 +340,7 @@
                     [output output: "macVideoGrab" event: "baddata" data: [baddata UTF8String] start: inputStartTime-inputAddedOverhead];
                     inputAddedOverhead = 0;
                     inputStartTime = 0;
-                    [outputView setNeedsDisplay: YES];
+                    [self performSelectorOnMainThread: @selector(triggerNewOutputValueAfterDelay) withObject: nil waitUntilDone: NO];
                     return;
                 }
             } else {
@@ -338,7 +356,7 @@
             inputAddedOverhead = 0;
             // Remember rectangle (for black/white detection)
             settings.blackWhiteRect = finder.rect;
-            [outputView setNeedsDisplay: YES];
+            [self performSelectorOnMainThread: @selector(triggerNewOutputValueAfterDelay) withObject: nil waitUntilDone: NO];
         } else {
             found_total++;
             [output output: "macVideoGrab" event: "nodata" data: "none" start: inputStartTime-inputAddedOverhead];

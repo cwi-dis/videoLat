@@ -38,7 +38,9 @@ enum RoleTag {
 
     // Coordination section
     IBOutlet NSButton *bWait;
-	IBOutlet NSButton *bRunPython;
+	IBOutlet NSButton *bCoordTestSystem;
+	IBOutlet NSButton *bCoordLabJack;
+	IBOutlet NSTextField *bWaitDelay;
 	
     // Output section
     IBOutlet NSTextField *bFilename;
@@ -65,7 +67,9 @@ enum RoleTag {
 
     // Coordination
     bool waitForDetection;
-	bool runPython;
+	bool coordTestSystem;
+	bool coordLabJack;
+	int waitDelay;
 
     // Output
     NSString *fileName;
@@ -89,7 +93,9 @@ enum RoleTag {
 @property bool foundQRcode;
 
 @property(readonly) bool waitForDetection;
-@property(readonly) bool runPython;
+@property(readonly) bool coordTestSystem;
+@property(readonly) bool coordLabJack;
+@property(readonly) int waitDelay;
 
 @property(readonly) NSString *fileName;
 @property(readonly) bool summarize;

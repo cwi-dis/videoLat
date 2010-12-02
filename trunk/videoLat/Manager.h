@@ -40,6 +40,7 @@
     bool outputCodeHasBeenReported;
     NSString *lastOutputCode;
     NSString *lastInputCode;
+	bool triggerWaiting;
     // Black/white detection
     int blacklevel;
     int whitelevel;
@@ -52,6 +53,7 @@
 // "Delegate" method for SettingsView:
 - (void)settingsChanged;
 
+- (void)triggerNewOutputValueAfterDelay;
 - (void)triggerNewOutputValue;
 - (CIImage *)newOutputStart;
 - (void)newOutputDone;
