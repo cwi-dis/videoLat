@@ -9,17 +9,25 @@
 #import "PythonSwitcher.h"
 
 @implementation PythonSwitcher
-- (PythonSwitcher*)init
+
+@synthesize script;
+
+- (PythonSwitcher*)initWithScript: (NSString *)theScript
 {
 	self = [super init];
+	script = [theScript retain];
 	dict = NULL;
  //   Py_SetPythonHome("/System/Library/Frameworks/Python.framework/Versions/2.6/");
 	Py_Initialize();
     NSLog(@"Python home=%s\n", Py_GetPythonHome());
     
 	NSBundle *bundle = [NSBundle mainBundle];
-	NSString *path = [bundle pathForResource:@"sw_ta2vcecut" ofType:@"py"];
-	assert(path);
+	NSString *path = [bundle pathForResource:script ofType:nil];
+	if (!path) {
+		NSString *msg = [NSString stringWithFormat: @"Cannot find script \"%@\".", script];
+		NSRunAlertPanel(@"PythonRunner", msg, nil, nil, nil);
+		return nil;
+	}
 	const char *cPath = [path UTF8String];
 	FILE *fp = fopen(cPath, "r");
 
@@ -32,7 +40,8 @@
 	fclose(fp);
 	if (rv == NULL) {
 		PyErr_Print();
-		NSRunAlertPanel(@"PythonRunner", @"Cannot run \"sw_ta2vcecut.py\".", nil, nil, nil);
+		NSString *msg = [NSString stringWithFormat: @"Cannot run script \"%@\".", script];
+		NSRunAlertPanel(@"PythonRunner", msg, nil, nil, nil);
 		return nil;
 	}
 	Py_DECREF(rv);

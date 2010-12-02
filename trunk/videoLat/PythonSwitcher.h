@@ -12,9 +12,11 @@
 
 @interface PythonSwitcher : NSObject <MyManagerDelegate> {
 	PyObject *dict;
+	NSString *script;
 }
 
-- (PythonSwitcher*)init;
+@property(readonly) NSString *script;
+- (PythonSwitcher*)initWithScript: (NSString *)theScript;
 - (NSString*)newOutput: (NSString*)data;
 - (void)newBWOutput: (bool)isWhite;
 
