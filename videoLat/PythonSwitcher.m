@@ -11,6 +11,7 @@
 @implementation PythonSwitcher
 
 @synthesize script;
+@synthesize hasInput;
 
 - (PythonSwitcher*)initWithScript: (NSString *)theScript
 {
@@ -44,6 +45,9 @@
 		NSRunAlertPanel(@"PythonRunner", msg, nil, nil, nil);
 		return nil;
 	}
+    PyObject *input = PyObject_GetAttrString(m, "inputBW");
+    PyErr_Clear();
+    hasInput = (input != NULL);
 	return self;
 }
 
@@ -91,6 +95,21 @@
 		return;
 	}
 	Py_DECREF(rv);
+}
+
+- (bool)inputBW
+{
+    if (dict == NULL) return;
+    PyObject *prv = PyRun_String("inputBW()", Py_eval_input, dict, dict);
+	if (prv == NULL) {
+		PyErr_Print();
+		NSRunAlertPanel(@"PythonRunner", @"inputBW() ended with an exception. Python code disabled.", nil, nil, nil);
+		dict = NULL;
+		return;
+	}
+    bool rv = PyObject_IsTrue(prv);
+    Py_DECREF(prv);
+    return rv;
 }
 
 @end

@@ -55,6 +55,12 @@ class Summary:
         self.recv_event = 'blackWhiteGrab'
         self.recv_subevents = ['black', 'white']
         
+    def set_hwtransmit(self):
+        self.xmit_event = 'hardwareXmit'
+        
+    def set_hwreceive(self):
+        self.recv_event = 'hardwareGrab'
+        
     def read_xmit_times(self, filename):
         """Read the videoLat output file containing the transmission timestamps"""
         reader = opencsv(filename)
@@ -103,6 +109,9 @@ class Summary:
         delays = []
         for data, recvtime in self.recv_times.items():
             if not data in self.xmit_times:
+                if self.recv_event == 'hardwareGrab':
+                    print 'Skip spurious hardware detection:', data
+                    continue
                 raise DataError, 'Detected non-transmitted code: %s' % data
             xmittime = self.xmit_times[data]
             delays.append(recvtime - xmittime)
@@ -186,6 +195,10 @@ def main():
         help="verbose messages during processing")
     parser.add_option("-m", "--monochrome", dest="monochrome", action="store_true",
         help="detect monochrome, not QRcodes")
+    parser.add_option("-R", "--hwreceive", dest="hwreceive", action="store_true",
+        help="use hardware monochrome detection")
+    parser.add_option("-X", "--hwtransmit", dest="hwtransmit", action="store_true",
+        help="use hardware monochrome transmission")
     opts, args = parser.parse_args()
     if not args:
         parser.print_help()
@@ -194,8 +207,14 @@ def main():
     worker = Summary()
     if opts.template:
         worker.set_template(opts.template)
+    if opts.hwtransmit or opts.hwreceive:
+        opts.monochrome = True
     if opts.monochrome:
         worker.set_monochrome()
+    if opts.hwtransmit:
+        worker.set_hwtransmit()
+    if opts.hwreceive:
+        worker.set_hwreceive()
     global VERBOSE
     VERBOSE = opts.verbose
 

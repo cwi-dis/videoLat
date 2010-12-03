@@ -69,4 +69,5 @@
     size: (int)size;
 	
 - (void)setBlackWhiteRect: (NSRect)theRect;
+- (void)checkInput;
 @end
