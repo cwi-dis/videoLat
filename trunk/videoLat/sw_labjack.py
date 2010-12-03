@@ -44,6 +44,9 @@ def _test():
 def newBWOutput(bool):
     lj.output(int(bool))
     
+def inputBW():
+    return lj.input()
+    
 def main():
     print 'sw_labjack.main() called'
     

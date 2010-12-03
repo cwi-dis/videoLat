@@ -13,11 +13,14 @@
 @interface PythonSwitcher : NSObject <MyManagerDelegate> {
 	PyObject *dict;
 	NSString *script;
+    bool hasInput;
 }
 
 @property(readonly) NSString *script;
+@property(readonly) bool hasInput;
 - (PythonSwitcher*)initWithScript: (NSString *)theScript;
 - (NSString*)newOutput: (NSString*)data;
 - (void)newBWOutput: (bool)isWhite;
+- (bool)inputBW;
 
 @end

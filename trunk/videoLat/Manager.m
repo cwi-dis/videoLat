@@ -59,6 +59,9 @@
 			}
             if (delegate == nil) { 
                 delegate = [[PythonSwitcher alloc] initWithScript: settings.coordHelper];
+                if ([delegate hasInput]) {
+                    [self performSelector: @selector(checkInput) withObject: nil afterDelay:(NSTimeInterval)0.001]; 
+                }
 			}
 		}
         NSWindow *w = nil;
@@ -140,8 +143,11 @@
                 newImage = [CIImage imageWithColor:[CIColor colorWithRed:0 green:0 blue:0]];
             CGRect rect = {0, 0, 480, 480};
             newImage = [newImage imageByCroppingToRect: rect];
-            if (delegate && [delegate respondsToSelector:@selector(newBWOutput:)])
+            if (delegate && [delegate respondsToSelector:@selector(newBWOutput:)]) {
+                uint64_t start = [output now];
                 [delegate newBWOutput: currentColorIsWhite];
+                [output output: "hardwareXmit" event: currentColorIsWhite?"white":"black" data: [outputCode UTF8String] start: start];
+            }
             return newImage;
         }
         // We create a new image if either the previous one has been detected, or
@@ -388,9 +394,46 @@ bad2:
 		formatStr);
 }
 
+- (void) newBWInputDone: (bool)isWhite
+{
+    @synchronized(self) {
+        assert(inputStartTime != 0);
+        if (!settings.running || !settings.datatypeBlackWhite) return;
+
+        if (isWhite == currentColorIsWhite) {
+            // Found it! Invert for the next round
+            currentColorIsWhite = !currentColorIsWhite;
+            nBWdetections++;
+            settings.bwString = [[NSString stringWithFormat: @"found %d (current %s)", nBWdetections, isWhite?"white":"black"] retain];
+            [settings updateButtonsIfNeeded];
+            [output output: "hardwareGrab" event: isWhite?"white":"black" data: [outputCode UTF8String]];
+            inputAddedOverhead = 0;
+            [outputCode release];
+            outputCode = [[NSString stringWithFormat:@"%lld", [output now]] retain];
+            outputCodeHasBeenReported = false;
+            [self performSelectorOnMainThread: @selector(triggerNewOutputValueAfterDelay) withObject: nil waitUntilDone: NO];
+
+        }
+        inputStartTime = 0;
+    }
+}
+
 - (void)setBlackWhiteRect: (NSRect)theRect
 {
 	settings.blackWhiteRect = theRect;
 	[settings updateButtonsIfNeeded];
+}
+
+- (void)checkInput
+{
+    @synchronized(self) {
+        if (delegate == nil || ![delegate hasInput]) return;
+        [self newInputStart];
+        bool result = [delegate inputBW];
+        NSLog(@"checkinput: %d\n", result);
+        [self newBWInputDone: result];
+        // XXXX save result, if running
+        [self performSelector:@selector(checkInput) withObject: nil afterDelay: (NSTimeInterval)0.001];
+    }
 }
 @end
