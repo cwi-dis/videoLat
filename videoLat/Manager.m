@@ -273,6 +273,7 @@
 - (void) newInputDone: (void*)buffer width: (int)w height: (int)h format: (const char*)formatStr size: (int)size
 {
     @synchronized(self) {
+        /*DBG*/ if (inputStartTime == 0) { NSLog(@"newInputDone called, but inputStartTime==0\n"); return; }
         assert(inputStartTime != 0);
         if (settings.running && settings.datatypeBlackWhite) {
             // Wait for black/white, if possible
