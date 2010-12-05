@@ -167,7 +167,7 @@ class Summary:
             sys.exit(rv)
         if self.template:
             shutil.copy(self.template, graph)
-            time.sleep(2)
+            time.sleep(5)
             if VERBOSE:
                 print 'Opening', graph, 'with Numbers'
             rv = os.system("open -a Numbers '%s'" % graph)

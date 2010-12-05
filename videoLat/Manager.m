@@ -85,7 +85,12 @@
             if (w) [w orderOut: self];
         }
 #endif
-        [outputView setNeedsDisplay: YES];
+        if ([[outputView window] isVisible]) {
+            [outputView setNeedsDisplay: YES];
+        } else {
+            [self newBWData];
+        }
+            
     }
 }
 
@@ -99,7 +104,11 @@
 			triggerWaiting = true;
 		}
 	} else {
-		[outputView setNeedsDisplay: YES];
+        if ([[outputView window] isVisible]) {
+            [outputView setNeedsDisplay: YES];
+        } else {
+            [self newBWData];
+        }
 	}
 }
 
@@ -108,7 +117,28 @@
 	@synchronized(self) {
 		triggerWaiting = false;
 	}
-	[outputView setNeedsDisplay: YES];
+    if ([[outputView window] isVisible]) {
+        [outputView setNeedsDisplay: YES];
+    } else {
+        [self newBWData];
+    }
+}
+
+- (void)newBWData
+{
+    @synchronized(self) {
+        if (!settings.waitForDetection) {
+            currentColorIsWhite = !currentColorIsWhite;
+            [outputCode release];
+            outputCode = [[NSString stringWithFormat:@"%lld", 
+                outputStartTime] retain];
+            outputCodeHasBeenReported = false;
+        }
+        if (delegate && [delegate respondsToSelector:@selector(newBWOutput:)]) {
+            [delegate newBWOutput: currentColorIsWhite];
+            [output output: "hardwareXmit" event: currentColorIsWhite?"white":"black" data: [outputCode UTF8String]];
+        }
+    }
 }
 
 - (CIImage *)newOutputStart
@@ -130,24 +160,13 @@
         outputAddedOverhead = 0;
         if (settings.datatypeBlackWhite) {
             // XXX Do black/white
-            if (!settings.waitForDetection) {
-                currentColorIsWhite = !currentColorIsWhite;
-                [outputCode release];
-                outputCode = [[NSString stringWithFormat:@"%lld", 
-                    outputStartTime] retain];
-                outputCodeHasBeenReported = false;
-            }
+            [self newBWData];
             if (currentColorIsWhite) 
                 newImage = [CIImage imageWithColor:[CIColor colorWithRed:1 green:1 blue:1]];
             else
                 newImage = [CIImage imageWithColor:[CIColor colorWithRed:0 green:0 blue:0]];
             CGRect rect = {0, 0, 480, 480};
             newImage = [newImage imageByCroppingToRect: rect];
-            if (delegate && [delegate respondsToSelector:@selector(newBWOutput:)]) {
-                uint64_t start = [output now];
-                [delegate newBWOutput: currentColorIsWhite];
-                [output output: "hardwareXmit" event: currentColorIsWhite?"white":"black" data: [outputCode UTF8String] start: start];
-            }
             return newImage;
         }
         // We create a new image if either the previous one has been detected, or

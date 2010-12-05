@@ -58,6 +58,7 @@
 - (CIImage *)newOutputStart;
 - (void)newOutputDone;
 
+- (void)newBWData;
 - (void)newInputStart;
 - (void)updateInputOverhead: (double)deltaT;
 - (void)updateOutputOverhead: (double)deltaT;
