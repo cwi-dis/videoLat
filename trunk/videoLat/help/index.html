@@ -46,6 +46,12 @@
 	attached to the videoLat system, using the builtin iSight may make it
 	difficult to adjust things.</p>
 	
+	<p><em>Important</em>: you should start with the self-measurements, and
+	reason about the data you obtain. All components involved (camera, display
+	and computer) are finicky and I have seen completely unexplainable results
+	that went away when swapping, say, monitors. Lack of trust in your
+	measurement equipment leads to lack of trust in your system measurements.</p>
+	
 <h2 id="installation">Installation</h2>
 
 	<p>Binary installers and source code can be downloaded via <a
@@ -130,8 +136,6 @@
 	symmetric network connection). </p>
 
 <h2 id="asymmetric-self-setup">Asymetric Self-measurement Setup</h2>
-
-	<p>Asymmetric measurement is not practical yet in this release.</p>
 	
 	<p>For asymmetric measurements you use two videoLat systems, one on the
 	sending side and one on the receiving side. This means that the symmetric
@@ -166,12 +170,12 @@
 	turn the LED off, wait for no light, etc.</p>
 	
 	<p>You should expect to see a 2.5ms delay, with low standard deviation,
-	possibly with a second peak around 3.5ms.
+	possibly with a second peak around 3.5ms. The LabJack operates synchronously,
+	and the receiver polls at fixed 1ms times, so event loop contention
+	should be your only source of standard deviation.
 	</p>
 	
 <h2 id="asymmetric-self">Asymetric Self-measurement</h2>
-
-	<p>Asymmetric measurement is not practical yet in this release.</p>
 	
 	<p>Display latency is now measured by attaching the phototransistor to the
 	output screen and letting videoLat do black/white output measurements.</p>
@@ -183,6 +187,32 @@
 <h2 id="asymmetric">Asymetric Measurement</h2>
 
 	<p>Asymmetric measurement is not practical yet in this release.</p>
+	
+	<p>Setup one videoLat system on the transmitting side, and measure its
+	transmission delay. Keep these measurements.</p>
+	
+	<p>Setup a second videoLat system on the receiving end, and measure its
+	reception delay. Keep these measurements. </p>
+	
+	<p>To do the real measurement set the transmitting videoLat system to
+	<i>Send Only</i> and add a reasonable delay. <em>Note:</em> in this
+	release, after setting the delay, you should select and de-select
+	<i>Mirror View</i> before the delay is picked up, will be fixed... The
+	choice of a reasonable delay depends on the circumstances. If your
+	system under test takes 800 milliseconds before a new QRcode can be
+	decoded on the receiving end you should set the delay to be higher than
+	that. A delay that is too low will result in no measurements taken, a
+	delay that is too high does not hurt but results in fewer measurements
+	per minute.</p>
+	
+	<p>Set the receiving videoLat system to <i>receive only</i>. Let it run,
+	while keeping an eye on the number of successful QRcode captures.</p>
+	
+	<p>After you are satisfied with the number of samples, copy the two
+	raw measurement files to one system, concatenate them and run the
+	<i>pp_summary</i> script (hidden inside the app bundle, I told you
+	this was not practical yet:-). You will also have to cater for clock
+	differences and clock drift (I told you this was not practical yet).</p>
 	
 	
 <h2 id="license">Licensing and Copyright</h2>
