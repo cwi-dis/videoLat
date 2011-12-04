@@ -105,7 +105,7 @@ class Summary:
                 if VERBOSE:
                     print "Received duplicate",data,"at",timestamp
                 
-    def delays(self):
+    def measurement_delays(self):
         delays = []
         for data, recvtime in self.recv_times.items():
             if not data in self.xmit_times:
@@ -114,8 +114,11 @@ class Summary:
                     continue
                 raise DataError, 'Detected non-transmitted code: %s' % data
             xmittime = self.xmit_times[data]
-            delays.append(recvtime - xmittime)
+            delays.append((data, recvtime - xmittime))
         return delays
+        
+    def delays(self):
+        return map(lambda x:x[1], self.measurement_delays())
         
     def gen_summary(self, filename):
         delays = self.delays()
@@ -158,13 +161,31 @@ class Summary:
             lwbound = upbound
             bin += 1
             
-    def merge_template(self, summary, graph):
+    def gen_measurements(self, filename):
+        delays = self.measurement_delays()
+        delays = map(lambda x: (int(x[0]), int(x[1])), delays)
+        delays.sort()
+        fp = open(filename, 'w')
+        fp.write('measurement,delay\n')
+        for  measurement, delay in delays:
+            fp.write("%s,%s\n" % (measurement, delay))
+            
+    def merge_template(self, summary, measurements, graph):
         if VERBOSE:
             print 'Opening', summary, 'with Numbers'
         rv = os.system("open -a Numbers '%s'" % summary)
         if rv:
             print 'open -a Numbers returned status %d' % rv
             sys.exit(rv)
+            
+        if VERBOSE:
+            print 'Opening', measurements, 'with Numbers'
+        rv = os.system("open -a Numbers '%s'" % measurements)
+        if rv:
+            print 'open -a Numbers returned status %d' % rv
+            sys.exit(rv)
+            
+
         if self.template:
             shutil.copy(self.template, graph)
             time.sleep(5)
@@ -178,6 +199,7 @@ class Summary:
         basefilename, ext = os.path.splitext(filename)
         outfilename = basefilename + '-summary' + ext
         outgraphfilename = basefilename + '-summary-graph.numbers'
+        measurementfilename = basefilename + '-measurements' + ext
         self.read_xmit_times(filename)
         self.read_recv_times(filename)
         if VERBOSE:
@@ -185,7 +207,10 @@ class Summary:
         self.gen_summary(outfilename)
         if VERBOSE:
             print 'Output written to', outfilename
-        self.merge_template(outfilename, outgraphfilename)
+        self.gen_measurements(measurementfilename)
+        if VERBOSE:
+            print 'Measurements written to', measurementfilename
+        self.merge_template(outfilename, measurementfilename, outgraphfilename)
         
 def main():
     parser = OptionParser(usage="Usage: %prog [options] csvfile [...]")
