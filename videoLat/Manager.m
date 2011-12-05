@@ -190,6 +190,8 @@
                     newImage = [newImage imageByCroppingToRect: rect];
                     if (current_qrcode) [current_qrcode release];
                     current_qrcode = [newImage retain];
+                    [outputCode release];
+                    outputCode = [new retain];
                     return newImage;
                 }
             }

@@ -29,6 +29,8 @@
 - (QTCaptureDevice*)deviceWithName: (NSString*)name;
 - (NSArray*) deviceNames;
 - (void)switchToDevice: (QTCaptureDevice*)dev;
+- (void)switchToDeviceWithName: (NSString *)name;
+
 
 
 // Delegate method for QTCaptureView:

@@ -7,7 +7,7 @@ import shutil
 import time
 from optparse import OptionParser
 
-VERBOSE=False
+VERBOSE=True
 
 class DataError(ValueError):
     pass
