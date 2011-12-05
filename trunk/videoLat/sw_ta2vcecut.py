@@ -3,7 +3,7 @@ import sys
 print 'sys.path=', sys.path
 import xmlrpclib
 
-VCEADDRESS = "http://localhost:8008"
+VCEADDRESS = "http://192.168.37.102:8008"
 vce = xmlrpclib.ServerProxy(VCEADDRESS)
 # Check that we can talk to it
 vce.CutToCamera(1)

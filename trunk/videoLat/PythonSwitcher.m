@@ -99,13 +99,13 @@
 
 - (bool)inputBW
 {
-    if (dict == NULL) return;
+    if (dict == NULL) return false;
     PyObject *prv = PyRun_String("inputBW()", Py_eval_input, dict, dict);
 	if (prv == NULL) {
 		PyErr_Print();
 		NSRunAlertPanel(@"PythonRunner", @"inputBW() ended with an exception. Python code disabled.", nil, nil, nil);
 		dict = NULL;
-		return;
+		return false;
 	}
     bool rv = PyObject_IsTrue(prv);
     Py_DECREF(prv);
