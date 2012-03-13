@@ -31,6 +31,7 @@ on <http://videolat.sourceforge.net>.
 
 Change Log
 ==========
+0.55: rebuild, some minor details
 0.54: Monochrome detection works
 0.54: LabJack hardware assist works
 0.54: Added optional delay between output generation
