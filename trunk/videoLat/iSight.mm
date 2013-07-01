@@ -216,7 +216,7 @@
 //        assert (h==480);
 //        assert (w==CVPixelBufferGetBytesPerRow(videoFrame));
         assert (size>=w*h);
-        [manager newInputDone: buffer width: w height: h format: formatStr size:640*480];
+        [manager newInputDone: buffer width: w height: h format: formatStr size:size];
         CVPixelBufferUnlockBaseAddress(videoFrame, 0);
     } else {
         [manager newInputDone];
