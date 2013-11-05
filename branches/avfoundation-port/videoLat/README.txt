@@ -31,6 +31,7 @@ on <http://videolat.sourceforge.net>.
 
 Change Log
 ==========
+0.57: ported to AVFoundation, new zint version
 0.56: attempt to cater for HD cameras. Also 10.7 is now minimum required OSX.
 0.55: rebuild, some minor details
 0.54: Monochrome detection works
@@ -49,7 +50,7 @@ To build videoLat from source you need a Mac (10.6 has been tested).
 You need two third party packages:
 
 - zbar (version 0.10 tested) for barcode generation
-- zint (version 2.3.2 tested) for barcode detection
+- zint (version 2.4.3 tested) for barcode detection
 
 These should be included in a videoLat source distribution in the thirdParty
 subdirectory.
@@ -63,27 +64,38 @@ You also need a few more packages, install these through macports, all universal
 (this list may be incomplete, please inform me if this is the case).
 
 1. Build zbar with:
+	% mkdir thirdParty/installed
+	% INST=`(cd thirdParty/installed ; pwd)`
 	% cd thirdParty/zbar-0.10-src
 	% ./configure \
 		--disable-dependency-tracking \
 		--disable-video \
 		--without-gtk \
 		--without-qt \
+		--prefix=$INST \
 		PKG_CONFIG_PATH=/opt/local/lib/pkgconfig \
 		CFLAGS="-arch i386 -arch x86_64" \
 		CXXFLAGS="-arch i386 -arch x86_64" \
 		LDFLAGS="-arch i386 -arch x86_64"
 	% make
-No need to install.
+	% make install
 
 2. Build zint with:
-	% cd thirdParty/zint-2.3.2
+	% mkdir thirdParty/installed
+	% INST=`(cd thirdParty/installed ; pwd)`
+	% cd thirdParty/zint-2.4.3
+	% make prefix=$INST
+	% make install prefix=$INST
+	
+   Alternatively you could use cmake but it doesn't work for me anymore:
+	% cd thirdParty/zint-2.4.3
 	% export PATH=/opt/local/bin:$PATH
+	% mkdir build
 	% cd build
 	% export CMAKE_OSX_ARCHITECTURES="i386;x86_64"
 	% cmake ..
 	% make
-Again, no need to install.
+	% make install prefix=$INST
 
 3. Build videoLat, by opening videoLat.xcodeproj and building it.
 

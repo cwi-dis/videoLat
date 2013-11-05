@@ -25,7 +25,7 @@ clean:
 	rm -f zint *.o *.a *~ *.png *.eps *.svg *.log
 
 install:
-	install -D -p  zint $(DESTDIR)$(bindir)/zint
+	install -p  zint $(DESTDIR)$(bindir)/zint
 
 uninstall:
 	rm $(DESTDIR)$(bindir)/zint

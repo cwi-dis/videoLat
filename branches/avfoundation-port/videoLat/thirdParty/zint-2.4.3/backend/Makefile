@@ -10,8 +10,8 @@ ZINT_VERSION:=-DZINT_VERSION=\"2.4.3.0\"
 
 
 CC := gcc
-INCLUDE := -I/usr/include
-CFLAGS := -g
+INCLUDE := `libpng15-config --I_opts`
+CFLAGS := -g -arch i386 -arch x86_64
 
 prefix := /usr
 includedir := $(prefix)/include
@@ -29,11 +29,11 @@ TWODIM_OBJ:= code16k.o dmatrix.o pdf417.o qr.o maxicode.o composite.o aztec.o co
 LIBS:= `libpng15-config --I_opts --L_opts --ldflags` -lz -lm
  
 libzint: code.c code128.c 2of5.c upcean.c medical.c telepen.c plessey.c postal.c auspost.c imail.c code16k.c dmatrix.c reedsol.c pdf417.c maxicode.c rss.c common.c render.c png.c library.c ps.c qr.c large.c composite.c aztec.c gs1.c svg.c code49.c code1.c gridmtx.c
-	$(CC) -Wall -fPIC $(CFLAGS) $(ZINT_VERSION) -c $(ONEDIM)
-	$(CC) -Wall -fPIC $(CFLAGS) $(ZINT_VERSION) -c $(POSTAL)
-	$(CC) -Wall -fPIC $(CFLAGS) $(ZINT_VERSION) -c $(TWODIM)
-	$(CC) -Wall -fPIC $(CFLAGS) $(ZINT_VERSION) -c $(COMMON)
-	$(CC) $(CFLAGS) $(ZINT_VERSION) -shared -o libzint.dylib $(INCLUDE) $(COMMON_OBJ) $(ONEDIM_OBJ) $(TWODIM_OBJ) $(POSTAL_OBJ) $(LIBS)
+	$(CC) -Wall -fPIC $(CFLAGS) $(INCLUDE) $(ZINT_VERSION) -c $(ONEDIM)
+	$(CC) -Wall -fPIC $(CFLAGS) $(INCLUDE) $(ZINT_VERSION) -c $(POSTAL)
+	$(CC) -Wall -fPIC $(CFLAGS) $(INCLUDE) $(ZINT_VERSION) -c $(TWODIM)
+	$(CC) -Wall -fPIC $(CFLAGS) $(INCLUDE) $(ZINT_VERSION) -c $(COMMON)
+	$(CC) $(CFLAGS) $(ZINT_VERSION) -dynamiclib -Wl,-install_name,$(libdir)/libzint.dylib -o libzint.dylib $(COMMON_OBJ) $(ONEDIM_OBJ) $(TWODIM_OBJ) $(POSTAL_OBJ) $(LIBS)
 
 .PHONY: install uninstall clean dist
 
@@ -41,7 +41,7 @@ install:
 	test "$(UID)" = "0" && ldconfig -n $(PWD) || true
 	install -d $(DESTDIR)$(libdir)
 	mv libzint.* $(DESTDIR)$(libdir)
-	install -D -p --mode=0644 zint.h $(DESTDIR)$(includedir)/zint.h
+	install -p -m 0644 zint.h $(DESTDIR)$(includedir)/zint.h
 
 uninstall:
 	rm $(DESTDIR)$(libdir)/libzint.*
