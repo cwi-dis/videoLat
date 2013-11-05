@@ -26,6 +26,8 @@
 		040F2779121F3C51003C3A4E /* findQRcodes.mm in Sources */ = {isa = PBXBuildFile; fileRef = 040F2778121F3C51003C3A4E /* findQRcodes.mm */; };
 		0430BD5D122306C400E14F88 /* output.m in Sources */ = {isa = PBXBuildFile; fileRef = 0430BD5C122306C400E14F88 /* output.m */; };
 		043153A6122EACB000D64AD2 /* OutputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 043153A5122EACB000D64AD2 /* OutputView.m */; };
+		0435B733182910C2005BC901 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0435B732182910C2005BC901 /* AVFoundation.framework */; };
+		0435B73518292BAF005BC901 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0435B73418292BAF005BC901 /* CoreMedia.framework */; };
 		0457BA9D182903B3000A8631 /* libzbar.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0457BA9B182903B3000A8631 /* libzbar.dylib */; };
 		0457BA9E182903B3000A8631 /* libzint.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0457BA9C182903B3000A8631 /* libzint.dylib */; };
 		046D1542122D3C2000222461 /* PythonSwitcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 046D1541122D3C2000222461 /* PythonSwitcher.m */; };
@@ -43,7 +45,6 @@
 		04F71800129348620016CFA4 /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 04F717FF129348620016CFA4 /* icon.icns */; };
 		1DDD58160DA1D0A300B32029 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DDD58140DA1D0A300B32029 /* MainMenu.xib */; };
 		229BEEFF0FB655D5000BB0ED /* iSight.mm in Sources */ = {isa = PBXBuildFile; fileRef = 229BEEFE0FB655D5000BB0ED /* iSight.mm */; };
-		22CAECCE0FB6450700337FDA /* QTKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22CAECCD0FB6450700337FDA /* QTKit.framework */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
@@ -71,6 +72,8 @@
 		0430BD5C122306C400E14F88 /* output.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = output.m; sourceTree = "<group>"; };
 		043153A4122EACB000D64AD2 /* OutputView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OutputView.h; sourceTree = "<group>"; };
 		043153A5122EACB000D64AD2 /* OutputView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OutputView.m; sourceTree = "<group>"; };
+		0435B732182910C2005BC901 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = ../../../../System/Library/Frameworks/AVFoundation.framework; sourceTree = "<group>"; };
+		0435B73418292BAF005BC901 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = ../../../../System/Library/Frameworks/CoreMedia.framework; sourceTree = "<group>"; };
 		0457BA9B182903B3000A8631 /* libzbar.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libzbar.dylib; path = thirdParty/installed/lib/libzbar.dylib; sourceTree = "<group>"; };
 		0457BA9C182903B3000A8631 /* libzint.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libzint.dylib; path = thirdParty/installed/lib/libzint.dylib; sourceTree = "<group>"; };
 		046D1540122D3C2000222461 /* PythonSwitcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PythonSwitcher.h; sourceTree = "<group>"; };
@@ -96,7 +99,6 @@
 		1DDD58150DA1D0A300B32029 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		229BEEFD0FB655D5000BB0ED /* iSight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iSight.h; sourceTree = "<group>"; };
 		229BEEFE0FB655D5000BB0ED /* iSight.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = iSight.mm; sourceTree = "<group>"; };
-		22CAECCD0FB6450700337FDA /* QTKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QTKit.framework; path = /System/Library/Frameworks/QTKit.framework; sourceTree = "<absolute>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
@@ -111,11 +113,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
-				22CAECCE0FB6450700337FDA /* QTKit.framework in Frameworks */,
 				046D1590122D4E4D00222461 /* Python.framework in Frameworks */,
 				047A54D21510F37000C5C399 /* QuartzCore.framework in Frameworks */,
 				0457BA9D182903B3000A8631 /* libzbar.dylib in Frameworks */,
 				0457BA9E182903B3000A8631 /* libzint.dylib in Frameworks */,
+				0435B733182910C2005BC901 /* AVFoundation.framework in Frameworks */,
+				0435B73518292BAF005BC901 /* CoreMedia.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -183,7 +186,8 @@
 		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				22CAECCD0FB6450700337FDA /* QTKit.framework */,
+				0435B73418292BAF005BC901 /* CoreMedia.framework */,
+				0435B732182910C2005BC901 /* AVFoundation.framework */,
 				046D158F122D4E4D00222461 /* Python.framework */,
 				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
 			);
@@ -469,6 +473,7 @@
 					x86_64,
 					i386,
 				);
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -477,7 +482,7 @@
 				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = macosx10.7;
 				USER_HEADER_SEARCH_PATHS = thirdParty/installed/include;
-				videoLatVersion = 0.56;
+				videoLatVersion = 0.57;
 			};
 			name = Debug;
 		};
@@ -488,6 +493,7 @@
 					x86_64,
 					i386,
 				);
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
@@ -495,7 +501,7 @@
 				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = macosx10.7;
 				USER_HEADER_SEARCH_PATHS = thirdParty/installed/include;
-				videoLatVersion = 0.56;
+				videoLatVersion = 0.57;
 			};
 			name = Release;
 		};

@@ -5,6 +5,8 @@
 #import <limits>
 
 @implementation MyQTCaptureView
+@synthesize delegate;
+
 - (void)mouseDown: (NSEvent *)theEvent
 {
 	downPoint = [theEvent locationInWindow];
@@ -31,7 +33,7 @@
 - (void) awakeFromNib 
 {    
 	outputCapturer = nil;
-
+    sampleBufferQueue = dispatch_queue_create("Sample Queue", DISPATCH_QUEUE_SERIAL);
     // Setup for callbacks 
     [selfView setDelegate: self];
     [[selfView window] setReleasedWhenClosed: false];
@@ -39,11 +41,11 @@
 	NSLog(@"Devices: %@\n", [self deviceNames]);
 	
 	/* Select the default Video input device */
-	QTCaptureDevice *dev = [QTCaptureDevice defaultInputDeviceWithMediaType:QTMediaTypeVideo];
+	AVCaptureDevice *dev = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
 	/* If we can't get a video device: get a muxed device */
 	if (dev == NULL) {
 		NSLog(@"Cannot find video device, will attempt multiplexed audio/video device\n");
-		dev = [QTCaptureDevice defaultInputDeviceWithMediaType:QTMediaTypeMuxed];
+		dev = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeMuxed];
 	}
 	if (dev == NULL) {
 		NSLog(@"Cannot find any video device\n");
@@ -67,22 +69,22 @@
 {
 	NSMutableArray *rv = [NSMutableArray arrayWithCapacity:128];
 	/* First add the default Video input device */
-	QTCaptureDevice *d = [QTCaptureDevice defaultInputDeviceWithMediaType:QTMediaTypeVideo];
-	if (d) [rv addObject: [d localizedDisplayName]]; 
+	AVCaptureDevice *d = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+	if (d) [rv addObject: [d localizedName]]; 
 	/* Next the default muxed device */
-	d = [QTCaptureDevice defaultInputDeviceWithMediaType:QTMediaTypeMuxed];
-	if (d) [rv addObject: [d localizedDisplayName]];
+	d = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeMuxed];
+	if (d) [rv addObject: [d localizedName]];
 	/* Next, all video devices */
-	NSArray *devs = [QTCaptureDevice inputDevicesWithMediaType: QTMediaTypeVideo];
+	NSArray *devs = [AVCaptureDevice devicesWithMediaType: AVMediaTypeVideo];
 	for(d in devs) {
-		NSString *name = [d localizedDisplayName];
+		NSString *name = [d localizedName];
 		if ([rv indexOfObject: name] == NSNotFound)
 			[rv addObject:name];
 	}
 	/* Finally, all muxed devices */
-	devs = [QTCaptureDevice inputDevicesWithMediaType: QTMediaTypeMuxed];
+	devs = [AVCaptureDevice devicesWithMediaType: AVMediaTypeMuxed];
 	for (d in devs) {
-		NSString *name = [d localizedDisplayName];
+		NSString *name = [d localizedName];
 		if ([rv indexOfObject: name] == NSNotFound)
 			[rv addObject:name];
 	}
@@ -91,69 +93,72 @@
 
 - (void)switchToDeviceWithName: (NSString *)name
 {
-	QTCaptureDevice* dev = [self deviceWithName:name];
+	AVCaptureDevice* dev = [self deviceWithName:name];
 	[self switchToDevice:dev];
 }
 
-- (void)switchToDevice: (QTCaptureDevice*)dev
+- (void)switchToDevice: (AVCaptureDevice*)dev
 {
+    // Delete old session, if needed
 	if (outputCapturer) [outputCapturer release];
 	outputCapturer = nil;
+    if (selfLayer) [selfLayer removeFromSuperlayer];
 	if (session) [session release];
 	session = nil;
-	//Create the QT capture session
-	session = [[QTCaptureSession alloc] init];
-	/* Passing nil for the NSError parameter may not be the best idea
-	 but i will leave error handling up to you */
-	[dev open:nil];
+    
+	//Create the AV capture session
+	session = [[AVCaptureSession alloc] init];
     
 	/* Create a QTKit input for the session using the iSight Device */
-	QTCaptureDeviceInput *myInput = [QTCaptureDeviceInput deviceInputWithDevice:dev];
-	
+    NSError *error;
+	AVCaptureDeviceInput *myInput = [AVCaptureDeviceInput deviceInputWithDevice:dev error:&error];
+	if (error) {
+        NSAlert *alert = [NSAlert alertWithError: error];
+        [alert runModal];
+        return;
+    }
     /* Create the video capture output, set to greyscale, and let us be its delegate */
-    outputCapturer = [[QTCaptureVideoPreviewOutput alloc] init];
-#if 0
-    // Code to ask for greyscale disabled, for two reasons:
-    // - It breaks self-display on 64bit machines
-    // - If we do the conversion ourselves (in findQRcodes) we can measure the overhead
-    NSDictionary *attrs = [NSDictionary dictionaryWithObjectsAndKeys:
-        [NSNumber numberWithInt: (int)kCVPixelFormatType_8IndexedGray_WhiteIsZero], kCVPixelBufferPixelFormatTypeKey,
-        nil];
-    [outputCapturer setPixelBufferAttributes:attrs];
-#endif
+    outputCapturer = [[AVCaptureVideoDataOutput alloc] init];
 
-    [outputCapturer setDelegate: self];
+    [outputCapturer setSampleBufferDelegate: self queue:sampleBufferQueue];
     
 	/* Create a capture session for the live vidwo and add inputs get the ball rolling etc */
-	[session addInput:myInput error:nil];
-     if(selfView) [selfView setCaptureSession:session];
-    [session addOutput: outputCapturer error:nil];
+	[session addInput:myInput];
+    if(selfView) {
+        selfLayer = [AVCaptureVideoPreviewLayer layerWithSession:session];
+        selfLayer.frame = NSRectToCGRect(selfView.bounds);
+        [selfView.layer addSublayer: selfLayer];
+        [selfView setWantsLayer: YES];
+    }
+    [session addOutput: outputCapturer];
 	
 	/* Let the video madness begin */
 	[session startRunning]; 
 }
 
-- (QTCaptureDevice*)deviceWithName: (NSString*)name
+- (AVCaptureDevice*)deviceWithName: (NSString*)name
 {
 #if 1
-	NSArray *devs = [QTCaptureDevice inputDevicesWithMediaType: QTMediaTypeVideo];
-	QTCaptureDevice *d;
+	NSArray *devs = [AVCaptureDevice devicesWithMediaType: AVMediaTypeVideo];
+	AVCaptureDevice *d;
 	for(d in devs) {
-		NSString *dn = [d localizedDisplayName];
+		NSString *dn = [d localizedName];
 		if ([dn compare: name] == NSOrderedSame)
 			return d;
 	}
-	devs = [QTCaptureDevice inputDevicesWithMediaType: QTMediaTypeMuxed];
+	devs = [AVCaptureDevice devicesWithMediaType: AVMediaTypeMuxed];
 	for (d in devs) {
-		NSString *dn = [d localizedDisplayName];
+		NSString *dn = [d localizedName];
 		if ([dn compare: name] == NSOrderedSame)
 			return d;
 	}
     return nil;
 #else
-	return [QTCaptureDevice deviceWithUniqueID:name];
+	return [AVCaptureDevice deviceWithUniqueID:name];
 #endif
-}	
+}
+
+#ifdef NOTYETFORAVFOUNDATION
 
 - (CIImage *)view:(QTCaptureView *)view willDisplayImage:(CIImage *)image
 {
@@ -165,7 +170,7 @@
     // Noneed to process, show original image.
     return nil;
 }
-
+#endif
 - (void)focusRectSelected: (NSRect)theRect
 {
 	theRect.origin.x *= xFactor;
@@ -176,14 +181,19 @@
 	[manager setBlackWhiteRect: theRect];
 }
 
-- (void)captureOutput:(QTCaptureOutput *)captureOutput 
-    didOutputVideoFrame:(CVImageBufferRef)videoFrame
-    withSampleBuffer:(QTSampleBuffer *)sampleBuffer
-    fromConnection:(QTCaptureConnection *)connection
+
+- (void)captureOutput:(AVCaptureOutput *)captureOutput
+    didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
+    fromConnection:(AVCaptureConnection *)connection;
 {
 	UInt64 now = CVGetCurrentHostTime();
+    NSLog(@"Got video frame now=%lld pts=%f opts=%f dts=%f odts=%f\n", now,
+          (float)CMTimeGetSeconds(CMSampleBufferGetPresentationTimeStamp(sampleBuffer)),
+          (float)CMTimeGetSeconds(CMSampleBufferGetOutputPresentationTimeStamp(sampleBuffer)),
+          (float)CMTimeGetSeconds(CMSampleBufferGetDecodeTimeStamp(sampleBuffer)),
+          (float)CMTimeGetSeconds(CMSampleBufferGetOutputDecodeTimeStamp(sampleBuffer)));
+#if 0
     [manager newInputStart];
-//    NSLog(@"Got video frame %lld %lld size %dx%d\n", 1000000LL*timestamp.timeValue / timestamp.timeScale, now_micro, (int)CVPixelBufferGetWidth(videoFrame), (int)CVPixelBufferGetHeight(videoFrame));
     OSType format = CVPixelBufferGetPixelFormatType(videoFrame);
 	NSNumber *nHostTime = [sampleBuffer attributeForKey: QTSampleBufferHostTimeAttribute];
 	UInt64 hostTime = [nHostTime longLongValue];
@@ -221,7 +231,12 @@
     } else {
         [manager newInputDone];
     }
-    
+#endif
 }
-
+- (void)captureOutput:(AVCaptureOutput *)captureOutput
+didDropSampleBuffer:(CMSampleBufferRef)sampleBuffer
+       fromConnection:(AVCaptureConnection *)connection;
+{
+    // Should adjust maximal frame rate (minFrameDuration)
+}
 @end

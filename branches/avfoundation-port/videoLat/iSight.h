@@ -1,15 +1,23 @@
 #import <Cocoa/Cocoa.h>
-#import <QTKit/QTKit.h>
+#import <AVFoundation/AVFoundation.h>
 #import "genQRcodes.h"
 #import "findQRcodes.h"
 #import "output.h"
 #import "SettingsView.h"
 #import "Manager.h"
 
-@interface MyQTCaptureView : QTCaptureView
+
+// XXXJACK TEMP
+typedef void QTCaptureOutput;
+typedef void QTSampleBuffer;
+typedef void QTCaptureConnection;
+
+@interface MyQTCaptureView : NSView
 {
 	NSPoint downPoint;
+    id delegate;
 }
+@property (retain) id delegate;
 
 - (void)mouseDown: (NSEvent *)theEvent;
 - (void)mouseUp: (NSEvent *)theEvent;
@@ -19,29 +27,35 @@
 @interface iSight : NSObject {
     IBOutlet SettingsView *settings;
     IBOutlet Manager *manager;
-    IBOutlet QTCaptureView *selfView;
-    QTCaptureVideoPreviewOutput *outputCapturer;
-	QTCaptureSession *session;
+    IBOutlet MyQTCaptureView *selfView;
+    AVCaptureVideoPreviewLayer *selfLayer;
+    AVCaptureVideoDataOutput *outputCapturer;
+	AVCaptureSession *session;
+    dispatch_queue_t sampleBufferQueue;
 	float xFactor, yFactor;
 }
 
 - (bool)available;
-- (QTCaptureDevice*)deviceWithName: (NSString*)name;
+- (AVCaptureDevice*)deviceWithName: (NSString*)name;
 - (NSArray*) deviceNames;
-- (void)switchToDevice: (QTCaptureDevice*)dev;
+- (void)switchToDevice: (AVCaptureDevice*)dev;
 - (void)switchToDeviceWithName: (NSString *)name;
 
 
 
+#ifdef NOTYETFORAVFOUNDATION
 // Delegate method for QTCaptureView:
 - (CIImage *)view:(QTCaptureView *)view willDisplayImage:(CIImage *)image;
+#endif
 
 // Private delegate method for same:
 - (void)focusRectSelected: (NSRect)theRect;
 
-// Delegate method for QTCaptureVideoPreviewOutput:
-- (void)captureOutput:(QTCaptureOutput *)captureOutput 
-    didOutputVideoFrame:(CVImageBufferRef)videoFrame
-    withSampleBuffer:(QTSampleBuffer *)sampleBuffer
-    fromConnection:(QTCaptureConnection *)connection;
+// Delegate methods for QTCaptureVideoPreviewOutput:
+- (void)captureOutput:(AVCaptureOutput *)captureOutput
+didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
+       fromConnection:(AVCaptureConnection *)connection;
+- (void)captureOutput:(AVCaptureOutput *)captureOutput
+  didDropSampleBuffer:(CMSampleBufferRef)sampleBuffer
+       fromConnection:(AVCaptureConnection *)connection;
 @end
