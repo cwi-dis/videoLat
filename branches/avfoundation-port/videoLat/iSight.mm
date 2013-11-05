@@ -103,7 +103,10 @@
 	if (outputCapturer) [outputCapturer release];
 	outputCapturer = nil;
     if (selfLayer) [selfLayer removeFromSuperlayer];
-	if (session) [session release];
+	if (session) {
+        [session stopRunning];
+        [session release];
+    }
 	session = nil;
     
 	//Create the AV capture session
@@ -124,6 +127,11 @@
     
 	/* Create a capture session for the live vidwo and add inputs get the ball rolling etc */
 	[session addInput:myInput];
+    if ([session canSetSessionPreset: AVCaptureSessionPreset640x480]) {
+        [session setSessionPreset: AVCaptureSessionPreset640x480];
+    } else {
+        NSLog(@"Warning: Cannot set capture session to 640x480\n");
+    }
     if(selfView) {
         selfLayer = [AVCaptureVideoPreviewLayer layerWithSession:session];
         selfLayer.frame = NSRectToCGRect(selfView.bounds);
@@ -131,7 +139,8 @@
         [selfView setWantsLayer: YES];
     }
     [session addOutput: outputCapturer];
-	
+	// XXXJACK Should catch AVCaptureSessionRuntimeErrorNotification
+    
 	/* Let the video madness begin */
 	[session startRunning]; 
 }
@@ -194,7 +203,7 @@
     [manager newInputStart];
 	double delta = (now-timestamp) / CVGetHostClockFrequency();
 	[manager updateInputOverhead: delta];
-    NSLog(@"Got video frame now=%lld pts=%lld delta=%f\n", now, timestamp, delta);
+    NSLog(@"Got video frame from %p now=%lld pts=%lld delta=%f\n", (void*)connection, now, timestamp, delta);
     
     CMFormatDescriptionRef formatDescription = CMSampleBufferGetFormatDescription(sampleBuffer);
     OSType format = CMFormatDescriptionGetMediaSubType(formatDescription);
