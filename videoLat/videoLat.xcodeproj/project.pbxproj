@@ -26,11 +26,13 @@
 		040F2779121F3C51003C3A4E /* findQRcodes.mm in Sources */ = {isa = PBXBuildFile; fileRef = 040F2778121F3C51003C3A4E /* findQRcodes.mm */; };
 		0430BD5D122306C400E14F88 /* output.m in Sources */ = {isa = PBXBuildFile; fileRef = 0430BD5C122306C400E14F88 /* output.m */; };
 		043153A6122EACB000D64AD2 /* OutputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 043153A5122EACB000D64AD2 /* OutputView.m */; };
+		0435B733182910C2005BC901 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0435B732182910C2005BC901 /* AVFoundation.framework */; };
+		0435B73518292BAF005BC901 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0435B73418292BAF005BC901 /* CoreMedia.framework */; };
+		0457BA9D182903B3000A8631 /* libzbar.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0457BA9B182903B3000A8631 /* libzbar.dylib */; };
+		0457BA9E182903B3000A8631 /* libzint.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0457BA9C182903B3000A8631 /* libzint.dylib */; };
 		046D1542122D3C2000222461 /* PythonSwitcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 046D1541122D3C2000222461 /* PythonSwitcher.m */; };
 		046D1590122D4E4D00222461 /* Python.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 046D158F122D4E4D00222461 /* Python.framework */; };
 		047A54D21510F37000C5C399 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 047A54D11510F37000C5C399 /* QuartzCore.framework */; };
-		048501CC1296B488004DD75B /* libzint.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 048501CB1296B488004DD75B /* libzint.dylib */; };
-		048501CF1296B4FD004DD75B /* libzbar.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 048501CE1296B4FD004DD75B /* libzbar.a */; };
 		0496507512A84DF400F2E9D4 /* sw_labjack.py in Resources */ = {isa = PBXBuildFile; fileRef = 0496507412A84DF400F2E9D4 /* sw_labjack.py */; };
 		0496509C12A8529D00F2E9D4 /* pylabjack in Resources */ = {isa = PBXBuildFile; fileRef = 0496509212A8529D00F2E9D4 /* pylabjack */; };
 		04970CC7122712BA0014B897 /* SettingsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04970CC6122712BA0014B897 /* SettingsView.m */; };
@@ -43,7 +45,6 @@
 		04F71800129348620016CFA4 /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 04F717FF129348620016CFA4 /* icon.icns */; };
 		1DDD58160DA1D0A300B32029 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DDD58140DA1D0A300B32029 /* MainMenu.xib */; };
 		229BEEFF0FB655D5000BB0ED /* iSight.mm in Sources */ = {isa = PBXBuildFile; fileRef = 229BEEFE0FB655D5000BB0ED /* iSight.mm */; };
-		22CAECCE0FB6450700337FDA /* QTKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22CAECCD0FB6450700337FDA /* QTKit.framework */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
@@ -71,12 +72,14 @@
 		0430BD5C122306C400E14F88 /* output.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = output.m; sourceTree = "<group>"; };
 		043153A4122EACB000D64AD2 /* OutputView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OutputView.h; sourceTree = "<group>"; };
 		043153A5122EACB000D64AD2 /* OutputView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OutputView.m; sourceTree = "<group>"; };
+		0435B732182910C2005BC901 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = ../../../../System/Library/Frameworks/AVFoundation.framework; sourceTree = "<group>"; };
+		0435B73418292BAF005BC901 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = ../../../../System/Library/Frameworks/CoreMedia.framework; sourceTree = "<group>"; };
+		0457BA9B182903B3000A8631 /* libzbar.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libzbar.dylib; path = thirdParty/installed/lib/libzbar.dylib; sourceTree = "<group>"; };
+		0457BA9C182903B3000A8631 /* libzint.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libzint.dylib; path = thirdParty/installed/lib/libzint.dylib; sourceTree = "<group>"; };
 		046D1540122D3C2000222461 /* PythonSwitcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PythonSwitcher.h; sourceTree = "<group>"; };
 		046D1541122D3C2000222461 /* PythonSwitcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PythonSwitcher.m; sourceTree = "<group>"; };
 		046D158F122D4E4D00222461 /* Python.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Python.framework; path = /System/Library/Frameworks/Python.framework; sourceTree = "<absolute>"; };
 		047A54D11510F37000C5C399 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		048501CB1296B488004DD75B /* libzint.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libzint.dylib; path = "thirdParty/zint-2.3.2/build/backend/libzint.dylib"; sourceTree = "<group>"; };
-		048501CE1296B4FD004DD75B /* libzbar.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libzbar.a; path = "thirdParty/zbar-0.10-src/zbar/.libs/libzbar.a"; sourceTree = "<group>"; };
 		0496507412A84DF400F2E9D4 /* sw_labjack.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = sw_labjack.py; sourceTree = "<group>"; };
 		0496509212A8529D00F2E9D4 /* pylabjack */ = {isa = PBXFileReference; lastKnownFileType = folder; path = pylabjack; sourceTree = "<group>"; };
 		04970CC5122712BA0014B897 /* SettingsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsView.h; sourceTree = "<group>"; };
@@ -96,7 +99,6 @@
 		1DDD58150DA1D0A300B32029 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		229BEEFD0FB655D5000BB0ED /* iSight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iSight.h; sourceTree = "<group>"; };
 		229BEEFE0FB655D5000BB0ED /* iSight.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = iSight.mm; sourceTree = "<group>"; };
-		22CAECCD0FB6450700337FDA /* QTKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QTKit.framework; path = /System/Library/Frameworks/QTKit.framework; sourceTree = "<absolute>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
@@ -111,11 +113,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
-				22CAECCE0FB6450700337FDA /* QTKit.framework in Frameworks */,
 				046D1590122D4E4D00222461 /* Python.framework in Frameworks */,
-				048501CC1296B488004DD75B /* libzint.dylib in Frameworks */,
-				048501CF1296B4FD004DD75B /* libzbar.a in Frameworks */,
 				047A54D21510F37000C5C399 /* QuartzCore.framework in Frameworks */,
+				0457BA9D182903B3000A8631 /* libzbar.dylib in Frameworks */,
+				0457BA9E182903B3000A8631 /* libzint.dylib in Frameworks */,
+				0435B733182910C2005BC901 /* AVFoundation.framework in Frameworks */,
+				0435B73518292BAF005BC901 /* CoreMedia.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -132,10 +135,18 @@
 			name = "Helper Files";
 			sourceTree = "<group>";
 		};
+		0457BA9A182903A5000A8631 /* thirdParty */ = {
+			isa = PBXGroup;
+			children = (
+				0457BA9B182903B3000A8631 /* libzbar.dylib */,
+				0457BA9C182903B3000A8631 /* libzint.dylib */,
+			);
+			name = thirdParty;
+			sourceTree = "<group>";
+		};
 		04CF18461221B11700CB32C8 /* zbar */ = {
 			isa = PBXGroup;
 			children = (
-				048501CE1296B4FD004DD75B /* libzbar.a */,
 			);
 			name = zbar;
 			sourceTree = "<group>";
@@ -143,7 +154,6 @@
 		04CF18481221B11F00CB32C8 /* zint */ = {
 			isa = PBXGroup;
 			children = (
-				048501CB1296B488004DD75B /* libzint.dylib */,
 			);
 			name = zint;
 			sourceTree = "<group>";
@@ -176,7 +186,8 @@
 		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				22CAECCD0FB6450700337FDA /* QTKit.framework */,
+				0435B73418292BAF005BC901 /* CoreMedia.framework */,
+				0435B732182910C2005BC901 /* AVFoundation.framework */,
 				046D158F122D4E4D00222461 /* Python.framework */,
 				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
 			);
@@ -245,6 +256,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0457BA9A182903A5000A8631 /* thirdParty */,
 				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
 				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
 				047A54D11510F37000C5C399 /* QuartzCore.framework */,
@@ -262,7 +274,7 @@
 				8D1107290486CEB800E47090 /* Resources */,
 				8D11072C0486CEB800E47090 /* Sources */,
 				8D11072E0486CEB800E47090 /* Frameworks */,
-				0499439B129C033A00F8E2ED /* ShellScript */,
+				0499439B129C033A00F8E2ED /* Internalize dylibs */,
 			);
 			buildRules = (
 			);
@@ -335,18 +347,19 @@
 			shellPath = /bin/sh;
 			shellScript = "\nif [ $BUILD_STYLE != \"Release\" ]; then\n\techo \"Only for Release builds\"\n\texit 1\nfi\nrm -rf videoLat-$videoLatVersion videoLat-$videoLatVersion.zip\nmkdir videoLat-$videoLatVersion\nditto build/Release/videoLat.app videoLat-$videoLatVersion/videoLat.app\ncp README.txt COPYING videoLat-$videoLatVersion/\nzip -r videoLat-$videoLatVersion.zip videoLat-$videoLatVersion\n\n";
 		};
-		0499439B129C033A00F8E2ED /* ShellScript */ = {
+		0499439B129C033A00F8E2ED /* Internalize dylibs */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
+			name = "Internalize dylibs";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "set -x\nif [ $BUILD_VARIANTS == normal ]; then\n\tpython internalize_dylibs.py -s /usr/local/lib:thirdParty/zbar-0.10-src/zbar/.libs $TARGET_BUILD_DIR/$FULL_PRODUCT_NAME\n\tif [ \"$?\" != \"0\" ]; then\n\t\texit 1\n\tfi\n\tpython internalize_dylibs.py -c $TARGET_BUILD_DIR/$FULL_PRODUCT_NAME\n\tif [ \"$?\" != \"0\" ]; then\n\t\texit 1\n\tfi\n\nfi";
+			shellScript = "set -x\nif [ $BUILD_VARIANTS == normal ]; then\n\tpython internalize_dylibs.py -s /usr/local/lib:thirdParty/installed/lib $TARGET_BUILD_DIR/$FULL_PRODUCT_NAME\n\tif [ \"$?\" != \"0\" ]; then\n\t\texit 1\n\tfi\n\tpython internalize_dylibs.py -c $TARGET_BUILD_DIR/$FULL_PRODUCT_NAME\n\tif [ \"$?\" != \"0\" ]; then\n\t\texit 1\n\tfi\n\nfi";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -421,9 +434,7 @@
 		C01FCF4B08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
 				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -432,10 +443,7 @@
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../measurements/zint-2.3.2/build/backend\"",
-					"\"$(SRCROOT)/../measurements/zbar-0.10-src/zbar/.libs\"",
-					"\"$(SRCROOT)/thirdParty/zint-2.3.2/build/backend\"",
-					"\"$(SRCROOT)/thirdParty/zbar-0.10-src/zbar/.libs\"",
+					"\"$(SRCROOT)/thirdParty/installed/lib\"",
 				);
 				PRODUCT_NAME = videoLat;
 			};
@@ -444,7 +452,6 @@
 		C01FCF4C08A954540054247B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -453,10 +460,7 @@
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../measurements/zint-2.3.2/build/backend\"",
-					"\"$(SRCROOT)/../measurements/zbar-0.10-src/zbar/.libs\"",
-					"\"$(SRCROOT)/thirdParty/zint-2.3.2/build/backend\"",
-					"\"$(SRCROOT)/thirdParty/zbar-0.10-src/zbar/.libs\"",
+					"\"$(SRCROOT)/thirdParty/installed/lib\"",
 				);
 				PRODUCT_NAME = videoLat;
 			};
@@ -469,14 +473,16 @@
 					x86_64,
 					i386,
 				);
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				LIBRARY_SEARCH_PATHS = thirdParty/installed/lib;
 				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = macosx10.7;
-				USER_HEADER_SEARCH_PATHS = "thirdParty/zint-2.3.2/backend thirdParty/zbar-0.10-src/include";
-				videoLatVersion = 0.56;
+				USER_HEADER_SEARCH_PATHS = thirdParty/installed/include;
+				videoLatVersion = 0.57;
 			};
 			name = Debug;
 		};
@@ -487,13 +493,15 @@
 					x86_64,
 					i386,
 				);
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				LIBRARY_SEARCH_PATHS = thirdParty/installed/lib;
 				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = macosx10.7;
-				USER_HEADER_SEARCH_PATHS = "thirdParty/zint-2.3.2/backend thirdParty/zbar-0.10-src/include";
-				videoLatVersion = 0.56;
+				USER_HEADER_SEARCH_PATHS = thirdParty/installed/include;
+				videoLatVersion = 0.57;
 			};
 			name = Release;
 		};
