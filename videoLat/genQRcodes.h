@@ -7,10 +7,11 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "protocols.h"
 #include "zint.h"
 
 
-@interface GenQRcodes : NSObject {
+@interface GenQRcodes : NSObject <GenProtocol> {
     struct zint_symbol *symbol;
 }
 

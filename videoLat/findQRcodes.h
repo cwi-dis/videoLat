@@ -7,16 +7,19 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "protocols.h"
 #include "zbar.h"
 
-@interface FindQRcodes : NSObject {
+@interface FindQRcodes : NSObject <FindProtocol> {
     char *lastCode;
     void *scanner_hidden;
   @public
     NSRect rect;
+    BOOL configuring;
 }
 
 @property(readonly) NSRect rect;
+@property BOOL configuring;
 
 - (char*) find: (void*)buffer width: (int)width height: (int)height format: (const char*)format size:(int)size;
 
