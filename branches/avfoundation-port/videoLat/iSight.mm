@@ -199,16 +199,19 @@
     CMTime timestampCMT = CMSampleBufferGetPresentationTimeStamp(sampleBuffer);
     timestampCMT = CMTimeConvertScale(timestampCMT, 1000000000, kCMTimeRoundingMethod_Default);
     UInt64 timestamp = timestampCMT.value;
-
+	if (timestamp > now) {
+		NSLog(@"iSight: dropping frame with timestamp in the future (?!?!)");
+		return;
+	}
     [manager newInputStart];
 	double delta = (now-timestamp) / CVGetHostClockFrequency();
 	[manager updateInputOverhead: delta];
-    NSLog(@"Got video frame from %p now=%lld pts=%lld delta=%f\n", (void*)connection, now, timestamp, delta);
+    //NSLog(@"Got video frame from %p now=%lld pts=%lld delta=%f\n", (void*)connection, now, timestamp, delta);
     
     CMFormatDescriptionRef formatDescription = CMSampleBufferGetFormatDescription(sampleBuffer);
     OSType format = CMFormatDescriptionGetMediaSubType(formatDescription);
     CVImageBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
-    NSLog(@"OStype %.4s 0x%x\n", &format, format);
+    //NSLog(@"OStype %.4s 0x%x\n", &format, format);
     if (settings.running && settings.recv) {
 		const char *formatStr;
 		if (format == kCVPixelFormatType_32ARGB) {
@@ -231,9 +234,6 @@
         size_t w = CVPixelBufferGetWidth(pixelBuffer);
         size_t h = CVPixelBufferGetHeight(pixelBuffer);
         size_t size = CVPixelBufferGetDataSize(pixelBuffer);
-//        assert (w==640);
-//        assert (h==480);
-//        assert (w==CVPixelBufferGetBytesPerRow(pixelBuffer));
         assert (size>=w*h);
         [manager newInputDone: buffer width: w height: h format: formatStr size:size];
         CVPixelBufferUnlockBaseAddress(pixelBuffer, 0);
