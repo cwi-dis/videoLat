@@ -6,15 +6,15 @@
 //  Copyright 2010 Centrum voor Wiskunde en Informatica. All rights reserved.
 //
 
-#import "output.h"
+#import "Collector.h"
 #import <mach/mach.h>
 #import <mach/mach_time.h>
 #import <CoreServices/CoreServices.h>
 #import <sys/time.h>
 
-@implementation Output
+@implementation Collector
 
-- (Output*) init
+- (Collector*) init
 {
     self = [super init];
     initialized = false;

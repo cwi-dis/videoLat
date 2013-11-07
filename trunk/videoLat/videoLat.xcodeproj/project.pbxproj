@@ -24,7 +24,7 @@
 /* Begin PBXBuildFile section */
 		040F2774121F3C3D003C3A4E /* genQRcodes.m in Sources */ = {isa = PBXBuildFile; fileRef = 040F2773121F3C3D003C3A4E /* genQRcodes.m */; };
 		040F2779121F3C51003C3A4E /* findQRcodes.mm in Sources */ = {isa = PBXBuildFile; fileRef = 040F2778121F3C51003C3A4E /* findQRcodes.mm */; };
-		0430BD5D122306C400E14F88 /* output.m in Sources */ = {isa = PBXBuildFile; fileRef = 0430BD5C122306C400E14F88 /* output.m */; };
+		0430BD5D122306C400E14F88 /* Collector.m in Sources */ = {isa = PBXBuildFile; fileRef = 0430BD5C122306C400E14F88 /* Collector.m */; };
 		043153A6122EACB000D64AD2 /* OutputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 043153A5122EACB000D64AD2 /* OutputView.m */; };
 		0435B733182910C2005BC901 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0435B732182910C2005BC901 /* AVFoundation.framework */; };
 		0435B73518292BAF005BC901 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0435B73418292BAF005BC901 /* CoreMedia.framework */; };
@@ -68,8 +68,8 @@
 		04105A3C129E7C650005AABA /* COPYING */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = COPYING; sourceTree = "<group>"; };
 		04105A3D129E7C650005AABA /* internalize_dylibs.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = internalize_dylibs.py; sourceTree = "<group>"; };
 		04105A3E129E7C650005AABA /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
-		0430BD5B122306C400E14F88 /* output.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = output.h; sourceTree = "<group>"; };
-		0430BD5C122306C400E14F88 /* output.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = output.m; sourceTree = "<group>"; };
+		0430BD5B122306C400E14F88 /* Collector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Collector.h; sourceTree = "<group>"; };
+		0430BD5C122306C400E14F88 /* Collector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Collector.m; sourceTree = "<group>"; };
 		043153A4122EACB000D64AD2 /* OutputView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OutputView.h; sourceTree = "<group>"; };
 		043153A5122EACB000D64AD2 /* OutputView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OutputView.m; sourceTree = "<group>"; };
 		0435B732182910C2005BC901 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = ../../../../System/Library/Frameworks/AVFoundation.framework; sourceTree = "<group>"; };
@@ -174,8 +174,8 @@
 				040F2773121F3C3D003C3A4E /* genQRcodes.m */,
 				049838491227A4F2001D87DA /* Manager.h */,
 				0498384A1227A4F2001D87DA /* Manager.m */,
-				0430BD5B122306C400E14F88 /* output.h */,
-				0430BD5C122306C400E14F88 /* output.m */,
+				0430BD5B122306C400E14F88 /* Collector.h */,
+				0430BD5C122306C400E14F88 /* Collector.m */,
 				046D1540122D3C2000222461 /* PythonSwitcher.h */,
 				046D1541122D3C2000222461 /* PythonSwitcher.m */,
 				043153A4122EACB000D64AD2 /* OutputView.h */,
@@ -374,7 +374,7 @@
 				229BEEFF0FB655D5000BB0ED /* iSight.m in Sources */,
 				040F2774121F3C3D003C3A4E /* genQRcodes.m in Sources */,
 				040F2779121F3C51003C3A4E /* findQRcodes.mm in Sources */,
-				0430BD5D122306C400E14F88 /* output.m in Sources */,
+				0430BD5D122306C400E14F88 /* Collector.m in Sources */,
 				04970CC7122712BA0014B897 /* SettingsView.m in Sources */,
 				0498384B1227A4F2001D87DA /* Manager.m in Sources */,
 				046D1542122D3C2000222461 /* PythonSwitcher.m in Sources */,
