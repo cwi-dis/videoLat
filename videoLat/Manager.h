@@ -17,7 +17,7 @@
 	IBOutlet id <ManagerDelegateProtocol> delegate;
     id <FindProtocol> finder;
     id <GenProtocol> genner;
-    IBOutlet id <DataCollectorProtocol> output;
+    IBOutlet id <DataCollectorProtocol> collector;
     bool foundQRcode;
     int found_total;
     int found_ok;
