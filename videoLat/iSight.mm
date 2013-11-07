@@ -2,8 +2,6 @@
 #import <QuartzCore/QuartzCore.h>
 #import <mach/mach.h>
 #import <mach/mach_time.h>
-#import <limits>
-#import <algorithm>
 
 @implementation MyQTCaptureView
 @synthesize delegate;
@@ -19,9 +17,12 @@
 	NSPoint upPoint = [theEvent locationInWindow];
 	NSLog(@"Mouse up (%d,%d)\n", (int)upPoint.x, (int)upPoint.y);
 	NSRect frame = [self frame];
-	float top = frame.size.height - std::max(upPoint.y, downPoint.y);
+    float max_y = upPoint.y;
+    if (downPoint.y > max_y) max_y = downPoint.y;
+	float top = frame.size.height - max_y;
 	float height = abs(upPoint.y - downPoint.y);
-	float left = std::min(upPoint.x, downPoint.x);
+	float left = upPoint.x;
+    if (downPoint.x < left) left = downPoint.x;
 	float width = abs(upPoint.x - downPoint.x);
 	NSRect r = {{left, top}, {width, height}};
 	[[self delegate] focusRectSelected: r];

@@ -11,7 +11,7 @@
 #import "SettingsView.h"
 #import "protocols.h"
 
-@interface Output : NSObject <OutputProtocol> {
+@interface Output : NSObject <DataCollectorProtocol> {
     IBOutlet SettingsView *settings;
     uint64_t epoch;
     FILE *fp;

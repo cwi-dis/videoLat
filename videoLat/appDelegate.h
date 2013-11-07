@@ -10,7 +10,7 @@
 #include "protocols.h"
 
 @interface appDelegate : NSObject {
-    IBOutlet id <OutputProtocol> output;
+    IBOutlet id <DataCollectorProtocol> output;
 }
 
 - (void)applicationWillTerminate:(id)application;
