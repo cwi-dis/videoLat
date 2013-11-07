@@ -121,9 +121,9 @@
         }
 #if 0
         assert(outputStartTime == 0);
-        outputStartTime = [output now];
+        outputStartTime = [collector now];
 #else
-        if (outputStartTime == 0) outputStartTime = [output now];
+        if (outputStartTime == 0) outputStartTime = [collector now];
 #endif
         outputAddedOverhead = 0;
         if (settings.datatypeBlackWhite) {
@@ -184,12 +184,12 @@
 {
     @synchronized(self) {
         if (outputStartTime == 0 || outputCodeHasBeenReported) return;
-        assert(outputAddedOverhead < [output now]);
+        assert(outputAddedOverhead < [collector now]);
         assert(strcmp([outputCode UTF8String], "BadCookie") != 0);
         if (settings.datatypeQRCode) {
-            [output output: "macVideoXmit" event: "generated" data: [outputCode UTF8String] start: [output now] - outputAddedOverhead];
+            [collector output: "macVideoXmit" event: "generated" data: [outputCode UTF8String] start: [collector now] - outputAddedOverhead];
         } else if (settings.datatypeBlackWhite) {
-            [output output: "blackWhiteXmit" event: currentColorIsWhite?"white":"black" data: [outputCode UTF8String] start: [output now] - outputAddedOverhead];
+            [collector output: "blackWhiteXmit" event: currentColorIsWhite?"white":"black" data: [outputCode UTF8String] start: [collector now] - outputAddedOverhead];
         } else {
             assert(0);
         }
@@ -204,7 +204,7 @@
     @synchronized(self) {
         assert(deltaT < 1.0);
         if (outputStartTime != 0) {
-            assert(outputAddedOverhead < [output now]);
+            assert(outputAddedOverhead < [collector now]);
             outputAddedOverhead = (uint64_t)(deltaT*1000000.0);
         }
     }
@@ -223,8 +223,8 @@
 {
     @synchronized(self) {
 //    assert(inputStartTime == 0);
-        if (output) {
-            inputStartTime = [output now];
+        if (collector) {
+            inputStartTime = [collector now];
             inputAddedOverhead = 0;
         }
     }
@@ -273,7 +273,7 @@
 				// We have transmitted a code, but received a different one??
 				NSLog(@"Bad data: expected %@, got %s", outputCode, code);
 				NSString *baddata = [NSString stringWithFormat: @"%s-wanted-%@", code, outputCode];
-				[output output: "macVideoGrab" event: "baddata" data: [baddata UTF8String] start: inputStartTime-inputAddedOverhead];
+				[collector output: "macVideoGrab" event: "baddata" data: [baddata UTF8String] start: inputStartTime-inputAddedOverhead];
 				inputAddedOverhead = 0;
 				inputStartTime = 0;
 				[self performSelectorOnMainThread: @selector(_triggerNewOutputValue) withObject: nil waitUntilDone: NO];
@@ -282,7 +282,7 @@
             if (!lastInputCode || strcmp(code, [lastInputCode UTF8String]) != 0) {
                 found_ok++;
                 found_total++;
-                [output output: "macVideoGrab" event: "data" data: code start: inputStartTime-inputAddedOverhead];
+                [collector output: "macVideoGrab" event: "data" data: code start: inputStartTime-inputAddedOverhead];
                 [lastInputCode release];
                 lastInputCode = [[NSString stringWithUTF8String: code] retain];
             }
@@ -292,7 +292,7 @@
             [self performSelectorOnMainThread: @selector(_triggerNewOutputValue) withObject: nil waitUntilDone: NO];
         } else {
             found_total++;
-            [output output: "macVideoGrab" event: "nodata" data: "none" start: inputStartTime-inputAddedOverhead];
+            [collector output: "macVideoGrab" event: "nodata" data: "none" start: inputStartTime-inputAddedOverhead];
             inputAddedOverhead = 0;
         }
         inputStartTime = 0;
@@ -326,10 +326,10 @@ mono:
             nBWdetections++;
             settings.bwString = [[NSString stringWithFormat: @"found %d (current %s)", nBWdetections, isWhite?"white":"black"] retain];
             [settings updateButtonsIfNeeded];
-            [output output: "hardwareGrab" event: isWhite?"white":"black" data: [outputCode UTF8String]];
+            [collector output: "hardwareGrab" event: isWhite?"white":"black" data: [outputCode UTF8String]];
             inputAddedOverhead = 0;
             [outputCode release];
-            outputCode = [[NSString stringWithFormat:@"%lld", [output now]] retain];
+            outputCode = [[NSString stringWithFormat:@"%lld", [collector now]] retain];
             outputCodeHasBeenReported = false;
             [self performSelectorOnMainThread: @selector(_triggerNewOutputValue) withObject: nil waitUntilDone: NO];
 
@@ -394,11 +394,11 @@ mono:
 			[settings updateButtonsIfNeeded];
 			if (nBWdetections > 10) {
 				// The first 10 are for calibrating, then we get to business
-				[output output: "blackWhiteGrab" event: foundColorIsWhite?"white":"black" data: [outputCode UTF8String] start:inputStartTime-inputAddedOverhead];
+				[collector output: "blackWhiteGrab" event: foundColorIsWhite?"white":"black" data: [outputCode UTF8String] start:inputStartTime-inputAddedOverhead];
 				inputAddedOverhead = 0;
 			}
 			[outputCode release];
-			outputCode = [[NSString stringWithFormat:@"%lld", [output now]] retain];
+			outputCode = [[NSString stringWithFormat:@"%lld", [collector now]] retain];
 			outputCodeHasBeenReported = false;
 			[self performSelectorOnMainThread: @selector(_triggerNewOutputValue) withObject: nil waitUntilDone: NO];
 
@@ -440,7 +440,7 @@ bad2:
     @synchronized(self) {
         if (delegate && [delegate respondsToSelector:@selector(newBWOutput:)]) {
             [delegate newBWOutput: currentColorIsWhite];
-            [output output: "hardwareXmit" event: currentColorIsWhite?"white":"black" data: [outputCode UTF8String]];
+            [collector output: "hardwareXmit" event: currentColorIsWhite?"white":"black" data: [outputCode UTF8String]];
         }
     }
 }
