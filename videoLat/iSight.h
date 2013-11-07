@@ -1,7 +1,6 @@
 #import <Cocoa/Cocoa.h>
 #import <AVFoundation/AVFoundation.h>
 #import "genQRcodes.h"
-#import "output.h"
 #import "Manager.h"
 
 

@@ -11,14 +11,14 @@
 #import "SettingsView.h"
 #import "protocols.h"
 
-@interface Output : NSObject <DataCollectorProtocol> {
+@interface Collector : NSObject <DataCollectorProtocol> {
     IBOutlet SettingsView *settings;
     uint64_t epoch;
     FILE *fp;
     bool initialized;
     bool terminating;
 }
-- (Output*) init;
+- (Collector*) init;
 - (void)openFile;
 - (uint64_t) now;
 - (void) dealloc;
