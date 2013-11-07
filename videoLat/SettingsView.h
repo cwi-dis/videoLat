@@ -37,9 +37,7 @@ enum RoleTag {
     IBOutlet NSTextField *bBWstatus;
 
     // Coordination section
-    IBOutlet NSButton *bWait;
 	IBOutlet NSPopUpButton *bCoordHelper;
-	IBOutlet NSTextField *bWaitDelay;
 	
     // Output section
     IBOutlet NSTextField *bFilename;
@@ -59,15 +57,13 @@ enum RoleTag {
 
     // Reception
     bool recv;
-    NSRect blackWhiteRect;
+    NSRect detectionRect;
     NSString *detectString;
     NSString *bwString;
     bool foundQRcode;
 
     // Coordination
-    bool waitForDetection;
 	NSString *coordHelper;
-	int waitDelay;
 
     // Output
     NSString *fileName;
@@ -87,12 +83,10 @@ enum RoleTag {
 @property bool recv;
 @property(retain) NSString *detectString;
 @property(retain) NSString *bwString;
-@property(assign) NSRect blackWhiteRect;
+@property(assign) NSRect detectionRect;
 @property bool foundQRcode;
 
-@property(readonly) bool waitForDetection;
 @property(readonly) NSString *coordHelper;
-@property(readonly) int waitDelay;
 
 @property(readonly) NSString *fileName;
 @property(readonly) bool summarize;

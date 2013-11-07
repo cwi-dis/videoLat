@@ -1,7 +1,6 @@
 #import <Cocoa/Cocoa.h>
 #import <AVFoundation/AVFoundation.h>
 #import "genQRcodes.h"
-#import "findQRcodes.h"
 #import "output.h"
 #import "SettingsView.h"
 #import "Manager.h"
@@ -24,7 +23,7 @@ typedef void QTCaptureConnection;
 
 @end
 
-@interface iSight : NSObject {
+@interface iSight : NSObject <AVCaptureVideoDataOutputSampleBufferDelegate> {
     IBOutlet SettingsView *settings;
     IBOutlet Manager *manager;
     IBOutlet MyQTCaptureView *selfView;

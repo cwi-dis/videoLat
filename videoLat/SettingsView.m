@@ -18,12 +18,10 @@
 @synthesize recv;
 @synthesize detectString;
 @synthesize bwString;
-@synthesize blackWhiteRect;
+@synthesize detectionRect;
 @synthesize foundQRcode;
 
-@synthesize waitForDetection;
 @synthesize coordHelper;
-@synthesize waitDelay;
 
 @synthesize running;
 @synthesize summarize;
@@ -44,14 +42,12 @@
 
     recv = true;
 
-    waitForDetection = true;
 	coordHelper = [NSString stringWithUTF8String: "None"];
-	waitDelay = 0;
 
     running = false;
 	summarize = true;
 	
-    blackWhiteRect = NSMakeRect(0, 0, -1, -1);
+    detectionRect = NSMakeRect(0, 0, -1, -1);
     detectString = [NSString stringWithUTF8String: "none"];
     bwString = [NSString stringWithUTF8String: "none"];
     fileName = [NSString stringWithUTF8String: "/tmp/measurements.csv"];
@@ -84,11 +80,9 @@
 
 
     // Coordination
-    waitForDetection = [bWait state] == NSOnState;
 	NSMenuItem *selHelper = [bCoordHelper selectedCell];
 	coordHelper = [selHelper title];
-	waitDelay = [bWaitDelay intValue];
-    
+
     // Output
     fileName = [[bFilename stringValue] retain];
     summarize = [bSummarize state] == NSOnState;
@@ -108,33 +102,28 @@
         [bXmit setState: NSOnState];
         [bRecv setState: NSOffState];
         [bDataType selectCell: bDataTypeQRCode];
-        [bWait setState: NSOffState];
         [bCoordHelper selectItemWithTitle: @"None"];
     } else if ([selItem tag] == roleRecvOnly) {
         [bXmit setState: NSOffState];
         [bRecv setState: NSOnState];
         [bDataType selectCell: nil];
-        [bWait setState: NSOffState];
         [bCoordHelper selectItemWithTitle: @"None"];
 		needCam = YES;
     } else if ([selItem tag] == roleRoundTrip) {
         [bXmit setState: NSOnState];
         [bRecv setState: NSOnState];
         [bDataType selectCell: bDataTypeQRCode];
-        [bWait setState: NSOnState];
         [bCoordHelper selectItemWithTitle: @"None"];
 		needCam = YES;
     } else if ([selItem tag] == roleXmitSelf) {
         [bXmit setState: NSOnState];
         [bRecv setState: NSOffState];
         [bDataType selectCell: bDataTypeBlackWhite];
-        [bWait setState: NSOnState];
         [bCoordHelper selectItemWithTitle: @"sw_labjack"];
     } else if ([selItem tag] == roleRecvSelf) {
         [bXmit setState: NSOffState];
         [bRecv setState: NSOnState];
         [bDataType selectCell: bDataTypeBlackWhite];
-        [bWait setState: NSOnState];
         [bCoordHelper selectItemWithTitle: @"sw_labjack"];
 		needCam = YES;
     } else {
@@ -148,8 +137,7 @@
     [bXmit setEnabled: enabled];
     [bRecv setEnabled: (enabled && hasCam)];
     [bDataType setEnabled: enabled];
-    [bWait setEnabled: enabled];
-    
+
     [self buttonChanged: self];
 	if (needCam && !hasCam && sender != self) {
 		NSRunAlertPanel(@"Error", @"This mode requires a camera", nil, nil, nil);
@@ -185,22 +173,20 @@
     } else {
         [bDetected setTextColor:[NSColor redColor]];
     }
-    if (NSIsEmptyRect(blackWhiteRect)) {
+    if (NSIsEmptyRect(detectionRect)) {
         [bLocation setStringValue: @"No QR code found yet"];
     } else {
         NSString * loc = [NSString stringWithFormat: @"pos %d,%d size %d,%d", 
-            (int)blackWhiteRect.origin.x,
-            (int)blackWhiteRect.origin.y,
-            (int)blackWhiteRect.size.width,
-            (int)blackWhiteRect.size.height];
+            (int)detectionRect.origin.x,
+            (int)detectionRect.origin.y,
+            (int)detectionRect.size.width,
+            (int)detectionRect.size.height];
         [bLocation setStringValue: loc];
     }
     [bBWstatus setStringValue: bwString];
 
     // Coordination
-    [bWait setState: waitForDetection?NSOnState:NSOffState];
     [bCoordHelper selectItemWithTitle: coordHelper];
-	[bWaitDelay setIntValue: waitDelay];
 
     // Output
     [bFilename setStringValue: fileName];

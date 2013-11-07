@@ -9,12 +9,19 @@
 #import <Cocoa/Cocoa.h>
 #import "SettingsView.h"
 #import "Manager.h"
+#import "protocols.h"
 
-@interface OutputView : NSView {
+@interface OutputView : NSView <OutputViewProtocol> {
     IBOutlet SettingsView *settings;
     IBOutlet id manager;
     bool newOutputDone;
+	BOOL mirrored;
 }
+
+@property BOOL mirrored;
+@property BOOL visible;
+
+- (void) showNewData;
 
 - (void)drawRect:(NSRect)dirtyRect;
 	
