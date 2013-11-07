@@ -207,8 +207,8 @@
 	}
     [manager newInputStart];
 	double delta = (now-timestamp) / CVGetHostClockFrequency();
-	[manager updateInputOverhead: delta];
-    //NSLog(@"Got video frame from %p now=%lld pts=%lld delta=%f\n", (void*)connection, now, timestamp, delta);
+	//[manager updateInputOverhead: delta];
+    NSLog(@"Got video frame from %p now=%lld pts=%lld delta=%f\n", (void*)connection, now, timestamp, delta);
     
     CMFormatDescriptionRef formatDescription = CMSampleBufferGetFormatDescription(sampleBuffer);
     OSType format = CMFormatDescriptionGetMediaSubType(formatDescription);

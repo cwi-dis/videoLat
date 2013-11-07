@@ -12,36 +12,36 @@
 #import <CoreServices/CoreServices.h>
 #import <sys/time.h>
 
-@implementation Collector
+@implementation OldCollector
 
-- (Collector*) init
+- (OldCollector*) init
 {
     self = [super init];
     initialized = false;
     terminating = false;
     fp = NULL;
     epoch = 0;
-    epoch = [self now];    
-       
+    epoch = [self now];
+    
     return self;
 }
 
-- (void) openFile
+- (void) _openFile
 {
     @synchronized(self) {
         initialized = true;
-
+        
         NSString *fileName = [settings fileName];
-            
+        
         fp = fopen([fileName UTF8String], "w");
         if (fp == NULL) {
             NSRunAlertPanel(
-                @"Error",
-                @"Cannot open output file.", 
-                nil, nil, nil);
+                            @"Error",
+                            @"Cannot open output file.",
+                            nil, nil, nil);
             exit(1);
         }
-
+        
         fprintf(fp, "timestamp,eventClass,eventName,data,extraName,extraData\n");
         struct timeval tv;
         gettimeofday(&tv, NULL);
@@ -74,30 +74,30 @@
                 NSString *cmd_path = [bundle pathForResource:@"pp_summary" ofType:nil];
 				NSString *tmpl_path = [bundle pathForResource:@"measurements-summary-graphs-template" ofType:@"numbers"];
                 NSString *script_text = [NSString stringWithFormat:
-                    @"tell application \"Terminal\"\n"
-                     "do script \"python '%@' --template '%@' %s%s%s '%@' && exit\"\n"
-                     "end tell\n",
-                     cmd_path,
-					 tmpl_path,
-                     mono_arg,
-                     xmit_arg,
-                     recv_arg,
-                     settings.fileName];
+                                         @"tell application \"Terminal\"\n"
+                                         "do script \"python '%@' --template '%@' %s%s%s '%@' && exit\"\n"
+                                         "end tell\n",
+                                         cmd_path,
+                                         tmpl_path,
+                                         mono_arg,
+                                         xmit_arg,
+                                         recv_arg,
+                                         settings.fileName];
                 NSAppleScript *script = [[NSAppleScript alloc] initWithSource: script_text];
                 NSDictionary *error = nil;;
                 [script executeAndReturnError: &error];
                 if (error) {
-                     NSLog(@"AppleScript error: %@", error);
-                     NSLog(@"Script: %@", script_text);
-                     NSString *msg = [NSString stringWithFormat: @"AppleScript error: %@", error];
-                     NSRunAlertPanel(@"Postprocess error", msg, nil, nil, nil);
-
-                 }
+                    NSLog(@"AppleScript error: %@", error);
+                    NSLog(@"Script: %@", script_text);
+                    NSString *msg = [NSString stringWithFormat: @"AppleScript error: %@", error];
+                    NSRunAlertPanel(@"Postprocess error", msg, nil, nil, nil);
+                    
+                }
             }
         }
     }
 }
-    
+
 - (void) dealloc
 {
     [self terminate];
@@ -116,7 +116,7 @@
 {
     if (terminating) return;
     @synchronized(self) {
-        if (!initialized) [self openFile];
+        if (!initialized) [self _openFile];
         int64_t now = [self now];
         assert(now >= startTime);
         fprintf(fp, "%lld,%s,%s,%s,overhead,%lld\n", now, name, event, data, now-startTime);
@@ -127,11 +127,78 @@
 {
     if (terminating) return;
     @synchronized(self) {
-        if (!initialized) [self openFile];
+        if (!initialized) [self _openFile];
         int64_t now = [self now];
-
+        
         fprintf(fp, "%lld,%s,%s,%s,,\n", now, name, event, data);
     }
+}
+@end
+
+@implementation Collector
+
+@synthesize min;
+@synthesize max;
+@synthesize count;
+
+- (double) average
+{
+    return sum / count;
+}
+
+- (double) stddev
+{
+    double average = sum / count;
+    double variance = (sumSquares / count) - (average*average);
+    return sqrt(variance);
+}
+
+- (Collector*) init
+{
+    self = [super init];
+    lastTransmission = nil;
+    sum = 0;
+    sumSquares = 0;
+    count = 0;
+    return self;
+}
+
+- (void) recordTransmission: (NSString*)data at: (uint64_t)now
+{
+    [lastTransmission release];
+    lastTransmission = [data retain];
+    lastTransmissionTime = now;
+    lastTransmissionReceived = NO;
+}
+
+- (void) recordReception: (NSString*)data at: (uint64_t)now
+{
+    if (lastTransmission == nil) {
+        NSLog(@"Collector: received %@ before any transmission", data);
+        return;
+    }
+    if ([lastTransmission isEqualToString:data]) {
+        if (now < lastTransmissionTime) {
+            NSLog(@"Collector: received %@ at %lld, which is earlier than transmit time %lld", data, now, lastTransmissionTime);
+            return;
+        }
+        if (!lastTransmissionReceived) {
+            lastTransmissionReceived = YES;
+            [self _recordDataPoint: data at: lastTransmissionTime delay: now-lastTransmissionTime];
+        }
+    } else {
+        NSLog(@"Collector: received %@, expected %@", data, lastTransmission);
+    }
+}
+
+- (void) _recordDataPoint: (NSString*) data at: (uint64_t)time delay: (uint64_t) delay
+{
+    sum += delay;
+    sumSquares += (delay * delay);
+    if (count == 0 || delay < min) min = delay;
+    if (count == 0 || delay > max) max = delay;
+    count++;
+    NSLog(@"%d %f %f\n", count, self.average, self.stddev);
 }
 
 @end

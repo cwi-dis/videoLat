@@ -39,6 +39,16 @@
 @protocol DataCollectorProtocol
 - (uint64_t) now;
 - (void) terminate;
+
+- (void) recordTransmission: (NSString*)data at: (uint64_t)now;
+- (void) recordReception: (NSString*)data at: (uint64_t)now;
+
+@property(readonly) double min;
+@property(readonly) double max;
+@property(readonly) double average;
+@property(readonly) double stddev;
+@property(readonly) int count;
+
 - (void) output: (const char*)name event: (const char*)event data: (const char*)data start: (uint64_t)startTime;
 - (void) output: (const char*)name event: (const char*)event data: (const char*)data;
 @end
