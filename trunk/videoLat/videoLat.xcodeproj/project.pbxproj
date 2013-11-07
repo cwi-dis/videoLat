@@ -44,7 +44,7 @@
 		04E401AC129E711900B3227F /* help in Resources */ = {isa = PBXBuildFile; fileRef = 04E401A7129E711900B3227F /* help */; };
 		04F71800129348620016CFA4 /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 04F717FF129348620016CFA4 /* icon.icns */; };
 		1DDD58160DA1D0A300B32029 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DDD58140DA1D0A300B32029 /* MainMenu.xib */; };
-		229BEEFF0FB655D5000BB0ED /* iSight.mm in Sources */ = {isa = PBXBuildFile; fileRef = 229BEEFE0FB655D5000BB0ED /* iSight.mm */; };
+		229BEEFF0FB655D5000BB0ED /* iSight.m in Sources */ = {isa = PBXBuildFile; fileRef = 229BEEFE0FB655D5000BB0ED /* iSight.m */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
@@ -99,7 +99,7 @@
 		13E42FB307B3F0F600E4EEF1 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
 		1DDD58150DA1D0A300B32029 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		229BEEFD0FB655D5000BB0ED /* iSight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iSight.h; sourceTree = "<group>"; };
-		229BEEFE0FB655D5000BB0ED /* iSight.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = iSight.mm; sourceTree = "<group>"; };
+		229BEEFE0FB655D5000BB0ED /* iSight.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iSight.m; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
@@ -169,7 +169,7 @@
 				04970CC5122712BA0014B897 /* SettingsView.h */,
 				04970CC6122712BA0014B897 /* SettingsView.m */,
 				229BEEFD0FB655D5000BB0ED /* iSight.h */,
-				229BEEFE0FB655D5000BB0ED /* iSight.mm */,
+				229BEEFE0FB655D5000BB0ED /* iSight.m */,
 				040F2772121F3C3D003C3A4E /* genQRcodes.h */,
 				040F2773121F3C3D003C3A4E /* genQRcodes.m */,
 				049838491227A4F2001D87DA /* Manager.h */,
@@ -371,7 +371,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D11072D0486CEB800E47090 /* main.m in Sources */,
-				229BEEFF0FB655D5000BB0ED /* iSight.mm in Sources */,
+				229BEEFF0FB655D5000BB0ED /* iSight.m in Sources */,
 				040F2774121F3C3D003C3A4E /* genQRcodes.m in Sources */,
 				040F2779121F3C51003C3A4E /* findQRcodes.mm in Sources */,
 				0430BD5D122306C400E14F88 /* output.m in Sources */,
