@@ -187,8 +187,10 @@
         assert(outputAddedOverhead < [collector now]);
         assert(strcmp([outputCode UTF8String], "BadCookie") != 0);
         if (settings.datatypeQRCode) {
+            [collector recordTransmission: outputCode at: [collector now] - outputAddedOverhead];
             [collector output: "macVideoXmit" event: "generated" data: [outputCode UTF8String] start: [collector now] - outputAddedOverhead];
         } else if (settings.datatypeBlackWhite) {
+            [collector recordTransmission: currentColorIsWhite?@"white":@"black" at: [collector now] - outputAddedOverhead];
             [collector output: "blackWhiteXmit" event: currentColorIsWhite?"white":"black" data: [outputCode UTF8String] start: [collector now] - outputAddedOverhead];
         } else {
             assert(0);
@@ -282,9 +284,10 @@
             if (!lastInputCode || strcmp(code, [lastInputCode UTF8String]) != 0) {
                 found_ok++;
                 found_total++;
-                [collector output: "macVideoGrab" event: "data" data: code start: inputStartTime-inputAddedOverhead];
                 [lastInputCode release];
                 lastInputCode = [[NSString stringWithUTF8String: code] retain];
+                [collector recordReception: lastInputCode at: inputStartTime-inputAddedOverhead];
+                [collector output: "macVideoGrab" event: "data" data: code start: inputStartTime-inputAddedOverhead];
             }
             inputAddedOverhead = 0;
             // Remember rectangle (for black/white detection)
@@ -326,6 +329,8 @@ mono:
             nBWdetections++;
             settings.bwString = [[NSString stringWithFormat: @"found %d (current %s)", nBWdetections, isWhite?"white":"black"] retain];
             [settings updateButtonsIfNeeded];
+            // XXXJACK Is this correct? is "now" the best timestamp we have for the incoming hardware data?
+            [collector recordReception: isWhite?@"white":@"black" at: [collector now]];
             [collector output: "hardwareGrab" event: isWhite?"white":"black" data: [outputCode UTF8String]];
             inputAddedOverhead = 0;
             [outputCode release];
@@ -394,6 +399,7 @@ mono:
 			[settings updateButtonsIfNeeded];
 			if (nBWdetections > 10) {
 				// The first 10 are for calibrating, then we get to business
+                [collector recordReception: foundColorIsWhite?@"white":@"black" at: inputStartTime-inputAddedOverhead];
 				[collector output: "blackWhiteGrab" event: foundColorIsWhite?"white":"black" data: [outputCode UTF8String] start:inputStartTime-inputAddedOverhead];
 				inputAddedOverhead = 0;
 			}
@@ -440,6 +446,7 @@ bad2:
     @synchronized(self) {
         if (delegate && [delegate respondsToSelector:@selector(newBWOutput:)]) {
             [delegate newBWOutput: currentColorIsWhite];
+            [collector recordTransmission: currentColorIsWhite?@"white":@"black" at: [collector now]];
             [collector output: "hardwareXmit" event: currentColorIsWhite?"white":"black" data: [outputCode UTF8String]];
         }
     }
