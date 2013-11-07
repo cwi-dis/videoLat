@@ -2,14 +2,8 @@
 #import <AVFoundation/AVFoundation.h>
 #import "genQRcodes.h"
 #import "output.h"
-#import "SettingsView.h"
 #import "Manager.h"
 
-
-// XXXJACK TEMP
-typedef void QTCaptureOutput;
-typedef void QTSampleBuffer;
-typedef void QTCaptureConnection;
 
 @interface MyQTCaptureView : NSView
 {
@@ -24,8 +18,7 @@ typedef void QTCaptureConnection;
 @end
 
 @interface iSight : NSObject <AVCaptureVideoDataOutputSampleBufferDelegate> {
-    IBOutlet SettingsView *settings;
-    IBOutlet Manager *manager;
+    IBOutlet id <MeasurementInputManagerProtocol> manager;
     IBOutlet MyQTCaptureView *selfView;
     AVCaptureVideoPreviewLayer *selfLayer;
     AVCaptureVideoDataOutput *outputCapturer;

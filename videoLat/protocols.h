@@ -11,6 +11,11 @@
 
 #import <Cocoa/Cocoa.h>
 
+// Protocol for reporting changes to the settings
+@protocol SettingsChangedProtocol
+- (void)settingsChanged;
+@end
+
 // Protocol for an object that finds patterns in an input buffer
 @protocol FindProtocol
 @property(readonly) NSRect rect;
@@ -33,6 +38,7 @@
 // Protocol for an object that is responsible for controlling dispay of a pattern
 @protocol OutputProtocol
 - (uint64_t) now;
+- (void) terminate;
 - (void) output: (const char*)name event: (const char*)event data: (const char*)data start: (uint64_t)startTime;
 - (void) output: (const char*)name event: (const char*)event data: (const char*)data;
 @end
@@ -47,5 +53,23 @@
 - (bool)inputBW;
 @end
 
+// Protocol used by output view to request new data and report results
+@protocol MeasurementOutputManagerProtocol
+- (CIImage *)newOutputStart;
+- (void)newOutputDone;
+- (void)updateOutputOverhead: (double)deltaT;
+@end
 
+// Protocol used by input data collector to report new data and timing.
+@protocol MeasurementInputManagerProtocol
+- (void)setDetectionRect: (NSRect)theRect;
+- (void)newInputStart;
+- (void)updateInputOverhead: (double)deltaT;
+- (void)newInputDone;
+- (void) newInputDone: (void*)buffer
+    width: (int)w
+    height: (int)h
+    format: (const char*)formatStr
+    size: (int)size;
+@end
 #endif

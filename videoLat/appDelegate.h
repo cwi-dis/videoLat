@@ -7,10 +7,10 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#include "output.h"
+#include "protocols.h"
 
 @interface appDelegate : NSObject {
-    IBOutlet Output *output;
+    IBOutlet id <OutputProtocol> output;
 }
 
 - (void)applicationWillTerminate:(id)application;
