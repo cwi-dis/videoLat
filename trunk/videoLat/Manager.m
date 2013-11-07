@@ -7,6 +7,8 @@
 
 #import "Manager.h"
 #import "PythonSwitcher.h"
+#import "FindQRCodes.h"
+#import "GenQRCodes.h"
 
 @implementation Manager
 
@@ -34,8 +36,7 @@
         outputCodeHasBeenReported = true;
         lastOutputCode = nil;
         lastInputCode = nil;
-		triggerWaiting = false;
-        
+
     //    output = [[Output alloc] init];
         genner = [[GenQRcodes alloc] init];
         finder = [[FindQRcodes alloc] init];
@@ -49,6 +50,10 @@
             [current_qrcode release];
             current_qrcode = nil;
         }
+		if (outputView) {
+			outputView.mirrored = settings.mirrorView;
+			outputView.visible = settings.xmit;
+		}
         if ([settings.coordHelper isEqualToString: @"None"]) {
 			if (delegate) [delegate release];
 			delegate = nil;
@@ -65,7 +70,6 @@
 			}
 		}
         NSWindow *w = nil;
-        if (outputView) w = [outputView window];
         if (settings.xmit) {
             if (w && ![w isVisible])
                 [w orderFront: self];
@@ -85,8 +89,8 @@
             if (w) [w orderOut: self];
         }
 #endif
-        if ([[outputView window] isVisible]) {
-            [outputView setNeedsDisplay: YES];
+        if (outputView.visible) {
+            [outputView showNewData];
         } else {
             [self newBWData];
         }
@@ -94,46 +98,18 @@
     }
 }
 
-- (void)triggerNewOutputValueAfterDelay
-{
-	if (settings.waitDelay) {
-		@synchronized(self) {
-			if (triggerWaiting) return;
-			NSTimeInterval delay = (double)settings.waitDelay / 1000.0;
-			[self performSelector: @selector(triggerNewOutputValue) withObject: nil afterDelay: delay];
-			triggerWaiting = true;
-		}
-	} else {
-        if ([[outputView window] isVisible]) {
-            [outputView setNeedsDisplay: YES];
-        } else {
-            [self newBWData];
-        }
-	}
-}
-
 - (void)triggerNewOutputValue
 {
-	@synchronized(self) {
-		triggerWaiting = false;
+	if (outputView.visible) {
+		[outputView showNewData];
+	} else {
+		[self newBWData];
 	}
-    if ([[outputView window] isVisible]) {
-        [outputView setNeedsDisplay: YES];
-    } else {
-        [self newBWData];
-    }
 }
 
 - (void)newBWData
 {
     @synchronized(self) {
-        if (!settings.waitForDetection) {
-            currentColorIsWhite = !currentColorIsWhite;
-            [outputCode release];
-            outputCode = [[NSString stringWithFormat:@"%lld", 
-                outputStartTime] retain];
-            outputCodeHasBeenReported = false;
-        }
         if (delegate && [delegate respondsToSelector:@selector(newBWOutput:)]) {
             [delegate newBWOutput: currentColorIsWhite];
             [output output: "hardwareXmit" event: currentColorIsWhite?"white":"black" data: [outputCode UTF8String]];
@@ -172,8 +148,7 @@
         // We create a new image if either the previous one has been detected, or
         // if we are free-running.
         bool wantNewImage = (current_qrcode == NULL);
-        if (!settings.waitForDetection) wantNewImage = true;
-        
+
         if (!wantNewImage) {
             newImage = current_qrcode;
         } else {
@@ -229,9 +204,6 @@
         outputCodeHasBeenReported = true;
         outputStartTime = 0;
         outputAddedOverhead = 0;
-        if (!settings.waitForDetection) {
-			[self performSelectorOnMainThread: @selector(triggerNewOutputValueAfterDelay) withObject: nil waitUntilDone: NO];
-        }
     }
 }
 
@@ -279,7 +251,7 @@
         assert(inputStartTime != 0);
         if (settings.running && settings.datatypeBlackWhite) {
             // Wait for black/white, if possible
-            NSRect area = settings.blackWhiteRect;
+            NSRect area = settings.detectionRect;
             if (NSIsEmptyRect(area)) {
                 settings.recv = false;
                 inputStartTime = 0;
@@ -335,7 +307,7 @@
                 [outputCode release];
                 outputCode = [[NSString stringWithFormat:@"%lld", [output now]] retain];
                 outputCodeHasBeenReported = false;
-                [self performSelectorOnMainThread: @selector(triggerNewOutputValueAfterDelay) withObject: nil waitUntilDone: NO];
+                [self performSelectorOnMainThread: @selector(triggerNewOutputValue) withObject: nil waitUntilDone: NO];
 
             }
             inputStartTime = 0;
@@ -346,39 +318,35 @@
         char *code = [finder find: buffer width: w height: h format: formatStr size:size];
         foundQRcode = (code != NULL);
         if (foundQRcode) {
-            if (settings.waitForDetection) {
-                // If we are in automatic mode, we compare the code to what was 
-                // expected.
-                if (strcmp(code, [outputCode UTF8String]) == 0) {
-                    // outputStartTime = 0;
-                    // Correct. Prepare for creating a new QRcode.
-                    //XXX [self performSelectorOnMainThread: @selector(triggerNewOutputValueAfterDelay) withObject: nil waitUntilDone: NO];
-                    if (current_qrcode == nil) {
-                        // We found the last one already, don't count it again.
-                        return;
-                    }
-                    [current_qrcode release];
-                    current_qrcode = nil;
-                    if (lastOutputCode) [lastOutputCode release];
-                    lastOutputCode = outputCode;
-                    assert(outputCodeHasBeenReported);
-                    outputCode = [[NSString stringWithFormat: @"BadCookie"] retain];
-                } else if (strcmp(code, [lastOutputCode UTF8String]) == 0) {
-                    // We have received the previous code again. Ignore.
-                    NSLog(@"Same old code again: %s", code);
-                } else {
-                    // We have transmitted a code, but received a different one??
-                    NSLog(@"Bad data: expected %@, got %s", outputCode, code);
-                    NSString *baddata = [NSString stringWithFormat: @"%s-wanted-%@", code, outputCode];
-                    [output output: "macVideoGrab" event: "baddata" data: [baddata UTF8String] start: inputStartTime-inputAddedOverhead];
-                    inputAddedOverhead = 0;
-                    inputStartTime = 0;
-                    [self performSelectorOnMainThread: @selector(triggerNewOutputValueAfterDelay) withObject: nil waitUntilDone: NO];
-                    return;
-                }
-            } else {
-                NSLog(@"Not waiting\n");
-            }
+			// If we are in automatic mode, we compare the code to what was
+			// expected.
+			if (strcmp(code, [outputCode UTF8String]) == 0) {
+				// outputStartTime = 0;
+				// Correct. Prepare for creating a new QRcode.
+				//XXX [self performSelectorOnMainThread: @selector(triggerNewOutputValue) withObject: nil waitUntilDone: NO];
+				if (current_qrcode == nil) {
+					// We found the last one already, don't count it again.
+					return;
+				}
+				[current_qrcode release];
+				current_qrcode = nil;
+				if (lastOutputCode) [lastOutputCode release];
+				lastOutputCode = outputCode;
+				assert(outputCodeHasBeenReported);
+				outputCode = [[NSString stringWithFormat: @"BadCookie"] retain];
+			} else if (strcmp(code, [lastOutputCode UTF8String]) == 0) {
+				// We have received the previous code again. Ignore.
+				NSLog(@"Same old code again: %s", code);
+			} else {
+				// We have transmitted a code, but received a different one??
+				NSLog(@"Bad data: expected %@, got %s", outputCode, code);
+				NSString *baddata = [NSString stringWithFormat: @"%s-wanted-%@", code, outputCode];
+				[output output: "macVideoGrab" event: "baddata" data: [baddata UTF8String] start: inputStartTime-inputAddedOverhead];
+				inputAddedOverhead = 0;
+				inputStartTime = 0;
+				[self performSelectorOnMainThread: @selector(triggerNewOutputValue) withObject: nil waitUntilDone: NO];
+				return;
+			}
             if (!lastInputCode || strcmp(code, [lastInputCode UTF8String]) != 0) {
                 found_ok++;
                 found_total++;
@@ -388,8 +356,8 @@
             }
             inputAddedOverhead = 0;
             // Remember rectangle (for black/white detection)
-            settings.blackWhiteRect = finder.rect;
-            [self performSelectorOnMainThread: @selector(triggerNewOutputValueAfterDelay) withObject: nil waitUntilDone: NO];
+            settings.detectionRect = finder.rect;
+            [self performSelectorOnMainThread: @selector(triggerNewOutputValue) withObject: nil waitUntilDone: NO];
         } else {
             found_total++;
             [output output: "macVideoGrab" event: "nodata" data: "none" start: inputStartTime-inputAddedOverhead];
@@ -433,16 +401,16 @@ bad2:
             [outputCode release];
             outputCode = [[NSString stringWithFormat:@"%lld", [output now]] retain];
             outputCodeHasBeenReported = false;
-            [self performSelectorOnMainThread: @selector(triggerNewOutputValueAfterDelay) withObject: nil waitUntilDone: NO];
+            [self performSelectorOnMainThread: @selector(triggerNewOutputValue) withObject: nil waitUntilDone: NO];
 
         }
         inputStartTime = 0;
     }
 }
 
-- (void)setBlackWhiteRect: (NSRect)theRect
+- (void)setDetectionRect: (NSRect)theRect
 {
-	settings.blackWhiteRect = theRect;
+	settings.detectionRect = theRect;
 	[settings updateButtonsIfNeeded];
 }
 

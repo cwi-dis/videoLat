@@ -7,26 +7,19 @@
 
 #import <Cocoa/Cocoa.h>
 #import "SettingsView.h"
-#import "findQRcodes.h"
-#import "genQRcodes.h"
+#import "protocols.h"
 #import "Output.h"
 #import "OutputView.h"
-
-@protocol MyManagerDelegate <NSObject>
-@optional
-- (NSString*)newOutput: (NSString*)data;
-- (void)newBWOutput: (bool)isWhite;
-@end
 
 @interface Manager : NSObject {
   @private
     IBOutlet SettingsView *settings;
-	IBOutlet id outputView;
+	IBOutlet id <OutputViewProtocol> outputView;
     IBOutlet id inputView;
-	IBOutlet id <MyManagerDelegate> delegate;
-    FindQRcodes *finder;
-    GenQRcodes *genner;
-    IBOutlet Output *output;
+	IBOutlet id <ManagerDelegateProtocol> delegate;
+    id <FindProtocol> finder;
+    id <GenProtocol> genner;
+    IBOutlet id <OutputProtocol> output;
     bool foundQRcode;
     int found_total;
     int found_ok;
@@ -40,7 +33,6 @@
     bool outputCodeHasBeenReported;
     NSString *lastOutputCode;
     NSString *lastInputCode;
-	bool triggerWaiting;
     // Black/white detection
     int blacklevel;
     int whitelevel;
@@ -53,7 +45,6 @@
 // "Delegate" method for SettingsView:
 - (void)settingsChanged;
 
-- (void)triggerNewOutputValueAfterDelay;
 - (void)triggerNewOutputValue;
 - (CIImage *)newOutputStart;
 - (void)newOutputDone;
@@ -69,6 +60,6 @@
     format: (const char*)formatStr
     size: (int)size;
 	
-- (void)setBlackWhiteRect: (NSRect)theRect;
+- (void)setDetectionRect: (NSRect)theRect;
 - (void)checkInput;
 @end

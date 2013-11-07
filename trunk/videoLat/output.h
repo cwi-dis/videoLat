@@ -9,8 +9,9 @@
 #import <Cocoa/Cocoa.h>
 #import <stdio.h>
 #import "SettingsView.h"
+#import "protocols.h"
 
-@interface Output : NSObject {
+@interface Output : NSObject <OutputProtocol> {
     IBOutlet SettingsView *settings;
     uint64_t epoch;
     FILE *fp;

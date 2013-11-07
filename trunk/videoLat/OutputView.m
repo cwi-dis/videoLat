@@ -30,6 +30,8 @@ MyScreenRefreshCallback(CGRectCount count, const CGRect *rects, void *userArg)
 
 @implementation OutputView
 
+@synthesize mirrored;
+
 - (id)initWithFrame:(NSRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
@@ -53,7 +55,7 @@ MyScreenRefreshCallback(CGRectCount count, const CGRect *rects, void *userArg)
 {
     NSInteger state = [sender state];
     state = (state == NSOffState) ? NSOnState : NSOffState;
-    NSLog(@"Fullscreen now %d\n", state);
+    NSLog(@"Fullscreen now %d\n", (int)state);
     [sender setState: state];
     if (state == NSOnState) {
         [self enterFullScreenMode: [NSScreen mainScreen] withOptions:nil];
@@ -62,12 +64,35 @@ MyScreenRefreshCallback(CGRectCount count, const CGRect *rects, void *userArg)
     }
 }
 
+- (BOOL)visible
+{
+	// XXX Is this correct???
+	NSWindow *w = self.window;
+	if (w == nil) return FALSE;
+	return [w isVisible];
+}
+
+- (void)setVisible:(BOOL)visible
+{
+	NSWindow *w = self.window;
+	if (w == nil) return;
+	if (visible) {
+		[w orderFront: self];
+	} else {
+		[w orderOut: self];
+	}
+}
+
+- (void)showNewData {
+	[self setNeedsDisplay:YES];
+}
+
 - (void)drawRect:(NSRect)dirtyRect {
     // Drawing code here.
     //NSLog(@"outputView willDisplayImage\n");
     CIImage *newImage = [[manager newOutputStart] retain];
     assert(newImage);
-    if (settings.mirrorView) {
+    if (mirrored) {
         CIImage *mirror = [newImage imageByApplyingTransform: CGAffineTransformMakeScale(-1.0, 1.0)];
         [newImage release];
         newImage = [mirror retain];

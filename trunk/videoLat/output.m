@@ -85,7 +85,7 @@
                      settings.fileName];
                 NSAppleScript *script = [[NSAppleScript alloc] initWithSource: script_text];
                 NSDictionary *error = nil;;
-                NSAppleEventDescriptor *rv = [script executeAndReturnError: &error];
+                [script executeAndReturnError: &error];
                 if (error) {
                      NSLog(@"AppleScript error: %@", error);
                      NSLog(@"Script: %@", script_text);

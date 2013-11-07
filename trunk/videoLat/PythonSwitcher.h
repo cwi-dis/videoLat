@@ -10,7 +10,7 @@
 #import "Manager.h"
 #include <Python/Python.h>
 
-@interface PythonSwitcher : NSObject <MyManagerDelegate> {
+@interface PythonSwitcher : NSObject <ManagerDelegateProtocol> {
 	PyObject *dict;
 	NSString *script;
     bool hasInput;
