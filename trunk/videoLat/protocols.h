@@ -36,7 +36,7 @@
 @end
 
 // Protocol for an object that is responsible for controlling dispay of a pattern
-@protocol OutputProtocol
+@protocol DataCollectorProtocol
 - (uint64_t) now;
 - (void) terminate;
 - (void) output: (const char*)name event: (const char*)event data: (const char*)data start: (uint64_t)startTime;
