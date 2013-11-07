@@ -13,7 +13,6 @@
 @interface FindQRcodes : NSObject <FindProtocol> {
     char *lastCode;
     void *scanner_hidden;	// This is a C++ class, so we do some casting magic
-  @public
     NSRect rect;
     BOOL configuring;
 }

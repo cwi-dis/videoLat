@@ -48,7 +48,7 @@ enum RoleTag {
     IBOutlet NSButton *bRunning;
     
 	IBOutlet id inputHandler;     // Camera class, used to find device names
-  @public
+
     // Tranmsmission
     bool xmit;
     bool datatypeBlackWhite;

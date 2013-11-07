@@ -7,13 +7,11 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "SettingsView.h"
 #import "Manager.h"
 #import "protocols.h"
 
 @interface OutputView : NSView <OutputViewProtocol> {
-    IBOutlet SettingsView *settings;
-    IBOutlet id manager;
+    IBOutlet id <MeasurementOutputManagerProtocol> manager;
     bool newOutputDone;
 	BOOL mirrored;
 }

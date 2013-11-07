@@ -37,12 +37,21 @@
         lastOutputCode = nil;
         lastInputCode = nil;
 
-    //    output = [[Output alloc] init];
         genner = [[GenQRcodes alloc] init];
         finder = [[FindQRcodes alloc] init];
     }
 }
 
+- (void)_triggerNewOutputValue
+{
+	if (outputView.visible) {
+		[outputView showNewData];
+	} else {
+		[self _mono_showNewData];
+	}
+}
+
+#pragma mark SettingsChangedProtocol
 - (void)settingsChanged
 {
     @synchronized(self) {
@@ -65,12 +74,15 @@
             if (delegate == nil) { 
                 delegate = [[PythonSwitcher alloc] initWithScript: settings.coordHelper];
                 if ([delegate hasInput]) {
-                    [self performSelector: @selector(checkInput) withObject: nil afterDelay:(NSTimeInterval)0.001]; 
+                    [self performSelector: @selector(_mono_pollInput) withObject: nil afterDelay:(NSTimeInterval)0.001]; 
                 }
 			}
 		}
+#if 0
+		// We are no longer responsible for what is on-screen.
         NSWindow *w = nil;
         if (settings.xmit) {
+			w = [outputView window]'
             if (w && ![w isVisible])
                 [w orderFront: self];
         } else {
@@ -89,33 +101,13 @@
             if (w) [w orderOut: self];
         }
 #endif
-        if (outputView.visible) {
-            [outputView showNewData];
-        } else {
-            [self newBWData];
-        }
+#endif
+        [self _triggerNewOutputValue];
             
     }
 }
 
-- (void)triggerNewOutputValue
-{
-	if (outputView.visible) {
-		[outputView showNewData];
-	} else {
-		[self newBWData];
-	}
-}
-
-- (void)newBWData
-{
-    @synchronized(self) {
-        if (delegate && [delegate respondsToSelector:@selector(newBWOutput:)]) {
-            [delegate newBWOutput: currentColorIsWhite];
-            [output output: "hardwareXmit" event: currentColorIsWhite?"white":"black" data: [outputCode UTF8String]];
-        }
-    }
-}
+#pragma mark MeasurementOutputManagerProtocol
 
 - (CIImage *)newOutputStart
 {
@@ -136,7 +128,7 @@
         outputAddedOverhead = 0;
         if (settings.datatypeBlackWhite) {
             // XXX Do black/white
-            [self newBWData];
+            [self _mono_showNewData];
             if (currentColorIsWhite) 
                 newImage = [CIImage imageWithColor:[CIColor colorWithRed:1 green:1 blue:1]];
             else
@@ -207,25 +199,6 @@
     }
 }
 
-- (void) newInputStart
-{
-    @synchronized(self) {
-//    assert(inputStartTime == 0);
-        if (output) {
-            inputStartTime = [output now];
-            inputAddedOverhead = 0;
-        }
-    }
-}
-
-- (void) updateInputOverhead: (double) deltaT
-{
-    @synchronized(self) {
-        if(inputStartTime != 0)
-            inputAddedOverhead = (uint64_t)(deltaT*1000000.0);
-    }
-}
-
 - (void) updateOutputOverhead: (double) deltaT
 {
     @synchronized(self) {
@@ -233,6 +206,26 @@
         if (outputStartTime != 0) {
             assert(outputAddedOverhead < [output now]);
             outputAddedOverhead = (uint64_t)(deltaT*1000000.0);
+        }
+    }
+}
+
+#pragma mark MeasurementInputManagerProtocol
+
+- (void)setDetectionRect: (NSRect)theRect
+{
+	settings.detectionRect = theRect;
+	[settings updateButtonsIfNeeded];
+}
+
+
+- (void) newInputStart
+{
+    @synchronized(self) {
+//    assert(inputStartTime == 0);
+        if (output) {
+            inputStartTime = [output now];
+            inputAddedOverhead = 0;
         }
     }
 }
@@ -250,68 +243,7 @@
         /*DBG*/ if (inputStartTime == 0) { NSLog(@"newInputDone called, but inputStartTime==0\n"); return; }
         assert(inputStartTime != 0);
         if (settings.running && settings.datatypeBlackWhite) {
-            // Wait for black/white, if possible
-            NSRect area = settings.detectionRect;
-            if (NSIsEmptyRect(area)) {
-                settings.recv = false;
-                inputStartTime = 0;
-                goto bad;
-            }
-            // Detect black/white
-            int pixelstep, pixelstart;
-            if (strcmp(formatStr, "Y800") == 0) {
-                pixelstep = 1;
-                pixelstart = 0;
-            } else if (strcmp(formatStr, "YUYV") == 0) {
-                pixelstep = 2;
-                pixelstart = 0;
-            } else if (strcmp(formatStr, "UYVY") == 0) {
-                pixelstep = 2;
-                pixelstart = 1;
-            } else {
-                settings.recv = false;
-                inputStartTime = 0;
-                goto bad2;
-            }
-            int minx, x, maxx, miny, y, maxy, ystep;
-            minx = area.origin.x + (area.size.width/4);
-            maxx = minx + (area.size.width/2);
-            miny = area.origin.y + (area.size.height/4);
-            maxy = miny + (area.size.width/2);
-            ystep = w*pixelstep;
-            long long total = 0;
-            long count = 0;
-            for (y=miny; y<maxy; y++) {
-                for (x=minx; x<maxx; x++) {
-                    unsigned char *pixelPtr = (unsigned char *)buffer + pixelstart + y*ystep + x*pixelstep;
-                    total += *pixelPtr;
-                    count++;
-                }
-            }
-            int average = (total/count);
-            //NSLog(@"Average greylevel is %d (black %d, white %d, #%d) want %s\n", average, blacklevel, whitelevel, nBWdetections, currentColorIsWhite?"white":"black");
-            if (average < blacklevel) blacklevel = average;
-            if (average > whitelevel) whitelevel = average;
-            bool foundColorIsWhite = average > (whitelevel+blacklevel) / 2;
-            if (foundColorIsWhite == currentColorIsWhite) {
-                // Found it! Invert for the next round
-                currentColorIsWhite = !currentColorIsWhite;
-                nBWdetections++;
-                settings.bwString = [[NSString stringWithFormat: @"found %d (levels %d..%d)", nBWdetections, blacklevel, whitelevel] retain];
-                [settings updateButtonsIfNeeded];
-                if (nBWdetections > 10) {
-                    // The first 10 are for calibrating, then we get to business
-                    [output output: "blackWhiteGrab" event: foundColorIsWhite?"white":"black" data: [outputCode UTF8String] start:inputStartTime-inputAddedOverhead];
-                    inputAddedOverhead = 0;
-                }
-                [outputCode release];
-                outputCode = [[NSString stringWithFormat:@"%lld", [output now]] retain];
-                outputCodeHasBeenReported = false;
-                [self performSelectorOnMainThread: @selector(triggerNewOutputValue) withObject: nil waitUntilDone: NO];
-
-            }
-            inputStartTime = 0;
-            return;
+			goto mono;
         }
                 
             
@@ -323,7 +255,7 @@
 			if (strcmp(code, [outputCode UTF8String]) == 0) {
 				// outputStartTime = 0;
 				// Correct. Prepare for creating a new QRcode.
-				//XXX [self performSelectorOnMainThread: @selector(triggerNewOutputValue) withObject: nil waitUntilDone: NO];
+				//XXX [self performSelectorOnMainThread: @selector(_triggerNewOutputValue) withObject: nil waitUntilDone: NO];
 				if (current_qrcode == nil) {
 					// We found the last one already, don't count it again.
 					return;
@@ -344,7 +276,7 @@
 				[output output: "macVideoGrab" event: "baddata" data: [baddata UTF8String] start: inputStartTime-inputAddedOverhead];
 				inputAddedOverhead = 0;
 				inputStartTime = 0;
-				[self performSelectorOnMainThread: @selector(triggerNewOutputValue) withObject: nil waitUntilDone: NO];
+				[self performSelectorOnMainThread: @selector(_triggerNewOutputValue) withObject: nil waitUntilDone: NO];
 				return;
 			}
             if (!lastInputCode || strcmp(code, [lastInputCode UTF8String]) != 0) {
@@ -357,7 +289,7 @@
             inputAddedOverhead = 0;
             // Remember rectangle (for black/white detection)
             settings.detectionRect = finder.rect;
-            [self performSelectorOnMainThread: @selector(triggerNewOutputValue) withObject: nil waitUntilDone: NO];
+            [self performSelectorOnMainThread: @selector(_triggerNewOutputValue) withObject: nil waitUntilDone: NO];
         } else {
             found_total++;
             [output output: "macVideoGrab" event: "nodata" data: "none" start: inputStartTime-inputAddedOverhead];
@@ -367,6 +299,112 @@
         settings.detectString = [[NSString stringWithFormat: @" %d of %d", found_ok, found_total] retain];
         [settings updateButtonsIfNeeded];
     }
+	return;
+mono:
+	[self _mono_newInputDone:buffer width:w height:h format:formatStr size:size];
+}
+
+- (void) updateInputOverhead: (double) deltaT
+{
+    @synchronized(self) {
+        if(inputStartTime != 0)
+            inputAddedOverhead = (uint64_t)(deltaT*1000000.0);
+    }
+}
+
+#pragma mark Monochrome support
+
+- (void) _mono_newInputDone: (bool)isWhite
+{
+    @synchronized(self) {
+        assert(inputStartTime != 0);
+        if (!settings.running || !settings.datatypeBlackWhite) return;
+
+        if (isWhite == currentColorIsWhite) {
+            // Found it! Invert for the next round
+            currentColorIsWhite = !currentColorIsWhite;
+            nBWdetections++;
+            settings.bwString = [[NSString stringWithFormat: @"found %d (current %s)", nBWdetections, isWhite?"white":"black"] retain];
+            [settings updateButtonsIfNeeded];
+            [output output: "hardwareGrab" event: isWhite?"white":"black" data: [outputCode UTF8String]];
+            inputAddedOverhead = 0;
+            [outputCode release];
+            outputCode = [[NSString stringWithFormat:@"%lld", [output now]] retain];
+            outputCodeHasBeenReported = false;
+            [self performSelectorOnMainThread: @selector(_triggerNewOutputValue) withObject: nil waitUntilDone: NO];
+
+        }
+        inputStartTime = 0;
+    }
+}
+
+- (void) _mono_newInputDone: (void*)buffer width: (int)w height: (int)h format: (const char*)formatStr size: (int)size
+{
+    @synchronized(self) {
+		// Wait for black/white, if possible
+		NSRect area = settings.detectionRect;
+		if (NSIsEmptyRect(area)) {
+			settings.recv = false;
+			[settings updateButtonsIfNeeded];
+			inputStartTime = 0;
+			goto bad;
+		}
+		// Detect black/white
+		int pixelstep, pixelstart;
+		if (strcmp(formatStr, "Y800") == 0) {
+			pixelstep = 1;
+			pixelstart = 0;
+		} else if (strcmp(formatStr, "YUYV") == 0) {
+			pixelstep = 2;
+			pixelstart = 0;
+		} else if (strcmp(formatStr, "UYVY") == 0) {
+			pixelstep = 2;
+			pixelstart = 1;
+		} else {
+			settings.recv = false;
+			[settings updateButtonsIfNeeded];
+			inputStartTime = 0;
+			goto bad2;
+		}
+		int minx, x, maxx, miny, y, maxy, ystep;
+		minx = area.origin.x + (area.size.width/4);
+		maxx = minx + (area.size.width/2);
+		miny = area.origin.y + (area.size.height/4);
+		maxy = miny + (area.size.width/2);
+		ystep = w*pixelstep;
+		long long total = 0;
+		long count = 0;
+		for (y=miny; y<maxy; y++) {
+			for (x=minx; x<maxx; x++) {
+				unsigned char *pixelPtr = (unsigned char *)buffer + pixelstart + y*ystep + x*pixelstep;
+				total += *pixelPtr;
+				count++;
+			}
+		}
+		int average = (total/count);
+		//NSLog(@"Average greylevel is %d (black %d, white %d, #%d) want %s\n", average, blacklevel, whitelevel, nBWdetections, currentColorIsWhite?"white":"black");
+		if (average < blacklevel) blacklevel = average;
+		if (average > whitelevel) whitelevel = average;
+		bool foundColorIsWhite = average > (whitelevel+blacklevel) / 2;
+		if (foundColorIsWhite == currentColorIsWhite) {
+			// Found it! Invert for the next round
+			currentColorIsWhite = !currentColorIsWhite;
+			nBWdetections++;
+			settings.bwString = [[NSString stringWithFormat: @"found %d (levels %d..%d)", nBWdetections, blacklevel, whitelevel] retain];
+			[settings updateButtonsIfNeeded];
+			if (nBWdetections > 10) {
+				// The first 10 are for calibrating, then we get to business
+				[output output: "blackWhiteGrab" event: foundColorIsWhite?"white":"black" data: [outputCode UTF8String] start:inputStartTime-inputAddedOverhead];
+				inputAddedOverhead = 0;
+			}
+			[outputCode release];
+			outputCode = [[NSString stringWithFormat:@"%lld", [output now]] retain];
+			outputCodeHasBeenReported = false;
+			[self performSelectorOnMainThread: @selector(_triggerNewOutputValue) withObject: nil waitUntilDone: NO];
+
+		}
+		inputStartTime = 0;
+	}
     return;
 	// Bah. @synchronised means we can't really do error messages in the normal place,
 	// it may lead to a deadlock if the mainloop needs the lock.
@@ -384,46 +422,27 @@ bad2:
 		formatStr);
 }
 
-- (void) newBWInputDone: (bool)isWhite
-{
-    @synchronized(self) {
-        assert(inputStartTime != 0);
-        if (!settings.running || !settings.datatypeBlackWhite) return;
-
-        if (isWhite == currentColorIsWhite) {
-            // Found it! Invert for the next round
-            currentColorIsWhite = !currentColorIsWhite;
-            nBWdetections++;
-            settings.bwString = [[NSString stringWithFormat: @"found %d (current %s)", nBWdetections, isWhite?"white":"black"] retain];
-            [settings updateButtonsIfNeeded];
-            [output output: "hardwareGrab" event: isWhite?"white":"black" data: [outputCode UTF8String]];
-            inputAddedOverhead = 0;
-            [outputCode release];
-            outputCode = [[NSString stringWithFormat:@"%lld", [output now]] retain];
-            outputCodeHasBeenReported = false;
-            [self performSelectorOnMainThread: @selector(triggerNewOutputValue) withObject: nil waitUntilDone: NO];
-
-        }
-        inputStartTime = 0;
-    }
-}
-
-- (void)setDetectionRect: (NSRect)theRect
-{
-	settings.detectionRect = theRect;
-	[settings updateButtonsIfNeeded];
-}
-
-- (void)checkInput
+- (void)_mono_pollInput
 {
     @synchronized(self) {
         if (delegate == nil || ![delegate hasInput]) return;
         [self newInputStart];
         bool result = [delegate inputBW];
         NSLog(@"checkinput: %d\n", result);
-        [self newBWInputDone: result];
+        [self _mono_newInputDone: result];
         // XXXX save result, if running
-        [self performSelector:@selector(checkInput) withObject: nil afterDelay: (NSTimeInterval)0.001];
+        [self performSelector:@selector(_mono_pollInput) withObject: nil afterDelay: (NSTimeInterval)0.001];
     }
 }
+
+- (void)_mono_showNewData
+{
+    @synchronized(self) {
+        if (delegate && [delegate respondsToSelector:@selector(newBWOutput:)]) {
+            [delegate newBWOutput: currentColorIsWhite];
+            [output output: "hardwareXmit" event: currentColorIsWhite?"white":"black" data: [outputCode UTF8String]];
+        }
+    }
+}
+
 @end
