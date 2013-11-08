@@ -38,6 +38,10 @@
 }
 
 @property(readonly) bool running;
+
+- (void)startMeasuring;
+- (void)stopMeasuring;
+
 - (void)_triggerNewOutputValue;
 
 

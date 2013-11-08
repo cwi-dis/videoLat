@@ -12,6 +12,6 @@
 @implementation appDelegate
 - (void)applicationWillTerminate:(id)application
 {
-    if (output) [output terminate];
+    if (output) [output stopCollecting];
 }
 @end

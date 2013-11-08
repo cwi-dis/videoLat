@@ -51,6 +51,19 @@
 	}
 }
 
+- (void)startMeasuring
+{
+	[collector startCollecting];
+	outputView.mirrored = settings.mirrorView;
+	outputView.visible = settings.xmit;
+	[self _triggerNewOutputValue];
+}
+
+- (void)stopMeasuring
+{
+	[collector stopCollecting];
+}
+
 #pragma mark SettingsChangedProtocol
 - (void)settingsChanged
 {
@@ -82,7 +95,7 @@
 		// We are no longer responsible for what is on-screen.
         NSWindow *w = nil;
         if (settings.xmit) {
-			w = [outputView window]'
+			w = [outputView window];
             if (w && ![w isVisible])
                 [w orderFront: self];
         } else {
@@ -114,7 +127,7 @@
     @synchronized(self) {
         CIImage *newImage = nil;
         if (!settings.running || !settings.xmit) {
-            newImage = [CIImage imageWithColor:[CIColor colorWithRed:0.9 green:0.9 blue:0.9]];
+            newImage = [CIImage imageWithColor:[CIColor colorWithRed:0.1 green:0.4 blue:0.5]];
             CGRect rect = {0, 0, 480, 480};
             newImage = [newImage imageByCroppingToRect: rect];
             return newImage;

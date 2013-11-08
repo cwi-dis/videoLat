@@ -38,7 +38,8 @@
 // Protocol for an object that is responsible for controlling dispay of a pattern
 @protocol DataCollectorProtocol
 - (uint64_t) now;
-- (void) terminate;
+- (void) startCollecting;
+- (void) stopCollecting;
 
 - (void) recordTransmission: (NSString*)data at: (uint64_t)now;
 - (void) recordReception: (NSString*)data at: (uint64_t)now;

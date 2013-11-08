@@ -97,6 +97,7 @@ enum RoleTag {
 
 - (IBAction)roleChanged: (id) sender;
 - (IBAction)buttonChanged: (id) sender;
+- (IBAction)runButtonChanged: (id) sender;
 - (IBAction)cameraChanged: (id) sender;
 - (IBAction)chooseFile: (id) sender;
 - (void)updateButtons: (id)sender;
