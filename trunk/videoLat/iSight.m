@@ -114,6 +114,22 @@
 	//Create the AV capture session
 	session = [[AVCaptureSession alloc] init];
     
+#if 0
+    // This code not enabled yet, because I don't have a camera that supports it:-)
+    
+    // Set focus/exposure/flash, if device supports it
+    if ([dev isFocusPointOfInterestSupported] && [dev isFocusModeSupported:AVCaptureFocusModeLocked] ) {
+        NSLog(@"Device supports focus lock\n");
+    }
+    if ([dev isTorchModeSupported: AVCaptureTorchModeOff]) {
+        NSLog(@"Device supports torch-off\n");
+        dev.torchMode = AVCaptureTorchModeOff;
+    }
+    if ([dev isExposurePointOfInterestSupported] && [dev isExposureModeSupported:AVCaptureExposureModeLocked] ) {
+        NSLog(@"Device supports exposure lock\n");
+    }
+    NSLog(@"Finished looking at device capabilities\n");
+#endif
 	/* Create a QTKit input for the session using the iSight Device */
     NSError *error;
 	AVCaptureDeviceInput *myInput = [AVCaptureDeviceInput deviceInputWithDevice:dev error:&error];
@@ -168,6 +184,21 @@
 	return [AVCaptureDevice deviceWithUniqueID:name];
 #endif
 }
+
+- (void) startCapturing
+{
+#if 0
+    // Lock focus and exposure, if supported
+#endif
+    // Hide preview
+    [selfView setHidden: YES];
+}
+
+- (void) stopCapturing
+{
+    [selfView setHidden: NO];
+}
+
 
 #ifdef NOTYETFORAVFOUNDATION
 

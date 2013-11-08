@@ -17,25 +17,32 @@
     return settings.running;
 }
 
-- (void) awakeFromNib 
+- (Manager*)init
+{
+    [super init];
+    foundQRcode = false;
+    found_total = 0;
+    found_ok = 0;
+    current_qrcode = NULL;
+    blacklevel = 255;
+    whitelevel = 0;
+    nBWdetections = 0;
+    outputAddedOverhead = 0;
+    outputStartTime = 0;
+    inputAddedOverhead = 0;
+    inputStartTime = 0;
+    outputCode = nil;
+    outputCodeHasBeenReported = true;
+    lastOutputCode = nil;
+    lastInputCode = nil;
+    capturer = nil;
+    return self;
+}
+
+- (void) awakeFromNib
 {
     @synchronized(self) {
         [[settings window] setReleasedWhenClosed: false];
-        foundQRcode = false;
-        found_total = 0;
-        found_ok = 0;
-        current_qrcode = NULL;
-        blacklevel = 255;
-        whitelevel = 0;
-        nBWdetections = 0;
-        outputAddedOverhead = 0;
-        outputStartTime = 0;
-        inputAddedOverhead = 0;
-        inputStartTime = 0;
-        outputCode = nil;
-        outputCodeHasBeenReported = true;
-        lastOutputCode = nil;
-        lastInputCode = nil;
 
         genner = [[GenQRcodes alloc] init];
         finder = [[FindQRcodes alloc] init];
@@ -51,12 +58,20 @@
 	}
 }
 
+- (void)reportDataCapturer: (id)capt
+{
+    capturer = capt;
+}
+
 - (void)startMeasuring
 {
-	[collector startCollecting];
-	outputView.mirrored = settings.mirrorView;
-	outputView.visible = settings.xmit;
-	[self _triggerNewOutputValue];
+    @synchronized(self) {
+        [capturer startCapturing];
+        [collector startCollecting];
+        outputView.mirrored = settings.mirrorView;
+        outputView.visible = settings.xmit;
+        [self _triggerNewOutputValue];
+    }
 }
 
 - (void)stopMeasuring
@@ -91,32 +106,7 @@
                 }
 			}
 		}
-#if 0
-		// We are no longer responsible for what is on-screen.
-        NSWindow *w = nil;
-        if (settings.xmit) {
-			w = [outputView window];
-            if (w && ![w isVisible])
-                [w orderFront: self];
-        } else {
-            if (w) [w orderOut: self];
-        }
-#if 1
-        // This does not work: hiding and re-showing the live video window
-        // actually seems to create a new one. So then the outlet isn't
-        // valid anymore.
-        w = nil;
-        if (inputView) w = [inputView window];
-        if (settings.recv) {
-            if (w && ![w isVisible])
-                [w orderFront: self];
-        } else {
-            if (w) [w orderOut: self];
-        }
-#endif
-#endif
         [self _triggerNewOutputValue];
-            
     }
 }
 

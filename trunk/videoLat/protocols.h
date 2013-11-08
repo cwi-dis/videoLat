@@ -35,7 +35,13 @@
 - (void) showNewData;
 @end
 
-// Protocol for an object that is responsible for controlling dispay of a pattern
+// Protocol for a capturing object
+@protocol DataCaptureProtocol
+- (void) startCapturing;
+- (void) stopCapturing;
+@end
+
+// Protocol for an object that is responsible for controlling a sequence of measurements
 @protocol DataCollectorProtocol
 - (uint64_t) now;
 - (void) startCollecting;
@@ -73,6 +79,7 @@
 
 // Protocol used by input data collector to report new data and timing.
 @protocol MeasurementInputManagerProtocol
+- (void)reportDataCapturer: (id)capturer;
 - (void)setDetectionRect: (NSRect)theRect;
 - (void)newInputStart;
 - (void)updateInputOverhead: (double)deltaT;

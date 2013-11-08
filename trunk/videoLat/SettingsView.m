@@ -86,6 +86,8 @@
     NSMenuItem *newItem = [bCameras selectedItem];
     if (newItem == nil)
         [bCameras selectItemAtIndex: 0];
+    // If this is during awakeFromNib we are done
+    if (notification == nil) return;
     // Tell the input handler if the device has changed
     newItem = [bCameras selectedItem];
     NSString *newCam = [newItem title];
