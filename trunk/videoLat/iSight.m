@@ -58,7 +58,7 @@
 		return;
 	}
 	
-	[self switchToDevice: dev];
+	[self _switchToDevice: dev];
 	
 }
 
@@ -95,11 +95,11 @@
 
 - (void)switchToDeviceWithName: (NSString *)name
 {
-	AVCaptureDevice* dev = [self deviceWithName:name];
-	[self switchToDevice:dev];
+	AVCaptureDevice* dev = [self _deviceWithName:name];
+	[self _switchToDevice:dev];
 }
 
-- (void)switchToDevice: (AVCaptureDevice*)dev
+- (void)_switchToDevice: (AVCaptureDevice*)dev
 {
     // Delete old session, if needed
 	if (outputCapturer) [outputCapturer release];
@@ -147,7 +147,7 @@
 	[session startRunning]; 
 }
 
-- (AVCaptureDevice*)deviceWithName: (NSString*)name
+- (AVCaptureDevice*)_deviceWithName: (NSString*)name
 {
 #if 1
 	NSArray *devs = [AVCaptureDevice devicesWithMediaType: AVMediaTypeVideo];
@@ -206,7 +206,7 @@
 		return;
 	}
     [manager newInputStart];
-	double delta = (now-timestamp) / CVGetHostClockFrequency();
+	//double delta = (now-timestamp) / CVGetHostClockFrequency();
 	//[manager updateInputOverhead: delta];
     // NSLog(@"Got video frame from %p now=%lld pts=%lld delta=%f\n", (void*)connection, now, timestamp, delta);
     
