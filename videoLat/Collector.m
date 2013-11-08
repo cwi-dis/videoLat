@@ -212,7 +212,7 @@
 
 - (void)stopCollecting
 {
-	BOOL success = [NSKeyedArchiver archiveRootObject: store toFile: @"/tmp/videolatdump"];
+	[NSKeyedArchiver archiveRootObject: store toFile: @"/tmp/videolatdump"];
 	[super stopCollecting];
 }
 

@@ -27,9 +27,9 @@
 }
 
 - (bool)available;
-- (AVCaptureDevice*)deviceWithName: (NSString*)name;
+- (AVCaptureDevice*)_deviceWithName: (NSString*)name;
 - (NSArray*) deviceNames;
-- (void)switchToDevice: (AVCaptureDevice*)dev;
+- (void)_switchToDevice: (AVCaptureDevice*)dev;
 - (void)switchToDeviceWithName: (NSString *)name;
 
 

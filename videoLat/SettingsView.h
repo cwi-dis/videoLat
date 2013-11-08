@@ -102,5 +102,5 @@ enum RoleTag {
 - (IBAction)chooseFile: (id) sender;
 - (void)updateButtons: (id)sender;
 - (void)updateButtonsIfNeeded;
-
+- (void)_updateCameraNames: (NSNotification*) notification;
 @end

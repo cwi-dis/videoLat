@@ -51,9 +51,47 @@
     detectString = [NSString stringWithUTF8String: "none"];
     bwString = [NSString stringWithUTF8String: "none"];
     fileName = [NSString stringWithUTF8String: "/tmp/measurements.csv"];
-	[bCameras addItemsWithTitles: [inputHandler deviceNames]];
+    [self _updateCameraNames: nil];
     [self updateButtons: self];
 	[self roleChanged: self];
+    [[NSNotificationCenter defaultCenter]
+     addObserver:self
+     selector:@selector(_updateCameraNames:)
+     name:AVCaptureDeviceWasConnectedNotification
+     object:nil];
+    [[NSNotificationCenter defaultCenter]
+     addObserver:self
+     selector:@selector(_updateCameraNames:)
+     name:AVCaptureDeviceWasDisconnectedNotification
+     object:nil];
+}
+
+- (void)_updateCameraNames: (NSNotification*) notification
+{
+    NSLog(@"Cameras changed\n");
+    // Remember the old selection (if any)
+    NSString *oldCam = nil;
+	NSMenuItem *oldItem = [bCameras selectedItem];
+    if (oldItem) {
+        oldCam = [oldItem title];
+    }
+    // Add all cameras
+    NSArray *newList = [inputHandler deviceNames];
+    [bCameras removeAllItems];
+    [bCameras addItemsWithTitles: newList];
+    // Re-select old selection, if possible
+    if (oldCam)
+        [bCameras selectItemWithTitle:oldCam];
+    // Select first item, if nothing has been selected
+    NSMenuItem *newItem = [bCameras selectedItem];
+    if (newItem == nil)
+        [bCameras selectItemAtIndex: 0];
+    // Tell the input handler if the device has changed
+    newItem = [bCameras selectedItem];
+    NSString *newCam = [newItem title];
+    if (![newCam isEqualToString:oldCam])
+        [inputHandler switchToDeviceWithName:newCam];
+    
 }
 
 - (IBAction)cameraChanged: (id) sender
