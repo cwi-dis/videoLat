@@ -26,7 +26,7 @@
     return self;
 }
 
-- (void) _openFile
+- (void) startCollecting
 {
     @synchronized(self) {
         initialized = true;
@@ -52,7 +52,7 @@
     }
 }
 
-- (void) terminate
+- (void) stopCollecting
 {
     if (terminating) return;
     @synchronized(self) {
@@ -100,7 +100,7 @@
 
 - (void) dealloc
 {
-    [self terminate];
+    [self stopCollecting];
     [super dealloc];
 }
 
@@ -116,7 +116,7 @@
 {
     if (terminating) return;
     @synchronized(self) {
-        if (!initialized) [self _openFile];
+        if (!initialized) [self startCollecting];
         int64_t now = [self now];
         assert(now >= startTime);
         fprintf(fp, "%lld,%s,%s,%s,overhead,%lld\n", startTime, name, event, data, 0LL);
@@ -127,7 +127,7 @@
 {
     if (terminating) return;
     @synchronized(self) {
-        if (!initialized) [self _openFile];
+        if (!initialized) [self startCollecting];
         int64_t now = [self now];
         
         fprintf(fp, "%lld,%s,%s,%s,,\n", now, name, event, data);
@@ -210,10 +210,10 @@
 	
 }
 
-- (void)terminate
+- (void)stopCollecting
 {
 	BOOL success = [NSKeyedArchiver archiveRootObject: store toFile: @"/tmp/videolatdump"];
-	[super terminate];
+	[super stopCollecting];
 }
 
 @end

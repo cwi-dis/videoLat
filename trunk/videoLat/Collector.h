@@ -19,9 +19,9 @@
     bool terminating;
 }
 
-- (void) _openFile;
+- (void) startCollecting;
 - (uint64_t) now;
-- (void) terminate;
+- (void) stopCollecting;
 - (void) output: (const char*)name event: (const char*)event data: (const char*)data start: (uint64_t)startTime;
 - (void) output: (const char*)name event: (const char*)event data: (const char*)data;
 

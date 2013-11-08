@@ -64,6 +64,16 @@
 	[inputHandler switchToDeviceWithName: cam];
 }
 
+- (IBAction)runButtonChanged: (id) sender
+{
+	running = ([bRunning state] == NSOnState);
+	if (running) {
+		[manager startMeasuring];
+	} else {
+		[manager stopMeasuring];
+	}
+}
+
 - (IBAction)buttonChanged: (id) sender
 {
     // Data type (Note: measurement-type popup change is handled by roleChange:)
@@ -88,7 +98,6 @@
     summarize = [bSummarize state] == NSOnState;
 
     // Run
-    running = [bRunning state] == NSOnState;
     [manager settingsChanged];
 }
 
