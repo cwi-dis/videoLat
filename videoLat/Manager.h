@@ -13,8 +13,8 @@
   @private
     IBOutlet SettingsView *settings;
 	IBOutlet id <OutputViewProtocol> outputView;
-    IBOutlet id inputView;
 	IBOutlet id <ManagerDelegateProtocol> delegate;
+    IBOutlet id <DataCaptureProtocol> capturer;
     id <FindProtocol> finder;
     id <GenProtocol> genner;
     IBOutlet id <DataCollectorProtocol> collector;
@@ -41,6 +41,8 @@
 
 - (void)startMeasuring;
 - (void)stopMeasuring;
+
+- (void)reportDataCapturer: (id)capt;
 
 - (void)_triggerNewOutputValue;
 
