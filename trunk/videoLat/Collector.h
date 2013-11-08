@@ -37,6 +37,8 @@
     double min;
     double max;
     int count;
+
+	NSMutableArray *store;
 }
 
 @property(readonly) double min;
@@ -47,5 +49,5 @@
 
 - (void) recordTransmission: (NSString*)data at: (uint64_t)now;
 - (void) recordReception: (NSString*)data at: (uint64_t)now;
-- (void) _recordDataPoint: (NSString*) data at: (uint64_t)time delay: (uint64_t) delay;
+- (void) _recordDataPoint: (NSString*) data sent: (uint64_t)sent received: (uint64_t) received;
 @end

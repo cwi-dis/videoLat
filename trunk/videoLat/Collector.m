@@ -119,7 +119,7 @@
         if (!initialized) [self _openFile];
         int64_t now = [self now];
         assert(now >= startTime);
-        fprintf(fp, "%lld,%s,%s,%s,overhead,%lld\n", now, name, event, data, now-startTime);
+        fprintf(fp, "%lld,%s,%s,%s,overhead,%lld\n", startTime, name, event, data, 0LL);
     }
 }
 
@@ -160,6 +160,7 @@
     sum = 0;
     sumSquares = 0;
     count = 0;
+	store = [[NSMutableArray alloc] init];
     return self;
 }
 
@@ -171,34 +172,48 @@
     lastTransmissionReceived = NO;
 }
 
-- (void) recordReception: (NSString*)data at: (uint64_t)now
+- (void) recordReception: (NSString*)data at: (uint64_t)time
 {
     if (lastTransmission == nil) {
         NSLog(@"Collector: received %@ before any transmission", data);
         return;
     }
     if ([lastTransmission isEqualToString:data]) {
-        if (now < lastTransmissionTime) {
-            NSLog(@"Collector: received %@ at %lld, which is earlier than transmit time %lld", data, now, lastTransmissionTime);
+        if (time < lastTransmissionTime) {
+            NSLog(@"Collector: received %@ at %lld, which is earlier than transmit time %lld", data, time, lastTransmissionTime);
             return;
         }
         if (!lastTransmissionReceived) {
             lastTransmissionReceived = YES;
-            [self _recordDataPoint: data at: lastTransmissionTime delay: now-lastTransmissionTime];
+            [self _recordDataPoint: data sent: lastTransmissionTime received: time];
         }
     } else {
         NSLog(@"Collector: received %@, expected %@", data, lastTransmission);
     }
 }
 
-- (void) _recordDataPoint: (NSString*) data at: (uint64_t)time delay: (uint64_t) delay
+- (void) _recordDataPoint: (NSString*) data sent: (uint64_t)sent received: (uint64_t) received
 {
+	uint64_t delay = received - sent;
     sum += delay;
     sumSquares += (delay * delay);
     if (count == 0 || delay < min) min = delay;
     if (count == 0 || delay > max) max = delay;
     count++;
-    NSLog(@"%d %f %f\n", count, self.average, self.stddev);
+    NSLog(@"%d %@ %lld-%lld=%lld  µ %f sd %f\n", count, data, received, sent, delay, self.average, self.stddev);
+	NSDictionary *item = [NSDictionary dictionaryWithObjectsAndKeys:
+		data, @"data",
+		[NSNumber numberWithLongLong: received], @"at",
+		[NSNumber numberWithLongLong: delay], @"delay",
+		nil];
+	[store addObject: item];
+	
+}
+
+- (void)terminate
+{
+	BOOL success = [NSKeyedArchiver archiveRootObject: store toFile: @"/tmp/videolatdump"];
+	[super terminate];
 }
 
 @end

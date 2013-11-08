@@ -186,12 +186,13 @@
         if (outputStartTime == 0 || outputCodeHasBeenReported) return;
         assert(outputAddedOverhead < [collector now]);
         assert(strcmp([outputCode UTF8String], "BadCookie") != 0);
+		uint64_t outputTime = [collector now] - outputAddedOverhead;
         if (settings.datatypeQRCode) {
-            [collector recordTransmission: outputCode at: [collector now] - outputAddedOverhead];
-            [collector output: "macVideoXmit" event: "generated" data: [outputCode UTF8String] start: [collector now] - outputAddedOverhead];
+            [collector recordTransmission: outputCode at: outputTime];
+            [collector output: "macVideoXmit" event: "generated" data: [outputCode UTF8String] start: outputTime];
         } else if (settings.datatypeBlackWhite) {
-            [collector recordTransmission: currentColorIsWhite?@"white":@"black" at: [collector now] - outputAddedOverhead];
-            [collector output: "blackWhiteXmit" event: currentColorIsWhite?"white":"black" data: [outputCode UTF8String] start: [collector now] - outputAddedOverhead];
+            [collector recordTransmission: currentColorIsWhite?@"white":@"black" at: outputTime];
+            [collector output: "blackWhiteXmit" event: currentColorIsWhite?"white":"black" data: [outputCode UTF8String] start: outputTime];
         } else {
             assert(0);
         }
@@ -243,6 +244,7 @@
 {
     @synchronized(self) {
         /*DBG*/ if (inputStartTime == 0) { NSLog(@"newInputDone called, but inputStartTime==0\n"); return; }
+		if (outputCode == nil) { NSLog(@"newInputDone called, but no output code yet\n"); return; }
         assert(inputStartTime != 0);
         if (settings.running && settings.datatypeBlackWhite) {
 			goto mono;
@@ -270,7 +272,7 @@
 				outputCode = [[NSString stringWithFormat: @"BadCookie"] retain];
 			} else if (strcmp(code, [lastOutputCode UTF8String]) == 0) {
 				// We have received the previous code again. Ignore.
-				NSLog(@"Same old code again: %s", code);
+				//NSLog(@"Same old code again: %s", code);
 			} else {
 				// We have transmitted a code, but received a different one??
 				NSLog(@"Bad data: expected %@, got %s", outputCode, code);
@@ -319,6 +321,7 @@ mono:
 
 - (void) _mono_newInputDone: (bool)isWhite
 {
+	uint64_t receptionTime = [collector now];
     @synchronized(self) {
         assert(inputStartTime != 0);
         if (!settings.running || !settings.datatypeBlackWhite) return;
@@ -330,11 +333,11 @@ mono:
             settings.bwString = [[NSString stringWithFormat: @"found %d (current %s)", nBWdetections, isWhite?"white":"black"] retain];
             [settings updateButtonsIfNeeded];
             // XXXJACK Is this correct? is "now" the best timestamp we have for the incoming hardware data?
-            [collector recordReception: isWhite?@"white":@"black" at: [collector now]];
+            [collector recordReception: isWhite?@"white":@"black" at: receptionTime];
             [collector output: "hardwareGrab" event: isWhite?"white":"black" data: [outputCode UTF8String]];
             inputAddedOverhead = 0;
             [outputCode release];
-            outputCode = [[NSString stringWithFormat:@"%lld", [collector now]] retain];
+            outputCode = [[NSString stringWithFormat:@"%lld", receptionTime] retain];
             outputCodeHasBeenReported = false;
             [self performSelectorOnMainThread: @selector(_triggerNewOutputValue) withObject: nil waitUntilDone: NO];
 
