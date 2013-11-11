@@ -66,8 +66,9 @@
 - (void)startMeasuring
 {
     @synchronized(self) {
+
         [capturer startCapturing];
-        [collector startCollecting];
+        [collector startCollecting: nil input: capturer.deviceID name: capturer.deviceName output: outputView.deviceID name: outputView.deviceName];
         outputView.mirrored = settings.mirrorView;
         outputView.visible = settings.xmit;
         [self _triggerNewOutputValue];

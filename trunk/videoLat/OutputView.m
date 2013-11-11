@@ -9,6 +9,7 @@
 #import "OutputView.h"
 #import <CoreServices/CoreServices.h>
 #import <ApplicationServices/ApplicationServices.h>
+#import <IOKit/graphics/IOGraphicsLib.h>
 
 // Screen refresh callback (plain C)
 
@@ -49,6 +50,33 @@ MyScreenRefreshCallback(CGRectCount count, const CGRect *rects, void *userArg)
 #endif
     [[self window] setReleasedWhenClosed: false];
 
+}
+
+- (NSString *)deviceID
+{
+	NSWindow *window = [self window];
+	NSScreen *screen = [window screen];
+	NSDictionary *screenDescription = [screen deviceDescription];
+	NSNumber *screenNumber = [screenDescription objectForKey:@"NSScreenNumber"];
+	return [screenNumber stringValue];
+}
+
+- (NSString *)deviceName
+{
+	NSString *rv = @"Unknown";
+	NSWindow *window = [self window];
+	NSScreen *screen = [window screen];
+	NSDictionary *screenDescription = [screen deviceDescription];
+	NSNumber *screenNumber = [screenDescription objectForKey:@"NSScreenNumber"];
+    CGDirectDisplayID aID = [screenNumber unsignedIntValue];
+    io_service_t displayPort = CGDisplayIOServicePort(aID);
+    NSDictionary *dict = (NSDictionary *)IODisplayCreateInfoDictionary(displayPort, 0);
+    NSDictionary *names = [dict objectForKey:[NSString stringWithUTF8String:kDisplayProductName]];
+	NSLog(@"Names %@", names);
+    if([names count])
+		rv = [[names objectForKey:[[names allKeys] objectAtIndex:0]] retain];
+	[dict release];
+    return rv;
 }
 
 - (IBAction)toggleFullscreen: (NSMenuItem*)sender

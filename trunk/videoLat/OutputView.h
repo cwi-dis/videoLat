@@ -14,10 +14,12 @@
     IBOutlet id <MeasurementOutputManagerProtocol> manager;
     bool newOutputDone;
 	BOOL mirrored;
+	NSString *deviceID;
 }
 
 @property BOOL mirrored;
 @property BOOL visible;
+@property (readonly) NSString *deviceID;
 
 - (void) showNewData;
 

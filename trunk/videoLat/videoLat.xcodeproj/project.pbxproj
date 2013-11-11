@@ -24,6 +24,8 @@
 /* Begin PBXBuildFile section */
 		040F2774121F3C3D003C3A4E /* genQRcodes.m in Sources */ = {isa = PBXBuildFile; fileRef = 040F2773121F3C3D003C3A4E /* genQRcodes.m */; };
 		040F2779121F3C51003C3A4E /* findQRcodes.mm in Sources */ = {isa = PBXBuildFile; fileRef = 040F2778121F3C51003C3A4E /* findQRcodes.mm */; };
+		042C9FAC183123BD00B3C956 /* MeasurementRun.m in Sources */ = {isa = PBXBuildFile; fileRef = 042C9FAB183123BD00B3C956 /* MeasurementRun.m */; };
+		042C9FAF1831393500B3C956 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 042C9FAE1831393500B3C956 /* IOKit.framework */; };
 		0430BD5D122306C400E14F88 /* Collector.m in Sources */ = {isa = PBXBuildFile; fileRef = 0430BD5C122306C400E14F88 /* Collector.m */; };
 		043153A6122EACB000D64AD2 /* OutputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 043153A5122EACB000D64AD2 /* OutputView.m */; };
 		0435B733182910C2005BC901 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0435B732182910C2005BC901 /* AVFoundation.framework */; };
@@ -68,6 +70,9 @@
 		04105A3C129E7C650005AABA /* COPYING */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = COPYING; sourceTree = "<group>"; };
 		04105A3D129E7C650005AABA /* internalize_dylibs.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = internalize_dylibs.py; sourceTree = "<group>"; };
 		04105A3E129E7C650005AABA /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
+		042C9FAA183123BD00B3C956 /* MeasurementRun.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeasurementRun.h; sourceTree = "<group>"; };
+		042C9FAB183123BD00B3C956 /* MeasurementRun.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeasurementRun.m; sourceTree = "<group>"; };
+		042C9FAE1831393500B3C956 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = ../../../../System/Library/Frameworks/IOKit.framework; sourceTree = "<group>"; };
 		0430BD5B122306C400E14F88 /* Collector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Collector.h; sourceTree = "<group>"; };
 		0430BD5C122306C400E14F88 /* Collector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Collector.m; sourceTree = "<group>"; };
 		043153A4122EACB000D64AD2 /* OutputView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OutputView.h; sourceTree = "<group>"; };
@@ -120,6 +125,7 @@
 				0457BA9E182903B3000A8631 /* libzint.dylib in Frameworks */,
 				0435B733182910C2005BC901 /* AVFoundation.framework in Frameworks */,
 				0435B73518292BAF005BC901 /* CoreMedia.framework in Frameworks */,
+				042C9FAF1831393500B3C956 /* IOKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -176,6 +182,8 @@
 				0498384A1227A4F2001D87DA /* Manager.m */,
 				0430BD5B122306C400E14F88 /* Collector.h */,
 				0430BD5C122306C400E14F88 /* Collector.m */,
+				042C9FAA183123BD00B3C956 /* MeasurementRun.h */,
+				042C9FAB183123BD00B3C956 /* MeasurementRun.m */,
 				046D1540122D3C2000222461 /* PythonSwitcher.h */,
 				046D1541122D3C2000222461 /* PythonSwitcher.m */,
 				043153A4122EACB000D64AD2 /* OutputView.h */,
@@ -188,6 +196,7 @@
 		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				042C9FAE1831393500B3C956 /* IOKit.framework */,
 				0435B73418292BAF005BC901 /* CoreMedia.framework */,
 				0435B732182910C2005BC901 /* AVFoundation.framework */,
 				046D158F122D4E4D00222461 /* Python.framework */,
@@ -380,6 +389,7 @@
 				046D1542122D3C2000222461 /* PythonSwitcher.m in Sources */,
 				043153A6122EACB000D64AD2 /* OutputView.m in Sources */,
 				04AF71E4129AAE4900BF94CF /* appDelegate.m in Sources */,
+				042C9FAC183123BD00B3C956 /* MeasurementRun.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

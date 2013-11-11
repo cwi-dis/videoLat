@@ -26,9 +26,10 @@
     return self;
 }
 
-- (void) startCollecting
+- (void) startCollecting: (NSString*)scenario input: (NSString*)inputId name: (NSString*)inputName output:(NSString*)outputId name: (NSString*)outputName
 {
     @synchronized(self) {
+		NSLog(@"Start collecting scenario=%@ input=%@ %@ output=%@ %@\n", scenario, inputId, inputName, outputId, outputName);
         initialized = true;
         
         NSString *fileName = [settings fileName];
@@ -116,7 +117,7 @@
 {
     if (terminating) return;
     @synchronized(self) {
-        if (!initialized) [self startCollecting];
+        if (!initialized) [self startCollecting: nil input:nil name: nil output:nil name:nil];
         int64_t now = [self now];
         assert(now >= startTime);
         fprintf(fp, "%lld,%s,%s,%s,overhead,%lld\n", startTime, name, event, data, 0LL);
@@ -127,7 +128,7 @@
 {
     if (terminating) return;
     @synchronized(self) {
-        if (!initialized) [self startCollecting];
+        if (!initialized) [self startCollecting: nil input:nil name: nil output:nil name:nil];
         int64_t now = [self now];
         
         fprintf(fp, "%lld,%s,%s,%s,,\n", now, name, event, data);
@@ -137,30 +138,11 @@
 
 @implementation Collector
 
-@synthesize min;
-@synthesize max;
-@synthesize count;
-
-- (double) average
-{
-    return sum / count;
-}
-
-- (double) stddev
-{
-    double average = sum / count;
-    double variance = (sumSquares / count) - (average*average);
-    return sqrt(variance);
-}
-
 - (Collector*) init
 {
     self = [super init];
     lastTransmission = nil;
-    sum = 0;
-    sumSquares = 0;
-    count = 0;
-	store = [[NSMutableArray alloc] init];
+	dataStore = [[MeasurementRun alloc] init];
     return self;
 }
 
@@ -185,35 +167,18 @@
         }
         if (!lastTransmissionReceived) {
             lastTransmissionReceived = YES;
-            [self _recordDataPoint: data sent: lastTransmissionTime received: time];
+            [dataStore addDataPoint: data sent: lastTransmissionTime received: time];
         }
     } else {
         NSLog(@"Collector: received %@, expected %@", data, lastTransmission);
     }
 }
 
-- (void) _recordDataPoint: (NSString*) data sent: (uint64_t)sent received: (uint64_t) received
-{
-	uint64_t delay = received - sent;
-    sum += delay;
-    sumSquares += (delay * delay);
-    if (count == 0 || delay < min) min = delay;
-    if (count == 0 || delay > max) max = delay;
-    count++;
-    NSLog(@"%d %@ %lld-%lld=%lld  µ %f sd %f\n", count, data, received, sent, delay, self.average, self.stddev);
-	NSDictionary *item = [NSDictionary dictionaryWithObjectsAndKeys:
-		data, @"data",
-		[NSNumber numberWithLongLong: received], @"at",
-		[NSNumber numberWithLongLong: delay], @"delay",
-		nil];
-	[store addObject: item];
-	
-}
-
 - (void)stopCollecting
 {
-	[NSKeyedArchiver archiveRootObject: store toFile: @"/tmp/videolatdump"];
+	[NSKeyedArchiver archiveRootObject: dataStore toFile: @"/tmp/videolatdump"];
 	[super stopCollecting];
 }
 
 @end
+
