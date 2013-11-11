@@ -107,9 +107,11 @@
 
 - (uint64_t)now
 {
+    mach_timebase_info_data_t info;
+    if (mach_timebase_info(&info) != KERN_SUCCESS) return -1;
     int64_t now_mach = mach_absolute_time();
-    Nanoseconds now_nano = AbsoluteToNanoseconds( *(AbsoluteTime*) &now_mach);
-    int64_t now_micro = (*(uint64_t*)&now_nano) / 1000LL;
+    int64_t now_nano = now_mach * info.numer / info.denom;
+    int64_t now_micro = now_nano / 1000LL;
     return now_micro - epoch;
 }
 

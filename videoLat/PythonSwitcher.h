@@ -8,7 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "Manager.h"
-#include <Python/Python.h>
+#include <Python.h>
 
 @interface PythonSwitcher : NSObject <ManagerDelegateProtocol> {
 	PyObject *dict;
