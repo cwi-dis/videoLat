@@ -8,7 +8,15 @@
 
 #import <Foundation/Foundation.h>
 
-@interface MeasurementRun : NSObject {
+@interface MeasurementRun : NSCoder {
+    NSString *scenario;
+    NSString *inputID;
+    NSString *inputName;
+    NSString *outputID;
+    NSString *outputName;
+    NSString *description;
+    NSString *time;
+    NSString *location;
     double sum;
     double sumSquares;
     double min;
@@ -18,6 +26,14 @@
 	NSMutableArray *store;
 };
 
+@property(retain) NSString* scenario;
+@property(retain) NSString* inputID;
+@property(retain) NSString* inputName;
+@property(retain) NSString* outputID;
+@property(retain) NSString* outputName;
+@property(retain) NSString* description;
+@property(retain) NSString* time;
+@property(retain) NSString* location;
 @property(readonly) double min;
 @property(readonly) double max;
 @property(readonly) double average;

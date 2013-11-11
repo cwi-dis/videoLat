@@ -236,11 +236,16 @@
     fromConnection:(AVCaptureConnection *)connection;
 {
 	UInt64 now = CVGetCurrentHostTime();
+    if( !CMSampleBufferDataIsReady(sampleBuffer) )
+    {
+        NSLog( @"sample buffer is not ready. Skipping sample" );
+        return;
+    }
     CMTime timestampCMT = CMSampleBufferGetPresentationTimeStamp(sampleBuffer);
     timestampCMT = CMTimeConvertScale(timestampCMT, 1000000000, kCMTimeRoundingMethod_Default);
     UInt64 timestamp = timestampCMT.value;
 	if (timestamp > now) {
-		NSLog(@"iSight: dropping frame with timestamp in the future (?!?!)");
+		NSLog(@"iSight: dropping frame with timestamp %lld which is %lldns in the future", timestamp, timestamp-now);
 		return;
 	}
     [manager newInputStart];

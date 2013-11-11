@@ -72,6 +72,8 @@ You also need a few more packages, install these through macports, all universal
 		--disable-video \
 		--without-gtk \
 		--without-qt \
+		--without-xv \
+		--without-imagemagick \
 		--prefix=$INST \
 		PKG_CONFIG_PATH=/opt/local/lib/pkgconfig \
 		CFLAGS="-arch i386 -arch x86_64" \
