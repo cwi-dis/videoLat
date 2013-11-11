@@ -31,10 +31,13 @@
 @end
 
 @implementation iSight
+@synthesize deviceID;
+@synthesize deviceName;
 
 - (void) awakeFromNib 
 {    
 	outputCapturer = nil;
+	deviceID = nil;
     sampleBufferQueue = dispatch_queue_create("Sample Queue", DISPATCH_QUEUE_SERIAL);
     // Setup for callbacks 
     [selfView setDelegate: self];
@@ -101,6 +104,10 @@
 
 - (void)_switchToDevice: (AVCaptureDevice*)dev
 {
+	if (deviceID) [deviceID release];
+	if (deviceName) [deviceName release];
+	deviceID = [[dev modelID] retain];
+	deviceName = [[dev localizedName] retain];
     // Delete old session, if needed
 	if (outputCapturer) [outputCapturer release];
 	outputCapturer = nil;

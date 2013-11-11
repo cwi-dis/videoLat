@@ -32,6 +32,8 @@
 @protocol OutputViewProtocol
 @property BOOL mirrored;
 @property BOOL visible;
+@property (readonly) NSString* deviceID;
+@property (readonly) NSString* deviceName;
 - (void) showNewData;
 @end
 
@@ -39,22 +41,18 @@
 @protocol DataCaptureProtocol
 - (void) startCapturing;
 - (void) stopCapturing;
+@property (readonly) NSString* deviceID;
+@property (readonly) NSString* deviceName;
 @end
 
 // Protocol for an object that is responsible for controlling a sequence of measurements
 @protocol DataCollectorProtocol
 - (uint64_t) now;
-- (void) startCollecting;
+- (void) startCollecting: (NSString*)scenario input: (NSString*)inputId name: (NSString*)inputName output:(NSString*)outputId name: (NSString*)outputName;
 - (void) stopCollecting;
 
 - (void) recordTransmission: (NSString*)data at: (uint64_t)now;
 - (void) recordReception: (NSString*)data at: (uint64_t)now;
-
-@property(readonly) double min;
-@property(readonly) double max;
-@property(readonly) double average;
-@property(readonly) double stddev;
-@property(readonly) int count;
 
 - (void) output: (const char*)name event: (const char*)event data: (const char*)data start: (uint64_t)startTime;
 - (void) output: (const char*)name event: (const char*)event data: (const char*)data;

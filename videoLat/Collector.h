@@ -10,6 +10,7 @@
 #import <stdio.h>
 #import "SettingsView.h"
 #import "protocols.h"
+#import "MeasurementRun.h"
 
 @interface OldCollector : NSObject {
     IBOutlet SettingsView *settings;
@@ -19,7 +20,7 @@
     bool terminating;
 }
 
-- (void) startCollecting;
+- (void) startCollecting: (NSString*)scenario input: (NSString*)inputId name: (NSString*)inputName output:(NSString*)outputId name: (NSString*)outputName;
 - (uint64_t) now;
 - (void) stopCollecting;
 - (void) output: (const char*)name event: (const char*)event data: (const char*)data start: (uint64_t)startTime;
@@ -31,23 +32,9 @@
     NSString* lastTransmission;
     uint64_t lastTransmissionTime;
     BOOL lastTransmissionReceived;
-    
-    double sum;
-    double sumSquares;
-    double min;
-    double max;
-    int count;
-
-	NSMutableArray *store;
+	MeasurementRun *dataStore;
 }
-
-@property(readonly) double min;
-@property(readonly) double max;
-@property(readonly) double average;
-@property(readonly) double stddev;
-@property(readonly) int count;
 
 - (void) recordTransmission: (NSString*)data at: (uint64_t)now;
 - (void) recordReception: (NSString*)data at: (uint64_t)now;
-- (void) _recordDataPoint: (NSString*) data sent: (uint64_t)sent received: (uint64_t) received;
 @end

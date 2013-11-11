@@ -24,7 +24,11 @@
 	AVCaptureSession *session;
     dispatch_queue_t sampleBufferQueue;
 	float xFactor, yFactor;
+	NSString *deviceID;
+	NSString *deviceName;
 }
+@property (readonly) NSString *deviceID;
+@property (readonly) NSString *deviceName;
 
 - (bool)available;
 - (AVCaptureDevice*)_deviceWithName: (NSString*)name;
