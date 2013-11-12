@@ -185,6 +185,8 @@
 - (void)stopCollecting
 {
 	[NSKeyedArchiver archiveRootObject: dataStore toFile: @"/tmp/videolatdump"];
+	NSString *csvData = [dataStore asCSVString];
+	[csvData writeToFile:@"/tmp/videolatdump.csv" atomically:NO encoding:NSStringEncodingConversionAllowLossy error:nil];
 	[super stopCollecting];
 }
 

@@ -136,6 +136,7 @@
 	sum = 0;
 	sumSquares = 0;
 	count = [store count];
+	min = max = [[[store objectAtIndex:0] objectForKey:@"delay"] longLongValue];
 	for (NSDictionary *item in store) {
 		uint64_t delay = [[item objectForKey:@"delay"] longLongValue];
 		sum += delay;
@@ -143,4 +144,19 @@
 	}
 }
 
+- (NSString *) asCSVString
+{
+	NSMutableString *rv;
+	rv = [NSMutableString stringWithCapacity: 0];
+	[rv appendString:@"at,data,delay\n"];
+	for (NSDictionary *item in store) {
+		[rv appendFormat: @"%@,%@,%@\n", [item objectForKey:@"at"], [item objectForKey:@"data"], [item objectForKey:@"delay"]];
+	}
+	return rv;
+}
+
+- (NSNumber *)delayForIndex: (int) i
+{
+	return [[store objectAtIndex:i] objectForKey:@"delay"];
+}
 @end
