@@ -78,6 +78,10 @@
 - (void)stopMeasuring
 {
 	[collector stopCollecting];
+	[collector trim];
+	status.detectCount = [NSString stringWithFormat: @"%d (after trimming 5%%)", collector.count];
+	status.detectAverage = [NSString stringWithFormat: @"%.3f ms ± %.3f", collector.average / 1000.0, collector.stddev / 1000.0];
+	[status update: self];
 }
 
 #pragma mark SettingsChangedProtocol
@@ -219,10 +223,10 @@
 
 #pragma mark MeasurementInputManagerProtocol
 
-- (void)setDetectionRect: (NSRect)theRect
+- (void)setFinderRect: (NSRect)theRect
 {
-	settings.detectionRect = theRect;
-	[settings updateButtonsIfNeeded];
+	status.finderRect = theRect;
+	[status update: self];
 }
 
 
@@ -297,7 +301,7 @@
             }
             inputAddedOverhead = 0;
             // Remember rectangle (for black/white detection)
-            settings.detectionRect = finder.rect;
+            status.finderRect = finder.rect;
             [self performSelectorOnMainThread: @selector(_triggerNewOutputValue) withObject: nil waitUntilDone: NO];
         } else {
             found_total++;
@@ -305,8 +309,9 @@
             inputAddedOverhead = 0;
         }
         inputStartTime = 0;
-        settings.detectString = [[NSString stringWithFormat: @" %d of %d", found_ok, found_total] retain];
-        [settings updateButtonsIfNeeded];
+        status.detectCount = [NSString stringWithFormat: @"%d", collector.count];
+		status.detectAverage = [NSString stringWithFormat: @"%.3f ms ± %.3f", collector.average / 1000.0, collector.stddev / 1000.0];
+        [status update: self];
     }
 	return;
 mono:
@@ -334,8 +339,8 @@ mono:
             // Found it! Invert for the next round
             currentColorIsWhite = !currentColorIsWhite;
             nBWdetections++;
-            settings.bwString = [[NSString stringWithFormat: @"found %d (current %s)", nBWdetections, isWhite?"white":"black"] retain];
-            [settings updateButtonsIfNeeded];
+            status.bwString = [[NSString stringWithFormat: @"found %d (current %s)", nBWdetections, isWhite?"white":"black"] retain];
+            [status update: self];
             // XXXJACK Is this correct? is "now" the best timestamp we have for the incoming hardware data?
             [collector recordReception: isWhite?@"white":@"black" at: receptionTime];
             [collector output: "hardwareGrab" event: isWhite?"white":"black" data: [outputCode UTF8String]];
@@ -354,10 +359,10 @@ mono:
 {
     @synchronized(self) {
 		// Wait for black/white, if possible
-		NSRect area = settings.detectionRect;
+		NSRect area = status.finderRect; // XXXJACK This is bad: using status for storing the rect
 		if (NSIsEmptyRect(area)) {
 			settings.recv = false;
-			[settings updateButtonsIfNeeded];
+			[status update: self];
 			inputStartTime = 0;
 			goto bad;
 		}
@@ -374,7 +379,7 @@ mono:
 			pixelstart = 1;
 		} else {
 			settings.recv = false;
-			[settings updateButtonsIfNeeded];
+			[status update: self];
 			inputStartTime = 0;
 			goto bad2;
 		}
@@ -402,8 +407,8 @@ mono:
 			// Found it! Invert for the next round
 			currentColorIsWhite = !currentColorIsWhite;
 			nBWdetections++;
-			settings.bwString = [[NSString stringWithFormat: @"found %d (levels %d..%d)", nBWdetections, blacklevel, whitelevel] retain];
-			[settings updateButtonsIfNeeded];
+			status.bwString = [[NSString stringWithFormat: @"found %d (levels %d..%d)", nBWdetections, blacklevel, whitelevel] retain];
+			[status update: self];
 			if (nBWdetections > 10) {
 				// The first 10 are for calibrating, then we get to business
                 [collector recordReception: foundColorIsWhite?@"white":@"black" at: inputStartTime-inputAddedOverhead];

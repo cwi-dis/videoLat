@@ -7,11 +7,13 @@
 
 #import <Cocoa/Cocoa.h>
 #import "SettingsView.h"
+#import "StatusView.h"
 #import "protocols.h"
 
 @interface Manager : NSObject <SettingsChangedProtocol, MeasurementOutputManagerProtocol, MeasurementInputManagerProtocol> {
   @private
     IBOutlet SettingsView *settings;
+    IBOutlet StatusView *status;
 	IBOutlet id <OutputViewProtocol> outputView;
 	IBOutlet id <ManagerDelegateProtocol> delegate;
     IBOutlet id <DataCaptureProtocol> capturer;
@@ -56,7 +58,7 @@
 - (void)updateOutputOverhead: (double)deltaT;
 
 // MeasurementInputManagerProtocol
-- (void)setDetectionRect: (NSRect)theRect;
+- (void)setFinderRect: (NSRect)theRect;
 - (void)newInputStart;
 - (void)updateInputOverhead: (double)deltaT;
 - (void)newInputDone;

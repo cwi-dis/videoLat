@@ -148,6 +148,12 @@
     return self;
 }
 
+- (int) count { return dataStore.count; }
+- (double) average { return dataStore.average; }
+- (double) stddev { return dataStore.stddev; }
+- (void) trim { [dataStore trim]; }
+
+
 - (void) recordTransmission: (NSString*)data at: (uint64_t)now
 {
     [lastTransmission release];

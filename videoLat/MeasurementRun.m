@@ -109,4 +109,38 @@
 	
 }
 
+- (void) trim
+{
+	// Sort by delay
+	NSArray *trimmed = [store sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+		return [[obj1 objectForKey:@"delay"] compare: [obj2 objectForKey:@"delay"]];
+	}];
+
+	// Trim 5% at each end
+	int arrayCount = [trimmed count];
+	if (arrayCount != count) NSLog(@"trim: count=%d but array size = %d!", count, arrayCount);
+	int trimCount = arrayCount / 20;
+	NSRange range;
+	range.location = trimCount;
+	range.length = count - 2*trimCount;
+	trimmed = [trimmed subarrayWithRange: range];
+
+	// Sort by time again
+	trimmed = [trimmed sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+		return [[obj1 objectForKey:@"at"] compare: [obj2 objectForKey:@"at"]];
+	}];
+
+	// Put back into store and recompute sum and such
+	[store release];
+	store = [[NSMutableArray arrayWithArray:trimmed] retain];
+	sum = 0;
+	sumSquares = 0;
+	count = [store count];
+	for (NSDictionary *item in store) {
+		uint64_t delay = [[item objectForKey:@"delay"] longLongValue];
+		sum += delay;
+		sumSquares += (delay * delay);
+	}
+}
+
 @end

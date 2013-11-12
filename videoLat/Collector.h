@@ -34,6 +34,8 @@
     BOOL lastTransmissionReceived;
 	MeasurementRun *dataStore;
 }
+@property(readonly) double average;
+@property(readonly) double stddev;
 
 - (void) recordTransmission: (NSString*)data at: (uint64_t)now;
 - (void) recordReception: (NSString*)data at: (uint64_t)now;

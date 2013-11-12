@@ -33,6 +33,7 @@
 		0457BA9D182903B3000A8631 /* libzbar.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0457BA9B182903B3000A8631 /* libzbar.dylib */; };
 		0457BA9E182903B3000A8631 /* libzint.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0457BA9C182903B3000A8631 /* libzint.dylib */; };
 		046D1542122D3C2000222461 /* PythonSwitcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 046D1541122D3C2000222461 /* PythonSwitcher.m */; };
+		0479AB4A18323CC600C16411 /* StatusView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0479AB4918323CC600C16411 /* StatusView.m */; };
 		047A54D21510F37000C5C399 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 047A54D11510F37000C5C399 /* QuartzCore.framework */; };
 		048C01141831841B0029B9F8 /* libpython2.7.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 048C01131831841B0029B9F8 /* libpython2.7.dylib */; };
 		0496507512A84DF400F2E9D4 /* sw_labjack.py in Resources */ = {isa = PBXBuildFile; fileRef = 0496507412A84DF400F2E9D4 /* sw_labjack.py */; };
@@ -84,6 +85,8 @@
 		0457BA9C182903B3000A8631 /* libzint.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libzint.dylib; path = thirdParty/installed/lib/libzint.dylib; sourceTree = "<group>"; };
 		046D1540122D3C2000222461 /* PythonSwitcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PythonSwitcher.h; sourceTree = "<group>"; };
 		046D1541122D3C2000222461 /* PythonSwitcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PythonSwitcher.m; sourceTree = "<group>"; };
+		0479AB4818323CC600C16411 /* StatusView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusView.h; sourceTree = "<group>"; };
+		0479AB4918323CC600C16411 /* StatusView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusView.m; sourceTree = "<group>"; };
 		047A54D11510F37000C5C399 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		048C01131831841B0029B9F8 /* libpython2.7.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libpython2.7.dylib; path = ../../../../System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/config/libpython2.7.dylib; sourceTree = "<group>"; };
 		0496507412A84DF400F2E9D4 /* sw_labjack.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = sw_labjack.py; sourceTree = "<group>"; };
@@ -189,6 +192,8 @@
 				043153A4122EACB000D64AD2 /* OutputView.h */,
 				043153A5122EACB000D64AD2 /* OutputView.m */,
 				04371DCF182AEE540097F251 /* protocols.h */,
+				0479AB4818323CC600C16411 /* StatusView.h */,
+				0479AB4918323CC600C16411 /* StatusView.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -390,6 +395,7 @@
 				043153A6122EACB000D64AD2 /* OutputView.m in Sources */,
 				04AF71E4129AAE4900BF94CF /* appDelegate.m in Sources */,
 				042C9FAC183123BD00B3C956 /* MeasurementRun.m in Sources */,
+				0479AB4A18323CC600C16411 /* StatusView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
