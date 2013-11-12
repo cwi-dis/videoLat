@@ -41,5 +41,6 @@
 @property(readonly) int count;
 
 - (void) addDataPoint: (NSString*) data sent: (uint64_t)sent received: (uint64_t) received;
+- (void) trim;
 
 @end

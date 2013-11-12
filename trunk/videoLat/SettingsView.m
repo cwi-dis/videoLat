@@ -16,10 +16,6 @@
 @synthesize mirrorView;
 
 @synthesize recv;
-@synthesize detectString;
-@synthesize bwString;
-@synthesize detectionRect;
-@synthesize foundQRcode;
 
 @synthesize coordHelper;
 
@@ -47,9 +43,6 @@
     running = false;
 	summarize = true;
 	
-    detectionRect = NSMakeRect(0, 0, -1, -1);
-    detectString = [NSString stringWithUTF8String: "none"];
-    bwString = [NSString stringWithUTF8String: "none"];
     fileName = [NSString stringWithUTF8String: "/tmp/measurements.csv"];
     [self _updateCameraNames: nil];
     [self updateButtons: self];
@@ -216,23 +209,6 @@
 
     // Reception
     [bRecv setState: recv?NSOnState:NSOffState];
-    [bDetected setStringValue: detectString];
-    if (foundQRcode) {
-        [bDetected setTextColor:[NSColor blackColor]];
-    } else {
-        [bDetected setTextColor:[NSColor redColor]];
-    }
-    if (NSIsEmptyRect(detectionRect)) {
-        [bLocation setStringValue: @"No QR code found yet"];
-    } else {
-        NSString * loc = [NSString stringWithFormat: @"pos %d,%d size %d,%d", 
-            (int)detectionRect.origin.x,
-            (int)detectionRect.origin.y,
-            (int)detectionRect.size.width,
-            (int)detectionRect.size.height];
-        [bLocation setStringValue: loc];
-    }
-    [bBWstatus setStringValue: bwString];
 
     // Coordination
     [bCoordHelper selectItemWithTitle: coordHelper];

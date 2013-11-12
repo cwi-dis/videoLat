@@ -227,7 +227,7 @@
 	theRect.size.width *= xFactor;
 	theRect.size.height *= yFactor;
 	NSLog(@"FocusRectSelected %d, %d, %d, %d\n", (int)theRect.origin.x, (int)theRect.origin.y, (int)theRect.size.width, (int)theRect.size.height);
-	[manager setDetectionRect: theRect];
+	[manager setFinderRect: theRect];
 }
 
 

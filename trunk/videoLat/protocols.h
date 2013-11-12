@@ -47,9 +47,14 @@
 
 // Protocol for an object that is responsible for controlling a sequence of measurements
 @protocol DataCollectorProtocol
+@property(readonly) double average;
+@property(readonly) double stddev;
+@property (readonly) int count;
+
 - (uint64_t) now;
 - (void) startCollecting: (NSString*)scenario input: (NSString*)inputId name: (NSString*)inputName output:(NSString*)outputId name: (NSString*)outputName;
 - (void) stopCollecting;
+- (void) trim;
 
 - (void) recordTransmission: (NSString*)data at: (uint64_t)now;
 - (void) recordReception: (NSString*)data at: (uint64_t)now;
@@ -78,7 +83,7 @@
 // Protocol used by input data collector to report new data and timing.
 @protocol MeasurementInputManagerProtocol
 - (void)reportDataCapturer: (id)capturer;
-- (void)setDetectionRect: (NSRect)theRect;
+- (void)setFinderRect: (NSRect)theRect;
 - (void)newInputStart;
 - (void)updateInputOverhead: (double)deltaT;
 - (void)newInputDone;

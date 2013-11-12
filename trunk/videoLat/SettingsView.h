@@ -32,9 +32,6 @@ enum RoleTag {
     // Reception section
     IBOutlet NSButton *bRecv;
 	IBOutlet NSPopUpButton *bCameras;
-    IBOutlet NSTextField *bDetected;
-    IBOutlet NSTextField *bLocation;
-    IBOutlet NSTextField *bBWstatus;
 
     // Coordination section
 	IBOutlet NSPopUpButton *bCoordHelper;
@@ -57,11 +54,6 @@ enum RoleTag {
 
     // Reception
     bool recv;
-    NSRect detectionRect;
-    NSString *detectString;
-    NSString *bwString;
-    bool foundQRcode;
-
     // Coordination
 	NSString *coordHelper;
 
@@ -81,10 +73,6 @@ enum RoleTag {
 @property(readonly) bool mirrorView;
 
 @property bool recv;
-@property(retain) NSString *detectString;
-@property(retain) NSString *bwString;
-@property(assign) NSRect detectionRect;
-@property bool foundQRcode;
 
 @property(readonly) NSString *coordHelper;
 
