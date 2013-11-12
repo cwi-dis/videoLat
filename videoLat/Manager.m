@@ -121,7 +121,7 @@
 {
     @synchronized(self) {
         CIImage *newImage = nil;
-        if (!settings.running || !settings.xmit) {
+        if (!self.running || !settings.xmit) {
             newImage = [CIImage imageWithColor:[CIColor colorWithRed:0.1 green:0.4 blue:0.5]];
             CGRect rect = {0, 0, 480, 480};
             newImage = [newImage imageByCroppingToRect: rect];
@@ -254,7 +254,7 @@
         /*DBG*/ if (inputStartTime == 0) { NSLog(@"newInputDone called, but inputStartTime==0\n"); return; }
 		if (outputCode == nil) { NSLog(@"newInputDone called, but no output code yet\n"); return; }
         assert(inputStartTime != 0);
-        if (settings.running && settings.datatypeBlackWhite) {
+        if (self.running && settings.datatypeBlackWhite) {
 			goto mono;
         }
                 
@@ -309,8 +309,10 @@
             inputAddedOverhead = 0;
         }
         inputStartTime = 0;
-        status.detectCount = [NSString stringWithFormat: @"%d", collector.count];
-		status.detectAverage = [NSString stringWithFormat: @"%.3f ms ± %.3f", collector.average / 1000.0, collector.stddev / 1000.0];
+		if (self.running) {
+			status.detectCount = [NSString stringWithFormat: @"%d", collector.count];
+			status.detectAverage = [NSString stringWithFormat: @"%.3f ms ± %.3f", collector.average / 1000.0, collector.stddev / 1000.0];
+		}
         [status update: self];
     }
 	return;
@@ -333,7 +335,7 @@ mono:
 	uint64_t receptionTime = [collector now];
     @synchronized(self) {
         assert(inputStartTime != 0);
-        if (!settings.running || !settings.datatypeBlackWhite) return;
+        if (!self.running || !settings.datatypeBlackWhite) return;
 
         if (isWhite == currentColorIsWhite) {
             // Found it! Invert for the next round
