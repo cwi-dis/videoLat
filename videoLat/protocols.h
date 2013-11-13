@@ -45,6 +45,15 @@
 @property (readonly) NSString* deviceName;
 @end
 
+// Protocol for an object that can provide data to a GraphView
+@protocol GraphDataProviderProtocol
+@property(readonly) double min;
+@property(readonly) double max;
+@property(readonly) int count;
+
+- (NSNumber *)valueForIndex: (int) i;
+@end
+
 // Protocol for an object that is responsible for controlling a sequence of measurements
 @protocol DataCollectorProtocol
 @property(readonly) double average;

@@ -111,6 +111,7 @@
 
 - (void) trim
 {
+    if (count == 0) return;
 	// Sort by delay
 	NSArray *trimmed = [store sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
 		return [[obj1 objectForKey:@"delay"] compare: [obj2 objectForKey:@"delay"]];
@@ -155,7 +156,7 @@
 	return rv;
 }
 
-- (NSNumber *)delayForIndex: (int) i
+- (NSNumber *)valueForIndex: (int) i
 {
 	return [[store objectAtIndex:i] objectForKey:@"delay"];
 }
