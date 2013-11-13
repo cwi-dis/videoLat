@@ -45,6 +45,9 @@
 		04AF7116129A7EFC00BF94CF /* pp_summary in Resources */ = {isa = PBXBuildFile; fileRef = 04AF710D129A7EFC00BF94CF /* pp_summary */; };
 		04AF71E4129AAE4900BF94CF /* appDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 04AF71E3129AAE4900BF94CF /* appDelegate.m */; };
 		04E401AC129E711900B3227F /* help in Resources */ = {isa = PBXBuildFile; fileRef = 04E401A7129E711900B3227F /* help */; };
+		04EEC95E1832D320003A4A40 /* GraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04EEC95D1832D320003A4A40 /* GraphView.m */; };
+		04EEC9611832DE02003A4A40 /* DocumentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04EEC9601832DE02003A4A40 /* DocumentView.m */; };
+		04EEC9631832E6E4003A4A40 /* VLDocument.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04EEC9621832E6E3003A4A40 /* VLDocument.xib */; };
 		04F71800129348620016CFA4 /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 04F717FF129348620016CFA4 /* icon.icns */; };
 		1DDD58160DA1D0A300B32029 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DDD58140DA1D0A300B32029 /* MainMenu.xib */; };
 		229BEEFF0FB655D5000BB0ED /* iSight.m in Sources */ = {isa = PBXBuildFile; fileRef = 229BEEFE0FB655D5000BB0ED /* iSight.m */; };
@@ -101,6 +104,11 @@
 		04AF71E2129AAE4900BF94CF /* appDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = appDelegate.h; sourceTree = "<group>"; };
 		04AF71E3129AAE4900BF94CF /* appDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = appDelegate.m; sourceTree = "<group>"; };
 		04E401A7129E711900B3227F /* help */ = {isa = PBXFileReference; lastKnownFileType = folder; path = help; sourceTree = "<group>"; };
+		04EEC95C1832D320003A4A40 /* GraphView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GraphView.h; sourceTree = "<group>"; };
+		04EEC95D1832D320003A4A40 /* GraphView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GraphView.m; sourceTree = "<group>"; };
+		04EEC95F1832DE02003A4A40 /* DocumentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocumentView.h; sourceTree = "<group>"; };
+		04EEC9601832DE02003A4A40 /* DocumentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocumentView.m; sourceTree = "<group>"; };
+		04EEC9621832E6E3003A4A40 /* VLDocument.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VLDocument.xib; sourceTree = "<group>"; };
 		04F717FF129348620016CFA4 /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = icon.icns; sourceTree = "<group>"; };
 		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
@@ -181,6 +189,8 @@
 				229BEEFE0FB655D5000BB0ED /* iSight.m */,
 				040F2772121F3C3D003C3A4E /* genQRcodes.h */,
 				040F2773121F3C3D003C3A4E /* genQRcodes.m */,
+				04EEC95F1832DE02003A4A40 /* DocumentView.h */,
+				04EEC9601832DE02003A4A40 /* DocumentView.m */,
 				049838491227A4F2001D87DA /* Manager.h */,
 				0498384A1227A4F2001D87DA /* Manager.m */,
 				0430BD5B122306C400E14F88 /* Collector.h */,
@@ -194,6 +204,8 @@
 				04371DCF182AEE540097F251 /* protocols.h */,
 				0479AB4818323CC600C16411 /* StatusView.h */,
 				0479AB4918323CC600C16411 /* StatusView.m */,
+				04EEC95C1832D320003A4A40 /* GraphView.h */,
+				04EEC95D1832D320003A4A40 /* GraphView.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -265,6 +277,7 @@
 				8D1107310486CEB800E47090 /* Info.plist */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
 				1DDD58140DA1D0A300B32029 /* MainMenu.xib */,
+				04EEC9621832E6E3003A4A40 /* VLDocument.xib */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -344,6 +357,7 @@
 				04ACAE5912A3A6C200162513 /* measurements-summary-graphs-template.numbers in Resources */,
 				0496507512A84DF400F2E9D4 /* sw_labjack.py in Resources */,
 				0496509C12A8529D00F2E9D4 /* pylabjack in Resources */,
+				04EEC9631832E6E4003A4A40 /* VLDocument.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -396,6 +410,8 @@
 				04AF71E4129AAE4900BF94CF /* appDelegate.m in Sources */,
 				042C9FAC183123BD00B3C956 /* MeasurementRun.m in Sources */,
 				0479AB4A18323CC600C16411 /* StatusView.m in Sources */,
+				04EEC95E1832D320003A4A40 /* GraphView.m in Sources */,
+				04EEC9611832DE02003A4A40 /* DocumentView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

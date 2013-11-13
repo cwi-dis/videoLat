@@ -7,8 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "protocols.h"
 
-@interface MeasurementRun : NSCoder {
+@interface MeasurementRun : NSCoder <GraphDataProviderProtocol> {
     NSString *scenario;
     NSString *inputID;
     NSString *inputName;
@@ -43,5 +44,5 @@
 - (void) addDataPoint: (NSString*) data sent: (uint64_t)sent received: (uint64_t) received;
 - (void) trim;
 - (NSString*) asCSVString;
-- (NSNumber *)delayForIndex: (int) i;
+- (NSNumber *)valueForIndex: (int) i;
 @end

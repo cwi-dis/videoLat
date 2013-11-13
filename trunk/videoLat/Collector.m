@@ -6,6 +6,8 @@
 //  Copyright 2010 Centrum voor Wiskunde en Informatica. All rights reserved.
 //
 
+#import <AppKit/AppKit.h>
+#import <AppKit/NSNibLoading.h>
 #import "Collector.h"
 #import <mach/mach.h>
 #import <mach/mach_time.h>
@@ -184,10 +186,15 @@
 
 - (void)stopCollecting
 {
-	[NSKeyedArchiver archiveRootObject: dataStore toFile: @"/tmp/videolatdump"];
+#if 1
+    BOOL ok = [NSBundle loadNibNamed:@"VLDocument" owner:dataStore];
+    NSLog(@"nibload returned %d\n", (int)ok);
+#else
+	[NSKeyedArchiver archiveRootObject: dataStore toFile: @"/tmp/videolatdump.videoLat"];
 	NSString *csvData = [dataStore asCSVString];
 	[csvData writeToFile:@"/tmp/videolatdump.csv" atomically:NO encoding:NSStringEncodingConversionAllowLossy error:nil];
 	[super stopCollecting];
+#endif
 }
 
 @end
