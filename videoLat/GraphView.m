@@ -35,21 +35,22 @@
     // then we discard the oldest data (lowest X indices)
     int minX = 0;
     int maxX = source.count-1;
-    CGFloat xPixelPerUnit = (CGFloat)(maxX-minX) / width;
+    CGFloat xPixelPerUnit = width / (CGFloat)(maxX-minX);
     if (xPixelPerUnit < 1.0) {
         // Don't show the left bit
         minX = (maxX - (int)width);
         xPixelPerUnit = 1;
     }
+    if (minX < 0) minX = 0;
     
     // Determine Y scale. Go from 0 to at least max, but round up to 1/2/5 first digit.
     CGFloat minY = 0; // Not source.min;
     CGFloat maxY = source.max;
 
     maxY = 2*maxY; // XXXJACK
-    CGFloat yPixelPerUnit = (maxY-maxX) / height;
+    CGFloat yPixelPerUnit = (maxY-minY) / height;
     
-    NSLog(@"%d < x < %d (scale=%f) %f < y < %f (scale=%f)\n", minX, maxX, xPixelPerUnit, minY, maxY, xPixelPerUnit);
+    NSLog(@"%d < x < %d (scale=%f) %f < y < %f (scale=%f)\n", minX, maxX, xPixelPerUnit, minY, maxY, yPixelPerUnit);
     
     // Compute the closed path
     NSBezierPath *path = [NSBezierPath bezierPath];
@@ -60,9 +61,12 @@
     int i;
     for (i=minX; i<=maxX; i++) {
         newX = oldX + xPixelPerUnit;
-        newY = [[source valueForIndex:i] doubleValue] * yPixelPerUnit;
+        newY = [[source valueForIndex:i] doubleValue] / yPixelPerUnit;
         [path lineToPoint: NSMakePoint(oldX, newY)];
         [path lineToPoint: NSMakePoint(newX, newY)];
+        NSLog(@"point %f, %f", newX, newY);
+        oldX = newX;
+        oldY = newY;
     }
     [path lineToPoint: NSMakePoint(newX, minY)];
     [path closePath];
