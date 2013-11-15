@@ -10,10 +10,24 @@
 
 @implementation DocumentView
 
+- (DocumentView *) init
+{
+    self = [super init];
+    dataStore = nil;
+    dataDistribution = nil;
+}
+
 - (void)awakeFromNib
 {
     baseName = @"videoLat";
-    // distribution = xxxxxx;
+}
+
+- (void)viewWillDraw
+{
+	status.detectCount = [NSString stringWithFormat: @"%d (after trimming 5%%)", dataStore.count];
+	status.detectAverage = [NSString stringWithFormat: @"%.3f ms ± %.3f", dataStore.average / 1000.0, dataStore.stddev / 1000.0];
+    [status update:self];
+    [super viewWillDraw];
 }
 
 - (IBAction)export: (id)sender
@@ -23,12 +37,9 @@
     NSString *fileName = [NSString stringWithFormat:@"/tmp/%@-measurements.csv", baseName];
 	[csvData writeToFile:fileName atomically:NO encoding:NSStringEncodingConversionAllowLossy error:nil];
 	
-#if 0
-	csvData = [[distribution asCSVString] autorelease];
+	csvData = [[dataDistribution asCSVString] autorelease];
     fileName = [NSString stringWithFormat:@"/tmp/%@-distribution.csv", baseName];
-	[csvData writeToFile:fileName atomically:NO encoding:NSStringEncodingConversionAllowLossy error:nil];
-#endif
-    
+	[csvData writeToFile:fileName atomically:NO encoding:NSStringEncodingConversionAllowLossy error:nil];    
 }
 
 - (IBAction)save: (id)sender

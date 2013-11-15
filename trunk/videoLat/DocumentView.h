@@ -17,10 +17,11 @@
     IBOutlet GraphView *values;
     IBOutlet GraphView *distribution;
     IBOutlet MeasurementRun *dataStore;
-    // IBOutlet DistributionData *distribution;
+    IBOutlet MeasurementDistribution *dataDistribution;
     NSString *baseName;
 };
 
+- (void)viewWillDraw;
 - (IBAction)export: (id)sender;
 - (IBAction)save: (id)sender;
 

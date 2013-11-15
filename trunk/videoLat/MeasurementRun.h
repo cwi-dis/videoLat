@@ -46,3 +46,16 @@
 - (NSString*) asCSVString;
 - (NSNumber *)valueForIndex: (int) i;
 @end
+
+@interface MeasurementDistribution : NSObject <GraphDataProviderProtocol> {
+    IBOutlet id <GraphDataProviderProtocol> source;
+    NSMutableArray *store;
+    int binCount;
+    double binSize;
+}
+
+- (void)awakeFromNib;
+- (void)setSource: (id) _source;
+- (void)_recompute;
+- (NSNumber *)valueForIndex: (int) i;
+@end

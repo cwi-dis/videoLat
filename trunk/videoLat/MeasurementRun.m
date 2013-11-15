@@ -161,3 +161,74 @@
 	return [[store objectAtIndex:i] objectForKey:@"delay"];
 }
 @end
+
+@implementation MeasurementDistribution
+
+- (MeasurementDistribution *) init
+{
+    self = [super init];
+    store = nil;
+    source = nil;
+    binCount = 100;
+    binSize = 0;
+    return self;
+}
+
+- (void)awakeFromNib
+{
+    [self _recompute];
+}
+
+- (void)setSource: (id) _source
+{
+    if (source) [source release];
+    if (store) [store release];
+    source = [_source retain];
+    store = [[NSMutableArray alloc] initWithCapacity:binCount];
+    for (int i=0; i<binCount; i++)
+        [store addObject:[NSNumber numberWithDouble:0]];
+    [self _recompute];
+}
+
+- (void)_recompute
+{
+    double sourceMin = source.min;
+    double sourceMax = source.max;
+    sourceMin = 0; // For now we want distribution plots to start at 0.0
+    binSize = (sourceMax - sourceMin) / (binCount-1);
+    int sourceCount = source.count;
+    for (int i=0; i < sourceCount; i++) {
+        double value = [[source valueForIndex: i] doubleValue];
+        int binIndex = (int)(value / binSize);
+        double binValue = [[store objectAtIndex: binIndex] doubleValue];
+        binValue += 1.0 / sourceCount;
+        [store replaceObjectAtIndex:binIndex  withObject:[NSNumber numberWithDouble:binValue]];
+    }
+    
+}
+
+- (double) min
+{
+    return 0;
+}
+
+- (int) count
+{
+    return [store count];
+}
+
+- (double) max
+{
+    double rv = 0;
+    for (NSNumber *item in store) {
+        double value = [item doubleValue];
+        if (value > rv) rv = value;
+    }
+    return rv;
+}
+
+- (NSNumber *)valueForIndex: (int) i
+{
+    return [store objectAtIndex:i];
+}
+@end
