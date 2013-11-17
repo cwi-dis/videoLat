@@ -68,6 +68,7 @@ static double _RoundTo125(double value)
     CGFloat maxYaxis = (CGFloat)_RoundTo125(maxY);
 
     CGFloat yPixelPerUnit = (maxYaxis-minY) / height;
+    if (yPixelPerUnit == 0) yPixelPerUnit = 1;
     
     NSLog(@"%d < x < %d (scale=%f, axis=%f) %f < y < %f (scale=%f, axis=%f)\n", minX, maxX, xPixelPerUnit, maxXaxis, minY, maxY, yPixelPerUnit, maxYaxis);
     

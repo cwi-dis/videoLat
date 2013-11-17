@@ -96,10 +96,14 @@
 	return rv;
 }
 
-- (void)switchToDeviceWithName: (NSString *)name
+- (BOOL)switchToDeviceWithName: (NSString *)name
 {
 	AVCaptureDevice* dev = [self _deviceWithName:name];
+    if (dev == nil)
+        return NO;
 	[self _switchToDevice:dev];
+    [[NSUserDefaults standardUserDefaults] setObject:name forKey:@"Camera"];
+    return YES;
 }
 
 - (void)_switchToDevice: (AVCaptureDevice*)dev
