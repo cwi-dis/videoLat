@@ -19,6 +19,10 @@
 		040EC192183963040044A504 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 040EC16E183963040044A504 /* Cocoa.framework */; };
 		040EC19A183963040044A504 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 040EC198183963040044A504 /* InfoPlist.strings */; };
 		040EC19C183963040044A504 /* videoLatTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 040EC19B183963040044A504 /* videoLatTests.m */; };
+		040EC1B418396BA60044A504 /* findQRcodes.mm in Sources */ = {isa = PBXBuildFile; fileRef = 040EC1A918396BA50044A504 /* findQRcodes.mm */; };
+		040EC1B818396C720044A504 /* libzbar.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 040EC1B618396C720044A504 /* libzbar.dylib */; };
+		040EC1B918396C720044A504 /* libzint.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 040EC1B718396C720044A504 /* libzint.dylib */; };
+		040EC1BB18396C850044A504 /* libpython2.7.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 040EC1BA18396C850044A504 /* libpython2.7.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +56,24 @@
 		040EC197183963040044A504 /* videoLatTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "videoLatTests-Info.plist"; sourceTree = "<group>"; };
 		040EC199183963040044A504 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		040EC19B183963040044A504 /* videoLatTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = videoLatTests.m; sourceTree = "<group>"; };
+		040EC1A518396BA50044A504 /* appDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = appDelegate.h; sourceTree = "<group>"; };
+		040EC1A618396BA50044A504 /* Collector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Collector.h; sourceTree = "<group>"; };
+		040EC1A718396BA50044A504 /* DocumentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocumentView.h; sourceTree = "<group>"; };
+		040EC1A818396BA50044A504 /* findQRcodes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = findQRcodes.h; sourceTree = "<group>"; };
+		040EC1A918396BA50044A504 /* findQRcodes.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = findQRcodes.mm; sourceTree = "<group>"; };
+		040EC1AA18396BA50044A504 /* genQRcodes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = genQRcodes.h; sourceTree = "<group>"; };
+		040EC1AB18396BA50044A504 /* GraphView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GraphView.h; sourceTree = "<group>"; };
+		040EC1AC18396BA50044A504 /* iSight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iSight.h; sourceTree = "<group>"; };
+		040EC1AD18396BA50044A504 /* Manager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Manager.h; sourceTree = "<group>"; };
+		040EC1AE18396BA50044A504 /* MeasurementRun.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeasurementRun.h; sourceTree = "<group>"; };
+		040EC1AF18396BA50044A504 /* OutputView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OutputView.h; sourceTree = "<group>"; };
+		040EC1B018396BA60044A504 /* protocols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = protocols.h; sourceTree = "<group>"; };
+		040EC1B118396BA60044A504 /* PythonSwitcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PythonSwitcher.h; sourceTree = "<group>"; };
+		040EC1B218396BA60044A504 /* SettingsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsView.h; sourceTree = "<group>"; };
+		040EC1B318396BA60044A504 /* StatusView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusView.h; sourceTree = "<group>"; };
+		040EC1B618396C720044A504 /* libzbar.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libzbar.dylib; path = thirdParty/installed/lib/libzbar.dylib; sourceTree = "<group>"; };
+		040EC1B718396C720044A504 /* libzint.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libzint.dylib; path = thirdParty/installed/lib/libzint.dylib; sourceTree = "<group>"; };
+		040EC1BA18396C850044A504 /* libpython2.7.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libpython2.7.dylib; path = ../../../../System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/config/libpython2.7.dylib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,7 +81,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				040EC1BB18396C850044A504 /* libpython2.7.dylib in Frameworks */,
+				040EC1B918396C720044A504 /* libzint.dylib in Frameworks */,
 				040EC16F183963040044A504 /* Cocoa.framework in Frameworks */,
+				040EC1B818396C720044A504 /* libzbar.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -97,6 +122,8 @@
 		040EC16D183963040044A504 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				040EC1B518396C530044A504 /* thirdParty */,
+				040EC1BA18396C850044A504 /* libpython2.7.dylib */,
 				040EC16E183963040044A504 /* Cocoa.framework */,
 				040EC190183963040044A504 /* XCTest.framework */,
 				040EC170183963040044A504 /* Other Frameworks */,
@@ -117,6 +144,21 @@
 		040EC174183963040044A504 /* videoLat */ = {
 			isa = PBXGroup;
 			children = (
+				040EC1A518396BA50044A504 /* appDelegate.h */,
+				040EC1A618396BA50044A504 /* Collector.h */,
+				040EC1A718396BA50044A504 /* DocumentView.h */,
+				040EC1A818396BA50044A504 /* findQRcodes.h */,
+				040EC1A918396BA50044A504 /* findQRcodes.mm */,
+				040EC1AA18396BA50044A504 /* genQRcodes.h */,
+				040EC1AB18396BA50044A504 /* GraphView.h */,
+				040EC1AC18396BA50044A504 /* iSight.h */,
+				040EC1AD18396BA50044A504 /* Manager.h */,
+				040EC1AE18396BA50044A504 /* MeasurementRun.h */,
+				040EC1AF18396BA50044A504 /* OutputView.h */,
+				040EC1B018396BA60044A504 /* protocols.h */,
+				040EC1B118396BA60044A504 /* PythonSwitcher.h */,
+				040EC1B218396BA60044A504 /* SettingsView.h */,
+				040EC1B318396BA60044A504 /* StatusView.h */,
 				040EC180183963040044A504 /* Document.h */,
 				040EC181183963040044A504 /* Document.m */,
 				040EC183183963040044A504 /* Document.xib */,
@@ -155,6 +197,15 @@
 				040EC198183963040044A504 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		040EC1B518396C530044A504 /* thirdParty */ = {
+			isa = PBXGroup;
+			children = (
+				040EC1B618396C720044A504 /* libzbar.dylib */,
+				040EC1B718396C720044A504 /* libzint.dylib */,
+			);
+			name = thirdParty;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -256,6 +307,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				040EC1B418396BA60044A504 /* findQRcodes.mm in Sources */,
 				040EC182183963040044A504 /* Document.m in Sources */,
 				040EC17B183963040044A504 /* main.m in Sources */,
 			);
@@ -354,9 +406,15 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					/System/Library/Frameworks/Python.framework/Versions/2.7/include/python2.7,
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
+				USER_HEADER_SEARCH_PATHS = thirdParty/installed/include;
 			};
 			name = Debug;
 		};
@@ -386,8 +444,14 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					/System/Library/Frameworks/Python.framework/Versions/2.7/include/python2.7,
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				SDKROOT = macosx;
+				USER_HEADER_SEARCH_PATHS = thirdParty/installed/include;
 			};
 			name = Release;
 		};
@@ -399,6 +463,11 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "videoLat/videoLat-Prefix.pch";
 				INFOPLIST_FILE = "videoLat/videoLat-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/jack/src/videoLat/thirdParty/installed/lib,
+					"$(SYSTEM_LIBRARY_DIR)/Frameworks/Python.framework/Versions/2.7/lib/python2.7/config",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -412,6 +481,11 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "videoLat/videoLat-Prefix.pch";
 				INFOPLIST_FILE = "videoLat/videoLat-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/jack/src/videoLat/thirdParty/installed/lib,
+					"$(SYSTEM_LIBRARY_DIR)/Frameworks/Python.framework/Versions/2.7/lib/python2.7/config",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -476,6 +550,7 @@
 				040EC1A1183963040044A504 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		040EC1A2183963040044A504 /* Build configuration list for PBXNativeTarget "videoLatTests" */ = {
 			isa = XCConfigurationList;
@@ -484,6 +559,7 @@
 				040EC1A4183963040044A504 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

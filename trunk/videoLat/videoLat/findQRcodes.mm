@@ -58,7 +58,6 @@
     if (lastCode) free(lastCode);
     lastCode = NULL;
     delete scanner;
-    [super dealloc];
 }
 
 - (char*) find: (void*)buffer width: (int)width height: (int)height format:(const char *)format size:(int)size
