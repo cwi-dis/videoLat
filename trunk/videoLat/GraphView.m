@@ -8,6 +8,23 @@
 
 #import "GraphView.h"
 
+static double _RoundTo125(double value)
+{
+    double magnitude;
+    magnitude = floor(log10(value));
+    value /= pow(10.0, magnitude);
+    if (value < 1.5)
+        value = 1.0;
+    else if (value < 3.5)
+        value = 2.0;
+    else if (value < 7.5)
+        value = 5.0;
+    else
+        value = 10.0;
+    value *= pow(10.0, magnitude);
+    return value;
+}
+
 @implementation GraphView
 
 - (GraphView *)init
@@ -35,10 +52,12 @@
     // then we discard the oldest data (lowest X indices)
     int minX = 0;
     int maxX = source.count-1;
-    CGFloat xPixelPerUnit = width / (CGFloat)(maxX-minX);
+    CGFloat maxXaxis = (CGFloat)_RoundTo125(maxX);
+    CGFloat xPixelPerUnit = width / (CGFloat)(maxXaxis-minX);
     if (xPixelPerUnit < 1.0) {
         // Don't show the left bit
         minX = (maxX - (int)width);
+        maxXaxis = maxX;
         xPixelPerUnit = 1;
     }
     if (minX < 0) minX = 0;
@@ -46,11 +65,11 @@
     // Determine Y scale. Go from 0 to at least max, but round up to 1/2/5 first digit.
     CGFloat minY = 0; // Not source.min;
     CGFloat maxY = source.max;
+    CGFloat maxYaxis = (CGFloat)_RoundTo125(maxY);
 
-    maxY = 2*maxY; // XXXJACK
-    CGFloat yPixelPerUnit = (maxY-minY) / height;
+    CGFloat yPixelPerUnit = (maxYaxis-minY) / height;
     
-    NSLog(@"%d < x < %d (scale=%f) %f < y < %f (scale=%f)\n", minX, maxX, xPixelPerUnit, minY, maxY, yPixelPerUnit);
+    NSLog(@"%d < x < %d (scale=%f, axis=%f) %f < y < %f (scale=%f, axis=%f)\n", minX, maxX, xPixelPerUnit, maxXaxis, minY, maxY, yPixelPerUnit, maxYaxis);
     
     // Compute the closed path
     NSBezierPath *path = [NSBezierPath bezierPath];
