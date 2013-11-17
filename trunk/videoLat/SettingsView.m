@@ -67,26 +67,33 @@
 	NSMenuItem *oldItem = [bCameras selectedItem];
     if (oldItem) {
         oldCam = [oldItem title];
+    } else {
+        // If no camera was selected we take the one from the preferences
+        oldCam = [[NSUserDefaults standardUserDefaults] stringForKey:@"Camera"];
     }
     // Add all cameras
     NSArray *newList = [inputHandler deviceNames];
     [bCameras removeAllItems];
     [bCameras addItemsWithTitles: newList];
     // Re-select old selection, if possible
+    [self _reselectCamera:oldCam];
+    // If this is during awakeFromNib we are done
+    if (notification == nil) return;
+    // Tell the input handler if the device has changed
+    NSMenuItem *newItem = [bCameras selectedItem];
+    NSString *newCam = [newItem title];
+    if (![newCam isEqualToString:oldCam])
+        [inputHandler switchToDeviceWithName:newCam];
+}
+
+- (void)_reselectCamera: (NSString *)oldCam
+{
     if (oldCam)
         [bCameras selectItemWithTitle:oldCam];
     // Select first item, if nothing has been selected
     NSMenuItem *newItem = [bCameras selectedItem];
     if (newItem == nil)
         [bCameras selectItemAtIndex: 0];
-    // If this is during awakeFromNib we are done
-    if (notification == nil) return;
-    // Tell the input handler if the device has changed
-    newItem = [bCameras selectedItem];
-    NSString *newCam = [newItem title];
-    if (![newCam isEqualToString:oldCam])
-        [inputHandler switchToDeviceWithName:newCam];
-    
 }
 
 - (IBAction)cameraChanged: (id) sender

@@ -91,4 +91,5 @@ enum RoleTag {
 - (void)updateButtons: (id)sender;
 - (void)updateButtonsIfNeeded;
 - (void)_updateCameraNames: (NSNotification*) notification;
+- (void)_reselectCamera: (NSString *)name;
 @end
