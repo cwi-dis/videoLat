@@ -277,7 +277,7 @@
 	size_t h = CVPixelBufferGetHeight(pixelBuffer);
 	size_t size = CVPixelBufferGetDataSize(pixelBuffer);
 	assert (size>=w*h);
-	[manager newInputDone: buffer width: (int)w height: (int)h format: formatStr size:size];
+	[manager newInputDone: buffer width: (int)w height: (int)h format: formatStr size:(int)size];
 	CVPixelBufferUnlockBaseAddress(pixelBuffer, 0);
 }
 

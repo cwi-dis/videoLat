@@ -12,6 +12,10 @@
 		044F3D81183A467F0008CBA3 /* libpython2.7.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 044F3D80183A467F0008CBA3 /* libpython2.7.dylib */; };
 		044F3D83183A469D0008CBA3 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 044F3D82183A469D0008CBA3 /* IOKit.framework */; };
 		044F3D85183A47170008CBA3 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 044F3D84183A47170008CBA3 /* QuartzCore.framework */; };
+		045397CE183AB23B00697348 /* NewMeasurement.xib in Resources */ = {isa = PBXBuildFile; fileRef = 045397CD183AB23B00697348 /* NewMeasurement.xib */; };
+		045397D1183AC3D300697348 /* MeasurementTypeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 045397D0183AC3D300697348 /* MeasurementTypeView.m */; };
+		045397D4183AC3F300697348 /* MeasurementVideoSelectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 045397D3183AC3F300697348 /* MeasurementVideoSelectionView.m */; };
+		045397D7183AC40C00697348 /* MeasurementRunView.m in Sources */ = {isa = PBXBuildFile; fileRef = 045397D6183AC40B00697348 /* MeasurementRunView.m */; };
 		047DD1C2183A3B4C00A04F83 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 047DD1C1183A3B4C00A04F83 /* Cocoa.framework */; };
 		047DD1CC183A3B4D00A04F83 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 047DD1CA183A3B4D00A04F83 /* InfoPlist.strings */; };
 		047DD1CE183A3B4D00A04F83 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 047DD1CD183A3B4D00A04F83 /* main.m */; };
@@ -42,6 +46,13 @@
 		044F3D80183A467F0008CBA3 /* libpython2.7.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libpython2.7.dylib; path = ../../../../System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/config/libpython2.7.dylib; sourceTree = "<group>"; };
 		044F3D82183A469D0008CBA3 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = ../../../../System/Library/Frameworks/IOKit.framework; sourceTree = "<group>"; };
 		044F3D84183A47170008CBA3 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = ../../../../System/Library/Frameworks/QuartzCore.framework; sourceTree = "<group>"; };
+		045397CD183AB23B00697348 /* NewMeasurement.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewMeasurement.xib; sourceTree = "<group>"; };
+		045397CF183AC3D300697348 /* MeasurementTypeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeasurementTypeView.h; sourceTree = "<group>"; };
+		045397D0183AC3D300697348 /* MeasurementTypeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeasurementTypeView.m; sourceTree = "<group>"; };
+		045397D2183AC3F300697348 /* MeasurementVideoSelectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeasurementVideoSelectionView.h; sourceTree = "<group>"; };
+		045397D3183AC3F300697348 /* MeasurementVideoSelectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeasurementVideoSelectionView.m; sourceTree = "<group>"; };
+		045397D5183AC40B00697348 /* MeasurementRunView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeasurementRunView.h; sourceTree = "<group>"; };
+		045397D6183AC40B00697348 /* MeasurementRunView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeasurementRunView.m; sourceTree = "<group>"; };
 		047DD1BD183A3B4C00A04F83 /* videoLat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = videoLat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		047DD1C1183A3B4C00A04F83 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		047DD1C4183A3B4C00A04F83 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -176,12 +187,19 @@
 				04B58F18183A3CF000360A61 /* protocols.h */,
 				04B58F19183A3CF000360A61 /* PythonSwitcher.h */,
 				04B58F27183A3D3000360A61 /* PythonSwitcher.m */,
+				045397CF183AC3D300697348 /* MeasurementTypeView.h */,
+				045397D0183AC3D300697348 /* MeasurementTypeView.m */,
+				045397D2183AC3F300697348 /* MeasurementVideoSelectionView.h */,
+				045397D3183AC3F300697348 /* MeasurementVideoSelectionView.m */,
+				045397D5183AC40B00697348 /* MeasurementRunView.h */,
+				045397D6183AC40B00697348 /* MeasurementRunView.m */,
 				04B58F1A183A3CF000360A61 /* SettingsView.h */,
 				04B58F28183A3D3000360A61 /* SettingsView.m */,
 				04B58F1B183A3CF000360A61 /* StatusView.h */,
 				04B58F29183A3D3000360A61 /* StatusView.m */,
 				047DD1D6183A3B4D00A04F83 /* Document.xib */,
 				047DD1D9183A3B4D00A04F83 /* MainMenu.xib */,
+				045397CD183AB23B00697348 /* NewMeasurement.xib */,
 				047DD1C8183A3B4D00A04F83 /* Supporting Files */,
 			);
 			path = videoLat;
@@ -262,6 +280,7 @@
 				047DD1CC183A3B4D00A04F83 /* InfoPlist.strings in Resources */,
 				047DD1D2183A3B4D00A04F83 /* Credits.rtf in Resources */,
 				047DD1D8183A3B4D00A04F83 /* Document.xib in Resources */,
+				045397CE183AB23B00697348 /* NewMeasurement.xib in Resources */,
 				047DD1DB183A3B4D00A04F83 /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -276,16 +295,19 @@
 				047DD1CE183A3B4D00A04F83 /* main.m in Sources */,
 				047DD1D5183A3B4D00A04F83 /* Document.m in Sources */,
 				04B58F1C183A3CF000360A61 /* findQRcodes.mm in Sources */,
+				045397D1183AC3D300697348 /* MeasurementTypeView.m in Sources */,
 				04B58F2A183A3D3000360A61 /* appDelegate.m in Sources */,
 				04B58F2B183A3D3000360A61 /* Collector.m in Sources */,
 				04B58F2C183A3D3000360A61 /* DocumentView.m in Sources */,
 				04B58F2D183A3D3000360A61 /* genQRcodes.m in Sources */,
 				04B58F2E183A3D3000360A61 /* GraphView.m in Sources */,
+				045397D4183AC3F300697348 /* MeasurementVideoSelectionView.m in Sources */,
 				04B58F2F183A3D3000360A61 /* iSight.m in Sources */,
 				04B58F30183A3D3000360A61 /* Manager.m in Sources */,
 				04B58F31183A3D3000360A61 /* MeasurementRun.m in Sources */,
 				04B58F32183A3D3000360A61 /* OutputView.m in Sources */,
 				04B58F33183A3D3000360A61 /* PythonSwitcher.m in Sources */,
+				045397D7183AC40C00697348 /* MeasurementRunView.m in Sources */,
 				04B58F34183A3D3000360A61 /* SettingsView.m in Sources */,
 				04B58F35183A3D3000360A61 /* StatusView.m in Sources */,
 			);

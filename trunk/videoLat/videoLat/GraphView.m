@@ -40,7 +40,7 @@ static double _RoundTo125(double value)
 
 - (void)drawRect:(NSRect)dirtyRect {
     if (self.source == nil || [self.source count] == 0) {
-        NSLog(@"EMpty document for graph\n");
+        NSLog(@"Empty document for graph\n");
         return;
     }
     NSRect dstRect = [self bounds];
