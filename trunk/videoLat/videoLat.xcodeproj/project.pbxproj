@@ -1,0 +1,316 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		047DD1C2183A3B4C00A04F83 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 047DD1C1183A3B4C00A04F83 /* Cocoa.framework */; };
+		047DD1CC183A3B4D00A04F83 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 047DD1CA183A3B4D00A04F83 /* InfoPlist.strings */; };
+		047DD1CE183A3B4D00A04F83 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 047DD1CD183A3B4D00A04F83 /* main.m */; };
+		047DD1D2183A3B4D00A04F83 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 047DD1D0183A3B4D00A04F83 /* Credits.rtf */; };
+		047DD1D5183A3B4D00A04F83 /* Document.m in Sources */ = {isa = PBXBuildFile; fileRef = 047DD1D4183A3B4D00A04F83 /* Document.m */; };
+		047DD1D8183A3B4D00A04F83 /* Document.xib in Resources */ = {isa = PBXBuildFile; fileRef = 047DD1D6183A3B4D00A04F83 /* Document.xib */; };
+		047DD1DB183A3B4D00A04F83 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 047DD1D9183A3B4D00A04F83 /* MainMenu.xib */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		047DD1BD183A3B4C00A04F83 /* videoLat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = videoLat.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		047DD1C1183A3B4C00A04F83 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		047DD1C4183A3B4C00A04F83 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		047DD1C5183A3B4C00A04F83 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		047DD1C6183A3B4C00A04F83 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		047DD1C9183A3B4D00A04F83 /* videoLat-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "videoLat-Info.plist"; sourceTree = "<group>"; };
+		047DD1CB183A3B4D00A04F83 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		047DD1CD183A3B4D00A04F83 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		047DD1CF183A3B4D00A04F83 /* videoLat-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "videoLat-Prefix.pch"; sourceTree = "<group>"; };
+		047DD1D1183A3B4D00A04F83 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
+		047DD1D3183A3B4D00A04F83 /* Document.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Document.h; sourceTree = "<group>"; };
+		047DD1D4183A3B4D00A04F83 /* Document.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Document.m; sourceTree = "<group>"; };
+		047DD1D7183A3B4D00A04F83 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/Document.xib; sourceTree = "<group>"; };
+		047DD1DA183A3B4D00A04F83 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		047DD1BA183A3B4C00A04F83 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				047DD1C2183A3B4C00A04F83 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		047DD1B2183A3B4C00A04F83 = {
+			isa = PBXGroup;
+			children = (
+				047DD1C7183A3B4D00A04F83 /* videoLat */,
+				047DD1C0183A3B4C00A04F83 /* Frameworks */,
+				047DD1BE183A3B4C00A04F83 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		047DD1BE183A3B4C00A04F83 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				047DD1BD183A3B4C00A04F83 /* videoLat.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		047DD1C0183A3B4C00A04F83 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				047DD1C1183A3B4C00A04F83 /* Cocoa.framework */,
+				047DD1C3183A3B4C00A04F83 /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		047DD1C3183A3B4C00A04F83 /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				047DD1C4183A3B4C00A04F83 /* AppKit.framework */,
+				047DD1C5183A3B4C00A04F83 /* CoreData.framework */,
+				047DD1C6183A3B4C00A04F83 /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		047DD1C7183A3B4D00A04F83 /* videoLat */ = {
+			isa = PBXGroup;
+			children = (
+				047DD1D3183A3B4D00A04F83 /* Document.h */,
+				047DD1D4183A3B4D00A04F83 /* Document.m */,
+				047DD1D6183A3B4D00A04F83 /* Document.xib */,
+				047DD1D9183A3B4D00A04F83 /* MainMenu.xib */,
+				047DD1C8183A3B4D00A04F83 /* Supporting Files */,
+			);
+			path = videoLat;
+			sourceTree = "<group>";
+		};
+		047DD1C8183A3B4D00A04F83 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				047DD1C9183A3B4D00A04F83 /* videoLat-Info.plist */,
+				047DD1CA183A3B4D00A04F83 /* InfoPlist.strings */,
+				047DD1CD183A3B4D00A04F83 /* main.m */,
+				047DD1CF183A3B4D00A04F83 /* videoLat-Prefix.pch */,
+				047DD1D0183A3B4D00A04F83 /* Credits.rtf */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		047DD1BC183A3B4C00A04F83 /* videoLat */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 047DD1DE183A3B4D00A04F83 /* Build configuration list for PBXNativeTarget "videoLat" */;
+			buildPhases = (
+				047DD1B9183A3B4C00A04F83 /* Sources */,
+				047DD1BA183A3B4C00A04F83 /* Frameworks */,
+				047DD1BB183A3B4C00A04F83 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = videoLat;
+			productName = videoLat;
+			productReference = 047DD1BD183A3B4C00A04F83 /* videoLat.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		047DD1B4183A3B4C00A04F83 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0450;
+				ORGANIZATIONNAME = CWI;
+			};
+			buildConfigurationList = 047DD1B7183A3B4C00A04F83 /* Build configuration list for PBXProject "videoLat" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 047DD1B2183A3B4C00A04F83;
+			productRefGroup = 047DD1BE183A3B4C00A04F83 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				047DD1BC183A3B4C00A04F83 /* videoLat */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		047DD1BB183A3B4C00A04F83 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				047DD1CC183A3B4D00A04F83 /* InfoPlist.strings in Resources */,
+				047DD1D2183A3B4D00A04F83 /* Credits.rtf in Resources */,
+				047DD1D8183A3B4D00A04F83 /* Document.xib in Resources */,
+				047DD1DB183A3B4D00A04F83 /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		047DD1B9183A3B4C00A04F83 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				047DD1CE183A3B4D00A04F83 /* main.m in Sources */,
+				047DD1D5183A3B4D00A04F83 /* Document.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		047DD1CA183A3B4D00A04F83 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				047DD1CB183A3B4D00A04F83 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		047DD1D0183A3B4D00A04F83 /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				047DD1D1183A3B4D00A04F83 /* en */,
+			);
+			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		047DD1D6183A3B4D00A04F83 /* Document.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				047DD1D7183A3B4D00A04F83 /* en */,
+			);
+			name = Document.xib;
+			sourceTree = "<group>";
+		};
+		047DD1D9183A3B4D00A04F83 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				047DD1DA183A3B4D00A04F83 /* en */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		047DD1DC183A3B4D00A04F83 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		047DD1DD183A3B4D00A04F83 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		047DD1DF183A3B4D00A04F83 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "videoLat/videoLat-Prefix.pch";
+				INFOPLIST_FILE = "videoLat/videoLat-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		047DD1E0183A3B4D00A04F83 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "videoLat/videoLat-Prefix.pch";
+				INFOPLIST_FILE = "videoLat/videoLat-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		047DD1B7183A3B4C00A04F83 /* Build configuration list for PBXProject "videoLat" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				047DD1DC183A3B4D00A04F83 /* Debug */,
+				047DD1DD183A3B4D00A04F83 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		047DD1DE183A3B4D00A04F83 /* Build configuration list for PBXNativeTarget "videoLat" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				047DD1DF183A3B4D00A04F83 /* Debug */,
+				047DD1E0183A3B4D00A04F83 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 047DD1B4183A3B4C00A04F83 /* Project object */;
+}
