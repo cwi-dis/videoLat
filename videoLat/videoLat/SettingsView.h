@@ -31,7 +31,6 @@ enum RoleTag {
  
     // Reception section
     IBOutlet NSButton *bRecv;
-	IBOutlet NSPopUpButton *bCameras;
 
     // Coordination section
 	IBOutlet NSPopUpButton *bCoordHelper;
@@ -42,9 +41,7 @@ enum RoleTag {
     IBOutlet NSButton *bSummarize;
 
     // Run section
-    IBOutlet NSButton *bRunning;
     
-	IBOutlet id inputHandler;     // Camera class, used to find device names
 
     // Tranmsmission
     bool xmit;
@@ -86,10 +83,7 @@ enum RoleTag {
 - (IBAction)roleChanged: (id) sender;
 - (IBAction)buttonChanged: (id) sender;
 - (IBAction)runButtonChanged: (id) sender;
-- (IBAction)cameraChanged: (id) sender;
 - (IBAction)chooseFile: (id) sender;
 - (void)updateButtons: (id)sender;
 - (void)updateButtonsIfNeeded;
-- (void)_updateCameraNames: (NSNotification*) notification;
-- (void)_reselectCamera: (NSString *)name;
 @end
