@@ -108,17 +108,13 @@
 
 - (void)_switchToDevice: (AVCaptureDevice*)dev
 {
-	if (deviceID) [deviceID release];
-	if (deviceName) [deviceName release];
-	deviceID = [[dev modelID] retain];
-	deviceName = [[dev localizedName] retain];
+	deviceID = [dev modelID];
+	deviceName = [dev localizedName];
     // Delete old session, if needed
-	if (outputCapturer) [outputCapturer release];
 	outputCapturer = nil;
     if (selfLayer) [selfLayer removeFromSuperlayer];
 	if (session) {
         [session stopRunning];
-        [session release];
     }
 	session = nil;
     
@@ -281,7 +277,7 @@
 	size_t h = CVPixelBufferGetHeight(pixelBuffer);
 	size_t size = CVPixelBufferGetDataSize(pixelBuffer);
 	assert (size>=w*h);
-	[manager newInputDone: buffer width: w height: h format: formatStr size:size];
+	[manager newInputDone: buffer width: (int)w height: (int)h format: formatStr size:size];
 	CVPixelBufferUnlockBaseAddress(pixelBuffer, 0);
 }
 

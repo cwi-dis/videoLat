@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		044F3D7D183A46390008CBA3 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 044F3D7C183A46390008CBA3 /* AVFoundation.framework */; };
+		044F3D7F183A46540008CBA3 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 044F3D7E183A46540008CBA3 /* CoreMedia.framework */; };
+		044F3D81183A467F0008CBA3 /* libpython2.7.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 044F3D80183A467F0008CBA3 /* libpython2.7.dylib */; };
+		044F3D83183A469D0008CBA3 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 044F3D82183A469D0008CBA3 /* IOKit.framework */; };
+		044F3D85183A47170008CBA3 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 044F3D84183A47170008CBA3 /* QuartzCore.framework */; };
 		047DD1C2183A3B4C00A04F83 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 047DD1C1183A3B4C00A04F83 /* Cocoa.framework */; };
 		047DD1CC183A3B4D00A04F83 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 047DD1CA183A3B4D00A04F83 /* InfoPlist.strings */; };
 		047DD1CE183A3B4D00A04F83 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 047DD1CD183A3B4D00A04F83 /* main.m */; };
@@ -14,9 +19,29 @@
 		047DD1D5183A3B4D00A04F83 /* Document.m in Sources */ = {isa = PBXBuildFile; fileRef = 047DD1D4183A3B4D00A04F83 /* Document.m */; };
 		047DD1D8183A3B4D00A04F83 /* Document.xib in Resources */ = {isa = PBXBuildFile; fileRef = 047DD1D6183A3B4D00A04F83 /* Document.xib */; };
 		047DD1DB183A3B4D00A04F83 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 047DD1D9183A3B4D00A04F83 /* MainMenu.xib */; };
+		04B58F1C183A3CF000360A61 /* findQRcodes.mm in Sources */ = {isa = PBXBuildFile; fileRef = 04B58F11183A3CF000360A61 /* findQRcodes.mm */; };
+		04B58F2A183A3D3000360A61 /* appDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B58F1E183A3D3000360A61 /* appDelegate.m */; };
+		04B58F2B183A3D3000360A61 /* Collector.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B58F1F183A3D3000360A61 /* Collector.m */; };
+		04B58F2C183A3D3000360A61 /* DocumentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B58F20183A3D3000360A61 /* DocumentView.m */; };
+		04B58F2D183A3D3000360A61 /* genQRcodes.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B58F21183A3D3000360A61 /* genQRcodes.m */; };
+		04B58F2E183A3D3000360A61 /* GraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B58F22183A3D3000360A61 /* GraphView.m */; };
+		04B58F2F183A3D3000360A61 /* iSight.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B58F23183A3D3000360A61 /* iSight.m */; };
+		04B58F30183A3D3000360A61 /* Manager.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B58F24183A3D3000360A61 /* Manager.m */; };
+		04B58F31183A3D3000360A61 /* MeasurementRun.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B58F25183A3D3000360A61 /* MeasurementRun.m */; };
+		04B58F32183A3D3000360A61 /* OutputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B58F26183A3D3000360A61 /* OutputView.m */; };
+		04B58F33183A3D3000360A61 /* PythonSwitcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B58F27183A3D3000360A61 /* PythonSwitcher.m */; };
+		04B58F34183A3D3000360A61 /* SettingsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B58F28183A3D3000360A61 /* SettingsView.m */; };
+		04B58F35183A3D3000360A61 /* StatusView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B58F29183A3D3000360A61 /* StatusView.m */; };
+		04B58F39183A3D5300360A61 /* libzbar.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 04B58F37183A3D5300360A61 /* libzbar.0.dylib */; };
+		04B58F3A183A3D5300360A61 /* libzint.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 04B58F38183A3D5300360A61 /* libzint.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		044F3D7C183A46390008CBA3 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = /System/Library/Frameworks/AVFoundation.framework; sourceTree = "<absolute>"; };
+		044F3D7E183A46540008CBA3 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = ../../../../System/Library/Frameworks/CoreMedia.framework; sourceTree = "<group>"; };
+		044F3D80183A467F0008CBA3 /* libpython2.7.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libpython2.7.dylib; path = ../../../../System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/config/libpython2.7.dylib; sourceTree = "<group>"; };
+		044F3D82183A469D0008CBA3 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = ../../../../System/Library/Frameworks/IOKit.framework; sourceTree = "<group>"; };
+		044F3D84183A47170008CBA3 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = ../../../../System/Library/Frameworks/QuartzCore.framework; sourceTree = "<group>"; };
 		047DD1BD183A3B4C00A04F83 /* videoLat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = videoLat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		047DD1C1183A3B4C00A04F83 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		047DD1C4183A3B4C00A04F83 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -31,6 +56,35 @@
 		047DD1D4183A3B4D00A04F83 /* Document.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Document.m; sourceTree = "<group>"; };
 		047DD1D7183A3B4D00A04F83 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/Document.xib; sourceTree = "<group>"; };
 		047DD1DA183A3B4D00A04F83 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		04B58F0D183A3CF000360A61 /* appDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = appDelegate.h; sourceTree = "<group>"; };
+		04B58F0E183A3CF000360A61 /* Collector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Collector.h; sourceTree = "<group>"; };
+		04B58F0F183A3CF000360A61 /* DocumentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocumentView.h; sourceTree = "<group>"; };
+		04B58F10183A3CF000360A61 /* findQRcodes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = findQRcodes.h; sourceTree = "<group>"; };
+		04B58F11183A3CF000360A61 /* findQRcodes.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = findQRcodes.mm; sourceTree = "<group>"; };
+		04B58F12183A3CF000360A61 /* genQRcodes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = genQRcodes.h; sourceTree = "<group>"; };
+		04B58F13183A3CF000360A61 /* GraphView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GraphView.h; sourceTree = "<group>"; };
+		04B58F14183A3CF000360A61 /* iSight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iSight.h; sourceTree = "<group>"; };
+		04B58F15183A3CF000360A61 /* Manager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Manager.h; sourceTree = "<group>"; };
+		04B58F16183A3CF000360A61 /* MeasurementRun.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeasurementRun.h; sourceTree = "<group>"; };
+		04B58F17183A3CF000360A61 /* OutputView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OutputView.h; sourceTree = "<group>"; };
+		04B58F18183A3CF000360A61 /* protocols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = protocols.h; sourceTree = "<group>"; };
+		04B58F19183A3CF000360A61 /* PythonSwitcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PythonSwitcher.h; sourceTree = "<group>"; };
+		04B58F1A183A3CF000360A61 /* SettingsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsView.h; sourceTree = "<group>"; };
+		04B58F1B183A3CF000360A61 /* StatusView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusView.h; sourceTree = "<group>"; };
+		04B58F1E183A3D3000360A61 /* appDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = appDelegate.m; sourceTree = "<group>"; };
+		04B58F1F183A3D3000360A61 /* Collector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Collector.m; sourceTree = "<group>"; };
+		04B58F20183A3D3000360A61 /* DocumentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocumentView.m; sourceTree = "<group>"; };
+		04B58F21183A3D3000360A61 /* genQRcodes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = genQRcodes.m; sourceTree = "<group>"; };
+		04B58F22183A3D3000360A61 /* GraphView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GraphView.m; sourceTree = "<group>"; };
+		04B58F23183A3D3000360A61 /* iSight.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iSight.m; sourceTree = "<group>"; };
+		04B58F24183A3D3000360A61 /* Manager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Manager.m; sourceTree = "<group>"; };
+		04B58F25183A3D3000360A61 /* MeasurementRun.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeasurementRun.m; sourceTree = "<group>"; };
+		04B58F26183A3D3000360A61 /* OutputView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OutputView.m; sourceTree = "<group>"; };
+		04B58F27183A3D3000360A61 /* PythonSwitcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PythonSwitcher.m; sourceTree = "<group>"; };
+		04B58F28183A3D3000360A61 /* SettingsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsView.m; sourceTree = "<group>"; };
+		04B58F29183A3D3000360A61 /* StatusView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusView.m; sourceTree = "<group>"; };
+		04B58F37183A3D5300360A61 /* libzbar.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libzbar.0.dylib; path = thirdParty/installed/lib/libzbar.0.dylib; sourceTree = "<group>"; };
+		04B58F38183A3D5300360A61 /* libzint.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libzint.dylib; path = thirdParty/installed/lib/libzint.dylib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -39,6 +93,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				047DD1C2183A3B4C00A04F83 /* Cocoa.framework in Frameworks */,
+				04B58F39183A3D5300360A61 /* libzbar.0.dylib in Frameworks */,
+				04B58F3A183A3D5300360A61 /* libzint.dylib in Frameworks */,
+				044F3D7D183A46390008CBA3 /* AVFoundation.framework in Frameworks */,
+				044F3D7F183A46540008CBA3 /* CoreMedia.framework in Frameworks */,
+				044F3D81183A467F0008CBA3 /* libpython2.7.dylib in Frameworks */,
+				044F3D83183A469D0008CBA3 /* IOKit.framework in Frameworks */,
+				044F3D85183A47170008CBA3 /* QuartzCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,7 +126,13 @@
 		047DD1C0183A3B4C00A04F83 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				04B58F36183A3D3800360A61 /* thirdParty */,
+				044F3D7C183A46390008CBA3 /* AVFoundation.framework */,
+				044F3D7E183A46540008CBA3 /* CoreMedia.framework */,
+				044F3D84183A47170008CBA3 /* QuartzCore.framework */,
+				044F3D82183A469D0008CBA3 /* IOKit.framework */,
 				047DD1C1183A3B4C00A04F83 /* Cocoa.framework */,
+				044F3D80183A467F0008CBA3 /* libpython2.7.dylib */,
 				047DD1C3183A3B4C00A04F83 /* Other Frameworks */,
 			);
 			name = Frameworks;
@@ -84,6 +151,33 @@
 		047DD1C7183A3B4D00A04F83 /* videoLat */ = {
 			isa = PBXGroup;
 			children = (
+				04B58F1E183A3D3000360A61 /* appDelegate.m */,
+				04B58F1F183A3D3000360A61 /* Collector.m */,
+				04B58F20183A3D3000360A61 /* DocumentView.m */,
+				04B58F21183A3D3000360A61 /* genQRcodes.m */,
+				04B58F22183A3D3000360A61 /* GraphView.m */,
+				04B58F23183A3D3000360A61 /* iSight.m */,
+				04B58F24183A3D3000360A61 /* Manager.m */,
+				04B58F25183A3D3000360A61 /* MeasurementRun.m */,
+				04B58F26183A3D3000360A61 /* OutputView.m */,
+				04B58F27183A3D3000360A61 /* PythonSwitcher.m */,
+				04B58F28183A3D3000360A61 /* SettingsView.m */,
+				04B58F29183A3D3000360A61 /* StatusView.m */,
+				04B58F0D183A3CF000360A61 /* appDelegate.h */,
+				04B58F0E183A3CF000360A61 /* Collector.h */,
+				04B58F0F183A3CF000360A61 /* DocumentView.h */,
+				04B58F10183A3CF000360A61 /* findQRcodes.h */,
+				04B58F11183A3CF000360A61 /* findQRcodes.mm */,
+				04B58F12183A3CF000360A61 /* genQRcodes.h */,
+				04B58F13183A3CF000360A61 /* GraphView.h */,
+				04B58F14183A3CF000360A61 /* iSight.h */,
+				04B58F15183A3CF000360A61 /* Manager.h */,
+				04B58F16183A3CF000360A61 /* MeasurementRun.h */,
+				04B58F17183A3CF000360A61 /* OutputView.h */,
+				04B58F18183A3CF000360A61 /* protocols.h */,
+				04B58F19183A3CF000360A61 /* PythonSwitcher.h */,
+				04B58F1A183A3CF000360A61 /* SettingsView.h */,
+				04B58F1B183A3CF000360A61 /* StatusView.h */,
 				047DD1D3183A3B4D00A04F83 /* Document.h */,
 				047DD1D4183A3B4D00A04F83 /* Document.m */,
 				047DD1D6183A3B4D00A04F83 /* Document.xib */,
@@ -103,6 +197,15 @@
 				047DD1D0183A3B4D00A04F83 /* Credits.rtf */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		04B58F36183A3D3800360A61 /* thirdParty */ = {
+			isa = PBXGroup;
+			children = (
+				04B58F37183A3D5300360A61 /* libzbar.0.dylib */,
+				04B58F38183A3D5300360A61 /* libzint.dylib */,
+			);
+			name = thirdParty;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -172,6 +275,19 @@
 			files = (
 				047DD1CE183A3B4D00A04F83 /* main.m in Sources */,
 				047DD1D5183A3B4D00A04F83 /* Document.m in Sources */,
+				04B58F1C183A3CF000360A61 /* findQRcodes.mm in Sources */,
+				04B58F2A183A3D3000360A61 /* appDelegate.m in Sources */,
+				04B58F2B183A3D3000360A61 /* Collector.m in Sources */,
+				04B58F2C183A3D3000360A61 /* DocumentView.m in Sources */,
+				04B58F2D183A3D3000360A61 /* genQRcodes.m in Sources */,
+				04B58F2E183A3D3000360A61 /* GraphView.m in Sources */,
+				04B58F2F183A3D3000360A61 /* iSight.m in Sources */,
+				04B58F30183A3D3000360A61 /* Manager.m in Sources */,
+				04B58F31183A3D3000360A61 /* MeasurementRun.m in Sources */,
+				04B58F32183A3D3000360A61 /* OutputView.m in Sources */,
+				04B58F33183A3D3000360A61 /* PythonSwitcher.m in Sources */,
+				04B58F34183A3D3000360A61 /* SettingsView.m in Sources */,
+				04B58F35183A3D3000360A61 /* StatusView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -237,9 +353,11 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = /System/Library/Frameworks/Python.framework/Versions/2.7/include/python2.7;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
+				USER_HEADER_SEARCH_PATHS = thirdParty/installed/include;
 			};
 			name = Debug;
 		};
@@ -261,8 +379,10 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = /System/Library/Frameworks/Python.framework/Versions/2.7/include/python2.7;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				SDKROOT = macosx;
+				USER_HEADER_SEARCH_PATHS = thirdParty/installed/include;
 			};
 			name = Release;
 		};
@@ -273,6 +393,11 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "videoLat/videoLat-Prefix.pch";
 				INFOPLIST_FILE = "videoLat/videoLat-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/thirdParty/installed/lib\"",
+					"\"$(SYSTEM_LIBRARY_DIR)/Frameworks/Python.framework/Versions/2.7/lib/python2.7/config\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -285,6 +410,11 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "videoLat/videoLat-Prefix.pch";
 				INFOPLIST_FILE = "videoLat/videoLat-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/thirdParty/installed/lib\"",
+					"\"$(SYSTEM_LIBRARY_DIR)/Frameworks/Python.framework/Versions/2.7/lib/python2.7/config\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -309,6 +439,7 @@
 				047DD1E0183A3B4D00A04F83 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -81,7 +81,7 @@ enum RoleTag {
 
 @property(readonly) bool running;
 
-@property(assign) id manager;
+@property id manager;
 
 - (IBAction)roleChanged: (id) sender;
 - (IBAction)buttonChanged: (id) sender;

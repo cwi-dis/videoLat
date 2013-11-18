@@ -19,23 +19,25 @@
 
 - (Manager*)init
 {
-    [super init];
-    foundQRcode = false;
-    found_total = 0;
-    found_ok = 0;
-    current_qrcode = NULL;
-    blacklevel = 255;
-    whitelevel = 0;
-    nBWdetections = 0;
-    outputAddedOverhead = 0;
-    outputStartTime = 0;
-    inputAddedOverhead = 0;
-    inputStartTime = 0;
-    outputCode = nil;
-    outputCodeHasBeenReported = true;
-    lastOutputCode = nil;
-    lastInputCode = nil;
-    capturer = nil;
+    self = [super init];
+	if (self) {
+		foundQRcode = false;
+		found_total = 0;
+		found_ok = 0;
+		current_qrcode = NULL;
+		blacklevel = 255;
+		whitelevel = 0;
+		nBWdetections = 0;
+		outputAddedOverhead = 0;
+		outputStartTime = 0;
+		inputAddedOverhead = 0;
+		inputStartTime = 0;
+		outputCode = nil;
+		outputCodeHasBeenReported = true;
+		lastOutputCode = nil;
+		lastInputCode = nil;
+		capturer = nil;
+	}
     return self;
 }
 
@@ -89,7 +91,6 @@
 {
     @synchronized(self) {
         if (current_qrcode) {
-            [current_qrcode release];
             current_qrcode = nil;
         }
 		if (outputView) {
@@ -97,11 +98,9 @@
 			outputView.visible = settings.xmit;
 		}
         if ([settings.coordHelper isEqualToString: @"None"]) {
-			if (delegate) [delegate release];
 			delegate = nil;
 		} else {
 			if (delegate && ![settings.coordHelper isEqualToString: [delegate script]]) {
-				[delegate release];
 				delegate = nil;
 			}
             if (delegate == nil) { 
@@ -152,8 +151,7 @@
         if (!wantNewImage) {
             newImage = current_qrcode;
         } else {
-            [outputCode release];
-            outputCode = [[NSString stringWithFormat:@"%lld", outputStartTime] retain];
+            outputCode = [NSString stringWithFormat:@"%lld", outputStartTime];
             assert(outputCodeHasBeenReported);
             outputCodeHasBeenReported = false;
             if (delegate && [delegate respondsToSelector:@selector(newOutput:)]) {
@@ -163,10 +161,8 @@
                     newImage = [CIImage imageWithColor:[CIColor colorWithRed:0 green:0 blue:0]];
                     CGRect rect = {0, 0, 480, 480};
                     newImage = [newImage imageByCroppingToRect: rect];
-                    if (current_qrcode) [current_qrcode release];
-                    current_qrcode = [newImage retain];
-                    [outputCode release];
-                    outputCode = [new retain];
+                    current_qrcode = newImage;
+                    outputCode = new;
                     return newImage;
                 }
             }
@@ -176,8 +172,7 @@
             NSData *data = [NSData dataWithBytesNoCopy:bitmapdata length:sizeof(bitmapdata) freeWhenDone: YES];
             CGSize size = {480, 480};
             newImage = [CIImage imageWithBitmapData:data bytesPerRow:4*480 size:size format: kCIFormatARGB8 colorSpace: nil];
-            if (current_qrcode) [current_qrcode release];
-            current_qrcode = [newImage retain];
+            current_qrcode = newImage;
 #if 0
             // Debug: detect our own QRcode
             bool found = [finder find: bitmapdata width: 640 height: 480 format: "RGB4" size:640*480*4];
@@ -272,12 +267,10 @@
 					// We found the last one already, don't count it again.
 					return;
 				}
-				[current_qrcode release];
 				current_qrcode = nil;
-				if (lastOutputCode) [lastOutputCode release];
 				lastOutputCode = outputCode;
 				assert(outputCodeHasBeenReported);
-				outputCode = [[NSString stringWithFormat: @"BadCookie"] retain];
+				outputCode = [NSString stringWithFormat: @"BadCookie"];
 			} else if (strcmp(code, [lastOutputCode UTF8String]) == 0) {
 				// We have received the previous code again. Ignore.
 				//NSLog(@"Same old code again: %s", code);
@@ -294,8 +287,7 @@
             if (!lastInputCode || strcmp(code, [lastInputCode UTF8String]) != 0) {
                 found_ok++;
                 found_total++;
-                [lastInputCode release];
-                lastInputCode = [[NSString stringWithUTF8String: code] retain];
+                lastInputCode = [NSString stringWithUTF8String: code];
                 [collector recordReception: lastInputCode at: inputStartTime-inputAddedOverhead];
                 [collector output: "macVideoGrab" event: "data" data: code start: inputStartTime-inputAddedOverhead];
             }
@@ -341,14 +333,13 @@ mono:
             // Found it! Invert for the next round
             currentColorIsWhite = !currentColorIsWhite;
             nBWdetections++;
-            status.bwString = [[NSString stringWithFormat: @"found %d (current %s)", nBWdetections, isWhite?"white":"black"] retain];
+            status.bwString = [NSString stringWithFormat: @"found %d (current %s)", nBWdetections, isWhite?"white":"black"];
             [status update: self];
             // XXXJACK Is this correct? is "now" the best timestamp we have for the incoming hardware data?
             [collector recordReception: isWhite?@"white":@"black" at: receptionTime];
             [collector output: "hardwareGrab" event: isWhite?"white":"black" data: [outputCode UTF8String]];
             inputAddedOverhead = 0;
-            [outputCode release];
-            outputCode = [[NSString stringWithFormat:@"%lld", receptionTime] retain];
+            outputCode = [NSString stringWithFormat:@"%lld", receptionTime];
             outputCodeHasBeenReported = false;
             [self performSelectorOnMainThread: @selector(_triggerNewOutputValue) withObject: nil waitUntilDone: NO];
 
@@ -400,7 +391,7 @@ mono:
 				count++;
 			}
 		}
-		int average = (total/count);
+		int average = (int)(total/count);
 		//NSLog(@"Average greylevel is %d (black %d, white %d, #%d) want %s\n", average, blacklevel, whitelevel, nBWdetections, currentColorIsWhite?"white":"black");
 		if (average < blacklevel) blacklevel = average;
 		if (average > whitelevel) whitelevel = average;
@@ -409,7 +400,7 @@ mono:
 			// Found it! Invert for the next round
 			currentColorIsWhite = !currentColorIsWhite;
 			nBWdetections++;
-			status.bwString = [[NSString stringWithFormat: @"found %d (levels %d..%d)", nBWdetections, blacklevel, whitelevel] retain];
+			status.bwString = [NSString stringWithFormat: @"found %d (levels %d..%d)", nBWdetections, blacklevel, whitelevel];
 			[status update: self];
 			if (nBWdetections > 10) {
 				// The first 10 are for calibrating, then we get to business
@@ -417,8 +408,7 @@ mono:
 				[collector output: "blackWhiteGrab" event: foundColorIsWhite?"white":"black" data: [outputCode UTF8String] start:inputStartTime-inputAddedOverhead];
 				inputAddedOverhead = 0;
 			}
-			[outputCode release];
-			outputCode = [[NSString stringWithFormat:@"%lld", [collector now]] retain];
+			outputCode = [NSString stringWithFormat:@"%lld", [collector now]];
 			outputCodeHasBeenReported = false;
 			[self performSelectorOnMainThread: @selector(_triggerNewOutputValue) withObject: nil waitUntilDone: NO];
 

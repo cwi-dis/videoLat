@@ -26,7 +26,7 @@
 
 - (NSString *)fileName {
     [bChooseFile setEnabled: NO];
-    return [fileName retain];
+    return fileName;
 }
 
 - (void)awakeFromNib
@@ -134,7 +134,7 @@
 	coordHelper = [selHelper title];
 
     // Output
-    fileName = [[bFilename stringValue] retain];
+    fileName = [bFilename stringValue];
     summarize = [bSummarize state] == NSOnState;
 
     // Run
