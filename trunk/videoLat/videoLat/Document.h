@@ -7,7 +7,15 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "MeasurementRun.h"
 
-@interface Document : NSDocument
+@interface Document : NSDocument {
+    NSString *baseName;
+}
+@property(retain) IBOutlet MeasurementRun *dataStore;
+@property(retain) IBOutlet MeasurementDistribution *dataDistribution;
+
+- (IBAction)export: (id)sender;
+- (IBAction)save: (id)sender;
 
 @end

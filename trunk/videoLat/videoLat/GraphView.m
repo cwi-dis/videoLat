@@ -30,7 +30,6 @@ static double _RoundTo125(double value)
 - (GraphView *)init
 {
     self = [super init];
-    source = nil;
     return self;
 }
 
@@ -40,7 +39,7 @@ static double _RoundTo125(double value)
 }
 
 - (void)drawRect:(NSRect)dirtyRect {
-    if (source == nil || [source count] == 0) {
+    if (self.source == nil || [self.source count] == 0) {
         NSLog(@"EMpty document for graph\n");
         return;
     }
@@ -51,7 +50,7 @@ static double _RoundTo125(double value)
     // Determine X scale. Start at zero, unless we get less than a pixel per value,
     // then we discard the oldest data (lowest X indices)
     int minX = 0;
-    int maxX = source.count-1;
+    int maxX = self.source.count-1;
     CGFloat maxXaxis = (CGFloat)_RoundTo125(maxX);
     CGFloat xPixelPerUnit = width / (CGFloat)(maxXaxis-minX);
     if (xPixelPerUnit < 1.0) {
@@ -64,12 +63,15 @@ static double _RoundTo125(double value)
     
     // Determine Y scale. Go from 0 to at least max, but round up to 1/2/5 first digit.
     CGFloat minY = 0; // Not source.min;
-    CGFloat maxY = source.max;
+    CGFloat maxY = self.source.max;
     CGFloat maxYaxis = (CGFloat)_RoundTo125(maxY);
 
     CGFloat yPixelPerUnit = (maxYaxis-minY) / height;
     if (yPixelPerUnit == 0) yPixelPerUnit = 1;
-    
+
+	if (self.bMaxX) self.bMaxX.stringValue = [NSString stringWithFormat:@"%f", maxXaxis];
+	if (self.bMaxY) self.bMaxY.stringValue = [NSString stringWithFormat:@"%f", maxYaxis];
+
     NSLog(@"%d < x < %d (scale=%f, axis=%f) %f < y < %f (scale=%f, axis=%f)\n", minX, maxX, xPixelPerUnit, maxXaxis, minY, maxY, yPixelPerUnit, maxYaxis);
     
     // Compute the closed path
@@ -81,7 +83,7 @@ static double _RoundTo125(double value)
     int i;
     for (i=minX; i<=maxX; i++) {
         newX = oldX + xPixelPerUnit;
-        newY = [[source valueForIndex:i] doubleValue] / yPixelPerUnit;
+        newY = [[self.source valueForIndex:i] doubleValue] / yPixelPerUnit;
         [path lineToPoint: NSMakePoint(oldX, newY)];
         [path lineToPoint: NSMakePoint(newX, newY)];
         NSLog(@"point %f, %f", newX, newY);

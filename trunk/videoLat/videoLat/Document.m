@@ -9,6 +9,8 @@
 #import "Document.h"
 
 @implementation Document
+@synthesize dataStore;
+@synthesize dataDistribution;
 
 - (id)init
 {
@@ -54,6 +56,30 @@
 	NSException *exception = [NSException exceptionWithName:@"UnimplementedMethod" reason:[NSString stringWithFormat:@"%@ is unimplemented", NSStringFromSelector(_cmd)] userInfo:nil];
 	@throw exception;
 	return YES;
+}
+
+- (void)awakeFromNib
+{
+    baseName = @"videoLat";
+}
+
+- (IBAction)export: (id)sender
+{
+    
+	NSString *csvData = [self.dataStore asCSVString];
+    NSString *fileName = [NSString stringWithFormat:@"/tmp/%@-measurements.csv", baseName];
+	[csvData writeToFile:fileName atomically:NO encoding:NSStringEncodingConversionAllowLossy error:nil];
+#if 0
+	csvData = [self.dataDistribution asCSVString];
+    fileName = [NSString stringWithFormat:@"/tmp/%@-distribution.csv", baseName];
+	[csvData writeToFile:fileName atomically:NO encoding:NSStringEncodingConversionAllowLossy error:nil];    
+#endif
+}
+
+- (IBAction)save: (id)sender
+{
+    NSString *fileName = [NSString stringWithFormat:@"/tmp/%@.videoLat", baseName];
+ 	[NSKeyedArchiver archiveRootObject: dataStore toFile: fileName];
 }
 
 @end

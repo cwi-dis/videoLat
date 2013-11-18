@@ -9,30 +9,46 @@
 #import "StatusView.h"
 
 @implementation StatusView
+@synthesize bMeasurementType;
+@synthesize bInputDevice;
+@synthesize bOutputDevice;
+@synthesize bDate;
+@synthesize bLocation;
+@synthesize bDescription;
+@synthesize bDetectCount;
+@synthesize bDetectAverage;
+@synthesize bDetectMinDelay;
+@synthesize bDetectMaxDelay;
+
+@synthesize measurementType;
+@synthesize inputDevice;
+@synthesize outputDevice;
+@synthesize date;
+@synthesize location;
+@synthesize description;
 @synthesize detectCount;
 @synthesize detectAverage;
-@synthesize bwString;
-@synthesize finderRect;
-@synthesize foundQRcode;
+@synthesize detectMinDelay;
+@synthesize detectMaxDelay;
 
 - (void)awakeFromNib
 {
-	detectCount = [NSString stringWithUTF8String: "none"];
-	detectCount = [NSString stringWithUTF8String: "-"];
-    bwString = [NSString stringWithUTF8String: "none"];
-    finderRect = NSMakeRect(0, 0, -1, -1);
-	foundQRcode = false;
 }
 
 - (void) update: (id)sender
 {
-    [bDetectCount setStringValue: detectCount];
-    [bDetectAverage setStringValue: detectAverage];
-    if (foundQRcode) {
-        [bDetectCount setTextColor:[NSColor blackColor]];
-    } else {
-        [bDetectCount setTextColor:[NSColor redColor]];
-    }
+	if (bMeasurementType) bMeasurementType.stringValue = measurementType;
+	if (bInputDevice) bInputDevice.stringValue = inputDevice;
+	if (bOutputDevice) bOutputDevice.stringValue = outputDevice;
+	if (bDate) bDate.stringValue = date;
+	if (bLocation) bLocation.stringValue = location;
+	if (bDescription) bDescription.stringValue = description;
+	if (bDetectCount) bDetectCount.stringValue = detectCount;
+	if (bDetectAverage) bDetectAverage.stringValue = detectAverage;
+	if (bDetectMinDelay) bDetectMinDelay.stringValue = detectMinDelay;
+	if (bDetectMaxDelay) bDetectMaxDelay.stringValue = detectMaxDelay;
+
+#if 0
     if (NSIsEmptyRect(finderRect)) {
         [bFinderRect setStringValue: @"No QR code found yet"];
     } else {
@@ -44,6 +60,7 @@
         [bFinderRect setStringValue: loc];
     }
     [bBWstatus setStringValue: bwString];
+#endif
 }
 
 @end
