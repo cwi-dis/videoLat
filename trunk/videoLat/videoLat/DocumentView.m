@@ -13,8 +13,11 @@
 - (DocumentView *) init
 {
     self = [super init];
-    dataStore = nil;
-    dataDistribution = nil;
+	if (self) {
+		dataStore = nil;
+		dataDistribution = nil;
+	}
+	return self;
 }
 
 - (void)awakeFromNib
@@ -33,13 +36,14 @@
 - (IBAction)export: (id)sender
 {
     
-	NSString *csvData = [[dataStore asCSVString] autorelease];
+	NSString *csvData = [dataStore asCSVString];
     NSString *fileName = [NSString stringWithFormat:@"/tmp/%@-measurements.csv", baseName];
 	[csvData writeToFile:fileName atomically:NO encoding:NSStringEncodingConversionAllowLossy error:nil];
-	
-	csvData = [[dataDistribution asCSVString] autorelease];
+#if 0
+	csvData = [dataDistribution asCSVString];
     fileName = [NSString stringWithFormat:@"/tmp/%@-distribution.csv", baseName];
 	[csvData writeToFile:fileName atomically:NO encoding:NSStringEncodingConversionAllowLossy error:nil];    
+#endif
 }
 
 - (IBAction)save: (id)sender

@@ -118,7 +118,7 @@
 	}];
 
 	// Trim 5% at each end
-	int arrayCount = [trimmed count];
+	int arrayCount = (int)[trimmed count];
 	if (arrayCount != count) NSLog(@"trim: count=%d but array size = %d!", count, arrayCount);
 	int trimCount = arrayCount / 20;
 	NSRange range;
@@ -132,11 +132,10 @@
 	}];
 
 	// Put back into store and recompute sum and such
-	[store release];
-	store = [[NSMutableArray arrayWithArray:trimmed] retain];
+	store = [NSMutableArray arrayWithArray:trimmed];
 	sum = 0;
 	sumSquares = 0;
-	count = [store count];
+	count = (int)[store count];
 	min = max = [[[store objectAtIndex:0] objectForKey:@"delay"] longLongValue];
 	for (NSDictionary *item in store) {
 		uint64_t delay = [[item objectForKey:@"delay"] longLongValue];
@@ -181,9 +180,7 @@
 
 - (void)setSource: (id) _source
 {
-    if (source) [source release];
-    if (store) [store release];
-    source = [_source retain];
+    source = _source;
     store = [[NSMutableArray alloc] initWithCapacity:binCount];
     for (int i=0; i<binCount; i++)
         [store addObject:[NSNumber numberWithDouble:0]];
@@ -214,7 +211,7 @@
 
 - (int) count
 {
-    return [store count];
+    return (int)[store count];
 }
 
 - (double) max

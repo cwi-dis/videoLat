@@ -70,12 +70,11 @@ MyScreenRefreshCallback(CGRectCount count, const CGRect *rects, void *userArg)
 	NSNumber *screenNumber = [screenDescription objectForKey:@"NSScreenNumber"];
     CGDirectDisplayID aID = [screenNumber unsignedIntValue];
     io_service_t displayPort = CGDisplayIOServicePort(aID);
-    NSDictionary *dict = (NSDictionary *)IODisplayCreateInfoDictionary(displayPort, 0);
+    NSDictionary *dict = (NSDictionary *)CFBridgingRelease(IODisplayCreateInfoDictionary(displayPort, 0));
     NSDictionary *names = [dict objectForKey:[NSString stringWithUTF8String:kDisplayProductName]];
 	NSLog(@"Names %@", names);
     if([names count])
-		rv = [[names objectForKey:[[names allKeys] objectAtIndex:0]] retain];
-	[dict release];
+		rv = [names objectForKey:[[names allKeys] objectAtIndex:0]];
     return rv;
 }
 
@@ -118,12 +117,11 @@ MyScreenRefreshCallback(CGRectCount count, const CGRect *rects, void *userArg)
 - (void)drawRect:(NSRect)dirtyRect {
     // Drawing code here.
     //NSLog(@"outputView willDisplayImage\n");
-    CIImage *newImage = [[manager newOutputStart] retain];
+    CIImage *newImage = [manager newOutputStart];
     assert(newImage);
     if (mirrored) {
         CIImage *mirror = [newImage imageByApplyingTransform: CGAffineTransformMakeScale(-1.0, 1.0)];
-        [newImage release];
-        newImage = [mirror retain];
+        newImage = mirror;
     }
 	// We do not output our log message immedeately, we wait for the next refresh.
     // xxx draw newImage
@@ -137,7 +135,6 @@ MyScreenRefreshCallback(CGRectCount count, const CGRect *rects, void *userArg)
 #ifndef XMIT_TIME_AT_RETRACE_TIME
     [manager newOutputDone];
 #endif
-    [newImage release];
 }
 
 

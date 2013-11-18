@@ -104,7 +104,6 @@
 - (void) dealloc
 {
     [self stopCollecting];
-    [super dealloc];
 }
 
 - (uint64_t)now
@@ -158,8 +157,7 @@
 
 - (void) recordTransmission: (NSString*)data at: (uint64_t)now
 {
-    [lastTransmission release];
-    lastTransmission = [data retain];
+    lastTransmission = data;
     lastTransmissionTime = now;
     lastTransmissionReceived = NO;
 }

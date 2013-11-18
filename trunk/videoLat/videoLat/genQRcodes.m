@@ -27,7 +27,6 @@
 {
     if (symbol) ZBarcode_Delete(symbol);
     symbol = NULL;
-    [super dealloc];
 }
 
 - (void) gen: (void*)buffer width: (int)width height: (int)height code:(const char *)code
@@ -40,7 +39,7 @@
     uint32_t *basepixelptr = (uint32_t *)buffer + x0;
     
     ZBarcode_Clear(symbol);
-	int err = ZBarcode_Encode(symbol, (unsigned char *)code, strlen(code));
+	int err = ZBarcode_Encode(symbol, (unsigned char *)code, (int)strlen(code));
 	if (err == 0) {
 		assert(width == height);
 		//assert(symbol->width == symbol->height);
