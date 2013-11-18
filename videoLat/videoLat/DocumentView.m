@@ -9,46 +9,23 @@
 #import "DocumentView.h"
 
 @implementation DocumentView
+@synthesize status;
+@synthesize values;
+@synthesize distribution;
+@synthesize document;
 
-- (DocumentView *) init
-{
-    self = [super init];
-	if (self) {
-		dataStore = nil;
-		dataDistribution = nil;
-	}
-	return self;
-}
-
-- (void)awakeFromNib
-{
-    baseName = @"videoLat";
-}
 
 - (void)viewWillDraw
 {
-	status.detectCount = [NSString stringWithFormat: @"%d (after trimming 5%%)", dataStore.count];
-	status.detectAverage = [NSString stringWithFormat: @"%.3f ms ± %.3f", dataStore.average / 1000.0, dataStore.stddev / 1000.0];
-    [status update:self];
+	if (self.document == nil) return;
+	if (self.document.dataStore) {
+		self.status.detectCount = [NSString stringWithFormat: @"%d", self.document.dataStore.count];
+		self.status.detectAverage = [NSString stringWithFormat: @"%.3f ms ± %.3f", self.document.dataStore.average / 1000.0, document.dataStore.stddev / 1000.0];
+		self.status.detectMaxDelay = [NSString stringWithFormat:@"%.3f", self.document.dataStore.max];
+		self.status.detectMinDelay = [NSString stringWithFormat:@"%.3f", self.document.dataStore.min];
+	}
+    [self.status update:self];
     [super viewWillDraw];
 }
 
-- (IBAction)export: (id)sender
-{
-    
-	NSString *csvData = [dataStore asCSVString];
-    NSString *fileName = [NSString stringWithFormat:@"/tmp/%@-measurements.csv", baseName];
-	[csvData writeToFile:fileName atomically:NO encoding:NSStringEncodingConversionAllowLossy error:nil];
-#if 0
-	csvData = [dataDistribution asCSVString];
-    fileName = [NSString stringWithFormat:@"/tmp/%@-distribution.csv", baseName];
-	[csvData writeToFile:fileName atomically:NO encoding:NSStringEncodingConversionAllowLossy error:nil];    
-#endif
-}
-
-- (IBAction)save: (id)sender
-{
-    NSString *fileName = [NSString stringWithFormat:@"/tmp/%@.videoLat", baseName];
- 	[NSKeyedArchiver archiveRootObject: dataStore toFile: fileName];
-}
 @end

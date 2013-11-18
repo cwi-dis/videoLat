@@ -220,7 +220,7 @@
 
 - (void)setFinderRect: (NSRect)theRect
 {
-	status.finderRect = theRect;
+//xyzzy	status.finderRect = theRect;
 	[status update: self];
 }
 
@@ -293,7 +293,7 @@
             }
             inputAddedOverhead = 0;
             // Remember rectangle (for black/white detection)
-            status.finderRect = finder.rect;
+//xyzzy            status.finderRect = finder.rect;
             [self performSelectorOnMainThread: @selector(_triggerNewOutputValue) withObject: nil waitUntilDone: NO];
         } else {
             found_total++;
@@ -333,7 +333,7 @@ mono:
             // Found it! Invert for the next round
             currentColorIsWhite = !currentColorIsWhite;
             nBWdetections++;
-            status.bwString = [NSString stringWithFormat: @"found %d (current %s)", nBWdetections, isWhite?"white":"black"];
+//xyzzy            status.bwString = [NSString stringWithFormat: @"found %d (current %s)", nBWdetections, isWhite?"white":"black"];
             [status update: self];
             // XXXJACK Is this correct? is "now" the best timestamp we have for the incoming hardware data?
             [collector recordReception: isWhite?@"white":@"black" at: receptionTime];
@@ -352,6 +352,7 @@ mono:
 {
     @synchronized(self) {
 		// Wait for black/white, if possible
+#if 0
 		NSRect area = status.finderRect; // XXXJACK This is bad: using status for storing the rect
 		if (NSIsEmptyRect(area)) {
 			settings.recv = false;
@@ -414,6 +415,7 @@ mono:
 
 		}
 		inputStartTime = 0;
+#endif
 	}
     return;
 	// Bah. @synchronised means we can't really do error messages in the normal place,

@@ -9,22 +9,28 @@
 #import <Cocoa/Cocoa.h>
 
 @interface StatusView : NSView {
-    IBOutlet NSTextField *bDetectCount;
-    IBOutlet NSTextField *bDetectAverage;
-    IBOutlet NSTextField *bFinderRect;
-    IBOutlet NSTextField *bBWstatus;
-
-    NSString *detectCount;
-    NSString *detectAverage;
-    NSRect finderRect;
-    NSString *bwString;
-    bool foundQRcode;
 }
+@property(retain) IBOutlet NSTextField *bMeasurementType;
+@property(retain) IBOutlet NSTextField *bInputDevice;
+@property(retain) IBOutlet NSTextField *bOutputDevice;
+@property(retain) IBOutlet NSTextField *bDate;
+@property(retain) IBOutlet NSTextField *bLocation;
+@property(retain) IBOutlet NSTextField *bDescription;
+@property(retain) IBOutlet NSTextField *bDetectCount;
+@property(retain) IBOutlet NSTextField *bDetectAverage;
+@property(retain) IBOutlet NSTextField *bDetectMinDelay;
+@property(retain) IBOutlet NSTextField *bDetectMaxDelay;
+
+@property(retain) NSString *measurementType;
+@property(retain) NSString *inputDevice;
+@property(retain) NSString *outputDevice;
+@property(retain) NSString *date;
+@property(retain) NSString *location;
+@property(retain) NSString *description;
 @property(retain) NSString *detectCount;
 @property(retain) NSString *detectAverage;
-@property(retain) NSString *bwString;
-@property(assign) NSRect finderRect;
-@property bool foundQRcode;
+@property(retain) NSString *detectMinDelay;
+@property(retain) NSString *detectMaxDelay;
 
 - (void) update: (id)sender;
 @end

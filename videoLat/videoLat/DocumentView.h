@@ -10,19 +10,17 @@
 #import "Protocols.h"
 #import "StatusView.h"
 #import "GraphView.h"
-#import "MeasurementRun.h"
+#import "Document.h"
 
 @interface DocumentView : NSView {
-    IBOutlet StatusView *status;
-    IBOutlet GraphView *values;
-    IBOutlet GraphView *distribution;
-    IBOutlet MeasurementRun *dataStore;
-    IBOutlet MeasurementDistribution *dataDistribution;
-    NSString *baseName;
 };
 
+@property(retain) IBOutlet StatusView *status;
+@property(retain) IBOutlet GraphView *values;
+@property(retain) IBOutlet GraphView *distribution;
+@property(retain) IBOutlet Document *document;
+
+
 - (void)viewWillDraw;
-- (IBAction)export: (id)sender;
-- (IBAction)save: (id)sender;
 
 @end
