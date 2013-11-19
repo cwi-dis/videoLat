@@ -27,6 +27,8 @@
     self = [super initWithType: typeName error: outError];
     if (self) {
         NSLog(@"initWithType: %@\n", typeName);
+        self.dataStore = [[MeasurementRun alloc] init];
+        self.dataDistribution = [[MeasurementDistribution alloc] init];
         objectsForNewDocument = nil;
         NSArray *newObjects;
         BOOL ok = [[NSBundle mainBundle] loadNibNamed: @"NewMeasurement" owner: self topLevelObjects: &newObjects];

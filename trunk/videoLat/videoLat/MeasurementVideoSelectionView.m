@@ -42,12 +42,10 @@
     [self.bCameras addItemsWithTitles: newList];
     // Re-select old selection, if possible
     [self _reselectCamera:oldCam];
-    // If this is during awakeFromNib we are done
-    if (notification == nil) return;
     // Tell the input handler if the device has changed
     NSMenuItem *newItem = [self.bCameras selectedItem];
     NSString *newCam = [newItem title];
-    if (![newCam isEqualToString:oldCam])
+    if (![newCam isEqualToString:oldCam] || notification == nil)
         [self.inputHandler switchToDeviceWithName:newCam];
 }
 

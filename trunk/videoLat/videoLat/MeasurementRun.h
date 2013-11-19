@@ -54,6 +54,7 @@
     double binSize;
 }
 
+- (MeasurementDistribution *)initWithSource: (MeasurementRun *)source;
 - (void)awakeFromNib;
 - (void)setSource: (id) _source;
 - (void)_recompute;

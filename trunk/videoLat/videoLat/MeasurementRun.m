@@ -166,10 +166,21 @@
 - (MeasurementDistribution *) init
 {
     self = [super init];
-    store = nil;
-    source = nil;
-    binCount = 100;
-    binSize = 0;
+    if (self) {
+        store = nil;
+        source = nil;
+        binCount = 100;
+        binSize = 0;
+    }
+    return self;
+}
+
+- (MeasurementDistribution *)initWithSource: (MeasurementRun *)source
+{
+    self = [self init];
+    if (self) {
+        [self setSource: source];
+    }
     return self;
 }
 

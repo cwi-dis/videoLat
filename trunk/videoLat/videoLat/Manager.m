@@ -67,6 +67,8 @@
 {
     @synchronized(self) {
         self.running = YES;
+        self.useQRcode = YES;
+        self.mirrored = NO;
         [capturer startCapturing];
         [collector startCollecting: nil input: capturer.deviceID name: capturer.deviceName output: outputView.deviceID name: outputView.deviceName];
         outputView.mirrored = self.mirrored;
