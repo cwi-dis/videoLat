@@ -175,8 +175,9 @@
     if(selfView) {
         selfLayer = [AVCaptureVideoPreviewLayer layerWithSession:session];
         selfLayer.frame = NSRectToCGRect(selfView.bounds);
-        [selfView.layer addSublayer: selfLayer];
         [selfView setWantsLayer: YES];
+        [selfView.layer addSublayer: selfLayer];
+        [selfView setHidden: NO];
     }
     [session addOutput: outputCapturer];
 	// XXXJACK Should catch AVCaptureSessionRuntimeErrorNotification
@@ -264,8 +265,10 @@
 		return;
 	}
     [manager newInputStart];
+#if 0
 	double delta = (now-timestamp) / CVGetHostClockFrequency();
 	[manager updateInputOverhead: delta];
+#endif
     // NSLog(@"Got video frame from %p now=%lld pts=%lld delta=%f\n", (void*)connection, now, timestamp, delta);
     
     CMFormatDescriptionRef formatDescription = CMSampleBufferGetFormatDescription(sampleBuffer);
