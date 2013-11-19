@@ -11,11 +11,12 @@
 #import "MeasurementVideoSelectionView.h"
 #import "StatusView.h"
 #import "protocols.h"
+#import "Document.h"
 
 @interface Manager : NSObject <MeasurementOutputManagerProtocol, MeasurementInputManagerProtocol> {
   @private
     IBOutlet MeasurementTypeView *typeView;
-    IBOutlet id /*XYZZY MeasurementVideoSelectionView * */selectionView;
+    IBOutlet MeasurementVideoSelectionView *selectionView;
     IBOutlet MeasurementRunView *status;
 	IBOutlet id <OutputViewProtocol> outputView;
 	IBOutlet id <ManagerDelegateProtocol> delegate;
@@ -41,7 +42,7 @@
     int whitelevel;
     int nBWdetections;
 }
-
+@property(retain) IBOutlet Document *document;
 @property bool running;
 @property bool useQRcode;
 @property bool mirrored;

@@ -1,16 +1,16 @@
 #import <Cocoa/Cocoa.h>
 #import <AVFoundation/AVFoundation.h>
 #import "genQRcodes.h"
-#import "Manager.h"
 
 
 @interface MyQTCaptureView : NSView
 {
 	NSPoint downPoint;
-    id delegate;
 }
-@property (retain) id delegate;
+@property (retain) IBOutlet id delegate;
+@property (retain) IBOutlet NSButton *visibleButton;
 
+- (IBAction)visibleChanged:(id)sender;
 - (void)mouseDown: (NSEvent *)theEvent;
 - (void)mouseUp: (NSEvent *)theEvent;
 

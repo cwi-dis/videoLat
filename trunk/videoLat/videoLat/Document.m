@@ -24,12 +24,17 @@
 
 - (id)initWithType:(NSString *)typeName error:(NSError **)outError
 {
-    NSLog(@"initWithType: %@\n", typeName);
-    objectsForNewDocument = nil;
-    NSArray *newObjects;
-    BOOL ok = [[NSBundle mainBundle] loadNibNamed: @"NewMeasurement" owner: self topLevelObjects: &newObjects];
-    objectsForNewDocument = newObjects;
-    NSLog(@"Loaded NewMeasurement: %d, objects %@\n", (int)ok, objectsForNewDocument);
+    self = [super initWithType: typeName error: outError];
+    if (self) {
+        NSLog(@"initWithType: %@\n", typeName);
+        objectsForNewDocument = nil;
+        NSArray *newObjects;
+        BOOL ok = [[NSBundle mainBundle] loadNibNamed: @"NewMeasurement" owner: self topLevelObjects: &newObjects];
+        objectsForNewDocument = newObjects;
+        NSLog(@"Loaded NewMeasurement: %d, objects %@\n", (int)ok, objectsForNewDocument);
+        for (NSWindowController *ctrl in self.windowControllers)
+            [ctrl close];
+    }
     return self;
 }
 
@@ -50,6 +55,7 @@
 {
     NSLog(@"New document complete\n");
     objectsForNewDocument = nil;
+    [self showWindows];
 }
 
 + (BOOL)autosavesInPlace

@@ -5,6 +5,21 @@
 
 @implementation MyQTCaptureView
 @synthesize delegate;
+@synthesize visibleButton;
+
+- (IBAction)visibleChanged: (id) sender
+{
+    [self setHidden: ([sender state] == NSOffState)];
+}
+
+- (void)setHidden: (BOOL) onOff
+{
+    if (onOff)
+        [visibleButton setState:NSOffState];
+    else
+        [visibleButton setState:NSOnState];
+    [super setHidden: onOff];
+}
 
 - (void)mouseDown: (NSEvent *)theEvent
 {
@@ -41,7 +56,7 @@
     sampleBufferQueue = dispatch_queue_create("Sample Queue", DISPATCH_QUEUE_SERIAL);
     // Setup for callbacks 
     [selfView setDelegate: self];
-    [[selfView window] setReleasedWhenClosed: false];
+// XYZZY    [[selfView window] setReleasedWhenClosed: false];
 
 	NSLog(@"Devices: %@\n", [self deviceNames]);
 	

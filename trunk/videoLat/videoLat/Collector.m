@@ -185,15 +185,6 @@
 
 - (void)stopCollecting
 {
-#if 1
-    BOOL ok = [NSBundle loadNibNamed:@"VLDocument" owner:dataStore];
-    NSLog(@"nibload returned %d\n", (int)ok);
-#else
-	[NSKeyedArchiver archiveRootObject: dataStore toFile: @"/tmp/videolatdump.videoLat"];
-	NSString *csvData = [dataStore asCSVString];
-	[csvData writeToFile:@"/tmp/videolatdump.csv" atomically:NO encoding:NSStringEncodingConversionAllowLossy error:nil];
-	[super stopCollecting];
-#endif
 }
 
 @end
