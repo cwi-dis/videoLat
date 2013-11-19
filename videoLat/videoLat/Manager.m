@@ -11,11 +11,9 @@
 #import "GenQRCodes.h"
 
 @implementation Manager
-
-- (bool) running
-{
-    return settings.running;
-}
+@synthesize running;
+@synthesize useQRcode;
+@synthesize mirrored;
 
 - (Manager*)init
 {
@@ -44,7 +42,7 @@
 - (void) awakeFromNib
 {
     @synchronized(self) {
-        [[settings window] setReleasedWhenClosed: false];
+//        [[settings window] setReleasedWhenClosed: false];
 
         genner = [[GenQRcodes alloc] init];
         finder = [[FindQRcodes alloc] init];
@@ -65,20 +63,20 @@
     capturer = capt;
 }
 
-- (void)startMeasuring
+- (IBAction)startMeasuring: (id)sender
 {
     @synchronized(self) {
-
+        self.running = YES;
         [capturer startCapturing];
         [collector startCollecting: nil input: capturer.deviceID name: capturer.deviceName output: outputView.deviceID name: outputView.deviceName];
-        outputView.mirrored = settings.mirrorView;
-        outputView.visible = settings.xmit;
+        outputView.mirrored = self.mirrored;
         [self _triggerNewOutputValue];
     }
 }
 
-- (void)stopMeasuring
+- (IBAction)stopMeasuring: (id)sender
 {
+    self.running = false;
 	[collector stopCollecting];
 	[collector trim];
 	status.detectCount = [NSString stringWithFormat: @"%d (after trimming 5%%)", collector.count];
@@ -87,6 +85,14 @@
 }
 
 #pragma mark SettingsChangedProtocol
+#if 0
+- (void)settingsChanged: (id)sender
+{
+    // XYZZY get from Type popup
+    self.useQRcode = YES;
+    self.mirrored = NO;
+}
+
 - (void)settingsChanged
 {
     @synchronized(self) {
@@ -113,6 +119,7 @@
         [self _triggerNewOutputValue];
     }
 }
+#endif
 
 #pragma mark MeasurementOutputManagerProtocol
 
@@ -120,19 +127,15 @@
 {
     @synchronized(self) {
         CIImage *newImage = nil;
-        if (!self.running || !settings.xmit) {
+        if (!self.running /* || !settings.xmit */) {
             newImage = [CIImage imageWithColor:[CIColor colorWithRed:0.1 green:0.4 blue:0.5]];
             CGRect rect = {0, 0, 480, 480};
             newImage = [newImage imageByCroppingToRect: rect];
             return newImage;
         }
-#if 0
-        assert(outputStartTime == 0);
-        outputStartTime = [collector now];
-#else
         if (outputStartTime == 0) outputStartTime = [collector now];
-#endif
         outputAddedOverhead = 0;
+#if 0
         if (settings.datatypeBlackWhite) {
             // XXX Do black/white
             [self _mono_showNewData];
@@ -144,6 +147,7 @@
             newImage = [newImage imageByCroppingToRect: rect];
             return newImage;
         }
+#endif
         // We create a new image if either the previous one has been detected, or
         // if we are free-running.
         bool wantNewImage = (current_qrcode == NULL);
@@ -190,14 +194,10 @@
         assert(outputAddedOverhead < [collector now]);
         assert(strcmp([outputCode UTF8String], "BadCookie") != 0);
 		uint64_t outputTime = [collector now] - outputAddedOverhead;
-        if (settings.datatypeQRCode) {
+        if (self.useQRcode) {
             [collector recordTransmission: outputCode at: outputTime];
-            [collector output: "macVideoXmit" event: "generated" data: [outputCode UTF8String] start: outputTime];
-        } else if (settings.datatypeBlackWhite) {
-            [collector recordTransmission: currentColorIsWhite?@"white":@"black" at: outputTime];
-            [collector output: "blackWhiteXmit" event: currentColorIsWhite?"white":"black" data: [outputCode UTF8String] start: outputTime];
         } else {
-            assert(0);
+            [collector recordTransmission: currentColorIsWhite?@"white":@"black" at: outputTime];
         }
         outputCodeHasBeenReported = true;
         outputStartTime = 0;
@@ -249,7 +249,7 @@
         /*DBG*/ if (inputStartTime == 0) { NSLog(@"newInputDone called, but inputStartTime==0\n"); return; }
 		if (outputCode == nil) { NSLog(@"newInputDone called, but no output code yet\n"); return; }
         assert(inputStartTime != 0);
-        if (self.running && settings.datatypeBlackWhite) {
+        if (self.running && !self.useQRcode) {
 			goto mono;
         }
                 
@@ -277,8 +277,6 @@
 			} else {
 				// We have transmitted a code, but received a different one??
 				NSLog(@"Bad data: expected %@, got %s", outputCode, code);
-				NSString *baddata = [NSString stringWithFormat: @"%s-wanted-%@", code, outputCode];
-				[collector output: "macVideoGrab" event: "baddata" data: [baddata UTF8String] start: inputStartTime-inputAddedOverhead];
 				inputAddedOverhead = 0;
 				inputStartTime = 0;
 				[self performSelectorOnMainThread: @selector(_triggerNewOutputValue) withObject: nil waitUntilDone: NO];
@@ -289,7 +287,6 @@
                 found_total++;
                 lastInputCode = [NSString stringWithUTF8String: code];
                 [collector recordReception: lastInputCode at: inputStartTime-inputAddedOverhead];
-                [collector output: "macVideoGrab" event: "data" data: code start: inputStartTime-inputAddedOverhead];
             }
             inputAddedOverhead = 0;
             // Remember rectangle (for black/white detection)
@@ -297,7 +294,6 @@
             [self performSelectorOnMainThread: @selector(_triggerNewOutputValue) withObject: nil waitUntilDone: NO];
         } else {
             found_total++;
-            [collector output: "macVideoGrab" event: "nodata" data: "none" start: inputStartTime-inputAddedOverhead];
             inputAddedOverhead = 0;
         }
         inputStartTime = 0;
@@ -327,7 +323,7 @@ mono:
 	uint64_t receptionTime = [collector now];
     @synchronized(self) {
         assert(inputStartTime != 0);
-        if (!self.running || !settings.datatypeBlackWhite) return;
+        if (!self.running || self.useQRcode) return;
 
         if (isWhite == currentColorIsWhite) {
             // Found it! Invert for the next round
@@ -337,7 +333,6 @@ mono:
             [status update: self];
             // XXXJACK Is this correct? is "now" the best timestamp we have for the incoming hardware data?
             [collector recordReception: isWhite?@"white":@"black" at: receptionTime];
-            [collector output: "hardwareGrab" event: isWhite?"white":"black" data: [outputCode UTF8String]];
             inputAddedOverhead = 0;
             outputCode = [NSString stringWithFormat:@"%lld", receptionTime];
             outputCodeHasBeenReported = false;
@@ -406,7 +401,6 @@ mono:
 			if (nBWdetections > 10) {
 				// The first 10 are for calibrating, then we get to business
                 [collector recordReception: foundColorIsWhite?@"white":@"black" at: inputStartTime-inputAddedOverhead];
-				[collector output: "blackWhiteGrab" event: foundColorIsWhite?"white":"black" data: [outputCode UTF8String] start:inputStartTime-inputAddedOverhead];
 				inputAddedOverhead = 0;
 			}
 			outputCode = [NSString stringWithFormat:@"%lld", [collector now]];
@@ -453,7 +447,6 @@ bad2:
         if (delegate && [delegate respondsToSelector:@selector(newBWOutput:)]) {
             [delegate newBWOutput: currentColorIsWhite];
             [collector recordTransmission: currentColorIsWhite?@"white":@"black" at: [collector now]];
-            [collector output: "hardwareXmit" event: currentColorIsWhite?"white":"black" data: [outputCode UTF8String]];
         }
     }
 }

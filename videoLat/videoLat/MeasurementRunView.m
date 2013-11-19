@@ -19,6 +19,12 @@
     return self;
 }
 
+- (IBAction)update: (id)sender
+{
+    self.bCount.stringValue = self.detectCount;
+    self.bAverage.stringValue = self.detectAverage;
+}
+
 - (void)drawRect:(NSRect)dirtyRect
 {
 	[super drawRect:dirtyRect];

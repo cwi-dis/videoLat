@@ -11,6 +11,7 @@
 @implementation MeasurementVideoSelectionView
 - (void)awakeFromNib
 {
+    [self _updateCameraNames: nil];
     [[NSNotificationCenter defaultCenter]
      addObserver:self
      selector:@selector(_updateCameraNames:)

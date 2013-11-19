@@ -13,7 +13,7 @@
 @property(retain) IBOutlet NSPopUpButton *bCameras;
 @property(retain) IBOutlet NSPopUpButton *bBase;
 @property(retain) IBOutlet NSButton *bRun;
-@property(retain) iSight *inputHandler;
+@property(retain) IBOutlet id /*XYZZY iSight * */inputHandler;
 
 - (IBAction)cameraChanged: (id) sender;
 - (void)_updateCameraNames: (NSNotification*) notification;

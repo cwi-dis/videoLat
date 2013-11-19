@@ -20,6 +20,9 @@
                     <view fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zVX-iD-m4A" customClass="OutputView">
                         <rect key="frame" x="296" y="20" width="640" height="644"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES"/>
+                        <connections>
+                            <outlet property="manager" destination="15q-Cn-JqR" id="ymV-qh-F06"/>
+                        </connections>
                     </view>
                     <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cuw-GN-aoQ" customClass="MyQTCaptureView">
                         <rect key="frame" x="20" y="20" width="268" height="227"/>
@@ -33,7 +36,7 @@
                             <font key="font" metaFont="system"/>
                         </buttonCell>
                     </button>
-                    <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="A0v-FZ-Og1">
+                    <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="A0v-FZ-Og1" customClass="MeasurementTypeView">
                         <rect key="frame" x="20" y="565" width="268" height="99"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <subviews>
@@ -61,6 +64,9 @@
                                         </items>
                                     </menu>
                                 </popUpButtonCell>
+                                <connections>
+                                    <action selector="typeChanged:" target="A0v-FZ-Og1" id="AVI-ZM-MiH"/>
+                                </connections>
                             </popUpButton>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eOB-EU-xQj">
                                 <rect key="frame" x="18" y="62" width="232" height="17"/>
@@ -82,7 +88,7 @@
                             </textField>
                         </subviews>
                     </customView>
-                    <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cEa-b8-LOT">
+                    <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cEa-b8-LOT" customClass="MeasurementVideoSelectionView">
                         <rect key="frame" x="20" y="412" width="268" height="145"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <subviews>
@@ -112,6 +118,9 @@
                                     <font key="font" metaFont="menu"/>
                                     <menu key="menu" title="OtherViews" id="Az9-CL-3X6"/>
                                 </popUpButtonCell>
+                                <connections>
+                                    <action selector="cameraChanged:" target="cEa-b8-LOT" id="9qm-Qb-wTD"/>
+                                </connections>
                             </popUpButton>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RdK-ZC-FEo">
                                 <rect key="frame" x="18" y="50" width="37" height="17"/>
@@ -138,10 +147,18 @@
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
+                                <connections>
+                                    <action selector="startMeasuring:" target="15q-Cn-JqR" id="zQv-4D-2Uz"/>
+                                </connections>
                             </button>
                         </subviews>
+                        <connections>
+                            <outlet property="bBase" destination="UNY-1O-pgV" id="izL-87-RZp"/>
+                            <outlet property="bCameras" destination="V42-Jq-ZrI" id="aVV-2v-R9e"/>
+                            <outlet property="bRun" destination="okI-5l-FsR" id="hH3-CY-Ft1"/>
+                        </connections>
                     </customView>
-                    <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7Zl-3W-xC1" customClass="StatusView">
+                    <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7Zl-3W-xC1" customClass="MeasurementRunView">
                         <rect key="frame" x="20" y="280" width="268" height="124"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <subviews>
@@ -197,11 +214,14 @@
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
+                                <connections>
+                                    <action selector="stopMeasuring:" target="15q-Cn-JqR" id="14m-Uv-76g"/>
+                                </connections>
                             </button>
                         </subviews>
                         <connections>
-                            <outlet property="bDetectAverage" destination="7iE-am-Wq6" id="1Mq-7g-7Xy"/>
-                            <outlet property="bDetectCount" destination="shW-H6-Azx" id="bXD-hP-S1K"/>
+                            <outlet property="bAverage" destination="7iE-am-Wq6" id="44P-gv-6Ea"/>
+                            <outlet property="bCount" destination="shW-H6-Azx" id="A41-dv-Kcv"/>
                         </connections>
                     </customView>
                 </subviews>
@@ -219,7 +239,9 @@
                 <outlet property="capturer" destination="24w-FF-vW0" id="u4h-M8-Ar7"/>
                 <outlet property="collector" destination="XNZ-mz-FJe" id="Xtm-9q-Z65"/>
                 <outlet property="outputView" destination="zVX-iD-m4A" id="BxA-hW-Dwm"/>
+                <outlet property="selectionView" destination="cEa-b8-LOT" id="4u6-IQ-s1F"/>
                 <outlet property="status" destination="7Zl-3W-xC1" id="FgU-Ba-bMJ"/>
+                <outlet property="typeView" destination="A0v-FZ-Og1" id="Gqd-eb-7Zi"/>
             </connections>
         </customObject>
     </objects>

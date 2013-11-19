@@ -17,7 +17,19 @@
     self = [super init];
     if (self) {
 		// Add your subclass-specific initialization here.
+        NSLog(@"Document init\n");
     }
+    return self;
+}
+
+- (id)initWithType:(NSString *)typeName error:(NSError **)outError
+{
+    NSLog(@"initWithType: %@\n", typeName);
+    objectsForNewDocument = nil;
+    NSArray *newObjects;
+    BOOL ok = [[NSBundle mainBundle] loadNibNamed: @"NewMeasurement" owner: self topLevelObjects: &newObjects];
+    objectsForNewDocument = newObjects;
+    NSLog(@"Loaded NewMeasurement: %d, objects %@\n", (int)ok, objectsForNewDocument);
     return self;
 }
 
@@ -32,6 +44,12 @@
 {
 	[super windowControllerDidLoadNib:aController];
 	// Add any code here that needs to be executed once the windowController has loaded the document's window.
+}
+
+- (IBAction)newDocumentComplete: (id)sender
+{
+    NSLog(@"New document complete\n");
+    objectsForNewDocument = nil;
 }
 
 + (BOOL)autosavesInPlace

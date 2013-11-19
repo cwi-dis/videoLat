@@ -10,4 +10,9 @@
 
 @implementation MeasurementTypeView
 
+- (IBAction)typeChanged: (id)sender
+{
+    // Select corresponding DeviceSelection view
+}
+
 @end

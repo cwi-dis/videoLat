@@ -14,19 +14,8 @@
 #import <CoreServices/CoreServices.h>
 #import <sys/time.h>
 
+#if 0
 @implementation OldCollector
-
-- (OldCollector*) init
-{
-    self = [super init];
-    initialized = false;
-    terminating = false;
-    fp = NULL;
-    epoch = 0;
-    epoch = [self now];
-    
-    return self;
-}
 
 - (void) startCollecting: (NSString*)scenario input: (NSString*)inputId name: (NSString*)inputName output:(NSString*)outputId name: (NSString*)outputName
 {
@@ -51,7 +40,6 @@
         long long micro = 1000000LL*tv.tv_sec + tv.tv_usec;
         char buf[100];
         snprintf(buf, sizeof(buf), "%lld", micro);
-        [self output:"systemTime" event:"systemTime" data:buf start:0LL];
     }
 }
 
@@ -106,16 +94,6 @@
     [self stopCollecting];
 }
 
-- (uint64_t)now
-{
-    mach_timebase_info_data_t info;
-    if (mach_timebase_info(&info) != KERN_SUCCESS) return -1;
-    int64_t now_mach = mach_absolute_time();
-    int64_t now_nano = now_mach * info.numer / info.denom;
-    int64_t now_micro = now_nano / 1000LL;
-    return now_micro - epoch;
-}
-
 - (void) output: (const char*)name event: (const char*)event data: (const char*)data start: (uint64_t)startTime
 {
     if (terminating) return;
@@ -138,15 +116,24 @@
     }
 }
 @end
+#endif
 
 @implementation Collector
 
 - (Collector*) init
 {
     self = [super init];
-    lastTransmission = nil;
-	dataStore = [[MeasurementRun alloc] init];
+    if (self) {
+        lastTransmission = nil;
+        epoch = 0;
+        epoch = [self now];
+    }
     return self;
+}
+
+- (void) awakeFromNib
+{
+    dataStore = self.document.dataStore;
 }
 
 - (int) count { return dataStore.count; }
@@ -154,6 +141,20 @@
 - (double) stddev { return dataStore.stddev; }
 - (void) trim { [dataStore trim]; }
 
+- (uint64_t)now
+{
+    mach_timebase_info_data_t info;
+    if (mach_timebase_info(&info) != KERN_SUCCESS) return -1;
+    int64_t now_mach = mach_absolute_time();
+    int64_t now_nano = now_mach * info.numer / info.denom;
+    int64_t now_micro = now_nano / 1000LL;
+    return now_micro - epoch;
+}
+
+
+- (void) startCollecting: (NSString*)scenario input: (NSString*)inputId name: (NSString*)inputName output:(NSString*)outputId name: (NSString*)outputName
+{
+}
 
 - (void) recordTransmission: (NSString*)data at: (uint64_t)now
 {
