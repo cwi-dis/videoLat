@@ -82,6 +82,7 @@
 	status.detectCount = [NSString stringWithFormat: @"%d (after trimming 5%%)", collector.count];
 	status.detectAverage = [NSString stringWithFormat: @"%.3f ms ± %.3f", collector.average / 1000.0, collector.stddev / 1000.0];
 	[status update: self];
+    [self.document newDocumentComplete: self];
 }
 
 #pragma mark SettingsChangedProtocol

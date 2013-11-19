@@ -16,6 +16,7 @@
 @property(retain) IBOutlet MeasurementRun *dataStore;
 @property(retain) IBOutlet MeasurementDistribution *dataDistribution;
 
+- (IBAction)newDocumentComplete: (id)sender;
 - (IBAction)export: (id)sender;
 - (IBAction)save: (id)sender;
 

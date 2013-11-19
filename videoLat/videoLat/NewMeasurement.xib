@@ -5,7 +5,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4514"/>
     </dependencies>
     <objects>
-        <customObject id="-2" userLabel="File's Owner"/>
+        <customObject id="-2" userLabel="File's Owner" customClass="Document"/>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application"/>
         <window title="New Measurement Run" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" wantsToBeColor="NO" animationBehavior="default" id="1">
@@ -27,6 +27,9 @@
                     <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cuw-GN-aoQ" customClass="MyQTCaptureView">
                         <rect key="frame" x="20" y="20" width="268" height="227"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <connections>
+                            <outlet property="visibleButton" destination="K5n-4G-Y5l" id="AAy-u1-Kbv"/>
+                        </connections>
                     </customView>
                     <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="K5n-4G-Y5l">
                         <rect key="frame" x="18" y="253" width="144" height="18"/>
@@ -35,6 +38,9 @@
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
+                        <connections>
+                            <action selector="visibleChanged:" target="cuw-GN-aoQ" id="xAC-Cn-smT"/>
+                        </connections>
                     </button>
                     <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="A0v-FZ-Og1" customClass="MeasurementTypeView">
                         <rect key="frame" x="20" y="565" width="268" height="99"/>
@@ -156,6 +162,7 @@
                             <outlet property="bBase" destination="UNY-1O-pgV" id="izL-87-RZp"/>
                             <outlet property="bCameras" destination="V42-Jq-ZrI" id="aVV-2v-R9e"/>
                             <outlet property="bRun" destination="okI-5l-FsR" id="hH3-CY-Ft1"/>
+                            <outlet property="inputHandler" destination="24w-FF-vW0" id="Gbf-Q3-YqA"/>
                         </connections>
                     </customView>
                     <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7Zl-3W-xC1" customClass="MeasurementRunView">
@@ -233,11 +240,16 @@
                 <outlet property="selfView" destination="cuw-GN-aoQ" id="twl-OK-58t"/>
             </connections>
         </customObject>
-        <customObject id="XNZ-mz-FJe" customClass="Collector"/>
+        <customObject id="XNZ-mz-FJe" customClass="Collector">
+            <connections>
+                <outlet property="document" destination="-2" id="lpb-nI-0TQ"/>
+            </connections>
+        </customObject>
         <customObject id="15q-Cn-JqR" customClass="Manager">
             <connections>
                 <outlet property="capturer" destination="24w-FF-vW0" id="u4h-M8-Ar7"/>
                 <outlet property="collector" destination="XNZ-mz-FJe" id="Xtm-9q-Z65"/>
+                <outlet property="document" destination="-2" id="SQx-IV-8hM"/>
                 <outlet property="outputView" destination="zVX-iD-m4A" id="BxA-hW-Dwm"/>
                 <outlet property="selectionView" destination="cEa-b8-LOT" id="4u6-IQ-s1F"/>
                 <outlet property="status" destination="7Zl-3W-xC1" id="FgU-Ba-bMJ"/>
