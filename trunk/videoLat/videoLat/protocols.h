@@ -11,11 +11,6 @@
 
 #import <Cocoa/Cocoa.h>
 
-// Protocol for reporting changes to the settings
-@protocol SettingsChangedProtocol
-- (void)settingsChanged;
-@end
-
 // Protocol for an object that finds patterns in an input buffer
 @protocol FindProtocol
 @property(readonly) NSRect rect;
@@ -67,9 +62,6 @@
 
 - (void) recordTransmission: (NSString*)data at: (uint64_t)now;
 - (void) recordReception: (NSString*)data at: (uint64_t)now;
-
-- (void) output: (const char*)name event: (const char*)event data: (const char*)data start: (uint64_t)startTime;
-- (void) output: (const char*)name event: (const char*)event data: (const char*)data;
 @end
 
 // Protocol for an object that influences what patterns the manager generates

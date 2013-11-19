@@ -12,5 +12,8 @@
 @property(retain) IBOutlet NSTextField *bCount;
 @property(retain) IBOutlet NSTextField *bAverage;
 
-- (void)update;
+@property(retain) NSString *detectCount;
+@property(retain) NSString *detectAverage;
+
+- (IBAction)update: (id)sender;
 @end

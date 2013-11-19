@@ -11,6 +11,7 @@
 
 @interface Document : NSDocument {
     NSString *baseName;
+    NSArray *objectsForNewDocument;
 }
 @property(retain) IBOutlet MeasurementRun *dataStore;
 @property(retain) IBOutlet MeasurementDistribution *dataDistribution;

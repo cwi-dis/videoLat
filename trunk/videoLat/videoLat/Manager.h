@@ -6,14 +6,17 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "SettingsView.h"
+#import "MeasurementTypeView.h"
+#import "MeasurementRunView.h"
+#import "MeasurementVideoSelectionView.h"
 #import "StatusView.h"
 #import "protocols.h"
 
-@interface Manager : NSObject <SettingsChangedProtocol, MeasurementOutputManagerProtocol, MeasurementInputManagerProtocol> {
+@interface Manager : NSObject <MeasurementOutputManagerProtocol, MeasurementInputManagerProtocol> {
   @private
-    IBOutlet SettingsView *settings;
-    IBOutlet StatusView *status;
+    IBOutlet MeasurementTypeView *typeView;
+    IBOutlet id /*XYZZY MeasurementVideoSelectionView * */selectionView;
+    IBOutlet MeasurementRunView *status;
 	IBOutlet id <OutputViewProtocol> outputView;
 	IBOutlet id <ManagerDelegateProtocol> delegate;
     IBOutlet id <DataCaptureProtocol> capturer;
@@ -39,18 +42,16 @@
     int nBWdetections;
 }
 
-@property(readonly) bool running;
+@property bool running;
+@property bool useQRcode;
+@property bool mirrored;
 
-- (void)startMeasuring;
-- (void)stopMeasuring;
+- (IBAction)startMeasuring: (id)sender;
+- (IBAction)stopMeasuring: (id)sender;
 
 - (void)reportDataCapturer: (id)capt;
 
 - (void)_triggerNewOutputValue;
-
-
-// SettingsChangedProtocol
-- (void)settingsChanged;
 
 // MeasurementOutputManagerProtocol
 - (CIImage *)newOutputStart;
