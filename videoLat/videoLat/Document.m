@@ -22,6 +22,12 @@
     return self;
 }
 
+- (void)makeWindowControllers
+{
+    if (objectsForNewDocument == nil)
+        [super makeWindowControllers];
+}
+
 - (id)initWithType:(NSString *)typeName error:(NSError **)outError
 {
     self = [super initWithType: typeName error: outError];
@@ -34,8 +40,6 @@
         BOOL ok = [[NSBundle mainBundle] loadNibNamed: @"NewMeasurement" owner: self topLevelObjects: &newObjects];
         objectsForNewDocument = newObjects;
         NSLog(@"Loaded NewMeasurement: %d, objects %@\n", (int)ok, objectsForNewDocument);
-        for (NSWindowController *ctrl in self.windowControllers)
-            [ctrl close];
     }
     return self;
 }
@@ -51,13 +55,24 @@
 {
 	[super windowControllerDidLoadNib:aController];
 	// Add any code here that needs to be executed once the windowController has loaded the document's window.
+    if (objectsForNewDocument) {
+        // We have opened a new-measurement view.
+        [[aController window] orderOut: self];
+        for (id obj in objectsForNewDocument) {
+            if ([obj respondsToSelector:@selector(makeKeyAndOrderFront:)])
+                [obj makeKeyAndOrderFront: self];
+        }
+    }
 }
 
 - (IBAction)newDocumentComplete: (id)sender
 {
     NSLog(@"New document complete\n");
     objectsForNewDocument = nil;
+    [super makeWindowControllers];
     [self showWindows];
+    for (NSWindowController *ctrl in self.windowControllers)
+        [[ctrl window] setDocumentEdited: YES];
 }
 
 + (BOOL)autosavesInPlace

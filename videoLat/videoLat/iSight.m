@@ -49,12 +49,20 @@
 @synthesize deviceID;
 @synthesize deviceName;
 
-- (void) awakeFromNib 
+- (iSight *)init
+{
+    self = [super init];
+    if (self) {
+        outputCapturer = nil;
+        deviceID = nil;
+        sampleBufferQueue = dispatch_queue_create("Sample Queue", DISPATCH_QUEUE_SERIAL);
+    }
+    return self;
+}
+
+- (void) awakeFromNib
 {    
-	outputCapturer = nil;
-	deviceID = nil;
-    sampleBufferQueue = dispatch_queue_create("Sample Queue", DISPATCH_QUEUE_SERIAL);
-    // Setup for callbacks 
+    // Setup for callbacks
     [selfView setDelegate: self];
 // XYZZY    [[selfView window] setReleasedWhenClosed: false];
 
