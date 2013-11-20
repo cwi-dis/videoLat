@@ -1,4 +1,4 @@
-//
+erja//
 //  DocumentView.m
 //  videoLat
 //
@@ -14,9 +14,27 @@
 @synthesize distribution;
 @synthesize document;
 
+- (DocumentView *)initWithFrame:(NSRect)frameRect
+{
+    self = [super initWithFrame:frameRect];
+	if (self) {
+		initialValues = NO;
+	}
+    return self;
+}
+
 - (void)viewWillDraw
 {
+    if (!initialValues) {
+        [self updateView];
+    }
+    [super viewWillDraw];
+}
+
+- (void)updateView
+{
 	if (self.document ) {
+        initialValues = YES;
 		self.status.measurementType = self.document.measurementType;
 		self.status.inputDevice = self.document.inputDevice;
 		self.status.outputDevice = self.document.outputDevice;
@@ -44,6 +62,13 @@
 		}
 	}
     [self.status update:self];
-    [super viewWillDraw];
+}
+
+- (void)controlTextDidChange:(NSNotification *)aNotification
+{
+    // This is not very clean.....
+    self.status.description = self.status.bDescription.stringValue;
+    self.document.description = self.status.description;
+    // XYZZY should set change flag on document!
 }
 @end

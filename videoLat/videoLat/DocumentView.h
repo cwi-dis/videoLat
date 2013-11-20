@@ -13,6 +13,7 @@
 #import "Document.h"
 
 @interface DocumentView : NSView {
+    BOOL initialValues;
 };
 
 @property(retain) IBOutlet StatusView *status;
@@ -20,7 +21,7 @@
 @property(retain) IBOutlet GraphView *distribution;
 @property(retain) IBOutlet Document *document;
 
-
 - (void)viewWillDraw;
-
+- (void)updateView;
+- (void)controlTextDidChange:(NSNotification *)aNotification;
 @end
