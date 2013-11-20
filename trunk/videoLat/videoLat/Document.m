@@ -36,9 +36,15 @@
         self.dataStore = [[MeasurementRun alloc] init];
         self.dataDistribution = [[MeasurementDistribution alloc] init];
         objectsForNewDocument = nil;
-        NSArray *newObjects;
-        BOOL ok = [[NSBundle mainBundle] loadNibNamed: @"NewMeasurement" owner: self topLevelObjects: &newObjects];
-        objectsForNewDocument = newObjects;
+		BOOL ok;
+		if ([[NSBundle mainBundle] respondsToSelector:@selector(loadNibNamed:owner:topLevelObjects:)]) {
+			NSArray *newObjects;
+			ok = [[NSBundle mainBundle] loadNibNamed: @"NewMeasurement" owner: self topLevelObjects: &newObjects];
+			objectsForNewDocument = newObjects;
+		} else {
+			ok = [NSBundle loadNibNamed:@"NewMeasurement" owner:self];
+			objectsForNewDocument = [[NSMutableArray alloc] init];
+		}
         NSLog(@"Loaded NewMeasurement: %d, objects %@\n", (int)ok, objectsForNewDocument);
     }
     return self;
