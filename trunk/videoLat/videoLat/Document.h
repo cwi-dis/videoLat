@@ -29,6 +29,5 @@
 
 - (IBAction)newDocumentComplete: (id)sender;
 - (IBAction)export: (id)sender;
-- (IBAction)save: (id)sender;
 
 @end

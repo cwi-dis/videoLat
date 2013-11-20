@@ -67,7 +67,7 @@
 // XYZZY    [[selfView window] setReleasedWhenClosed: false];
 
 	NSLog(@"Devices: %@\n", [self deviceNames]);
-	
+#if 0
 	/* Select the default Video input device */
 	AVCaptureDevice *dev = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
 	/* If we can't get a video device: get a muxed device */
@@ -85,7 +85,7 @@
 	}
 	
 	[self _switchToDevice: dev];
-	
+#endif
 }
 
 - (bool)available
@@ -116,11 +116,19 @@
 		if ([rv indexOfObject: name] == NSNotFound)
 			[rv addObject:name];
 	}
+	if ([rv count] == 0) {
+		NSLog(@"Cannot find any video device\n");
+		NSRunAlertPanel(
+                        @"Warning",
+                        @"No suitable video input device found, reception disabled.",
+                        nil, nil, nil);
+	}
 	return rv;
 }
 
 - (BOOL)switchToDeviceWithName: (NSString *)name
 {
+    NSLog(@"Switching to device %@\n", name);
 	AVCaptureDevice* dev = [self _deviceWithName:name];
     if (dev == nil)
         return NO;

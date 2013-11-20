@@ -7,6 +7,7 @@
 //
 
 #import "Document.h"
+#import "DocumentView.h"
 
 @implementation Document
 @synthesize dataStore;
@@ -89,6 +90,7 @@
 	self.location = @"somewhere";
 	self.description = @"something";
 	self.date = [[NSDate date] descriptionWithCalendarFormat:nil timeZone:nil locale:nil];
+    // XYZZY should set change flag on document!
 	
     [super makeWindowControllers];
     [self showWindows];
@@ -98,6 +100,7 @@
 		[self.measurementWindow close];
 		self.measurementWindow = nil;
 	}
+    [(DocumentView *)self.myView updateView];
 }
 
 + (BOOL)autosavesInPlace
@@ -124,7 +127,7 @@
     NSString *str;
     str = [dict objectForKey:@"videoLat"];
     if (![str isEqualToString:@"videoLat"]) {
-        NSLog(@"XXXJACK This is not a videoLat file\n");
+        NSLog(@"This is not a videoLat file\n");
         if (outError) {
             *outError = [[NSError alloc] initWithDomain:NSCocoaErrorDomain code:NSFileReadCorruptFileError
                                                userInfo:@{NSLocalizedDescriptionKey : @"This is not a videoLat file"}];
@@ -133,7 +136,7 @@
     }
     str = [dict objectForKey:@"version"];
     if (![str isEqualToString:@"0.2"]) {
-        NSLog(@"XXXJACK This is not a version 0.2 videoLat file\n");
+        NSLog(@"This is not a version 0.2 videoLat file\n");
         if (outError) {
             *outError = [[NSError alloc] initWithDomain:NSCocoaErrorDomain code:NSFileReadCorruptFileError
                                                userInfo:@{NSLocalizedDescriptionKey : @"Unsupported videoLat version file"}];
@@ -146,6 +149,7 @@
     self.dataStore = [dict objectForKey: @"dataStore"];
 //    self.dataDistribution = [dict objectForKey: @"dataDistribution"];
     self.dataDistribution = [[MeasurementDistribution alloc] initWithSource:self.dataStore];
+    [self.myView updateView];
 	return YES;
 }
 
@@ -165,12 +169,6 @@
     fileName = [NSString stringWithFormat:@"/tmp/%@-distribution.csv", baseName];
 	[csvData writeToFile:fileName atomically:NO encoding:NSStringEncodingConversionAllowLossy error:nil];    
 #endif
-}
-
-- (IBAction)save: (id)sender
-{
-    NSString *fileName = [NSString stringWithFormat:@"/tmp/%@.videoLat", baseName];
- 	[NSKeyedArchiver archiveRootObject: dataStore toFile: fileName];
 }
 
 @end
