@@ -9,14 +9,11 @@
 #import "MeasurementRun.h"
 
 @implementation MeasurementRun
-@synthesize scenario;
-@synthesize inputID;
-@synthesize inputName;
-@synthesize outputID;
-@synthesize outputName;
-@synthesize description;
-@synthesize time;
-@synthesize location;
+@synthesize measurementType;
+@synthesize inputDeviceID;
+@synthesize inputDevice;
+@synthesize outputDeviceID;
+@synthesize outputDevice;
 @synthesize min;
 @synthesize max;
 @synthesize count;
@@ -36,15 +33,12 @@
 - (MeasurementRun *) init
 {
     self = [super init];
-    scenario = nil;
-    inputID = nil;
-    inputName = nil;
-    outputID = nil;
-    outputName = nil;
-    description = nil;
-    time = nil;
-    location = nil;
-    
+    measurementType = nil;
+    inputDeviceID = nil;
+    inputDevice = nil;
+    outputDeviceID = nil;
+    outputDevice = nil;
+
     sum = 0;
     sumSquares = 0;
     count = 0;
@@ -56,15 +50,16 @@
 - (id)initWithCoder:(NSCoder *)coder
 {
     self = [super init];
-    scenario = [coder decodeObjectForKey: @"scenario"];
-    inputID = [coder decodeObjectForKey: @"inputID"];
-    inputName = [coder decodeObjectForKey: @"inputName"];
-    outputID = [coder decodeObjectForKey: @"outputID"];
-    outputName = [coder decodeObjectForKey: @"outputName"];
+    measurementType = [coder decodeObjectForKey: @"scenario"];
+    inputDeviceID = [coder decodeObjectForKey: @"inputID"];
+    inputDevice = [coder decodeObjectForKey: @"inputName"];
+    outputDeviceID = [coder decodeObjectForKey: @"outputID"];
+    outputDevice = [coder decodeObjectForKey: @"outputName"];
+#if 0
     description = [coder decodeObjectForKey: @"description"];
     time = [coder decodeObjectForKey: @"time"];
     location = [coder decodeObjectForKey: @"location"];
-    
+#endif
     sum = [coder decodeDoubleForKey:@"sum"];
     sumSquares = [coder decodeDoubleForKey:@"sumSquares"];
     count = [coder decodeIntForKey:@"count"];
@@ -75,14 +70,16 @@
            
 - (void)encodeWithCoder:(NSCoder *)coder
 {
-    [coder encodeObject:scenario forKey: @"scenario"];
-    [coder encodeObject:inputID forKey: @"inputID"];
-    [coder encodeObject:inputName forKey: @"inputName"];
-    [coder encodeObject:outputID forKey: @"outputID"];
-    [coder encodeObject:outputName forKey: @"outputName"];
+    [coder encodeObject:measurementType forKey: @"scenario"];
+    [coder encodeObject:inputDeviceID forKey: @"inputID"];
+    [coder encodeObject:inputDevice forKey: @"inputName"];
+    [coder encodeObject:outputDeviceID forKey: @"outputID"];
+    [coder encodeObject:outputDevice forKey: @"outputName"];
+#if 0
     [coder encodeObject:description forKey: @"description"];
     [coder encodeObject:time forKey: @"time"];
     [coder encodeObject:location forKey: @"location"];
+#endif
 
     [coder encodeDouble: sum forKey: @"sum"];
     [coder encodeDouble: sumSquares forKey: @"sumSquares"];
@@ -141,6 +138,8 @@
 		uint64_t delay = [[item objectForKey:@"delay"] longLongValue];
 		sum += delay;
 		sumSquares += (delay * delay);
+		if (delay < min) min = delay;
+		if (delay > max) max = delay;
 	}
 }
 

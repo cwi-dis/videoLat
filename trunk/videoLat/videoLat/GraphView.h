@@ -10,11 +10,15 @@
 #import "protocols.h"
 
 @interface GraphView : NSView {
-    NSColor *myColor;
 }
+@property(retain) NSColor *color;
 @property(retain) IBOutlet NSTextField *bMaxX;
 @property(retain) IBOutlet NSTextField *bMaxY;
 @property(retain) IBOutlet id<GraphDataProviderProtocol> source;
+@property(retain) NSNumber *maxXscale;
+@property(retain) NSNumber *maxYscale;
+@property(retain) NSString *maxXformat;
+@property(retain) NSString *maxYformat;
 
 - (void)drawRect:(NSRect)dirtyRect;
 

@@ -151,9 +151,13 @@
     return now_micro - epoch;
 }
 
-
 - (void) startCollecting: (NSString*)scenario input: (NSString*)inputId name: (NSString*)inputName output:(NSString*)outputId name: (NSString*)outputName
 {
+	dataStore.measurementType = scenario;
+	dataStore.inputDevice = inputName;
+	dataStore.inputDeviceID = inputId;
+	dataStore.outputDevice = outputName;
+	dataStore.outputDeviceID = outputId;
 }
 
 - (void) recordTransmission: (NSString*)data at: (uint64_t)now
