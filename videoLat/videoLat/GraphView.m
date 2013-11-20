@@ -26,17 +26,25 @@ static double _RoundTo125(double value)
 }
 
 @implementation GraphView
+@synthesize color;
+@synthesize maxXscale;
+@synthesize maxYscale;
+@synthesize maxXformat;
+@synthesize maxYformat;
 
-- (GraphView *)init
+- (GraphView *)initWithFrame:(NSRect)frameRect
 {
-    self = [super init];
+    self = [super initWithFrame:frameRect];
+	if (self) {
+		self.color = [NSColor blueColor];
+		self.maxXscale = [NSNumber numberWithInt:1];
+		self.maxYscale = [NSNumber numberWithInt:1];
+		self.maxXformat = @"%f";
+		self.maxYformat = @"%f";
+	}
     return self;
 }
 
-- (void)awakeFromNib
-{
-    myColor = [NSColor blueColor];
-}
 
 - (void)drawRect:(NSRect)dirtyRect {
     if (self.source == nil || [self.source count] == 0) {
@@ -44,6 +52,16 @@ static double _RoundTo125(double value)
         return;
     }
     NSRect dstRect = [self bounds];
+	[[NSColor whiteColor] set];
+	NSRectFill(dstRect);
+
+	[[NSColor blackColor] set];
+    NSBezierPath *axis = [NSBezierPath bezierPath];
+	[axis moveToPoint: NSMakePoint(dstRect.origin.x, dstRect.origin.y + dstRect.size.height)];
+	[axis lineToPoint: dstRect.origin];
+	[axis lineToPoint: NSMakePoint(dstRect.origin.x+ dstRect.size.width, dstRect.origin.y)];
+	[axis stroke];
+	
     CGFloat width = NSWidth(dstRect);
     CGFloat height = NSHeight(dstRect);
     
@@ -69,8 +87,8 @@ static double _RoundTo125(double value)
     CGFloat yPixelPerUnit = (maxYaxis-minY) / height;
     if (yPixelPerUnit == 0) yPixelPerUnit = 1;
 
-	if (self.bMaxX) self.bMaxX.stringValue = [NSString stringWithFormat:@"%f", maxXaxis];
-	if (self.bMaxY) self.bMaxY.stringValue = [NSString stringWithFormat:@"%f", maxYaxis];
+	if (self.bMaxX) self.bMaxX.stringValue = [NSString stringWithFormat:self.maxXformat, maxXaxis * [self.maxXscale floatValue]];
+	if (self.bMaxY) self.bMaxY.stringValue = [NSString stringWithFormat:self.maxYformat, maxYaxis * [self.maxYscale floatValue]];
 
     NSLog(@"%d < x < %d (scale=%f, axis=%f) %f < y < %f (scale=%f, axis=%f)\n", minX, maxX, xPixelPerUnit, maxXaxis, minY, maxY, yPixelPerUnit, maxYaxis);
     
@@ -93,7 +111,7 @@ static double _RoundTo125(double value)
     [path lineToPoint: NSMakePoint(newX, minY)];
     [path closePath];
     
-    [myColor set];
+    [self.color set];
     [path fill];
     [path stroke];
 }

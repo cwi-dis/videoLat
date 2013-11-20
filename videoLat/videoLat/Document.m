@@ -12,6 +12,16 @@
 @synthesize dataStore;
 @synthesize dataDistribution;
 @synthesize measurementWindow;
+
+- (NSString*) measurementType { return self.dataStore?self.dataStore.measurementType:@""; }
+- (NSString*) inputDeviceID { return self.dataStore?self.dataStore.inputDeviceID:@""; }
+- (NSString*) inputDevice { return self.dataStore?self.dataStore.inputDevice:@""; }
+- (NSString*) outputDeviceID { return self.dataStore?self.dataStore.outputDeviceID:@""; }
+- (NSString*) outputDevice { return self.dataStore?self.dataStore.outputDevice:@""; }
+@synthesize description;
+@synthesize date;
+@synthesize location;
+
 - (id)init
 {
     self = [super init];
@@ -75,6 +85,11 @@
 {
     NSLog(@"New document complete\n");
     objectsForNewDocument = nil;
+	// Set location, etc
+	self.location = @"somewhere";
+	self.description = @"something";
+	self.date = [[NSDate date] descriptionWithCalendarFormat:nil timeZone:nil locale:nil];
+	
     [super makeWindowControllers];
     [self showWindows];
     for (NSWindowController *ctrl in self.windowControllers)

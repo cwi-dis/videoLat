@@ -37,16 +37,16 @@
 
 - (void) update: (id)sender
 {
-	if (bMeasurementType) bMeasurementType.stringValue = measurementType;
-	if (bInputDevice) bInputDevice.stringValue = inputDevice;
-	if (bOutputDevice) bOutputDevice.stringValue = outputDevice;
-	if (bDate) bDate.stringValue = date;
-	if (bLocation) bLocation.stringValue = location;
-	if (bDescription) bDescription.stringValue = description;
-	if (bDetectCount) bDetectCount.stringValue = detectCount;
-	if (bDetectAverage) bDetectAverage.stringValue = detectAverage;
-	if (bDetectMinDelay) bDetectMinDelay.stringValue = detectMinDelay;
-	if (bDetectMaxDelay) bDetectMaxDelay.stringValue = detectMaxDelay;
+	if (bMeasurementType) bMeasurementType.stringValue = measurementType?measurementType:@"";
+	if (bInputDevice) bInputDevice.stringValue = inputDevice?inputDevice:@"";
+	if (bOutputDevice) bOutputDevice.stringValue = outputDevice?outputDevice:@"";
+	if (bDate) bDate.stringValue = date?date:@"";
+	if (bLocation) bLocation.stringValue = location?location:@"";
+	if (bDescription) bDescription.stringValue = description?description:@"";
+	if (bDetectCount) bDetectCount.stringValue = detectCount?detectCount:@"";
+	if (bDetectAverage) bDetectAverage.stringValue = detectAverage?detectAverage:@"";
+	if (bDetectMinDelay) bDetectMinDelay.stringValue = detectMinDelay?detectMinDelay:@"";
+	if (bDetectMaxDelay) bDetectMaxDelay.stringValue = detectMaxDelay?detectMaxDelay:@"";
 
 #if 0
     if (NSIsEmptyRect(finderRect)) {
