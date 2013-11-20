@@ -62,6 +62,8 @@
 #endif
     sum = [coder decodeDoubleForKey:@"sum"];
     sumSquares = [coder decodeDoubleForKey:@"sumSquares"];
+    min = [coder decodeDoubleForKey:@"min"];
+    max = [coder decodeDoubleForKey:@"max"];
     count = [coder decodeIntForKey:@"count"];
     
     store = [coder decodeObjectForKey: @"store"];
@@ -83,6 +85,8 @@
 
     [coder encodeDouble: sum forKey: @"sum"];
     [coder encodeDouble: sumSquares forKey: @"sumSquares"];
+    [coder encodeDouble: min forKey: @"min"];
+    [coder encodeDouble: max forKey: @"max"];
     [coder encodeInt: count forKey: @"count"];
 
     [coder encodeObject:store forKey: @"store"];

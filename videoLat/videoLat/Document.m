@@ -107,20 +107,45 @@
 
 - (NSData *)dataOfType:(NSString *)typeName error:(NSError **)outError
 {
-	// Insert code here to write your document to data of the specified type. If outError != NULL, ensure that you create and set an appropriate error when returning nil.
-	// You can also choose to override -fileWrapperOfType:error:, -writeToURL:ofType:error:, or -writeToURL:ofType:forSaveOperation:originalContentsURL:error: instead.
-	NSException *exception = [NSException exceptionWithName:@"UnimplementedMethod" reason:[NSString stringWithFormat:@"%@ is unimplemented", NSStringFromSelector(_cmd)] userInfo:nil];
-	@throw exception;
-	return nil;
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] initWithCapacity:10];
+    [dict setObject:@"videoLat" forKey:@"videoLat"];
+    [dict setObject:@"0.2" forKey:@"version"];
+    [dict setObject:self.description forKey:@"description"];
+    [dict setObject:self.location forKey:@"location"];
+    [dict setObject:self.date forKey:@"date"];
+    [dict setObject:self.dataStore forKey:@"dataStore"];
+//    [dict setObject:self.dataDistribution forKey:@"dataDistribution"];
+    return [NSKeyedArchiver archivedDataWithRootObject: dict];
 }
 
 - (BOOL)readFromData:(NSData *)data ofType:(NSString *)typeName error:(NSError **)outError
 {
-	// Insert code here to read your document from the given data of the specified type. If outError != NULL, ensure that you create and set an appropriate error when returning NO.
-	// You can also choose to override -readFromFileWrapper:ofType:error: or -readFromURL:ofType:error: instead.
-	// If you override either of these, you should also override -isEntireFileLoaded to return NO if the contents are lazily loaded.
-	NSException *exception = [NSException exceptionWithName:@"UnimplementedMethod" reason:[NSString stringWithFormat:@"%@ is unimplemented", NSStringFromSelector(_cmd)] userInfo:nil];
-	@throw exception;
+    NSMutableDictionary *dict = [NSKeyedUnarchiver unarchiveObjectWithData: data];
+    NSString *str;
+    str = [dict objectForKey:@"videoLat"];
+    if (![str isEqualToString:@"videoLat"]) {
+        NSLog(@"XXXJACK This is not a videoLat file\n");
+        if (outError) {
+            *outError = [[NSError alloc] initWithDomain:NSCocoaErrorDomain code:NSFileReadCorruptFileError
+                                               userInfo:@{NSLocalizedDescriptionKey : @"This is not a videoLat file"}];
+        }
+        return NO;
+    }
+    str = [dict objectForKey:@"version"];
+    if (![str isEqualToString:@"0.2"]) {
+        NSLog(@"XXXJACK This is not a version 0.2 videoLat file\n");
+        if (outError) {
+            *outError = [[NSError alloc] initWithDomain:NSCocoaErrorDomain code:NSFileReadCorruptFileError
+                                               userInfo:@{NSLocalizedDescriptionKey : @"Unsupported videoLat version file"}];
+        }
+        return NO;
+    }
+    self.description = [dict objectForKey: @"description"];
+    self.date = [dict objectForKey: @"date"];
+    self.location = [dict objectForKey: @"location"];
+    self.dataStore = [dict objectForKey: @"dataStore"];
+//    self.dataDistribution = [dict objectForKey: @"dataDistribution"];
+    self.dataDistribution = [[MeasurementDistribution alloc] initWithSource:self.dataStore];
 	return YES;
 }
 

@@ -8,11 +8,12 @@
 
 #import "GraphView.h"
 
-static double _RoundTo125(double value)
+static double _RoundUpTo125(double value)
 {
     double magnitude;
     magnitude = floor(log10(value));
     value /= pow(10.0, magnitude);
+#if 0
     if (value < 1.5)
         value = 1.0;
     else if (value < 3.5)
@@ -21,6 +22,16 @@ static double _RoundTo125(double value)
         value = 5.0;
     else
         value = 10.0;
+#else
+    if (value < 1.0)
+        value = 1.0;
+    else if (value < 2.0)
+        value = 2.0;
+    else if (value < 5.0)
+        value = 5.0;
+    else
+        value = 10.0;
+#endif
     value *= pow(10.0, magnitude);
     return value;
 }
@@ -69,7 +80,7 @@ static double _RoundTo125(double value)
     // then we discard the oldest data (lowest X indices)
     int minX = 0;
     int maxX = self.source.count-1;
-    CGFloat maxXaxis = (CGFloat)_RoundTo125(maxX);
+    CGFloat maxXaxis = (CGFloat)_RoundUpTo125(maxX);
     CGFloat xPixelPerUnit = width / (CGFloat)(maxXaxis-minX);
     if (xPixelPerUnit < 1.0) {
         // Don't show the left bit
@@ -82,7 +93,7 @@ static double _RoundTo125(double value)
     // Determine Y scale. Go from 0 to at least max, but round up to 1/2/5 first digit.
     CGFloat minY = 0; // Not source.min;
     CGFloat maxY = self.source.max;
-    CGFloat maxYaxis = (CGFloat)_RoundTo125(maxY);
+    CGFloat maxYaxis = (CGFloat)_RoundUpTo125(maxY);
 
     CGFloat yPixelPerUnit = (maxYaxis-minY) / height;
     if (yPixelPerUnit == 0) yPixelPerUnit = 1;
