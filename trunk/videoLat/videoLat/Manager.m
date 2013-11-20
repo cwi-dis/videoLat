@@ -198,9 +198,11 @@
         assert(strcmp([outputCode UTF8String], "BadCookie") != 0);
 		uint64_t outputTime = [collector now] - outputAddedOverhead;
         if (self.useQRcode) {
-            [collector recordTransmission: outputCode at: outputTime];
+			if (self.running)
+				[collector recordTransmission: outputCode at: outputTime];
         } else {
-            [collector recordTransmission: currentColorIsWhite?@"white":@"black" at: outputTime];
+            if (self.running)
+				[collector recordTransmission: currentColorIsWhite?@"white":@"black" at: outputTime];
         }
         outputCodeHasBeenReported = true;
         outputStartTime = 0;
@@ -289,7 +291,8 @@
                 found_ok++;
                 found_total++;
                 lastInputCode = [NSString stringWithUTF8String: code];
-                [collector recordReception: lastInputCode at: inputStartTime-inputAddedOverhead];
+				if (self.running)
+					[collector recordReception: lastInputCode at: inputStartTime-inputAddedOverhead];
             }
             inputAddedOverhead = 0;
             // Remember rectangle (for black/white detection)
@@ -335,7 +338,8 @@ mono:
 //xyzzy            status.bwString = [NSString stringWithFormat: @"found %d (current %s)", nBWdetections, isWhite?"white":"black"];
             [status update: self];
             // XXXJACK Is this correct? is "now" the best timestamp we have for the incoming hardware data?
-            [collector recordReception: isWhite?@"white":@"black" at: receptionTime];
+            if (self.running)
+				[collector recordReception: isWhite?@"white":@"black" at: receptionTime];
             inputAddedOverhead = 0;
             outputCode = [NSString stringWithFormat:@"%lld", receptionTime];
             outputCodeHasBeenReported = false;
@@ -403,7 +407,8 @@ mono:
 			[status update: self];
 			if (nBWdetections > 10) {
 				// The first 10 are for calibrating, then we get to business
-                [collector recordReception: foundColorIsWhite?@"white":@"black" at: inputStartTime-inputAddedOverhead];
+                if (self.running)
+					[collector recordReception: foundColorIsWhite?@"white":@"black" at: inputStartTime-inputAddedOverhead];
 				inputAddedOverhead = 0;
 			}
 			outputCode = [NSString stringWithFormat:@"%lld", [collector now]];
@@ -449,7 +454,8 @@ bad2:
     @synchronized(self) {
         if (delegate && [delegate respondsToSelector:@selector(newBWOutput:)]) {
             [delegate newBWOutput: currentColorIsWhite];
-            [collector recordTransmission: currentColorIsWhite?@"white":@"black" at: [collector now]];
+			if (self.running)
+				[collector recordTransmission: currentColorIsWhite?@"white":@"black" at: [collector now]];
         }
     }
 }
