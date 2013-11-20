@@ -44,7 +44,6 @@
     if (self) {
         NSLog(@"initWithType: %@\n", typeName);
         self.dataStore = [[MeasurementRun alloc] init];
-        self.dataDistribution = [[MeasurementDistribution alloc] init];
         objectsForNewDocument = nil;
 		BOOL ok;
 		if ([[NSBundle mainBundle] respondsToSelector:@selector(loadNibNamed:owner:topLevelObjects:)]) {
@@ -85,6 +84,7 @@
 {
     NSLog(@"New document complete\n");
     objectsForNewDocument = nil;
+	self.dataDistribution = [[MeasurementDistribution alloc] initWithSource:self.dataStore];
 	// Set location, etc
 	self.location = @"somewhere";
 	self.description = @"something";
