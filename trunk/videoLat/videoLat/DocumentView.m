@@ -33,9 +33,9 @@
 			self.values.maxYformat = @"%.0f ms";
 			self.values.maxYscale = [NSNumber numberWithDouble:0.001];
 			self.distribution.source = self.document.dataDistribution;
-			self.distribution.maxXformat = @"%.0f ms";
-			self.distribution.maxXscale = [NSNumber numberWithDouble:0.001];
-			self.distribution.maxYformat = @"%.2f";
+			//self.distribution.maxXformat = @"%.0f ms";
+			//self.distribution.maxXscale = [NSNumber numberWithDouble:0.001];
+			//self.distribution.maxYformat = @"%.2f";
 		} else {
 			self.status.detectCount = @"";
 			self.status.detectAverage = @"";
