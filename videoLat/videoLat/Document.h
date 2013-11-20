@@ -16,6 +16,7 @@
 @property(retain) IBOutlet MeasurementRun *dataStore;
 @property(retain) IBOutlet MeasurementDistribution *dataDistribution;
 @property(retain) IBOutlet id myView;
+@property(retain) IBOutlet NSWindow *measurementWindow;
 
 - (IBAction)newDocumentComplete: (id)sender;
 - (IBAction)export: (id)sender;

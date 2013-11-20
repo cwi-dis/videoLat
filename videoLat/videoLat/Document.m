@@ -11,7 +11,7 @@
 @implementation Document
 @synthesize dataStore;
 @synthesize dataDistribution;
-
+@synthesize measurementWindow;
 - (id)init
 {
     self = [super init];
@@ -24,7 +24,7 @@
 
 - (void)makeWindowControllers
 {
-    if (objectsForNewDocument == nil)
+    if (self.measurementWindow == nil)
         [super makeWindowControllers];
 }
 
@@ -79,6 +79,10 @@
     [self showWindows];
     for (NSWindowController *ctrl in self.windowControllers)
         [[ctrl window] setDocumentEdited: YES];
+	if (self.measurementWindow) {
+		[self.measurementWindow close];
+		self.measurementWindow = nil;
+	}
 }
 
 + (BOOL)autosavesInPlace

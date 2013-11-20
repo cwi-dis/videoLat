@@ -175,11 +175,11 @@
     return self;
 }
 
-- (MeasurementDistribution *)initWithSource: (MeasurementRun *)source
+- (MeasurementDistribution *)initWithSource: (MeasurementRun *)_source
 {
     self = [self init];
     if (self) {
-        [self setSource: source];
+        [self setSource: _source];
     }
     return self;
 }
