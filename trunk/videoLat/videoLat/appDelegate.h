@@ -10,8 +10,6 @@
 #include "protocols.h"
 
 @interface appDelegate : NSDocumentController {
-    IBOutlet id <DataCollectorProtocol> output;
+    IBOutlet id output;
 }
-
-- (void)applicationWillTerminate:(id)application;
 @end

@@ -16,8 +16,8 @@
 
 @end
 
-@interface InputCamera : NSObject <DataCaptureProtocol, AVCaptureVideoDataOutputSampleBufferDelegate> {
-    IBOutlet id <MeasurementInputManagerProtocol> manager;
+@interface InputCamera : NSObject <InputCaptureProtocol, AVCaptureVideoDataOutputSampleBufferDelegate> {
+    IBOutlet id <RunInputManagerProtocol> manager;
     IBOutlet MyQTCaptureView *selfView;
     AVCaptureVideoPreviewLayer *selfLayer;
     AVCaptureVideoDataOutput *outputCapturer;

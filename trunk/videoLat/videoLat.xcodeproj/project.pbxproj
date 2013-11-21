@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		040CF9D0183E40F20094C0D8 /* findQRcodes.mm in Sources */ = {isa = PBXBuildFile; fileRef = 04B58F11183A3CF000360A61 /* findQRcodes.mm */; };
 		044F3D7D183A46390008CBA3 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 044F3D7C183A46390008CBA3 /* AVFoundation.framework */; };
 		044F3D7F183A46540008CBA3 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 044F3D7E183A46540008CBA3 /* CoreMedia.framework */; };
 		044F3D81183A467F0008CBA3 /* libpython2.7.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 044F3D80183A467F0008CBA3 /* libpython2.7.dylib */; };
@@ -23,7 +24,6 @@
 		047DD1D5183A3B4D00A04F83 /* Document.m in Sources */ = {isa = PBXBuildFile; fileRef = 047DD1D4183A3B4D00A04F83 /* Document.m */; };
 		047DD1D8183A3B4D00A04F83 /* Document.xib in Resources */ = {isa = PBXBuildFile; fileRef = 047DD1D6183A3B4D00A04F83 /* Document.xib */; };
 		047DD1DB183A3B4D00A04F83 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 047DD1D9183A3B4D00A04F83 /* MainMenu.xib */; };
-		04B58F1C183A3CF000360A61 /* findQRcodes.mm in Sources */ = {isa = PBXBuildFile; fileRef = 04B58F11183A3CF000360A61 /* findQRcodes.mm */; };
 		04B58F2A183A3D3000360A61 /* appDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B58F1E183A3D3000360A61 /* appDelegate.m */; };
 		04B58F2B183A3D3000360A61 /* RunCollector.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B58F1F183A3D3000360A61 /* RunCollector.m */; };
 		04B58F2C183A3D3000360A61 /* DocumentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B58F20183A3D3000360A61 /* DocumentView.m */; };
@@ -301,7 +301,6 @@
 			files = (
 				047DD1CE183A3B4D00A04F83 /* main.m in Sources */,
 				047DD1D5183A3B4D00A04F83 /* Document.m in Sources */,
-				04B58F1C183A3CF000360A61 /* findQRcodes.mm in Sources */,
 				045397D1183AC3D300697348 /* RunTypeView.m in Sources */,
 				04B58F2A183A3D3000360A61 /* appDelegate.m in Sources */,
 				04B58F2B183A3D3000360A61 /* RunCollector.m in Sources */,
@@ -316,6 +315,7 @@
 				04B58F33183A3D3000360A61 /* PythonSwitcher.m in Sources */,
 				045397D7183AC40C00697348 /* RunStatusView.m in Sources */,
 				04B58F35183A3D3000360A61 /* DocumentDescriptionView.m in Sources */,
+				040CF9D0183E40F20094C0D8 /* findQRcodes.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

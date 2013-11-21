@@ -12,19 +12,19 @@
 #import <Cocoa/Cocoa.h>
 
 // Protocol for an object that finds patterns in an input buffer
-@protocol FindProtocol
+@protocol InputVideoFindProtocol
 @property(readonly) NSRect rect;
 @property BOOL configuring;
 - (char*) find: (void*)buffer width: (int)width height: (int)height format: (const char*)format size:(int)size;
 @end
 
 // Protocol for an object that creates patterns in an output buffer
-@protocol GenProtocol
+@protocol OutputVideoGenProtocol
 - (void) gen: (void*)buffer width: (int)width height: (int)height code: (const char *)code;
 @end
 
 // Protocol for an object that is responsible for displaying patterns
-@protocol OutputViewProtocol
+@protocol OutputVideoViewProtocol
 @property BOOL mirrored;
 @property BOOL visible;
 @property (readonly) NSString* deviceID;
@@ -33,7 +33,7 @@
 @end
 
 // Protocol for a capturing object
-@protocol DataCaptureProtocol
+@protocol InputCaptureProtocol
 - (void) startCapturing;
 - (void) stopCapturing;
 @property (readonly) NSString* deviceID;
@@ -49,21 +49,6 @@
 - (NSNumber *)valueForIndex: (int) i;
 @end
 
-// Protocol for an object that is responsible for controlling a sequence of measurements
-@protocol DataCollectorProtocol
-@property(readonly) double average;
-@property(readonly) double stddev;
-@property (readonly) int count;
-
-- (uint64_t) now;
-- (void) startCollecting: (NSString*)scenario input: (NSString*)inputId name: (NSString*)inputName output:(NSString*)outputId name: (NSString*)outputName;
-- (void) stopCollecting;
-- (void) trim;
-
-- (void) recordTransmission: (NSString*)data at: (uint64_t)now;
-- (void) recordReception: (NSString*)data at: (uint64_t)now;
-@end
-
 // Protocol for an object that influences what patterns the manager generates
 // XXX Needs to go...
 @protocol ManagerDelegateProtocol <NSObject>
@@ -75,14 +60,14 @@
 @end
 
 // Protocol used by output view to request new data and report results
-@protocol MeasurementOutputManagerProtocol
+@protocol RunOutputManagerProtocol
 - (CIImage *)newOutputStart;
 - (void)newOutputDone;
 - (void)updateOutputOverhead: (double)deltaT;
 @end
 
 // Protocol used by input data collector to report new data and timing.
-@protocol MeasurementInputManagerProtocol
+@protocol RunInputManagerProtocol
 - (void)reportDataCapturer: (id)capturer;
 - (void)setFinderRect: (NSRect)theRect;
 - (void)newInputStart;

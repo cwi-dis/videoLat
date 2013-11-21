@@ -10,8 +10,4 @@
 
 
 @implementation appDelegate
-- (void)applicationWillTerminate:(id)application
-{
-    if (output) [output stopCollecting];
-}
 @end
