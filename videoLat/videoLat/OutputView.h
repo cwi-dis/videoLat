@@ -10,8 +10,8 @@
 #import "Manager.h"
 #import "protocols.h"
 
-@interface OutputView : NSView <OutputViewProtocol> {
-    IBOutlet id <MeasurementOutputManagerProtocol> manager;
+@interface OutputView : NSView <OutputVideoViewProtocol> {
+    IBOutlet id <RunOutputManagerProtocol> manager;
     bool newOutputDone;
 	BOOL mirrored;
 	NSString *deviceID;

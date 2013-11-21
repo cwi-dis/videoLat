@@ -9,21 +9,22 @@
 #import "RunTypeView.h"
 #import "RunStatusView.h"
 #import "RunVideoSelectionView.h"
+#import "RunCollector.h"
 #import "DocumentDescriptionView.h"
 #import "protocols.h"
 #import "Document.h"
 
-@interface Manager : NSObject <MeasurementOutputManagerProtocol, MeasurementInputManagerProtocol> {
+@interface Manager : NSObject <RunOutputManagerProtocol, RunInputManagerProtocol> {
   @private
     IBOutlet RunTypeView *typeView;
     IBOutlet RunVideoSelectionView *selectionView;
     IBOutlet RunStatusView *status;
-	IBOutlet id <OutputViewProtocol> outputView;
+	IBOutlet id <OutputVideoViewProtocol> outputView;
 	IBOutlet id <ManagerDelegateProtocol> delegate;
-    IBOutlet id <DataCaptureProtocol> capturer;
-    id <FindProtocol> finder;
-    id <GenProtocol> genner;
-    IBOutlet id <DataCollectorProtocol> collector;
+    IBOutlet id <InputCaptureProtocol> capturer;
+    id <InputVideoFindProtocol> finder;
+    id <OutputVideoGenProtocol> genner;
+    IBOutlet RunCollector *collector;
     bool foundQRcode;
     int found_total;
     int found_ok;

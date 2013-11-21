@@ -11,7 +11,7 @@
 #include "zint.h"
 
 
-@interface GenQRcodes : NSObject <GenProtocol> {
+@interface GenQRcodes : NSObject <OutputVideoGenProtocol> {
     struct zint_symbol *symbol;
 }
 

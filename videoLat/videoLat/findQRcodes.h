@@ -10,7 +10,7 @@
 #import "protocols.h"
 #include "zbar.h"
 
-@interface FindQRcodes : NSObject <FindProtocol> {
+@interface FindQRcodes : NSObject <InputVideoFindProtocol> {
     char *lastCode;
     void *scanner_hidden;	// This is a C++ class, so we do some casting magic
     NSRect rect;
