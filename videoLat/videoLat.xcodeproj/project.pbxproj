@@ -39,6 +39,7 @@
 		04B58F35183A3D3000360A61 /* DocumentDescriptionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B58F29183A3D3000360A61 /* DocumentDescriptionView.m */; };
 		04B58F39183A3D5300360A61 /* libzbar.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 04B58F37183A3D5300360A61 /* libzbar.0.dylib */; };
 		04B58F3A183A3D5300360A61 /* libzint.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 04B58F38183A3D5300360A61 /* libzint.dylib */; };
+		04E01C0E183EB68F00C9AF76 /* MeasurementType.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E01C0D183EB68F00C9AF76 /* MeasurementType.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -99,6 +100,8 @@
 		04B58F29183A3D3000360A61 /* DocumentDescriptionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocumentDescriptionView.m; sourceTree = "<group>"; };
 		04B58F37183A3D5300360A61 /* libzbar.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libzbar.0.dylib; path = thirdParty/installed/lib/libzbar.0.dylib; sourceTree = "<group>"; };
 		04B58F38183A3D5300360A61 /* libzint.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libzint.dylib; path = thirdParty/installed/lib/libzint.dylib; sourceTree = "<group>"; };
+		04E01C0C183EB68F00C9AF76 /* MeasurementType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeasurementType.h; sourceTree = "<group>"; };
+		04E01C0D183EB68F00C9AF76 /* MeasurementType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeasurementType.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -186,6 +189,8 @@
 		047DD1B2183A3B4C00A04F83 = {
 			isa = PBXGroup;
 			children = (
+				04E01C0C183EB68F00C9AF76 /* MeasurementType.h */,
+				04E01C0D183EB68F00C9AF76 /* MeasurementType.m */,
 				047DD1C7183A3B4D00A04F83 /* videoLat */,
 				047DD1C0183A3B4C00A04F83 /* Frameworks */,
 				047DD1BE183A3B4C00A04F83 /* Products */,
@@ -333,6 +338,7 @@
 			files = (
 				047DD1CE183A3B4D00A04F83 /* main.m in Sources */,
 				047DD1D5183A3B4D00A04F83 /* Document.m in Sources */,
+				04E01C0E183EB68F00C9AF76 /* MeasurementType.m in Sources */,
 				045397D1183AC3D300697348 /* RunTypeView.m in Sources */,
 				04B58F2A183A3D3000360A61 /* appDelegate.m in Sources */,
 				04B58F2B183A3D3000360A61 /* RunCollector.m in Sources */,
