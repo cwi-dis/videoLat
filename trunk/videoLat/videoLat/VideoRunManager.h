@@ -8,18 +8,17 @@
 #import <Cocoa/Cocoa.h>
 #import "RunTypeView.h"
 #import "RunStatusView.h"
-#import "RunVideoSelectionView.h"
+#import "VideoSelectionView.h"
+#import "VideoOutputView.h"
 #import "RunCollector.h"
-#import "DocumentDescriptionView.h"
 #import "protocols.h"
 #import "Document.h"
 
-@interface Manager : NSObject <RunOutputManagerProtocol, RunInputManagerProtocol> {
+@interface VideoRunManager : NSObject <RunOutputManagerProtocol, RunInputManagerProtocol> {
   @private
-    IBOutlet RunTypeView *typeView;
-    IBOutlet RunVideoSelectionView *selectionView;
+    IBOutlet VideoSelectionView *selectionView;
     IBOutlet RunStatusView *status;
-	IBOutlet id <OutputVideoViewProtocol> outputView;
+	IBOutlet VideoOutputView *outputView;
 	IBOutlet id <ManagerDelegateProtocol> delegate;
     IBOutlet id <InputCaptureProtocol> capturer;
     id <InputVideoFindProtocol> finder;
@@ -48,6 +47,7 @@
 @property bool useQRcode;
 @property bool mirrored;
 
+- (IBAction)startPreMeasuring: (id)sender;
 - (IBAction)startMeasuring: (id)sender;
 - (IBAction)stopMeasuring: (id)sender;
 

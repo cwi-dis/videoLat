@@ -7,10 +7,9 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "Manager.h"
 #import "protocols.h"
 
-@interface OutputView : NSView <OutputVideoViewProtocol> {
+@interface VideoOutputView : NSView <OutputVideoViewProtocol> {
     IBOutlet id <RunOutputManagerProtocol> manager;
     bool newOutputDone;
 	BOOL mirrored;
