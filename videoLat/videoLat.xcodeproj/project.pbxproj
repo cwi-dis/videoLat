@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		040CF9D0183E40F20094C0D8 /* findQRcodes.mm in Sources */ = {isa = PBXBuildFile; fileRef = 04B58F11183A3CF000360A61 /* findQRcodes.mm */; };
+		040CF9DC183E4F6F0094C0D8 /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 040CF9DB183E4F6F0094C0D8 /* icon.icns */; };
+		040CF9DE183E56110094C0D8 /* docicon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 040CF9DD183E56110094C0D8 /* docicon.icns */; };
 		044F3D7D183A46390008CBA3 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 044F3D7C183A46390008CBA3 /* AVFoundation.framework */; };
 		044F3D7F183A46540008CBA3 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 044F3D7E183A46540008CBA3 /* CoreMedia.framework */; };
 		044F3D81183A467F0008CBA3 /* libpython2.7.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 044F3D80183A467F0008CBA3 /* libpython2.7.dylib */; };
@@ -40,6 +42,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		040CF9DB183E4F6F0094C0D8 /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = icon.icns; sourceTree = SOURCE_ROOT; };
+		040CF9DD183E56110094C0D8 /* docicon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = docicon.icns; sourceTree = SOURCE_ROOT; };
 		044F3D7C183A46390008CBA3 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = /System/Library/Frameworks/AVFoundation.framework; sourceTree = "<absolute>"; };
 		044F3D7E183A46540008CBA3 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = ../../../../System/Library/Frameworks/CoreMedia.framework; sourceTree = "<group>"; };
 		044F3D80183A467F0008CBA3 /* libpython2.7.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libpython2.7.dylib; path = ../../../../System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/config/libpython2.7.dylib; sourceTree = "<group>"; };
@@ -240,6 +244,8 @@
 			isa = PBXGroup;
 			children = (
 				047DD1C9183A3B4D00A04F83 /* videoLat-Info.plist */,
+				040CF9DD183E56110094C0D8 /* docicon.icns */,
+				040CF9DB183E4F6F0094C0D8 /* icon.icns */,
 				047DD1CA183A3B4D00A04F83 /* InfoPlist.strings */,
 				047DD1CD183A3B4D00A04F83 /* main.m */,
 				047DD1CF183A3B4D00A04F83 /* videoLat-Prefix.pch */,
@@ -313,6 +319,8 @@
 				047DD1D8183A3B4D00A04F83 /* Document.xib in Resources */,
 				045397CE183AB23B00697348 /* NewMeasurement.xib in Resources */,
 				047DD1DB183A3B4D00A04F83 /* MainMenu.xib in Resources */,
+				040CF9DC183E4F6F0094C0D8 /* icon.icns in Resources */,
+				040CF9DE183E56110094C0D8 /* docicon.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
