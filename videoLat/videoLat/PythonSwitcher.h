@@ -7,7 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "Manager.h"
+#import "VideoRunManager.h"
 #include <Python.h>
 
 @interface PythonSwitcher : NSObject <ManagerDelegateProtocol> {

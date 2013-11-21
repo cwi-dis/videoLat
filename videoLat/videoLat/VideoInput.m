@@ -1,9 +1,9 @@
-#import "InputCamera.h"
+#import "VideoInput.h"
 #import <QuartzCore/QuartzCore.h>
 #import <mach/mach.h>
 #import <mach/mach_time.h>
 
-@implementation MyQTCaptureView
+@implementation VideoInputView
 @synthesize delegate;
 @synthesize visibleButton;
 
@@ -45,11 +45,11 @@
 
 @end
 
-@implementation InputCamera
+@implementation VideoInput
 @synthesize deviceID;
 @synthesize deviceName;
 
-- (InputCamera *)init
+- (VideoInput *)init
 {
     self = [super init];
     if (self) {

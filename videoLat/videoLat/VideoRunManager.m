@@ -5,17 +5,17 @@
 //  Copyright 2010 Centrum voor Wiskunde en Informatica. All rights reserved.
 //
 
-#import "Manager.h"
+#import "VideoRunManager.h"
 #import "PythonSwitcher.h"
 #import "FindQRCodes.h"
 #import "GenQRCodes.h"
 
-@implementation Manager
+@implementation VideoRunManager
 @synthesize running;
 @synthesize useQRcode;
 @synthesize mirrored;
 
-- (Manager*)init
+- (VideoRunManager*)init
 {
     self = [super init];
 	if (self) {
@@ -61,6 +61,10 @@
 - (void)reportDataCapturer: (id)capt
 {
     capturer = capt;
+}
+
+- (IBAction)startPreMeasuring: (id)sender
+{
 }
 
 - (IBAction)startMeasuring: (id)sender

@@ -6,7 +6,7 @@
 //  Copyright 2010 Centrum voor Wiskunde en Informatica. All rights reserved.
 //
 
-#import "OutputView.h"
+#import "VideoOutputView.h"
 #import <CoreServices/CoreServices.h>
 #import <ApplicationServices/ApplicationServices.h>
 #import <IOKit/graphics/IOGraphicsLib.h>
@@ -29,7 +29,7 @@ MyScreenRefreshCallback(CGRectCount count, const CGRect *rects, void *userArg)
 }
 #endif // XMIT_TIME_AT_RETRACE_TIME
 
-@implementation OutputView
+@implementation VideoOutputView
 
 @synthesize mirrored;
 

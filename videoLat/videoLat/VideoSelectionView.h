@@ -7,13 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "InputCamera.h"
+#import "VideoInput.h"
 
-@interface RunVideoSelectionView : NSView
+@interface VideoSelectionView : NSView
 @property(retain) IBOutlet NSPopUpButton *bCameras;
 @property(retain) IBOutlet NSPopUpButton *bBase;
+@property(retain) IBOutlet NSButton *bPreRun;
 @property(retain) IBOutlet NSButton *bRun;
-@property(retain) IBOutlet InputCamera *inputHandler;
+@property(retain) IBOutlet VideoInput *inputHandler;
 
 - (IBAction)cameraChanged: (id) sender;
 - (void)_updateCameraNames: (NSNotification*) notification;

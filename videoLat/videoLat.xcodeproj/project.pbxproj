@@ -15,7 +15,7 @@
 		044F3D85183A47170008CBA3 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 044F3D84183A47170008CBA3 /* QuartzCore.framework */; };
 		045397CE183AB23B00697348 /* NewMeasurement.xib in Resources */ = {isa = PBXBuildFile; fileRef = 045397CD183AB23B00697348 /* NewMeasurement.xib */; };
 		045397D1183AC3D300697348 /* RunTypeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 045397D0183AC3D300697348 /* RunTypeView.m */; };
-		045397D4183AC3F300697348 /* RunVideoSelectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 045397D3183AC3F300697348 /* RunVideoSelectionView.m */; };
+		045397D4183AC3F300697348 /* VideoSelectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 045397D3183AC3F300697348 /* VideoSelectionView.m */; };
 		045397D7183AC40C00697348 /* RunStatusView.m in Sources */ = {isa = PBXBuildFile; fileRef = 045397D6183AC40B00697348 /* RunStatusView.m */; };
 		047DD1C2183A3B4C00A04F83 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 047DD1C1183A3B4C00A04F83 /* Cocoa.framework */; };
 		047DD1CC183A3B4D00A04F83 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 047DD1CA183A3B4D00A04F83 /* InfoPlist.strings */; };
@@ -29,10 +29,10 @@
 		04B58F2C183A3D3000360A61 /* DocumentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B58F20183A3D3000360A61 /* DocumentView.m */; };
 		04B58F2D183A3D3000360A61 /* genQRcodes.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B58F21183A3D3000360A61 /* genQRcodes.m */; };
 		04B58F2E183A3D3000360A61 /* GraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B58F22183A3D3000360A61 /* GraphView.m */; };
-		04B58F2F183A3D3000360A61 /* InputCamera.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B58F23183A3D3000360A61 /* InputCamera.m */; };
-		04B58F30183A3D3000360A61 /* Manager.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B58F24183A3D3000360A61 /* Manager.m */; };
+		04B58F2F183A3D3000360A61 /* VideoInput.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B58F23183A3D3000360A61 /* VideoInput.m */; };
+		04B58F30183A3D3000360A61 /* VideoRunManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B58F24183A3D3000360A61 /* VideoRunManager.m */; };
 		04B58F31183A3D3000360A61 /* MeasurementDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B58F25183A3D3000360A61 /* MeasurementDataStore.m */; };
-		04B58F32183A3D3000360A61 /* OutputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B58F26183A3D3000360A61 /* OutputView.m */; };
+		04B58F32183A3D3000360A61 /* VideoOutputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B58F26183A3D3000360A61 /* VideoOutputView.m */; };
 		04B58F33183A3D3000360A61 /* PythonSwitcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B58F27183A3D3000360A61 /* PythonSwitcher.m */; };
 		04B58F35183A3D3000360A61 /* DocumentDescriptionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B58F29183A3D3000360A61 /* DocumentDescriptionView.m */; };
 		04B58F39183A3D5300360A61 /* libzbar.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 04B58F37183A3D5300360A61 /* libzbar.0.dylib */; };
@@ -48,8 +48,8 @@
 		045397CD183AB23B00697348 /* NewMeasurement.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewMeasurement.xib; sourceTree = "<group>"; };
 		045397CF183AC3D300697348 /* RunTypeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RunTypeView.h; sourceTree = "<group>"; };
 		045397D0183AC3D300697348 /* RunTypeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RunTypeView.m; sourceTree = "<group>"; };
-		045397D2183AC3F300697348 /* RunVideoSelectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RunVideoSelectionView.h; sourceTree = "<group>"; };
-		045397D3183AC3F300697348 /* RunVideoSelectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RunVideoSelectionView.m; sourceTree = "<group>"; };
+		045397D2183AC3F300697348 /* VideoSelectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoSelectionView.h; sourceTree = "<group>"; };
+		045397D3183AC3F300697348 /* VideoSelectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoSelectionView.m; sourceTree = "<group>"; };
 		045397D5183AC40B00697348 /* RunStatusView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RunStatusView.h; sourceTree = "<group>"; };
 		045397D6183AC40B00697348 /* RunStatusView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RunStatusView.m; sourceTree = "<group>"; };
 		047DD1BD183A3B4C00A04F83 /* videoLat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = videoLat.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -73,10 +73,10 @@
 		04B58F11183A3CF000360A61 /* findQRcodes.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = findQRcodes.mm; sourceTree = "<group>"; };
 		04B58F12183A3CF000360A61 /* genQRcodes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = genQRcodes.h; sourceTree = "<group>"; };
 		04B58F13183A3CF000360A61 /* GraphView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GraphView.h; sourceTree = "<group>"; };
-		04B58F14183A3CF000360A61 /* InputCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InputCamera.h; sourceTree = "<group>"; };
-		04B58F15183A3CF000360A61 /* Manager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Manager.h; sourceTree = "<group>"; };
+		04B58F14183A3CF000360A61 /* VideoInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoInput.h; sourceTree = "<group>"; };
+		04B58F15183A3CF000360A61 /* VideoRunManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoRunManager.h; sourceTree = "<group>"; };
 		04B58F16183A3CF000360A61 /* MeasurementDataStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeasurementDataStore.h; sourceTree = "<group>"; };
-		04B58F17183A3CF000360A61 /* OutputView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OutputView.h; sourceTree = "<group>"; };
+		04B58F17183A3CF000360A61 /* VideoOutputView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoOutputView.h; sourceTree = "<group>"; };
 		04B58F18183A3CF000360A61 /* protocols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = protocols.h; sourceTree = "<group>"; };
 		04B58F19183A3CF000360A61 /* PythonSwitcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PythonSwitcher.h; sourceTree = "<group>"; };
 		04B58F1A183A3CF000360A61 /* SettingsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsView.h; sourceTree = "<group>"; };
@@ -86,10 +86,10 @@
 		04B58F20183A3D3000360A61 /* DocumentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocumentView.m; sourceTree = "<group>"; };
 		04B58F21183A3D3000360A61 /* genQRcodes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = genQRcodes.m; sourceTree = "<group>"; };
 		04B58F22183A3D3000360A61 /* GraphView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GraphView.m; sourceTree = "<group>"; };
-		04B58F23183A3D3000360A61 /* InputCamera.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InputCamera.m; sourceTree = "<group>"; };
-		04B58F24183A3D3000360A61 /* Manager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Manager.m; sourceTree = "<group>"; };
+		04B58F23183A3D3000360A61 /* VideoInput.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoInput.m; sourceTree = "<group>"; };
+		04B58F24183A3D3000360A61 /* VideoRunManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoRunManager.m; sourceTree = "<group>"; };
 		04B58F25183A3D3000360A61 /* MeasurementDataStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeasurementDataStore.m; sourceTree = "<group>"; };
-		04B58F26183A3D3000360A61 /* OutputView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OutputView.m; sourceTree = "<group>"; };
+		04B58F26183A3D3000360A61 /* VideoOutputView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoOutputView.m; sourceTree = "<group>"; };
 		04B58F27183A3D3000360A61 /* PythonSwitcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PythonSwitcher.m; sourceTree = "<group>"; };
 		04B58F28183A3D3000360A61 /* SettingsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsView.m; sourceTree = "<group>"; };
 		04B58F29183A3D3000360A61 /* DocumentDescriptionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocumentDescriptionView.m; sourceTree = "<group>"; };
@@ -119,10 +119,64 @@
 		040CF9CF183E31800094C0D8 /* old */ = {
 			isa = PBXGroup;
 			children = (
+				04B58F19183A3CF000360A61 /* PythonSwitcher.h */,
+				04B58F27183A3D3000360A61 /* PythonSwitcher.m */,
 				04B58F1A183A3CF000360A61 /* SettingsView.h */,
 				04B58F28183A3D3000360A61 /* SettingsView.m */,
 			);
 			name = old;
+			sourceTree = "<group>";
+		};
+		040CF9D4183E4B1F0094C0D8 /* Document */ = {
+			isa = PBXGroup;
+			children = (
+				047DD1D3183A3B4D00A04F83 /* Document.h */,
+				047DD1D4183A3B4D00A04F83 /* Document.m */,
+				04B58F0F183A3CF000360A61 /* DocumentView.h */,
+				04B58F20183A3D3000360A61 /* DocumentView.m */,
+				04B58F1B183A3CF000360A61 /* DocumentDescriptionView.h */,
+				04B58F29183A3D3000360A61 /* DocumentDescriptionView.m */,
+				04B58F16183A3CF000360A61 /* MeasurementDataStore.h */,
+				04B58F25183A3D3000360A61 /* MeasurementDataStore.m */,
+				04B58F13183A3CF000360A61 /* GraphView.h */,
+				04B58F22183A3D3000360A61 /* GraphView.m */,
+				047DD1D6183A3B4D00A04F83 /* Document.xib */,
+			);
+			name = Document;
+			sourceTree = "<group>";
+		};
+		040CF9D5183E4B4B0094C0D8 /* MeasurementRun */ = {
+			isa = PBXGroup;
+			children = (
+				04B58F0E183A3CF000360A61 /* RunCollector.h */,
+				04B58F1F183A3D3000360A61 /* RunCollector.m */,
+				045397D5183AC40B00697348 /* RunStatusView.h */,
+				045397D6183AC40B00697348 /* RunStatusView.m */,
+				045397CF183AC3D300697348 /* RunTypeView.h */,
+				045397D0183AC3D300697348 /* RunTypeView.m */,
+				045397CD183AB23B00697348 /* NewMeasurement.xib */,
+				040CF9D6183E4B570094C0D8 /* VideoRun */,
+			);
+			name = MeasurementRun;
+			sourceTree = "<group>";
+		};
+		040CF9D6183E4B570094C0D8 /* VideoRun */ = {
+			isa = PBXGroup;
+			children = (
+				04B58F10183A3CF000360A61 /* findQRcodes.h */,
+				04B58F11183A3CF000360A61 /* findQRcodes.mm */,
+				04B58F12183A3CF000360A61 /* genQRcodes.h */,
+				04B58F21183A3D3000360A61 /* genQRcodes.m */,
+				04B58F14183A3CF000360A61 /* VideoInput.h */,
+				04B58F23183A3D3000360A61 /* VideoInput.m */,
+				04B58F17183A3CF000360A61 /* VideoOutputView.h */,
+				04B58F26183A3D3000360A61 /* VideoOutputView.m */,
+				04B58F15183A3CF000360A61 /* VideoRunManager.h */,
+				04B58F24183A3D3000360A61 /* VideoRunManager.m */,
+				045397D2183AC3F300697348 /* VideoSelectionView.h */,
+				045397D3183AC3F300697348 /* VideoSelectionView.m */,
+			);
+			name = VideoRun;
 			sourceTree = "<group>";
 		};
 		047DD1B2183A3B4C00A04F83 = {
@@ -170,43 +224,13 @@
 		047DD1C7183A3B4D00A04F83 /* videoLat */ = {
 			isa = PBXGroup;
 			children = (
-				040CF9CF183E31800094C0D8 /* old */,
 				04B58F0D183A3CF000360A61 /* appDelegate.h */,
 				04B58F1E183A3D3000360A61 /* appDelegate.m */,
-				04B58F0E183A3CF000360A61 /* RunCollector.h */,
-				04B58F1F183A3D3000360A61 /* RunCollector.m */,
-				047DD1D3183A3B4D00A04F83 /* Document.h */,
-				047DD1D4183A3B4D00A04F83 /* Document.m */,
-				04B58F0F183A3CF000360A61 /* DocumentView.h */,
-				04B58F20183A3D3000360A61 /* DocumentView.m */,
-				04B58F1B183A3CF000360A61 /* DocumentDescriptionView.h */,
-				04B58F29183A3D3000360A61 /* DocumentDescriptionView.m */,
-				04B58F10183A3CF000360A61 /* findQRcodes.h */,
-				04B58F11183A3CF000360A61 /* findQRcodes.mm */,
-				04B58F12183A3CF000360A61 /* genQRcodes.h */,
-				04B58F21183A3D3000360A61 /* genQRcodes.m */,
-				04B58F13183A3CF000360A61 /* GraphView.h */,
-				04B58F22183A3D3000360A61 /* GraphView.m */,
-				04B58F14183A3CF000360A61 /* InputCamera.h */,
-				04B58F23183A3D3000360A61 /* InputCamera.m */,
-				04B58F15183A3CF000360A61 /* Manager.h */,
-				04B58F24183A3D3000360A61 /* Manager.m */,
-				04B58F16183A3CF000360A61 /* MeasurementDataStore.h */,
-				04B58F25183A3D3000360A61 /* MeasurementDataStore.m */,
-				04B58F17183A3CF000360A61 /* OutputView.h */,
-				04B58F26183A3D3000360A61 /* OutputView.m */,
 				04B58F18183A3CF000360A61 /* protocols.h */,
-				04B58F19183A3CF000360A61 /* PythonSwitcher.h */,
-				04B58F27183A3D3000360A61 /* PythonSwitcher.m */,
-				045397CF183AC3D300697348 /* RunTypeView.h */,
-				045397D0183AC3D300697348 /* RunTypeView.m */,
-				045397D2183AC3F300697348 /* RunVideoSelectionView.h */,
-				045397D3183AC3F300697348 /* RunVideoSelectionView.m */,
-				045397D5183AC40B00697348 /* RunStatusView.h */,
-				045397D6183AC40B00697348 /* RunStatusView.m */,
-				047DD1D6183A3B4D00A04F83 /* Document.xib */,
 				047DD1D9183A3B4D00A04F83 /* MainMenu.xib */,
-				045397CD183AB23B00697348 /* NewMeasurement.xib */,
+				040CF9D5183E4B4B0094C0D8 /* MeasurementRun */,
+				040CF9D4183E4B1F0094C0D8 /* Document */,
+				040CF9CF183E31800094C0D8 /* old */,
 				047DD1C8183A3B4D00A04F83 /* Supporting Files */,
 			);
 			path = videoLat;
@@ -307,11 +331,11 @@
 				04B58F2C183A3D3000360A61 /* DocumentView.m in Sources */,
 				04B58F2D183A3D3000360A61 /* genQRcodes.m in Sources */,
 				04B58F2E183A3D3000360A61 /* GraphView.m in Sources */,
-				045397D4183AC3F300697348 /* RunVideoSelectionView.m in Sources */,
-				04B58F2F183A3D3000360A61 /* InputCamera.m in Sources */,
-				04B58F30183A3D3000360A61 /* Manager.m in Sources */,
+				045397D4183AC3F300697348 /* VideoSelectionView.m in Sources */,
+				04B58F2F183A3D3000360A61 /* VideoInput.m in Sources */,
+				04B58F30183A3D3000360A61 /* VideoRunManager.m in Sources */,
 				04B58F31183A3D3000360A61 /* MeasurementDataStore.m in Sources */,
-				04B58F32183A3D3000360A61 /* OutputView.m in Sources */,
+				04B58F32183A3D3000360A61 /* VideoOutputView.m in Sources */,
 				04B58F33183A3D3000360A61 /* PythonSwitcher.m in Sources */,
 				045397D7183AC40C00697348 /* RunStatusView.m in Sources */,
 				04B58F35183A3D3000360A61 /* DocumentDescriptionView.m in Sources */,

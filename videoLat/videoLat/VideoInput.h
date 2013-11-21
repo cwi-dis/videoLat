@@ -3,7 +3,7 @@
 #import "genQRcodes.h"
 
 
-@interface MyQTCaptureView : NSView
+@interface VideoInputView : NSView
 {
 	NSPoint downPoint;
 }
@@ -16,9 +16,9 @@
 
 @end
 
-@interface InputCamera : NSObject <InputCaptureProtocol, AVCaptureVideoDataOutputSampleBufferDelegate> {
+@interface VideoInput : NSObject <InputCaptureProtocol, AVCaptureVideoDataOutputSampleBufferDelegate> {
     IBOutlet id <RunInputManagerProtocol> manager;
-    IBOutlet MyQTCaptureView *selfView;
+    IBOutlet VideoInputView *selfView;
     AVCaptureVideoPreviewLayer *selfLayer;
     AVCaptureVideoDataOutput *outputCapturer;
 	AVCaptureSession *session;
