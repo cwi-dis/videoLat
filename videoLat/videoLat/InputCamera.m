@@ -1,4 +1,4 @@
-#import "iSight.h"
+#import "InputCamera.h"
 #import <QuartzCore/QuartzCore.h>
 #import <mach/mach.h>
 #import <mach/mach_time.h>
@@ -45,11 +45,11 @@
 
 @end
 
-@implementation iSight
+@implementation InputCamera
 @synthesize deviceID;
 @synthesize deviceName;
 
-- (iSight *)init
+- (InputCamera *)init
 {
     self = [super init];
     if (self) {

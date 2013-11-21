@@ -7,7 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "MeasurementRun.h"
+#import "MeasurementDataStore.h"
 
 @interface Document : NSDocument {
     NSString *baseName;
@@ -22,7 +22,7 @@
 @property(retain) NSString* date;
 @property(retain) NSString* location;
 
-@property(retain) IBOutlet MeasurementRun *dataStore;
+@property(retain) IBOutlet MeasurementDataStore *dataStore;
 @property(retain) IBOutlet MeasurementDistribution *dataDistribution;
 @property(retain) IBOutlet id myView;
 @property(retain) IBOutlet NSWindow *measurementWindow;

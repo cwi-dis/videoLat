@@ -10,14 +10,14 @@
 #import <stdio.h>
 #import "Document.h"
 #import "protocols.h"
-#import "MeasurementRun.h"
+#import "MeasurementDataStore.h"
 
 
-@interface Collector : NSObject <DataCollectorProtocol> {
+@interface RunCollector : NSObject <DataCollectorProtocol> {
     NSString* lastTransmission;
     uint64_t lastTransmissionTime;
     BOOL lastTransmissionReceived;
-	MeasurementRun *dataStore;
+	MeasurementDataStore *dataStore;
     uint64_t epoch;
 }
 @property(retain) IBOutlet Document *document;

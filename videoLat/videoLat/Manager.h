@@ -6,18 +6,18 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "MeasurementTypeView.h"
-#import "MeasurementRunView.h"
-#import "MeasurementVideoSelectionView.h"
-#import "StatusView.h"
+#import "RunTypeView.h"
+#import "RunStatusView.h"
+#import "RunVideoSelectionView.h"
+#import "DocumentDescriptionView.h"
 #import "protocols.h"
 #import "Document.h"
 
 @interface Manager : NSObject <MeasurementOutputManagerProtocol, MeasurementInputManagerProtocol> {
   @private
-    IBOutlet MeasurementTypeView *typeView;
-    IBOutlet MeasurementVideoSelectionView *selectionView;
-    IBOutlet MeasurementRunView *status;
+    IBOutlet RunTypeView *typeView;
+    IBOutlet RunVideoSelectionView *selectionView;
+    IBOutlet RunStatusView *status;
 	IBOutlet id <OutputViewProtocol> outputView;
 	IBOutlet id <ManagerDelegateProtocol> delegate;
     IBOutlet id <DataCaptureProtocol> capturer;

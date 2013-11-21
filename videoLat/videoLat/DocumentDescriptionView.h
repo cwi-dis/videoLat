@@ -8,7 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface StatusView : NSView {
+@interface DocumentDescriptionView : NSView {
 }
 @property(retain) IBOutlet NSTextField *bMeasurementType;
 @property(retain) IBOutlet NSTextField *bInputDevice;

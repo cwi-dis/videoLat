@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 CWI. All rights reserved.
 //
 
-#import "MeasurementRunView.h"
+#import "RunStatusView.h"
 
-@implementation MeasurementRunView
+@implementation RunStatusView
 
 - (id)initWithFrame:(NSRect)frame
 {

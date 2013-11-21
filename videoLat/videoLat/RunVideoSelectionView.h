@@ -7,13 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "iSight.h"
+#import "InputCamera.h"
 
-@interface MeasurementVideoSelectionView : NSView
+@interface RunVideoSelectionView : NSView
 @property(retain) IBOutlet NSPopUpButton *bCameras;
 @property(retain) IBOutlet NSPopUpButton *bBase;
 @property(retain) IBOutlet NSButton *bRun;
-@property(retain) IBOutlet iSight *inputHandler;
+@property(retain) IBOutlet InputCamera *inputHandler;
 
 - (IBAction)cameraChanged: (id) sender;
 - (void)_updateCameraNames: (NSNotification*) notification;

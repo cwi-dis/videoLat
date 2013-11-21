@@ -44,7 +44,7 @@
     self = [super initWithType: typeName error: outError];
     if (self) {
         NSLog(@"initWithType: %@\n", typeName);
-        self.dataStore = [[MeasurementRun alloc] init];
+        self.dataStore = [[MeasurementDataStore alloc] init];
         objectsForNewDocument = nil;
 		BOOL ok;
 		if ([[NSBundle mainBundle] respondsToSelector:@selector(loadNibNamed:owner:topLevelObjects:)]) {
