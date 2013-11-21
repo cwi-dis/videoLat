@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 CWI. All rights reserved.
 //
 
-#import "MeasurementVideoSelectionView.h"
+#import "RunVideoSelectionView.h"
 
-@implementation MeasurementVideoSelectionView
+@implementation RunVideoSelectionView
 - (void)awakeFromNib
 {
     [self _updateCameraNames: nil];

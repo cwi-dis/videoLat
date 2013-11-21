@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 CWI. All rights reserved.
 //
 
-#import "MeasurementTypeView.h"
+#import "RunTypeView.h"
 
-@implementation MeasurementTypeView
+@implementation RunTypeView
 
 - (IBAction)typeChanged: (id)sender
 {

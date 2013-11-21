@@ -8,7 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface MeasurementRunView : NSView
+@interface RunStatusView : NSView
 @property(retain) IBOutlet NSTextField *bCount;
 @property(retain) IBOutlet NSTextField *bAverage;
 

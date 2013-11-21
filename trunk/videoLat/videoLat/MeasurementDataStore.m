@@ -6,9 +6,9 @@
 //
 //
 
-#import "MeasurementRun.h"
+#import "MeasurementDataStore.h"
 
-@implementation MeasurementRun
+@implementation MeasurementDataStore
 @synthesize measurementType;
 @synthesize inputDeviceID;
 @synthesize inputDevice;
@@ -30,7 +30,7 @@
     return sqrt(variance);
 }
 
-- (MeasurementRun *) init
+- (MeasurementDataStore *) init
 {
     self = [super init];
     measurementType = nil;
@@ -178,7 +178,7 @@
     return self;
 }
 
-- (MeasurementDistribution *)initWithSource: (MeasurementRun *)_source
+- (MeasurementDistribution *)initWithSource: (MeasurementDataStore *)_source
 {
     self = [self init];
     if (self) {

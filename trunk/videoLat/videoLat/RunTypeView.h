@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface MeasurementTypeView : NSView
+@interface RunTypeView : NSView
 @property(retain) IBOutlet NSPopUpButton *bType;
 
 - (IBAction)typeChanged: (id)sender;

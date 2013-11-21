@@ -8,7 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "Protocols.h"
-#import "StatusView.h"
+#import "DocumentDescriptionView.h"
 #import "GraphView.h"
 #import "Document.h"
 
@@ -16,7 +16,7 @@
     BOOL initialValues;
 };
 
-@property(retain) IBOutlet StatusView *status;
+@property(retain) IBOutlet DocumentDescriptionView *status;
 @property(retain) IBOutlet GraphView *values;
 @property(retain) IBOutlet GraphView *distribution;
 @property(retain) IBOutlet Document *document;

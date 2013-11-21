@@ -8,7 +8,7 @@
 
 #import <AppKit/AppKit.h>
 #import <AppKit/NSNibLoading.h>
-#import "Collector.h"
+#import "RunCollector.h"
 #import <mach/mach.h>
 #import <mach/mach_time.h>
 #import <CoreServices/CoreServices.h>
@@ -118,9 +118,9 @@
 @end
 #endif
 
-@implementation Collector
+@implementation RunCollector
 
-- (Collector*) init
+- (RunCollector*) init
 {
     self = [super init];
     if (self) {

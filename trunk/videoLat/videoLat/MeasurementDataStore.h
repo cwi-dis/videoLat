@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "protocols.h"
 
-@interface MeasurementRun : NSCoder <GraphDataProviderProtocol> {
+@interface MeasurementDataStore : NSCoder <GraphDataProviderProtocol> {
     double sum;
     double sumSquares;
     double min;
@@ -43,7 +43,7 @@
     double binSize;
 }
 
-- (MeasurementDistribution *)initWithSource: (MeasurementRun *)source;
+- (MeasurementDistribution *)initWithSource: (MeasurementDataStore *)source;
 - (void)awakeFromNib;
 - (void)setSource: (id) _source;
 - (void)_recompute;

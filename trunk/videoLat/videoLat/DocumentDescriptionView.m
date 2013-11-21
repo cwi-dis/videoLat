@@ -6,9 +6,9 @@
 //
 //
 
-#import "StatusView.h"
+#import "DocumentDescriptionView.h"
 
-@implementation StatusView
+@implementation DocumentDescriptionView
 @synthesize bMeasurementType;
 @synthesize bInputDevice;
 @synthesize bOutputDevice;

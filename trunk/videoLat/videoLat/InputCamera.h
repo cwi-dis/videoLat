@@ -16,7 +16,7 @@
 
 @end
 
-@interface iSight : NSObject <DataCaptureProtocol, AVCaptureVideoDataOutputSampleBufferDelegate> {
+@interface InputCamera : NSObject <DataCaptureProtocol, AVCaptureVideoDataOutputSampleBufferDelegate> {
     IBOutlet id <MeasurementInputManagerProtocol> manager;
     IBOutlet MyQTCaptureView *selfView;
     AVCaptureVideoPreviewLayer *selfLayer;
