@@ -29,11 +29,15 @@
 @property(readonly) double average;
 @property(readonly) double stddev;
 @property(readonly) int count;
+@property(retain) NSString* baseMeasurementID;
+@property(readonly) double baseMeasurementAverage;
+@property(readonly) double baseMeasurementStddev;
 
 - (void) addDataPoint: (NSString*) data sent: (uint64_t)sent received: (uint64_t) received;
 - (void) trim;
 - (NSString*) asCSVString;
 - (NSNumber *)valueForIndex: (int) i;
+- (void)useCalibration: (MeasurementDataStore *)calibration;
 @end
 
 @interface MeasurementDistribution : NSObject <GraphDataProviderProtocol> {

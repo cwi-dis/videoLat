@@ -14,6 +14,7 @@
 @synthesize running;
 @synthesize useQRcode;
 @synthesize mirrored;
+@synthesize measurementTypeName;
 
 - (VideoRunManager*)init
 {
@@ -74,7 +75,7 @@
         self.useQRcode = YES;
         self.mirrored = NO;
         [capturer startCapturing];
-        [collector startCollecting: @"calibration-video" input: capturer.deviceID name: capturer.deviceName output: outputView.deviceID name: outputView.deviceName];
+        [collector startCollecting: measurementTypeName input: capturer.deviceID name: capturer.deviceName output: outputView.deviceID name: outputView.deviceName];
         outputView.mirrored = self.mirrored;
         [self _triggerNewOutputValue];
     }

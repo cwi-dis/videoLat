@@ -100,8 +100,8 @@
 		04B58F29183A3D3000360A61 /* DocumentDescriptionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocumentDescriptionView.m; sourceTree = "<group>"; };
 		04B58F37183A3D5300360A61 /* libzbar.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libzbar.0.dylib; path = thirdParty/installed/lib/libzbar.0.dylib; sourceTree = "<group>"; };
 		04B58F38183A3D5300360A61 /* libzint.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libzint.dylib; path = thirdParty/installed/lib/libzint.dylib; sourceTree = "<group>"; };
-		04E01C0C183EB68F00C9AF76 /* MeasurementType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeasurementType.h; sourceTree = "<group>"; };
-		04E01C0D183EB68F00C9AF76 /* MeasurementType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeasurementType.m; sourceTree = "<group>"; };
+		04E01C0C183EB68F00C9AF76 /* MeasurementType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MeasurementType.h; path = ../MeasurementType.h; sourceTree = "<group>"; };
+		04E01C0D183EB68F00C9AF76 /* MeasurementType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MeasurementType.m; path = ../MeasurementType.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -189,8 +189,6 @@
 		047DD1B2183A3B4C00A04F83 = {
 			isa = PBXGroup;
 			children = (
-				04E01C0C183EB68F00C9AF76 /* MeasurementType.h */,
-				04E01C0D183EB68F00C9AF76 /* MeasurementType.m */,
 				047DD1C7183A3B4D00A04F83 /* videoLat */,
 				047DD1C0183A3B4C00A04F83 /* Frameworks */,
 				047DD1BE183A3B4C00A04F83 /* Products */,
@@ -235,6 +233,8 @@
 			children = (
 				04B58F0D183A3CF000360A61 /* appDelegate.h */,
 				04B58F1E183A3D3000360A61 /* appDelegate.m */,
+				04E01C0C183EB68F00C9AF76 /* MeasurementType.h */,
+				04E01C0D183EB68F00C9AF76 /* MeasurementType.m */,
 				04B58F18183A3CF000360A61 /* protocols.h */,
 				047DD1D9183A3B4D00A04F83 /* MainMenu.xib */,
 				040CF9D5183E4B4B0094C0D8 /* MeasurementRun */,

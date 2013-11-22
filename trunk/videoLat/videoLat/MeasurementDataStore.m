@@ -17,16 +17,22 @@
 @synthesize min;
 @synthesize max;
 @synthesize count;
+@synthesize baseMeasurementID;
+@synthesize baseMeasurementAverage;
+@synthesize baseMeasurementStddev;
 
 - (double) average
 {
-    return sum / count;
+    double rv = sum / count;
+	rv -= baseMeasurementAverage;
+	return rv;
 }
 
 - (double) stddev
 {
     double average = sum / count;
     double variance = (sumSquares / count) - (average*average);
+	variance += baseMeasurementStddev*baseMeasurementStddev;
     return sqrt(variance);
 }
 
@@ -38,6 +44,10 @@
     inputDevice = nil;
     outputDeviceID = nil;
     outputDevice = nil;
+
+	baseMeasurementAverage = 0;
+	baseMeasurementID = nil;
+	baseMeasurementStddev = 0;
 
     sum = 0;
     sumSquares = 0;
@@ -65,6 +75,10 @@
     min = [coder decodeDoubleForKey:@"min"];
     max = [coder decodeDoubleForKey:@"max"];
     count = [coder decodeIntForKey:@"count"];
+
+	baseMeasurementAverage = [coder decodeDoubleForKey:@"baseMeasurementAverage"];
+	baseMeasurementStddev = [coder decodeDoubleForKey:@"baseMeasurementStddev"];
+	baseMeasurementID = [coder decodeObjectForKey: @"baseMeasurementID"];
     
     store = [coder decodeObjectForKey: @"store"];
     return self;
@@ -82,6 +96,9 @@
     [coder encodeObject:time forKey: @"time"];
     [coder encodeObject:location forKey: @"location"];
 #endif
+    [coder encodeDouble: baseMeasurementAverage forKey: @"baseMeasurementAverage"];
+    [coder encodeDouble: baseMeasurementStddev forKey: @"baseMeasurementStddev"];
+    [coder encodeObject: baseMeasurementID forKey: @"baseMeasurementID"];
 
     [coder encodeDouble: sum forKey: @"sum"];
     [coder encodeDouble: sumSquares forKey: @"sumSquares"];
@@ -90,6 +107,13 @@
     [coder encodeInt: count forKey: @"count"];
 
     [coder encodeObject:store forKey: @"store"];
+}
+
+- (void)useCalibration: (MeasurementDataStore *)calibration
+{
+	baseMeasurementAverage = calibration.average;
+	baseMeasurementStddev = calibration.stddev;
+	baseMeasurementID = [NSString stringWithFormat:@"%s (%s to %s)", calibration.measurementType, calibration.outputDevice, calibration.inputDevice];
 }
 
 - (void) addDataPoint: (NSString*) data sent: (uint64_t)sent received: (uint64_t) received

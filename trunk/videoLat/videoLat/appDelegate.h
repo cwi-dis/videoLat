@@ -7,9 +7,13 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#include "protocols.h"
+#import "protocols.h"
+#import "MeasurementType.h"
 
-@interface appDelegate : NSDocumentController {
-    IBOutlet id output;
+@interface appDelegate : NSObject {
 }
+@property(retain) MeasurementType *measurementTypes;
+
+- (NSURL *)directoryForCalibrations;
+- (void)_loadCalibrationsFrom: (NSURL *)directory;
 @end

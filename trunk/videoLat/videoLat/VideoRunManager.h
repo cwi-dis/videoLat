@@ -46,6 +46,7 @@
 @property bool running;
 @property bool useQRcode;
 @property bool mirrored;
+@property(retain) NSString *measurementTypeName;
 
 - (IBAction)startPreMeasuring: (id)sender;
 - (IBAction)startMeasuring: (id)sender;
