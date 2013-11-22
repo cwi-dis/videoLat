@@ -17,43 +17,88 @@ static NSMutableDictionary *byTag;
 @synthesize isCalibration;
 @synthesize requires;
 
-+ (MeasurementType *)withName: (NSString *)name
++ (MeasurementType *)withType: (NSString *)typeName
 {
-    return [byName objectForKey: name];
+    return [byName objectForKey: typeName];
 }
 
 + (MeasurementType *)withTag: (NSUInteger)tag
 {
-    return [byTag objectForKey: [NSNumber numberWithInt: tag]];
+    return [byTag objectForKey: [NSNumber numberWithInt: (int)tag]];
 }
 
-+ (MeasurementType *))add: (NSString *)name tag: (NSUInteger) tag isCalibration: (BOOL)cal requires: (MeasurementType *)req
++ (MeasurementType *)add: (NSString *)typeName tag: (NSUInteger) tag isCalibration: (BOOL)cal requires: (MeasurementType *)req
 {
-    MeasurementType *item = [[MeasurementType alloc] initWithName:name tag:tag isCalibration:cal requires:req];
-    [byName setObject: item forKey: name];
-    [byTag setObject: item forKey:[NSNumber numberWithInt: tag]];
+    MeasurementType *item = [[MeasurementType alloc] initWithType:typeName tag:tag isCalibration:cal requires:req];
+    [byName setObject: item forKey: typeName];
+    [byTag setObject: item forKey:[NSNumber numberWithInt: (int)tag]];
     return item;
 }
 
-+ initialize
++ (void)initialize
 {
     byName = [[NSMutableDictionary alloc] initWithCapacity: 10];
     byTag = [[NSMutableDictionary alloc] initWithCapacity: 10];
     // NOTE: this list should be identical to the "Measurement Type" popup in NewMeasurement.xib
-    [MeasurementType *cal_VR = [self add: @"Video Roundtrip Calibrate" tag: 1 isCalibration: YES requires: nil];
+    MeasurementType *cal_VR = [self add: @"Video Roundtrip Calibrate" tag: 1 isCalibration: YES requires: nil];
     [self add: @"Video Roundtrip" tag: 2 isCalibration: NO requires: cal_VR];
      
-    [MeasurementType *cal_HW = [self add: @"Hardware Calibrate" tag: 3 isCalibration: YES requires: nil];
-    [MeasurementType *cal_IN = [self add: @"Camera Input Calibrate" tag: 4 isCalibration: YES requires: cal_HW];
-    [MeasurementType *cal_OUT = [self add: @"Screen Output Calibrate" tag: 5 isCalibration: YES requires: cal_HW];
+    MeasurementType *cal_HW = [self add: @"Hardware Calibrate" tag: 3 isCalibration: YES requires: nil];
+    MeasurementType *cal_IN = [self add: @"Camera Input Calibrate" tag: 4 isCalibration: YES requires: cal_HW];
+    MeasurementType *cal_OUT = [self add: @"Screen Output Calibrate" tag: 5 isCalibration: YES requires: cal_HW];
 
     [self add: @"Video Reception" tag: 6 isCalibration: NO requires: cal_IN];
     [self add: @"Video Transmission" tag: 7 isCalibration: NO requires: cal_OUT];
      
 }
 
-- (void)initWithName: (NSString *)name tag: (NSUInteger) tag isCalibration: (BOOL)cal requires: (MeasurementType *)req
+- (MeasurementType *)initWithType: (NSString *)_name tag: (NSUInteger)_tag isCalibration: (BOOL)_isCalibration requires: (MeasurementType *)_requires
 {
+	name = _name;
+	tag = _tag;
+	isCalibration = _isCalibration;
+	requires = _requires;
+	measurements = [[NSMutableDictionary alloc] initWithCapacity:1];
+	return self;
+}
+
+- (void)addMeasurement: (MeasurementDataStore *)item
+{
+	// Create Unique name for measurement
+	NSString *itemName = [NSString stringWithFormat: @"%@ to %@", item.outputDevice, item.inputDevice];
+	if ([measurements objectForKey:itemName]  != nil) {
+		int i = 2;
+		for(i=2; ;i++) {
+			NSString *itemName2 = [NSString stringWithFormat:@"%@ (%d)", itemName, i];
+			if ([measurements objectForKey:itemName] == nil) {
+				itemName = itemName2;
+				break;
+			}
+		}
+	}
+	[measurements setObject: item forKey: itemName];
+}
+
+- (MeasurementDataStore *)measurementNamed: (NSString *)itemName
+{
+	return [measurements objectForKey:itemName];
+}
+
+- (NSArray *)measurementNames
+{
+	return [measurements allKeys];
+}
+
+- (NSArray *)measurementNamesForType: (NSString *)typeName
+{
+	NSMutableArray *rv = [[NSMutableArray alloc] initWithCapacity:10];
+	for (NSString *k in [measurements allKeys]) {
+		MeasurementDataStore *v = [measurements objectForKey:k];
+		if ([v.measurementType isEqualToString:typeName]) {
+			[rv addObject:k];
+		}
+	}
+	return rv;
 }
 
 @end

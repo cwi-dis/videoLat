@@ -8,12 +8,15 @@
 
 #import <Cocoa/Cocoa.h>
 #import "MeasurementDataStore.h"
+#import "MeasurementType.h"
 
 @interface Document : NSDocument {
     NSString *baseName;
     NSArray *objectsForNewDocument;
+	MeasurementType *myType;
 }
 @property(readonly) NSString* measurementType;
+@property(readonly) NSString* baseMeasurementID;
 @property(readonly) NSString* inputDeviceID;
 @property(readonly) NSString* inputDevice;
 @property(readonly) NSString* outputDeviceID;
@@ -29,5 +32,5 @@
 
 - (IBAction)newDocumentComplete: (id)sender;
 - (IBAction)export: (id)sender;
-
+- (void)changed;
 @end

@@ -9,12 +9,15 @@
 #import "Document.h"
 #import "DocumentView.h"
 
+#define VIDEOLAT_FILE_VERSION @"0.3"
+
 @implementation Document
 @synthesize dataStore;
 @synthesize dataDistribution;
 @synthesize measurementWindow;
 
 - (NSString*) measurementType { return self.dataStore?self.dataStore.measurementType:@""; }
+- (NSString*) baseMeasurementID { return self.dataStore?self.dataStore.baseMeasurementID:nil; }
 - (NSString*) inputDeviceID { return self.dataStore?self.dataStore.inputDeviceID:@""; }
 - (NSString*) inputDevice { return self.dataStore?self.dataStore.inputDevice:@""; }
 - (NSString*) outputDeviceID { return self.dataStore?self.dataStore.outputDeviceID:@""; }
@@ -90,12 +93,14 @@
 	self.location = @"somewhere";
 	self.description = @"something";
 	self.date = [[NSDate date] descriptionWithCalendarFormat:nil timeZone:nil locale:nil];
-    // XYZZY should set change flag on document!
-	
+
+	myType = [MeasurementType withType: self.dataStore.measurementType];
+	[self updateChangeCount:NSChangeDone];
+
     [super makeWindowControllers];
     [self showWindows];
-    for (NSWindowController *ctrl in self.windowControllers)
-        [[ctrl window] setDocumentEdited: YES];
+//    for (NSWindowController *ctrl in self.windowControllers)
+//        [[ctrl window] setDocumentEdited: YES];
 	if (self.measurementWindow) {
 		[self.measurementWindow close];
 		self.measurementWindow = nil;
@@ -112,7 +117,7 @@
 {
     NSMutableDictionary *dict = [[NSMutableDictionary alloc] initWithCapacity:10];
     [dict setObject:@"videoLat" forKey:@"videoLat"];
-    [dict setObject:@"0.2" forKey:@"version"];
+    [dict setObject:VIDEOLAT_FILE_VERSION forKey:@"version"];
     [dict setObject:self.description forKey:@"description"];
     [dict setObject:self.location forKey:@"location"];
     [dict setObject:self.date forKey:@"date"];
@@ -135,8 +140,8 @@
         return NO;
     }
     str = [dict objectForKey:@"version"];
-    if (![str isEqualToString:@"0.2"]) {
-        NSLog(@"This is not a version 0.2 videoLat file\n");
+    if (![str isEqualToString:VIDEOLAT_FILE_VERSION]) {
+        NSLog(@"This is not a version %@ videoLat file\n", VIDEOLAT_FILE_VERSION);
         if (outError) {
             *outError = [[NSError alloc] initWithDomain:NSCocoaErrorDomain code:NSFileReadCorruptFileError
                                                userInfo:@{NSLocalizedDescriptionKey : @"Unsupported videoLat version file"}];
@@ -150,6 +155,9 @@
 //    self.dataDistribution = [dict objectForKey: @"dataDistribution"];
     self.dataDistribution = [[MeasurementDistribution alloc] initWithSource:self.dataStore];
     [self.myView updateView];
+
+	myType = [MeasurementType withType: self.dataStore.measurementType];
+	
 	return YES;
 }
 
@@ -171,4 +179,8 @@
 #endif
 }
 
+- (void)changed
+{
+	[self updateChangeCount:NSChangeDone];
+}
 @end

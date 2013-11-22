@@ -10,6 +10,7 @@
 
 @interface RunTypeView : NSView
 @property(retain) IBOutlet NSPopUpButton *bType;
+@property(retain) IBOutlet id runManager;
 
 - (IBAction)typeChanged: (id)sender;
 

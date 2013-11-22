@@ -7,20 +7,22 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "MeasurementDataStore.h"
 
 @interface MeasurementType : NSObject {
-    NSUInteger _tag;
-    NSString *_name;
-    BOOL _isCalibration;
-    MeasurementType *_requires;
+	NSMutableDictionary *measurements;
 }
 
-+ (MeasurementType *)withName: (NSString *)name;
++ (MeasurementType *)withType: (NSString *)name;
 + (MeasurementType *)withTag: (NSUInteger)tag;
 + (MeasurementType *)add: (NSString *)name tag: (NSUInteger) tag isCalibration: (BOOL)cal requires: (MeasurementType *)req;
-+ initialize;
++ (void)initialize;
 
-- (void)initWithName: (NSString *)name tag: (NSUInteger) tag isCalibration: (BOOL)cal requires: (MeasurementType *)req;
+- (MeasurementType *)initWithType: (NSString *)_name tag: (NSUInteger)_tag isCalibration: (BOOL)_isCalibration requires: (MeasurementType *)_requires;
+- (void)addMeasurement: (MeasurementDataStore *)item;
+- (MeasurementDataStore *)measurementNamed: (NSString *)name;
+- (NSArray *)measurementNames;
+- (NSArray *)measurementNamesForType: (NSString *)typeName;
 
 @property(readonly) NSUInteger tag;
 @property(readonly) NSString *name;

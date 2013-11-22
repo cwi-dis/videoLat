@@ -35,7 +35,12 @@
 {
 	if (self.document ) {
         initialValues = YES;
-		self.status.measurementType = self.document.measurementType;
+		NSString *measurementType = self.document.measurementType;
+		NSString *baseMeasurementID = self.document.baseMeasurementID;
+		if (baseMeasurementID) {
+			measurementType = [NSString stringWithFormat: @"%@ (based on %@)", measurementType, baseMeasurementID];
+		}
+		self.status.measurementType = measurementType;
 		self.status.inputDevice = self.document.inputDevice;
 		self.status.outputDevice = self.document.outputDevice;
 		self.status.date = self.document.date;
@@ -69,6 +74,6 @@
     // This is not very clean.....
     self.status.description = self.status.bDescription.stringValue;
     self.document.description = self.status.description;
-    // XYZZY should set change flag on document!
+    [self.document changed];
 }
 @end
