@@ -13,8 +13,9 @@
 #import "RunCollector.h"
 #import "protocols.h"
 #import "Document.h"
+#import "BaseRunManager.h"
 
-@interface VideoRunManager : NSObject <RunOutputManagerProtocol, RunInputManagerProtocol> {
+@interface VideoRunManager : BaseRunManager {
   @private
     IBOutlet VideoSelectionView *selectionView;
     IBOutlet RunStatusView *status;
@@ -46,7 +47,9 @@
 @property bool running;
 @property bool useQRcode;
 @property bool mirrored;
-@property(retain) NSString *measurementTypeName;
+
++ (void)initialize;
+- (VideoRunManager *)init;
 
 - (IBAction)startPreMeasuring: (id)sender;
 - (IBAction)startMeasuring: (id)sender;
@@ -77,3 +80,11 @@
 - (void)_mono_newInputDone: (bool)isWhite;
 - (void)_mono_pollInput;
 @end
+
+@interface VideoCalibrationRunManager : VideoRunManager
+
++ (void)initialize;
+- (VideoCalibrationRunManager *)init;
+
+@end
+

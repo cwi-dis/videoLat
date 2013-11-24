@@ -7,7 +7,8 @@
 //
 
 #import "RunTypeView.h"
-#import "VideoRunManager.h"
+#import "BaseRunManager.h"
+//#import "VideoRunManager.h"
 #import "MeasurementType.h"
 
 @implementation RunTypeView
@@ -16,6 +17,11 @@
 
 - (void)awakeFromNib
 {
+    for (NSString *itemTitle in [bType itemTitles]) {
+        if ([BaseRunManager classForMeasurementType: itemTitle] == nil) {
+            [[bType itemWithTitle: itemTitle] setEnabled: NO];
+        }
+    }
 	[runManager setMeasurementTypeName: [bType titleOfSelectedItem]];
 }
 
@@ -24,6 +30,8 @@
 	NSString *typeName = [sender titleOfSelectedItem];
 //	NSArray *typeBaseCalibrations = [MeasurementType measurementNamesForType: typeName];
     // Select corresponding DeviceSelection view
+    Class runClass = [BaseRunManager classForMeasurementType: typeName];
+    NSLog(@"Selected run class %@\n", runClass);
 	[runManager setMeasurementTypeName: typeName];
 }
 

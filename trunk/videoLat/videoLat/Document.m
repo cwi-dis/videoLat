@@ -8,6 +8,7 @@
 
 #import "Document.h"
 #import "DocumentView.h"
+#import "appDelegate.h"
 
 #define VIDEOLAT_FILE_VERSION @"0.3"
 
@@ -88,24 +89,47 @@
 {
     NSLog(@"New document complete\n");
     objectsForNewDocument = nil;
+    // Keep the data
 	self.dataDistribution = [[MeasurementDistribution alloc] initWithSource:self.dataStore];
 	// Set location, etc
 	self.location = @"somewhere";
 	self.description = @"something";
 	self.date = [[NSDate date] descriptionWithCalendarFormat:nil timeZone:nil locale:nil];
 
+    // Do the NSDocument things
 	myType = [MeasurementType withType: self.dataStore.measurementType];
 	[self updateChangeCount:NSChangeDone];
 
+    // Set title/filename for calibration documents
+    if (myType.isCalibration) {
+        [self _setCalibrationFileName];
+    }
+    
+    // Close the measurement window and open the document window
     [super makeWindowControllers];
     [self showWindows];
-//    for (NSWindowController *ctrl in self.windowControllers)
-//        [[ctrl window] setDocumentEdited: YES];
+
 	if (self.measurementWindow) {
 		[self.measurementWindow close];
 		self.measurementWindow = nil;
 	}
     [(DocumentView *)self.myView updateView];
+}
+
+- (void)_setCalibrationFileName
+{
+    NSString *fileName = [NSString stringWithFormat: @"%@-%@-%@", self.dataStore.measurementType, self.dataStore.outputDevice, self.dataStore.inputDevice];
+    [self setDisplayName:fileName];
+}
+
+- (BOOL)prepareSavePanel:(NSSavePanel*)panel
+{
+    if (myType.isCalibration) {
+        NSURL *dirUrl = [(appDelegate *)[[NSApplication sharedApplication] delegate] directoryForCalibrations];
+        [panel setDirectoryURL:dirUrl];
+        [panel setNameFieldStringValue:[self displayName]];
+    }
+    return YES;
 }
 
 + (BOOL)autosavesInPlace
