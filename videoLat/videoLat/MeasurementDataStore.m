@@ -113,7 +113,7 @@
 {
 	baseMeasurementAverage = calibration.average;
 	baseMeasurementStddev = calibration.stddev;
-	baseMeasurementID = [NSString stringWithFormat:@"%s (%s to %s)", calibration.measurementType, calibration.outputDevice, calibration.inputDevice];
+	baseMeasurementID = [NSString stringWithFormat:@"%@ (%@ to %@)", calibration.measurementType, calibration.outputDevice, calibration.inputDevice];
 }
 
 - (void) addDataPoint: (NSString*) data sent: (uint64_t)sent received: (uint64_t) received

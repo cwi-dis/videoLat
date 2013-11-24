@@ -7,6 +7,7 @@
 //
 
 #import "appDelegate.h"
+#import "VideoRunManager.h"
 
 
 @implementation appDelegate
@@ -18,6 +19,10 @@
 	NSURL *url = [self directoryForCalibrations];
 	if (url == nil) return;
 	[self _loadCalibrationsFrom:url];
+    
+    // Initialize run manager classes. Should be done differently.
+    [VideoRunManager initialize];
+    [VideoCalibrationRunManager initialize];
 	
 }
 - (NSURL *)directoryForCalibrations

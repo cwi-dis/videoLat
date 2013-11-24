@@ -14,12 +14,16 @@
 @synthesize running;
 @synthesize useQRcode;
 @synthesize mirrored;
-@synthesize measurementTypeName;
+
++ (void) initialize
+{
+    [BaseRunManager registerClass: [self class] forMeasurementType: @"Video Roundtrip"];
+}
 
 - (VideoRunManager*)init
 {
-    self = [super init];
 	if (self) {
+        _measurementTypeName = @"Video Roundtrip";
 		foundQRcode = false;
 		found_total = 0;
 		found_ok = 0;
@@ -75,7 +79,7 @@
         self.useQRcode = YES;
         self.mirrored = NO;
         [capturer startCapturing];
-        [collector startCollecting: measurementTypeName input: capturer.deviceID name: capturer.deviceName output: outputView.deviceID name: outputView.deviceName];
+        [collector startCollecting: self.measurementTypeName input: capturer.deviceID name: capturer.deviceName output: outputView.deviceID name: outputView.deviceName];
         outputView.mirrored = self.mirrored;
         [self _triggerNewOutputValue];
     }
@@ -463,6 +467,24 @@ bad2:
 				[collector recordTransmission: currentColorIsWhite?@"white":@"black" at: [collector now]];
         }
     }
+}
+
+@end
+
+@implementation VideoCalibrationRunManager
+
++ (void) initialize
+{
+    [BaseRunManager registerClass: [self class] forMeasurementType: @"Video Roundtrip Calibrate"];
+}
+
+- (VideoCalibrationRunManager*)init
+{
+    self = [super init];
+    if (self) {
+        _measurementTypeName = @"Video Roundtrip Calibrate";
+    }
+    return self;
 }
 
 @end

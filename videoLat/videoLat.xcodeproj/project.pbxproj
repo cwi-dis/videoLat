@@ -26,6 +26,7 @@
 		047DD1D5183A3B4D00A04F83 /* Document.m in Sources */ = {isa = PBXBuildFile; fileRef = 047DD1D4183A3B4D00A04F83 /* Document.m */; };
 		047DD1D8183A3B4D00A04F83 /* Document.xib in Resources */ = {isa = PBXBuildFile; fileRef = 047DD1D6183A3B4D00A04F83 /* Document.xib */; };
 		047DD1DB183A3B4D00A04F83 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 047DD1D9183A3B4D00A04F83 /* MainMenu.xib */; };
+		04A666D01842A4F700D0CA04 /* BaseRunManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A666CF1842A4F700D0CA04 /* BaseRunManager.m */; };
 		04B58F2A183A3D3000360A61 /* appDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B58F1E183A3D3000360A61 /* appDelegate.m */; };
 		04B58F2B183A3D3000360A61 /* RunCollector.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B58F1F183A3D3000360A61 /* RunCollector.m */; };
 		04B58F2C183A3D3000360A61 /* DocumentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B58F20183A3D3000360A61 /* DocumentView.m */; };
@@ -71,6 +72,8 @@
 		047DD1D4183A3B4D00A04F83 /* Document.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Document.m; sourceTree = "<group>"; };
 		047DD1D7183A3B4D00A04F83 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/Document.xib; sourceTree = "<group>"; };
 		047DD1DA183A3B4D00A04F83 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		04A666CE1842A4F700D0CA04 /* BaseRunManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseRunManager.h; sourceTree = "<group>"; };
+		04A666CF1842A4F700D0CA04 /* BaseRunManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseRunManager.m; sourceTree = "<group>"; };
 		04B58F0D183A3CF000360A61 /* appDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = appDelegate.h; sourceTree = "<group>"; };
 		04B58F0E183A3CF000360A61 /* RunCollector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RunCollector.h; sourceTree = "<group>"; };
 		04B58F0F183A3CF000360A61 /* DocumentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocumentView.h; sourceTree = "<group>"; };
@@ -155,6 +158,8 @@
 		040CF9D5183E4B4B0094C0D8 /* MeasurementRun */ = {
 			isa = PBXGroup;
 			children = (
+				04A666CE1842A4F700D0CA04 /* BaseRunManager.h */,
+				04A666CF1842A4F700D0CA04 /* BaseRunManager.m */,
 				04B58F0E183A3CF000360A61 /* RunCollector.h */,
 				04B58F1F183A3D3000360A61 /* RunCollector.m */,
 				045397D5183AC40B00697348 /* RunStatusView.h */,
@@ -348,6 +353,7 @@
 				045397D4183AC3F300697348 /* VideoSelectionView.m in Sources */,
 				04B58F2F183A3D3000360A61 /* VideoInput.m in Sources */,
 				04B58F30183A3D3000360A61 /* VideoRunManager.m in Sources */,
+				04A666D01842A4F700D0CA04 /* BaseRunManager.m in Sources */,
 				04B58F31183A3D3000360A61 /* MeasurementDataStore.m in Sources */,
 				04B58F32183A3D3000360A61 /* VideoOutputView.m in Sources */,
 				04B58F33183A3D3000360A61 /* PythonSwitcher.m in Sources */,

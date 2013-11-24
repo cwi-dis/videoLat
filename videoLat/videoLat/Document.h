@@ -33,4 +33,5 @@
 - (IBAction)newDocumentComplete: (id)sender;
 - (IBAction)export: (id)sender;
 - (void)changed;
+- (void)_setCalibrationFileName;
 @end
