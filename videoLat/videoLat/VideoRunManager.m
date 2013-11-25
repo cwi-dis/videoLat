@@ -18,6 +18,7 @@
 + (void) initialize
 {
     [BaseRunManager registerClass: [self class] forMeasurementType: @"Video Roundtrip"];
+    [BaseRunManager registerNib: @"VideoMeasurement" forMeasurementType: @"Video Roundtrip"];
 }
 
 - (VideoRunManager*)init
@@ -345,6 +346,7 @@
 + (void) initialize
 {
     [BaseRunManager registerClass: [self class] forMeasurementType: @"Video Roundtrip Calibrate"];
+    [BaseRunManager registerNib: @"VideoMeasurement" forMeasurementType: @"Video Roundtrip Calibrate"];
 }
 
 - (VideoCalibrationRunManager*)init
@@ -364,6 +366,7 @@
 + (void) initialize
 {
     [BaseRunManager registerClass: [self class] forMeasurementType: @"Video Monochrome Roundtrip"];
+    [BaseRunManager registerNib: @"VideoMeasurement" forMeasurementType: @"Video Monochrome Roundtrip"];
 }
 
 - (VideoMonoRunManager*)init
