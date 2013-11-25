@@ -16,6 +16,8 @@
 + (void)initialize;
 + (void)registerClass: (Class)managerClass forMeasurementType: (NSString *)name;
 + (Class)classForMeasurementType: (NSString *)name;
++ (void)registerNib: (NSString*)nibName forMeasurementType: (NSString *)name;
++ (NSString *)nibForMeasurementType: (NSString *)name;
 
 @property(readonly) NSString *measurementTypeName;
 

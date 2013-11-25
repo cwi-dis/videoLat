@@ -7,10 +7,17 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "BaseRunManager.h"
 
-@interface RunTypeView : NSView
+@interface RunTypeView : NSView {
+	NSArray *runManagerNibObjects;	// Storage for toplevel object references from loaded nibfiles
+}
 @property(retain) IBOutlet NSPopUpButton *bType;
-@property(retain) IBOutlet id runManager;
+@property(retain) IBOutlet BaseRunManager *runManager;
+@property(retain) IBOutlet NSView *selectionView;
+@property(retain) IBOutlet NSView *outputView;
+@property(retain) IBOutlet NSView *selectionContainerView;
+@property(retain) IBOutlet NSView *outputContainerView;
 
 - (IBAction)typeChanged: (id)sender;
 

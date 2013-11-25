@@ -10,6 +10,7 @@
 		040CF9D0183E40F20094C0D8 /* findQRcodes.mm in Sources */ = {isa = PBXBuildFile; fileRef = 04B58F11183A3CF000360A61 /* findQRcodes.mm */; };
 		040CF9DC183E4F6F0094C0D8 /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 040CF9DB183E4F6F0094C0D8 /* icon.icns */; };
 		040CF9DE183E56110094C0D8 /* docicon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 040CF9DD183E56110094C0D8 /* docicon.icns */; };
+		04187965184382C400303A12 /* VideoMeasurement.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04187964184382C400303A12 /* VideoMeasurement.xib */; };
 		044F3D7D183A46390008CBA3 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 044F3D7C183A46390008CBA3 /* AVFoundation.framework */; };
 		044F3D7F183A46540008CBA3 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 044F3D7E183A46540008CBA3 /* CoreMedia.framework */; };
 		044F3D81183A467F0008CBA3 /* libpython2.7.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 044F3D80183A467F0008CBA3 /* libpython2.7.dylib */; };
@@ -46,6 +47,7 @@
 /* Begin PBXFileReference section */
 		040CF9DB183E4F6F0094C0D8 /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = icon.icns; sourceTree = SOURCE_ROOT; };
 		040CF9DD183E56110094C0D8 /* docicon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = docicon.icns; sourceTree = SOURCE_ROOT; };
+		04187964184382C400303A12 /* VideoMeasurement.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VideoMeasurement.xib; sourceTree = "<group>"; };
 		044F3D7C183A46390008CBA3 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = /System/Library/Frameworks/AVFoundation.framework; sourceTree = "<absolute>"; };
 		044F3D7E183A46540008CBA3 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = ../../../../System/Library/Frameworks/CoreMedia.framework; sourceTree = "<group>"; };
 		044F3D80183A467F0008CBA3 /* libpython2.7.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libpython2.7.dylib; path = ../../../../System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/config/libpython2.7.dylib; sourceTree = "<group>"; };
@@ -187,6 +189,7 @@
 				04B58F24183A3D3000360A61 /* VideoRunManager.m */,
 				045397D2183AC3F300697348 /* VideoSelectionView.h */,
 				045397D3183AC3F300697348 /* VideoSelectionView.m */,
+				04187964184382C400303A12 /* VideoMeasurement.xib */,
 			);
 			name = VideoRun;
 			sourceTree = "<group>";
@@ -331,6 +334,7 @@
 				047DD1DB183A3B4D00A04F83 /* MainMenu.xib in Resources */,
 				040CF9DC183E4F6F0094C0D8 /* icon.icns in Resources */,
 				040CF9DE183E56110094C0D8 /* docicon.icns in Resources */,
+				04187965184382C400303A12 /* VideoMeasurement.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
