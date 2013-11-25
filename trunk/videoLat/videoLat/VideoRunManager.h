@@ -72,30 +72,3 @@
     format: (const char*)formatStr
     size: (int)size;
 @end
-
-@interface VideoCalibrationRunManager : VideoRunManager
-
-+ (void)initialize;
-- (VideoCalibrationRunManager *)init;
-
-@end
-
-@interface VideoMonoRunManager : VideoRunManager {
-    bool currentColorIsWhite;
-    // Black/white detection
-    int blacklevel;
-    int whitelevel;
-    int nBWdetections;
-}
-
-+ (void)initialize;
-- (VideoMonoRunManager *)init;
-
-
-// Monochrome support
-- (void)_mono_showNewData;
-- (void)_mono_newInputDone: (bool)isWhite;
-- (void)_mono_pollInput;
-
-@end
-
