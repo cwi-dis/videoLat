@@ -115,4 +115,16 @@
 	[runManager selectMeasurementType: typeName];
 }
 
+    
+- (IBAction)stopMeasuring: (id)sender
+{
+    self.runManager.running = false;
+    [self.collector stopCollecting];
+    [self.collector trim];
+    self.statusView.detectCount = [NSString stringWithFormat: @"%d (after trimming 5%%)", self.collector.count];
+    self.statusView.detectAverage = [NSString stringWithFormat: @"%.3f ms ± %.3f", self.collector.average / 1000.0, self.collector.stddev / 1000.0];
+    [self.statusView update: self];
+    [self.document newDocumentComplete: self];
+}
+
 @end

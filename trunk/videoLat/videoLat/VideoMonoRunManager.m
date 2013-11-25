@@ -28,7 +28,10 @@
     return self;
 }
 
-#pragma mark Monochrome support
+- (void) awakeFromNib
+{
+    if ([super respondsToSelector:@selector(awakeFromNib)]) [super awakeFromNib];
+}
 
 - (void) _mono_newInputDone: (bool)isWhite
 {

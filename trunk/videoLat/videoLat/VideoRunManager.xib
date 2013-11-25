@@ -52,7 +52,7 @@
 				<string key="NSClassName">VideoInput</string>
 			</object>
 			<object class="NSCustomView" id="875939645">
-				<reference key="NSNextResponder"/>
+				<nil key="NSNextResponder"/>
 				<int key="NSvFlags">268</int>
 				<array class="NSMutableArray" key="NSSubviews">
 					<object class="NSButton" id="157896897">
@@ -299,7 +299,6 @@
 					</object>
 				</array>
 				<string key="NSFrameSize">{268, 394}</string>
-				<reference key="NSSuperview"/>
 				<reference key="NSNextKeyView" ref="521529064"/>
 				<string key="NSClassName">VideoSelectionView</string>
 			</object>
@@ -369,6 +368,14 @@
 						<reference key="destination" ref="354571387"/>
 					</object>
 					<int key="connectionID">52</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">measurementMaster</string>
+						<reference key="source" ref="445606192"/>
+						<reference key="destination" ref="1001"/>
+					</object>
+					<int key="connectionID">74</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -1299,7 +1306,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">71</int>
+			<int key="maxID">74</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes"/>
 		<int key="IBDocument.localizationMode">0</int>

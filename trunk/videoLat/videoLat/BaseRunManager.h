@@ -23,4 +23,6 @@
 
 - (void)selectMeasurementType: (NSString *)typeName;
 
+@property bool running;
+
 @end
