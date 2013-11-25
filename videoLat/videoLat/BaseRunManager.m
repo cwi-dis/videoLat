@@ -120,4 +120,6 @@ static NSMutableDictionary *runManagerNibs;
 
 
 
+@synthesize running;
+
 @end

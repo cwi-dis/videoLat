@@ -26,4 +26,9 @@
     return self;
 }
 
+- (void) awakeFromNib
+{
+    if ([super respondsToSelector:@selector(awakeFromNib)]) [super awakeFromNib];
+}
+
 @end

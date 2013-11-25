@@ -128,6 +128,7 @@
 									<int key="NSvFlags">256</int>
 									<string key="NSFrame">{{62, 23}, {189, 26}}</string>
 									<reference key="NSSuperview" ref="396961319"/>
+									<reference key="NSNextKeyView" ref="85416499"/>
 									<bool key="NSEnabled">YES</bool>
 									<object class="NSPopUpButtonCell" key="NSCell" id="141642617">
 										<int key="NSCellFlags">-2076180416</int>
@@ -303,6 +304,7 @@
 									<int key="NSvFlags">268</int>
 									<string key="NSFrame">{{185, 13}, {69, 32}}</string>
 									<reference key="NSSuperview" ref="96203292"/>
+									<reference key="NSNextKeyView" ref="540333821"/>
 									<string key="NSHuggingPriority">{250, 750}</string>
 									<bool key="NSEnabled">YES</bool>
 									<object class="NSButtonCell" key="NSCell" id="544541519">
@@ -428,6 +430,7 @@
 							<int key="NSvFlags">268</int>
 							<string key="NSFrame">{{20, 164}, {268, 393}}</string>
 							<reference key="NSSuperview" ref="883789348"/>
+							<reference key="NSNextKeyView" ref="96203292"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<string key="NSClassName">NSView</string>
 						</object>
@@ -520,11 +523,43 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
+						<string key="label">statusView</string>
+						<reference key="source" ref="396961319"/>
+						<reference key="destination" ref="96203292"/>
+					</object>
+					<string key="id">O7w-Do-RfD</string>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">collector</string>
+						<reference key="source" ref="396961319"/>
+						<reference key="destination" ref="1028275037"/>
+					</object>
+					<string key="id">HD9-E7-ETM</string>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">document</string>
+						<reference key="source" ref="396961319"/>
+						<reference key="destination" ref="509859529"/>
+					</object>
+					<string key="id">wDR-Lk-irM</string>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">stopMeasuring:</string>
+						<reference key="source" ref="396961319"/>
+						<reference key="destination" ref="149285179"/>
+					</object>
+					<string key="id">6VA-qW-uOv</string>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
 						<string key="label">document</string>
 						<reference key="source" ref="1028275037"/>
 						<reference key="destination" ref="509859529"/>
 					</object>
-					<string key="id">lpb-nI-0TQ</string>
+					<string key="id">pj3-xD-1QT</string>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -1431,11 +1466,6 @@
 						<reference key="parent" ref="149285179"/>
 					</object>
 					<object class="IBObjectRecord">
-						<string key="id">XNZ-mz-FJe</string>
-						<reference key="object" ref="1028275037"/>
-						<reference key="parent" ref="0"/>
-					</object>
-					<object class="IBObjectRecord">
 						<string key="id">0mb-6S-bL4</string>
 						<reference key="object" ref="565630275"/>
 						<reference key="parent" ref="911919788"/>
@@ -1693,6 +1723,11 @@
 						<reference key="object" ref="885745318"/>
 						<reference key="parent" ref="883789348"/>
 					</object>
+					<object class="IBObjectRecord">
+						<string key="id">LbW-Qp-SQz</string>
+						<reference key="object" ref="1028275037"/>
+						<reference key="parent" ref="0"/>
+					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -1810,6 +1845,8 @@
 				<string key="Kc1-e9-Sk1.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="L1R-4K-Z0m.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<boolean value="NO" key="L1R-4K-Z0m.showNotes"/>
+				<string key="LbW-Qp-SQz.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<boolean value="NO" key="LbW-Qp-SQz.showNotes"/>
 				<array key="MHP-sA-zsy.IBNSViewMetadataConstraints">
 					<reference ref="554051524"/>
 				</array>
@@ -1835,8 +1872,6 @@
 				<string key="WoJ-sn-5bR.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="X2N-Ir-pAy.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<boolean value="NO" key="X2N-Ir-pAy.showNotes"/>
-				<string key="XNZ-mz-FJe.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="NO" key="XNZ-mz-FJe.showNotes"/>
 				<string key="a3p-d1-YfY.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<boolean value="NO" key="a3p-d1-YfY.showNotes"/>
 				<string key="auJ-Rf-2ST.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>

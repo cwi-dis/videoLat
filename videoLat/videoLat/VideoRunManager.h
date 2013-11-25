@@ -19,6 +19,7 @@
 	IBOutlet id <ManagerDelegateProtocol> delegate;
     IBOutlet RunCollector *collector;
 	IBOutlet VideoOutputView *outputView;
+    IBOutlet RunTypeView *measurementMaster;
     IBOutlet RunStatusView *statusView;
     uint64_t inputStartTime;
 	uint64_t inputAddedOverhead;
@@ -39,7 +40,6 @@
     NSString *lastInputCode;
 }
 @property(retain) IBOutlet Document *document;
-@property bool running;
 @property bool useQRcode;
 @property bool mirrored;
 
@@ -50,7 +50,7 @@
 - (IBAction)startPreMeasuring: (id)sender;
 - (IBAction)stopPreMeasuring: (id)sender;
 - (IBAction)startMeasuring: (id)sender;
-- (IBAction)stopMeasuring: (id)sender;
+//- (IBAction)stopMeasuring: (id)sender;
 
 - (void)reportDataCapturer: (id)capt;
 

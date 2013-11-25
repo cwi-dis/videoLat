@@ -11,7 +11,6 @@
 #import "GenQRCodes.h"
 
 @implementation VideoRunManager
-@synthesize running;
 @synthesize useQRcode;
 @synthesize mirrored;
 
@@ -44,11 +43,14 @@
 
 - (void) awakeFromNib
 {
+    if ([super respondsToSelector:@selector(awakeFromNib)]) [super awakeFromNib];
     @synchronized(self) {
 //        [[settings window] setReleasedWhenClosed: false];
 
         genner = [[GenQRcodes alloc] init];
         finder = [[FindQRcodes alloc] init];
+        statusView = measurementMaster.statusView;
+        collector = measurementMaster.collector;
     }
 }
 
@@ -115,17 +117,6 @@
         outputView.mirrored = self.mirrored;
         [self _triggerNewOutputValue];
     }
-}
-
-- (IBAction)stopMeasuring: (id)sender
-{
-    self.running = false;
-	[collector stopCollecting];
-	[collector trim];
-	statusView.detectCount = [NSString stringWithFormat: @"%d (after trimming 5%%)", collector.count];
-	statusView.detectAverage = [NSString stringWithFormat: @"%.3f ms ± %.3f", collector.average / 1000.0, collector.stddev / 1000.0];
-	[statusView update: self];
-    [self.document newDocumentComplete: self];
 }
 
 #pragma mark SettingsChangedProtocol
@@ -274,7 +265,10 @@
 - (void) newInputDone: (void*)buffer width: (int)w height: (int)h format: (const char*)formatStr size: (int)size
 {
     @synchronized(self) {
-        /*DBG*/ if (inputStartTime == 0) { NSLog(@"newInputDone called, but inputStartTime==0\n"); return; }
+        if (inputStartTime == 0) {
+            /*DBG*/ NSLog(@"newInputDone called, but inputStartTime==0\n");
+            return;
+        }
 		if (outputCode == nil) { NSLog(@"newInputDone called, but no output code yet\n"); return; }
         assert(inputStartTime != 0);
             
