@@ -13,7 +13,7 @@
 @implementation appDelegate
 @synthesize measurementTypes;
 
-- (void)applicationDidFinishLaunching:(NSNotification *)aNotification
+- (void)applicationWillFinishLaunching:(NSNotification *)aNotification
 {
 	// Fill measurementTypes
 	NSURL *url = [self directoryForCalibrations];
@@ -23,6 +23,7 @@
     // Initialize run manager classes. Should be done differently.
     [VideoRunManager initialize];
     [VideoCalibrationRunManager initialize];
+	[VideoMonoRunManager initialize];
 	
 }
 - (NSURL *)directoryForCalibrations
