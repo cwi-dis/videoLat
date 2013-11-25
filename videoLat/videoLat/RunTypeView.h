@@ -11,6 +11,7 @@
 
 @interface RunTypeView : NSView {
 	NSArray *runManagerNibObjects;	// Storage for toplevel object references from loaded nibfiles
+    BOOL wasAwokenFromNib;
 }
 @property(retain) IBOutlet NSPopUpButton *bType;
 @property(retain) IBOutlet BaseRunManager *runManager;

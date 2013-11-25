@@ -8,6 +8,8 @@
 
 #import "appDelegate.h"
 #import "VideoRunManager.h"
+#import "VideoCalibrationRunManager.h"
+#import "VideoMonoRunManager.h"
 
 
 @implementation appDelegate
