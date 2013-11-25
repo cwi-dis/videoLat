@@ -17,6 +17,8 @@
 + (void)registerClass: (Class)managerClass forMeasurementType: (NSString *)name;
 + (Class)classForMeasurementType: (NSString *)name;
 
-@property(retain) NSString *measurementTypeName;
+@property(readonly) NSString *measurementTypeName;
+
+- (void)selectMeasurementType: (NSString *)typeName;
 
 @end

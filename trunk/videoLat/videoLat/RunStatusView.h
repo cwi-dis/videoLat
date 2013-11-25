@@ -9,6 +9,8 @@
 #import <Cocoa/Cocoa.h>
 
 @interface RunStatusView : NSView
+@property(retain) IBOutlet NSButton *bStop;
+
 @property(retain) IBOutlet NSTextField *bCount;
 @property(retain) IBOutlet NSTextField *bAverage;
 

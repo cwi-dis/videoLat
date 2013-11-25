@@ -22,7 +22,7 @@
             [[bType itemWithTitle: itemTitle] setEnabled: NO];
         }
     }
-	[runManager setMeasurementTypeName: [bType titleOfSelectedItem]];
+	[runManager selectMeasurementType: [bType titleOfSelectedItem]];
 }
 
 - (IBAction)typeChanged: (id)sender
@@ -31,8 +31,8 @@
 //	NSArray *typeBaseCalibrations = [MeasurementType measurementNamesForType: typeName];
     // Select corresponding DeviceSelection view
     Class runClass = [BaseRunManager classForMeasurementType: typeName];
-    NSLog(@"Selected run class %@\n", runClass);
-	[runManager setMeasurementTypeName: typeName];
+    NSLog(@"Selected run class %@ (but using %@)\n", runClass, [runManager class]);
+	[runManager selectMeasurementType: typeName];
 }
 
 @end

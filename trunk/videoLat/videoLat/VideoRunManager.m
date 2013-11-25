@@ -28,9 +28,6 @@
 		found_total = 0;
 		found_ok = 0;
 		current_qrcode = NULL;
-		blacklevel = 255;
-		whitelevel = 0;
-		nBWdetections = 0;
 		outputAddedOverhead = 0;
 		outputStartTime = 0;
 		inputAddedOverhead = 0;
@@ -54,13 +51,23 @@
     }
 }
 
+- (void)selectMeasurementType: (NSString *)typeName
+{
+	[super selectMeasurementType:typeName];
+	if (!selectionView) {
+		// XXXJACK Make sure selectionView is active/visible
+	}
+	[selectionView.bPreRun setEnabled: YES];
+	[selectionView.bRun setEnabled: NO];
+	if (statusView) {
+		[statusView.bStop setEnabled: NO];
+	}
+}
+
 - (void)_triggerNewOutputValue
 {
-	if (outputView.visible) {
-		[outputView showNewData];
-	} else {
-		[self _mono_showNewData];
-	}
+	// XXXJACK can be simplified
+	[outputView showNewData];
 }
 
 - (void)reportDataCapturer: (id)capt
@@ -70,11 +77,35 @@
 
 - (IBAction)startPreMeasuring: (id)sender
 {
+	// XXXJACK Disable measurement selection button in RunTypeView
+	[selectionView.bPreRun setEnabled: NO];
+	[selectionView.bRun setEnabled: NO];
+	if (statusView) {
+		[statusView.bStop setEnabled: NO];
+	}
+	// XXXJACK premeasuring not yet implemented.
+	[self stopPreMeasuring: self];
+}
+
+- (IBAction)stopPreMeasuring: (id)sender
+{
+	[selectionView.bPreRun setEnabled: NO];
+	[selectionView.bRun setEnabled: YES];
+	if (!statusView) {
+		// XXXJACK Make sure statusview is active/visible
+	}
+	[statusView.bStop setEnabled: NO];
 }
 
 - (IBAction)startMeasuring: (id)sender
 {
     @synchronized(self) {
+		[selectionView.bPreRun setEnabled: NO];
+		[selectionView.bRun setEnabled: NO];
+		if (!statusView) {
+			// XXXJACK Make sure statusview is active/visible
+		}
+		[statusView.bStop setEnabled: YES];
         self.running = YES;
         self.useQRcode = YES;
         self.mirrored = NO;
@@ -90,9 +121,9 @@
     self.running = false;
 	[collector stopCollecting];
 	[collector trim];
-	status.detectCount = [NSString stringWithFormat: @"%d (after trimming 5%%)", collector.count];
-	status.detectAverage = [NSString stringWithFormat: @"%.3f ms ± %.3f", collector.average / 1000.0, collector.stddev / 1000.0];
-	[status update: self];
+	statusView.detectCount = [NSString stringWithFormat: @"%d (after trimming 5%%)", collector.count];
+	statusView.detectAverage = [NSString stringWithFormat: @"%.3f ms ± %.3f", collector.average / 1000.0, collector.stddev / 1000.0];
+	[statusView update: self];
     [self.document newDocumentComplete: self];
 }
 
@@ -139,7 +170,7 @@
 {
     @synchronized(self) {
         CIImage *newImage = nil;
-        if (!self.running /* || !settings.xmit */) {
+        if (!self.running) {
             newImage = [CIImage imageWithColor:[CIColor colorWithRed:0.1 green:0.4 blue:0.5]];
             CGRect rect = {0, 0, 480, 480};
             newImage = [newImage imageByCroppingToRect: rect];
@@ -147,19 +178,6 @@
         }
         if (outputStartTime == 0) outputStartTime = [collector now];
         outputAddedOverhead = 0;
-#if 0
-        if (settings.datatypeBlackWhite) {
-            // XXX Do black/white
-            [self _mono_showNewData];
-            if (currentColorIsWhite) 
-                newImage = [CIImage imageWithColor:[CIColor colorWithRed:1 green:1 blue:1]];
-            else
-                newImage = [CIImage imageWithColor:[CIColor colorWithRed:0 green:0 blue:0]];
-            CGRect rect = {0, 0, 480, 480};
-            newImage = [newImage imageByCroppingToRect: rect];
-            return newImage;
-        }
-#endif
         // We create a new image if either the previous one has been detected, or
         // if we are free-running.
         bool wantNewImage = (current_qrcode == NULL);
@@ -206,13 +224,8 @@
         assert(outputAddedOverhead < [collector now]);
         assert(strcmp([outputCode UTF8String], "BadCookie") != 0);
 		uint64_t outputTime = [collector now] - outputAddedOverhead;
-        if (self.useQRcode) {
-			if (self.running)
-				[collector recordTransmission: outputCode at: outputTime];
-        } else {
-            if (self.running)
-				[collector recordTransmission: currentColorIsWhite?@"white":@"black" at: outputTime];
-        }
+		if (self.running)
+			[collector recordTransmission: outputCode at: outputTime];
         outputCodeHasBeenReported = true;
         outputStartTime = 0;
         outputAddedOverhead = 0;
@@ -235,7 +248,7 @@
 - (void)setFinderRect: (NSRect)theRect
 {
 //xyzzy	status.finderRect = theRect;
-	[status update: self];
+	[statusView update: self];
 }
 
 
@@ -263,10 +276,6 @@
         /*DBG*/ if (inputStartTime == 0) { NSLog(@"newInputDone called, but inputStartTime==0\n"); return; }
 		if (outputCode == nil) { NSLog(@"newInputDone called, but no output code yet\n"); return; }
         assert(inputStartTime != 0);
-        if (self.running && !self.useQRcode) {
-			goto mono;
-        }
-                
             
         char *code = [finder find: buffer width: w height: h format: formatStr size:size];
         foundQRcode = (code != NULL);
@@ -313,14 +322,11 @@
         }
         inputStartTime = 0;
 		if (self.running) {
-			status.detectCount = [NSString stringWithFormat: @"%d", collector.count];
-			status.detectAverage = [NSString stringWithFormat: @"%.3f ms ± %.3f", collector.average / 1000.0, collector.stddev / 1000.0];
+			statusView.detectCount = [NSString stringWithFormat: @"%d", collector.count];
+			statusView.detectAverage = [NSString stringWithFormat: @"%.3f ms ± %.3f", collector.average / 1000.0, collector.stddev / 1000.0];
 		}
-        [status update: self];
+        [statusView update: self];
     }
-	return;
-mono:
-	[self _mono_newInputDone:buffer width:w height:h format:formatStr size:size];
 }
 
 - (void) updateInputOverhead: (double) deltaT
@@ -329,6 +335,47 @@ mono:
         if(inputStartTime != 0)
             inputAddedOverhead = (uint64_t)(deltaT*1000000.0);
     }
+}
+
+
+@end
+
+@implementation VideoCalibrationRunManager
+
++ (void) initialize
+{
+    [BaseRunManager registerClass: [self class] forMeasurementType: @"Video Roundtrip Calibrate"];
+}
+
+- (VideoCalibrationRunManager*)init
+{
+    self = [super init];
+    if (self) {
+        _measurementTypeName = @"Video Roundtrip Calibrate";
+    }
+    return self;
+}
+
+@end
+
+
+@implementation VideoMonoRunManager
+
++ (void) initialize
+{
+    [BaseRunManager registerClass: [self class] forMeasurementType: @"Video Monochrome Roundtrip"];
+}
+
+- (VideoMonoRunManager*)init
+{
+    self = [super init];
+    if (self) {
+        _measurementTypeName = @"Video Monochrome Roundtrip";
+		blacklevel = 255;
+		whitelevel = 0;
+		nBWdetections = 0;
+    }
+    return self;
 }
 
 #pragma mark Monochrome support
@@ -345,7 +392,7 @@ mono:
             currentColorIsWhite = !currentColorIsWhite;
             nBWdetections++;
 //xyzzy            status.bwString = [NSString stringWithFormat: @"found %d (current %s)", nBWdetections, isWhite?"white":"black"];
-            [status update: self];
+            [statusView update: self];
             // XXXJACK Is this correct? is "now" the best timestamp we have for the incoming hardware data?
             if (self.running)
 				[collector recordReception: isWhite?@"white":@"black" at: receptionTime];
@@ -359,7 +406,7 @@ mono:
     }
 }
 
-- (void) _mono_newInputDone: (void*)buffer width: (int)w height: (int)h format: (const char*)formatStr size: (int)size
+- (void) newInputDone: (void*)buffer width: (int)w height: (int)h format: (const char*)formatStr size: (int)size
 {
     @synchronized(self) {
 		// Wait for black/white, if possible
@@ -469,22 +516,54 @@ bad2:
     }
 }
 
-@end
 
-@implementation VideoCalibrationRunManager
-
-+ (void) initialize
+- (CIImage *)newOutputStart
 {
-    [BaseRunManager registerClass: [self class] forMeasurementType: @"Video Roundtrip Calibrate"];
+    @synchronized(self) {
+        CIImage *newImage = nil;
+        if (!self.running /* || !settings.xmit */) {
+            newImage = [CIImage imageWithColor:[CIColor colorWithRed:0.1 green:0.4 blue:0.5]];
+            CGRect rect = {0, 0, 480, 480};
+            newImage = [newImage imageByCroppingToRect: rect];
+            return newImage;
+        }
+        if (outputStartTime == 0) outputStartTime = [collector now];
+        outputAddedOverhead = 0;
+		// XXX Do black/white
+		[self _mono_showNewData];
+		if (currentColorIsWhite) 
+			newImage = [CIImage imageWithColor:[CIColor colorWithRed:1 green:1 blue:1]];
+		else
+			newImage = [CIImage imageWithColor:[CIColor colorWithRed:0 green:0 blue:0]];
+		CGRect rect = {0, 0, 480, 480};
+		newImage = [newImage imageByCroppingToRect: rect];
+		return newImage;
+    }
 }
 
-- (VideoCalibrationRunManager*)init
+- (void) newOutputDone
 {
-    self = [super init];
-    if (self) {
-        _measurementTypeName = @"Video Roundtrip Calibrate";
+    @synchronized(self) {
+        if (outputStartTime == 0 || outputCodeHasBeenReported) return;
+        assert(outputAddedOverhead < [collector now]);
+        assert(strcmp([outputCode UTF8String], "BadCookie") != 0);
+		uint64_t outputTime = [collector now] - outputAddedOverhead;
+		if (self.running)
+			[collector recordTransmission: currentColorIsWhite?@"white":@"black" at: outputTime];
+        outputCodeHasBeenReported = true;
+        outputStartTime = 0;
+        outputAddedOverhead = 0;
     }
-    return self;
+}
+
+- (void)_triggerNewOutputValue
+{
+	// XXXJACK can be simplified
+	if (outputView.visible) {
+		[outputView showNewData];
+	} else {
+		[self _mono_showNewData];
+	}
 }
 
 @end

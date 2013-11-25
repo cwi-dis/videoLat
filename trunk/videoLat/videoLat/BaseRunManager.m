@@ -36,4 +36,8 @@ static NSMutableDictionary *runManagerClasses;
 
 @synthesize measurementTypeName;
 
+- (void) selectMeasurementType:(NSString *)typeName
+{
+	measurementTypeName = typeName;
+}
 @end
