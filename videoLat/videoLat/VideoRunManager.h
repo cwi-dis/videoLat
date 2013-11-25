@@ -16,32 +16,27 @@
 #import "BaseRunManager.h"
 
 @interface VideoRunManager : BaseRunManager {
-  @private
-    IBOutlet VideoSelectionView *selectionView;
-    IBOutlet RunStatusView *status;
-	IBOutlet VideoOutputView *outputView;
 	IBOutlet id <ManagerDelegateProtocol> delegate;
-    IBOutlet id <InputCaptureProtocol> capturer;
-    id <InputVideoFindProtocol> finder;
-    id <OutputVideoGenProtocol> genner;
     IBOutlet RunCollector *collector;
-    bool foundQRcode;
-    int found_total;
-    int found_ok;
-    CIImage *current_qrcode;
-    bool currentColorIsWhite;
+	IBOutlet VideoOutputView *outputView;
+    IBOutlet RunStatusView *statusView;
     uint64_t inputStartTime;
 	uint64_t inputAddedOverhead;
     uint64_t outputStartTime;
 	uint64_t outputAddedOverhead;
     NSString *outputCode;
     bool outputCodeHasBeenReported;
+  @private
+    IBOutlet VideoSelectionView *selectionView;
+    IBOutlet id <InputCaptureProtocol> capturer;
+    id <InputVideoFindProtocol> finder;
+    id <OutputVideoGenProtocol> genner;
+    bool foundQRcode;
+    int found_total;
+    int found_ok;
+    CIImage *current_qrcode;
     NSString *lastOutputCode;
     NSString *lastInputCode;
-    // Black/white detection
-    int blacklevel;
-    int whitelevel;
-    int nBWdetections;
 }
 @property(retain) IBOutlet Document *document;
 @property bool running;
@@ -50,8 +45,10 @@
 
 + (void)initialize;
 - (VideoRunManager *)init;
+- (void)selectMeasurementType: (NSString *)typeName;
 
 - (IBAction)startPreMeasuring: (id)sender;
+- (IBAction)stopPreMeasuring: (id)sender;
 - (IBAction)startMeasuring: (id)sender;
 - (IBAction)stopMeasuring: (id)sender;
 
@@ -74,17 +71,31 @@
     height: (int)h
     format: (const char*)formatStr
     size: (int)size;
-
-// Monochrome support
-- (void)_mono_showNewData;
-- (void)_mono_newInputDone: (bool)isWhite;
-- (void)_mono_pollInput;
 @end
 
 @interface VideoCalibrationRunManager : VideoRunManager
 
 + (void)initialize;
 - (VideoCalibrationRunManager *)init;
+
+@end
+
+@interface VideoMonoRunManager : VideoRunManager {
+    bool currentColorIsWhite;
+    // Black/white detection
+    int blacklevel;
+    int whitelevel;
+    int nBWdetections;
+}
+
++ (void)initialize;
+- (VideoMonoRunManager *)init;
+
+
+// Monochrome support
+- (void)_mono_showNewData;
+- (void)_mono_newInputDone: (bool)isWhite;
+- (void)_mono_pollInput;
 
 @end
 
