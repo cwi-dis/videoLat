@@ -8,9 +8,10 @@
 
 #import <Foundation/Foundation.h>
 #import "protocols.h"
+#import "MeasurementType.h"
 
 @interface BaseRunManager : NSObject <RunOutputManagerProtocol, RunInputManagerProtocol> {
-    NSString *_measurementTypeName;
+    MeasurementType *measurementType;
 }
 
 + (void)initialize;
@@ -19,7 +20,7 @@
 + (void)registerNib: (NSString*)nibName forMeasurementType: (NSString *)name;
 + (NSString *)nibForMeasurementType: (NSString *)name;
 
-@property(readonly) NSString *measurementTypeName;
+@property(readonly) MeasurementType *measurementType;
 
 - (void)selectMeasurementType: (NSString *)typeName;
 

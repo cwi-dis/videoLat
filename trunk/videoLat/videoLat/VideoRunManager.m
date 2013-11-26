@@ -23,7 +23,6 @@
 - (VideoRunManager*)init
 {
 	if (self) {
-        _measurementTypeName = @"Video Roundtrip";
 		foundQRcode = false;
 		found_total = 0;
 		found_ok = 0;
@@ -60,7 +59,28 @@
 	if (!selectionView) {
 		// XXXJACK Make sure selectionView is active/visible
 	}
-	[selectionView.bPreRun setEnabled: YES];
+	if (measurementType.isCalibration) {
+		[selectionView.bBase setEnabled:NO];
+		[selectionView.bPreRun setEnabled: YES];
+	} else {
+		NSArray *calibrationNames = measurementType.requires.measurementNames;
+		[selectionView.bBase setEnabled:YES];
+		[selectionView.bBase addItemsWithTitles:calibrationNames];
+		if ([selectionView.bBase selectedItem]) {
+			[selectionView.bPreRun setEnabled: YES];
+		} else {
+			[selectionView.bPreRun setEnabled: NO];
+			NSAlert *alert = [NSAlert alertWithMessageText:@"No calibrations available."
+				defaultButton:@"OK"
+				alternateButton:nil
+				otherButton:nil
+				informativeTextWithFormat:@"%@ measurements should be based on a %@ calibration. Please calibrate first.",
+					measurementType.name,
+					measurementType.requires.name
+				];
+			[alert runModal];
+		}
+	}
 	[selectionView.bRun setEnabled: NO];
 	if (statusView) {
 		[statusView.bStop setEnabled: NO];
@@ -80,6 +100,37 @@
 
 - (IBAction)startPreMeasuring: (id)sender
 {
+	// First check that everything is OK with base measurement and such
+	if (!measurementType.isCalibration) {
+		// First check that a base measurement has been selected.
+		NSString *errorMessage;
+		NSMenuItem *baseItem = [selectionView.bBase selectedItem];
+		NSString *baseName = [baseItem title];
+		MeasurementType *baseType = measurementType.requires;
+		MeasurementDataStore *baseStore = [baseType measurementNamed: baseName];
+		if (baseType == nil) {
+			errorMessage = @"No base (calibration) measurement selected.";
+		} else {
+			// Check that the base measurement is compatible with this measurement,
+			if (![baseStore.inputDeviceID isEqualToString:@"myinputdeviceid"]) {
+				errorMessage = [NSString stringWithFormat:@"Base measurement uses input %@, current measurement uses %@", baseStore.inputDevice, @"myinputdeviceid"];
+			}
+			if (![baseStore.outputDeviceID isEqualToString:@"myoutputdeviceid"]) {
+				errorMessage = [NSString stringWithFormat:@"Base measurement uses input %@, current measurement uses %@", baseStore.inputDevice, @"myinputdeviceid"];
+			}
+		}
+		if (errorMessage) {
+			NSAlert *alert = [NSAlert alertWithMessageText: @"Base calibration mismatch, are you sure you want to continue?"
+				defaultButton:@"Cancel"
+				alternateButton:@"Continue"
+				otherButton:nil
+				informativeTextWithFormat:@"%@", errorMessage];
+			int button = [alert runModal];
+			if (button == NSAlertDefaultReturn)
+				return;
+		}
+			
+	}
 	// XXXJACK Disable measurement selection button in RunTypeView
 	[selectionView.bPreRun setEnabled: NO];
 	[selectionView.bRun setEnabled: NO];
@@ -113,7 +164,7 @@
         self.useQRcode = YES;
         self.mirrored = NO;
         [capturer startCapturing];
-        [collector startCollecting: self.measurementTypeName input: capturer.deviceID name: capturer.deviceName output: outputView.deviceID name: outputView.deviceName];
+        [collector startCollecting: self.measurementType.name input: capturer.deviceID name: capturer.deviceName output: outputView.deviceID name: outputView.deviceName];
         outputView.mirrored = self.mirrored;
         [self _triggerNewOutputValue];
     }

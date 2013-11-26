@@ -21,7 +21,6 @@
 {
     self = [super init];
     if (self) {
-        _measurementTypeName = @"Video Roundtrip Calibrate";
     }
     return self;
 }

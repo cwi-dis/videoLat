@@ -13,9 +13,9 @@
 	NSMutableDictionary *measurements;
 }
 
-+ (MeasurementType *)withType: (NSString *)name;
-+ (MeasurementType *)withTag: (NSUInteger)tag;
-+ (MeasurementType *)add: (NSString *)name tag: (NSUInteger) tag isCalibration: (BOOL)cal requires: (MeasurementType *)req;
++ (MeasurementType *)forType: (NSString *)name;
++ (MeasurementType *)forTag: (NSUInteger)tag;
++ (MeasurementType *)addType: (NSString *)name tag: (NSUInteger) tag isCalibration: (BOOL)cal requires: (MeasurementType *)req;
 + (void)initialize;
 
 - (MeasurementType *)initWithType: (NSString *)_name tag: (NSUInteger)_tag isCalibration: (BOOL)_isCalibration requires: (MeasurementType *)_requires;
