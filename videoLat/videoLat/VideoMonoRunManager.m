@@ -37,7 +37,7 @@
 	uint64_t receptionTime = [collector now];
     @synchronized(self) {
         assert(inputStartTime != 0);
-        if (!self.running || self.useQRcode) return;
+        if (!self.running) return;
         
         if (isWhite == currentColorIsWhite) {
             // Found it! Invert for the next round
@@ -217,5 +217,32 @@ bad2:
 		[self _mono_showNewData];
 	}
 }
+
+#if 0
+
+- (void)settingsChanged
+{
+    @synchronized(self) {
+		if (outputView) {
+			outputView.mirrored = settings.mirrorView;
+			outputView.visible = settings.xmit;
+		}
+        if ([settings.coordHelper isEqualToString: @"None"]) {
+			delegate = nil;
+		} else {
+			if (delegate && ![settings.coordHelper isEqualToString: [delegate script]]) {
+				delegate = nil;
+			}
+            if (delegate == nil) {
+                delegate = [[PythonSwitcher alloc] initWithScript: settings.coordHelper];
+                if ([delegate hasInput]) {
+                    [self performSelector: @selector(_mono_pollInput) withObject: nil afterDelay:(NSTimeInterval)0.001];
+                }
+			}
+		}
+        [self _triggerNewOutputValue];
+    }
+}
+#endif
 
 @end

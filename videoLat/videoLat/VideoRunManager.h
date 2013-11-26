@@ -21,26 +21,24 @@
 	IBOutlet VideoOutputView *outputView;
     IBOutlet RunTypeView *measurementMaster;
     IBOutlet RunStatusView *statusView;
-    uint64_t inputStartTime;
-	uint64_t inputAddedOverhead;
-    uint64_t outputStartTime;
-	uint64_t outputAddedOverhead;
-    NSString *outputCode;
-    bool outputCodeHasBeenReported;
-  @private
     IBOutlet VideoSelectionView *selectionView;
     IBOutlet id <InputCaptureProtocol> capturer;
+
     id <InputVideoFindProtocol> finder;
     id <OutputVideoGenProtocol> genner;
-    bool foundQRcode;
-    int found_total;
-    int found_ok;
-    CIImage *current_qrcode;
-    NSString *lastOutputCode;
-    NSString *lastInputCode;
+
+    uint64_t outputStartTime;       // When the last output was displayed
+	uint64_t outputAddedOverhead;   // Computed overhead from outputStartTime to display time
+    uint64_t inputStartTime;        // When last input was read
+	uint64_t inputAddedOverhead;    // Computed overhead to be subtracted from inputStartTime
+    NSString *outputCode;           // Current code on the display
+    NSString *lastOutputCode;       // Previous code on the display
+    NSString *lastInputCode;        // last input code decyphered
+    bool outputCodeHasBeenReported; // False when output code generated, true when it has been reported to the collector
+
+    CIImage *current_qrcode;        // Current code as a CIImage
 }
 @property(retain) IBOutlet Document *document;
-@property bool useQRcode;
 @property bool mirrored;
 
 + (void)initialize;

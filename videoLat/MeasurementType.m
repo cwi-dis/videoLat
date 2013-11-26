@@ -70,7 +70,7 @@ static NSMutableDictionary *byTag;
 		int i = 2;
 		for(i=2; ;i++) {
 			NSString *itemName2 = [NSString stringWithFormat:@"%@ (%d)", itemName, i];
-			if ([measurements objectForKey:itemName] == nil) {
+			if ([measurements objectForKey:itemName2] == nil) {
 				itemName = itemName2;
 				break;
 			}
