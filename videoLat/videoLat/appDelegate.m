@@ -60,8 +60,54 @@
 		return;
 	}
 	for (NSURL *url in files) {
-		NSLog(@"Could load %@\n", url);
+		NSError *error;
+		BOOL ok = [self _loadCalibration: url error: &error];
+		if (!ok) {
+			NSAlert *alert = [NSAlert alertWithError:error];
+			[alert runModal];
+		}
 	}
 }
 
+- (BOOL)_loadCalibration: (NSURL *)url error: (NSError **)outError
+{
+	NSData *data = [NSData dataWithContentsOfURL: url];
+    NSMutableDictionary *dict = [NSKeyedUnarchiver unarchiveObjectWithData: data];
+    NSString *str;
+    str = [dict objectForKey:@"videoLat"];
+    if (![str isEqualToString:@"videoLat"]) {
+        NSLog(@"%@ is not a videoLat file\n", url);
+		if (outError)
+			*outError = [[NSError alloc] initWithDomain:NSCocoaErrorDomain code:NSFileReadCorruptFileError
+                                               userInfo:@{NSLocalizedDescriptionKey : @"This is not a videoLat file"}];
+        return NO;
+    }
+#if 0
+    str = [dict objectForKey:@"version"];
+    if (![str isEqualToString:VIDEOLAT_FILE_VERSION]) {
+        NSLog(@"This is not a version %@ videoLat file\n", VIDEOLAT_FILE_VERSION);
+        if (outError) {
+            *outError = [[NSError alloc] initWithDomain:NSCocoaErrorDomain code:NSFileReadCorruptFileError
+                                               userInfo:@{NSLocalizedDescriptionKey : @"Unsupported videoLat version file"}];
+        }
+        return NO;
+    }
+#endif
+//    self.description = [dict objectForKey: @"description"];
+//    self.date = [dict objectForKey: @"date"];
+//    self.location = [dict objectForKey: @"location"];
+    MeasurementDataStore *dataStore = [dict objectForKey: @"dataStore"];
+    if (!dataStore) {
+        NSLog(@"No dataStore in videoLat file\n");
+        if (outError) {
+            *outError = [[NSError alloc] initWithDomain:NSCocoaErrorDomain code:NSFileReadCorruptFileError
+                                               userInfo:@{NSLocalizedDescriptionKey : @"No dataStore in videolat file"}];
+        }
+        return NO;
+    }
+	MeasurementType *myType = [MeasurementType forType: dataStore.measurementType];
+	[myType addMeasurement: dataStore];
+	
+	return YES;
+}
 @end

@@ -53,11 +53,11 @@ static NSMutableDictionary *runManagerNibs;
     return [runManagerNibs objectForKey:name];
 }
 
-@synthesize measurementTypeName;
+@synthesize measurementType;
 
 - (void) selectMeasurementType:(NSString *)typeName
 {
-	measurementTypeName = typeName;
+	measurementType = [MeasurementType forType:typeName];
 }
 
 

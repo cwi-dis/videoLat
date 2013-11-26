@@ -20,7 +20,6 @@
 {
     self = [super init];
     if (self) {
-        _measurementTypeName = @"Video Monochrome Roundtrip";
 		blacklevel = 255;
 		whitelevel = 0;
 		nBWdetections = 0;

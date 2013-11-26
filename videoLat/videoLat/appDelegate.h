@@ -16,4 +16,5 @@
 
 - (NSURL *)directoryForCalibrations;
 - (void)_loadCalibrationsFrom: (NSURL *)directory;
+- (BOOL)_loadCalibration: (NSURL *)directory error: (NSError **)outError;
 @end

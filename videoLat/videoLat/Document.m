@@ -97,7 +97,7 @@
 	self.date = [[NSDate date] descriptionWithCalendarFormat:nil timeZone:nil locale:nil];
 
     // Do the NSDocument things
-	myType = [MeasurementType withType: self.dataStore.measurementType];
+	myType = [MeasurementType forType: self.dataStore.measurementType];
 	[self updateChangeCount:NSChangeDone];
 
     // Set title/filename for calibration documents
@@ -180,7 +180,7 @@
     self.dataDistribution = [[MeasurementDistribution alloc] initWithSource:self.dataStore];
     [self.myView updateView];
 
-	myType = [MeasurementType withType: self.dataStore.measurementType];
+	myType = [MeasurementType forType: self.dataStore.measurementType];
 	
 	return YES;
 }
