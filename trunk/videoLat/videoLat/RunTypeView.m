@@ -74,10 +74,10 @@
 				ok = [[NSBundle mainBundle] loadNibNamed: runClassNib owner: self topLevelObjects: &newObjects];
 			} else {
 				newObjects = [[NSMutableArray alloc] initWithCapacity:10];
-                NSDictionary *nibDict = @{ NSNibTopLevelObjects : newObjects };
 
 #if 0
 				// For some reason, this doesn't seem to link up the objects correctly?
+                NSDictionary *nibDict = @{ NSNibTopLevelObjects : newObjects };
 				ok = [[NSBundle mainBundle] loadNibFile:runClassNib externalNameTable:nibDict withZone:nil];
 #else
 				ok = [NSBundle loadNibNamed:runClassNib owner:self];
@@ -89,7 +89,7 @@
                 // Check that it is the right one...
                 if ([runManager class] != runClass) {
                     errorMsg = [NSString stringWithFormat: @"RunTypeView: runManager class is %@, expected %@. Programmer error?\n", [runManager class], runClass];
-                    NSLog(errorMsg);
+                    NSLog(@"%@", errorMsg);
                 }
             } else {
                 // runManager not set by the NIB file. Search for it.
@@ -97,14 +97,14 @@
                     if ([obj class] == runClass) {
                         if (runManager) {
                             errorMsg = [NSString stringWithFormat: @"RunTypeView: multiple objects of type %@ in NIB file %@. Programmer error?\n", runClass, runClassNib];
-                            NSLog(errorMsg);
+                            NSLog(@"%@", errorMsg);
                         }
                         runManager = (BaseRunManager *)obj;
                     }
                 }
                 if (runManager == nil) {
                     errorMsg = [NSString stringWithFormat: @"RunTypeView: no objects of type %@ in NIB file %@. Programmer error?\n", runClass, runClassNib];
-                    NSLog(errorMsg);
+                    NSLog(@"%@", errorMsg);
                 }
             }
 		} else {

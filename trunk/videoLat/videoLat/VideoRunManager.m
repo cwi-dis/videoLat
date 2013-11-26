@@ -11,7 +11,6 @@
 #import "GenQRCodes.h"
 
 @implementation VideoRunManager
-@synthesize useQRcode;
 @synthesize mirrored;
 
 + (void) initialize
@@ -23,17 +22,13 @@
 - (VideoRunManager*)init
 {
 	if (self) {
-		foundQRcode = false;
-		found_total = 0;
-		found_ok = 0;
-		current_qrcode = NULL;
+		current_qrcode = nil;
 		outputAddedOverhead = 0;
 		outputStartTime = 0;
 		inputAddedOverhead = 0;
 		inputStartTime = 0;
 		outputCode = nil;
 		outputCodeHasBeenReported = true;
-		lastOutputCode = nil;
 		lastInputCode = nil;
 		capturer = nil;
 	}
@@ -112,11 +107,11 @@
 			errorMessage = @"No base (calibration) measurement selected.";
 		} else {
 			// Check that the base measurement is compatible with this measurement,
-			if (![baseStore.inputDeviceID isEqualToString:@"myinputdeviceid"]) {
-				errorMessage = [NSString stringWithFormat:@"Base measurement uses input %@, current measurement uses %@", baseStore.inputDevice, @"myinputdeviceid"];
+			if (![baseStore.inputDeviceID isEqualToString:capturer.deviceID]) {
+				errorMessage = [NSString stringWithFormat:@"Base measurement uses input %@, current measurement uses %@", baseStore.inputDevice, capturer.deviceName];
 			}
-			if (![baseStore.outputDeviceID isEqualToString:@"myoutputdeviceid"]) {
-				errorMessage = [NSString stringWithFormat:@"Base measurement uses input %@, current measurement uses %@", baseStore.inputDevice, @"myinputdeviceid"];
+			if (![baseStore.outputDeviceID isEqualToString:outputView.deviceID]) {
+				errorMessage = [NSString stringWithFormat:@"Base measurement uses output %@, current measurement uses %@", baseStore.inputDevice, outputView.deviceName];
 			}
 		}
 		if (errorMessage) {
@@ -125,7 +120,7 @@
 				alternateButton:@"Continue"
 				otherButton:nil
 				informativeTextWithFormat:@"%@", errorMessage];
-			int button = [alert runModal];
+			NSInteger button = [alert runModal];
 			if (button == NSAlertDefaultReturn)
 				return;
 		}
@@ -161,7 +156,6 @@
 		}
 		[statusView.bStop setEnabled: YES];
         self.running = YES;
-        self.useQRcode = YES;
         self.mirrored = NO;
         [capturer startCapturing];
         [collector startCollecting: self.measurementType.name input: capturer.deviceID name: capturer.deviceName output: outputView.deviceID name: outputView.deviceName];
@@ -169,44 +163,6 @@
         [self _triggerNewOutputValue];
     }
 }
-
-#pragma mark SettingsChangedProtocol
-#if 0
-- (void)settingsChanged: (id)sender
-{
-    // XYZZY get from Type popup
-    self.useQRcode = YES;
-    self.mirrored = NO;
-}
-
-- (void)settingsChanged
-{
-    @synchronized(self) {
-        if (current_qrcode) {
-            current_qrcode = nil;
-        }
-		if (outputView) {
-			outputView.mirrored = settings.mirrorView;
-			outputView.visible = settings.xmit;
-		}
-        if ([settings.coordHelper isEqualToString: @"None"]) {
-			delegate = nil;
-		} else {
-			if (delegate && ![settings.coordHelper isEqualToString: [delegate script]]) {
-				delegate = nil;
-			}
-            if (delegate == nil) { 
-                delegate = [[PythonSwitcher alloc] initWithScript: settings.coordHelper];
-                if ([delegate hasInput]) {
-                    [self performSelector: @selector(_mono_pollInput) withObject: nil afterDelay:(NSTimeInterval)0.001]; 
-                }
-			}
-		}
-        [self _triggerNewOutputValue];
-    }
-}
-#endif
-
 #pragma mark MeasurementOutputManagerProtocol
 
 - (CIImage *)newOutputStart
@@ -223,9 +179,7 @@
         outputAddedOverhead = 0;
         // We create a new image if either the previous one has been detected, or
         // if we are free-running.
-        bool wantNewImage = (current_qrcode == NULL);
-
-        if (!wantNewImage) {
+        if (current_qrcode) {
             newImage = current_qrcode;
         } else {
             outputCode = [NSString stringWithFormat:@"%lld", outputStartTime];
@@ -324,7 +278,7 @@
         assert(inputStartTime != 0);
             
         char *code = [finder find: buffer width: w height: h format: formatStr size:size];
-        foundQRcode = (code != NULL);
+        BOOL foundQRcode = (code != NULL);
         if (foundQRcode) {
 			// If we are in automatic mode, we compare the code to what was
 			// expected.
@@ -352,8 +306,6 @@
 				return;
 			}
             if (!lastInputCode || strcmp(code, [lastInputCode UTF8String]) != 0) {
-                found_ok++;
-                found_total++;
                 lastInputCode = [NSString stringWithUTF8String: code];
 				if (self.running)
 					[collector recordReception: lastInputCode at: inputStartTime-inputAddedOverhead];
@@ -363,7 +315,6 @@
 //xyzzy            status.finderRect = finder.rect;
             [self performSelectorOnMainThread: @selector(_triggerNewOutputValue) withObject: nil waitUntilDone: NO];
         } else {
-            found_total++;
             inputAddedOverhead = 0;
         }
         inputStartTime = 0;
