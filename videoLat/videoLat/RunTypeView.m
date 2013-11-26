@@ -73,9 +73,15 @@
 			if ([[NSBundle mainBundle] respondsToSelector:@selector(loadNibNamed:owner:topLevelObjects:)]) {
 				ok = [[NSBundle mainBundle] loadNibNamed: runClassNib owner: self topLevelObjects: &newObjects];
 			} else {
+				newObjects = [[NSMutableArray alloc] initWithCapacity:10];
                 NSDictionary *nibDict = @{ NSNibTopLevelObjects : newObjects };
-                
-				ok = [NSBundle loadNibFile:runClassNib externalNameTable:nibDict withZone:nil];
+
+#if 0
+				// For some reason, this doesn't seem to link up the objects correctly?
+				ok = [[NSBundle mainBundle] loadNibFile:runClassNib externalNameTable:nibDict withZone:nil];
+#else
+				ok = [NSBundle loadNibNamed:runClassNib owner:self];
+#endif
 			}
             // Keep the toplevel objects, and search for the runManager by class name (unless it has been set by the NIB already)
             runManagerNibObjects = newObjects;
