@@ -32,6 +32,10 @@
             [[bType itemWithTitle: itemTitle] setEnabled: NO];
         }
     }
+    // Try to set same as in previous run
+    NSString *oldType = [[NSUserDefaults standardUserDefaults] stringForKey:@"measurementType"];
+    if (oldType && [[bType itemWithTitle: oldType] isEnabled])
+        [bType selectItemWithTitle: oldType];
 	NSLog(@"outputContainerView=%@\n", self.outputContainerView);
 	NSLog(@"selectionContainerView=%@\n", self.selectionContainerView);
 	NSLog(@"outputView=%@\n", self.outputView);
@@ -57,6 +61,7 @@
 - (IBAction)typeChanged: (id)sender
 {
 	NSString *typeName = [bType titleOfSelectedItem];
+    [[NSUserDefaults standardUserDefaults] setObject:typeName forKey:@"measurementType"];
 //	NSArray *typeBaseCalibrations = [MeasurementType measurementNamesForType: typeName];
     // Select corresponding DeviceSelection view
     Class runClass = [BaseRunManager classForMeasurementType: typeName];
