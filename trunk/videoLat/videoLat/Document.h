@@ -11,7 +11,6 @@
 #import "MeasurementType.h"
 
 @interface Document : NSDocument {
-    NSString *baseName;
     NSArray *objectsForNewDocument;
 	MeasurementType *myType;
 }
@@ -32,6 +31,8 @@
 
 - (IBAction)newDocumentComplete: (id)sender;
 - (IBAction)export: (id)sender;
+- (BOOL)_exportCSV: (NSString *)csvData forType: (NSString *)descr;
+- (NSString *) asCSVString;
 - (void)changed;
 - (void)_setCalibrationFileName;
 @end

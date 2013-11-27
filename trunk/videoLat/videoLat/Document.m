@@ -187,21 +187,67 @@
 
 - (void)awakeFromNib
 {
-    baseName = @"videoLat";
 }
 
 - (IBAction)export: (id)sender
 {
-    
-	NSString *csvData = [self.dataStore asCSVString];
-    NSString *fileName = [NSString stringWithFormat:@"/tmp/%@-measurements.csv", baseName];
-	[csvData writeToFile:fileName atomically:NO encoding:NSStringEncodingConversionAllowLossy error:nil];
+	NSString *csvData;
+	BOOL ok;
+	csvData = [self asCSVString];
+	ok = [self _exportCSV: csvData forType: @"description" title: @"Export Measurement Description"];
+	if (!ok) return;
+	csvData = [self.dataStore asCSVString];
+	ok = [self _exportCSV: csvData forType: @"measurements" title: @"Export Measurement Values"];
+	if (!ok) return;
+	csvData = [self.dataDistribution asCSVString];
+	ok = [self _exportCSV: csvData forType: @"distribution" title: @"Export Measurement Distribution"];
+	if (!ok) return;
+}
+
+- (BOOL)_exportCSV: (NSString *)csvData forType: (NSString *)descr title: (NSString *)title
+{
+	NSError *error;
+    NSString *baseName = [self displayName];
+	NSSavePanel *savePanel = [NSSavePanel savePanel];
+	savePanel.title = title;
+	savePanel.nameFieldStringValue = [NSString stringWithFormat: @"%@-%@", baseName, descr];
+	savePanel.allowedFileTypes = @[ @"csv"];
+	savePanel.allowsOtherFileTypes = YES;
+	NSInteger rv = [savePanel runModal];
+	if (rv == NSFileHandlingPanelOKButton) {
+		BOOL ok = [csvData writeToURL:savePanel.URL atomically:NO encoding:NSStringEncodingConversionAllowLossy error:&error];
+		if (!ok) {
+			NSAlert *alert =[NSAlert alertWithError:error];
+			[alert runModal];
+			return NO;
+		}
+	}
+	return YES;
 #if 0
 	csvData = [self.dataDistribution asCSVString];
     fileName = [NSString stringWithFormat:@"/tmp/%@-distribution.csv", baseName];
+	[
 	[csvData writeToFile:fileName atomically:NO encoding:NSStringEncodingConversionAllowLossy error:nil];    
 #endif
 }
+
+- (NSString *) asCSVString
+{
+	NSMutableString *rv;
+	rv = [NSMutableString stringWithCapacity: 0];
+	[rv appendString:@"key,value\n"];
+	[rv appendFormat: @"measurementType,\"%@\"\n", self.measurementType];
+	[rv appendFormat: @"baseMeasurementID,\"%@\"\n", self.baseMeasurementID];
+	[rv appendFormat: @"inputDeviceID,\"%@\"\n", self.inputDeviceID];
+	[rv appendFormat: @"inputDevice,\"%@\"\n", self.inputDevice];
+	[rv appendFormat: @"outputDeviceID,\"%@\"\n", self.outputDeviceID];
+	[rv appendFormat: @"outputDevice,\"%@\"\n", self.outputDevice];
+	[rv appendFormat: @"description,\"%@\"\n", self.description];
+	[rv appendFormat: @"date,\"%@\"\n", self.date];
+	[rv appendFormat: @"location,\"%@\"\n", self.location];
+	return rv;
+}
+
 
 - (void)changed
 {
