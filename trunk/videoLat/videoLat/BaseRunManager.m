@@ -38,7 +38,6 @@ static NSMutableDictionary *runManagerNibs;
 
 + (void)registerNib: (NSString*)nibName forMeasurementType: (NSString *)name
 {
-    // XXXJACK assert it is a subclass of BaseRunManager
     NSString *oldNib = [runManagerNibs objectForKey:name];
     if (oldNib != nil && oldNib != nibName) {
         NSLog(@"BaseRunManager: attempt to set Nib for %@ to %@ but it was already set to %@\n", name, nibName, oldNib);

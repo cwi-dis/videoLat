@@ -82,7 +82,6 @@
                                                userInfo:@{NSLocalizedDescriptionKey : @"This is not a videoLat file"}];
         return NO;
     }
-#if 0
     str = [dict objectForKey:@"version"];
     if (![str isEqualToString:VIDEOLAT_FILE_VERSION]) {
         NSLog(@"This is not a version %@ videoLat file\n", VIDEOLAT_FILE_VERSION);
@@ -92,7 +91,6 @@
         }
         return NO;
     }
-#endif
 //    self.description = [dict objectForKey: @"description"];
 //    self.date = [dict objectForKey: @"date"];
 //    self.location = [dict objectForKey: @"location"];

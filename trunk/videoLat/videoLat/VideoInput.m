@@ -64,28 +64,8 @@
 {    
     // Setup for callbacks
     [selfView setDelegate: self];
-// XYZZY    [[selfView window] setReleasedWhenClosed: false];
 
 	NSLog(@"Devices: %@\n", [self deviceNames]);
-#if 0
-	/* Select the default Video input device */
-	AVCaptureDevice *dev = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
-	/* If we can't get a video device: get a muxed device */
-	if (dev == NULL) {
-		NSLog(@"Cannot find video device, will attempt multiplexed audio/video device\n");
-		dev = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeMuxed];
-	}
-	if (dev == NULL) {
-		NSLog(@"Cannot find any video device\n");
-		NSRunAlertPanel(
-			@"Warning",
-			@"No suitable video input device found, reception disabled.", 
-			nil, nil, nil);
-		return;
-	}
-	
-	[self _switchToDevice: dev];
-#endif
 }
 
 - (bool)available
@@ -281,7 +261,7 @@
 		return;
 	}
     [manager newInputStart];
-#if 0
+#if 1
 	double delta = (now-timestamp) / CVGetHostClockFrequency();
 	[manager updateInputOverhead: delta];
 #endif

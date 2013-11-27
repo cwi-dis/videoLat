@@ -10,8 +10,6 @@
 #import "DocumentView.h"
 #import "appDelegate.h"
 
-#define VIDEOLAT_FILE_VERSION @"0.3"
-
 @implementation Document
 @synthesize dataStore;
 @synthesize dataDistribution;
@@ -210,9 +208,10 @@
     NSString *baseName = [self displayName];
 	NSSavePanel *savePanel = [NSSavePanel savePanel];
 	savePanel.title = title;
-	savePanel.nameFieldStringValue = [NSString stringWithFormat: @"%@-%@", baseName, descr];
+	savePanel.nameFieldStringValue = [NSString stringWithFormat: @"%@-%@.csv", baseName, descr];
 	savePanel.allowedFileTypes = @[ @"csv"];
 	savePanel.allowsOtherFileTypes = YES;
+	[savePanel setExtensionHidden: NO];
 	NSInteger rv = [savePanel runModal];
 	if (rv == NSFileHandlingPanelOKButton) {
 		BOOL ok = [csvData writeToURL:savePanel.URL atomically:NO encoding:NSStringEncodingConversionAllowLossy error:&error];
@@ -223,12 +222,6 @@
 		}
 	}
 	return YES;
-#if 0
-	csvData = [self.dataDistribution asCSVString];
-    fileName = [NSString stringWithFormat:@"/tmp/%@-distribution.csv", baseName];
-	[
-	[csvData writeToFile:fileName atomically:NO encoding:NSStringEncodingConversionAllowLossy error:nil];    
-#endif
 }
 
 - (NSString *) asCSVString
@@ -244,7 +237,12 @@
 	[rv appendFormat: @"outputDevice,\"%@\"\n", self.outputDevice];
 	[rv appendFormat: @"description,\"%@\"\n", self.description];
 	[rv appendFormat: @"date,\"%@\"\n", self.date];
-	[rv appendFormat: @"location,\"%@\"\n", self.location];
+	[rv appendFormat: @"min,%g\n", self.dataStore.min];
+	[rv appendFormat: @"max,%g\n", self.dataStore.max];
+	[rv appendFormat: @"average,%g\n", self.dataStore.average];
+	[rv appendFormat: @"stddev,%g\n", self.dataStore.stddev];
+	[rv appendFormat: @"baseMeasurementAverage,%g\n", self.dataStore.baseMeasurementAverage];
+	[rv appendFormat: @"baseMeasurementStddev,%g\n", self.dataStore.baseMeasurementStddev];
 	return rv;
 }
 

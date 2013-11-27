@@ -13,16 +13,7 @@ static double _RoundUpTo125(double value)
     double magnitude;
     magnitude = floor(log10(value));
     value /= pow(10.0, magnitude);
-#if 0
-    if (value < 1.5)
-        value = 1.0;
-    else if (value < 3.5)
-        value = 2.0;
-    else if (value < 7.5)
-        value = 5.0;
-    else
-        value = 10.0;
-#else
+
     if (value < 1.0)
         value = 1.0;
     else if (value < 2.0)
@@ -31,7 +22,7 @@ static double _RoundUpTo125(double value)
         value = 5.0;
     else
         value = 10.0;
-#endif
+
     value *= pow(10.0, magnitude);
     return value;
 }
@@ -91,7 +82,8 @@ static double _RoundUpTo125(double value)
     if (minX < 0) minX = 0;
     
     // Determine Y scale. Go from 0 to at least max, but round up to 1/2/5 first digit.
-    CGFloat minY = 0; // Not source.min;
+    CGFloat minY = self.source.min;
+	if (minY > 0) minY = 0;
     CGFloat maxY = self.source.max;
     CGFloat maxYaxis = (CGFloat)_RoundUpTo125(maxY);
 
@@ -105,21 +97,21 @@ static double _RoundUpTo125(double value)
     
     // Compute the closed path
     NSBezierPath *path = [NSBezierPath bezierPath];
-    CGFloat oldX = minX, oldY = minY;
+    CGFloat oldX = minX, oldY = 0;
     CGFloat newX, newY;
 
     [path moveToPoint: NSMakePoint(oldX, oldY)];
     int i;
     for (i=minX; i<=maxX; i++) {
         newX = oldX + xPixelPerUnit;
-        newY = [[self.source valueForIndex:i] doubleValue] / yPixelPerUnit;
+        newY = ([[self.source valueForIndex:i] doubleValue] - minY) / yPixelPerUnit;
         [path lineToPoint: NSMakePoint(oldX, newY)];
         [path lineToPoint: NSMakePoint(newX, newY)];
         NSLog(@"point %f, %f", newX, newY);
         oldX = newX;
         oldY = newY;
     }
-    [path lineToPoint: NSMakePoint(newX, minY)];
+    [path lineToPoint: NSMakePoint(newX, 0)];
     [path closePath];
     
     [self.color set];

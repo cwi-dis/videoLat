@@ -24,7 +24,7 @@
 @property(readonly) double average;
 @property(readonly) double stddev;
 @property(readonly) int count;
-
+@property(readonly) MeasurementDataStore *dataStore;
 - (uint64_t) now;
 
 - (void) startCollecting: (NSString*)scenario input: (NSString*)inputId name: (NSString*)inputName output:(NSString*)outputId name: (NSString*)outputName;
