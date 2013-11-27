@@ -37,6 +37,9 @@
     bool outputCodeHasBeenReported; // False when output code generated, true when it has been reported to the collector
 
     CIImage *current_qrcode;        // Current code as a CIImage
+    
+    uint64_t prerunDelay;           // How log to wait for prerun code finding
+    int prerunMoreNeeded;           // How many more prerun correct catches we need
 }
 @property(retain) IBOutlet Document *document;
 @property bool mirrored;
@@ -53,6 +56,7 @@
 - (void)reportDataCapturer: (id)capt;
 
 - (void)_triggerNewOutputValue;
+- (void)_prerunCheck;
 
 // MeasurementOutputManagerProtocol
 - (CIImage *)newOutputStart;
