@@ -39,18 +39,3 @@
 - (NSNumber *)valueForIndex: (int) i;
 - (void)useCalibration: (MeasurementDataStore *)calibration;
 @end
-
-@interface MeasurementDistribution : NSObject <GraphDataProviderProtocol> {
-    IBOutlet id <GraphDataProviderProtocol> source;
-    NSMutableArray *store;
-    int binCount;
-    double binSize;
-}
-
-- (MeasurementDistribution *)initWithSource: (MeasurementDataStore *)source;
-- (void)awakeFromNib;
-- (void)setSource: (id) _source;
-- (void)_recompute;
-- (NSNumber *)valueForIndex: (int) i;
-- (NSString *) asCSVString;
-@end

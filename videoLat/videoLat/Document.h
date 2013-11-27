@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "MeasurementDataStore.h"
+#import "MeasurementDistribution.h"
 #import "MeasurementType.h"
 
 @interface Document : NSDocument {
@@ -31,7 +32,7 @@
 
 - (IBAction)newDocumentComplete: (id)sender;
 - (IBAction)export: (id)sender;
-- (BOOL)_exportCSV: (NSString *)csvData forType: (NSString *)descr;
+- (BOOL)_exportCSV: (NSString *)csvData forType: (NSString *)descr title: (NSString *)title;
 - (NSString *) asCSVString;
 - (void)changed;
 - (void)_setCalibrationFileName;

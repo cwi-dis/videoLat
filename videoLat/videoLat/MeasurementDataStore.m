@@ -24,7 +24,6 @@
 - (double) average
 {
     double rv = sum / count;
-	rv -= baseMeasurementAverage;
 	return rv;
 }
 
@@ -32,7 +31,10 @@
 {
     double average = sum / count;
     double variance = (sumSquares / count) - (average*average);
+#if 0
+	// I think this is wrong, on second thought....
 	variance += baseMeasurementStddev*baseMeasurementStddev;
+#endif
     return sqrt(variance);
 }
 
@@ -65,11 +67,6 @@
     inputDevice = [coder decodeObjectForKey: @"inputName"];
     outputDeviceID = [coder decodeObjectForKey: @"outputID"];
     outputDevice = [coder decodeObjectForKey: @"outputName"];
-#if 0
-    description = [coder decodeObjectForKey: @"description"];
-    time = [coder decodeObjectForKey: @"time"];
-    location = [coder decodeObjectForKey: @"location"];
-#endif
     sum = [coder decodeDoubleForKey:@"sum"];
     sumSquares = [coder decodeDoubleForKey:@"sumSquares"];
     min = [coder decodeDoubleForKey:@"min"];
@@ -91,11 +88,6 @@
     [coder encodeObject:inputDevice forKey: @"inputName"];
     [coder encodeObject:outputDeviceID forKey: @"outputID"];
     [coder encodeObject:outputDevice forKey: @"outputName"];
-#if 0
-    [coder encodeObject:description forKey: @"description"];
-    [coder encodeObject:time forKey: @"time"];
-    [coder encodeObject:location forKey: @"location"];
-#endif
     [coder encodeDouble: baseMeasurementAverage forKey: @"baseMeasurementAverage"];
     [coder encodeDouble: baseMeasurementStddev forKey: @"baseMeasurementStddev"];
     [coder encodeObject: baseMeasurementID forKey: @"baseMeasurementID"];
@@ -111,6 +103,11 @@
 
 - (void)useCalibration: (MeasurementDataStore *)calibration
 {
+	if (store && [store count]) {
+		// Too late, data values entered already...
+		NSLog(@"MeasurementDataStore: attempt to set calibration after data has been collected already! Programmer error...\n");
+		return;
+	}
 	baseMeasurementAverage = calibration.average;
 	baseMeasurementStddev = calibration.stddev;
 	baseMeasurementID = [NSString stringWithFormat:@"%@ (%@ to %@)", calibration.measurementType, calibration.outputDevice, calibration.inputDevice];
@@ -118,7 +115,8 @@
 
 - (void) addDataPoint: (NSString*) data sent: (uint64_t)sent received: (uint64_t) received
 {
-	uint64_t delay = received - sent;
+	int64_t delay = received - sent;
+	delay -= (int64_t)baseMeasurementAverage;
     sum += delay;
     sumSquares += (delay * delay);
     if (count == 0 || delay < min) min = delay;
@@ -163,7 +161,7 @@
 	count = (int)[store count];
 	min = max = [[[store objectAtIndex:0] objectForKey:@"delay"] longLongValue];
 	for (NSDictionary *item in store) {
-		uint64_t delay = [[item objectForKey:@"delay"] longLongValue];
+		int64_t delay = [[item objectForKey:@"delay"] longLongValue];
 		sum += delay;
 		sumSquares += (delay * delay);
 		if (delay < min) min = delay;
@@ -184,106 +182,7 @@
 
 - (NSNumber *)valueForIndex: (int) i
 {
-	return [[store objectAtIndex:i] objectForKey:@"delay"];
+	NSNumber *delay = [[store objectAtIndex:i] objectForKey:@"delay"];
+	return delay;
 }
-@end
-
-@implementation MeasurementDistribution
-
-- (MeasurementDistribution *) init
-{
-    self = [super init];
-    if (self) {
-        store = nil;
-        source = nil;
-        binCount = 100;
-        binSize = 0;
-    }
-    return self;
-}
-
-- (MeasurementDistribution *)initWithSource: (MeasurementDataStore *)_source
-{
-    self = [self init];
-    if (self) {
-        [self setSource: _source];
-    }
-    return self;
-}
-
-- (void)awakeFromNib
-{
-    [self _recompute];
-}
-
-- (void)setSource: (id) _source
-{
-    source = _source;
-    store = [[NSMutableArray alloc] initWithCapacity:binCount];
-    for (int i=0; i<binCount; i++)
-        [store addObject:[NSNumber numberWithDouble:0]];
-    [self _recompute];
-}
-
-- (void)_recompute
-{
-    double sourceMin = source.min;
-    double sourceMax = source.max;
-    sourceMin = 0; // For now we want distribution plots to start at 0.0
-    binSize = (sourceMax - sourceMin) / (binCount-1);
-    int sourceCount = source.count;
-    for (int i=0; i < sourceCount; i++) {
-        double value = [[source valueForIndex: i] doubleValue];
-        int binIndex = (int)(value / binSize);
-        double binValue = [[store objectAtIndex: binIndex] doubleValue];
-        binValue += 1.0 / sourceCount;
-        [store replaceObjectAtIndex:binIndex  withObject:[NSNumber numberWithDouble:binValue]];
-    }
-    
-}
-
-- (double) min
-{
-    return 0;
-}
-
-- (int) count
-{
-    return (int)[store count];
-}
-
-- (double) max
-{
-    double rv = 0;
-    for (NSNumber *item in store) {
-        double value = [item doubleValue];
-        if (value > rv) rv = value;
-    }
-    return rv;
-}
-
-- (NSNumber *)valueForIndex: (int) i
-{
-    return [store objectAtIndex:i];
-}
-- (NSString *) asCSVString
-{
-	NSMutableString *rv;
-	rv = [NSMutableString stringWithCapacity: 0];
-	[rv appendString:@"lowerBound,upperBound,binValue\n"];
-    double sourceMin = source.min;
-    double sourceMax = source.max;
-    sourceMin = 0; // For now we want distribution plots to start at 0.0
-    binSize = (sourceMax - sourceMin) / (binCount-1);
-	double lwb = sourceMin;
-    for (NSNumber *item in store) {
-		double upb = lwb + binSize;
-        double value = [item doubleValue];
-		[rv appendFormat:@"%f,%f,%f\n", lwb, upb, value];
-		lwb = upb;
-	}
-	return rv;
-}
-
-
 @end

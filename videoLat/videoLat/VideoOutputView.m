@@ -155,18 +155,14 @@ MyScreenRefreshCallback(CGRectCount count, const CGRect *rects, void *userArg)
 		if (CGRectIntersectsRect(ourRect, *rectArray)) {
 			//NSLog(@"Did redraw for our output window\n");
 			newOutputDone = false;
-			// Find how much longer until the beam retraces
-#if 0
-            // Always assume main display
-			CGDirectDisplayID display = CGMainDisplayID();
-#else
+
             // Use display that has upperleft pixel of our rect
             CGDirectDisplayID display;
             uint32_t count;
             CGError err = CGGetDisplaysWithPoint(ourRect.origin, 1, &display, &count);
             assert(err == 0);
             if(count == 0) return;
-#endif
+
 			CGDisplayModeRef mode = CGDisplayCopyDisplayMode(display);
 			double rate = CGDisplayModeGetRefreshRate(mode);
             if (rate > 0) {

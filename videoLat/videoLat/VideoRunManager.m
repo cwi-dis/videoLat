@@ -111,7 +111,7 @@
 				errorMessage = [NSString stringWithFormat:@"Base measurement uses input %@, current measurement uses %@", baseStore.inputDevice, capturer.deviceName];
 			}
 			if (![baseStore.outputDeviceID isEqualToString:outputView.deviceID]) {
-				errorMessage = [NSString stringWithFormat:@"Base measurement uses output %@, current measurement uses %@", baseStore.inputDevice, outputView.deviceName];
+				errorMessage = [NSString stringWithFormat:@"Base measurement uses output %@, current measurement uses %@", baseStore.outputDevice, outputView.deviceName];
 			}
 		}
 		if (errorMessage) {
@@ -124,9 +124,9 @@
 			if (button == NSAlertDefaultReturn)
 				return;
 		}
+		[collector.dataStore useCalibration:baseStore];
 			
 	}
-	// XXXJACK Disable measurement selection button in RunTypeView
 	[selectionView.bPreRun setEnabled: NO];
 	[selectionView.bRun setEnabled: NO];
 	if (statusView) {
@@ -204,11 +204,6 @@
             CGSize size = {480, 480};
             newImage = [CIImage imageWithBitmapData:data bytesPerRow:4*480 size:size format: kCIFormatARGB8 colorSpace: nil];
             current_qrcode = newImage;
-#if 0
-            // Debug: detect our own QRcode
-            bool found = [finder find: bitmapdata width: 640 height: 480 format: "RGB4" size:640*480*4];
-            NSLog(@"QRcode finder test returned %d", (int)found);
-#endif
         }
         return newImage;
     }
@@ -285,7 +280,6 @@
 			if (strcmp(code, [outputCode UTF8String]) == 0) {
 				// outputStartTime = 0;
 				// Correct. Prepare for creating a new QRcode.
-				//XXX [self performSelectorOnMainThread: @selector(_triggerNewOutputValue) withObject: nil waitUntilDone: NO];
 				if (current_qrcode == nil) {
 					// We found the last one already, don't count it again.
 					return;

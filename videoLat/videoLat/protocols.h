@@ -11,6 +11,9 @@
 
 #import <Cocoa/Cocoa.h>
 
+// This constant needs to go somewhere...
+#define VIDEOLAT_FILE_VERSION @"0.3"
+
 // Protocol for an object that finds patterns in an input buffer
 @protocol InputVideoFindProtocol
 @property(readonly) NSRect rect;
@@ -25,8 +28,6 @@
 
 // Protocol for an object that is responsible for displaying patterns
 @protocol OutputVideoViewProtocol
-//XYZZY @property BOOL mirrored;
-//XYZZY @property BOOL visible;
 @property (readonly) NSString* deviceID;
 @property (readonly) NSString* deviceName;
 - (void) showNewData;
