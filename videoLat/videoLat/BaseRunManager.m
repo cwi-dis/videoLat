@@ -13,6 +13,9 @@ static NSMutableDictionary *runManagerNibs;
 
 @implementation BaseRunManager
 
+@synthesize running;
+@synthesize preRunning;
+
 + (void)initialize
 {
     runManagerClasses = [[NSMutableDictionary alloc] initWithCapacity:10];
@@ -115,10 +118,4 @@ static NSMutableDictionary *runManagerNibs;
 {
 	[NSException raise:@"BaseRunManager" format:@"Must override newInputDone in subclass"];
 }
-
-
-
-
-@synthesize running;
-
 @end

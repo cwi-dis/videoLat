@@ -36,10 +36,6 @@
     NSString *oldType = [[NSUserDefaults standardUserDefaults] stringForKey:@"measurementType"];
     if (oldType && [[bType itemWithTitle: oldType] isEnabled])
         [bType selectItemWithTitle: oldType];
-	NSLog(@"outputContainerView=%@\n", self.outputContainerView);
-	NSLog(@"selectionContainerView=%@\n", self.selectionContainerView);
-	NSLog(@"outputView=%@\n", self.outputView);
-	NSLog(@"selectionView=%@\n", self.selectionView);
 	if (self.outputContainerView) {
 		for (NSView *subView in [self.outputContainerView subviews])
 			[subView removeFromSuperview];

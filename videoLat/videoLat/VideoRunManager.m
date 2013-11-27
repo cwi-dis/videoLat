@@ -10,6 +10,12 @@
 #import "FindQRCodes.h"
 #import "GenQRCodes.h"
 
+//
+// Prerun parameters.
+// We want 10 consecutive catches, and we initially start with a 1ms delay (doubled at every failure)
+#define PRERUN_COUNT 10
+#define PRERUN_INITIAL_DELAY 1000
+
 @implementation VideoRunManager
 @synthesize mirrored;
 
@@ -132,12 +138,24 @@
 	if (statusView) {
 		[statusView.bStop setEnabled: NO];
 	}
-	// XXXJACK premeasuring not yet implemented.
-	[self stopPreMeasuring: self];
+#if 0
+    // Do actual prerunning
+    prerunDelay = PRERUN_INITIAL_DELAY; // Start with 1ms delay (ridiculously low)
+    prerunMoreNeeded = PRERUN_COUNT;
+    self.preRunning = YES;
+    [capturer startCapturing];
+    outputView.mirrored = self.mirrored;
+    [self _triggerNewOutputValue];
+#else
+    // Forget about premeasuring
+    [self stopPreMeasuring:self];
+#endif
 }
 
 - (IBAction)stopPreMeasuring: (id)sender
 {
+    self.preRunning = NO;
+    [capturer stopCapturing];
 	[selectionView.bPreRun setEnabled: NO];
 	[selectionView.bRun setEnabled: YES];
 	if (!statusView) {
@@ -156,7 +174,6 @@
 		}
 		[statusView.bStop setEnabled: YES];
         self.running = YES;
-        self.mirrored = NO;
         [capturer startCapturing];
         [collector startCollecting: self.measurementType.name input: capturer.deviceID name: capturer.deviceName output: outputView.deviceID name: outputView.deviceName];
         outputView.mirrored = self.mirrored;
@@ -169,7 +186,7 @@
 {
     @synchronized(self) {
         CIImage *newImage = nil;
-        if (!self.running) {
+        if (!self.running && !self.preRunning) {
             newImage = [CIImage imageWithColor:[CIColor colorWithRed:0.1 green:0.4 blue:0.5]];
             CGRect rect = {0, 0, 480, 480};
             newImage = [newImage imageByCroppingToRect: rect];
@@ -183,7 +200,7 @@
             newImage = current_qrcode;
         } else {
             outputCode = [NSString stringWithFormat:@"%lld", outputStartTime];
-            assert(outputCodeHasBeenReported);
+            if (self.running) assert(outputCodeHasBeenReported);
             outputCodeHasBeenReported = false;
             if (delegate && [delegate respondsToSelector:@selector(newOutput:)]) {
                 NSString *new = [delegate newOutput: outputCode];
@@ -214,13 +231,15 @@
     @synchronized(self) {
         if (outputStartTime == 0 || outputCodeHasBeenReported) return;
         assert(outputAddedOverhead < [collector now]);
-        assert(strcmp([outputCode UTF8String], "BadCookie") != 0);
+        if (self.running) assert(strcmp([outputCode UTF8String], "BadCookie") != 0);
 		uint64_t outputTime = [collector now] - outputAddedOverhead;
-		if (self.running)
+		if (self.running) {
 			[collector recordTransmission: outputCode at: outputTime];
-        outputCodeHasBeenReported = true;
-        outputStartTime = 0;
-        outputAddedOverhead = 0;
+            outputCodeHasBeenReported = true;
+            outputStartTime = 0;
+            outputAddedOverhead = 0;
+
+        }
     }
 }
 
@@ -259,6 +278,23 @@
 {
     @synchronized(self) {
         inputStartTime = 0;
+        if (self.preRunning) {
+            [self _prerunCheck];
+        }
+    }
+}
+
+- (void) _prerunCheck
+{
+    if (outputStartTime > 0 && [collector now] - outputStartTime > prerunDelay) {
+        // No data found within alotted time. Double the time, reset the count, change mirroring
+        NSLog(@"outputStartTime=%llu, prerunDelay=%llu, mirrored=%d\n", outputStartTime, prerunDelay, self.mirrored);
+        prerunDelay *= 2;
+        prerunMoreNeeded = PRERUN_COUNT;
+        self.mirrored = !self.mirrored;
+        outputView.mirrored = self.mirrored;
+        outputStartTime = 0;
+        [self performSelectorOnMainThread: @selector(_triggerNewOutputValue) withObject: nil waitUntilDone: NO];
     }
 }
 
@@ -275,8 +311,7 @@
         char *code = [finder find: buffer width: w height: h format: formatStr size:size];
         BOOL foundQRcode = (code != NULL);
         if (foundQRcode) {
-			// If we are in automatic mode, we compare the code to what was
-			// expected.
+			// Compare the code to what was expected.
 			if (strcmp(code, [outputCode UTF8String]) == 0) {
 				// outputStartTime = 0;
 				// Correct. Prepare for creating a new QRcode.
@@ -286,8 +321,10 @@
 				}
 				current_qrcode = nil;
 				lastOutputCode = outputCode;
-				assert(outputCodeHasBeenReported);
-				outputCode = [NSString stringWithFormat: @"BadCookie"];
+				if (self.running) {
+                    assert(outputCodeHasBeenReported);
+                    outputCode = [NSString stringWithFormat: @"BadCookie"];
+                }
 			} else if (strcmp(code, [lastOutputCode UTF8String]) == 0) {
 				// We have received the previous code again. Ignore.
 				//NSLog(@"Same old code again: %s", code);
@@ -301,8 +338,16 @@
 			}
             if (!lastInputCode || strcmp(code, [lastInputCode UTF8String]) != 0) {
                 lastInputCode = [NSString stringWithUTF8String: code];
-				if (self.running)
+				if (self.running) {
 					[collector recordReception: lastInputCode at: inputStartTime-inputAddedOverhead];
+                }
+                if (self.preRunning) {
+                    prerunMoreNeeded -= 1;
+                    NSLog(@"preRunMoreMeeded=%d\n", prerunMoreNeeded);
+                    if (prerunMoreNeeded == 0) {
+                        [self performSelectorOnMainThread: @selector(stopPreMeasuring:) withObject: self waitUntilDone: NO];
+                    }
+                }
             }
             inputAddedOverhead = 0;
             // Remember rectangle (for black/white detection)
@@ -310,13 +355,16 @@
             [self performSelectorOnMainThread: @selector(_triggerNewOutputValue) withObject: nil waitUntilDone: NO];
         } else {
             inputAddedOverhead = 0;
+            if (self.preRunning) {
+                [self _prerunCheck];
+            }
         }
         inputStartTime = 0;
 		if (self.running) {
 			statusView.detectCount = [NSString stringWithFormat: @"%d", collector.count];
 			statusView.detectAverage = [NSString stringWithFormat: @"%.3f ms ± %.3f", collector.average / 1000.0, collector.stddev / 1000.0];
+            [statusView update: self];
 		}
-        [statusView update: self];
     }
 }
 
