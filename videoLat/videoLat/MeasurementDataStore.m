@@ -266,4 +266,24 @@
 {
     return [store objectAtIndex:i];
 }
+- (NSString *) asCSVString
+{
+	NSMutableString *rv;
+	rv = [NSMutableString stringWithCapacity: 0];
+	[rv appendString:@"lowerBound,upperBound,binValue\n"];
+    double sourceMin = source.min;
+    double sourceMax = source.max;
+    sourceMin = 0; // For now we want distribution plots to start at 0.0
+    binSize = (sourceMax - sourceMin) / (binCount-1);
+	double lwb = sourceMin;
+    for (NSNumber *item in store) {
+		double upb = lwb + binSize;
+        double value = [item doubleValue];
+		[rv appendFormat:@"%f,%f,%f\n", lwb, upb, value];
+		lwb = upb;
+	}
+	return rv;
+}
+
+
 @end

@@ -52,4 +52,5 @@
 - (void)setSource: (id) _source;
 - (void)_recompute;
 - (NSNumber *)valueForIndex: (int) i;
+- (NSString *) asCSVString;
 @end
