@@ -40,10 +40,14 @@
 
 - (uint64_t)now
 {
+#if 0
     mach_timebase_info_data_t info;
     if (mach_timebase_info(&info) != KERN_SUCCESS) return -1;
     int64_t now_mach = mach_absolute_time();
     int64_t now_nano = now_mach * info.numer / info.denom;
+#else
+    int64_t now_nano = CVGetCurrentHostTime();
+#endif
     int64_t now_micro = now_nano / 1000LL;
     return now_micro - epoch;
 }
@@ -57,31 +61,33 @@
 	dataStore.outputDeviceID = outputId;
 }
 
-- (void) recordTransmission: (NSString*)data at: (uint64_t)now
+- (BOOL) recordTransmission: (NSString*)data at: (uint64_t)now
 {
     lastTransmission = data;
     lastTransmissionTime = now;
     lastTransmissionReceived = NO;
+    return YES;
 }
 
-- (void) recordReception: (NSString*)data at: (uint64_t)time
+- (BOOL) recordReception: (NSString*)data at: (uint64_t)time
 {
     if (lastTransmission == nil) {
         NSLog(@"Collector: received %@ before any transmission", data);
-        return;
+        return NO;
     }
     if ([lastTransmission isEqualToString:data]) {
         if (time < lastTransmissionTime) {
             NSLog(@"Collector: received %@ at %lld, which is earlier than transmit time %lld", data, time, lastTransmissionTime);
-            return;
+            return NO;
         }
         if (!lastTransmissionReceived) {
             lastTransmissionReceived = YES;
             [dataStore addDataPoint: data sent: lastTransmissionTime received: time];
         }
-    } else {
-        NSLog(@"Collector: received %@, expected %@", data, lastTransmission);
+        return YES;
     }
+    NSLog(@"Collector: received %@, expected %@", data, lastTransmission);
+    return NO;
 }
 
 - (void)stopCollecting
