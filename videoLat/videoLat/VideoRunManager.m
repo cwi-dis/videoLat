@@ -138,7 +138,7 @@
 	if (statusView) {
 		[statusView.bStop setEnabled: NO];
 	}
-#if 0
+#if 1
     // Do actual prerunning
     prerunDelay = PRERUN_INITIAL_DELAY; // Start with 1ms delay (ridiculously low)
     prerunMoreNeeded = PRERUN_COUNT;
@@ -235,11 +235,10 @@
 		uint64_t outputTime = [collector now] - outputAddedOverhead;
 		if (self.running) {
 			[collector recordTransmission: outputCode at: outputTime];
-            outputCodeHasBeenReported = true;
-            outputStartTime = 0;
-            outputAddedOverhead = 0;
-
         }
+        outputCodeHasBeenReported = true;
+        outputStartTime = 0;
+        outputAddedOverhead = 0;
     }
 }
 
@@ -279,23 +278,40 @@
     @synchronized(self) {
         inputStartTime = 0;
         if (self.preRunning) {
-            [self _prerunCheck];
+            [self _prerunRecordNoReception];
         }
     }
 }
 
-- (void) _prerunCheck
+- (void) _prerunRecordNoReception
 {
-    if (outputStartTime > 0 && [collector now] - outputStartTime > prerunDelay) {
+#if 1
+    NSLog(@"Prerun no reception\n");
+    if ([collector now] - outputStartTime > prerunDelay) {
         // No data found within alotted time. Double the time, reset the count, change mirroring
         NSLog(@"outputStartTime=%llu, prerunDelay=%llu, mirrored=%d\n", outputStartTime, prerunDelay, self.mirrored);
-        prerunDelay *= 2;
+        prerunDelay += (prerunDelay/4);
         prerunMoreNeeded = PRERUN_COUNT;
         self.mirrored = !self.mirrored;
         outputView.mirrored = self.mirrored;
         outputStartTime = 0;
         [self performSelectorOnMainThread: @selector(_triggerNewOutputValue) withObject: nil waitUntilDone: NO];
+    } 
+#endif
+}
+
+- (void) _prerunRecordReception: (NSString *)code
+{
+#if 1
+    NSLog(@"prerun reception %@\n", code);
+    if (self.preRunning) {
+        prerunMoreNeeded -= 1;
+        NSLog(@"preRunMoreMeeded=%d\n", prerunMoreNeeded);
+        if (prerunMoreNeeded == 0) {
+            [self performSelectorOnMainThread: @selector(stopPreMeasuring:) withObject: self waitUntilDone: NO];
+        }
     }
+#endif
 }
 
 - (void) newInputDone: (void*)buffer width: (int)w height: (int)h format: (const char*)formatStr size: (int)size
@@ -340,13 +356,8 @@
                 lastInputCode = [NSString stringWithUTF8String: code];
 				if (self.running) {
 					[collector recordReception: lastInputCode at: inputStartTime-inputAddedOverhead];
-                }
-                if (self.preRunning) {
-                    prerunMoreNeeded -= 1;
-                    NSLog(@"preRunMoreMeeded=%d\n", prerunMoreNeeded);
-                    if (prerunMoreNeeded == 0) {
-                        [self performSelectorOnMainThread: @selector(stopPreMeasuring:) withObject: self waitUntilDone: NO];
-                    }
+                } else if (self.preRunning) {
+                    [self _prerunRecordReception: lastInputCode];
                 }
             }
             inputAddedOverhead = 0;
@@ -356,7 +367,7 @@
         } else {
             inputAddedOverhead = 0;
             if (self.preRunning) {
-                [self _prerunCheck];
+                [self _prerunRecordNoReception];
             }
         }
         inputStartTime = 0;

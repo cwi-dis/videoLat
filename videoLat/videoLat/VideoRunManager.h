@@ -56,7 +56,8 @@
 - (void)reportDataCapturer: (id)capt;
 
 - (void)_triggerNewOutputValue;
-- (void)_prerunCheck;
+- (void) _prerunRecordNoReception;
+- (void) _prerunRecordReception: (NSString *)code;
 
 // MeasurementOutputManagerProtocol
 - (CIImage *)newOutputStart;

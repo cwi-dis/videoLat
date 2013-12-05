@@ -31,6 +31,6 @@
 - (void) stopCollecting;
 - (void) trim;
 
-- (void) recordTransmission: (NSString*)data at: (uint64_t)now;
-- (void) recordReception: (NSString*)data at: (uint64_t)now;
+- (BOOL) recordTransmission: (NSString*)data at: (uint64_t)now;
+- (BOOL) recordReception: (NSString*)data at: (uint64_t)now;
 @end

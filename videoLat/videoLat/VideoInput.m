@@ -254,7 +254,13 @@
         return;
     }
     CMTime timestampCMT = CMSampleBufferGetPresentationTimeStamp(sampleBuffer);
+    CMTime timestampCMD = CMSampleBufferGetDecodeTimeStamp(sampleBuffer);
+    CMTime timestampCMOT = CMSampleBufferGetOutputPresentationTimeStamp(sampleBuffer);
+    CMTime timestampCMOD = CMSampleBufferGetOutputDecodeTimeStamp(sampleBuffer);
     timestampCMT = CMTimeConvertScale(timestampCMT, 1000000000, kCMTimeRoundingMethod_Default);
+    timestampCMD = CMTimeConvertScale(timestampCMD, 1000000000, kCMTimeRoundingMethod_Default);
+    timestampCMOT = CMTimeConvertScale(timestampCMOT, 1000000000, kCMTimeRoundingMethod_Default);
+    timestampCMOD = CMTimeConvertScale(timestampCMOD, 1000000000, kCMTimeRoundingMethod_Default);
     UInt64 timestamp = timestampCMT.value;
 	if (timestamp > now) {
 		NSLog(@"iSight: dropping frame with timestamp %lld which is %lldns in the future", timestamp, timestamp-now);
