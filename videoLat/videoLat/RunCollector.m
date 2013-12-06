@@ -12,6 +12,7 @@
 #import <mach/mach.h>
 #import <mach/mach_time.h>
 #import <CoreServices/CoreServices.h>
+#import <QuartzCore/QuartzCore.h>
 #import <sys/time.h>
 
 @implementation RunCollector

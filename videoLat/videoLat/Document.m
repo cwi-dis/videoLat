@@ -49,11 +49,14 @@
         self.dataStore = [[MeasurementDataStore alloc] init];
         objectsForNewDocument = nil;
 		BOOL ok;
+#if __MAC_OS_X_VERSION_MAX_ALLOWED >= 1080
 		if ([[NSBundle mainBundle] respondsToSelector:@selector(loadNibNamed:owner:topLevelObjects:)]) {
 			NSArray *newObjects;
 			ok = [[NSBundle mainBundle] loadNibNamed: @"NewMeasurement" owner: self topLevelObjects: &newObjects];
 			objectsForNewDocument = newObjects;
-		} else {
+		} else
+#endif
+		{
 			ok = [NSBundle loadNibNamed:@"NewMeasurement" owner:self];
 			objectsForNewDocument = [[NSMutableArray alloc] init];
 		}
