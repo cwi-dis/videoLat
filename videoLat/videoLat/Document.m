@@ -30,7 +30,7 @@
     self = [super init];
     if (self) {
 		// Add your subclass-specific initialization here.
-        NSLog(@"Document init\n");
+        if (VL_DEBUG) NSLog(@"Document init\n");
     }
     return self;
 }
@@ -45,7 +45,7 @@
 {
     self = [super initWithType: typeName error: outError];
     if (self) {
-        NSLog(@"initWithType: %@\n", typeName);
+        if (VL_DEBUG) NSLog(@"initWithType: %@\n", typeName);
         self.dataStore = [[MeasurementDataStore alloc] init];
         objectsForNewDocument = nil;
 		BOOL ok;
@@ -57,7 +57,7 @@
 			ok = [NSBundle loadNibNamed:@"NewMeasurement" owner:self];
 			objectsForNewDocument = [[NSMutableArray alloc] init];
 		}
-        NSLog(@"Loaded NewMeasurement: %d, objects %@\n", (int)ok, objectsForNewDocument);
+        if (VL_DEBUG) NSLog(@"Loaded NewMeasurement: %d, objects %@\n", (int)ok, objectsForNewDocument);
     }
     return self;
 }
@@ -85,7 +85,7 @@
 
 - (IBAction)newDocumentComplete: (id)sender
 {
-    NSLog(@"New document complete\n");
+    if (VL_DEBUG) NSLog(@"New document complete\n");
     objectsForNewDocument = nil;
     // Keep the data
 	self.dataDistribution = [[MeasurementDistribution alloc] initWithSource:self.dataStore];
@@ -154,7 +154,6 @@
     NSString *str;
     str = [dict objectForKey:@"videoLat"];
     if (![str isEqualToString:@"videoLat"]) {
-        NSLog(@"This is not a videoLat file\n");
         if (outError) {
             *outError = [[NSError alloc] initWithDomain:NSCocoaErrorDomain code:NSFileReadCorruptFileError
                                                userInfo:@{NSLocalizedDescriptionKey : @"This is not a videoLat file"}];
@@ -163,7 +162,6 @@
     }
     str = [dict objectForKey:@"version"];
     if (![str isEqualToString:VIDEOLAT_FILE_VERSION]) {
-        NSLog(@"This is not a version %@ videoLat file\n", VIDEOLAT_FILE_VERSION);
         if (outError) {
             *outError = [[NSError alloc] initWithDomain:NSCocoaErrorDomain code:NSFileReadCorruptFileError
                                                userInfo:@{NSLocalizedDescriptionKey : @"Unsupported videoLat version file"}];

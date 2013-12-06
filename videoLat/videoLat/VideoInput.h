@@ -35,7 +35,7 @@
 - (NSArray*) deviceNames;
 - (void)_switchToDevice: (AVCaptureDevice*)dev;
 - (BOOL)switchToDeviceWithName: (NSString *)name;
-- (void) startCapturing;
+- (void) startCapturing: (BOOL) showPreview;
 - (void) stopCapturing;
 
 

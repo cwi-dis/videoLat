@@ -93,7 +93,7 @@ static double _RoundUpTo125(double value)
 	if (self.bMaxX) self.bMaxX.stringValue = [NSString stringWithFormat:self.maxXformat, maxXaxis * [self.maxXscale floatValue]];
 	if (self.bMaxY) self.bMaxY.stringValue = [NSString stringWithFormat:self.maxYformat, maxYaxis * [self.maxYscale floatValue]];
 
-    NSLog(@"%d < x < %d (scale=%f, axis=%f) %f < y < %f (scale=%f, axis=%f)\n", minX, maxX, xPixelPerUnit, maxXaxis, minY, maxY, yPixelPerUnit, maxYaxis);
+    if (VL_DEBUG) NSLog(@"%d < x < %d (scale=%f, axis=%f) %f < y < %f (scale=%f, axis=%f)\n", minX, maxX, xPixelPerUnit, maxXaxis, minY, maxY, yPixelPerUnit, maxYaxis);
     
     // Compute the closed path
     NSBezierPath *path = [NSBezierPath bezierPath];
@@ -107,7 +107,7 @@ static double _RoundUpTo125(double value)
         newY = ([[self.source valueForIndex:i] doubleValue] - minY) / yPixelPerUnit;
         [path lineToPoint: NSMakePoint(oldX, newY)];
         [path lineToPoint: NSMakePoint(newX, newY)];
-        NSLog(@"point %f, %f", newX, newY);
+        if (VL_DEBUG) NSLog(@"point %f, %f", newX, newY);
         oldX = newX;
         oldY = newY;
     }

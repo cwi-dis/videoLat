@@ -26,7 +26,7 @@
 
 - (void)_updateCameraNames: (NSNotification*) notification
 {
-    NSLog(@"Cameras changed\n");
+    if (VL_DEBUG) NSLog(@"Cameras changed\n");
     // Remember the old selection (if any)
     NSString *oldCam = nil;
 	NSMenuItem *oldItem = [self.bCameras selectedItem];

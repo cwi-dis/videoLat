@@ -72,7 +72,7 @@ MyScreenRefreshCallback(CGRectCount count, const CGRect *rects, void *userArg)
     io_service_t displayPort = CGDisplayIOServicePort(aID);
     NSDictionary *dict = (NSDictionary *)CFBridgingRelease(IODisplayCreateInfoDictionary(displayPort, 0));
     NSDictionary *names = [dict objectForKey:[NSString stringWithUTF8String:kDisplayProductName]];
-	NSLog(@"Names %@", names);
+	if (VL_DEBUG) NSLog(@"Names %@", names);
     if([names count])
 		rv = [names objectForKey:[[names allKeys] objectAtIndex:0]];
     return rv;
@@ -82,7 +82,7 @@ MyScreenRefreshCallback(CGRectCount count, const CGRect *rects, void *userArg)
 {
     NSInteger state = [sender state];
     state = (state == NSOffState) ? NSOnState : NSOffState;
-    NSLog(@"Fullscreen now %d\n", (int)state);
+    if (VL_DEBUG) NSLog(@"Fullscreen now %d\n", (int)state);
     [sender setState: state];
     if (state == NSOnState) {
         [self enterFullScreenMode: [NSScreen mainScreen] withOptions:nil];
@@ -116,7 +116,6 @@ MyScreenRefreshCallback(CGRectCount count, const CGRect *rects, void *userArg)
 
 - (void)drawRect:(NSRect)dirtyRect {
     // Drawing code here.
-    //NSLog(@"outputView willDisplayImage\n");
     CIImage *newImage = [manager newOutputStart];
     assert(newImage);
     if (mirrored) {
@@ -153,7 +152,6 @@ MyScreenRefreshCallback(CGRectCount count, const CGRect *rects, void *userArg)
 	ourRect.origin.y = mainScreenFrame.size.height - (frame.size.height + frame.origin.y);
 	while (count--) {
 		if (CGRectIntersectsRect(ourRect, *rectArray)) {
-			//NSLog(@"Did redraw for our output window\n");
 			newOutputDone = false;
 
             // Use display that has upperleft pixel of our rect

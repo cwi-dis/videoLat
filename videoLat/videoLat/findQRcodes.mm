@@ -32,7 +32,6 @@
 	int rv;
 	rv = scanner->set_config(zbar::ZBAR_NONE, zbar::ZBAR_CFG_ENABLE, 0);
 	if (rv) {
-		NSLog(@"findQRcodes: set_config(0) returned %d.", rv);
 		NSRunAlertPanel(
 			@"Error",
 			@"findQRcodes: set_config(0) returned %d.", 
@@ -41,7 +40,6 @@
 	}
 	rv = scanner->set_config(zbar::ZBAR_QRCODE, zbar::ZBAR_CFG_ENABLE, 1);
 	if (rv) {
-		NSLog(@"findQRcodes: set_config(QRCODE) returned %d", rv);
 		NSRunAlertPanel(
 			@"Error",
 			@"findQRcodes: set_config(QRCODE) returned %d.", 
@@ -62,8 +60,7 @@
 
 - (char*) find: (void*)buffer width: (int)width height: (int)height format:(const char *)format size:(int)size
 {
-//  NSLog(@"Find in 0x%x size %dx%d\n", buffer, width, height);
-    zbar::ImageScanner *scanner = reinterpret_cast<zbar::ImageScanner *>(scanner_hidden);    
+    zbar::ImageScanner *scanner = reinterpret_cast<zbar::ImageScanner *>(scanner_hidden);
 
 	zbar::Image image(width, height, format, buffer, size);
 	zbar::Image greyImage = image.convert(fourcc('Y', '8', '0', '0'));
@@ -76,7 +73,6 @@
 			++symbol)
 		{
 			std::string decoded = symbol->get_data();
-//			NSLog(@"Found QRCode %s\n", decoded.c_str());
             int x=0, y=0, i=0;
             int minx=9999, maxx=-1, miny=9999, maxy=-1;
             do {
@@ -88,7 +84,6 @@
                 if (x>maxx) maxx = x;
                 if (y>maxy) maxy = y;
                 i++;
-//                NSLog(@"  Corner (%d, %d)\n", x,y);
             } while (x>=0 && y>=0);
             if (i >= 3) 
                 rect = NSMakeRect(minx, miny, (maxx-minx), (maxy-miny));
@@ -96,7 +91,6 @@
             lastCode = strdup(decoded.c_str());
 			return lastCode;
 		}
-        NSLog(@"QRCode detection: was promised %d symbols but found none??", n);
 		NSRunAlertPanel(
 			@"Error",
 			@"QRCode detection: was promised %d symbols but found none??", 

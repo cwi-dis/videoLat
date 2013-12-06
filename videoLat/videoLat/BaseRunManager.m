@@ -30,7 +30,7 @@ static NSMutableDictionary *runManagerNibs;
         NSLog(@"BaseRunManager: attempt to set class for %@ to %@ but ist was already set to %@\n", name, managerClass, oldClass);
         abort();
     }
-    NSLog(@"BaseRunManager: Register %@ for %@\n", managerClass, name);
+    if (VL_DEBUG) NSLog(@"BaseRunManager: Register %@ for %@\n", managerClass, name);
     [runManagerClasses setObject:managerClass forKey:name];
 }
 
@@ -46,7 +46,7 @@ static NSMutableDictionary *runManagerNibs;
         NSLog(@"BaseRunManager: attempt to set Nib for %@ to %@ but it was already set to %@\n", name, nibName, oldNib);
         abort();
     }
-    NSLog(@"BaseRunManager: Register %@ for %@\n", nibName, name);
+    if (VL_DEBUG) NSLog(@"BaseRunManager: Register %@ for %@\n", nibName, name);
     [runManagerNibs setObject:nibName forKey:name];
 }
 
