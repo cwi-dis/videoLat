@@ -24,13 +24,13 @@
 - (void)mouseDown: (NSEvent *)theEvent
 {
 	downPoint = [theEvent locationInWindow];
-	NSLog(@"Mouse down (%d,%d)\n", (int)downPoint.x, (int)downPoint.y);
+	if (VL_DEBUG) NSLog(@"Mouse down (%d,%d)\n", (int)downPoint.x, (int)downPoint.y);
 }
 
 - (void)mouseUp: (NSEvent *)theEvent
 {
 	NSPoint upPoint = [theEvent locationInWindow];
-	NSLog(@"Mouse up (%d,%d)\n", (int)upPoint.x, (int)upPoint.y);
+	if (VL_DEBUG) NSLog(@"Mouse up (%d,%d)\n", (int)upPoint.x, (int)upPoint.y);
 	NSRect frame = [self frame];
     float max_y = upPoint.y;
     if (downPoint.y > max_y) max_y = downPoint.y;
@@ -65,7 +65,7 @@
     // Setup for callbacks
     [selfView setDelegate: self];
 
-	NSLog(@"Devices: %@\n", [self deviceNames]);
+	if (VL_DEBUG) NSLog(@"Devices: %@\n", [self deviceNames]);
 }
 
 - (bool)available
@@ -97,7 +97,6 @@
 			[rv addObject:name];
 	}
 	if ([rv count] == 0) {
-		NSLog(@"Cannot find any video device\n");
 		NSRunAlertPanel(
                         @"Warning",
                         @"No suitable video input device found, reception disabled.",
@@ -108,7 +107,7 @@
 
 - (BOOL)switchToDeviceWithName: (NSString *)name
 {
-    NSLog(@"Switching to device %@\n", name);
+    if (VL_DEBUG) NSLog(@"Switching to device %@\n", name);
 	AVCaptureDevice* dev = [self _deviceWithName:name];
     if (dev == nil)
         return NO;
@@ -137,17 +136,17 @@
     if ([device lockForConfiguration: nil]) {
         // Set focus/exposure/flash, if device supports it
         if ([dev isFocusPointOfInterestSupported] && [dev isFocusModeSupported:AVCaptureFocusModeLocked] ) {
-            NSLog(@"Device supports focus lock\n");
+            if (VL_DEBUG) NSLog(@"Device supports focus lock\n");
         }
         if ([dev isTorchModeSupported: AVCaptureTorchModeOff]) {
-            NSLog(@"Device supports torch-off\n");
+            if (VL_DEBUG) NSLog(@"Device supports torch-off\n");
             dev.torchMode = AVCaptureTorchModeOff;
         }
         if ([dev isExposurePointOfInterestSupported] && [dev isExposureModeSupported:AVCaptureExposureModeLocked] ) {
-            NSLog(@"Device supports exposure lock\n");
+            if (VL_DEBUG) NSLog(@"Device supports exposure lock\n");
         }
     }
-    NSLog(@"Finished looking at device capabilities\n");
+    if (VL_DEBUG) NSLog(@"Finished looking at device capabilities\n");
 #endif
 	/* Create a QTKit input for the session using the iSight Device */
     NSError *error;
@@ -205,13 +204,13 @@
 #endif
 }
 
-- (void) startCapturing
+- (void) startCapturing: (BOOL) showPreview
 {
 #if 0
     // Lock focus and exposure, if supported
 #endif
     // Hide preview
-    [selfView setHidden: YES];
+    if (!showPreview) [selfView setHidden: YES];
 }
 
 - (void) stopCapturing
@@ -239,7 +238,7 @@
 	theRect.origin.y *= yFactor;
 	theRect.size.width *= xFactor;
 	theRect.size.height *= yFactor;
-	NSLog(@"FocusRectSelected %d, %d, %d, %d\n", (int)theRect.origin.x, (int)theRect.origin.y, (int)theRect.size.width, (int)theRect.size.height);
+	if (VL_DEBUG) NSLog(@"FocusRectSelected %d, %d, %d, %d\n", (int)theRect.origin.x, (int)theRect.origin.y, (int)theRect.size.width, (int)theRect.size.height);
 	[manager setFinderRect: theRect];
 }
 
@@ -248,12 +247,18 @@
     didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
     fromConnection:(AVCaptureConnection *)connection;
 {
-#if 0
+#if __MAC_OS_X_VERSION_MAX_ALLOWED < 1090
 	UInt64 now = CVGetCurrentHostTime();
 #else
-    CMClockRef clock = [[[connection inputPorts] objectAtIndex:0] clock];
-    CMTime nowDev = CMClockGetTime(clock);
-    UInt64 now = CMTimeConvertScale(nowDev, 1000000000, kCMTimeRoundingMethod_Default).value;
+	UInt64 now;
+    AVCaptureInputPort *port = [[connection inputPorts] objectAtIndex:0];
+	if ([port respondsToSelector:@selector(clock)] && [port clock]) {
+		CMClockRef clock = [port clock];
+		CMTime nowDev = CMClockGetTime(clock);
+		now = CMTimeConvertScale(nowDev, 1000000000, kCMTimeRoundingMethod_Default).value;
+	} else {
+		now = CVGetCurrentHostTime();
+	}
 #endif
     if( !CMSampleBufferDataIsReady(sampleBuffer) )
     {
@@ -278,12 +283,10 @@
 	double delta = (now-timestamp) / CVGetHostClockFrequency();
 	[manager updateInputOverhead: delta];
 #endif
-    // NSLog(@"Got video frame from %p now=%lld pts=%lld delta=%f\n", (void*)connection, now, timestamp, delta);
-    
+
     CMFormatDescriptionRef formatDescription = CMSampleBufferGetFormatDescription(sampleBuffer);
     OSType format = CMFormatDescriptionGetMediaSubType(formatDescription);
     CVImageBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
-    //NSLog(@"OStype %.4s 0x%x\n", &format, format);
 	const char *formatStr;
 	if (format == kCVPixelFormatType_32ARGB) {
 		formatStr = "RGB4";

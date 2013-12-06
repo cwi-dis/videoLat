@@ -66,7 +66,7 @@
     NSString *errorMsg = @"";
 	if (runManager == nil || [runManager class] != runClass) {
         runManager = nil; // Get rid of old runManager.
-		NSLog(@"RunTypeView: for %@, selected run class %@ (nib %@)\n", typeName, runClass, runClassNib);
+		if (VL_DEBUG) NSLog(@"RunTypeView: for %@, selected run class %@ (nib %@)\n", typeName, runClass, runClassNib);
 		if (runClassNib) {
 			// We have a Nib. Load it, and it will alloc the manager object, we
 			// only have to find it (by class)
@@ -91,6 +91,7 @@
                 if ([runManager class] != runClass) {
                     errorMsg = [NSString stringWithFormat: @"RunTypeView: runManager class is %@, expected %@. Programmer error?\n", [runManager class], runClass];
                     NSLog(@"%@", errorMsg);
+					abort();
                 }
             } else {
                 // runManager not set by the NIB file. Search for it.
@@ -99,6 +100,7 @@
                         if (runManager) {
                             errorMsg = [NSString stringWithFormat: @"RunTypeView: multiple objects of type %@ in NIB file %@. Programmer error?\n", runClass, runClassNib];
                             NSLog(@"%@", errorMsg);
+							abort();
                         }
                         runManager = (BaseRunManager *)obj;
                     }
@@ -106,6 +108,7 @@
                 if (runManager == nil) {
                     errorMsg = [NSString stringWithFormat: @"RunTypeView: no objects of type %@ in NIB file %@. Programmer error?\n", runClass, runClassNib];
                     NSLog(@"%@", errorMsg);
+					abort();
                 }
             }
 		} else {

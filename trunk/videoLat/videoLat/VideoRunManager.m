@@ -143,7 +143,7 @@
     prerunDelay = PRERUN_INITIAL_DELAY; // Start with 1ms delay (ridiculously low)
     prerunMoreNeeded = PRERUN_COUNT;
     self.preRunning = YES;
-    [capturer startCapturing];
+    [capturer startCapturing: YES];
     outputView.mirrored = self.mirrored;
     [self _triggerNewOutputValue];
 #else
@@ -174,7 +174,7 @@
 		}
 		[statusView.bStop setEnabled: YES];
         self.running = YES;
-        [capturer startCapturing];
+        [capturer startCapturing: NO];
         [collector startCollecting: self.measurementType.name input: capturer.deviceID name: capturer.deviceName output: outputView.deviceID name: outputView.deviceName];
         outputView.mirrored = self.mirrored;
         [self _triggerNewOutputValue];
@@ -286,10 +286,10 @@
 - (void) _prerunRecordNoReception
 {
 #if 1
-    NSLog(@"Prerun no reception\n");
+    if (VL_DEBUG) NSLog(@"Prerun no reception\n");
     if ([collector now] - outputStartTime > prerunDelay) {
         // No data found within alotted time. Double the time, reset the count, change mirroring
-        NSLog(@"outputStartTime=%llu, prerunDelay=%llu, mirrored=%d\n", outputStartTime, prerunDelay, self.mirrored);
+        if (VL_DEBUG) NSLog(@"outputStartTime=%llu, prerunDelay=%llu, mirrored=%d\n", outputStartTime, prerunDelay, self.mirrored);
         prerunDelay += (prerunDelay/4);
         prerunMoreNeeded = PRERUN_COUNT;
         self.mirrored = !self.mirrored;
@@ -303,10 +303,10 @@
 - (void) _prerunRecordReception: (NSString *)code
 {
 #if 1
-    NSLog(@"prerun reception %@\n", code);
+    if (VL_DEBUG) NSLog(@"prerun reception %@\n", code);
     if (self.preRunning) {
         prerunMoreNeeded -= 1;
-        NSLog(@"preRunMoreMeeded=%d\n", prerunMoreNeeded);
+        if (VL_DEBUG) NSLog(@"preRunMoreMeeded=%d\n", prerunMoreNeeded);
         if (prerunMoreNeeded == 0) {
             [self performSelectorOnMainThread: @selector(stopPreMeasuring:) withObject: self waitUntilDone: NO];
         }
@@ -318,10 +318,13 @@
 {
     @synchronized(self) {
         if (inputStartTime == 0) {
-            /*DBG*/ NSLog(@"newInputDone called, but inputStartTime==0\n");
+            if (VL_DEBUG) NSLog(@"newInputDone called, but inputStartTime==0\n");
             return;
         }
-		if (outputCode == nil) { NSLog(@"newInputDone called, but no output code yet\n"); return; }
+		if (outputCode == nil) {
+			if (VL_DEBUG) NSLog(@"newInputDone called, but no output code yet\n");
+			return;
+		}
         assert(inputStartTime != 0);
             
         char *code = [finder find: buffer width: w height: h format: formatStr size:size];

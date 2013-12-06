@@ -106,6 +106,7 @@
 	if (store && [store count]) {
 		// Too late, data values entered already...
 		NSLog(@"MeasurementDataStore: attempt to set calibration after data has been collected already! Programmer error...\n");
+		abort();
 		return;
 	}
 	baseMeasurementAverage = calibration.average;
@@ -122,7 +123,7 @@
     if (count == 0 || delay < min) min = delay;
     if (count == 0 || delay > max) max = delay;
     count++;
-    NSLog(@"%d %@ %lld-%lld=%lld  µ %f sd %f\n", count, data, received, sent, delay, self.average, self.stddev);
+    if (VL_DEBUG) NSLog(@"%d %@ %lld-%lld=%lld  µ %f sd %f\n", count, data, received, sent, delay, self.average, self.stddev);
 	NSDictionary *item = [NSDictionary dictionaryWithObjectsAndKeys:
 		data, @"data",
 		[NSNumber numberWithLongLong: received], @"at",

@@ -14,6 +14,9 @@
 // This constant needs to go somewhere...
 #define VIDEOLAT_FILE_VERSION @"0.3"
 
+// Global debug stuff
+#define VL_DEBUG 0
+
 // Protocol for an object that finds patterns in an input buffer
 @protocol InputVideoFindProtocol
 @property(readonly) NSRect rect;
@@ -35,7 +38,7 @@
 
 // Protocol for a capturing object
 @protocol InputCaptureProtocol
-- (void) startCapturing;
+- (void) startCapturing: (BOOL)showPreview;
 - (void) stopCapturing;
 @property (readonly) NSString* deviceID;
 @property (readonly) NSString* deviceName;

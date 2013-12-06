@@ -38,7 +38,6 @@
 		[alert runModal];
 		return nil;
 	}
-	NSLog(@"appsupport is %@\n", url);
 	url = [url URLByAppendingPathComponent:@"videoLat" isDirectory:YES];
 	BOOL ok = [[NSFileManager defaultManager] createDirectoryAtURL:url withIntermediateDirectories:YES attributes:nil error:&error];
 	if (!ok) {
@@ -46,7 +45,6 @@
 		[alert runModal];
 		return nil;
 	}
-	NSLog(@"Created %@\n", url);
 	return url;
 }
 
@@ -76,7 +74,6 @@
     NSString *str;
     str = [dict objectForKey:@"videoLat"];
     if (![str isEqualToString:@"videoLat"]) {
-        NSLog(@"%@ is not a videoLat file\n", url);
 		if (outError)
 			*outError = [[NSError alloc] initWithDomain:NSCocoaErrorDomain code:NSFileReadCorruptFileError
                                                userInfo:@{NSLocalizedDescriptionKey : @"This is not a videoLat file"}];
@@ -84,7 +81,6 @@
     }
     str = [dict objectForKey:@"version"];
     if (![str isEqualToString:VIDEOLAT_FILE_VERSION]) {
-        NSLog(@"This is not a version %@ videoLat file\n", VIDEOLAT_FILE_VERSION);
         if (outError) {
             *outError = [[NSError alloc] initWithDomain:NSCocoaErrorDomain code:NSFileReadCorruptFileError
                                                userInfo:@{NSLocalizedDescriptionKey : @"Unsupported videoLat version file"}];
@@ -96,7 +92,6 @@
 //    self.location = [dict objectForKey: @"location"];
     MeasurementDataStore *dataStore = [dict objectForKey: @"dataStore"];
     if (!dataStore) {
-        NSLog(@"No dataStore in videoLat file\n");
         if (outError) {
             *outError = [[NSError alloc] initWithDomain:NSCocoaErrorDomain code:NSFileReadCorruptFileError
                                                userInfo:@{NSLocalizedDescriptionKey : @"No dataStore in videolat file"}];

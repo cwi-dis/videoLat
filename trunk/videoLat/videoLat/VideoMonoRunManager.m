@@ -103,7 +103,6 @@
 			}
 		}
 		int average = (int)(total/count);
-		//NSLog(@"Average greylevel is %d (black %d, white %d, #%d) want %s\n", average, blacklevel, whitelevel, nBWdetections, currentColorIsWhite?"white":"black");
 		if (average < blacklevel) blacklevel = average;
 		if (average > whitelevel) whitelevel = average;
 		bool foundColorIsWhite = average > (whitelevel+blacklevel) / 2;
@@ -150,7 +149,7 @@ bad2:
         if (delegate == nil || ![delegate hasInput]) return;
         [self newInputStart];
         bool result = [delegate inputBW];
-        NSLog(@"checkinput: %d\n", result);
+        if (VL_DEBUG) NSLog(@"checkinput: %d\n", result);
         [self _mono_newInputDone: result];
         // XXXX save result, if running
         [self performSelector:@selector(_mono_pollInput) withObject: nil afterDelay: (NSTimeInterval)0.001];
