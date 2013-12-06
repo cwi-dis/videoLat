@@ -134,17 +134,18 @@
     
 #if 0
     // This code not enabled yet, because I don't have a camera that supports it:-)
-    
-    // Set focus/exposure/flash, if device supports it
-    if ([dev isFocusPointOfInterestSupported] && [dev isFocusModeSupported:AVCaptureFocusModeLocked] ) {
-        NSLog(@"Device supports focus lock\n");
-    }
-    if ([dev isTorchModeSupported: AVCaptureTorchModeOff]) {
-        NSLog(@"Device supports torch-off\n");
-        dev.torchMode = AVCaptureTorchModeOff;
-    }
-    if ([dev isExposurePointOfInterestSupported] && [dev isExposureModeSupported:AVCaptureExposureModeLocked] ) {
-        NSLog(@"Device supports exposure lock\n");
+    if ([device lockForConfiguration: nil]) {
+        // Set focus/exposure/flash, if device supports it
+        if ([dev isFocusPointOfInterestSupported] && [dev isFocusModeSupported:AVCaptureFocusModeLocked] ) {
+            NSLog(@"Device supports focus lock\n");
+        }
+        if ([dev isTorchModeSupported: AVCaptureTorchModeOff]) {
+            NSLog(@"Device supports torch-off\n");
+            dev.torchMode = AVCaptureTorchModeOff;
+        }
+        if ([dev isExposurePointOfInterestSupported] && [dev isExposureModeSupported:AVCaptureExposureModeLocked] ) {
+            NSLog(@"Device supports exposure lock\n");
+        }
     }
     NSLog(@"Finished looking at device capabilities\n");
 #endif
@@ -247,7 +248,13 @@
     didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
     fromConnection:(AVCaptureConnection *)connection;
 {
+#if 0
 	UInt64 now = CVGetCurrentHostTime();
+#else
+    CMClockRef clock = [[[connection inputPorts] objectAtIndex:0] clock];
+    CMTime nowDev = CMClockGetTime(clock);
+    UInt64 now = CMTimeConvertScale(nowDev, 1000000000, kCMTimeRoundingMethod_Default).value;
+#endif
     if( !CMSampleBufferDataIsReady(sampleBuffer) )
     {
         NSLog( @"sample buffer is not ready. Skipping sample" );
