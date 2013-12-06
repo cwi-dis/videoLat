@@ -441,6 +441,8 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -458,7 +460,8 @@
 				HEADER_SEARCH_PATHS = /System/Library/Frameworks/Python.framework/Versions/2.7/include/python2.7;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = macosx;
+				PROVISIONING_PROFILE = "";
+				SDKROOT = macosx10.7;
 				USER_HEADER_SEARCH_PATHS = thirdParty/installed/include;
 			};
 			name = Debug;
@@ -473,6 +476,8 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -483,7 +488,8 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = /System/Library/Frameworks/Python.framework/Versions/2.7/include/python2.7;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				SDKROOT = macosx;
+				PROVISIONING_PROFILE = "";
+				SDKROOT = macosx10.7;
 				USER_HEADER_SEARCH_PATHS = thirdParty/installed/include;
 			};
 			name = Release;
