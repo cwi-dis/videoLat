@@ -61,6 +61,13 @@
 			objectsForNewDocument = [[NSMutableArray alloc] init];
 		}
         if (VL_DEBUG) NSLog(@"Loaded NewMeasurement: %d, objects %@\n", (int)ok, objectsForNewDocument);
+        if (!ok) {
+            if (outError)
+                *outError = [[NSError alloc] initWithDomain:@"VideoLat" code:NSFileReadNoSuchFileError
+                                                   userInfo:@{NSLocalizedDescriptionKey : @"Could not open NewMeasurement NIB file"}];
+            return nil;
+            
+        }
     }
     return self;
 }
