@@ -11,6 +11,7 @@
 		040CF9DC183E4F6F0094C0D8 /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 040CF9DB183E4F6F0094C0D8 /* icon.icns */; };
 		040CF9DE183E56110094C0D8 /* docicon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 040CF9DD183E56110094C0D8 /* docicon.icns */; };
 		04187965184382C400303A12 /* VideoRunManager.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04187964184382C400303A12 /* VideoRunManager.xib */; };
+		0439D6211859EF26003FC061 /* help in Resources */ = {isa = PBXBuildFile; fileRef = 0439D6201859EF26003FC061 /* help */; };
 		043A1EF11843FC6000883D0B /* VideoCalibrationRunManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 043A1EF01843FC6000883D0B /* VideoCalibrationRunManager.m */; };
 		043A1EF41843FCA000883D0B /* VideoMonoRunManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 043A1EF31843FCA000883D0B /* VideoMonoRunManager.m */; };
 		043A1EF61843FD6000883D0B /* VideoMonoRunManager.xib in Resources */ = {isa = PBXBuildFile; fileRef = 043A1EF51843FD6000883D0B /* VideoMonoRunManager.xib */; };
@@ -53,6 +54,7 @@
 		040CF9DB183E4F6F0094C0D8 /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = icon.icns; sourceTree = SOURCE_ROOT; };
 		040CF9DD183E56110094C0D8 /* docicon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = docicon.icns; sourceTree = SOURCE_ROOT; };
 		04187964184382C400303A12 /* VideoRunManager.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VideoRunManager.xib; sourceTree = "<group>"; };
+		0439D6201859EF26003FC061 /* help */ = {isa = PBXFileReference; lastKnownFileType = folder; path = help; sourceTree = SOURCE_ROOT; };
 		043A1EEF1843FC6000883D0B /* VideoCalibrationRunManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoCalibrationRunManager.h; sourceTree = "<group>"; };
 		043A1EF01843FC6000883D0B /* VideoCalibrationRunManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoCalibrationRunManager.m; sourceTree = "<group>"; };
 		043A1EF21843FCA000883D0B /* VideoMonoRunManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoMonoRunManager.h; sourceTree = "<group>"; };
@@ -277,6 +279,7 @@
 		047DD1C8183A3B4D00A04F83 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				0439D6201859EF26003FC061 /* help */,
 				047DD1C9183A3B4D00A04F83 /* videoLat-Info.plist */,
 				040CF9DD183E56110094C0D8 /* docicon.icns */,
 				040CF9DB183E4F6F0094C0D8 /* icon.icns */,
@@ -358,6 +361,7 @@
 				040CF9DE183E56110094C0D8 /* docicon.icns in Resources */,
 				04187965184382C400303A12 /* VideoRunManager.xib in Resources */,
 				043A1EF61843FD6000883D0B /* VideoMonoRunManager.xib in Resources */,
+				0439D6211859EF26003FC061 /* help in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
