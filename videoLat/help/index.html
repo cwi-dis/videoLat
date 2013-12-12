@@ -14,12 +14,9 @@
 <p>Table of Contents:</p>
 <ul type="circle">
 	<li><a href="#Introduction">Introduction</a></li>
-	<li><a href="#installation">Installation</a></li>
-	<li><a href="#setup">Setup</a></li>
-	<li><a href="#self-measurement">Self-measurement</a></li>
-	<li><a href="#output">Output Files</a></li>
-	<li><a href="#single-ended">Single-ended Measurement</a></li>
-	<li><a href="#asymmetric">Asymetric Measurement</a></li>
+	<li><a href="#calibration-workflow">Calibration Workflow</a></li>
+	<li><a href="#measurement-workflow">Measurement Workflow</a></li>
+	<li><a href="#more">More Information</a></li>
 	<li><a href="#license">Licensing and Copyright</a></li>
 </ul>
 
@@ -33,9 +30,98 @@
 	account delays caused by camera, grabber hardware, video output card and
 	the video display.</p>
 	
-	<p>VideoLat can take round-trip measurements, with the same system both
+	<p>VideoLat Primarily takes round-trip measurements, with the same system both
 	benerating and detecting the barcodes. A future release will also allow
 	asymetric measurements, using a videoLat-system on both ends. </p>
+	
+	<p>A future version will also do audio delay measurements, and audio-video
+	synchronization measurements.</p>
+	
+	<p>The general workflow is that videoLat runs on a system that is completely
+	separate from the system under test, usually a MacBook or something similar.
+	You should now first do a <em>calibration run</em>, which will teach videoLat
+	about the delay of the camera and screen used in the test system. After the
+	calibration run you can do real measurements with the exact same hardware
+	setup, the calibration run results will the be subtracted from the real
+	data giving you the delay of the system-under-test.</p>
+	
+	<p>In summary, you will always do two measurements: a first one of the test
+	system itself, and then a second one of the system that you are really
+	interested in.</p>
+	
+<h2 id="calibration-workflow">Calibration Workflow</h2>
+	<p>Here is a screenshot of videoLat when you start it the first time:</p>
+
+	<img src="screenshot.png">
+
+	<p>The left side of the window is the control area, the right side is where
+	the QR-code data will be displayed. The control area reads from top to
+	bottom.</p>
+	
+	<p>In the control area, you first select <em>Measurement Type</em>. Your
+	first measurement should be a <em>Video Roundtrip Calibrate</em>.<p>
+	
+	<p>Next, you select the camera you want to use as input. Output from the
+	selected camera is shown in the preview area. Use this to position your
+	camera (and window!) so that it has a clear view of the blue square, with not too much
+	distortion. Using a mirror is possible, rotation is no problem, and a fair
+	bit of skewing can be handled too.<p>
+	
+	<p>Now you press <em>Prepare</em>. This will show a couple of QR-codes and
+	determine mirroring, approximate delays and such. After the preparation phase
+	you should refrain from changing the physical setup. If the preparation
+	phase is successful the <em>Run</em> button will be enabled. If it is not
+	successful you may have to re-select your measurement type or camera to try again.</p>
+	
+	<p>Now you press <em>Run</em> and the real measurement will start. In the
+	data area you will see QR-codes, and in the Measurement Run area you will see
+	how many succesful measurements have been taken and current average delay
+	and standard deviation. When you are happy (or bored) press <em>Stop</em>
+	and the data view window (below) will open. </p>
+	
+	<p>Determining the number of measurements to be taken is a bit of a black art.
+	For the calibrations you want a distribution of measurements that is relatively
+	close to a normal distribution, because it makes your real measurements
+	more trustworty. Start with 500 or 1000 samples, and inspect the distribution
+	in the data view window. </p>
+	
+	<p>Here is a screenshot of the data view window, which automatically opens
+	when you stop a measurement run, and also when you open a pre-existing
+	measurement:</p>
+	
+	<img src="screenshot-document.png">
+	
+	<p>The window shows input and output devices used, some metadata, measurement
+	values and two graphs: one of the individual measurement values and one of 
+	their distribution. there is also a free text <em>description</em> field that
+	you can use for your own reference.</p>
+
+	<p>If you are happy you should save your calibration data. In future runs
+	it can be used to base real measurements on. It is also possible to export the
+	data, see the next section.</p>
+	
+<h2 id="measurement-workflow">Measurement Workflow</h2>
+
+	<p>After you have done a calibration run of your camera, screen and other hardware
+	you are ready to take a measurement of the system under test. Open a new
+	document, but this time select Measurement type <em>Video Roundtrip</em>.</p>
+
+	<p>Again, you select the camera, but now you also select the base calibration
+	run, which should use the exact same hardware as you are using now (camera,
+	display, etc). Now you make point the camera of the system under test at
+	the blue square, and you point the camera of the measurement system at the
+	screen of the system under test. Confirm in the preview window that the blue
+	square is visible.</p>
+	
+	<p>At this point follow the same procedure as for calibration: Prepare,
+	Run, Stop. The data view will open again. </p>
+	
+	<p>For a normal run you should save the data in your Documents folder,
+	for example. In addition, you can export the measurement run as a set
+	of three comma-separated value files, which are importable into spreadsheets,
+	graphing packages and other programs. The <em>-description.csv</em> file has
+	the metadata, <em>-measurements.csv</em> has the raw data points and
+	<em>-distribution.csv</em> has the distribution.</p>
 	
 	<p>If you have access to the internals of the system-under-test it is
 	possible to take measurements there as well, because videoLat encodes
@@ -51,174 +137,20 @@
 	and computer) are finicky and I have seen completely unexplainable results
 	that went away when swapping, say, monitors. Lack of trust in your
 	measurement equipment leads to lack of trust in your system measurements.</p>
-	
-<h2 id="installation">Installation</h2>
 
-	<p>Binary installers and source code can be downloaded via <a
-	href="http://videolat.sourceforge.net">videolat.sourceforge.net</a>. The
-	binary can be run in-place, no need to install it. To build from source,
-	see the <i>README.txt</i> file included in the source distribution.</p>
+<h2 id="more">More Information</h2>
 
-<h2 id="setup">Setup</h2>
-
-	<p>If you want to use a USB camera, connect it before starting videoLat.
-	Same for an external display.</p> <p>You probably want to disable screen
-	dimming, in <i>System Preferences</i> -> <i>Energy Saver</i>.</p>
-	
-<h2 id="self-measurement">Self-measurement</h2>
-
-	<p>To be able to interpret the numbers you should first measure the test
-	harness, the computer running videoLat, itself. As you will want to
-	subtract these measurements from your real measurements later, it is a
-	good idea that you invest some time here to create a setup that gives
-	you a normal (bell-curve) distribution of the delay times measured. This
-	makes it easier to detect anomalies in the distribution of your real
-	measurements. </p>
-	
-	<p>If you use a USB cam you simply point it at the screen, if you use
-	the iSight you will have to use a mirror and set the <i>mirror view</i>
-	flag. If you have a macBook it may be advisable to use an external
-	screen: the timing of the builtin screen seems to be funny, giving a
-	non-normal distribution. Connect camera and screen before running
-	videoLat.</p>
-	
-	<p>If you want to change the output filename you must do so now, before
-	starting the measurements. You also want to select the <i>Summarize</i>
-	checkbox to compute mean, variance and delay distribution. Set
-	<i>Role</i> to <i>Both</i>, check in the <i>Input</i> window that the
-	camera has a reasonably undistorted view of the output window. Press
-	<i>Run</i> to start the measurements. You should see the number of
-	detected barcodes in the <i>Found:</i> field. If it remains at "<i>0 of
-	nnnn</i>" things are not working.</p>
-	
-	<p>You want to take a lot of measurements, especially if your display
-	frequency is close to your camera frequency. At around 500 the
-	distribution seems to start looking like a normal distribution for me,
-	but YMMV.</p>
-
-<h2 id="output">Output Files</h2>
-
-	<p>When you quit, the results are saved and postprocessed. If you have
-	requested the <i>Summary</i> and you have iWork Numbers installed the
-	results are opened automatically, otherwise you will find a file named
-	<i>measurements-summary.csv</i> right beside your
-	<i>Mmeasurements.csv</i> file. This file contains the
-	count/min/max/mean/stddev of the measurements and their
-	distribution.</p>
-	
-	<p>The raw output file consists of lines of the form:</p>
-	
-	<pre> timestamp,event,subevent,event-data,extra-info </pre>
-	
-	<p>For barcode generation and detection, event-data is the string
-	encoded in the barcode, so you can match up generation and detection
-	timestamps using this field. The extra-info may contain the measured
-	overhead for creating and detecting the barcodes, this overhead should
-	be subtracted from the delays.</p>
-
-<h2 id="single-ended">Single-ended Measurement</h2>
-
-	<p>The easiest real measurements to take are single-ended measurements,
-	where a single test system running videoLat does both generation and
-	reception. In this setup, you do not have to cater for system clock
-	differences between sender and receiver. To use single-ended mesurements
-	to measure delays over the net you setup the remote videoconferencing
-	system so that its camera can see its own screen. If you need to use a
-	mirror for this you set the <i>mirror view</i> checkbox.</p>
-	
-	<p>The real measurement follows the same pattern as for the
-	self-measurement, it is assumed you understand how to point the
-	respective cameras at the screens.</p>
-	
-	<p>Single-ended operation of a remote system will measure the round-trip
-	delay, so you will need the divide the numbers by two, and this is
-	assumying that your setup is symmetric (same hardware on both sides,
-	symmetric network connection). </p>
-
-<h2 id="asymmetric-self-setup">Asymetric Self-measurement Setup</h2>
-	
-	<p>For asymmetric measurements you use two videoLat systems, one on the
-	sending side and one on the receiving side. This means that the symmetric
-	self-measurement is not good enough: you need to independently measure
-	display latency (on the sending side) and capture latency (on the receiving
-	side). videoLat can do these measurements if you first buy and build some
-	hardware. Buy a <a href="http://labjack.com/u3">LabJack U3</a>, and build
-	the following hardware:</p>
-	
-	<img src="hardware.png" alt="Diagram of hardware to build">
-	
-	<p>LabJack suggest you connect the U3 to a USB 2.0 port on your computer
-	for fastest response time. </p>.
-	
-	<p>Use a bit of cardboard to fold a little tube around the phototransistor,
-	so that it only picks up the light you want it to pick up. Eventually you
-	will point the phototransistor at your screen, so you may want to rig
-	something together to hold it there. Technical Lego, wood, cardboard, 
-	whatever works for you. </p>
-	
-	<p>Next, you need to install the LabJack USB drivers (just 2 user libraries
-	installed in /usr/local, no kernel drivers). Download them from the LabJack
-	<a href="http://labjack.com/support/linux-and-mac-os-x-drivers">Linux
-	and Mac OS X drivers</a> page.</p>
-	
-	<p>Once you have bought, built and installed all these prerequisites you
-	should test them. Point the photodiode at the LED (with as little
-	outside light as possible) and run videoLat with the following settings
-	(set Measurement type to <i>manual</i>): datatype to <i>Black/White</i>,
-	transmission <i>off</i>, reception <i>off</i> and coordination to <i>LabJack USB hardware
-	</i>. This will turn the LED on, wait for light on the phototransistor,
-	turn the LED off, wait for no light, etc.</p>
-	
-	<p>You should expect to see a 2.5ms delay, with low standard deviation,
-	possibly with a second peak around 3.5ms. The LabJack operates synchronously,
-	and the receiver polls at fixed 1ms times, so event loop contention
-	should be your only source of standard deviation.
-	</p>
-	
-<h2 id="asymmetric-self">Asymetric Self-measurement</h2>
-	
-	<p>Display latency is now measured by attaching the phototransistor to the
-	output screen and letting videoLat do black/white output measurements.</p>
-
-	<p>Capture latency is measured by pointing the camera at the LED,
-	indicating the LED position in the self-view window and doing black/white
-	input measurements. </p>
-	
-<h2 id="asymmetric">Asymetric Measurement</h2>
-
-	<p>Asymmetric measurement is not practical yet in this release.</p>
-	
-	<p>Setup one videoLat system on the transmitting side, and measure its
-	transmission delay. Keep these measurements.</p>
-	
-	<p>Setup a second videoLat system on the receiving end, and measure its
-	reception delay. Keep these measurements. </p>
-	
-	<p>To do the real measurement set the transmitting videoLat system to
-	<i>Send Only</i> and add a reasonable delay. <em>Note:</em> in this
-	release, after setting the delay, you should select and de-select
-	<i>Mirror View</i> before the delay is picked up, will be fixed... The
-	choice of a reasonable delay depends on the circumstances. If your
-	system under test takes 800 milliseconds before a new QRcode can be
-	decoded on the receiving end you should set the delay to be higher than
-	that. A delay that is too low will result in no measurements taken, a
-	delay that is too high does not hurt but results in fewer measurements
-	per minute.</p>
-	
-	<p>Set the receiving videoLat system to <i>receive only</i>. Let it run,
-	while keeping an eye on the number of successful QRcode captures.</p>
-	
-	<p>After you are satisfied with the number of samples, copy the two
-	raw measurement files to one system, concatenate them and run the
-	<i>pp_summary</i> script (hidden inside the app bundle, I told you
-	this was not practical yet:-). You will also have to cater for clock
-	differences and clock drift (I told you this was not practical yet).</p>
-	
+	<p>An earlier version of videoLat and the principles behind it is described
+	in the paper "<a href="http://dx.doi.org/10.1145/2460782.2460789">User-centric video delay measurements</a>"
+	by Jack Jansen and Dick Bulterman, DOI=10.1145/2460782.2460789. The corresponding
+	<a href="http://nossdav2013.ndlab.net/presentations/videolat.pdf">presentation slides</a> and 
+	<a href="http://www.youtube.com/watch?v=Xax77SyE0vE">presentation video</a> 
+	are available too.</p> 
 	
 <h2 id="license">Licensing and Copyright</h2>
 
 	<p>VideoLat was written by Jack Jansen, <i>Jack.Jansen@cwi.nl</i>, and
-	is copyright (c) 2010 Stichting Centrum Wiskunde &amp; Informatica,
+	is copyright (c) 2013 Stichting Centrum Wiskunde &amp; Informatica,
 	Amsterdam, the Neterhlands. It is open source, licensed under the GNU
 	General Public License (GPL).</p>
 	
