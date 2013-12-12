@@ -310,6 +310,7 @@
 				047DD1B9183A3B4C00A04F83 /* Sources */,
 				047DD1BA183A3B4C00A04F83 /* Frameworks */,
 				047DD1BB183A3B4C00A04F83 /* Resources */,
+				049B52B2185A5B79004B0866 /* Run "internalize dylibs" script */,
 			);
 			buildRules = (
 			);
@@ -366,6 +367,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		049B52B2185A5B79004B0866 /* Run "internalize dylibs" script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Run \"internalize dylibs\" script";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -x\nif [ $BUILD_VARIANTS == normal ]; then\npython internalize_dylibs.py -v -s /usr/local/lib:thirdParty/installed/lib $TARGET_BUILD_DIR/$FULL_PRODUCT_NAME\nif [ \"$?\" != \"0\" ]; then\nexit 1\nfi\npython internalize_dylibs.py -c $TARGET_BUILD_DIR/$FULL_PRODUCT_NAME\nif [ \"$?\" != \"0\" ]; then\nexit 1\nfi\n\nfi";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		047DD1B9183A3B4C00A04F83 /* Sources */ = {
@@ -446,7 +464,7 @@
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_ENTITLEMENTS = "";
-				CODE_SIGN_IDENTITY = "Developer ID Application: Centrum Wiskunde & Informatica (W5J7983J99)";
+				CODE_SIGN_IDENTITY = "Developer ID Application";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -464,6 +482,7 @@
 				HEADER_SEARCH_PATHS = /System/Library/Frameworks/Python.framework/Versions/2.7/include/python2.7;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CODE_SIGN_FLAGS = "--deep";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx10.7;
 				USER_HEADER_SEARCH_PATHS = thirdParty/installed/include;
@@ -481,7 +500,7 @@
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_ENTITLEMENTS = "";
-				CODE_SIGN_IDENTITY = "Developer ID Application: Centrum Wiskunde & Informatica (W5J7983J99)";
+				CODE_SIGN_IDENTITY = "Developer ID Application";
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -492,6 +511,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = /System/Library/Frameworks/Python.framework/Versions/2.7/include/python2.7;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				OTHER_CODE_SIGN_FLAGS = "--deep";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx10.7;
 				USER_HEADER_SEARCH_PATHS = thirdParty/installed/include;
