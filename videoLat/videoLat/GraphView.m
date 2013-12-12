@@ -98,7 +98,7 @@ static double _RoundUpTo125(double value)
     // Compute the closed path
     NSBezierPath *path = [NSBezierPath bezierPath];
     CGFloat oldX = minX, oldY = 0;
-    CGFloat newX, newY;
+    CGFloat newX = oldX, newY;
 
     [path moveToPoint: NSMakePoint(oldX, oldY)];
     int i;
@@ -109,7 +109,7 @@ static double _RoundUpTo125(double value)
         [path lineToPoint: NSMakePoint(newX, newY)];
         if (VL_DEBUG) NSLog(@"point %f, %f", newX, newY);
         oldX = newX;
-        oldY = newY;
+        //oldY = newY;
     }
     [path lineToPoint: NSMakePoint(newX, 0)];
     [path closePath];

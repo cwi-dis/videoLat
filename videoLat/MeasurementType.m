@@ -54,12 +54,15 @@ static NSMutableDictionary *byTag;
 
 - (MeasurementType *)initWithType: (NSString *)_name tag: (NSUInteger)_tag isCalibration: (BOOL)_isCalibration requires: (MeasurementType *)_requires
 {
-	name = _name;
-	tag = _tag;
-	isCalibration = _isCalibration;
-	requires = _requires;
-	measurements = [[NSMutableDictionary alloc] initWithCapacity:1];
-	return self;
+    self = [super init];
+    if (self) {
+        name = _name;
+        tag = _tag;
+        isCalibration = _isCalibration;
+        requires = _requires;
+        measurements = [[NSMutableDictionary alloc] initWithCapacity:1];
+    }
+    return self;
 }
 
 - (void)addMeasurement: (MeasurementDataStore *)item
