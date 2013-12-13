@@ -102,8 +102,8 @@
     // Keep the data
 	self.dataDistribution = [[MeasurementDistribution alloc] initWithSource:self.dataStore];
 	// Set location, etc
-	self.location = @"somewhere";
-	self.description = @"something";
+	self.location = ((appDelegate *)[[NSApplication sharedApplication] delegate]).location;
+	self.description = @"";
 	self.date = [[NSDate date] descriptionWithCalendarFormat:nil timeZone:nil locale:nil];
 
     // Do the NSDocument things

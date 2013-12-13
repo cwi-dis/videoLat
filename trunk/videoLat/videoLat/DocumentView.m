@@ -41,6 +41,7 @@
 			measurementType = [NSString stringWithFormat: @"%@ (based on %@)", measurementType, baseMeasurementID];
 		}
 		self.status.measurementType = measurementType;
+		self.status.machine = self.document.machine;
 		self.status.inputDevice = self.document.inputDevice;
 		self.status.outputDevice = self.document.outputDevice;
 		self.status.date = self.document.date;

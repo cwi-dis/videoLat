@@ -14,6 +14,8 @@
 
 @implementation appDelegate
 @synthesize measurementTypes;
+@synthesize locationManager;
+@synthesize location;
 
 - (void)applicationWillFinishLaunching:(NSNotification *)aNotification
 {
@@ -26,8 +28,15 @@
     [VideoRunManager initialize];
     [VideoCalibrationRunManager initialize];
 	[VideoMonoRunManager initialize];
-	
+
+	// Initialize location manager stuff
+	self.location = @"Unknown location";
+	self.locationManager = [[CLLocationManager alloc] init];
+	self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+	self.locationManager.delegate = self;
+	[self.locationManager startUpdatingLocation];	
 }
+
 - (NSURL *)directoryForCalibrations
 {
 	NSError *error;
@@ -104,4 +113,11 @@
 	
 	return YES;
 }
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
+{
+	NSLog(@"Location Manager update: %@", newLocation);
+	self.location = newLocation.description;
+}
+
 @end

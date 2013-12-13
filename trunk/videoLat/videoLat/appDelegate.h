@@ -7,14 +7,18 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import <CoreLocation/CoreLocation.h>
 #import "protocols.h"
 #import "MeasurementType.h"
 
-@interface appDelegate : NSObject {
+@interface appDelegate : NSObject <CLLocationManagerDelegate>{
 }
 @property(retain) MeasurementType *measurementTypes;
+@property(retain) CLLocationManager *locationManager;
+@property(retain) NSString *location;
 
 - (NSURL *)directoryForCalibrations;
 - (void)_loadCalibrationsFrom: (NSURL *)directory;
 - (BOOL)_loadCalibration: (NSURL *)directory error: (NSError **)outError;
+- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation;
 @end
