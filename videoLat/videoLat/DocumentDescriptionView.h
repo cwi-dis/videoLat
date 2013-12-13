@@ -11,6 +11,7 @@
 @interface DocumentDescriptionView : NSView {
 }
 @property(retain) IBOutlet NSTextField *bMeasurementType;
+@property(retain) IBOutlet NSTextField *bMachine;
 @property(retain) IBOutlet NSTextField *bInputDevice;
 @property(retain) IBOutlet NSTextField *bOutputDevice;
 @property(retain) IBOutlet NSTextField *bDate;
@@ -22,6 +23,7 @@
 @property(retain) IBOutlet NSTextField *bDetectMaxDelay;
 
 @property(retain) NSString *measurementType;
+@property(retain) NSString *machine;
 @property(retain) NSString *inputDevice;
 @property(retain) NSString *outputDevice;
 @property(retain) NSString *date;

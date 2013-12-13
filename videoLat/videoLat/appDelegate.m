@@ -39,6 +39,7 @@
 		return nil;
 	}
 	url = [url URLByAppendingPathComponent:@"videoLat" isDirectory:YES];
+	url = [url URLByAppendingPathComponent:@"Calibrations" isDirectory:YES];
 	BOOL ok = [[NSFileManager defaultManager] createDirectoryAtURL:url withIntermediateDirectories:YES attributes:nil error:&error];
 	if (!ok) {
 		NSAlert *alert = [NSAlert alertWithError:error];

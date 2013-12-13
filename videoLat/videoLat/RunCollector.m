@@ -14,6 +14,7 @@
 #import <CoreServices/CoreServices.h>
 #import <QuartzCore/QuartzCore.h>
 #import <sys/time.h>
+#import <sys/sysctl.h>
 
 @implementation RunCollector
 @synthesize dataStore;
@@ -56,6 +57,12 @@
 - (void) startCollecting: (NSString*)scenario input: (NSString*)inputId name: (NSString*)inputName output:(NSString*)outputId name: (NSString*)outputName
 {
 	dataStore.measurementType = scenario;
+	char hwName_c[100] = "unknown";
+	size_t len = sizeof(hwName_c);
+	sysctlbyname("hw.model", hwName_c, &len, NULL, 0);
+	NSString *hwName = [NSString stringWithUTF8String:hwName_c];
+	dataStore.machine = hwName;
+	dataStore.machineID = hwName;
 	dataStore.inputDevice = inputName;
 	dataStore.inputDeviceID = inputId;
 	dataStore.outputDevice = outputName;
