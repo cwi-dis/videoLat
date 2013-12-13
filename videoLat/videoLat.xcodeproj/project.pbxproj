@@ -11,7 +11,6 @@
 		040CF9DC183E4F6F0094C0D8 /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 040CF9DB183E4F6F0094C0D8 /* icon.icns */; };
 		040CF9DE183E56110094C0D8 /* docicon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 040CF9DD183E56110094C0D8 /* docicon.icns */; };
 		04187965184382C400303A12 /* VideoRunManager.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04187964184382C400303A12 /* VideoRunManager.xib */; };
-		0439D6211859EF26003FC061 /* help in Resources */ = {isa = PBXBuildFile; fileRef = 0439D6201859EF26003FC061 /* help */; };
 		043A1EF11843FC6000883D0B /* VideoCalibrationRunManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 043A1EF01843FC6000883D0B /* VideoCalibrationRunManager.m */; };
 		043A1EF41843FCA000883D0B /* VideoMonoRunManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 043A1EF31843FCA000883D0B /* VideoMonoRunManager.m */; };
 		043A1EF61843FD6000883D0B /* VideoMonoRunManager.xib in Resources */ = {isa = PBXBuildFile; fileRef = 043A1EF51843FD6000883D0B /* VideoMonoRunManager.xib */; };
@@ -48,13 +47,13 @@
 		04B58F39183A3D5300360A61 /* libzbar.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 04B58F37183A3D5300360A61 /* libzbar.0.dylib */; };
 		04B58F3A183A3D5300360A61 /* libzint.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 04B58F38183A3D5300360A61 /* libzint.dylib */; };
 		04E01C0E183EB68F00C9AF76 /* MeasurementType.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E01C0D183EB68F00C9AF76 /* MeasurementType.m */; };
+		04FFDF94185A6FAE00B1CCCC /* videoLat.help in Resources */ = {isa = PBXBuildFile; fileRef = 04FFDF93185A6FAE00B1CCCC /* videoLat.help */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		040CF9DB183E4F6F0094C0D8 /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = icon.icns; sourceTree = SOURCE_ROOT; };
 		040CF9DD183E56110094C0D8 /* docicon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = docicon.icns; sourceTree = SOURCE_ROOT; };
 		04187964184382C400303A12 /* VideoRunManager.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VideoRunManager.xib; sourceTree = "<group>"; };
-		0439D6201859EF26003FC061 /* help */ = {isa = PBXFileReference; lastKnownFileType = folder; path = help; sourceTree = SOURCE_ROOT; };
 		043A1EEF1843FC6000883D0B /* VideoCalibrationRunManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoCalibrationRunManager.h; sourceTree = "<group>"; };
 		043A1EF01843FC6000883D0B /* VideoCalibrationRunManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoCalibrationRunManager.m; sourceTree = "<group>"; };
 		043A1EF21843FCA000883D0B /* VideoMonoRunManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoMonoRunManager.h; sourceTree = "<group>"; };
@@ -122,6 +121,7 @@
 		04B58F38183A3D5300360A61 /* libzint.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libzint.dylib; path = thirdParty/installed/lib/libzint.dylib; sourceTree = "<group>"; };
 		04E01C0C183EB68F00C9AF76 /* MeasurementType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MeasurementType.h; path = ../MeasurementType.h; sourceTree = "<group>"; };
 		04E01C0D183EB68F00C9AF76 /* MeasurementType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MeasurementType.m; path = ../MeasurementType.m; sourceTree = "<group>"; };
+		04FFDF93185A6FAE00B1CCCC /* videoLat.help */ = {isa = PBXFileReference; lastKnownFileType = folder; path = videoLat.help; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -279,7 +279,7 @@
 		047DD1C8183A3B4D00A04F83 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				0439D6201859EF26003FC061 /* help */,
+				04FFDF93185A6FAE00B1CCCC /* videoLat.help */,
 				047DD1C9183A3B4D00A04F83 /* videoLat-Info.plist */,
 				040CF9DD183E56110094C0D8 /* docicon.icns */,
 				040CF9DB183E4F6F0094C0D8 /* icon.icns */,
@@ -357,12 +357,12 @@
 				047DD1D8183A3B4D00A04F83 /* Document.xib in Resources */,
 				045397CE183AB23B00697348 /* NewMeasurement.xib in Resources */,
 				043A1EF81843FD6E00883D0B /* VideoCalibrationRunManager.xib in Resources */,
+				04FFDF94185A6FAE00B1CCCC /* videoLat.help in Resources */,
 				047DD1DB183A3B4D00A04F83 /* MainMenu.xib in Resources */,
 				040CF9DC183E4F6F0094C0D8 /* icon.icns in Resources */,
 				040CF9DE183E56110094C0D8 /* docicon.icns in Resources */,
 				04187965184382C400303A12 /* VideoRunManager.xib in Resources */,
 				043A1EF61843FD6000883D0B /* VideoMonoRunManager.xib in Resources */,
-				0439D6211859EF26003FC061 /* help in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -486,6 +486,7 @@
 				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx10.7;
 				USER_HEADER_SEARCH_PATHS = thirdParty/installed/include;
+				VIDEOLAT_VERSION = 0.91;
 			};
 			name = Debug;
 		};
@@ -515,6 +516,7 @@
 				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx10.7;
 				USER_HEADER_SEARCH_PATHS = thirdParty/installed/include;
+				VIDEOLAT_VERSION = 0.91;
 			};
 			name = Release;
 		};
@@ -531,6 +533,7 @@
 					"\"$(SYSTEM_LIBRARY_DIR)/Frameworks/Python.framework/Versions/2.7/lib/python2.7/config\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				VIDEOLAT_VERSION = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -548,6 +551,7 @@
 					"\"$(SYSTEM_LIBRARY_DIR)/Frameworks/Python.framework/Versions/2.7/lib/python2.7/config\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				VIDEOLAT_VERSION = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
