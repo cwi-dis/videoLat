@@ -17,6 +17,8 @@
 
 - (NSString*) measurementType { return self.dataStore?self.dataStore.measurementType:@""; }
 - (NSString*) baseMeasurementID { return self.dataStore?self.dataStore.baseMeasurementID:nil; }
+- (NSString*) machineID { return self.dataStore?self.dataStore.machineID:@""; }
+- (NSString*) machine { return self.dataStore?self.dataStore.machine:@""; }
 - (NSString*) inputDeviceID { return self.dataStore?self.dataStore.inputDeviceID:@""; }
 - (NSString*) inputDevice { return self.dataStore?self.dataStore.inputDevice:@""; }
 - (NSString*) outputDeviceID { return self.dataStore?self.dataStore.outputDeviceID:@""; }
@@ -126,7 +128,7 @@
 
 - (void)_setCalibrationFileName
 {
-    NSString *fileName = [NSString stringWithFormat: @"%@-%@-%@", self.dataStore.measurementType, self.dataStore.outputDevice, self.dataStore.inputDevice];
+    NSString *fileName = [NSString stringWithFormat: @"%@-%@-%@-%@", self.dataStore.measurementType, self.dataStore.machine, self.dataStore.outputDevice, self.dataStore.inputDevice];
     [self setDisplayName:fileName];
 }
 

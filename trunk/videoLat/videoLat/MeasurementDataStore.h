@@ -20,6 +20,8 @@
 };
 
 @property(retain) NSString* measurementType;
+@property(retain) NSString* machineID;
+@property(retain) NSString* machine;
 @property(retain) NSString* inputDeviceID;
 @property(retain) NSString* inputDevice;
 @property(retain) NSString* outputDeviceID;

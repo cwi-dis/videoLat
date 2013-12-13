@@ -17,6 +17,8 @@
 }
 @property(readonly) NSString* measurementType;
 @property(readonly) NSString* baseMeasurementID;
+@property(readonly) NSString* machineID;
+@property(readonly) NSString* machine;
 @property(readonly) NSString* inputDeviceID;
 @property(readonly) NSString* inputDevice;
 @property(readonly) NSString* outputDeviceID;

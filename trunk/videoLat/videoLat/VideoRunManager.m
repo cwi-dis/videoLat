@@ -113,6 +113,13 @@
 			errorMessage = @"No base (calibration) measurement selected.";
 		} else {
 			// Check that the base measurement is compatible with this measurement,
+			char hwName_c[100] = "unknown";
+			size_t len = sizeof(hwName_c);
+			sysctlbyname("hw.model", hwName_c, &len, NULL, 0);
+			NSString *hwName = [NSString stringWithUTF8String:hwName_c];
+			if (![baseStore.machineID isEqualToString:hwName]) {
+				errorMessage = [NSString stringWithFormat:@"Base measurement done on %@, current hardware is %@", baseStore.machine, hwName];
+			}
 			if (![baseStore.inputDeviceID isEqualToString:capturer.deviceID]) {
 				errorMessage = [NSString stringWithFormat:@"Base measurement uses input %@, current measurement uses %@", baseStore.inputDevice, capturer.deviceName];
 			}

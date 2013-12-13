@@ -10,6 +10,7 @@
 
 @implementation DocumentDescriptionView
 @synthesize bMeasurementType;
+@synthesize bMachine;
 @synthesize bInputDevice;
 @synthesize bOutputDevice;
 @synthesize bDate;
@@ -21,6 +22,7 @@
 @synthesize bDetectMaxDelay;
 
 @synthesize measurementType;
+@synthesize machine;
 @synthesize inputDevice;
 @synthesize outputDevice;
 @synthesize date;
@@ -38,6 +40,7 @@
 - (void) update: (id)sender
 {
 	if (bMeasurementType) bMeasurementType.stringValue = measurementType?measurementType:@"";
+	if (bMachine) bMachine.stringValue = machine?machine:@"";
 	if (bInputDevice) bInputDevice.stringValue = inputDevice?inputDevice:@"";
 	if (bOutputDevice) bOutputDevice.stringValue = outputDevice?outputDevice:@"";
 	if (bDate) bDate.stringValue = date?date:@"";
