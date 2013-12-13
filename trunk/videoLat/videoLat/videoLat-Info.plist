@@ -38,7 +38,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>0.90</string>
+	<string>${VIDEOLAT_VERSION}</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
@@ -52,9 +52,9 @@
 	<key>NSMainNibFile</key>
 	<string>MainMenu</string>
 	<key>CFBundleHelpBookFolder</key>
-	<string>help</string>
+	<string>videoLat.help</string>
 	<key>CFBundleHelpBookName</key>
-	<string>videoLat Help</string>
+	<string>nl.cwi.${PRODUCT_NAME:rfc1034identifier}.help</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 </dict>
