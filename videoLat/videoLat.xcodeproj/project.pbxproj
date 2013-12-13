@@ -46,6 +46,7 @@
 		04B58F35183A3D3000360A61 /* DocumentDescriptionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B58F29183A3D3000360A61 /* DocumentDescriptionView.m */; };
 		04B58F39183A3D5300360A61 /* libzbar.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 04B58F37183A3D5300360A61 /* libzbar.0.dylib */; };
 		04B58F3A183A3D5300360A61 /* libzint.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 04B58F38183A3D5300360A61 /* libzint.dylib */; };
+		04DC70C8185B57EB005110A5 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04DC70C7185B57EB005110A5 /* CoreLocation.framework */; };
 		04E01C0E183EB68F00C9AF76 /* MeasurementType.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E01C0D183EB68F00C9AF76 /* MeasurementType.m */; };
 		04FFDF94185A6FAE00B1CCCC /* videoLat.help in Resources */ = {isa = PBXBuildFile; fileRef = 04FFDF93185A6FAE00B1CCCC /* videoLat.help */; };
 /* End PBXBuildFile section */
@@ -119,6 +120,7 @@
 		04B58F29183A3D3000360A61 /* DocumentDescriptionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocumentDescriptionView.m; sourceTree = "<group>"; };
 		04B58F37183A3D5300360A61 /* libzbar.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libzbar.0.dylib; path = thirdParty/installed/lib/libzbar.0.dylib; sourceTree = "<group>"; };
 		04B58F38183A3D5300360A61 /* libzint.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libzint.dylib; path = thirdParty/installed/lib/libzint.dylib; sourceTree = "<group>"; };
+		04DC70C7185B57EB005110A5 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = ../../../../System/Library/Frameworks/CoreLocation.framework; sourceTree = "<group>"; };
 		04E01C0C183EB68F00C9AF76 /* MeasurementType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MeasurementType.h; path = ../MeasurementType.h; sourceTree = "<group>"; };
 		04E01C0D183EB68F00C9AF76 /* MeasurementType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MeasurementType.m; path = ../MeasurementType.m; sourceTree = "<group>"; };
 		04FFDF93185A6FAE00B1CCCC /* videoLat.help */ = {isa = PBXFileReference; lastKnownFileType = folder; path = videoLat.help; sourceTree = SOURCE_ROOT; };
@@ -137,6 +139,7 @@
 				044F3D81183A467F0008CBA3 /* libpython2.7.dylib in Frameworks */,
 				044F3D83183A469D0008CBA3 /* IOKit.framework in Frameworks */,
 				044F3D85183A47170008CBA3 /* QuartzCore.framework in Frameworks */,
+				04DC70C8185B57EB005110A5 /* CoreLocation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -240,6 +243,7 @@
 				04B58F36183A3D3800360A61 /* thirdParty */,
 				044F3D7C183A46390008CBA3 /* AVFoundation.framework */,
 				044F3D7E183A46540008CBA3 /* CoreMedia.framework */,
+				04DC70C7185B57EB005110A5 /* CoreLocation.framework */,
 				044F3D84183A47170008CBA3 /* QuartzCore.framework */,
 				044F3D82183A469D0008CBA3 /* IOKit.framework */,
 				047DD1C1183A3B4C00A04F83 /* Cocoa.framework */,
@@ -486,7 +490,7 @@
 				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx10.7;
 				USER_HEADER_SEARCH_PATHS = thirdParty/installed/include;
-				VIDEOLAT_VERSION = 0.92;
+				VIDEOLAT_VERSION = 0.93;
 			};
 			name = Debug;
 		};
@@ -516,7 +520,7 @@
 				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx10.7;
 				USER_HEADER_SEARCH_PATHS = thirdParty/installed/include;
-				VIDEOLAT_VERSION = 0.92;
+				VIDEOLAT_VERSION = 0.93;
 			};
 			name = Release;
 		};
