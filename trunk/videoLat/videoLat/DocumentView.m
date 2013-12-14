@@ -55,10 +55,14 @@
 			self.values.source = self.document.dataStore;
 			self.values.maxXformat = @"%.0f";
 			self.values.maxYformat = @"%.0f ms";
+            self.values.showAverage = YES;
 			self.values.maxYscale = [NSNumber numberWithDouble:0.001];
 			self.distribution.source = self.document.dataDistribution;
-			//self.distribution.maxXformat = @"%.0f ms";
-			//self.distribution.maxXscale = [NSNumber numberWithDouble:0.001];
+            self.distribution.showNormal = YES;
+			self.distribution.maxXformat = @"%.0f ms";
+			self.distribution.maxYformat = @"%0.f %%";
+            self.distribution.maxYscale = [NSNumber numberWithDouble: 100.0];
+			self.distribution.maxXscale = [NSNumber numberWithDouble:0.001];
 			//self.distribution.maxYformat = @"%.2f";
 		} else {
 			self.status.detectCount = @"";

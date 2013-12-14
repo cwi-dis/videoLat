@@ -7,6 +7,7 @@
 //
 
 #import "GraphView.h"
+#import "math.h"
 
 static double _RoundUpTo125(double value)
 {
@@ -27,12 +28,23 @@ static double _RoundUpTo125(double value)
     return value;
 }
 
+static double normFunc(double x, double average, double stddev)
+{
+    if (stddev == 0) return 0;
+    double modx = (x-average) / stddev;
+    double ONEOVERSQRT2PI = 0.3989422804014327;
+    double phi = ONEOVERSQRT2PI * exp(-modx*modx/2);
+    return phi / stddev;
+}
+
 @implementation GraphView
 @synthesize color;
 @synthesize maxXscale;
 @synthesize maxYscale;
 @synthesize maxXformat;
 @synthesize maxYformat;
+@synthesize showAverage;
+@synthesize showNormal;
 
 - (GraphView *)initWithFrame:(NSRect)frameRect
 {
@@ -43,6 +55,8 @@ static double _RoundUpTo125(double value)
 		self.maxYscale = [NSNumber numberWithInt:1];
 		self.maxXformat = @"%f";
 		self.maxYformat = @"%f";
+        self.showAverage = NO;
+        self.showNormal = NO;
 	}
     return self;
 }
@@ -90,16 +104,17 @@ static double _RoundUpTo125(double value)
     CGFloat yPixelPerUnit = (maxYaxis-minY) / height;
     if (yPixelPerUnit == 0) yPixelPerUnit = 1;
 
-	if (self.bMaxX) self.bMaxX.stringValue = [NSString stringWithFormat:self.maxXformat, maxXaxis * [self.maxXscale floatValue]];
+	if (self.bMaxX) self.bMaxX.stringValue = [NSString stringWithFormat:self.maxXformat, self.source.maxXaxis * [self.maxXscale floatValue]];
 	if (self.bMaxY) self.bMaxY.stringValue = [NSString stringWithFormat:self.maxYformat, maxYaxis * [self.maxYscale floatValue]];
 
-    if (VL_DEBUG) NSLog(@"%d < x < %d (scale=%f, axis=%f) %f < y < %f (scale=%f, axis=%f)\n", minX, maxX, xPixelPerUnit, maxXaxis, minY, maxY, yPixelPerUnit, maxYaxis);
+    if (1 || VL_DEBUG) NSLog(@"%d < x < %d (scale=%f, axis=%f) %f < y < %f (scale=%f, axis=%f)\n", minX, maxX, xPixelPerUnit, maxXaxis, minY, maxY, yPixelPerUnit, maxYaxis);
     
     // Compute the closed path
     NSBezierPath *path = [NSBezierPath bezierPath];
     CGFloat oldX = minX, oldY = 0;
     CGFloat newX = oldX, newY;
 
+    double totalArea = 0;
     [path moveToPoint: NSMakePoint(oldX, oldY)];
     int i;
     for (i=minX; i<=maxX; i++) {
@@ -107,6 +122,7 @@ static double _RoundUpTo125(double value)
         newY = ([[self.source valueForIndex:i] doubleValue] - minY) / yPixelPerUnit;
         [path lineToPoint: NSMakePoint(oldX, newY)];
         [path lineToPoint: NSMakePoint(newX, newY)];
+        totalArea += newY * (newX - oldX);
         if (VL_DEBUG) NSLog(@"point %f, %f", newX, newY);
         oldX = newX;
         //oldY = newY;
@@ -117,6 +133,36 @@ static double _RoundUpTo125(double value)
     [self.color set];
     [path fill];
     [path stroke];
+    
+    // Draw the average, if wanted
+    if (self.showAverage) {
+        double average = self.source.average;
+        NSColor *averageColor = [self.color shadowWithLevel:0.5];
+        path = [NSBezierPath bezierPath];
+        [path moveToPoint: NSMakePoint(dstRect.origin.x, (average-minY) / yPixelPerUnit)];
+        [path lineToPoint: NSMakePoint(dstRect.origin.x+dstRect.size.width, (average-minY) / yPixelPerUnit)];
+        [averageColor set];
+        [path stroke];
+    }
+    if (self.showNormal) {
+        double average = self.source.average;
+        double stddev = self.source.stddev;
+        double step = self.source.maxXaxis / dstRect.size.width;
+        NSColor *normalColor = [self.color shadowWithLevel:0.5];
+        path = [NSBezierPath bezierPath];
+        [path moveToPoint: NSMakePoint(dstRect.origin.x, (normFunc(0, average, stddev)-minY) / yPixelPerUnit)];
+        for (int xindex=1; xindex <dstRect.size.width; xindex++) {
+            double x = xindex * step;
+            double FUNNY_FACTOR = 1000;  // I don't understand this.... We need a factor here...
+            //NSLog(@"%d normFunc(%f, %f, %f) = %f", xindex, x, average, stddev, normFunc(x, average, stddev));
+            double y = (normFunc(x, average, stddev)-minY)*FUNNY_FACTOR / yPixelPerUnit;
+            //NSLog(@"(%f, %f)", x, y);
+            [path lineToPoint: NSMakePoint(dstRect.origin.x+xindex, y)];
+        }
+        [normalColor set];
+        [path stroke];
+    }
+        
 }
 
 @end

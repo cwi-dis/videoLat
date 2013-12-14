@@ -14,7 +14,8 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        // Initialization code here.
+        self.detectCount = @"unknown";
+        self.detectAverage = @"unknown";
     }
     return self;
 }

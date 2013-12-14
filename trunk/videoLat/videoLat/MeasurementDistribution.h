@@ -15,6 +15,10 @@
     int binCount;
     double binSize;
 }
+@property(readonly) double average;
+@property(readonly) double stddev;
+@property(readonly) double max;
+@property(readonly) double maxXaxis;
 
 - (MeasurementDistribution *)initWithSource: (MeasurementDataStore *)source;
 - (void)awakeFromNib;
