@@ -49,6 +49,9 @@
 @property(readonly) double min;
 @property(readonly) double max;
 @property(readonly) int count;
+@property(readonly) double average;
+@property(readonly) double stddev;
+@property(readonly) double maxXaxis;
 
 - (NSNumber *)valueForIndex: (int) i;
 @end

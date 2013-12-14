@@ -23,6 +23,11 @@
 @synthesize baseMeasurementAverage;
 @synthesize baseMeasurementStddev;
 
+- (double) maxXaxis
+{
+    return count;
+}
+
 - (double) average
 {
     double rv = sum / count;

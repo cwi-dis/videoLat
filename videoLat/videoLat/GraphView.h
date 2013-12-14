@@ -19,6 +19,8 @@
 @property(retain) NSNumber *maxYscale;
 @property(retain) NSString *maxXformat;
 @property(retain) NSString *maxYformat;
+@property BOOL showAverage;
+@property BOOL showNormal;
 
 - (void)drawRect:(NSRect)dirtyRect;
 

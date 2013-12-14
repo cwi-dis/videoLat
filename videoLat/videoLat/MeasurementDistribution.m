@@ -10,6 +10,10 @@
 
 @implementation MeasurementDistribution
 
+- (double) average { return source.average; }
+- (double) stddev { return source.stddev; }
+- (double) maxXaxis { return source.max; }
+
 - (MeasurementDistribution *) init
 {
     self = [super init];
