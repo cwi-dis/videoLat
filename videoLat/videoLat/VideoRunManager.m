@@ -9,6 +9,7 @@
 #import "PythonSwitcher.h"
 #import "FindQRCodes.h"
 #import "GenQRCodes.h"
+#import <sys/sysctl.h>
 
 //
 // Prerun parameters.
@@ -294,7 +295,7 @@
 {
 #if 1
     if (VL_DEBUG) NSLog(@"Prerun no reception\n");
-    if ([collector now] - outputStartTime > prerunDelay) {
+    if (outputStartTime != 0 && [collector now] - outputStartTime > prerunDelay) {
         // No data found within alotted time. Double the time, reset the count, change mirroring
         if (VL_DEBUG) NSLog(@"outputStartTime=%llu, prerunDelay=%llu, mirrored=%d\n", outputStartTime, prerunDelay, self.mirrored);
         prerunDelay += (prerunDelay/4);
@@ -302,6 +303,8 @@
         self.mirrored = !self.mirrored;
         outputView.mirrored = self.mirrored;
         outputStartTime = 0;
+        statusView.detectCount = [NSString stringWithFormat: @"%d more, mirrored=%d", prerunMoreNeeded, (int)self.mirrored];
+        [statusView update: self];
         [self performSelectorOnMainThread: @selector(_triggerNewOutputValue) withObject: nil waitUntilDone: NO];
     } 
 #endif
@@ -313,8 +316,12 @@
     if (VL_DEBUG) NSLog(@"prerun reception %@\n", code);
     if (self.preRunning) {
         prerunMoreNeeded -= 1;
+        statusView.detectCount = [NSString stringWithFormat: @"%d more, mirrored=%d", prerunMoreNeeded, (int)self.mirrored];
+        [statusView update: self];
         if (VL_DEBUG) NSLog(@"preRunMoreMeeded=%d\n", prerunMoreNeeded);
         if (prerunMoreNeeded == 0) {
+            statusView.detectCount = @"";
+            [statusView update: self];
             [self performSelectorOnMainThread: @selector(stopPreMeasuring:) withObject: self waitUntilDone: NO];
         }
     }
