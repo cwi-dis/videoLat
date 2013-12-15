@@ -50,7 +50,6 @@
 				[collector recordReception: isWhite?@"white":@"black" at: receptionTime];
             inputAddedOverhead = 0;
             outputCode = [NSString stringWithFormat:@"%lld", receptionTime];
-            outputCodeHasBeenReported = false;
             [self performSelectorOnMainThread: @selector(_triggerNewOutputValue) withObject: nil waitUntilDone: NO];
             
         }
@@ -195,13 +194,12 @@ bad2:
 - (void) newOutputDone
 {
     @synchronized(self) {
-        if (outputStartTime == 0 || outputCodeHasBeenReported) return;
+        if (outputStartTime == 0) return;
         assert(outputAddedOverhead < [collector now]);
         assert(strcmp([outputCode UTF8String], "BadCookie") != 0);
 		uint64_t outputTime = [collector now] - outputAddedOverhead;
 		if (self.running)
 			[collector recordTransmission: currentColorIsWhite?@"white":@"black" at: outputTime];
-        outputCodeHasBeenReported = true;
         outputStartTime = 0;
         outputAddedOverhead = 0;
     }

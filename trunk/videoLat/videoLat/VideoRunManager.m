@@ -29,14 +29,17 @@
 - (VideoRunManager*)init
 {
 	if (self) {
-		current_qrcode = nil;
-		outputAddedOverhead = 0;
 		outputStartTime = 0;
-		inputAddedOverhead = 0;
-		inputStartTime = 0;
+		outputAddedOverhead = 0;
+        prevOutputStartTime = 0;
 		outputCode = nil;
-		outputCodeHasBeenReported = true;
-		lastInputCode = nil;
+        prevOutputCode = nil;
+		outputCodeImage = nil;
+
+        inputStartTime = 0;
+        inputAddedOverhead = 0;
+        prevInputStartTime = 0;
+        prevInputCode = nil;
 		capturer = nil;
 	}
     return self;
@@ -80,7 +83,7 @@
 					measurementType.name,
 					measurementType.requires.name
 				];
-			[alert runModal];
+			[alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
 		}
 	}
 	[selectionView.bRun setEnabled: NO];
@@ -192,59 +195,76 @@
 
 - (CIImage *)newOutputStart
 {
+    // Called from the redraw routine, should generate a new output code only when needed.
     @synchronized(self) {
-        CIImage *newImage = nil;
+        
+        // If we are not running we should display a blue-grayish square
         if (!self.running && !self.preRunning) {
-            newImage = [CIImage imageWithColor:[CIColor colorWithRed:0.1 green:0.4 blue:0.5]];
+            CIImage *idleImage = [CIImage imageWithColor:[CIColor colorWithRed:0.1 green:0.4 blue:0.5]];
             CGRect rect = {0, 0, 480, 480};
-            newImage = [newImage imageByCroppingToRect: rect];
-            return newImage;
+            idleImage = [idleImage imageByCroppingToRect: rect];
+            return idleImage;
         }
-        if (outputStartTime == 0) outputStartTime = [collector now];
+        
+        // If we have already generated a QR code that hasn't been detected yet we return that.
+        if (outputCodeImage)
+            return outputCodeImage;
+        
+        // Generate a new image. First obtain the timestamp.
+        prevOutputStartTime = outputStartTime;
+        outputStartTime = [collector now];
+        prerunOutputStartTime = outputStartTime;
         outputAddedOverhead = 0;
-        // We create a new image if either the previous one has been detected, or
-        // if we are free-running.
-        if (current_qrcode) {
-            newImage = current_qrcode;
-        } else {
-            outputCode = [NSString stringWithFormat:@"%lld", outputStartTime];
-            if (self.running) assert(outputCodeHasBeenReported);
-            outputCodeHasBeenReported = false;
-            if (delegate && [delegate respondsToSelector:@selector(newOutput:)]) {
-                NSString *new = [delegate newOutput: outputCode];
-                if (new) {
-                    // Delegate decided to wait for something else, we transmit black
-                    newImage = [CIImage imageWithColor:[CIColor colorWithRed:0 green:0 blue:0]];
-                    CGRect rect = {0, 0, 480, 480};
-                    newImage = [newImage imageByCroppingToRect: rect];
-                    current_qrcode = newImage;
-                    outputCode = new;
-                    return newImage;
-                }
-            }
-            char *bitmapdata = (char*)malloc(480*480*4);
-            memset(bitmapdata, 0xf0, 480*480*4);
-            [genner gen: bitmapdata width: 480 height: 480 code: [outputCode UTF8String]];
-            NSData *data = [NSData dataWithBytesNoCopy:bitmapdata length:sizeof(bitmapdata) freeWhenDone: YES];
-            CGSize size = {480, 480};
-            newImage = [CIImage imageWithBitmapData:data bytesPerRow:4*480 size:size format: kCIFormatARGB8 colorSpace: nil];
-            current_qrcode = newImage;
+        
+        // Sanity check: times should be monotonically increasing
+        if (prevOutputStartTime && prevOutputStartTime >= outputStartTime) {
+            NSAlert *alert = [NSAlert alertWithMessageText:@"Warning: output clock not monotonically increasing."
+                    defaultButton:@"OK"
+                    alternateButton:nil
+                    otherButton:nil
+                    informativeTextWithFormat:@"Previous value was %lld, current value is %lld",
+                              (long long)prevOutputStartTime,
+                              (long long)outputStartTime];
+            [alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
         }
-        return newImage;
+        
+        // Generate the new output code
+        outputCode = [NSString stringWithFormat:@"%lld", outputStartTime];
+
+#if 0
+        if (delegate && [delegate respondsToSelector:@selector(newOutput:)]) {
+            NSString *new = [delegate newOutput: outputCode];
+            if (new) {
+                // Delegate decided to wait for something else, we transmit black
+                newImage = [CIImage imageWithColor:[CIColor colorWithRed:0 green:0 blue:0]];
+                CGRect rect = {0, 0, 480, 480};
+                newImage = [newImage imageByCroppingToRect: rect];
+                outputCodeImage = newImage;
+                outputCode = new;
+                return newImage;
+            }
+        }
+#endif
+        int bpp = 4;
+        CGSize size = {480, 480};
+        char *bitmapdata = (char*)malloc(size.width*size.height*bpp);
+        memset(bitmapdata, 0xf0, size.width*size.height*bpp);
+        [genner gen: bitmapdata width:size.width height:size.height code:[outputCode UTF8String]];
+        NSData *data = [NSData dataWithBytesNoCopy:bitmapdata length:sizeof(bitmapdata) freeWhenDone: YES];
+        outputCodeImage = [CIImage imageWithBitmapData:data bytesPerRow:bpp*size.width size:size format:kCIFormatARGB8 colorSpace:nil];
+        return outputCodeImage;
     }
 }
 
 - (void) newOutputDone
 {
     @synchronized(self) {
-        if (outputStartTime == 0 || outputCodeHasBeenReported) return;
+        if (outputStartTime == 0) return;
         assert(outputAddedOverhead < [collector now]);
-        if (self.running) assert(strcmp([outputCode UTF8String], "BadCookie") != 0);
 		uint64_t outputTime = [collector now] - outputAddedOverhead;
 		if (self.running) {
 			[collector recordTransmission: outputCode at: outputTime];
         }
-        outputCodeHasBeenReported = true;
         outputStartTime = 0;
         outputAddedOverhead = 0;
     }
@@ -253,6 +273,7 @@
 - (void) updateOutputOverhead: (double) deltaT
 {
     @synchronized(self) {
+        assert(deltaT > 0);
         assert(deltaT < 1.0);
         if (outputStartTime != 0) {
             assert(outputAddedOverhead < [collector now]);
@@ -275,12 +296,26 @@
     @synchronized(self) {
 //    assert(inputStartTime == 0);
         if (collector) {
+            prevInputStartTime = inputStartTime;
             inputStartTime = [collector now];
             inputAddedOverhead = 0;
+
+            // Sanity check: times should be monotonically increasing
+            if (prevInputStartTime && prevInputStartTime >= inputStartTime) {
+                NSAlert *alert = [NSAlert alertWithMessageText:@"Warning: input clock not monotonically increasing."
+                                                 defaultButton:@"OK"
+                                               alternateButton:nil
+                                                   otherButton:nil
+                                     informativeTextWithFormat:@"Previous value was %lld, current value is %lld",
+                                  (long long)prevInputStartTime,
+                                  (long long)inputStartTime];
+                [alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
+            }
         }
     }
 }
 
+// XXXJACK this method can go!
 - (void) newInputDone
 {
     @synchronized(self) {
@@ -295,14 +330,16 @@
 {
 #if 1
     if (VL_DEBUG) NSLog(@"Prerun no reception\n");
-    if (outputStartTime != 0 && [collector now] - outputStartTime > prerunDelay) {
+    if (prerunOutputStartTime != 0 && [collector now] - prerunOutputStartTime > prerunDelay) {
         // No data found within alotted time. Double the time, reset the count, change mirroring
         if (VL_DEBUG) NSLog(@"outputStartTime=%llu, prerunDelay=%llu, mirrored=%d\n", outputStartTime, prerunDelay, self.mirrored);
-        prerunDelay += (prerunDelay/4);
+        prerunDelay *= 2;
         prerunMoreNeeded = PRERUN_COUNT;
         self.mirrored = !self.mirrored;
         outputView.mirrored = self.mirrored;
+        prerunOutputStartTime = 0;
         outputStartTime = 0;
+        outputCodeImage = nil;
         statusView.detectCount = [NSString stringWithFormat: @"%d more, mirrored=%d", prerunMoreNeeded, (int)self.mirrored];
         [statusView update: self];
         [self performSelectorOnMainThread: @selector(_triggerNewOutputValue) withObject: nil waitUntilDone: NO];
@@ -331,62 +368,102 @@
 - (void) newInputDone: (void*)buffer width: (int)w height: (int)h format: (const char*)formatStr size: (int)size
 {
     @synchronized(self) {
-        if (inputStartTime == 0) {
-            if (VL_DEBUG) NSLog(@"newInputDone called, but inputStartTime==0\n");
-            return;
-        }
 		if (outputCode == nil) {
 			if (VL_DEBUG) NSLog(@"newInputDone called, but no output code yet\n");
 			return;
 		}
-        assert(inputStartTime != 0);
-            
+        if (inputStartTime == 0) {
+            NSLog(@"newInputDone called, but inputStartTime==0\n");
+            assert(0);
+            return;
+        }
+        
         char *code = [finder find: buffer width: w height: h format: formatStr size:size];
         BOOL foundQRcode = (code != NULL);
         if (foundQRcode) {
+            
 			// Compare the code to what was expected.
-			if (strcmp(code, [outputCode UTF8String]) == 0) {
-				// outputStartTime = 0;
-				// Correct. Prepare for creating a new QRcode.
-				if (current_qrcode == nil) {
-					// We found the last one already, don't count it again.
-					return;
-				}
-				current_qrcode = nil;
-				lastOutputCode = outputCode;
-				if (self.running) {
-                    assert(outputCodeHasBeenReported);
-                    outputCode = [NSString stringWithFormat: @"BadCookie"];
+            if (prevOutputCode && strcmp(code, [prevOutputCode UTF8String]) == 0) {
+				//NSLog(@"Received old output code again: %s", code);
+            } else if (prevInputCode && strcmp(code, [prevInputCode UTF8String]) == 0) {
+                //NSLog(@"Received same code as last reception: %s", code);
+                prevInputCodeDetectionCount++;
+                if ((prevInputCodeDetectionCount % 250) == 0) {
+                    NSAlert *alert = [NSAlert alertWithMessageText:@"Warning: no new QR code generated."
+                                                     defaultButton:@"OK"
+                                                   alternateButton:nil
+                                                       otherButton:nil
+                                         informativeTextWithFormat:@"QR-code %@ detected %d times. Generating new one.",
+                                      prevInputCode, prevInputCodeDetectionCount];
+                    [alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
+                    outputCodeImage = nil;
+                    inputAddedOverhead = 0;
+                    inputStartTime = 0;
+                    [self performSelectorOnMainThread: @selector(_triggerNewOutputValue) withObject: nil waitUntilDone: NO];
                 }
-			} else if (strcmp(code, [lastOutputCode UTF8String]) == 0) {
-				// We have received the previous code again. Ignore.
-				//NSLog(@"Same old code again: %s", code);
+            } else if (strcmp(code, [outputCode UTF8String]) == 0) {
+				// Correct code found.
+                
+                // Let's first report it.
+				if (self.running) {
+					BOOL ok = [collector recordReception: outputCode at: inputStartTime-inputAddedOverhead];
+                    if (!ok) {
+                        NSAlert *alert = [NSAlert alertWithMessageText:@"Reception before transmission."
+                                                         defaultButton:@"OK"
+                                                       alternateButton:nil
+                                                           otherButton:nil
+                                             informativeTextWithFormat:@"Code %@ was transmitted at %lld, but received at %lld. (Actually received at %lld, but with reported overhead of %lld)",
+                                          outputCode,
+                                          (long long)prerunOutputStartTime,
+                                          (long long)inputStartTime-inputAddedOverhead,
+                                          (long long)inputStartTime,
+                                          (long long)inputAddedOverhead];
+                        [alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
+                    }
+                } else if (self.preRunning) {
+                    [self _prerunRecordReception: outputCode];
+                }
+                // Now do a sanity check that it is greater than the previous detected code
+                if (prevInputCode && [prevInputCode length] >= [outputCode length] && [prevInputCode compare:outputCode] >= 0) {
+                    NSAlert *alert = [NSAlert alertWithMessageText:@"Warning: input QR-code not monotonically increasing."
+                                                     defaultButton:@"OK"
+                                                   alternateButton:nil
+                                                       otherButton:nil
+                                         informativeTextWithFormat:@"Previous value was %@, current value is %@",
+                                            prevInputCode, outputCode];
+                    [alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
+                }
+                // Now let's remember it so we don't generate "bad code" messages
+                // if we detect it a second time.
+                prevInputCode = outputCode;
+                prevInputCodeDetectionCount = 0;
+                
+                // Now generate a new output code.
+                outputCodeImage = nil;
+                inputAddedOverhead = 0;
+                inputStartTime = 0;
+                [self performSelectorOnMainThread: @selector(_triggerNewOutputValue) withObject: nil waitUntilDone: NO];
 			} else {
 				// We have transmitted a code, but received a different one??
-				NSLog(@"Bad data: expected %@, got %s", outputCode, code);
-				inputAddedOverhead = 0;
-				inputStartTime = 0;
-				[self performSelectorOnMainThread: @selector(_triggerNewOutputValue) withObject: nil waitUntilDone: NO];
-				return;
-			}
-            if (!lastInputCode || strcmp(code, [lastInputCode UTF8String]) != 0) {
-                lastInputCode = [NSString stringWithUTF8String: code];
-				if (self.running) {
-					[collector recordReception: lastInputCode at: inputStartTime-inputAddedOverhead];
-                } else if (self.preRunning) {
-                    [self _prerunRecordReception: lastInputCode];
+                if (self.running) {
+                    NSLog(@"Bad data: expected %@, got %s", outputCode, code);
+                    NSAlert *alert = [NSAlert alertWithMessageText:@"Warning: received unexpected QR-code."
+                                                     defaultButton:@"OK"
+                                                   alternateButton:nil
+                                                       otherButton:nil
+                                         informativeTextWithFormat:@"Expected value was %@, received %s",
+                                      outputCode, code];
+                    [alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
                 }
-            }
-            inputAddedOverhead = 0;
-            // Remember rectangle (for black/white detection)
-//xyzzy            status.finderRect = finder.rect;
-            [self performSelectorOnMainThread: @selector(_triggerNewOutputValue) withObject: nil waitUntilDone: NO];
+				[self performSelectorOnMainThread: @selector(_triggerNewOutputValue) withObject: nil waitUntilDone: NO];
+			}
         } else {
-            inputAddedOverhead = 0;
+             
             if (self.preRunning) {
                 [self _prerunRecordNoReception];
             }
         }
+        inputAddedOverhead = 0;
         inputStartTime = 0;
 		if (self.running) {
 			statusView.detectCount = [NSString stringWithFormat: @"%d", collector.count];
@@ -399,6 +476,7 @@
 - (void) updateInputOverhead: (double) deltaT
 {
     @synchronized(self) {
+        assert(deltaT > 0);
         if(inputStartTime != 0)
             inputAddedOverhead = (uint64_t)(deltaT*1000000.0);
     }

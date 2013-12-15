@@ -11,7 +11,6 @@
 
 @interface VideoOutputView : NSView <OutputVideoViewProtocol> {
     IBOutlet id <RunOutputManagerProtocol> manager;
-    bool newOutputDone;
 	BOOL mirrored;
 	NSString *deviceID;
 }
@@ -24,9 +23,6 @@
 
 - (void)drawRect:(NSRect)dirtyRect;
 	
-// Refresh callback
-- (void)refreshCallback: (CGRectCount)count rects: (const CGRect *)rectArray;
-
 - (IBAction)toggleFullscreen: (NSMenuItem*) sender;
  
 @end

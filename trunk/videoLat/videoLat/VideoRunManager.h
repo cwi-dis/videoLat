@@ -28,18 +28,23 @@
     id <OutputVideoGenProtocol> genner;
 
     uint64_t outputStartTime;       // When the last output was displayed
+    uint64_t prerunOutputStartTime;       // Same, but not reset when reported (for prerun duration checking)
 	uint64_t outputAddedOverhead;   // Computed overhead from outputStartTime to display time
+    uint64_t prevOutputStartTime;   // For checking they are monotonously increasing
+    NSString *outputCode;           // Current code on the display
+    NSString *prevOutputCode;       // Previous code, for dual detections and checking monotonous increase
+    CIImage *outputCodeImage;       // Current code as a CIImage
+
     uint64_t inputStartTime;        // When last input was read
 	uint64_t inputAddedOverhead;    // Computed overhead to be subtracted from inputStartTime
-    NSString *outputCode;           // Current code on the display
-    NSString *lastOutputCode;       // Previous code on the display
-    NSString *lastInputCode;        // last input code decyphered
-    bool outputCodeHasBeenReported; // False when output code generated, true when it has been reported to the collector
-
-    CIImage *current_qrcode;        // Current code as a CIImage
+    uint64_t prevInputStartTime;    // When last input was read
+    NSString *prevInputCode;         // For checking monotonous increase
+    int prevInputCodeDetectionCount;    // Number of times we re-detected a code.
+    
     
     uint64_t prerunDelay;           // How log to wait for prerun code finding
     int prerunMoreNeeded;           // How many more prerun correct catches we need
+    
 }
 @property(retain) IBOutlet Document *document;
 @property bool mirrored;
