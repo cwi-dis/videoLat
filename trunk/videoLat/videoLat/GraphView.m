@@ -143,7 +143,7 @@ static double normFunc(double x, double average, double stddev)
         [path stroke];
     }
     if (self.showNormal) {
-	   // Draw the cumulative path
+	   // Draw the cumulative distribution of the real data
 		NSColor *cumulativeColor = [self.color shadowWithLevel:0.5];
 		NSBezierPath *cumulativePath = [NSBezierPath bezierPath];
 		oldX = minX;
@@ -164,27 +164,26 @@ static double normFunc(double x, double average, double stddev)
 		[cumulativePath lineToPoint: NSMakePoint(newX, height)];
         [cumulativeColor set];
         [cumulativePath stroke];
-    }
-#if 0
-    if (self.showNormal) {
+
+		// Draw the cumulative normal distribution for the given average and stddev
         double average = self.source.average;
         double stddev = self.source.stddev;
         double step = self.source.maxXaxis / dstRect.size.width;
-        NSColor *normalColor = [self.color shadowWithLevel:0.5];
+		double cumvalue = 0;
+        NSColor *normalColor = [self.color highlightWithLevel:0.5];
         path = [NSBezierPath bezierPath];
-        [path moveToPoint: NSMakePoint(dstRect.origin.x, (normFunc(0, average, stddev)-minY) / yPixelPerUnit)];
+        [path moveToPoint: NSMakePoint(dstRect.origin.x, cumvalue * height)];
         for (int xindex=1; xindex <dstRect.size.width; xindex++) {
             double x = xindex * step;
-            double FUNNY_FACTOR = 1000;  // I don't understand this.... We need a factor here...
             //NSLog(@"%d normFunc(%f, %f, %f) = %f", xindex, x, average, stddev, normFunc(x, average, stddev));
-            double y = (normFunc(x, average, stddev)-minY)*FUNNY_FACTOR / yPixelPerUnit;
+            double value = normFunc(x, average, stddev);
+			cumvalue = cumvalue + (value*step);
             //NSLog(@"(%f, %f)", x, y);
-            [path lineToPoint: NSMakePoint(dstRect.origin.x+xindex, y)];
+            [path lineToPoint: NSMakePoint(dstRect.origin.x+xindex, cumvalue*height)];
         }
         [normalColor set];
         [path stroke];
     }
-#endif
 }
 
 @end
