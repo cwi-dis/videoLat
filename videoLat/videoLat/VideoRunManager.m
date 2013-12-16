@@ -30,14 +30,12 @@
 {
 	if (self) {
 		outputStartTime = 0;
-		outputAddedOverhead = 0;
         prevOutputStartTime = 0;
 		outputCode = nil;
         prevOutputCode = nil;
 		outputCodeImage = nil;
 
         inputStartTime = 0;
-        inputAddedOverhead = 0;
         prevInputStartTime = 0;
         prevInputCode = nil;
 	}
@@ -101,7 +99,6 @@
 {
 	prerunOutputStartTime = 0;
 	outputStartTime = 0;
-	inputAddedOverhead = 0;
 	inputStartTime = 0;
 	outputCodeImage = nil;
 	[self.outputView performSelectorOnMainThread:@selector(showNewData) withObject:nil waitUntilDone:NO ];
@@ -222,8 +219,7 @@
         prevOutputStartTime = outputStartTime;
         outputStartTime = [self.collector now];
         prerunOutputStartTime = outputStartTime;
-        outputAddedOverhead = 0;
-        
+
         // Sanity check: times should be monotonically increasing
         if (prevOutputStartTime && prevOutputStartTime >= outputStartTime) {
             NSAlert *alert = [NSAlert alertWithMessageText:@"Warning: output clock not monotonically increasing."
@@ -253,25 +249,11 @@
 {
     @synchronized(self) {
         if (outputStartTime == 0) return;
-        assert(outputAddedOverhead < [self.collector now]);
-		uint64_t outputTime = [self.collector now] - outputAddedOverhead;
+		uint64_t outputTime = [self.collector now];
 		if (self.running) {
 			[self.collector recordTransmission: outputCode at: outputTime];
         }
         outputStartTime = 0;
-        outputAddedOverhead = 0;
-    }
-}
-
-- (void) updateOutputOverhead: (double) deltaT
-{
-    @synchronized(self) {
-        assert(deltaT > 0);
-        assert(deltaT < 1.0);
-        if (outputStartTime != 0) {
-            assert(outputAddedOverhead < [self.collector now]);
-            outputAddedOverhead = (uint64_t)(deltaT*1000000.0);
-        }
     }
 }
 
@@ -293,7 +275,6 @@
         if (self.collector) {
             prevInputStartTime = inputStartTime;
             inputStartTime = [self.collector now];
-            inputAddedOverhead = 0;
 
             // Sanity check: times should be monotonically increasing
             if (prevInputStartTime && prevInputStartTime >= inputStartTime) {
@@ -398,18 +379,16 @@
                 
                 // Let's first report it.
 				if (self.running) {
-					BOOL ok = [self.collector recordReception: outputCode at: inputStartTime-inputAddedOverhead];
+					BOOL ok = [self.collector recordReception: outputCode at: inputStartTime];
                     if (!ok) {
                         NSAlert *alert = [NSAlert alertWithMessageText:@"Reception before transmission."
                                                          defaultButton:@"OK"
                                                        alternateButton:nil
                                                            otherButton:nil
-                                             informativeTextWithFormat:@"Code %@ was transmitted at %lld, but received at %lld. (Actually received at %lld, but with reported overhead of %lld)",
+                                             informativeTextWithFormat:@"Code %@ was transmitted at %lld, but received at %lld.)",
                                           outputCode,
                                           (long long)prerunOutputStartTime,
-                                          (long long)inputStartTime-inputAddedOverhead,
-                                          (long long)inputStartTime,
-                                          (long long)inputAddedOverhead];
+                                          (long long)inputStartTime];
                         [alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
                     }
                 } else if (self.preRunning) {
@@ -454,7 +433,6 @@
                 [self _prerunRecordNoReception];
             }
         }
-        inputAddedOverhead = 0;
         inputStartTime = 0;
 		if (self.running) {
 			self.statusView.detectCount = [NSString stringWithFormat: @"%d", self.collector.count];
@@ -463,15 +441,4 @@
 		}
     }
 }
-
-- (void) updateInputOverhead: (double) deltaT
-{
-    @synchronized(self) {
-        assert(deltaT > 0);
-        if(inputStartTime != 0)
-            inputAddedOverhead = (uint64_t)(deltaT*1000000.0);
-    }
-}
-
-
 @end
