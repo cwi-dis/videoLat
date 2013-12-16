@@ -9,13 +9,13 @@
 #import <Cocoa/Cocoa.h>
 
 @interface RunStatusView : NSView
-@property(retain) IBOutlet NSButton *bStop;
+@property(weak) IBOutlet NSButton *bStop;
 
-@property(retain) IBOutlet NSTextField *bCount;
-@property(retain) IBOutlet NSTextField *bAverage;
+@property(weak) IBOutlet NSTextField *bCount;
+@property(weak) IBOutlet NSTextField *bAverage;
 
-@property(retain) NSString *detectCount;
-@property(retain) NSString *detectAverage;
+@property(strong) NSString *detectCount;
+@property(strong) NSString *detectAverage;
 
 - (IBAction)update: (id)sender;
 @end

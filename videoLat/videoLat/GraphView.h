@@ -11,14 +11,14 @@
 
 @interface GraphView : NSView {
 }
-@property(retain) NSColor *color;
-@property(retain) IBOutlet NSTextField *bMaxX;
-@property(retain) IBOutlet NSTextField *bMaxY;
-@property(retain) IBOutlet id<GraphDataProviderProtocol> source;
-@property(retain) NSNumber *maxXscale;
-@property(retain) NSNumber *maxYscale;
-@property(retain) NSString *maxXformat;
-@property(retain) NSString *maxYformat;
+@property(strong) NSColor *color;
+@property(weak) IBOutlet NSTextField *bMaxX;
+@property(weak) IBOutlet NSTextField *bMaxY;
+@property(weak) IBOutlet id<GraphDataProviderProtocol> source;
+@property(strong) NSNumber *maxXscale;
+@property(strong) NSNumber *maxYscale;
+@property(strong) NSString *maxXformat;
+@property(strong) NSString *maxYformat;
 @property BOOL showAverage;
 @property BOOL showNormal;
 

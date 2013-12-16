@@ -11,7 +11,7 @@
 #import "MeasurementDistribution.h"
 #import "MeasurementType.h"
 
-@interface Document : NSDocument {
+@interface Document : NSDocument <NSWindowDelegate> {
     NSArray *objectsForNewDocument;
 	MeasurementType *myType;
 }
@@ -23,14 +23,14 @@
 @property(readonly) NSString* inputDevice;
 @property(readonly) NSString* outputDeviceID;
 @property(readonly) NSString* outputDevice;
-@property(retain) NSString* description;
-@property(retain) NSString* date;
-@property(retain) NSString* location;
+@property(strong) NSString* description;
+@property(strong) NSString* date;
+@property(strong) NSString* location;
 
-@property(retain) IBOutlet MeasurementDataStore *dataStore;
-@property(retain) IBOutlet MeasurementDistribution *dataDistribution;
-@property(retain) IBOutlet id myView;
-@property(retain) IBOutlet NSWindow *measurementWindow;
+@property(strong) IBOutlet MeasurementDataStore *dataStore;
+@property(strong) IBOutlet MeasurementDistribution *dataDistribution;
+@property(strong) IBOutlet id myView;
+@property(strong) IBOutlet NSWindow *measurementWindow;
 
 - (IBAction)newDocumentComplete: (id)sender;
 - (IBAction)export: (id)sender;

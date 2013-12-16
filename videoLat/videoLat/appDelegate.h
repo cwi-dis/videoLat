@@ -13,9 +13,9 @@
 
 @interface appDelegate : NSObject <CLLocationManagerDelegate>{
 }
-@property(retain) MeasurementType *measurementTypes;
-@property(retain) CLLocationManager *locationManager;
-@property(retain) NSString *location;
+@property(strong) MeasurementType *measurementTypes;
+@property(strong) CLLocationManager *locationManager;
+@property(strong) NSString *location;
 
 - (NSURL *)directoryForCalibrations;
 - (void)_loadCalibrationsFrom: (NSURL *)directory;

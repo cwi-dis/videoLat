@@ -10,29 +10,29 @@
 
 @interface DocumentDescriptionView : NSView {
 }
-@property(retain) IBOutlet NSTextField *bMeasurementType;
-@property(retain) IBOutlet NSTextField *bMachine;
-@property(retain) IBOutlet NSTextField *bInputDevice;
-@property(retain) IBOutlet NSTextField *bOutputDevice;
-@property(retain) IBOutlet NSTextField *bDate;
-@property(retain) IBOutlet NSTextField *bLocation;
-@property(retain) IBOutlet NSTextField *bDescription;
-@property(retain) IBOutlet NSTextField *bDetectCount;
-@property(retain) IBOutlet NSTextField *bDetectAverage;
-@property(retain) IBOutlet NSTextField *bDetectMinDelay;
-@property(retain) IBOutlet NSTextField *bDetectMaxDelay;
+@property(weak) IBOutlet NSTextField *bMeasurementType;
+@property(weak) IBOutlet NSTextField *bMachine;
+@property(weak) IBOutlet NSTextField *bInputDevice;
+@property(weak) IBOutlet NSTextField *bOutputDevice;
+@property(weak) IBOutlet NSTextField *bDate;
+@property(weak) IBOutlet NSTextField *bLocation;
+@property(weak) IBOutlet NSTextField *bDescription;
+@property(weak) IBOutlet NSTextField *bDetectCount;
+@property(weak) IBOutlet NSTextField *bDetectAverage;
+@property(weak) IBOutlet NSTextField *bDetectMinDelay;
+@property(weak) IBOutlet NSTextField *bDetectMaxDelay;
 
-@property(retain) NSString *measurementType;
-@property(retain) NSString *machine;
-@property(retain) NSString *inputDevice;
-@property(retain) NSString *outputDevice;
-@property(retain) NSString *date;
-@property(retain) NSString *location;
-@property(retain) NSString *description;
-@property(retain) NSString *detectCount;
-@property(retain) NSString *detectAverage;
-@property(retain) NSString *detectMinDelay;
-@property(retain) NSString *detectMaxDelay;
+@property(strong) NSString *measurementType;
+@property(strong) NSString *machine;
+@property(strong) NSString *inputDevice;
+@property(strong) NSString *outputDevice;
+@property(strong) NSString *date;
+@property(strong) NSString *location;
+@property(strong) NSString *description;
+@property(strong) NSString *detectCount;
+@property(strong) NSString *detectAverage;
+@property(strong) NSString *detectMinDelay;
+@property(strong) NSString *detectMaxDelay;
 
 - (void) update: (id)sender;
 @end

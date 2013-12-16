@@ -10,27 +10,31 @@
 
 @implementation MeasurementDistribution
 
-- (double) average { return source.average; }
-- (double) stddev { return source.stddev; }
-- (double) maxXaxis { return source.max; }
+- (double) average { return self.source.average; }
+- (double) stddev { return self.source.stddev; }
+- (double) maxXaxis { return self.source.max; }
 
 - (MeasurementDistribution *) init
 {
     self = [super init];
     if (self) {
         store = nil;
-        source = nil;
         binCount = 100;
         binSize = 0;
     }
     return self;
 }
 
-- (MeasurementDistribution *)initWithSource: (MeasurementDataStore *)_source
+- (void) dealloc
+{
+}
+
+- (MeasurementDistribution *)initWithSource: (MeasurementDataStore *)source
 {
     self = [self init];
     if (self) {
-        [self setSource: _source];
+        self.source = source;
+		[self _recompute];
     }
     return self;
 }
@@ -40,24 +44,19 @@
     [self _recompute];
 }
 
-- (void)setSource: (id) _source
+- (void)_recompute
 {
-    source = _source;
+	if (self.source == nil) return;
     store = [[NSMutableArray alloc] initWithCapacity:binCount];
     for (int i=0; i<binCount; i++)
         [store addObject:[NSNumber numberWithDouble:0]];
-    [self _recompute];
-}
-
-- (void)_recompute
-{
-    double sourceMin = source.min;
-    double sourceMax = source.max;
+    double sourceMin = self.source.min;
+    double sourceMax = self.source.max;
     if (sourceMin > 0) sourceMin = 0; // For now we want distribution plots to start at 0.0
     binSize = (sourceMax - sourceMin) / (binCount-1);
-    int sourceCount = source.count;
+    int sourceCount = self.source.count;
     for (int i=0; i < sourceCount; i++) {
-        double value = [[source valueForIndex: i] doubleValue];
+        double value = [[self.source valueForIndex: i] doubleValue];
         int binIndex = (int)((value-sourceMin) / binSize);
         double binValue = [[store objectAtIndex: binIndex] doubleValue];
         binValue += 1.0 / sourceCount;
@@ -95,8 +94,8 @@
 	NSMutableString *rv;
 	rv = [NSMutableString stringWithCapacity: 0];
 	[rv appendString:@"lowerBound,upperBound,binValue\n"];
-    double sourceMin = source.min;
-    double sourceMax = source.max;
+    double sourceMin = self.source.min;
+    double sourceMax = self.source.max;
     if (sourceMin > 0) sourceMin = 0; // For now we want distribution plots to start at 0.0
     binSize = (sourceMax - sourceMin) / (binCount-1);
 	double lwb = sourceMin;

@@ -91,7 +91,11 @@
     store = [coder decodeObjectForKey: @"store"];
     return self;
 }
-           
+
+- (void) dealloc
+{
+}
+
 - (void)encodeWithCoder:(NSCoder *)coder
 {
     [coder encodeObject:measurementType forKey: @"scenario"];

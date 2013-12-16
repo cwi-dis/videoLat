@@ -15,15 +15,15 @@
 	NSArray *runManagerNibObjects;	// Storage for toplevel object references from loaded nibfiles
     BOOL wasAwokenFromNib;
 }
-@property(retain) IBOutlet NSPopUpButton *bType;
-@property(retain) IBOutlet BaseRunManager *runManager;
-@property(retain) IBOutlet NSView *selectionView;
-@property(retain) IBOutlet NSView *outputView;
-@property(retain) IBOutlet RunStatusView *statusView;
-@property(retain) IBOutlet RunCollector *collector;
-@property(retain) IBOutlet Document *document;
-@property(retain) IBOutlet NSView *selectionContainerView;
-@property(retain) IBOutlet NSView *outputContainerView;
+@property(weak) IBOutlet NSPopUpButton *bType;
+@property(strong) IBOutlet BaseRunManager *runManager;
+@property(weak) IBOutlet NSView *selectionView;
+@property(weak) IBOutlet NSView *outputView;
+@property(weak) IBOutlet RunStatusView *statusView;
+@property(weak) IBOutlet RunCollector *collector;
+@property(weak) IBOutlet Document *document;
+@property(weak) IBOutlet NSView *selectionContainerView;
+@property(weak) IBOutlet NSView *outputContainerView;
 
 - (IBAction)typeChanged: (id)sender;
 - (IBAction)stopMeasuring: (id)sender;

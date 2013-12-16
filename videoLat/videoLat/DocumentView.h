@@ -16,10 +16,10 @@
     BOOL initialValues;
 };
 
-@property(retain) IBOutlet DocumentDescriptionView *status;
-@property(retain) IBOutlet GraphView *values;
-@property(retain) IBOutlet GraphView *distribution;
-@property(retain) IBOutlet Document *document;
+@property(weak) IBOutlet DocumentDescriptionView *status;
+@property(weak) IBOutlet GraphView *values;
+@property(weak) IBOutlet GraphView *distribution;
+@property(weak) IBOutlet Document *document;
 
 - (void)viewWillDraw;
 - (void)updateView;

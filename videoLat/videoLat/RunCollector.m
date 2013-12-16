@@ -30,6 +30,10 @@
     return self;
 }
 
+- (void) dealloc
+{
+}
+
 - (void) awakeFromNib
 {
     dataStore = self.document.dataStore;

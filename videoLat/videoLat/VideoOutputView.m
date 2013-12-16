@@ -93,7 +93,7 @@
 }
 
 - (void)drawRect:(NSRect)dirtyRect {
-    CIImage *newImage = [manager newOutputStart];
+    CIImage *newImage = [self.manager newOutputStart];
     assert(newImage);
     if (mirrored) {
         CIImage *mirror = [newImage imageByApplyingTransform: CGAffineTransformMakeScale(-1.0, 1.0)];
@@ -108,7 +108,7 @@
     [newImage drawInRect:dstRect fromRect:NSRectFromCGRect([newImage extent]) operation:NSCompositeCopy fraction:1];
 
     // Report back that we have displayed it.
-    [manager newOutputDone];
+    [self.manager newOutputDone];
 }
 
 @end

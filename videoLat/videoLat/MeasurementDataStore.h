@@ -19,19 +19,19 @@
 	NSMutableArray *store;
 };
 
-@property(retain) NSString* measurementType;
-@property(retain) NSString* machineID;
-@property(retain) NSString* machine;
-@property(retain) NSString* inputDeviceID;
-@property(retain) NSString* inputDevice;
-@property(retain) NSString* outputDeviceID;
-@property(retain) NSString* outputDevice;
+@property(strong) NSString* measurementType;
+@property(strong) NSString* machineID;
+@property(strong) NSString* machine;
+@property(strong) NSString* inputDeviceID;
+@property(strong) NSString* inputDevice;
+@property(strong) NSString* outputDeviceID;
+@property(strong) NSString* outputDevice;
 @property(readonly) double min;
 @property(readonly) double max;
 @property(readonly) double average;
 @property(readonly) double stddev;
 @property(readonly) int count;
-@property(retain) NSString* baseMeasurementID;
+@property(strong) NSString* baseMeasurementID;
 @property(readonly) double baseMeasurementAverage;
 @property(readonly) double baseMeasurementStddev;
 
