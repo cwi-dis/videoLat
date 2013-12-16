@@ -114,18 +114,16 @@ static double normFunc(double x, double average, double stddev)
     CGFloat oldX = minX, oldY = 0;
     CGFloat newX = oldX, newY;
 
-    double totalArea = 0;
     [path moveToPoint: NSMakePoint(oldX, oldY)];
     int i;
     for (i=minX; i<=maxX; i++) {
         newX = oldX + xPixelPerUnit;
-        newY = ([[self.source valueForIndex:i] doubleValue] - minY) / yPixelPerUnit;
+		CGFloat value = [[self.source valueForIndex:i] doubleValue];
+        newY = (value - minY) / yPixelPerUnit;
         [path lineToPoint: NSMakePoint(oldX, newY)];
         [path lineToPoint: NSMakePoint(newX, newY)];
-        totalArea += newY * (newX - oldX);
         if (VL_DEBUG) NSLog(@"point %f, %f", newX, newY);
         oldX = newX;
-        //oldY = newY;
     }
     [path lineToPoint: NSMakePoint(newX, 0)];
     [path closePath];
@@ -145,6 +143,30 @@ static double normFunc(double x, double average, double stddev)
         [path stroke];
     }
     if (self.showNormal) {
+	   // Draw the cumulative path
+		NSColor *cumulativeColor = [self.color shadowWithLevel:0.5];
+		NSBezierPath *cumulativePath = [NSBezierPath bezierPath];
+		oldX = minX;
+		CGFloat oldCumulativeY = 0;
+		newX = oldX;
+		CGFloat newCumulativeY;
+		[cumulativePath moveToPoint: NSMakePoint(oldX, oldCumulativeY)];
+		int i;
+		for (i=minX; i<=maxX; i++) {
+			newX = oldX + xPixelPerUnit;
+			CGFloat value = [[self.source valueForIndex:i] doubleValue];
+			newCumulativeY = oldCumulativeY + value;
+			[cumulativePath lineToPoint: NSMakePoint(oldX, newCumulativeY*height)];
+			[cumulativePath lineToPoint: NSMakePoint(newX, newCumulativeY*height)];
+			oldX = newX;
+			oldCumulativeY = newCumulativeY;
+		}
+		[cumulativePath lineToPoint: NSMakePoint(newX, height)];
+        [cumulativeColor set];
+        [cumulativePath stroke];
+    }
+#if 0
+    if (self.showNormal) {
         double average = self.source.average;
         double stddev = self.source.stddev;
         double step = self.source.maxXaxis / dstRect.size.width;
@@ -162,7 +184,7 @@ static double normFunc(double x, double average, double stddev)
         [normalColor set];
         [path stroke];
     }
-        
+#endif
 }
 
 @end

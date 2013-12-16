@@ -138,7 +138,7 @@
 - (void)windowWillClose:(NSNotification *)notification
 {
 	// The "new document" window is closing. Check whether it produced results.
-	NSLog(@"windowWillClose for new measurement window");
+	NSLog(@"windowWillClose for new measurement window %@", [notification object]);
 	if (self.measurementWindow) {
 		NSLog(@"Closing unfinished document");
 		self.measurementWindow = nil;
