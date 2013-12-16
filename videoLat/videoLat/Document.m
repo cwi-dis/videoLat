@@ -125,13 +125,13 @@
     }
     
     // Close the measurement window and open the document window
+	if (self.measurementWindow) {
+		NSWindow *measurementWindow = self.measurementWindow;
+		self.measurementWindow = nil;
+		[measurementWindow close];
+	}
     [super makeWindowControllers];
     [self showWindows];
-
-	if (self.measurementWindow) {
-		[self.measurementWindow close];
-		self.measurementWindow = nil;
-	}
     [(DocumentView *)self.myView updateView];
 }
 
