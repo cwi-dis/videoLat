@@ -63,42 +63,48 @@
 
 - (void)selectMeasurementType: (NSString *)typeName
 {
-	[super selectMeasurementType:typeName];
-	if (!self.selectionView) {
-		// XXXJACK Make sure selectionView is active/visible
-	}
-	if (measurementType.isCalibration) {
-		[self.selectionView.bBase setEnabled:NO];
-		[self.selectionView.bPreRun setEnabled: YES];
-	} else {
-		NSArray *calibrationNames = measurementType.requires.measurementNames;
-		[self.selectionView.bBase setEnabled:YES];
-		[self.selectionView.bBase addItemsWithTitles:calibrationNames];
-		if ([self.selectionView.bBase selectedItem]) {
+	@synchronized(self) {
+		[super selectMeasurementType:typeName];
+		if (!self.selectionView) {
+			// XXXJACK Make sure selectionView is active/visible
+		}
+		if (measurementType.isCalibration) {
+			[self.selectionView.bBase setEnabled:NO];
 			[self.selectionView.bPreRun setEnabled: YES];
 		} else {
-			[self.selectionView.bPreRun setEnabled: NO];
-			NSAlert *alert = [NSAlert alertWithMessageText:@"No calibrations available."
-				defaultButton:@"OK"
-				alternateButton:nil
-				otherButton:nil
-				informativeTextWithFormat:@"%@ measurements should be based on a %@ calibration. Please calibrate first.",
-					measurementType.name,
-					measurementType.requires.name
-				];
-			[alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
+			NSArray *calibrationNames = measurementType.requires.measurementNames;
+			[self.selectionView.bBase setEnabled:YES];
+			[self.selectionView.bBase addItemsWithTitles:calibrationNames];
+			if ([self.selectionView.bBase selectedItem]) {
+				[self.selectionView.bPreRun setEnabled: YES];
+			} else {
+				[self.selectionView.bPreRun setEnabled: NO];
+				NSAlert *alert = [NSAlert alertWithMessageText:@"No calibrations available."
+					defaultButton:@"OK"
+					alternateButton:nil
+					otherButton:nil
+					informativeTextWithFormat:@"%@ measurements should be based on a %@ calibration. Please calibrate first.",
+						measurementType.name,
+						measurementType.requires.name
+					];
+				[alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
+			}
 		}
-	}
-	[self.selectionView.bRun setEnabled: NO];
-	if (self.statusView) {
-		[self.statusView.bStop setEnabled: NO];
+		[self.selectionView.bRun setEnabled: NO];
+		if (self.statusView) {
+			[self.statusView.bStop setEnabled: NO];
+		}
 	}
 }
 
 - (void)_triggerNewOutputValue
 {
-	// XXXJACK can be simplified
-	[self.outputView showNewData];
+	prerunOutputStartTime = 0;
+	outputStartTime = 0;
+	inputAddedOverhead = 0;
+	inputStartTime = 0;
+	outputCodeImage = nil;
+	[self.outputView performSelectorOnMainThread:@selector(showNewData) withObject:nil waitUntilDone:NO ];
 }
 
 - (void)reportDataCapturer: (id)capt
@@ -108,74 +114,73 @@
 
 - (IBAction)startPreMeasuring: (id)sender
 {
-	// First check that everything is OK with base measurement and such
-	if (!measurementType.isCalibration) {
-		// First check that a base measurement has been selected.
-		NSString *errorMessage;
-		NSMenuItem *baseItem = [self.selectionView.bBase selectedItem];
-		NSString *baseName = [baseItem title];
-		MeasurementType *baseType = measurementType.requires;
-		MeasurementDataStore *baseStore = [baseType measurementNamed: baseName];
-		if (baseType == nil) {
-			errorMessage = @"No base (calibration) measurement selected.";
-		} else {
-			// Check that the base measurement is compatible with this measurement,
-			char hwName_c[100] = "unknown";
-			size_t len = sizeof(hwName_c);
-			sysctlbyname("hw.model", hwName_c, &len, NULL, 0);
-			NSString *hwName = [NSString stringWithUTF8String:hwName_c];
-			if (![baseStore.machineID isEqualToString:hwName]) {
-				errorMessage = [NSString stringWithFormat:@"Base measurement done on %@, current hardware is %@", baseStore.machine, hwName];
+	@synchronized(self) {
+		// First check that everything is OK with base measurement and such
+		if (!measurementType.isCalibration) {
+			// First check that a base measurement has been selected.
+			NSString *errorMessage;
+			NSMenuItem *baseItem = [self.selectionView.bBase selectedItem];
+			NSString *baseName = [baseItem title];
+			MeasurementType *baseType = measurementType.requires;
+			MeasurementDataStore *baseStore = [baseType measurementNamed: baseName];
+			if (baseType == nil) {
+				errorMessage = @"No base (calibration) measurement selected.";
+			} else {
+				// Check that the base measurement is compatible with this measurement,
+				char hwName_c[100] = "unknown";
+				size_t len = sizeof(hwName_c);
+				sysctlbyname("hw.model", hwName_c, &len, NULL, 0);
+				NSString *hwName = [NSString stringWithUTF8String:hwName_c];
+				if (![baseStore.machineID isEqualToString:hwName]) {
+					errorMessage = [NSString stringWithFormat:@"Base measurement done on %@, current hardware is %@", baseStore.machine, hwName];
+				}
+				if (![baseStore.inputDeviceID isEqualToString:self.capturer.deviceID]) {
+					errorMessage = [NSString stringWithFormat:@"Base measurement uses input %@, current measurement uses %@", baseStore.inputDevice, self.capturer.deviceName];
+				}
+				if (![baseStore.outputDeviceID isEqualToString:self.outputView.deviceID]) {
+					errorMessage = [NSString stringWithFormat:@"Base measurement uses output %@, current measurement uses %@", baseStore.outputDevice, self.outputView.deviceName];
+				}
 			}
-			if (![baseStore.inputDeviceID isEqualToString:self.capturer.deviceID]) {
-				errorMessage = [NSString stringWithFormat:@"Base measurement uses input %@, current measurement uses %@", baseStore.inputDevice, self.capturer.deviceName];
+			if (errorMessage) {
+				NSAlert *alert = [NSAlert alertWithMessageText: @"Base calibration mismatch, are you sure you want to continue?"
+					defaultButton:@"Cancel"
+					alternateButton:@"Continue"
+					otherButton:nil
+					informativeTextWithFormat:@"%@", errorMessage];
+				NSInteger button = [alert runModal];
+				if (button == NSAlertDefaultReturn)
+					return;
 			}
-			if (![baseStore.outputDeviceID isEqualToString:self.outputView.deviceID]) {
-				errorMessage = [NSString stringWithFormat:@"Base measurement uses output %@, current measurement uses %@", baseStore.outputDevice, self.outputView.deviceName];
-			}
+			[self.collector.dataStore useCalibration:baseStore];
+				
 		}
-		if (errorMessage) {
-			NSAlert *alert = [NSAlert alertWithMessageText: @"Base calibration mismatch, are you sure you want to continue?"
-				defaultButton:@"Cancel"
-				alternateButton:@"Continue"
-				otherButton:nil
-				informativeTextWithFormat:@"%@", errorMessage];
-			NSInteger button = [alert runModal];
-			if (button == NSAlertDefaultReturn)
-				return;
+		[self.selectionView.bPreRun setEnabled: NO];
+		[self.selectionView.bRun setEnabled: NO];
+		if (self.statusView) {
+			[self.statusView.bStop setEnabled: NO];
 		}
-		[self.collector.dataStore useCalibration:baseStore];
-			
+		// Do actual prerunning
+		prerunDelay = PRERUN_INITIAL_DELAY; // Start with 1ms delay (ridiculously low)
+		prerunMoreNeeded = PRERUN_COUNT;
+		self.preRunning = YES;
+		[self.capturer startCapturing: YES];
+		self.outputView.mirrored = self.mirrored;
+		[self _triggerNewOutputValue];
 	}
-	[self.selectionView.bPreRun setEnabled: NO];
-	[self.selectionView.bRun setEnabled: NO];
-	if (self.statusView) {
-		[self.statusView.bStop setEnabled: NO];
-	}
-#if 1
-    // Do actual prerunning
-    prerunDelay = PRERUN_INITIAL_DELAY; // Start with 1ms delay (ridiculously low)
-    prerunMoreNeeded = PRERUN_COUNT;
-    self.preRunning = YES;
-    [self.capturer startCapturing: YES];
-    self.outputView.mirrored = self.mirrored;
-    [self _triggerNewOutputValue];
-#else
-    // Forget about premeasuring
-    [self stopPreMeasuring:self];
-#endif
 }
 
 - (IBAction)stopPreMeasuring: (id)sender
 {
-    self.preRunning = NO;
-    [self.capturer stopCapturing];
-	[self.selectionView.bPreRun setEnabled: NO];
-	[self.selectionView.bRun setEnabled: YES];
-	if (!self.statusView) {
-		// XXXJACK Make sure statusview is active/visible
+	@synchronized(self) {
+		self.preRunning = NO;
+		[self.capturer stopCapturing];
+		[self.selectionView.bPreRun setEnabled: NO];
+		[self.selectionView.bRun setEnabled: YES];
+		if (!self.statusView) {
+			// XXXJACK Make sure statusview is active/visible
+		}
+		[self.statusView.bStop setEnabled: NO];
 	}
-	[self.statusView.bStop setEnabled: NO];
 }
 
 - (IBAction)startMeasuring: (id)sender
@@ -233,21 +238,6 @@
         
         // Generate the new output code
         outputCode = [NSString stringWithFormat:@"%lld", outputStartTime];
-
-#if 0
-        if (delegate && [delegate respondsToSelector:@selector(newOutput:)]) {
-            NSString *new = [delegate newOutput: outputCode];
-            if (new) {
-                // Delegate decided to wait for something else, we transmit black
-                newImage = [CIImage imageWithColor:[CIColor colorWithRed:0 green:0 blue:0]];
-                CGRect rect = {0, 0, 480, 480};
-                newImage = [newImage imageByCroppingToRect: rect];
-                outputCodeImage = newImage;
-                outputCode = new;
-                return newImage;
-            }
-        }
-#endif
         int bpp = 4;
         CGSize size = {480, 480};
         char *bitmapdata = (char*)malloc(size.width*size.height*bpp);
@@ -291,7 +281,7 @@
 {
 #if 0
 //xyzzy	status.finderRect = theRect;
-	[self.statusView update: self];
+	[self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
 #endif
 }
 
@@ -342,13 +332,10 @@
         prerunMoreNeeded = PRERUN_COUNT;
         self.mirrored = !self.mirrored;
         self.outputView.mirrored = self.mirrored;
-        prerunOutputStartTime = 0;
-        outputStartTime = 0;
-        outputCodeImage = nil;
         self.statusView.detectCount = [NSString stringWithFormat: @"%d more, mirrored=%d", prerunMoreNeeded, (int)self.mirrored];
 		self.statusView.detectAverage = @"";
-        [self.statusView update: self];
-        [self performSelectorOnMainThread: @selector(_triggerNewOutputValue) withObject: nil waitUntilDone: NO];
+        [self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
+        [self _triggerNewOutputValue];
     } 
 #endif
 }
@@ -361,12 +348,12 @@
         prerunMoreNeeded -= 1;
         self.statusView.detectCount = [NSString stringWithFormat: @"%d more, mirrored=%d", prerunMoreNeeded, (int)self.mirrored];
 		self.statusView.detectAverage = @"";
-        [self.statusView update: self];
+        [self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
         if (VL_DEBUG) NSLog(@"preRunMoreMeeded=%d\n", prerunMoreNeeded);
         if (prerunMoreNeeded == 0) {
             self.statusView.detectCount = @"";
 			self.statusView.detectAverage = @"";
-            [self.statusView update: self];
+            [self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
             [self performSelectorOnMainThread: @selector(stopPreMeasuring:) withObject: self waitUntilDone: NO];
         }
     }
@@ -394,8 +381,8 @@
             if (prevOutputCode && strcmp(code, [prevOutputCode UTF8String]) == 0) {
 				//NSLog(@"Received old output code again: %s", code);
             } else if (prevInputCode && strcmp(code, [prevInputCode UTF8String]) == 0) {
-                //NSLog(@"Received same code as last reception: %s", code);
                 prevInputCodeDetectionCount++;
+                if (VL_DEBUG) NSLog(@"Received same code as last reception: %s, count=%d", code, prevInputCodeDetectionCount);
                 if ((prevInputCodeDetectionCount % 250) == 0) {
                     NSAlert *alert = [NSAlert alertWithMessageText:@"Warning: no new QR code generated."
                                                      defaultButton:@"OK"
@@ -404,10 +391,7 @@
                                          informativeTextWithFormat:@"QR-code %@ detected %d times. Generating new one.",
                                       prevInputCode, prevInputCodeDetectionCount];
                     [alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
-                    outputCodeImage = nil;
-                    inputAddedOverhead = 0;
-                    inputStartTime = 0;
-                    [self performSelectorOnMainThread: @selector(_triggerNewOutputValue) withObject: nil waitUntilDone: NO];
+                    [self _triggerNewOutputValue];
                 }
             } else if (strcmp(code, [outputCode UTF8String]) == 0) {
 				// Correct code found.
@@ -447,10 +431,7 @@
                 prevInputCodeDetectionCount = 0;
                 
                 // Now generate a new output code.
-                outputCodeImage = nil;
-                inputAddedOverhead = 0;
-                inputStartTime = 0;
-                [self performSelectorOnMainThread: @selector(_triggerNewOutputValue) withObject: nil waitUntilDone: NO];
+                [self _triggerNewOutputValue];
 			} else {
 				// We have transmitted a code, but received a different one??
                 if (self.running) {
@@ -462,8 +443,10 @@
                                          informativeTextWithFormat:@"Expected value was %@, received %s",
                                       outputCode, code];
                     [alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
-                }
-				[self performSelectorOnMainThread: @selector(_triggerNewOutputValue) withObject: nil waitUntilDone: NO];
+					[self _triggerNewOutputValue];
+                } else if (self.preRunning) {
+					[self _prerunRecordNoReception];
+				}
 			}
         } else {
              
@@ -476,7 +459,7 @@
 		if (self.running) {
 			self.statusView.detectCount = [NSString stringWithFormat: @"%d", self.collector.count];
 			self.statusView.detectAverage = [NSString stringWithFormat: @"%.3f ms ± %.3f", self.collector.average / 1000.0, self.collector.stddev / 1000.0];
-            [self.statusView update: self];
+            [self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
 		}
     }
 }

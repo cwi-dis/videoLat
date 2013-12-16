@@ -39,10 +39,12 @@
 
 - (void) dealloc
 {
+#if 0
 	self.dataStore = nil;
 	self.dataDistribution = nil;
 	self.myView = nil;
 	self.measurementWindow = nil;
+#endif
 }
 
 
@@ -138,6 +140,7 @@
 - (void)windowWillClose:(NSNotification *)notification
 {
 	// The "new document" window is closing. Check whether it produced results.
+	// But note this will also be called when closing the "save file" sheet....
 	NSLog(@"windowWillClose for new measurement window %@", [notification object]);
 	if (self.measurementWindow) {
 		NSLog(@"Closing unfinished document");
