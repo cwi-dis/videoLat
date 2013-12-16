@@ -48,7 +48,6 @@
             // XXXJACK Is this correct? is "now" the best timestamp we have for the incoming hardware data?
             if (self.running)
 				[self.collector recordReception: isWhite?@"white":@"black" at: receptionTime];
-            inputAddedOverhead = 0;
             outputCode = [NSString stringWithFormat:@"%lld", receptionTime];
             [self performSelectorOnMainThread: @selector(_triggerNewOutputValue) withObject: nil waitUntilDone: NO];
             
@@ -178,7 +177,6 @@ bad2:
             return newImage;
         }
         if (outputStartTime == 0) outputStartTime = [self.collector now];
-        outputAddedOverhead = 0;
 		// XXX Do black/white
 		[self _mono_showNewData];
 		if (currentColorIsWhite)
@@ -195,13 +193,11 @@ bad2:
 {
     @synchronized(self) {
         if (outputStartTime == 0) return;
-        assert(outputAddedOverhead < [self.collector now]);
         assert(strcmp([outputCode UTF8String], "BadCookie") != 0);
-		uint64_t outputTime = [self.collector now] - outputAddedOverhead;
+		uint64_t outputTime = [self.collector now];
 		if (self.running)
 			[self.collector recordTransmission: currentColorIsWhite?@"white":@"black" at: outputTime];
         outputStartTime = 0;
-        outputAddedOverhead = 0;
     }
 }
 

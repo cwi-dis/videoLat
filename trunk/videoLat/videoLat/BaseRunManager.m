@@ -79,12 +79,6 @@ static NSMutableDictionary *runManagerNibs;
 	[NSException raise:@"BaseRunManager" format:@"Must override newOutputDone in subclass"];
 }
 
-
-- (void)updateOutputOverhead: (double)deltaT
-{
-	[NSException raise:@"BaseRunManager" format:@"Must override updateOutputOverhead in subclass"];
-}
-
 - (void)reportDataCapturer: (id)capturer
 {
 	[NSException raise:@"BaseRunManager" format:@"Must override reportDataCapturer in subclass"];
@@ -100,12 +94,6 @@ static NSMutableDictionary *runManagerNibs;
 - (void)newInputStart
 {
 	[NSException raise:@"BaseRunManager" format:@"Must override newInputStart in subclass"];
-}
-
-
-- (void)updateInputOverhead: (double)deltaT
-{
-	[NSException raise:@"BaseRunManager" format:@"Must override updateInputOverhead in subclass"];
 }
 
 

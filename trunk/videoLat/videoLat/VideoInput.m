@@ -247,41 +247,18 @@
     didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
     fromConnection:(AVCaptureConnection *)connection;
 {
-#if __MAC_OS_X_VERSION_MAX_ALLOWED < 1090
-	UInt64 now = CVGetCurrentHostTime();
-#else
-	UInt64 now;
-    AVCaptureInputPort *port = [[connection inputPorts] objectAtIndex:0];
-	if ([port respondsToSelector:@selector(clock)] && [port clock]) {
-		CMClockRef clock = [port clock];
-		CMTime nowDev = CMClockGetTime(clock);
-		now = CMTimeConvertScale(nowDev, 1000000000, kCMTimeRoundingMethod_Default).value;
-	} else {
-		now = CVGetCurrentHostTime();
-	}
-#endif
     if( !CMSampleBufferDataIsReady(sampleBuffer) )
     {
         NSLog( @"sample buffer is not ready. Skipping sample" );
         return;
     }
-    CMTime timestampCMT = CMSampleBufferGetPresentationTimeStamp(sampleBuffer);
-    //CMTime timestampCMD = CMSampleBufferGetDecodeTimeStamp(sampleBuffer);
-    //CMTime timestampCMOT = CMSampleBufferGetOutputPresentationTimeStamp(sampleBuffer);
-    //CMTime timestampCMOD = CMSampleBufferGetOutputDecodeTimeStamp(sampleBuffer);
-    timestampCMT = CMTimeConvertScale(timestampCMT, 1000000000, kCMTimeRoundingMethod_Default);
-    //timestampCMD = CMTimeConvertScale(timestampCMD, 1000000000, kCMTimeRoundingMethod_Default);
-    //timestampCMOT = CMTimeConvertScale(timestampCMOT, 1000000000, kCMTimeRoundingMethod_Default);
-    //timestampCMOD = CMTimeConvertScale(timestampCMOD, 1000000000, kCMTimeRoundingMethod_Default);
-    UInt64 timestamp = timestampCMT.value;
-	if (timestamp > now) {
-		NSLog(@"iSight: dropping frame with timestamp %lld which is %lldns in the future", timestamp, timestamp-now);
-		return;
-	}
-    [self.manager newInputStart];
 #if 1
-	double delta = (now-timestamp) / CVGetHostClockFrequency();
-	[self.manager updateInputOverhead: delta];
+    [self.manager newInputStart];
+#else
+    CMTime timestampCMT = CMSampleBufferGetPresentationTimeStamp(sampleBuffer);
+    timestampCMT = CMTimeConvertScale(timestampCMT, 1000000000, kCMTimeRoundingMethod_Default);
+    UInt64 timestamp = timestampCMT.value;
+	[self.manager newInputStart: timestamp];
 #endif
 
     CMFormatDescriptionRef formatDescription = CMSampleBufferGetFormatDescription(sampleBuffer);

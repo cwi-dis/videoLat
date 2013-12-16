@@ -70,7 +70,6 @@
 @protocol RunOutputManagerProtocol
 - (CIImage *)newOutputStart;
 - (void)newOutputDone;
-- (void)updateOutputOverhead: (double)deltaT;
 @end
 
 // Protocol used by input data collector to report new data and timing.
@@ -78,7 +77,6 @@
 - (void)reportDataCapturer: (id)capturer;
 - (void)setFinderRect: (NSRect)theRect;
 - (void)newInputStart;
-- (void)updateInputOverhead: (double)deltaT;
 - (void)newInputDone;
 - (void) newInputDone: (void*)buffer
     width: (int)w
