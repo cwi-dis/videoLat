@@ -73,7 +73,7 @@
 			ok = [NSBundle loadNibNamed:@"NewMeasurement" owner:self];
 			objectsForNewDocument = [[NSMutableArray alloc] init];
 		}
-        if (VL_DEBUG) NSLog(@"Loaded NewMeasurement: %d, objects %@\n", (int)ok, objectsForNewDocument);
+        if (1 || VL_DEBUG) NSLog(@"Loaded NewMeasurement: %d, objects %@\n", (int)ok, objectsForNewDocument);
         if (!ok) {
             if (outError)
                 *outError = [[NSError alloc] initWithDomain:@"VideoLat" code:NSFileReadNoSuchFileError
@@ -128,14 +128,17 @@
     
     // Close the measurement window and open the document window
 	if (self.measurementWindow) {
-		NSWindow *measurementWindow = self.measurementWindow;
+		NSWindow *windowTmp = self.measurementWindow;
 		self.measurementWindow = nil;
-		[measurementWindow close];
+        windowTmp.delegate = nil;
+		[windowTmp close];
 	}
     [super makeWindowControllers];
     [self showWindows];
     [(DocumentView *)self.myView updateView];
 }
+
+static NSWindow *xxxjackKeepIt;
 
 - (void)windowWillClose:(NSNotification *)notification
 {
@@ -144,6 +147,8 @@
 	NSLog(@"windowWillClose for new measurement window %@", [notification object]);
 	if (self.measurementWindow) {
 		NSLog(@"Closing unfinished document");
+        objectsForNewDocument = nil;
+        xxxjackKeepIt = self.measurementWindow;
 		self.measurementWindow = nil;
 		[self close];
 	}

@@ -55,7 +55,12 @@
     zbar::ImageScanner *scanner = reinterpret_cast<zbar::ImageScanner *>(scanner_hidden);
     if (lastCode) free(lastCode);
     lastCode = NULL;
+#if 1
+    // There seems to be a problem deallocing the scanner.....
+    scanner = NULL;
+#else
     delete scanner;
+#endif
 }
 
 - (char*) find: (void*)buffer width: (int)width height: (int)height format:(const char *)format size:(int)size

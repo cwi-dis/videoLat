@@ -44,6 +44,8 @@
 
 - (void)dealloc
 {
+    // Deallocate the capturer first
+    self.capturer = nil;
 }
 
 - (void) awakeFromNib
