@@ -16,13 +16,6 @@
 #import "BaseRunManager.h"
 
 @interface VideoRunManager : BaseRunManager {
-	IBOutlet id <ManagerDelegateProtocol> delegate;
-    IBOutlet RunCollector *collector;
-	IBOutlet VideoOutputView *outputView;
-    IBOutlet RunTypeView *measurementMaster;
-    IBOutlet RunStatusView *statusView;
-    IBOutlet VideoSelectionView *selectionView;
-    IBOutlet id <InputCaptureProtocol> capturer;
 
     id <InputVideoFindProtocol> finder;
     id <OutputVideoGenProtocol> genner;
@@ -46,8 +39,15 @@
     int prerunMoreNeeded;           // How many more prerun correct catches we need
     
 }
-@property(retain) IBOutlet Document *document;
+@property(weak) IBOutlet Document *document;
 @property bool mirrored;
+@property(weak) IBOutlet id <ManagerDelegateProtocol> delegate;
+@property(weak) IBOutlet RunCollector *collector;
+@property(weak) IBOutlet VideoOutputView *outputView;
+@property(weak) IBOutlet RunTypeView *measurementMaster;
+@property(weak) IBOutlet RunStatusView *statusView;
+@property(weak) IBOutlet VideoSelectionView *selectionView;
+@property(weak) IBOutlet id <InputCaptureProtocol> capturer;
 
 + (void)initialize;
 - (VideoRunManager *)init;

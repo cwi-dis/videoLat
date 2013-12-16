@@ -7,8 +7,8 @@
 {
 	NSPoint downPoint;
 }
-@property (retain) IBOutlet id delegate;
-@property (retain) IBOutlet NSButton *visibleButton;
+@property (weak) IBOutlet id delegate;
+@property (weak) IBOutlet NSButton *visibleButton;
 
 - (IBAction)visibleChanged:(id)sender;
 - (void)mouseDown: (NSEvent *)theEvent;
@@ -17,8 +17,6 @@
 @end
 
 @interface VideoInput : NSObject <InputCaptureProtocol, AVCaptureVideoDataOutputSampleBufferDelegate> {
-    IBOutlet id <RunInputManagerProtocol> manager;
-    IBOutlet VideoInputView *selfView;
     AVCaptureVideoPreviewLayer *selfLayer;
     AVCaptureVideoDataOutput *outputCapturer;
 	AVCaptureSession *session;
@@ -29,6 +27,8 @@
 }
 @property (readonly) NSString *deviceID;
 @property (readonly) NSString *deviceName;
+@property(weak) IBOutlet id <RunInputManagerProtocol> manager;
+@property(weak) IBOutlet VideoInputView *selfView;
 
 - (bool)available;
 - (AVCaptureDevice*)_deviceWithName: (NSString*)name;

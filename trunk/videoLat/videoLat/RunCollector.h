@@ -20,7 +20,7 @@
 	MeasurementDataStore *dataStore;
     uint64_t epoch;
 }
-@property(retain) IBOutlet Document *document;
+@property(weak) IBOutlet Document *document;
 @property(readonly) double average;
 @property(readonly) double stddev;
 @property(readonly) int count;

@@ -40,9 +40,12 @@
         inputAddedOverhead = 0;
         prevInputStartTime = 0;
         prevInputCode = nil;
-		capturer = nil;
 	}
     return self;
+}
+
+- (void)dealloc
+{
 }
 
 - (void) awakeFromNib
@@ -53,28 +56,28 @@
 
         genner = [[GenQRcodes alloc] init];
         finder = [[FindQRcodes alloc] init];
-        statusView = measurementMaster.statusView;
-        collector = measurementMaster.collector;
+        self.statusView = self.measurementMaster.statusView;
+        self.collector = self.measurementMaster.collector;
     }
 }
 
 - (void)selectMeasurementType: (NSString *)typeName
 {
 	[super selectMeasurementType:typeName];
-	if (!selectionView) {
+	if (!self.selectionView) {
 		// XXXJACK Make sure selectionView is active/visible
 	}
 	if (measurementType.isCalibration) {
-		[selectionView.bBase setEnabled:NO];
-		[selectionView.bPreRun setEnabled: YES];
+		[self.selectionView.bBase setEnabled:NO];
+		[self.selectionView.bPreRun setEnabled: YES];
 	} else {
 		NSArray *calibrationNames = measurementType.requires.measurementNames;
-		[selectionView.bBase setEnabled:YES];
-		[selectionView.bBase addItemsWithTitles:calibrationNames];
-		if ([selectionView.bBase selectedItem]) {
-			[selectionView.bPreRun setEnabled: YES];
+		[self.selectionView.bBase setEnabled:YES];
+		[self.selectionView.bBase addItemsWithTitles:calibrationNames];
+		if ([self.selectionView.bBase selectedItem]) {
+			[self.selectionView.bPreRun setEnabled: YES];
 		} else {
-			[selectionView.bPreRun setEnabled: NO];
+			[self.selectionView.bPreRun setEnabled: NO];
 			NSAlert *alert = [NSAlert alertWithMessageText:@"No calibrations available."
 				defaultButton:@"OK"
 				alternateButton:nil
@@ -86,21 +89,21 @@
 			[alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
 		}
 	}
-	[selectionView.bRun setEnabled: NO];
-	if (statusView) {
-		[statusView.bStop setEnabled: NO];
+	[self.selectionView.bRun setEnabled: NO];
+	if (self.statusView) {
+		[self.statusView.bStop setEnabled: NO];
 	}
 }
 
 - (void)_triggerNewOutputValue
 {
 	// XXXJACK can be simplified
-	[outputView showNewData];
+	[self.outputView showNewData];
 }
 
 - (void)reportDataCapturer: (id)capt
 {
-    capturer = capt;
+    self.capturer = capt;
 }
 
 - (IBAction)startPreMeasuring: (id)sender
@@ -109,7 +112,7 @@
 	if (!measurementType.isCalibration) {
 		// First check that a base measurement has been selected.
 		NSString *errorMessage;
-		NSMenuItem *baseItem = [selectionView.bBase selectedItem];
+		NSMenuItem *baseItem = [self.selectionView.bBase selectedItem];
 		NSString *baseName = [baseItem title];
 		MeasurementType *baseType = measurementType.requires;
 		MeasurementDataStore *baseStore = [baseType measurementNamed: baseName];
@@ -124,11 +127,11 @@
 			if (![baseStore.machineID isEqualToString:hwName]) {
 				errorMessage = [NSString stringWithFormat:@"Base measurement done on %@, current hardware is %@", baseStore.machine, hwName];
 			}
-			if (![baseStore.inputDeviceID isEqualToString:capturer.deviceID]) {
-				errorMessage = [NSString stringWithFormat:@"Base measurement uses input %@, current measurement uses %@", baseStore.inputDevice, capturer.deviceName];
+			if (![baseStore.inputDeviceID isEqualToString:self.capturer.deviceID]) {
+				errorMessage = [NSString stringWithFormat:@"Base measurement uses input %@, current measurement uses %@", baseStore.inputDevice, self.capturer.deviceName];
 			}
-			if (![baseStore.outputDeviceID isEqualToString:outputView.deviceID]) {
-				errorMessage = [NSString stringWithFormat:@"Base measurement uses output %@, current measurement uses %@", baseStore.outputDevice, outputView.deviceName];
+			if (![baseStore.outputDeviceID isEqualToString:self.outputView.deviceID]) {
+				errorMessage = [NSString stringWithFormat:@"Base measurement uses output %@, current measurement uses %@", baseStore.outputDevice, self.outputView.deviceName];
 			}
 		}
 		if (errorMessage) {
@@ -141,21 +144,21 @@
 			if (button == NSAlertDefaultReturn)
 				return;
 		}
-		[collector.dataStore useCalibration:baseStore];
+		[self.collector.dataStore useCalibration:baseStore];
 			
 	}
-	[selectionView.bPreRun setEnabled: NO];
-	[selectionView.bRun setEnabled: NO];
-	if (statusView) {
-		[statusView.bStop setEnabled: NO];
+	[self.selectionView.bPreRun setEnabled: NO];
+	[self.selectionView.bRun setEnabled: NO];
+	if (self.statusView) {
+		[self.statusView.bStop setEnabled: NO];
 	}
 #if 1
     // Do actual prerunning
     prerunDelay = PRERUN_INITIAL_DELAY; // Start with 1ms delay (ridiculously low)
     prerunMoreNeeded = PRERUN_COUNT;
     self.preRunning = YES;
-    [capturer startCapturing: YES];
-    outputView.mirrored = self.mirrored;
+    [self.capturer startCapturing: YES];
+    self.outputView.mirrored = self.mirrored;
     [self _triggerNewOutputValue];
 #else
     // Forget about premeasuring
@@ -166,28 +169,28 @@
 - (IBAction)stopPreMeasuring: (id)sender
 {
     self.preRunning = NO;
-    [capturer stopCapturing];
-	[selectionView.bPreRun setEnabled: NO];
-	[selectionView.bRun setEnabled: YES];
-	if (!statusView) {
+    [self.capturer stopCapturing];
+	[self.selectionView.bPreRun setEnabled: NO];
+	[self.selectionView.bRun setEnabled: YES];
+	if (!self.statusView) {
 		// XXXJACK Make sure statusview is active/visible
 	}
-	[statusView.bStop setEnabled: NO];
+	[self.statusView.bStop setEnabled: NO];
 }
 
 - (IBAction)startMeasuring: (id)sender
 {
     @synchronized(self) {
-		[selectionView.bPreRun setEnabled: NO];
-		[selectionView.bRun setEnabled: NO];
-		if (!statusView) {
+		[self.selectionView.bPreRun setEnabled: NO];
+		[self.selectionView.bRun setEnabled: NO];
+		if (!self.statusView) {
 			// XXXJACK Make sure statusview is active/visible
 		}
-		[statusView.bStop setEnabled: YES];
+		[self.statusView.bStop setEnabled: YES];
         self.running = YES;
-        [capturer startCapturing: NO];
-        [collector startCollecting: self.measurementType.name input: capturer.deviceID name: capturer.deviceName output: outputView.deviceID name: outputView.deviceName];
-        outputView.mirrored = self.mirrored;
+        [self.capturer startCapturing: NO];
+        [self.collector startCollecting: self.measurementType.name input: self.capturer.deviceID name: self.capturer.deviceName output: self.outputView.deviceID name: self.outputView.deviceName];
+        self.outputView.mirrored = self.mirrored;
         [self _triggerNewOutputValue];
     }
 }
@@ -212,7 +215,7 @@
         
         // Generate a new image. First obtain the timestamp.
         prevOutputStartTime = outputStartTime;
-        outputStartTime = [collector now];
+        outputStartTime = [self.collector now];
         prerunOutputStartTime = outputStartTime;
         outputAddedOverhead = 0;
         
@@ -260,10 +263,10 @@
 {
     @synchronized(self) {
         if (outputStartTime == 0) return;
-        assert(outputAddedOverhead < [collector now]);
-		uint64_t outputTime = [collector now] - outputAddedOverhead;
+        assert(outputAddedOverhead < [self.collector now]);
+		uint64_t outputTime = [self.collector now] - outputAddedOverhead;
 		if (self.running) {
-			[collector recordTransmission: outputCode at: outputTime];
+			[self.collector recordTransmission: outputCode at: outputTime];
         }
         outputStartTime = 0;
         outputAddedOverhead = 0;
@@ -276,7 +279,7 @@
         assert(deltaT > 0);
         assert(deltaT < 1.0);
         if (outputStartTime != 0) {
-            assert(outputAddedOverhead < [collector now]);
+            assert(outputAddedOverhead < [self.collector now]);
             outputAddedOverhead = (uint64_t)(deltaT*1000000.0);
         }
     }
@@ -286,8 +289,10 @@
 
 - (void)setFinderRect: (NSRect)theRect
 {
+#if 0
 //xyzzy	status.finderRect = theRect;
-	[statusView update: self];
+	[self.statusView update: self];
+#endif
 }
 
 
@@ -295,9 +300,9 @@
 {
     @synchronized(self) {
 //    assert(inputStartTime == 0);
-        if (collector) {
+        if (self.collector) {
             prevInputStartTime = inputStartTime;
-            inputStartTime = [collector now];
+            inputStartTime = [self.collector now];
             inputAddedOverhead = 0;
 
             // Sanity check: times should be monotonically increasing
@@ -330,18 +335,19 @@
 {
 #if 1
     if (VL_DEBUG) NSLog(@"Prerun no reception\n");
-    if (prerunOutputStartTime != 0 && [collector now] - prerunOutputStartTime > prerunDelay) {
+    if (prerunOutputStartTime != 0 && [self.collector now] - prerunOutputStartTime > prerunDelay) {
         // No data found within alotted time. Double the time, reset the count, change mirroring
         if (VL_DEBUG) NSLog(@"outputStartTime=%llu, prerunDelay=%llu, mirrored=%d\n", outputStartTime, prerunDelay, self.mirrored);
         prerunDelay *= 2;
         prerunMoreNeeded = PRERUN_COUNT;
         self.mirrored = !self.mirrored;
-        outputView.mirrored = self.mirrored;
+        self.outputView.mirrored = self.mirrored;
         prerunOutputStartTime = 0;
         outputStartTime = 0;
         outputCodeImage = nil;
-        statusView.detectCount = [NSString stringWithFormat: @"%d more, mirrored=%d", prerunMoreNeeded, (int)self.mirrored];
-        [statusView update: self];
+        self.statusView.detectCount = [NSString stringWithFormat: @"%d more, mirrored=%d", prerunMoreNeeded, (int)self.mirrored];
+		self.statusView.detectAverage = @"";
+        [self.statusView update: self];
         [self performSelectorOnMainThread: @selector(_triggerNewOutputValue) withObject: nil waitUntilDone: NO];
     } 
 #endif
@@ -353,12 +359,14 @@
     if (VL_DEBUG) NSLog(@"prerun reception %@\n", code);
     if (self.preRunning) {
         prerunMoreNeeded -= 1;
-        statusView.detectCount = [NSString stringWithFormat: @"%d more, mirrored=%d", prerunMoreNeeded, (int)self.mirrored];
-        [statusView update: self];
+        self.statusView.detectCount = [NSString stringWithFormat: @"%d more, mirrored=%d", prerunMoreNeeded, (int)self.mirrored];
+		self.statusView.detectAverage = @"";
+        [self.statusView update: self];
         if (VL_DEBUG) NSLog(@"preRunMoreMeeded=%d\n", prerunMoreNeeded);
         if (prerunMoreNeeded == 0) {
-            statusView.detectCount = @"";
-            [statusView update: self];
+            self.statusView.detectCount = @"";
+			self.statusView.detectAverage = @"";
+            [self.statusView update: self];
             [self performSelectorOnMainThread: @selector(stopPreMeasuring:) withObject: self waitUntilDone: NO];
         }
     }
@@ -406,7 +414,7 @@
                 
                 // Let's first report it.
 				if (self.running) {
-					BOOL ok = [collector recordReception: outputCode at: inputStartTime-inputAddedOverhead];
+					BOOL ok = [self.collector recordReception: outputCode at: inputStartTime-inputAddedOverhead];
                     if (!ok) {
                         NSAlert *alert = [NSAlert alertWithMessageText:@"Reception before transmission."
                                                          defaultButton:@"OK"
@@ -466,9 +474,9 @@
         inputAddedOverhead = 0;
         inputStartTime = 0;
 		if (self.running) {
-			statusView.detectCount = [NSString stringWithFormat: @"%d", collector.count];
-			statusView.detectAverage = [NSString stringWithFormat: @"%.3f ms ± %.3f", collector.average / 1000.0, collector.stddev / 1000.0];
-            [statusView update: self];
+			self.statusView.detectCount = [NSString stringWithFormat: @"%d", self.collector.count];
+			self.statusView.detectAverage = [NSString stringWithFormat: @"%.3f ms ± %.3f", self.collector.average / 1000.0, self.collector.stddev / 1000.0];
+            [self.statusView update: self];
 		}
     }
 }

@@ -10,7 +10,6 @@
 #import "MeasurementDataStore.h"
 
 @interface MeasurementDistribution : NSObject <GraphDataProviderProtocol> {
-    IBOutlet id <GraphDataProviderProtocol> source;
     NSMutableArray *store;
     int binCount;
     double binSize;
@@ -19,10 +18,10 @@
 @property(readonly) double stddev;
 @property(readonly) double max;
 @property(readonly) double maxXaxis;
+@property(weak) IBOutlet id <GraphDataProviderProtocol> source;
 
 - (MeasurementDistribution *)initWithSource: (MeasurementDataStore *)source;
 - (void)awakeFromNib;
-- (void)setSource: (id) _source;
 - (void)_recompute;
 - (NSNumber *)valueForIndex: (int) i;
 - (NSString *) asCSVString;

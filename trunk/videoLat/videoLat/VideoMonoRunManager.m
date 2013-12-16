@@ -34,7 +34,7 @@
 
 - (void) _mono_newInputDone: (bool)isWhite
 {
-	uint64_t receptionTime = [collector now];
+	uint64_t receptionTime = [self.collector now];
     @synchronized(self) {
         assert(inputStartTime != 0);
         if (!self.running) return;
@@ -44,10 +44,10 @@
             currentColorIsWhite = !currentColorIsWhite;
             nBWdetections++;
             //xyzzy            status.bwString = [NSString stringWithFormat: @"found %d (current %s)", nBWdetections, isWhite?"white":"black"];
-            [statusView update: self];
+            [self.statusView update: self];
             // XXXJACK Is this correct? is "now" the best timestamp we have for the incoming hardware data?
             if (self.running)
-				[collector recordReception: isWhite?@"white":@"black" at: receptionTime];
+				[self.collector recordReception: isWhite?@"white":@"black" at: receptionTime];
             inputAddedOverhead = 0;
             outputCode = [NSString stringWithFormat:@"%lld", receptionTime];
             [self performSelectorOnMainThread: @selector(_triggerNewOutputValue) withObject: nil waitUntilDone: NO];
@@ -114,10 +114,10 @@
 			if (nBWdetections > 10) {
 				// The first 10 are for calibrating, then we get to business
                 if (self.running)
-					[collector recordReception: foundColorIsWhite?@"white":@"black" at: inputStartTime-inputAddedOverhead];
+					[self.collector recordReception: foundColorIsWhite?@"white":@"black" at: inputStartTime-inputAddedOverhead];
 				inputAddedOverhead = 0;
 			}
-			outputCode = [NSString stringWithFormat:@"%lld", [collector now]];
+			outputCode = [NSString stringWithFormat:@"%lld", [self.collector now]];
 			outputCodeHasBeenReported = false;
 			[self performSelectorOnMainThread: @selector(_triggerNewOutputValue) withObject: nil waitUntilDone: NO];
             
@@ -145,9 +145,9 @@ bad2:
 - (void)_mono_pollInput
 {
     @synchronized(self) {
-        if (delegate == nil || ![delegate hasInput]) return;
+        if (self.delegate == nil || ![self.delegate hasInput]) return;
         [self newInputStart];
-        bool result = [delegate inputBW];
+        bool result = [self.delegate inputBW];
         if (VL_DEBUG) NSLog(@"checkinput: %d\n", result);
         [self _mono_newInputDone: result];
         // XXXX save result, if running
@@ -158,10 +158,10 @@ bad2:
 - (void)_mono_showNewData
 {
     @synchronized(self) {
-        if (delegate && [delegate respondsToSelector:@selector(newBWOutput:)]) {
-            [delegate newBWOutput: currentColorIsWhite];
+        if (self.delegate && [self.delegate respondsToSelector:@selector(newBWOutput:)]) {
+            [self.delegate newBWOutput: currentColorIsWhite];
 			if (self.running)
-				[collector recordTransmission: currentColorIsWhite?@"white":@"black" at: [collector now]];
+				[self.collector recordTransmission: currentColorIsWhite?@"white":@"black" at: [self.collector now]];
         }
     }
 }
@@ -177,7 +177,7 @@ bad2:
             newImage = [newImage imageByCroppingToRect: rect];
             return newImage;
         }
-        if (outputStartTime == 0) outputStartTime = [collector now];
+        if (outputStartTime == 0) outputStartTime = [self.collector now];
         outputAddedOverhead = 0;
 		// XXX Do black/white
 		[self _mono_showNewData];
@@ -195,11 +195,11 @@ bad2:
 {
     @synchronized(self) {
         if (outputStartTime == 0) return;
-        assert(outputAddedOverhead < [collector now]);
+        assert(outputAddedOverhead < [self.collector now]);
         assert(strcmp([outputCode UTF8String], "BadCookie") != 0);
-		uint64_t outputTime = [collector now] - outputAddedOverhead;
+		uint64_t outputTime = [self.collector now] - outputAddedOverhead;
 		if (self.running)
-			[collector recordTransmission: currentColorIsWhite?@"white":@"black" at: outputTime];
+			[self.collector recordTransmission: currentColorIsWhite?@"white":@"black" at: outputTime];
         outputStartTime = 0;
         outputAddedOverhead = 0;
     }
@@ -208,8 +208,8 @@ bad2:
 - (void)_triggerNewOutputValue
 {
 	// XXXJACK can be simplified
-	if (outputView.visible) {
-		[outputView showNewData];
+	if (self.outputView.visible) {
+		[self.outputView showNewData];
 	} else {
 		[self _mono_showNewData];
 	}
@@ -220,19 +220,19 @@ bad2:
 - (void)settingsChanged
 {
     @synchronized(self) {
-		if (outputView) {
-			outputView.mirrored = settings.mirrorView;
-			outputView.visible = settings.xmit;
+		if (self.outputView) {
+			self.outputView.mirrored = settings.mirrorView;
+			self.outputView.visible = settings.xmit;
 		}
         if ([settings.coordHelper isEqualToString: @"None"]) {
-			delegate = nil;
+			self.delegate = nil;
 		} else {
-			if (delegate && ![settings.coordHelper isEqualToString: [delegate script]]) {
-				delegate = nil;
+			if (self.delegate && ![settings.coordHelper isEqualToString: [self.delegate script]]) {
+				self.delegate = nil;
 			}
-            if (delegate == nil) {
-                delegate = [[PythonSwitcher alloc] initWithScript: settings.coordHelper];
-                if ([delegate hasInput]) {
+            if (self.delegate == nil) {
+                self.delegate = [[PythonSwitcher alloc] initWithScript: settings.coordHelper];
+                if ([self.delegate hasInput]) {
                     [self performSelector: @selector(_mono_pollInput) withObject: nil afterDelay:(NSTimeInterval)0.001];
                 }
 			}

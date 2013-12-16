@@ -10,11 +10,11 @@
 #import "VideoInput.h"
 
 @interface VideoSelectionView : NSView
-@property(retain) IBOutlet NSPopUpButton *bCameras;
-@property(retain) IBOutlet NSPopUpButton *bBase;
-@property(retain) IBOutlet NSButton *bPreRun;
-@property(retain) IBOutlet NSButton *bRun;
-@property(retain) IBOutlet VideoInput *inputHandler;
+@property(weak) IBOutlet NSPopUpButton *bCameras;
+@property(weak) IBOutlet NSPopUpButton *bBase;
+@property(weak) IBOutlet NSButton *bPreRun;
+@property(weak) IBOutlet NSButton *bRun;
+@property(weak) IBOutlet VideoInput *inputHandler;
 
 - (IBAction)cameraChanged: (id) sender;
 - (void)_updateCameraNames: (NSNotification*) notification;

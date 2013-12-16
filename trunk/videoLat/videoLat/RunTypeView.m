@@ -25,6 +25,11 @@
 }
 #endif
 
+- (void) dealloc
+{
+	self.runManager = nil;
+}
+
 - (void)awakeFromNib
 {
     for (NSString *itemTitle in [bType itemTitles]) {

@@ -10,14 +10,14 @@
 #import "protocols.h"
 
 @interface VideoOutputView : NSView <OutputVideoViewProtocol> {
-    IBOutlet id <RunOutputManagerProtocol> manager;
 	BOOL mirrored;
 	NSString *deviceID;
 }
 
 @property BOOL mirrored;
 @property BOOL visible;
-@property (readonly) NSString *deviceID;
+@property(readonly) NSString *deviceID;
+@property(weak) IBOutlet id <RunOutputManagerProtocol> manager;
 
 - (void) showNewData;
 

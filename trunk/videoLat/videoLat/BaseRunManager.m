@@ -57,6 +57,11 @@ static NSMutableDictionary *runManagerNibs;
 
 @synthesize measurementType;
 
+- (void) dealloc
+{
+}
+
+
 - (void) selectMeasurementType:(NSString *)typeName
 {
 	measurementType = [MeasurementType forType:typeName];

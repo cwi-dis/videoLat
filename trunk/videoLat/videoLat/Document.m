@@ -37,6 +37,15 @@
     return self;
 }
 
+- (void) dealloc
+{
+	self.dataStore = nil;
+	self.dataDistribution = nil;
+	self.myView = nil;
+	self.measurementWindow = nil;
+}
+
+
 - (void)makeWindowControllers
 {
     if (self.measurementWindow == nil)
@@ -124,6 +133,17 @@
 		self.measurementWindow = nil;
 	}
     [(DocumentView *)self.myView updateView];
+}
+
+- (void)windowWillClose:(NSNotification *)notification
+{
+	// The "new document" window is closing. Check whether it produced results.
+	NSLog(@"windowWillClose for new measurement window");
+	if (self.measurementWindow) {
+		NSLog(@"Closing unfinished document");
+		self.measurementWindow = nil;
+		[self close];
+	}
 }
 
 - (void)_setCalibrationFileName

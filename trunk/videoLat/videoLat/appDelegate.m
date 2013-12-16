@@ -116,7 +116,7 @@
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
 {
-	NSLog(@"Location Manager update: %@", newLocation);
+	if (VL_DEBUG) NSLog(@"Location Manager update: %@", newLocation);
 	self.location = newLocation.description;
 }
 

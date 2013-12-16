@@ -63,7 +63,7 @@
 - (void) awakeFromNib
 {    
     // Setup for callbacks
-    [selfView setDelegate: self];
+    [self.selfView setDelegate: self];
 
 	if (VL_DEBUG) NSLog(@"Devices: %@\n", [self deviceNames]);
 }
@@ -168,12 +168,12 @@
     } else {
         NSLog(@"Warning: Cannot set capture session to 640x480\n");
     }
-    if(selfView) {
+    if(self.selfView) {
         selfLayer = [AVCaptureVideoPreviewLayer layerWithSession:session];
-        selfLayer.frame = NSRectToCGRect(selfView.bounds);
-        [selfView setWantsLayer: YES];
-        [selfView.layer addSublayer: selfLayer];
-        [selfView setHidden: NO];
+        selfLayer.frame = NSRectToCGRect(self.selfView.bounds);
+        [self.selfView setWantsLayer: YES];
+        [self.selfView.layer addSublayer: selfLayer];
+        [self.selfView setHidden: NO];
     }
     [session addOutput: outputCapturer];
 	// XXXJACK Should catch AVCaptureSessionRuntimeErrorNotification
@@ -210,12 +210,12 @@
     // Lock focus and exposure, if supported
 #endif
     // Hide preview
-    if (!showPreview) [selfView setHidden: YES];
+    if (!showPreview) [self.selfView setHidden: YES];
 }
 
 - (void) stopCapturing
 {
-    [selfView setHidden: NO];
+    [self.selfView setHidden: NO];
 }
 
 
@@ -239,7 +239,7 @@
 	theRect.size.width *= xFactor;
 	theRect.size.height *= yFactor;
 	if (VL_DEBUG) NSLog(@"FocusRectSelected %d, %d, %d, %d\n", (int)theRect.origin.x, (int)theRect.origin.y, (int)theRect.size.width, (int)theRect.size.height);
-	[manager setFinderRect: theRect];
+	[self.manager setFinderRect: theRect];
 }
 
 
@@ -278,10 +278,10 @@
 		NSLog(@"iSight: dropping frame with timestamp %lld which is %lldns in the future", timestamp, timestamp-now);
 		return;
 	}
-    [manager newInputStart];
+    [self.manager newInputStart];
 #if 1
 	double delta = (now-timestamp) / CVGetHostClockFrequency();
-	[manager updateInputOverhead: delta];
+	[self.manager updateInputOverhead: delta];
 #endif
 
     CMFormatDescriptionRef formatDescription = CMSampleBufferGetFormatDescription(sampleBuffer);
@@ -307,7 +307,7 @@
 	size_t h = CVPixelBufferGetHeight(pixelBuffer);
 	size_t size = CVPixelBufferGetDataSize(pixelBuffer);
 	assert (size>=w*h);
-	[manager newInputDone: buffer width: (int)w height: (int)h format: formatStr size:(int)size];
+	[self.manager newInputDone: buffer width: (int)w height: (int)h format: formatStr size:(int)size];
 	CVPixelBufferUnlockBaseAddress(pixelBuffer, 0);
 }
 

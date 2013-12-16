@@ -20,6 +20,10 @@
     return self;
 }
 
+- (void) dealloc
+{
+}
+
 - (IBAction)update: (id)sender
 {
     self.bCount.stringValue = self.detectCount;
