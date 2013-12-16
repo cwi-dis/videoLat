@@ -17,8 +17,8 @@
 }
 @property(weak) IBOutlet NSPopUpButton *bType;
 @property(strong) IBOutlet BaseRunManager *runManager;
-@property(weak) IBOutlet NSView *selectionView;
-@property(weak) IBOutlet NSView *outputView;
+@property(strong) IBOutlet NSView *selectionView;
+@property(strong) IBOutlet NSView *outputView;
 @property(weak) IBOutlet RunStatusView *statusView;
 @property(weak) IBOutlet RunCollector *collector;
 @property(weak) IBOutlet Document *document;

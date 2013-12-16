@@ -12,6 +12,10 @@
     [self setHidden: ([sender state] == NSOffState)];
 }
 
+- (void)dealloc
+{
+}
+
 - (void)setHidden: (BOOL) onOff
 {
     if (onOff)
@@ -58,6 +62,18 @@
         sampleBufferQueue = dispatch_queue_create("Sample Queue", DISPATCH_QUEUE_SERIAL);
     }
     return self;
+}
+
+- (void)dealloc
+{
+	outputCapturer = nil;
+    if (selfLayer) [selfLayer removeFromSuperlayer];
+	if (session) {
+        [session stopRunning];
+    }
+	session = nil;
+    dispatch_release(sampleBufferQueue);
+    sampleBufferQueue = nil;
 }
 
 - (void) awakeFromNib

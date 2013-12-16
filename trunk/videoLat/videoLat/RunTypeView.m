@@ -27,7 +27,6 @@
 
 - (void) dealloc
 {
-	self.runManager = nil;
 }
 
 - (void)awakeFromNib
@@ -46,12 +45,14 @@
 			[subView removeFromSuperview];
 		if (self.outputView)
 			[self.outputContainerView addSubview:self.outputView];
+        self.outputView = nil;
 	}
 	if (self.selectionContainerView) {
 		for (NSView *subView in [self.selectionContainerView subviews])
 			[subView removeFromSuperview];
 		if (self.selectionView)
 			[self.selectionContainerView addSubview:self.selectionView];
+        self.selectionView = nil;
 	}
     if (!wasAwokenFromNib) {
         wasAwokenFromNib = YES;
@@ -119,6 +120,7 @@
 					abort();
                 }
             }
+            runManagerNibObjects = nil;
 		} else {
 			// We don't have a Nib. Allocate the class instance.
 			runManager = [[runClass alloc] init];

@@ -45,7 +45,7 @@
 @property(weak) IBOutlet RunTypeView *measurementMaster;
 @property(weak) IBOutlet RunStatusView *statusView;
 @property(weak) IBOutlet VideoSelectionView *selectionView;
-@property(weak) IBOutlet id <InputCaptureProtocol> capturer;
+@property(strong) IBOutlet id <InputCaptureProtocol> capturer;
 
 + (void)initialize;
 - (VideoRunManager *)init;
