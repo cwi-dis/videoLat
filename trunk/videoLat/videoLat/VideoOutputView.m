@@ -23,13 +23,6 @@
     return self;
 }
 
-
-- (void) awakeFromNib 
-{
-    [[self window] setReleasedWhenClosed: false];
-
-}
-
 - (NSString *)deviceID
 {
 	NSWindow *window = [self window];
