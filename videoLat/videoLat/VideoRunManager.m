@@ -52,8 +52,6 @@
 {
     if ([super respondsToSelector:@selector(awakeFromNib)]) [super awakeFromNib];
     @synchronized(self) {
-//        [[settings window] setReleasedWhenClosed: false];
-
         genner = [[GenQRcodes alloc] init];
         finder = [[FindQRcodes alloc] init];
         self.statusView = self.measurementMaster.statusView;

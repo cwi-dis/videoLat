@@ -138,8 +138,6 @@
     [(DocumentView *)self.myView updateView];
 }
 
-static NSWindow *xxxjackKeepIt;
-
 - (void)windowWillClose:(NSNotification *)notification
 {
 	// The "new document" window is closing. Check whether it produced results.
@@ -148,7 +146,7 @@ static NSWindow *xxxjackKeepIt;
 	if (self.measurementWindow) {
 		NSLog(@"Closing unfinished document");
         objectsForNewDocument = nil;
-        xxxjackKeepIt = self.measurementWindow;
+        //xxxjackKeepIt = self.measurementWindow;
 		self.measurementWindow = nil;
 		[self close];
 	}
