@@ -235,7 +235,7 @@
         
         // Generate the new output code
         outputCode = [NSString stringWithFormat:@"%lld", outputStartTime];
-        NSLog(@"New output code: %@", outputCode);
+        if (VL_DEBUG) NSLog(@"New output code: %@", outputCode);
         int bpp = 4;
         CGSize size = {480, 480};
         char *bitmapdata = (char*)malloc(size.width*size.height*bpp);
@@ -416,7 +416,7 @@
                 // if we detect it a second time.
                 prevInputCode = outputCode;
                 prevInputCodeDetectionCount = 0;
-                NSLog(@"Received: %@", outputCode);
+                if (VL_DEBUG) NSLog(@"Received: %@", outputCode);
                 // Now generate a new output code.
                 [self _triggerNewOutputValue];
 			} else {
