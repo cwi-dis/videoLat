@@ -176,7 +176,7 @@ static double normFunc(double x, double average, double stddev)
         for (int xindex=1; xindex <dstRect.size.width; xindex++) {
             double x = xindex * step;
             //NSLog(@"%d normFunc(%f, %f, %f) = %f", xindex, x, average, stddev, normFunc(x, average, stddev));
-            double value = normFunc(x, average, stddev);
+            double value = normFunc(x+step/2, average, stddev);
 			cumvalue = cumvalue + (value*step);
             //NSLog(@"(%f, %f)", x, y);
             [path lineToPoint: NSMakePoint(dstRect.origin.x+xindex, cumvalue*height)];
