@@ -17,6 +17,11 @@
 // Global debug stuff
 #define VL_DEBUG 0
 
+// Protocol for an object that provides time values (in microseconds)
+@protocol ClockProtocol
+- (uint64_t)now;
+@end
+
 // Protocol for an object that finds patterns in an input buffer
 @protocol InputVideoFindProtocol
 @property(readonly) NSRect rect;
@@ -77,6 +82,7 @@
 - (void)reportDataCapturer: (id)capturer;
 - (void)setFinderRect: (NSRect)theRect;
 - (void)newInputStart;
+- (void)newInputStart:(uint64_t)timestamp;
 - (void)newInputDone;
 - (void) newInputDone: (void*)buffer
     width: (int)w

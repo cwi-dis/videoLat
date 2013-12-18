@@ -60,6 +60,9 @@
         outputCapturer = nil;
         deviceID = nil;
         sampleBufferQueue = dispatch_queue_create("Sample Queue", DISPATCH_QUEUE_SERIAL);
+        clock = CMClockGetHostTimeClock();
+        epoch = 0;
+        //epoch = [self now];
     }
     return self;
 }
@@ -82,6 +85,14 @@
     [self.selfView setDelegate: self];
 
 	if (VL_DEBUG) NSLog(@"Devices: %@\n", [self deviceNames]);
+}
+
+- (uint64_t)now
+{
+    CMTime timestampCMT = CMClockGetTime(clock);
+    timestampCMT = CMTimeConvertScale(timestampCMT, 1000000, kCMTimeRoundingMethod_Default);
+    UInt64 timestamp = timestampCMT.value;
+    return timestamp - epoch;
 }
 
 - (bool)available
@@ -268,12 +279,18 @@
         NSLog( @"sample buffer is not ready. Skipping sample" );
         return;
     }
-#if 1
+#if 0
     [self.manager newInputStart];
 #else
     CMTime timestampCMT = CMSampleBufferGetPresentationTimeStamp(sampleBuffer);
-    timestampCMT = CMTimeConvertScale(timestampCMT, 1000000000, kCMTimeRoundingMethod_Default);
+    timestampCMT = CMTimeConvertScale(timestampCMT, 1000000, kCMTimeRoundingMethod_Default);
     UInt64 timestamp = timestampCMT.value;
+    UInt64 now_timestamp = [self now];
+    if (timestamp < now_timestamp) {
+        // Presentation time is in the past. Adjust our clock.
+        epoch += (now_timestamp - timestamp);
+        NSLog(@"VideoInput: clock: epoch set to %lld uS", epoch);
+    }
 	[self.manager newInputStart: timestamp];
 #endif
 

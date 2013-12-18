@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "protocols.h"
 #import "MeasurementType.h"
+#import "RunCollector.h"
 
 @interface BaseRunManager : NSObject <RunOutputManagerProtocol, RunInputManagerProtocol> {
     MeasurementType *measurementType;
@@ -26,5 +27,7 @@
 
 @property bool running;
 @property bool preRunning;
+
+@property(weak) IBOutlet RunCollector *collector;
 
 @end

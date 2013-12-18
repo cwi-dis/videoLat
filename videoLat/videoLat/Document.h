@@ -30,7 +30,7 @@
 @property(strong) IBOutlet MeasurementDataStore *dataStore;
 @property(strong) IBOutlet MeasurementDistribution *dataDistribution;
 @property(strong) IBOutlet id myView;
-@property(weak) IBOutlet NSWindow *measurementWindow;
+@property(strong) IBOutlet NSWindow *measurementWindow;
 
 - (IBAction)newDocumentComplete: (id)sender;
 - (IBAction)export: (id)sender;

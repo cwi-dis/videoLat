@@ -34,7 +34,7 @@
 
 - (void) _mono_newInputDone: (bool)isWhite
 {
-	uint64_t receptionTime = [self.collector now];
+	uint64_t receptionTime = [self.clock now];
     @synchronized(self) {
         assert(inputStartTime != 0);
         if (!self.running) return;
@@ -160,7 +160,7 @@ bad2:
         if (self.delegate && [self.delegate respondsToSelector:@selector(newBWOutput:)]) {
             [self.delegate newBWOutput: currentColorIsWhite];
 			if (self.running)
-				[self.collector recordTransmission: currentColorIsWhite?@"white":@"black" at: [self.collector now]];
+				[self.collector recordTransmission: currentColorIsWhite?@"white":@"black" at: [self.clock now]];
         }
     }
 }
@@ -176,7 +176,7 @@ bad2:
             newImage = [newImage imageByCroppingToRect: rect];
             return newImage;
         }
-        if (outputStartTime == 0) outputStartTime = [self.collector now];
+        if (outputStartTime == 0) outputStartTime = [self.clock now];
 		// XXX Do black/white
 		[self _mono_showNewData];
 		if (currentColorIsWhite)
@@ -194,7 +194,7 @@ bad2:
     @synchronized(self) {
         if (outputStartTime == 0) return;
         assert(strcmp([outputCode UTF8String], "BadCookie") != 0);
-		uint64_t outputTime = [self.collector now];
+		uint64_t outputTime = [self.clock now];
 		if (self.running)
 			[self.collector recordTransmission: currentColorIsWhite?@"white":@"black" at: outputTime];
         outputStartTime = 0;

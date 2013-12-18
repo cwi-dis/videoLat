@@ -12,20 +12,29 @@
 #import "protocols.h"
 #import "MeasurementDataStore.h"
 
+#undef CLOCK_IN_COLLECTOR
+#ifdef CLOCK_IN_COLLECTOR
+@interface RunClock : NSObject <ClockProtocol> {
+    uint64_t epoch;
+}
+- (uint64_t) now;
+@end
+#define BASECLASS RunClock
+#else
+#define BASECLASS NSObject
+#endif
 
-@interface RunCollector : NSObject {
+@interface RunCollector : BASECLASS {
     NSString* lastTransmission;
     uint64_t lastTransmissionTime;
     BOOL lastTransmissionReceived;
 	MeasurementDataStore *dataStore;
-    uint64_t epoch;
 }
 @property(weak) IBOutlet Document *document;
 @property(readonly) double average;
 @property(readonly) double stddev;
 @property(readonly) int count;
 @property(readonly) MeasurementDataStore *dataStore;
-- (uint64_t) now;
 
 - (void) startCollecting: (NSString*)scenario input: (NSString*)inputId name: (NSString*)inputName output:(NSString*)outputId name: (NSString*)outputName;
 - (void) stopCollecting;

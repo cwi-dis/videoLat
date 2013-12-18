@@ -56,6 +56,7 @@
         finder = [[FindQRcodes alloc] init];
         self.statusView = self.measurementMaster.statusView;
         self.collector = self.measurementMaster.collector;
+        assert(self.clock);
     }
 }
 
@@ -217,7 +218,7 @@
         
         // Generate a new image. First obtain the timestamp.
         prevOutputStartTime = outputStartTime;
-        outputStartTime = [self.collector now];
+        outputStartTime = [self.clock now];
         prerunOutputStartTime = outputStartTime;
 
         // Sanity check: times should be monotonically increasing
@@ -234,6 +235,7 @@
         
         // Generate the new output code
         outputCode = [NSString stringWithFormat:@"%lld", outputStartTime];
+        NSLog(@"New output code: %@", outputCode);
         int bpp = 4;
         CGSize size = {480, 480};
         char *bitmapdata = (char*)malloc(size.width*size.height*bpp);
@@ -249,7 +251,7 @@
 {
     @synchronized(self) {
         if (outputStartTime == 0) return;
-		uint64_t outputTime = [self.collector now];
+		uint64_t outputTime = [self.clock now];
 		if (self.running) {
 			[self.collector recordTransmission: outputCode at: outputTime];
         }
@@ -268,13 +270,13 @@
 }
 
 
-- (void) newInputStart
+- (void) newInputStart:(uint64_t)timestamp
 {
     @synchronized(self) {
 //    assert(inputStartTime == 0);
         if (self.collector) {
             prevInputStartTime = inputStartTime;
-            inputStartTime = [self.collector now];
+            inputStartTime = timestamp;
 
             // Sanity check: times should be monotonically increasing
             if (prevInputStartTime && prevInputStartTime >= inputStartTime) {
@@ -289,6 +291,11 @@
             }
         }
     }
+}
+
+- (void) newInputStart
+{
+    [self newInputStart: [self.clock now]];
 }
 
 // XXXJACK this method can go!
@@ -306,7 +313,8 @@
 {
 #if 1
     if (VL_DEBUG) NSLog(@"Prerun no reception\n");
-    if (prerunOutputStartTime != 0 && [self.collector now] - prerunOutputStartTime > prerunDelay) {
+    assert(self.preRunning);
+    if (prerunOutputStartTime != 0 && [self.clock now] - prerunOutputStartTime > prerunDelay) {
         // No data found within alotted time. Double the time, reset the count, change mirroring
         if (VL_DEBUG) NSLog(@"outputStartTime=%llu, prerunDelay=%llu, mirrored=%d\n", outputStartTime, prerunDelay, self.mirrored);
         prerunDelay *= 2;
@@ -325,6 +333,7 @@
 {
 #if 1
     if (VL_DEBUG) NSLog(@"prerun reception %@\n", code);
+    assert(self.preRunning);
     if (self.preRunning) {
         prerunMoreNeeded -= 1;
         self.statusView.detectCount = [NSString stringWithFormat: @"%d more, mirrored=%d", prerunMoreNeeded, (int)self.mirrored];
@@ -350,7 +359,6 @@
 		}
         if (inputStartTime == 0) {
             NSLog(@"newInputDone called, but inputStartTime==0\n");
-            assert(0);
             return;
         }
         
@@ -408,7 +416,7 @@
                 // if we detect it a second time.
                 prevInputCode = outputCode;
                 prevInputCodeDetectionCount = 0;
-                
+                NSLog(@"Received: %@", outputCode);
                 // Now generate a new output code.
                 [self _triggerNewOutputValue];
 			} else {
