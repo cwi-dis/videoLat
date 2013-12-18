@@ -89,9 +89,17 @@
 
 - (uint64_t)now
 {
-    CMTime timestampCMT = CMClockGetTime(clock);
-    timestampCMT = CMTimeConvertScale(timestampCMT, 1000000, kCMTimeRoundingMethod_Default);
-    UInt64 timestamp = timestampCMT.value;
+    UInt64 timestamp;
+    if (0 && CMClockGetTime != NULL) {
+        CMTime timestampCMT = CMClockGetTime(clock);
+        timestampCMT = CMTimeConvertScale(timestampCMT, 1000000, kCMTimeRoundingMethod_Default);
+        timestamp = timestampCMT.value;
+    } else {
+        UInt64 machTimestamp = mach_absolute_time();
+        Nanoseconds nanoTimestamp = AbsoluteToNanoseconds(*(AbsoluteTime*)&machTimestamp);
+        timestamp = *(UInt64 *)&nanoTimestamp;
+        timestamp = timestamp / 1000;
+    }
     return timestamp - epoch;
 }
 
