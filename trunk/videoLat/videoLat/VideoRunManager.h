@@ -10,7 +10,6 @@
 #import "RunStatusView.h"
 #import "VideoSelectionView.h"
 #import "VideoOutputView.h"
-#import "RunCollector.h"
 #import "protocols.h"
 #import "Document.h"
 #import "BaseRunManager.h"
@@ -40,12 +39,12 @@
 @property(weak) IBOutlet Document *document;
 @property bool mirrored;
 @property(weak) IBOutlet id <ManagerDelegateProtocol> delegate;
-@property(weak) IBOutlet RunCollector *collector;
 @property(weak) IBOutlet VideoOutputView *outputView;
 @property(weak) IBOutlet RunTypeView *measurementMaster;
 @property(weak) IBOutlet RunStatusView *statusView;
 @property(weak) IBOutlet VideoSelectionView *selectionView;
 @property(strong) IBOutlet id <InputCaptureProtocol> capturer;
+@property(weak) IBOutlet id <ClockProtocol> clock;
 
 + (void)initialize;
 - (VideoRunManager *)init;
@@ -68,6 +67,7 @@
 
 // MeasurementInputManagerProtocol
 - (void)setFinderRect: (NSRect)theRect;
+- (void)newInputStart:(uint64_t)timestamp;
 - (void)newInputStart;
 - (void)newInputDone;
 - (void) newInputDone: (void*)buffer

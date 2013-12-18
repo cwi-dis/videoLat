@@ -16,7 +16,7 @@
 
 @end
 
-@interface VideoInput : NSObject <InputCaptureProtocol, AVCaptureVideoDataOutputSampleBufferDelegate> {
+@interface VideoInput : NSObject <ClockProtocol, InputCaptureProtocol, AVCaptureVideoDataOutputSampleBufferDelegate> {
     AVCaptureVideoPreviewLayer *selfLayer;
     AVCaptureVideoDataOutput *outputCapturer;
 	AVCaptureSession *session;
@@ -24,12 +24,15 @@
 	float xFactor, yFactor;
 	NSString *deviceID;
 	NSString *deviceName;
+    CMClockRef clock;
+    uint64_t epoch;
 }
 @property (readonly) NSString *deviceID;
 @property (readonly) NSString *deviceName;
 @property(weak) IBOutlet id <RunInputManagerProtocol> manager;
 @property(weak) IBOutlet VideoInputView *selfView;
 
+- (uint64_t)now;
 - (bool)available;
 - (AVCaptureDevice*)_deviceWithName: (NSString*)name;
 - (NSArray*) deviceNames;

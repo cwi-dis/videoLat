@@ -16,6 +16,34 @@
 #import <sys/time.h>
 #import <sys/sysctl.h>
 
+#ifdef CLOCK_IN_COLLECTOR
+@implementation RunClock
+- (RunClock*) init
+{
+    self = [super init];
+    if (self) {
+        epoch = 0;
+        epoch = [self now];
+    }
+    return self;
+}
+
+- (uint64_t)now
+{
+#if 0
+    mach_timebase_info_data_t info;
+    if (mach_timebase_info(&info) != KERN_SUCCESS) return -1;
+    int64_t now_mach = mach_absolute_time();
+    int64_t now_nano = now_mach * info.numer / info.denom;
+#else
+    int64_t now_nano = CVGetCurrentHostTime();
+#endif
+    int64_t now_micro = now_nano / 1000LL;
+    return now_micro - epoch;
+}
+@end
+#endif
+
 @implementation RunCollector
 @synthesize dataStore;
 
@@ -24,8 +52,6 @@
     self = [super init];
     if (self) {
         lastTransmission = nil;
-        epoch = 0;
-        epoch = [self now];
     }
     return self;
 }
@@ -43,20 +69,6 @@
 - (double) average { return dataStore.average; }
 - (double) stddev { return dataStore.stddev; }
 - (void) trim { [dataStore trim]; }
-
-- (uint64_t)now
-{
-#if 0
-    mach_timebase_info_data_t info;
-    if (mach_timebase_info(&info) != KERN_SUCCESS) return -1;
-    int64_t now_mach = mach_absolute_time();
-    int64_t now_nano = now_mach * info.numer / info.denom;
-#else
-    int64_t now_nano = CVGetCurrentHostTime();
-#endif
-    int64_t now_micro = now_nano / 1000LL;
-    return now_micro - epoch;
-}
 
 - (void) startCollecting: (NSString*)scenario input: (NSString*)inputId name: (NSString*)inputName output:(NSString*)outputId name: (NSString*)outputName
 {
