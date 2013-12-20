@@ -43,11 +43,12 @@
 @property(weak) IBOutlet RunTypeView *measurementMaster;
 @property(weak) IBOutlet RunStatusView *statusView;
 @property(weak) IBOutlet VideoSelectionView *selectionView;
-@property(strong) IBOutlet id <InputCaptureProtocol> capturer;
+@property(weak) IBOutlet id <InputCaptureProtocol> capturer;
 @property(weak) IBOutlet id <ClockProtocol> clock;
 
 + (void)initialize;
 - (VideoRunManager *)init;
+-(void)stop;
 - (void)selectMeasurementType: (NSString *)typeName;
 
 - (IBAction)startPreMeasuring: (id)sender;
@@ -66,6 +67,7 @@
 - (void)newOutputDone;
 
 // MeasurementInputManagerProtocol
+- (void)restart;
 - (void)setFinderRect: (NSRect)theRect;
 - (void)newInputStart:(uint64_t)timestamp;
 - (void)newInputStart;

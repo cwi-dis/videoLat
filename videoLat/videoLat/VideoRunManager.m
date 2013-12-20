@@ -61,15 +61,25 @@
     }
 }
 
+- (void)stop
+{
+	if (self.capturer) [self.capturer stop];
+	self.capturer = nil;
+	self.clock = nil;
+}
+
 - (void)selectMeasurementType: (NSString *)typeName
 {
-	[super selectMeasurementType:typeName];
-	[self restart];
+	@synchronized(self) {
+		[super selectMeasurementType:typeName];
+		[self restart];
+	}
 }
 
 - (void)restart
 {
 	@synchronized(self) {
+		if (measurementType == nil) return;
 		if (!self.selectionView) {
 			// XXXJACK Make sure selectionView is active/visible
 		}

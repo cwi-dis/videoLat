@@ -43,6 +43,8 @@
 - (BOOL)switchToDeviceWithName: (NSString *)name;
 - (void) startCapturing: (BOOL) showPreview;
 - (void) stopCapturing;
+- (void) stop;
+
 
 
 

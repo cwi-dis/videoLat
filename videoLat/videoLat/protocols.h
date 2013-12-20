@@ -45,6 +45,7 @@
 @protocol InputCaptureProtocol
 - (void) startCapturing: (BOOL)showPreview;
 - (void) stopCapturing;
+- (void) stop;
 @property (readonly) NSString* deviceID;
 @property (readonly) NSString* deviceName;
 @end

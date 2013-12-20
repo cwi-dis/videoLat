@@ -27,6 +27,7 @@
 
 - (void) dealloc
 {
+	if (self.runManager) [self.runManager stop];
 }
 
 - (void)awakeFromNib
