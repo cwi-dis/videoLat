@@ -2,6 +2,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import <mach/mach.h>
 #import <mach/mach_time.h>
+#import <mach/clock.h>
 
 @implementation VideoInputView
 @synthesize delegate;
@@ -86,7 +87,7 @@
 - (uint64_t)now
 {
     UInt64 timestamp;
-#if __MAC_OS_X_VERSION_MAX_ALLOWED >= 1080
+#if 0 && __MAC_OS_X_VERSION_MAX_ALLOWED >= 1080
     if (clock) {
         CMTime timestampCMT = CMClockGetTime(clock);
         timestampCMT = CMTimeConvertScale(timestampCMT, 1000000, kCMTimeRoundingMethod_Default);
@@ -94,10 +95,20 @@
     } else
 #endif
 	{
+#ifdef USE_MACH_ABSOLUTE_TIME
         UInt64 machTimestamp = mach_absolute_time();
         Nanoseconds nanoTimestamp = AbsoluteToNanoseconds(*(AbsoluteTime*)&machTimestamp);
         timestamp = *(UInt64 *)&nanoTimestamp;
         timestamp = timestamp / 1000;
+#else
+		clock_serv_t cclock;
+		mach_timespec_t mts;
+
+		host_get_clock_service(mach_host_self(), SYSTEM_CLOCK, &cclock);
+		clock_get_time(cclock, &mts);
+		mach_port_deallocate(mach_task_self(), cclock);
+		timestamp = ((UInt64)mts.tv_sec*1000000LL) + mts.tv_nsec/1000LL;
+#endif
     }
     return timestamp - epoch;
 }
@@ -230,6 +241,8 @@
         [self.selfView setHidden: NO];
     }
     
+	if (VL_DEBUG) NSLog(@"Camera format: %@ %@ %@", dev.activeFormat.mediaType, dev.activeFormat.formatDescription, dev.activeFormat.videoSupportedFrameRateRanges);
+
 	/* Let the video madness begin */
 	capturing = NO;
 	epoch = 0;
