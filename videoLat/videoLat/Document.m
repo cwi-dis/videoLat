@@ -143,8 +143,7 @@
 		if (VL_DEBUG) NSLog(@"Closing unfinished document");
         objectsForNewDocument = nil;
         //xxxjackKeepIt = self.measurementWindow;
-		[self.measurementWindow setDelegate:nil];
-		[self.measurementWindow setReleasedWhenClosed: YES];
+		self.measurementWindow.delegate = nil;
 		self.measurementWindow = nil;
 		[self close];
 	}
