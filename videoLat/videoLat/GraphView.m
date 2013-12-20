@@ -107,7 +107,7 @@ static double normFunc(double x, double average, double stddev)
 	if (self.bMaxX) self.bMaxX.stringValue = [NSString stringWithFormat:self.maxXformat, self.source.maxXaxis * [self.maxXscale floatValue]];
 	if (self.bMaxY) self.bMaxY.stringValue = [NSString stringWithFormat:self.maxYformat, maxYaxis * [self.maxYscale floatValue]];
 
-    if (1 || VL_DEBUG) NSLog(@"%d < x < %d (scale=%f, axis=%f) %f < y < %f (scale=%f, axis=%f)\n", minX, maxX, xPixelPerUnit, maxXaxis, minY, maxY, yPixelPerUnit, maxYaxis);
+    if (VL_DEBUG) NSLog(@"%d < x < %d (scale=%f, axis=%f) %f < y < %f (scale=%f, axis=%f)\n", minX, maxX, xPixelPerUnit, maxXaxis, minY, maxY, yPixelPerUnit, maxYaxis);
     
     // Compute the closed path
     NSBezierPath *path = [NSBezierPath bezierPath];
