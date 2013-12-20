@@ -16,7 +16,6 @@
 }
 
 - (GenQRcodes*)init;
-- (void)dealloc;
 - (void) gen: (void*)buffer width: (int)width height: (int)height code: (const char *)code;
 
 @end

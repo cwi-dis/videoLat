@@ -23,6 +23,7 @@
 
 @property(readonly) MeasurementType *measurementType;
 
+- (void)stop;
 - (void)selectMeasurementType: (NSString *)typeName;
 
 @property bool running;

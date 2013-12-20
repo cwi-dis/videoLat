@@ -39,12 +39,6 @@
 
 - (void) dealloc
 {
-#if 0
-	self.dataStore = nil;
-	self.dataDistribution = nil;
-	self.myView = nil;
-	self.measurementWindow = nil;
-#endif
 }
 
 
@@ -149,6 +143,8 @@
 		if (VL_DEBUG) NSLog(@"Closing unfinished document");
         objectsForNewDocument = nil;
         //xxxjackKeepIt = self.measurementWindow;
+		[self.measurementWindow setDelegate:nil];
+		[self.measurementWindow setReleasedWhenClosed: YES];
 		self.measurementWindow = nil;
 		[self close];
 	}

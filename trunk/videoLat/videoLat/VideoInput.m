@@ -72,14 +72,7 @@
 
 - (void)dealloc
 {
-	outputCapturer = nil;
-    if (selfLayer) [selfLayer removeFromSuperlayer];
-	if (session) {
-        [session stopRunning];
-    }
-	session = nil;
-    //dispatch_release(sampleBufferQueue);
-    sampleBufferQueue = nil;
+	[self stop];
 }
 
 - (void) awakeFromNib
@@ -107,6 +100,22 @@
         timestamp = timestamp / 1000;
     }
     return timestamp - epoch;
+}
+
+- (void) stop
+{
+	outputCapturer = nil;
+    if (selfLayer) [selfLayer removeFromSuperlayer];
+	selfLayer = nil;
+	if (session) {
+        [session stopRunning];
+    }
+	session = nil;
+    //dispatch_release(sampleBufferQueue);
+    sampleBufferQueue = nil;
+#if __MAC_OS_X_VERSION_MAX_ALLOWED >= 1080
+	clock = nil;
+#endif
 }
 
 - (bool)available
