@@ -81,6 +81,8 @@
             return nil;
             
         }
+		if (self.measurementWindow)
+			[self.measurementWindow makeKeyAndOrderFront:self];
     }
     return self;
 }

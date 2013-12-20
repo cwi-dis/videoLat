@@ -24,8 +24,11 @@
 	float xFactor, yFactor;
 	NSString *deviceID;
 	NSString *deviceName;
+#if __MAC_OS_X_VERSION_MAX_ALLOWED >= 1080
     CMClockRef clock;
+#endif
     uint64_t epoch;
+	BOOL capturing;
 }
 @property (readonly) NSString *deviceID;
 @property (readonly) NSString *deviceName;

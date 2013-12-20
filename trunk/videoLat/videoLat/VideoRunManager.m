@@ -46,6 +46,7 @@
 {
     // Deallocate the capturer first
     self.capturer = nil;
+	self.clock = nil;
 }
 
 - (void) awakeFromNib
@@ -62,8 +63,13 @@
 
 - (void)selectMeasurementType: (NSString *)typeName
 {
+	[super selectMeasurementType:typeName];
+	[self restart];
+}
+
+- (void)restart
+{
 	@synchronized(self) {
-		[super selectMeasurementType:typeName];
 		if (!self.selectionView) {
 			// XXXJACK Make sure selectionView is active/visible
 		}
@@ -89,6 +95,8 @@
 				[alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
 			}
 		}
+		self.preRunning = NO;
+		self.running = NO;
 		[self.selectionView.bRun setEnabled: NO];
 		if (self.statusView) {
 			[self.statusView.bStop setEnabled: NO];

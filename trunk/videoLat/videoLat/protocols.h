@@ -79,6 +79,7 @@
 
 // Protocol used by input data collector to report new data and timing.
 @protocol RunInputManagerProtocol
+- (void)restart;
 - (void)reportDataCapturer: (id)capturer;
 - (void)setFinderRect: (NSRect)theRect;
 - (void)newInputStart;

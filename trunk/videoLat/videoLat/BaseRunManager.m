@@ -67,6 +67,10 @@ static NSMutableDictionary *runManagerNibs;
 	measurementType = [MeasurementType forType:typeName];
 }
 
+- (void)restart
+{
+	[NSException raise:@"BaseRunManager" format:@"Must override restart in subclass"];
+}
 
 - (CIImage *)newOutputStart
 {

@@ -60,9 +60,12 @@
         outputCapturer = nil;
         deviceID = nil;
         sampleBufferQueue = dispatch_queue_create("Sample Queue", DISPATCH_QUEUE_SERIAL);
-        clock = CMClockGetHostTimeClock();
+#if __MAC_OS_X_VERSION_MAX_ALLOWED >= 1080
+		if (CMClockGetHostTimeClock != NULL) {
+			clock = CMClockGetHostTimeClock();
+		}
+#endif
         epoch = 0;
-        //epoch = [self now];
     }
     return self;
 }
@@ -75,7 +78,7 @@
         [session stopRunning];
     }
 	session = nil;
-    dispatch_release(sampleBufferQueue);
+    //dispatch_release(sampleBufferQueue);
     sampleBufferQueue = nil;
 }
 
@@ -90,11 +93,14 @@
 - (uint64_t)now
 {
     UInt64 timestamp;
-    if (0 && CMClockGetTime != NULL) {
+#if __MAC_OS_X_VERSION_MAX_ALLOWED >= 1080
+    if (clock) {
         CMTime timestampCMT = CMClockGetTime(clock);
         timestampCMT = CMTimeConvertScale(timestampCMT, 1000000, kCMTimeRoundingMethod_Default);
         timestamp = timestampCMT.value;
-    } else {
+    } else
+#endif
+	{
         UInt64 machTimestamp = mach_absolute_time();
         Nanoseconds nanoTimestamp = AbsoluteToNanoseconds(*(AbsoluteTime*)&machTimestamp);
         timestamp = *(UInt64 *)&nanoTimestamp;
@@ -191,10 +197,6 @@
         [alert runModal];
         return;
     }
-    /* Create the video capture output, set to greyscale, and let us be its delegate */
-    outputCapturer = [[AVCaptureVideoDataOutput alloc] init];
-
-    [outputCapturer setSampleBufferDelegate: self queue:sampleBufferQueue];
     
 	/* Create a capture session for the live vidwo and add inputs get the ball rolling etc */
 	[session addInput:myInput];
@@ -203,6 +205,14 @@
     } else {
         NSLog(@"Warning: Cannot set capture session to 640x480\n");
     }
+
+    /* Create the video capture output, and let us be its delegate */
+    outputCapturer = [[AVCaptureVideoDataOutput alloc] init];
+	outputCapturer.alwaysDiscardsLateVideoFrames = YES;
+	[outputCapturer setSampleBufferDelegate: self queue:sampleBufferQueue];
+    [session addOutput: outputCapturer];
+	// XXXJACK Should catch AVCaptureSessionRuntimeErrorNotification
+
     if(self.selfView) {
         selfLayer = [AVCaptureVideoPreviewLayer layerWithSession:session];
         selfLayer.frame = NSRectToCGRect(self.selfView.bounds);
@@ -210,11 +220,12 @@
         [self.selfView.layer addSublayer: selfLayer];
         [self.selfView setHidden: NO];
     }
-    [session addOutput: outputCapturer];
-	// XXXJACK Should catch AVCaptureSessionRuntimeErrorNotification
     
 	/* Let the video madness begin */
-	[session startRunning]; 
+	capturing = NO;
+	epoch = 0;
+	[self.manager restart];
+	[session startRunning];
 }
 
 - (AVCaptureDevice*)_deviceWithName: (NSString*)name
@@ -246,11 +257,13 @@
 #endif
     // Hide preview
     if (!showPreview) [self.selfView setHidden: YES];
+	capturing = YES;
 }
 
 - (void) stopCapturing
 {
     [self.selfView setHidden: NO];
+	capturing = NO;
 }
 
 
@@ -296,8 +309,15 @@
     UInt64 now_timestamp = [self now];
     if (timestamp < now_timestamp) {
         // Presentation time is in the past. Adjust our clock.
-        epoch += (now_timestamp - timestamp);
-        NSLog(@"VideoInput: clock: epoch set to %lld uS", epoch);
+		UInt64 delta = now_timestamp - timestamp;
+		if (capturing) {
+			// Presentation time is in the past. Drop frame.
+			NSLog(@"VideoInput: frame is %lld uS late. Drop.", delta);
+			return;
+		} else {
+			epoch += delta;
+			NSLog(@"VideoInput: clock: epoch set to %lld uS", epoch);
+		}
     }
 	[self.manager newInputStart: timestamp];
 #endif
