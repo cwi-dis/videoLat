@@ -47,6 +47,7 @@
 		04B58F39183A3D5300360A61 /* libzbar.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 04B58F37183A3D5300360A61 /* libzbar.0.dylib */; };
 		04B58F3A183A3D5300360A61 /* libzint.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 04B58F38183A3D5300360A61 /* libzint.dylib */; };
 		04DC70C8185B57EB005110A5 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04DC70C7185B57EB005110A5 /* CoreLocation.framework */; };
+		04DCC18918664C8E00592A1F /* PythonLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DCC18818664C8E00592A1F /* PythonLoader.m */; };
 		04E01C0E183EB68F00C9AF76 /* MeasurementType.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E01C0D183EB68F00C9AF76 /* MeasurementType.m */; };
 		04FFDF94185A6FAE00B1CCCC /* videoLat.help in Resources */ = {isa = PBXBuildFile; fileRef = 04FFDF93185A6FAE00B1CCCC /* videoLat.help */; };
 /* End PBXBuildFile section */
@@ -121,6 +122,8 @@
 		04B58F37183A3D5300360A61 /* libzbar.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libzbar.0.dylib; path = thirdParty/installed/lib/libzbar.0.dylib; sourceTree = "<group>"; };
 		04B58F38183A3D5300360A61 /* libzint.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libzint.dylib; path = thirdParty/installed/lib/libzint.dylib; sourceTree = "<group>"; };
 		04DC70C7185B57EB005110A5 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = ../../../../System/Library/Frameworks/CoreLocation.framework; sourceTree = "<group>"; };
+		04DCC18718664C8E00592A1F /* PythonLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PythonLoader.h; sourceTree = "<group>"; };
+		04DCC18818664C8E00592A1F /* PythonLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PythonLoader.m; sourceTree = "<group>"; };
 		04E01C0C183EB68F00C9AF76 /* MeasurementType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MeasurementType.h; path = ../MeasurementType.h; sourceTree = "<group>"; };
 		04E01C0D183EB68F00C9AF76 /* MeasurementType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MeasurementType.m; path = ../MeasurementType.m; sourceTree = "<group>"; };
 		04FFDF93185A6FAE00B1CCCC /* videoLat.help */ = {isa = PBXFileReference; lastKnownFileType = folder; path = videoLat.help; sourceTree = SOURCE_ROOT; };
@@ -266,11 +269,13 @@
 		047DD1C7183A3B4D00A04F83 /* videoLat */ = {
 			isa = PBXGroup;
 			children = (
+				04B58F18183A3CF000360A61 /* protocols.h */,
 				04B58F0D183A3CF000360A61 /* appDelegate.h */,
 				04B58F1E183A3D3000360A61 /* appDelegate.m */,
 				04E01C0C183EB68F00C9AF76 /* MeasurementType.h */,
 				04E01C0D183EB68F00C9AF76 /* MeasurementType.m */,
-				04B58F18183A3CF000360A61 /* protocols.h */,
+				04DCC18718664C8E00592A1F /* PythonLoader.h */,
+				04DCC18818664C8E00592A1F /* PythonLoader.m */,
 				047DD1D9183A3B4D00A04F83 /* MainMenu.xib */,
 				040CF9D5183E4B4B0094C0D8 /* MeasurementRun */,
 				040CF9D4183E4B1F0094C0D8 /* Document */,
@@ -404,6 +409,7 @@
 				04B58F2C183A3D3000360A61 /* DocumentView.m in Sources */,
 				04B58F2D183A3D3000360A61 /* genQRcodes.m in Sources */,
 				04B58F2E183A3D3000360A61 /* GraphView.m in Sources */,
+				04DCC18918664C8E00592A1F /* PythonLoader.m in Sources */,
 				045397D4183AC3F300697348 /* VideoSelectionView.m in Sources */,
 				04B58F2F183A3D3000360A61 /* VideoInput.m in Sources */,
 				04B58F30183A3D3000360A61 /* VideoRunManager.m in Sources */,
