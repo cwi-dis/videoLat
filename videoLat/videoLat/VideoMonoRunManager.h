@@ -15,16 +15,21 @@
     int blacklevel;
     int whitelevel;
     int nBWdetections;
+    NSRect sensitiveArea;
 }
 
 + (void)initialize;
 - (VideoMonoRunManager *)init;
 
+- (CIImage *)newOutputStart;
 
+
+#if 0
 // Monochrome support
 - (void)_mono_showNewData;
 - (void)_mono_newInputDone: (bool)isWhite;
 - (void)_mono_pollInput;
+#endif
 
 @end
 

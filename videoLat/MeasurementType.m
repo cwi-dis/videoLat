@@ -42,7 +42,8 @@ static NSMutableDictionary *byTag;
     // NOTE: this list should be identical to the "Measurement Type" popup in NewMeasurement.xib
     MeasurementType *cal_VR = [self addType: @"Video Roundtrip Calibrate" tag: 1 isCalibration: YES requires: nil];
     [self addType: @"Video Roundtrip" tag: 2 isCalibration: NO requires: cal_VR];
-     
+    [self addType: @"Video Mono Roundtrip" tag: 8 isCalibration: NO requires: cal_VR];
+    
     MeasurementType *cal_HW = [self addType: @"Hardware Calibrate" tag: 3 isCalibration: YES requires: nil];
     MeasurementType *cal_IN = [self addType: @"Camera Input Calibrate" tag: 4 isCalibration: YES requires: cal_HW];
     MeasurementType *cal_OUT = [self addType: @"Screen Output Calibrate" tag: 5 isCalibration: YES requires: cal_HW];

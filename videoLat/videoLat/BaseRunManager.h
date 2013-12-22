@@ -25,6 +25,7 @@
 
 - (void)stop;
 - (void)selectMeasurementType: (NSString *)typeName;
+- (void)restart;
 
 @property bool running;
 @property bool preRunning;

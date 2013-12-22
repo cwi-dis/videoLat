@@ -75,8 +75,13 @@
             return nil;
             
         }
-		if (self.measurementWindow)
+		if (self.measurementWindow) {
 			[self.measurementWindow makeKeyAndOrderFront:self];
+#if 0
+            // This may be needed on 10.7 (and 10.8?)
+            [self.measurementWindow setReleasedWhenClosed: YES];
+#endif
+        }
     }
     return self;
 }

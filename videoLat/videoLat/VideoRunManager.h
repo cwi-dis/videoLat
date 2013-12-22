@@ -15,10 +15,6 @@
 #import "BaseRunManager.h"
 
 @interface VideoRunManager : BaseRunManager {
-
-    id <InputVideoFindProtocol> finder;
-    id <OutputVideoGenProtocol> genner;
-
     uint64_t outputStartTime;       // When the last output was displayed
     uint64_t prerunOutputStartTime;       // Same, but not reset when reported (for prerun duration checking)
     uint64_t prevOutputStartTime;   // For checking they are monotonously increasing
@@ -45,11 +41,12 @@
 @property(weak) IBOutlet VideoSelectionView *selectionView;
 @property(weak) IBOutlet id <InputCaptureProtocol> capturer;
 @property(weak) IBOutlet id <ClockProtocol> clock;
+@property(weak) IBOutlet id <InputVideoFindProtocol> finder;
+@property(weak) IBOutlet id <OutputVideoGenProtocol> genner;
 
 + (void)initialize;
 - (VideoRunManager *)init;
 -(void)stop;
-- (void)selectMeasurementType: (NSString *)typeName;
 
 - (IBAction)startPreMeasuring: (id)sender;
 - (IBAction)stopPreMeasuring: (id)sender;
