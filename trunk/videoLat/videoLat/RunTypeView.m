@@ -121,7 +121,7 @@
 					abort();
                 }
             }
-            runManagerNibObjects = nil;
+            //runManagerNibObjects = nil;
 		} else {
 			// We don't have a Nib. Allocate the class instance.
 			runManager = [[runClass alloc] init];

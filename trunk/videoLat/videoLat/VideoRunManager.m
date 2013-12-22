@@ -53,8 +53,6 @@
 {
     if ([super respondsToSelector:@selector(awakeFromNib)]) [super awakeFromNib];
     @synchronized(self) {
-        genner = [[GenQRcodes alloc] init];
-        finder = [[FindQRcodes alloc] init];
         self.statusView = self.measurementMaster.statusView;
         self.collector = self.measurementMaster.collector;
         assert(self.clock);
@@ -66,14 +64,6 @@
 	if (self.capturer) [self.capturer stop];
 	self.capturer = nil;
 	self.clock = nil;
-}
-
-- (void)selectMeasurementType: (NSString *)typeName
-{
-	@synchronized(self) {
-		[super selectMeasurementType:typeName];
-		[self restart];
-	}
 }
 
 - (void)restart
@@ -258,7 +248,7 @@
         CGSize size = {480, 480};
         char *bitmapdata = (char*)malloc(size.width*size.height*bpp);
         memset(bitmapdata, 0xf0, size.width*size.height*bpp);
-        [genner gen: bitmapdata width:size.width height:size.height code:[outputCode UTF8String]];
+        [self.genner gen: bitmapdata width:size.width height:size.height code:[outputCode UTF8String]];
         NSData *data = [NSData dataWithBytesNoCopy:bitmapdata length:sizeof(bitmapdata) freeWhenDone: YES];
         outputCodeImage = [CIImage imageWithBitmapData:data bytesPerRow:bpp*size.width size:size format:kCIFormatARGB8 colorSpace:nil];
         return outputCodeImage;
@@ -282,7 +272,6 @@
 - (void)setFinderRect: (NSRect)theRect
 {
 #if 0
-//xyzzy	status.finderRect = theRect;
 	[self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
 #endif
 }
@@ -380,7 +369,7 @@
             return;
         }
         
-        char *code = [finder find: buffer width: w height: h format: formatStr size:size];
+        char *code = [self.finder find: buffer width: w height: h format: formatStr size:size];
         BOOL foundQRcode = (code != NULL);
         if (foundQRcode) {
             
