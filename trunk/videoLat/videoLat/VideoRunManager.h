@@ -6,12 +6,9 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "RunTypeView.h"
-#import "RunStatusView.h"
 #import "VideoSelectionView.h"
 #import "VideoOutputView.h"
 #import "protocols.h"
-#import "Document.h"
 #import "BaseRunManager.h"
 
 @interface VideoRunManager : BaseRunManager {
@@ -32,12 +29,8 @@
     int prerunMoreNeeded;           // How many more prerun correct catches we need
     
 }
-@property(weak) IBOutlet Document *document;
 @property bool mirrored;
-@property(weak) IBOutlet id <ManagerDelegateProtocol> delegate;
 @property(weak) IBOutlet VideoOutputView *outputView;
-@property(weak) IBOutlet RunTypeView *measurementMaster;
-@property(weak) IBOutlet RunStatusView *statusView;
 @property(weak) IBOutlet VideoSelectionView *selectionView;
 @property(weak) IBOutlet id <InputCaptureProtocol> capturer;
 @property(weak) IBOutlet id <ClockProtocol> clock;
@@ -52,8 +45,6 @@
 - (IBAction)stopPreMeasuring: (id)sender;
 - (IBAction)startMeasuring: (id)sender;
 //- (IBAction)stopMeasuring: (id)sender;
-
-- (void)reportDataCapturer: (id)capt;
 
 - (void)_triggerNewOutputValue;
 - (void) _prerunRecordNoReception;

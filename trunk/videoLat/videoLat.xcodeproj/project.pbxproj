@@ -42,12 +42,14 @@
 		04B58F30183A3D3000360A61 /* VideoRunManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B58F24183A3D3000360A61 /* VideoRunManager.m */; };
 		04B58F31183A3D3000360A61 /* MeasurementDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B58F25183A3D3000360A61 /* MeasurementDataStore.m */; };
 		04B58F32183A3D3000360A61 /* VideoOutputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B58F26183A3D3000360A61 /* VideoOutputView.m */; };
-		04B58F33183A3D3000360A61 /* PythonSwitcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B58F27183A3D3000360A61 /* PythonSwitcher.m */; };
 		04B58F35183A3D3000360A61 /* DocumentDescriptionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B58F29183A3D3000360A61 /* DocumentDescriptionView.m */; };
 		04B58F39183A3D5300360A61 /* libzbar.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 04B58F37183A3D5300360A61 /* libzbar.0.dylib */; };
 		04B58F3A183A3D5300360A61 /* libzint.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 04B58F38183A3D5300360A61 /* libzint.dylib */; };
 		04DC70C8185B57EB005110A5 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04DC70C7185B57EB005110A5 /* CoreLocation.framework */; };
 		04DCC18918664C8E00592A1F /* PythonLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DCC18818664C8E00592A1F /* PythonLoader.m */; };
+		04DCC18B1867912A00592A1F /* HardwareRunManager.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04DCC18A1867912A00592A1F /* HardwareRunManager.xib */; };
+		04DCC18F1867927800592A1F /* HardwareRunManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DCC18E1867927800592A1F /* HardwareRunManager.m */; };
+		04DCC19118684D8A00592A1F /* LabJackDevice.py in Resources */ = {isa = PBXBuildFile; fileRef = 04DCC19018684D8A00592A1F /* LabJackDevice.py */; };
 		04E01C0E183EB68F00C9AF76 /* MeasurementType.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E01C0D183EB68F00C9AF76 /* MeasurementType.m */; };
 		04FFDF94185A6FAE00B1CCCC /* videoLat.help in Resources */ = {isa = PBXBuildFile; fileRef = 04FFDF93185A6FAE00B1CCCC /* videoLat.help */; };
 /* End PBXBuildFile section */
@@ -124,6 +126,10 @@
 		04DC70C7185B57EB005110A5 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = ../../../../System/Library/Frameworks/CoreLocation.framework; sourceTree = "<group>"; };
 		04DCC18718664C8E00592A1F /* PythonLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PythonLoader.h; sourceTree = "<group>"; };
 		04DCC18818664C8E00592A1F /* PythonLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PythonLoader.m; sourceTree = "<group>"; };
+		04DCC18A1867912A00592A1F /* HardwareRunManager.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HardwareRunManager.xib; sourceTree = "<group>"; };
+		04DCC18D1867927800592A1F /* HardwareRunManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HardwareRunManager.h; sourceTree = "<group>"; };
+		04DCC18E1867927800592A1F /* HardwareRunManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HardwareRunManager.m; sourceTree = "<group>"; };
+		04DCC19018684D8A00592A1F /* LabJackDevice.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = LabJackDevice.py; sourceTree = "<group>"; };
 		04E01C0C183EB68F00C9AF76 /* MeasurementType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MeasurementType.h; path = ../MeasurementType.h; sourceTree = "<group>"; };
 		04E01C0D183EB68F00C9AF76 /* MeasurementType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MeasurementType.m; path = ../MeasurementType.m; sourceTree = "<group>"; };
 		04FFDF93185A6FAE00B1CCCC /* videoLat.help */ = {isa = PBXFileReference; lastKnownFileType = folder; path = videoLat.help; sourceTree = SOURCE_ROOT; };
@@ -183,6 +189,7 @@
 		040CF9D5183E4B4B0094C0D8 /* MeasurementRun */ = {
 			isa = PBXGroup;
 			children = (
+				04DCC18C1867913800592A1F /* HardwareRun */,
 				04A666CE1842A4F700D0CA04 /* BaseRunManager.h */,
 				04A666CF1842A4F700D0CA04 /* BaseRunManager.m */,
 				04B58F0E183A3CF000360A61 /* RunCollector.h */,
@@ -309,6 +316,17 @@
 			name = thirdParty;
 			sourceTree = "<group>";
 		};
+		04DCC18C1867913800592A1F /* HardwareRun */ = {
+			isa = PBXGroup;
+			children = (
+				04DCC18A1867912A00592A1F /* HardwareRunManager.xib */,
+				04DCC18D1867927800592A1F /* HardwareRunManager.h */,
+				04DCC18E1867927800592A1F /* HardwareRunManager.m */,
+				04DCC19018684D8A00592A1F /* LabJackDevice.py */,
+			);
+			name = HardwareRun;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -364,8 +382,10 @@
 				047DD1CC183A3B4D00A04F83 /* InfoPlist.strings in Resources */,
 				047DD1D2183A3B4D00A04F83 /* Credits.rtf in Resources */,
 				047DD1D8183A3B4D00A04F83 /* Document.xib in Resources */,
+				04DCC19118684D8A00592A1F /* LabJackDevice.py in Resources */,
 				045397CE183AB23B00697348 /* NewMeasurement.xib in Resources */,
 				043A1EF81843FD6E00883D0B /* VideoCalibrationRunManager.xib in Resources */,
+				04DCC18B1867912A00592A1F /* HardwareRunManager.xib in Resources */,
 				04FFDF94185A6FAE00B1CCCC /* videoLat.help in Resources */,
 				047DD1DB183A3B4D00A04F83 /* MainMenu.xib in Resources */,
 				040CF9DC183E4F6F0094C0D8 /* icon.icns in Resources */,
@@ -404,6 +424,7 @@
 				04E01C0E183EB68F00C9AF76 /* MeasurementType.m in Sources */,
 				045397D1183AC3D300697348 /* RunTypeView.m in Sources */,
 				04B58F2A183A3D3000360A61 /* appDelegate.m in Sources */,
+				04DCC18F1867927800592A1F /* HardwareRunManager.m in Sources */,
 				043A1EF41843FCA000883D0B /* VideoMonoRunManager.m in Sources */,
 				04B58F2B183A3D3000360A61 /* RunCollector.m in Sources */,
 				04B58F2C183A3D3000360A61 /* DocumentView.m in Sources */,
@@ -416,7 +437,6 @@
 				04A666D01842A4F700D0CA04 /* BaseRunManager.m in Sources */,
 				04B58F31183A3D3000360A61 /* MeasurementDataStore.m in Sources */,
 				04B58F32183A3D3000360A61 /* VideoOutputView.m in Sources */,
-				04B58F33183A3D3000360A61 /* PythonSwitcher.m in Sources */,
 				045397D7183AC40C00697348 /* RunStatusView.m in Sources */,
 				04B58F35183A3D3000360A61 /* DocumentDescriptionView.m in Sources */,
 				043A1EF11843FC6000883D0B /* VideoCalibrationRunManager.m in Sources */,

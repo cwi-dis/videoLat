@@ -1,5 +1,5 @@
 //
-//  StatusView.h
+//  DocumentDescriptionView.h
 //  videoLat
 //
 //  Created by Jack Jansen on 12/11/13.

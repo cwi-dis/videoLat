@@ -50,6 +50,14 @@
 @property (readonly) NSString* deviceName;
 @end
 
+// Protocol for a binary (monochrome) hardware input/output device
+@protocol HardwareLightProtocol
+- (BOOL)available;
+- (double)light: (double)level;
+@property (readonly) NSString* deviceID;
+@property (readonly) NSString* deviceName;
+@end
+
 // Protocol for an object that can provide data to a GraphView
 @protocol GraphDataProviderProtocol
 @property(readonly) double min;
@@ -62,16 +70,6 @@
 - (NSNumber *)valueForIndex: (int) i;
 @end
 
-// Protocol for an object that influences what patterns the manager generates
-// XXX Needs to go...
-@protocol ManagerDelegateProtocol <NSObject>
-@property(readonly) NSString *script;
-@property(readonly) bool hasInput;
-- (NSString*)newOutput: (NSString*)data;
-- (void)newBWOutput: (bool)isWhite;
-- (bool)inputBW;
-@end
-
 // Protocol used by output view to request new data and report results
 @protocol RunOutputManagerProtocol
 - (CIImage *)newOutputStart;
@@ -81,7 +79,6 @@
 // Protocol used by input data collector to report new data and timing.
 @protocol RunInputManagerProtocol
 - (void)restart;
-- (void)reportDataCapturer: (id)capturer;
 - (void)setFinderRect: (NSRect)theRect;
 - (void)newInputStart;
 - (void)newInputStart:(uint64_t)timestamp;
