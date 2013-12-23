@@ -34,6 +34,7 @@ static PythonLoader *theSharedPythonLoader;
 
 - (BOOL)loadURL: (NSURL *)script
 {
+    NSLog(@"PythonLoader loadURL %@", script);
     BOOL rv = NO;
     PyObject *pDir = NULL, *sys = NULL, *sysPath = NULL, *prv = NULL;
     

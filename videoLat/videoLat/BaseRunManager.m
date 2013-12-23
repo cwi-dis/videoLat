@@ -88,12 +88,6 @@ static NSMutableDictionary *runManagerNibs;
 	[NSException raise:@"BaseRunManager" format:@"Must override newOutputDone in subclass"];
 }
 
-- (void)reportDataCapturer: (id)capturer
-{
-	[NSException raise:@"BaseRunManager" format:@"Must override reportDataCapturer in subclass"];
-}
-
-
 - (void)setFinderRect: (NSRect)theRect
 {
 	[NSException raise:@"BaseRunManager" format:@"Must override setFinderRect in subclass"];

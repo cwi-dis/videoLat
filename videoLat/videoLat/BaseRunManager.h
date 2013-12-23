@@ -10,6 +10,8 @@
 #import "protocols.h"
 #import "MeasurementType.h"
 #import "RunCollector.h"
+#import "RunTypeView.h"
+#import "RunStatusView.h"
 
 @interface BaseRunManager : NSObject <RunOutputManagerProtocol, RunInputManagerProtocol> {
     MeasurementType *measurementType;
@@ -31,5 +33,7 @@
 @property bool preRunning;
 
 @property(weak) IBOutlet RunCollector *collector;
+@property(weak) IBOutlet RunStatusView *statusView;
+@property(weak) IBOutlet RunTypeView *measurementMaster;
 
 @end

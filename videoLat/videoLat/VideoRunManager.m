@@ -28,6 +28,7 @@
 
 - (VideoRunManager*)init
 {
+    self = [super init];
 	if (self) {
 		outputStartTime = 0;
         prevOutputStartTime = 0;
@@ -111,11 +112,6 @@
 	inputStartTime = 0;
 	outputCodeImage = nil;
 	[self.outputView performSelectorOnMainThread:@selector(showNewData) withObject:nil waitUntilDone:NO ];
-}
-
-- (void)reportDataCapturer: (id)capt
-{
-    self.capturer = capt;
 }
 
 - (IBAction)startPreMeasuring: (id)sender

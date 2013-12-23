@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "BaseRunManager.h"
 #import "RunStatusView.h"
 #import "RunCollector.h"
 
@@ -16,7 +15,7 @@
     BOOL wasAwokenFromNib;
 }
 @property(weak) IBOutlet NSPopUpButton *bType;
-@property(strong) IBOutlet BaseRunManager *runManager;
+@property(strong) IBOutlet id runManager;
 @property(strong) IBOutlet NSView *selectionView;
 @property(strong) IBOutlet NSView *outputView;
 @property(weak) IBOutlet RunStatusView *statusView;

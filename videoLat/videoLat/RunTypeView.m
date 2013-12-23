@@ -8,7 +8,6 @@
 
 #import "RunTypeView.h"
 #import "BaseRunManager.h"
-//#import "VideoRunManager.h"
 #import "MeasurementType.h"
 
 @implementation RunTypeView
@@ -27,15 +26,14 @@
 
 - (void) dealloc
 {
-	if (self.runManager) [self.runManager stop];
+	if (self.runManager) [(BaseRunManager *)self.runManager stop];
 }
 
 - (void)awakeFromNib
 {
     for (NSString *itemTitle in [bType itemTitles]) {
-        if ([BaseRunManager classForMeasurementType: itemTitle] == nil) {
-            [[bType itemWithTitle: itemTitle] setEnabled: NO];
-        }
+        BOOL exists = [BaseRunManager classForMeasurementType: itemTitle] != nil;
+        [[bType itemWithTitle: itemTitle] setEnabled: exists];
     }
     // Try to set same as in previous run
     NSString *oldType = [[NSUserDefaults standardUserDefaults] stringForKey:@"measurementType"];
@@ -139,7 +137,7 @@
     
 - (IBAction)stopMeasuring: (id)sender
 {
-    self.runManager.running = false;
+    ((BaseRunManager *)self.runManager).running = false;
     [self.collector stopCollecting];
     [self.collector trim];
     self.statusView.detectCount = [NSString stringWithFormat: @"%d (after trimming 5%%)", self.collector.count];

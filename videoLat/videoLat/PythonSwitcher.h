@@ -10,7 +10,7 @@
 #import "VideoRunManager.h"
 #include <Python.h>
 
-@interface PythonSwitcher : NSObject <ManagerDelegateProtocol> {
+@interface PythonSwitcher : NSObject  {
 	PyObject *dict;
 	NSString *script;
     bool hasInput;
