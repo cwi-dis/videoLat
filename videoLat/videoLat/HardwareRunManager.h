@@ -8,7 +8,24 @@
 
 #import "BaseRunManager.h"
 
-@interface HardwareRunManager : BaseRunManager
+@interface HardwareRunManager : BaseRunManager <ClockProtocol> {
+    BOOL alive; // True if the class is alive and the periodic timer should run
+    BOOL connected; // True if the hardware device is connected
+    
+    double outputLevel; // Current output light level
+    uint64_t outputTimestamp;
+    BOOL triggerNewOutputValue;
+    
+    double inputLevel;  // Current input pight level
+    double minInputLevel;
+    double maxInputLevel;
+    uint64_t inputTimestamp;
+    
+    int prerunMoreNeeded;
+}
+
+@property(weak) IBOutlet NSButton *bPreRun;
+@property(weak) IBOutlet NSButton *bRun;
 @property(weak) IBOutlet NSButton *bDeviceConnected;
 @property(weak) IBOutlet NSButton *bOutputValue;
 @property(weak) IBOutlet NSButton *bInputValue;
@@ -19,6 +36,9 @@
 + (void)initialize;
 - (HardwareRunManager *)init;
 -(void)stop;
+
+- (void)_periodic: (id)sender;
+- (void)_update: (id)sender;
 
 - (IBAction)startPreMeasuring: (id)sender;
 - (IBAction)stopPreMeasuring: (id)sender;
