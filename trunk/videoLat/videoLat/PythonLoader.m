@@ -25,28 +25,32 @@ static PythonLoader *theSharedPythonLoader;
 {
     self = [super init];
     if (self) {
+        PyEval_InitThreads();
 		Py_Initialize();
 		NSLog(@"Python home=%s\n", Py_GetPythonHome());
-		
+		PyEval_SaveThread();
     }
     return self;
 }
 
 - (BOOL)loadURL: (NSURL *)script
 {
+    PyGILState_STATE gstate;
+    gstate = PyGILState_Ensure();
     NSLog(@"PythonLoader loadURL %@", script);
     BOOL rv = NO;
+    NSURL *dir;
     PyObject *pDir = NULL, *sys = NULL, *sysPath = NULL, *prv = NULL;
     
     // XXX Threading
     // Get script path and containing directory path in C strings.
     char cScript[1024];
     if (![script getFileSystemRepresentation:cScript maxLength:sizeof(cScript)])
-        return NO;
-    NSURL *dir = [script URLByDeletingLastPathComponent];
+        goto bad;
+    dir = [script URLByDeletingLastPathComponent];
     char cDir[1024];
     if (![dir getFileSystemRepresentation:cDir maxLength:sizeof(cDir)])
-        return NO;
+        goto bad;
     pDir = PyString_InternFromString(cDir);
     if (pDir == NULL) goto bad;
     
@@ -57,7 +61,7 @@ static PythonLoader *theSharedPythonLoader;
     sysPath = PyObject_GetAttrString(sys, "path");
     if (sysPath == NULL) goto bad;
     if (!PySequence_Contains(sysPath, pDir)) {
-        prv = PyObject_CallMethod(sysPath, "insert", "iO", 0, sysPath);
+        prv = PyObject_CallMethod(sysPath, "insert", "iO", 0, pDir);
         if (prv == NULL) goto bad;
         Py_DECREF(prv);
     }
@@ -75,6 +79,7 @@ bad:
     Py_XDECREF(sysPath);
     Py_XDECREF(sys);
     Py_XDECREF(pDir);
+    PyGILState_Release(gstate);
     return rv;
 }
 
