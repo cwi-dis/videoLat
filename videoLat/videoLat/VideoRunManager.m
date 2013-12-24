@@ -6,7 +6,6 @@
 //
 
 #import "VideoRunManager.h"
-#import "PythonSwitcher.h"
 #import "FindQRCodes.h"
 #import "GenQRCodes.h"
 #import <sys/sysctl.h>

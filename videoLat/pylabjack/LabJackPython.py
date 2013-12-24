@@ -93,10 +93,15 @@ def _loadMacDylib():
     """
     Attempts to load the liblabjackusb.dylib for Mac OS X.
     """
+    libName = "liblabjackusb.dylib"
+    dirName = os.path.dirname(__file__)
+    localLibName = os.path.join(dirName, libName)
+    if os.path.exists(localLibName):
+        libName = localLibName
     try:
-        l = ctypes.CDLL("liblabjackusb.dylib", use_errno=True)
+        l = ctypes.CDLL(libName, use_errno=True)
     except TypeError:
-        l = ctypes.CDLL("liblabjackusb.dylib")
+        l = ctypes.CDLL(libName)
     l.LJUSB_Stream.errcheck = errcheck
     l.LJUSB_Read.errcheck = errcheck
     return l

@@ -52,4 +52,7 @@ def main():
     
 print 'sw_labjack.py executed'
 
+if __name__ == '__main__':
+    _test()
+    
     

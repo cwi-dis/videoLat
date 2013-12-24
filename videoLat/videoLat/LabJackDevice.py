@@ -1,7 +1,13 @@
 import sys
+import os
 
+# Import the labjack support
+import u3
+
+# Import the ObjC/Cocoa support
 from Cocoa import *
 import objc
+
 
 HardwareLightProtocol = objc.protocolNamed('HardwareLightProtocol')
 
