@@ -8,39 +8,75 @@ import u3
 from Cocoa import *
 import objc
 
+DEBUG=False
 
 HardwareLightProtocol = objc.protocolNamed('HardwareLightProtocol')
 
 class LabJackDevice(NSObject, HardwareLightProtocol):
+    OUTPUT_PORT = 4 # LED is attached to port FIO4
+    INPUT_PORT = 5  # Phototransistor/opamp are attached to port FIO5
 
     def init(self):
-        print 'LabJackDevice: init called', self
+        if DEBUG: print 'LabJackDevice: init called', self
         self = super(LabJackDevice, self).init()
-        self.delayLine = []
+        self.u3Device = None
         return self
     
     def awakeFromNib(self):
-        print 'LabJackDevice: awakeFromNib called', self
+        if DEBUG: print 'LabJackDevice: awakeFromNib called', self
     
+    def _tryOpen(self):
+        # Open the device
+        try:
+            self.u3Device = u3.U3()
+        except u3.LabJackException:
+            return
+        # Configure all ports as digital
+        self.u3Device.configIO(0)
+        self.u3Device.getFeedback([
+            u3.BitDirWrite(self.INPUT_PORT, 0),
+            u3.BitDirWrite(self.OUTPUT_PORT, 1),
+            ])
     
     def available(self):
-        print 'LabJackDevice: available called', self
-        return True
+        try:
+            if DEBUG: print 'LabJackDevice: available called', self
+            if not self.u3Device:
+                self._tryOpen()
+            if DEBUG: print 'available: u3device is', self.u3Device
+            return not not self.u3Device
+        except:
+            if not DEBUG:
+                print 'Exception during LabJackDevice.available'
+                return False
+            import pdb
+            pdb.post_mortem()
     
     def light_(self, level):
-        print 'LabJackDevice: light_ called', self, level
-        if not self.delayLine:
-            self.delayLine = [level]*3
-        self.delayLine.append(level)
-        rv = self.delayLine[0]
-        del self.delayLine[0]
-        print 'LabJackDevice: light_ returning', rv
-        return rv
-
+        try:
+            if DEBUG: print 'LabJackDevice: light_ called', self, level
+            if not self.u3Device:
+                return 0
+            # Note: the logic is reversed here: 0 means light
+            if level < 0.5:
+                outCmd = u3.BitStateWrite(self.OUTPUT_PORT, 1)
+            else:
+                outCmd = u3.BitStateWrite(self.OUTPUT_PORT, 0)
+            inCmd = u3.BitStateRead(self.INPUT_PORT)
+            rv = self.u3Device.getFeedback([inCmd, outCmd])
+            if DEBUG: print 'labJackDevice: light_: returned', rv
+            return rv[0]
+        except:
+            if not DEBUG:
+                print 'Exception during LabJackDevice.light_'
+                return 0
+            import pdb
+            pdb.post_mortem()
+                    
     def deviceID(self):
-        print 'LabJackDevice: deviceID called', self
+        if DEBUG: print 'LabJackDevice: deviceID called', self
         return 'LabJackID'
 
     def deviceName(self):
-        print 'LabJackDevice: deviceName called', self
+        if DEBUG: print 'LabJackDevice: deviceName called', self
         return 'LabJack'

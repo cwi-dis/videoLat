@@ -12,7 +12,7 @@
 #import <mach/mach_time.h>
 #import <mach/clock.h>
 
-#define PRERUN_COUNT 20
+#define PRERUN_COUNT 200
 
 @implementation HardwareRunManager
 + (void) initialize
@@ -51,31 +51,37 @@
 
 - (void)_periodic: (id)sender
 {
+    BOOL first = YES;
+    BOOL outputLevelChanged = NO;
     while(alive) {
         BOOL nConnected = self.device && [self.device available];
+        uint64_t loopTimestamp = [self.clock now];
         @synchronized(self) {
             if (triggerNewOutputValue) {
-                outputTimestamp = [self.clock now];
+                outputTimestamp = loopTimestamp;
                 outputLevel = 1-outputLevel;
+                outputLevelChanged = YES;
                 triggerNewOutputValue = NO;
+                if (VL_DEBUG) NSLog(@"HardwareRunManager: outputLevel %f at %lld", outputLevel, outputTimestamp);
             }
         }
-        
         double nInputLevel = [self.device light: outputLevel];
         
         @synchronized(self) {
-            if (nConnected != connected || nInputLevel != inputLevel) {
+            if (first || nConnected != connected || nInputLevel != inputLevel || outputLevelChanged) {
                 connected = nConnected;
                 inputLevel = nInputLevel;
-                inputTimestamp = outputTimestamp;
+                inputTimestamp = loopTimestamp;
                 if (inputLevel < minInputLevel)
                     minInputLevel = inputLevel;
                 if (inputLevel > maxInputLevel)
                     maxInputLevel = inputLevel;
                 [self performSelectorOnMainThread:@selector(_update:) withObject:self waitUntilDone:NO];
+                first = NO;
             }
         }
-        [NSThread sleepForTimeInterval:0.1];
+        outputLevelChanged = NO;
+        [NSThread sleepForTimeInterval:0.001];
     }
 }
 
@@ -91,6 +97,7 @@
         // Check for detections
         if (inputLight == outputLight) {
             if (self.running) {
+                if (VL_DEBUG) NSLog(@"light %d transmitted %lld received %lld delta %lld", outputLight, outputTimestamp, inputTimestamp, inputTimestamp - outputTimestamp);
                 [self.collector recordTransmission: outputLight? @"light": @"darkness" at:outputTimestamp];
                 [self.collector recordReception:inputLight? @"light": @"darkness" at:inputTimestamp];
                 self.statusView.detectCount = [NSString stringWithFormat: @"%d", self.collector.count];
