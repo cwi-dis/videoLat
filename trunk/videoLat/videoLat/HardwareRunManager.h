@@ -27,6 +27,7 @@
 @property(weak) IBOutlet NSButton *bPreRun;
 @property(weak) IBOutlet NSButton *bRun;
 @property(weak) IBOutlet NSButton *bDeviceConnected;
+@property(weak) IBOutlet NSPopUpButton *bBase;
 @property(weak) IBOutlet NSButton *bOutputValue;
 @property(weak) IBOutlet NSButton *bInputValue;
 @property(weak) IBOutlet NSTextField *bInputNumericValue;

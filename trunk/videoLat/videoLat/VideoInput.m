@@ -225,6 +225,7 @@
     } else {
         NSLog(@"Warning: Cannot set capture session to 640x480\n");
     }
+    // XXXX On 10.9, get AVCaptureInputPort from session, get its clock, and use it
 
     /* Create the video capture output, and let us be its delegate */
     outputCapturer = [[AVCaptureVideoDataOutput alloc] init];

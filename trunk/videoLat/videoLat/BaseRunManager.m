@@ -104,6 +104,9 @@ static NSMutableDictionary *runManagerNibs;
 - (void) selectMeasurementType:(NSString *)typeName
 {
 	measurementType = [MeasurementType forType:typeName];
+    if (self.outputCompanion && self.outputCompanion != self)
+        [self.outputCompanion selectMeasurementType: typeName];
+    [self restart];
 }
 
 - (void)restart

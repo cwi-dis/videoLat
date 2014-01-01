@@ -10,6 +10,7 @@
 		040CF9D0183E40F20094C0D8 /* findQRcodes.mm in Sources */ = {isa = PBXBuildFile; fileRef = 04B58F11183A3CF000360A61 /* findQRcodes.mm */; };
 		040CF9DC183E4F6F0094C0D8 /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 040CF9DB183E4F6F0094C0D8 /* icon.icns */; };
 		040CF9DE183E56110094C0D8 /* docicon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 040CF9DD183E56110094C0D8 /* docicon.icns */; };
+		0412725818731DA000CB014F /* HardwareToCameraRunManager.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0412725718731DA000CB014F /* HardwareToCameraRunManager.xib */; };
 		04187965184382C400303A12 /* VideoRunManager.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04187964184382C400303A12 /* VideoRunManager.xib */; };
 		043A1EF11843FC6000883D0B /* VideoCalibrationRunManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 043A1EF01843FC6000883D0B /* VideoCalibrationRunManager.m */; };
 		043A1EF41843FCA000883D0B /* VideoMonoRunManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 043A1EF31843FCA000883D0B /* VideoMonoRunManager.m */; };
@@ -65,6 +66,7 @@
 /* Begin PBXFileReference section */
 		040CF9DB183E4F6F0094C0D8 /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = icon.icns; sourceTree = SOURCE_ROOT; };
 		040CF9DD183E56110094C0D8 /* docicon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = docicon.icns; sourceTree = SOURCE_ROOT; };
+		0412725718731DA000CB014F /* HardwareToCameraRunManager.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HardwareToCameraRunManager.xib; sourceTree = "<group>"; };
 		04187964184382C400303A12 /* VideoRunManager.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VideoRunManager.xib; sourceTree = "<group>"; };
 		043A1EEF1843FC6000883D0B /* VideoCalibrationRunManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoCalibrationRunManager.h; sourceTree = "<group>"; };
 		043A1EF01843FC6000883D0B /* VideoCalibrationRunManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoCalibrationRunManager.m; sourceTree = "<group>"; };
@@ -190,7 +192,7 @@
 		040CF9D5183E4B4B0094C0D8 /* MeasurementRun */ = {
 			isa = PBXGroup;
 			children = (
-				04DCC18C1867913800592A1F /* HardwareRun */,
+				0412725618731D4B00CB014F /* MixedRun */,
 				04A666CE1842A4F700D0CA04 /* BaseRunManager.h */,
 				04A666CF1842A4F700D0CA04 /* BaseRunManager.m */,
 				04B58F0E183A3CF000360A61 /* RunCollector.h */,
@@ -200,6 +202,7 @@
 				045397CF183AC3D300697348 /* RunTypeView.h */,
 				045397D0183AC3D300697348 /* RunTypeView.m */,
 				045397CD183AB23B00697348 /* NewMeasurement.xib */,
+				04DCC18C1867913800592A1F /* HardwareRun */,
 				040CF9D6183E4B570094C0D8 /* VideoRun */,
 			);
 			name = MeasurementRun;
@@ -229,6 +232,14 @@
 				045397D3183AC3F300697348 /* VideoSelectionView.m */,
 			);
 			name = VideoRun;
+			sourceTree = "<group>";
+		};
+		0412725618731D4B00CB014F /* MixedRun */ = {
+			isa = PBXGroup;
+			children = (
+				0412725718731DA000CB014F /* HardwareToCameraRunManager.xib */,
+			);
+			name = MixedRun;
 			sourceTree = "<group>";
 		};
 		047DD1B2183A3B4C00A04F83 = {
@@ -398,6 +409,7 @@
 				047DD1CC183A3B4D00A04F83 /* InfoPlist.strings in Resources */,
 				047DD1D2183A3B4D00A04F83 /* Credits.rtf in Resources */,
 				04B174031869B2E000A3DA9A /* LabJackPython.py in Resources */,
+				0412725818731DA000CB014F /* HardwareToCameraRunManager.xib in Resources */,
 				047DD1D8183A3B4D00A04F83 /* Document.xib in Resources */,
 				04DCC19118684D8A00592A1F /* LabJackDevice.py in Resources */,
 				04B174081869B2E000A3DA9A /* u12.py in Resources */,
