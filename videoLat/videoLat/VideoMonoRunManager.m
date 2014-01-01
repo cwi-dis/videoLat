@@ -14,6 +14,8 @@
 {
     [BaseRunManager registerClass: [self class] forMeasurementType: @"Video Mono Roundtrip"];
     [BaseRunManager registerNib: @"VideoMonoRunManager" forMeasurementType: @"Video Mono Roundtrip"];
+    [BaseRunManager registerClass: [self class] forMeasurementType: @"Camera Input Calibrate"];
+    [BaseRunManager registerNib: @"HardwareToCameraRunManager" forMeasurementType: @"Camera Input Calibrate"];
 }
 
 - (VideoMonoRunManager*)init

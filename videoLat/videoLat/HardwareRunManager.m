@@ -173,6 +173,7 @@
 - (void)restart
 {
     @synchronized(self) {
+		if (measurementType == nil) return;
         if (self.device == nil) {
             NSLog(@"HardwareRunManager: no hardware device available");
             [self.bPreRun setEnabled: NO];
@@ -182,10 +183,41 @@
             }
             return;
         }
+//
+        if (measurementType.requires == nil) {
+			[self.bBase setEnabled:NO];
+			[self.bPreRun setEnabled: YES];
+		} else {
+			NSArray *calibrationNames = measurementType.requires.measurementNames;
+            [self.bBase removeAllItems];
+			[self.bBase addItemsWithTitles:calibrationNames];
+            if ([self.bBase numberOfItems])
+                [self.bBase selectItemAtIndex:0];
+			[self.bBase setEnabled:YES];
+			if ([self.bBase selectedItem]) {
+				[self.bPreRun setEnabled: YES];
+			} else {
+				[self.bPreRun setEnabled: NO];
+				NSAlert *alert = [NSAlert alertWithMessageText:@"No calibrations available."
+                                                 defaultButton:@"OK"
+                                               alternateButton:nil
+                                                   otherButton:nil
+                                     informativeTextWithFormat:@"\"%@\" measurements should be based on a \"%@\" calibration. Please calibrate first.",
+                                  measurementType.name,
+                                  measurementType.requires.name
+                                  ];
+				[alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
+			}
+		}
+		self.preRunning = NO;
+		self.running = NO;
+		[self.bRun setEnabled: NO];
+		if (self.statusView) {
+			[self.statusView.bStop setEnabled: NO];
+		}
+
+//
         outputLevel = 0.5;
-        [self.bPreRun setEnabled: YES]; // XXXJACK wrong: should depend on self.device.available
-        self.preRunning = NO;
-        self.running = NO;
         [self.bRun setEnabled: NO];
         if (self.statusView) {
             [self.statusView.bStop setEnabled: NO];

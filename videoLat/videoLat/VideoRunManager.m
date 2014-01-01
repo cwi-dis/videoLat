@@ -73,13 +73,17 @@
 		if (!self.selectionView) {
 			// XXXJACK Make sure selectionView is active/visible
 		}
-		if (measurementType.isCalibration) {
+		if (measurementType.requires == nil) {
 			[self.selectionView.bBase setEnabled:NO];
 			[self.selectionView.bPreRun setEnabled: YES];
 		} else {
 			NSArray *calibrationNames = measurementType.requires.measurementNames;
-			[self.selectionView.bBase setEnabled:YES];
+            [self.selectionView.bBase removeAllItems];
 			[self.selectionView.bBase addItemsWithTitles:calibrationNames];
+            if ([self.selectionView.bBase numberOfItems])
+                [self.selectionView.bBase selectItemAtIndex:0];
+			[self.selectionView.bBase setEnabled:YES];
+
 			if ([self.selectionView.bBase selectedItem]) {
 				[self.selectionView.bPreRun setEnabled: YES];
 			} else {
@@ -88,7 +92,7 @@
 					defaultButton:@"OK"
 					alternateButton:nil
 					otherButton:nil
-					informativeTextWithFormat:@"%@ measurements should be based on a %@ calibration. Please calibrate first.",
+					informativeTextWithFormat:@"\"%@\" measurements should be based on a \"%@\" calibration. Please calibrate first.",
 						measurementType.name,
 						measurementType.requires.name
 					];
@@ -117,7 +121,7 @@
 {
 	@synchronized(self) {
 		// First check that everything is OK with base measurement and such
-		if (!measurementType.isCalibration) {
+		if (measurementType.requires != nil) {
 			// First check that a base measurement has been selected.
 			NSString *errorMessage;
 			NSMenuItem *baseItem = [self.selectionView.bBase selectedItem];
