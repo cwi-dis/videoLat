@@ -31,8 +31,8 @@
 @property(weak) IBOutlet NSButton *bOutputValue;
 @property(weak) IBOutlet NSButton *bInputValue;
 @property(weak) IBOutlet NSTextField *bInputNumericValue;
-@property(weak) IBOutlet id <ClockProtocol> clock;
-@property(weak) IBOutlet id <HardwareLightProtocol> device;
+@property(weak) IBOutlet NSObject <ClockProtocol> *clock;
+@property(weak) IBOutlet NSObject <HardwareLightProtocol> *device;
 
 + (void)initialize;
 - (HardwareRunManager *)init;

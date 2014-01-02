@@ -17,11 +17,13 @@
 @implementation HardwareRunManager
 + (void) initialize
 {
-    [BaseRunManager registerClass: [self class] forMeasurementType: @"Hardware Calibrate"];
-    [BaseRunManager registerNib: @"HardwareRunManager" forMeasurementType: @"Hardware Calibrate"];
-    NSLog(@"HardwareLightProtocol = %@", @protocol(HardwareLightProtocol));
     PythonLoader *pl = [PythonLoader sharedPythonLoader];
-    [pl loadScriptNamed:@"LabJackDevice"];
+    BOOL hwfound = [pl loadScriptNamed:@"LabJackDevice"];
+	if (hwfound) {
+		[BaseRunManager registerClass: [self class] forMeasurementType: @"Hardware Calibrate"];
+		[BaseRunManager registerNib: @"HardwareRunManager" forMeasurementType: @"Hardware Calibrate"];
+		NSLog(@"HardwareLightProtocol = %@", @protocol(HardwareLightProtocol));
+	}
 }
 
 - (HardwareRunManager*)init
@@ -34,6 +36,9 @@
 
 - (void)awakeFromNib
 {
+	// Check that the Python script has loaded correctly
+	if (self.device && ![self.device respondsToSelector: @selector(available)])
+		self.device = nil;
     self.statusView = self.measurementMaster.statusView;
     self.collector = self.measurementMaster.collector;
     if (self.clock == nil) self.clock = self;
