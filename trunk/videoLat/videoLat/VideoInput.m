@@ -242,7 +242,7 @@
         [self.selfView setHidden: NO];
     }
     
-	if (VL_DEBUG) NSLog(@"Camera format: %@ %@ %@", dev.activeFormat.mediaType, dev.activeFormat.formatDescription, dev.activeFormat.videoSupportedFrameRateRanges);
+	if (1 || VL_DEBUG) NSLog(@"Camera format: %@ %@ %@", dev.activeFormat.mediaType, dev.activeFormat.formatDescription, dev.activeFormat.videoSupportedFrameRateRanges);
 
 	/* Let the video madness begin */
 	capturing = NO;
@@ -323,13 +323,27 @@
         NSLog( @"sample buffer is not ready. Skipping sample" );
         return;
     }
-#if 0
-    [self.manager newInputStart];
-#else
     CMTime timestampCMT = CMSampleBufferGetPresentationTimeStamp(sampleBuffer);
     timestampCMT = CMTimeConvertScale(timestampCMT, 1000000, kCMTimeRoundingMethod_Default);
     UInt64 timestamp = timestampCMT.value;
     UInt64 now_timestamp = [self now];
+#if 1
+	// Complain about preposterous timestamps
+	if (timestamp > now_timestamp) {
+		// The timestamp of the frame is in the future. Cannot happen.
+		NSAlert *alert = [NSAlert alertWithMessageText:@"Timestamp error" defaultButton:@"OK" alternateButton:nil otherButton:nil informativeTextWithFormat:@"Capture timestamp %lld is %lld µS in the future. This \"cannot happen\".", timestamp, timestamp - now_timestamp];
+		[alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:YES];
+		[session stopRunning];
+		session = nil;
+	}
+	if (timestamp < now_timestamp - 500000) {
+		// Timestamp is more than half a second in the past
+		NSAlert *alert = [NSAlert alertWithMessageText:@"Timestamp error" defaultButton:@"OK" alternateButton:nil otherButton:nil informativeTextWithFormat:@"Capture timestamp %lld is %lld µS in the past. This makes the current run useless. ", timestamp, timestamp - now_timestamp];
+		[alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:YES];
+		[session stopRunning];
+		session = nil;
+	}
+#else
     if (timestamp < now_timestamp) {
         // Presentation time is in the past. Adjust our clock.
 		UInt64 delta = now_timestamp - timestamp;
@@ -337,13 +351,14 @@
 			// Presentation time is in the past. Drop frame.
 			NSLog(@"VideoInput: frame is %lld uS late. Drop.", delta);
 			return;
-		} else {
-			epoch += delta;
-			NSLog(@"VideoInput: clock: epoch set to %lld uS", epoch);
+		} else
+		{
+			//epoch += delta;
+			NSLog(@"VideoInput: clock: delta %lld us, epoch set to %lld uS", delta, epoch);
 		}
     }
-	[self.manager newInputStart: timestamp];
 #endif
+	[self.manager newInputStart: timestamp];
 
     CMFormatDescriptionRef formatDescription = CMSampleBufferGetFormatDescription(sampleBuffer);
     OSType format = CMFormatDescriptionGetMediaSubType(formatDescription);
