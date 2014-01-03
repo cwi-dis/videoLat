@@ -67,6 +67,13 @@
 		}
 #endif
         epoch = 0;
+#ifdef WITH_STATISTICS
+		firstTimeStamp = 0;
+		lastTimeStamp = 0;
+		nFrames = 0;
+		nEarlyDrops = 0;
+		nLateDrops = 0;
+#endif
     }
     return self;
 }
@@ -126,6 +133,11 @@
     sampleBufferQueue = nil;
 #if __MAC_OS_X_VERSION_MAX_ALLOWED >= 1080
 	clock = nil;
+#endif
+#ifdef WITH_STATISTICS
+	float deltaT = (lastTimeStamp-firstTimeStamp) / 1000000.0;
+	NSLog(@"Captured %.0f seconds, %d frames, %3.1f fps, %d too-early drops, %d too-late drops",
+		deltaT, nFrames, nFrames/deltaT, nEarlyDrops, nLateDrops);
 #endif
 }
 
@@ -192,9 +204,8 @@
 	//Create the AV capture session
 	session = [[AVCaptureSession alloc] init];
     
-#if 0
     // This code not enabled yet, because I don't have a camera that supports it:-)
-    if ([device lockForConfiguration: nil]) {
+    if ([dev lockForConfiguration: nil]) {
         // Set focus/exposure/flash, if device supports it
         if ([dev isFocusPointOfInterestSupported] && [dev isFocusModeSupported:AVCaptureFocusModeLocked] ) {
             if (VL_DEBUG) NSLog(@"Device supports focus lock\n");
@@ -206,9 +217,15 @@
         if ([dev isExposurePointOfInterestSupported] && [dev isExposureModeSupported:AVCaptureExposureModeLocked] ) {
             if (VL_DEBUG) NSLog(@"Device supports exposure lock\n");
         }
+		// XXXJACK set max frame duration
+		NSArray *supportedFrameRates = dev.activeFormat.videoSupportedFrameRateRanges;
+		AVFrameRateRange *activeRange = [supportedFrameRates objectAtIndex:0];
+		CMTime activeMinDuration = activeRange.minFrameDuration;
+		dev.activeVideoMinFrameDuration = activeMinDuration;
+
+		[dev unlockForConfiguration];
     }
     if (VL_DEBUG) NSLog(@"Finished looking at device capabilities\n");
-#endif
 	/* Create a QTKit input for the session using the iSight Device */
     NSError *error;
 	AVCaptureDeviceInput *myInput = [AVCaptureDeviceInput deviceInputWithDevice:dev error:&error];
@@ -247,6 +264,13 @@
 	/* Let the video madness begin */
 	capturing = NO;
 	epoch = 0;
+#ifdef WITH_STATISTICS
+	firstTimeStamp = 0;
+	lastTimeStamp = 0;
+	nFrames = 0;
+	nEarlyDrops = 0;
+	nLateDrops = 0;
+#endif
 	[self.manager restart];
 	[session startRunning];
 }
@@ -327,21 +351,42 @@
     timestampCMT = CMTimeConvertScale(timestampCMT, 1000000, kCMTimeRoundingMethod_Default);
     UInt64 timestamp = timestampCMT.value;
     UInt64 now_timestamp = [self now];
+#ifdef WITH_STATISTICS
+	if (firstTimeStamp == 0) firstTimeStamp = timestamp;
+	lastTimeStamp = timestamp;
+	nFrames++;
+#endif
 #if 1
 	// Complain about preposterous timestamps
 	if (timestamp > now_timestamp) {
+#if 0
 		// The timestamp of the frame is in the future. Cannot happen.
 		NSAlert *alert = [NSAlert alertWithMessageText:@"Timestamp error" defaultButton:@"OK" alternateButton:nil otherButton:nil informativeTextWithFormat:@"Capture timestamp %lld is %lld µS in the future. This \"cannot happen\".", timestamp, timestamp - now_timestamp];
 		[alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:YES];
 		[session stopRunning];
 		session = nil;
+#else
+	NSLog(@"Capture timestamp %lld is %lld µS in the future. This \"cannot happen\".", timestamp, timestamp - now_timestamp);
+#ifdef WITH_STATISTICS
+	nEarlyDrops++;
+#endif
+	return;
+#endif
 	}
 	if (timestamp < now_timestamp - 500000) {
+#if 0
 		// Timestamp is more than half a second in the past
-		NSAlert *alert = [NSAlert alertWithMessageText:@"Timestamp error" defaultButton:@"OK" alternateButton:nil otherButton:nil informativeTextWithFormat:@"Capture timestamp %lld is %lld µS in the past. This makes the current run useless. ", timestamp, timestamp - now_timestamp];
+		NSAlert *alert = [NSAlert alertWithMessageText:@"Timestamp error" defaultButton:@"OK" alternateButton:nil otherButton:nil informativeTextWithFormat:@"Capture timestamp %lld is %lld µS in the past. This makes the current run useless. ", timestamp, now_timestamp - timestamp];
 		[alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:YES];
 		[session stopRunning];
 		session = nil;
+#else
+	NSLog(@"Capture timestamp %lld is %lld µS in the past. This makes the current run useless. ", timestamp, now_timestamp - timestamp);
+#ifdef WITH_STATISTICS
+	nLateDrops++;
+#endif
+	return;
+#endif
 	}
 #else
     if (timestamp < now_timestamp) {

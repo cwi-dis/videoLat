@@ -69,8 +69,9 @@
 	NSString *runClassNib = [BaseRunManager nibForMeasurementType:typeName];
     BOOL ok = YES;
     NSString *errorMsg = @"";
-	if (runManager == nil || [runManager class] != runClass) {
-        runManager = nil; // Get rid of old runManager.
+	if (self.runManager == nil || [self.runManager class] != runClass) {
+		if (self.runManager) [(BaseRunManager *)self.runManager stop];
+        self.runManager = nil; // Get rid of old runManager.
 		if (VL_DEBUG) NSLog(@"RunTypeView: for %@, selected run class %@ (nib %@)\n", typeName, runClass, runClassNib);
 		if (runClassNib) {
 			// We have a Nib. Load it, and it will alloc the manager object, we
@@ -94,10 +95,10 @@
 			}
             // Keep the toplevel objects, and search for the runManager by class name (unless it has been set by the NIB already)
             runManagerNibObjects = newObjects;
-            if (runManager != nil) {
+            if (self.runManager != nil) {
                 // Check that it is the right one...
-                if ([runManager class] != runClass) {
-                    errorMsg = [NSString stringWithFormat: @"RunTypeView: runManager class is %@, expected %@. Programmer error?\n", [runManager class], runClass];
+                if ([self.runManager class] != runClass) {
+                    errorMsg = [NSString stringWithFormat: @"RunTypeView: runManager class is %@, expected %@. Programmer error?\n", [self.runManager class], runClass];
                     NSLog(@"%@", errorMsg);
 					abort();
                 }
@@ -105,15 +106,15 @@
                 // runManager not set by the NIB file. Search for it.
                 for (NSObject *obj in runManagerNibObjects) {
                     if ([obj class] == runClass) {
-                        if (runManager) {
+                        if (self.runManager) {
                             errorMsg = [NSString stringWithFormat: @"RunTypeView: multiple objects of type %@ in NIB file %@. Programmer error?\n", runClass, runClassNib];
                             NSLog(@"%@", errorMsg);
 							abort();
                         }
-                        runManager = (BaseRunManager *)obj;
+                        self.runManager = (BaseRunManager *)obj;
                     }
                 }
-                if (runManager == nil) {
+                if (self.runManager == nil) {
                     errorMsg = [NSString stringWithFormat: @"RunTypeView: no objects of type %@ in NIB file %@. Programmer error?\n", runClass, runClassNib];
                     NSLog(@"%@", errorMsg);
 					abort();
@@ -122,22 +123,22 @@
             //runManagerNibObjects = nil;
 		} else {
 			// We don't have a Nib. Allocate the class instance.
-			runManager = [[runClass alloc] init];
+			self.runManager = [[runClass alloc] init];
 			// XXXJACK should we call awakeFromNib or something similar??
 		}
 	}
-    if (!ok || runManager == nil) {
+    if (!ok || self.runManager == nil) {
         NSAlert *alert = [NSAlert alertWithMessageText:@"Error selecting measurement type" defaultButton:@"OK" alternateButton:nil otherButton:nil informativeTextWithFormat:@"Implementation is missing for %@\n%@", typeName, errorMsg];
         [alert runModal];
         return;
     }
-	[runManager selectMeasurementType: typeName];
+	[self.runManager selectMeasurementType: typeName];
 }
 
     
 - (IBAction)stopMeasuring: (id)sender
 {
-    ((BaseRunManager *)self.runManager).running = false;
+    [(BaseRunManager *)self.runManager stop];
     [self.collector stopCollecting];
     [self.collector trim];
     self.statusView.detectCount = [NSString stringWithFormat: @"%d (after trimming 5%%)", self.collector.count];
