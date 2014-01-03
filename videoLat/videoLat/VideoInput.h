@@ -2,6 +2,7 @@
 #import <AVFoundation/AVFoundation.h>
 #import "genQRcodes.h"
 
+#define WITH_STATISTICS
 
 @interface VideoInputView : NSView
 {
@@ -29,6 +30,14 @@
 #endif
     uint64_t epoch;
 	BOOL capturing;
+#ifdef WITH_STATISTICS
+	// Statistics
+	uint64_t firstTimeStamp;
+	uint64_t lastTimeStamp;
+	int nFrames;
+	int nEarlyDrops;
+	int nLateDrops;
+#endif
 }
 @property (readonly) NSString *deviceID;
 @property (readonly) NSString *deviceName;
