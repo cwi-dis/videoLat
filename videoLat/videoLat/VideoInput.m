@@ -242,8 +242,32 @@
     } else {
         NSLog(@"Warning: Cannot set capture session to 640x480\n");
     }
-    // XXXX On 10.9, get AVCaptureInputPort from session, get its clock, and use it
-
+#if __MAC_OS_X_VERSION_MAX_ALLOWED >= 1080
+    // Try and find the video input
+    AVCaptureInputPort *videoPort = nil;
+    for (AVCaptureInputPort *p in myInput.ports) {
+        if ([p.mediaType isEqualToString: AVMediaTypeVideo]) {
+            if (videoPort) {
+                NSLog(@"Warning: device has multiple video input ports, assuming first one");
+            } else {
+                videoPort = p;
+            }
+        }
+    }
+    if (videoPort == nil) {
+        NSLog(@"Warning: device has no video input ports (?)");
+    } else {
+        // Attempt to use the clock for this input port as our master clock
+        if ( [videoPort respondsToSelector:@selector(clock)]) {
+            CMClockRef devClock = [videoPort clock];
+            if (devClock) {
+                NSLog(@"Using device clock %@", devClock);
+                clock = devClock;
+                epoch = 0;
+            }
+        }
+    }
+#endif
     /* Create the video capture output, and let us be its delegate */
     outputCapturer = [[AVCaptureVideoDataOutput alloc] init];
 	outputCapturer.alwaysDiscardsLateVideoFrames = YES;

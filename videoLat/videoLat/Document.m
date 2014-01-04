@@ -77,7 +77,7 @@
         }
 		if (self.measurementWindow) {
 			[self.measurementWindow makeKeyAndOrderFront:self];
-#if 1
+#if 0
             // This may be needed on 10.7 (and 10.8?)
 			// And it may work on 10.9 now I've changed the measurementWindow property to "assign"
             [self.measurementWindow setReleasedWhenClosed: YES];
