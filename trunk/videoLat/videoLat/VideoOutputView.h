@@ -18,6 +18,8 @@
 @property BOOL visible;
 @property(readonly) NSString *deviceID;
 @property(weak) IBOutlet id <RunOutputManagerProtocol> manager;
+@property(weak) IBOutlet NSTextField *bOutputName;
+@property(weak) NSScreen *oldScreen;
 
 - (void) showNewData;
 

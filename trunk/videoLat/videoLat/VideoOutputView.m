@@ -49,6 +49,16 @@
     return rv;
 }
 
+- (void)viewWillDraw
+{
+	NSScreen *curScreen = [[self window] screen];
+	if (curScreen != self.oldScreen) {
+		self.oldScreen = curScreen;
+		if (self.bOutputName)
+			[self.bOutputName setStringValue: self.deviceName];
+	}
+}
+
 - (IBAction)toggleFullscreen: (NSMenuItem*)sender
 {
     NSInteger state = [sender state];
