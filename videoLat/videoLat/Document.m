@@ -67,7 +67,7 @@
 			ok = [NSBundle loadNibNamed:@"NewMeasurement" owner:self];
 			objectsForNewDocument = [[NSMutableArray alloc] init];
 		}
-        if (VL_DEBUG) NSLog(@"Loaded NewMeasurement: %d, objects %@\n", (int)ok, objectsForNewDocument);
+        if (1 || VL_DEBUG) NSLog(@"Loaded NewMeasurement: %d, objects %@, window %@ controller %@\n", (int)ok, objectsForNewDocument, self.measurementWindow, self.measurementWindow.windowController);
         if (!ok) {
             if (outError)
                 *outError = [[NSError alloc] initWithDomain:@"VideoLat" code:NSFileReadNoSuchFileError
