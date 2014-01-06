@@ -242,7 +242,7 @@
     } else {
         NSLog(@"Warning: Cannot set capture session to 640x480\n");
     }
-#if __MAC_OS_X_VERSION_MAX_ALLOWED >= 1080
+#if __MAC_OS_X_VERSION_MAX_ALLOWED >= 1090
     // Try and find the video input
     AVCaptureInputPort *videoPort = nil;
     for (AVCaptureInputPort *p in myInput.ports) {
