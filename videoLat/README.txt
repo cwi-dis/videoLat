@@ -74,6 +74,7 @@ You also need a few more packages, install these through macports, all universal
 		--without-qt \
 		--without-xv \
 		--without-imagemagick \
+		--without-x \
 		--prefix=$INST \
 		PKG_CONFIG_PATH=/opt/local/lib/pkgconfig \
 		CFLAGS="-arch i386 -arch x86_64" \
