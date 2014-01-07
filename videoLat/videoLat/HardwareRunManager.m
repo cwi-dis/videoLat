@@ -67,20 +67,20 @@
                 outputLevel = 1-outputLevel;
                 outputLevelChanged = YES;
                 newOutputValueWanted = NO;
-                if (VL_DEBUG) NSLog(@"HardwareRunManager: outputLevel %f at %lld", outputLevel, outputTimestamp);
+                if (1 || VL_DEBUG) NSLog(@"HardwareRunManager: outputLevel %f at %lld", outputLevel, outputTimestamp);
             }
         }
         double nInputLevel = [self.device light: outputLevel];
         
         @synchronized(self) {
+			if (inputLevel < minInputLevel)
+				minInputLevel = inputLevel;
+			if (inputLevel > maxInputLevel)
+				maxInputLevel = inputLevel;
             if (first || nConnected != connected || nInputLevel != inputLevel || outputLevelChanged) {
                 connected = nConnected;
                 inputLevel = nInputLevel;
                 inputTimestamp = loopTimestamp;
-                if (inputLevel < minInputLevel)
-                    minInputLevel = inputLevel;
-                if (inputLevel > maxInputLevel)
-                    maxInputLevel = inputLevel;
                 [self performSelectorOnMainThread:@selector(_update:) withObject:self waitUntilDone:NO];
                 first = NO;
             }
@@ -94,11 +94,12 @@
 {
     @synchronized(self) {
         BOOL inputLight =(inputLevel > (maxInputLevel + minInputLevel)/2);
+		BOOL outputMixed = (outputLevel == 0.5);
         BOOL outputLight = (outputLevel > 0.5);
         [self.bDeviceConnected setState: (connected ? NSOnState : NSOffState)];
         [self.bInputNumericValue setDoubleValue: inputLevel];
         [self.bInputValue setState: (inputLight ? NSOnState : NSOffState)];
-        [self.outputView.bOutputValue setState: (outputLight ? NSOnState : NSOffState)];
+        [self.outputView.bOutputValue setState: (outputMixed ? NSMixedState : outputLight ? NSOnState : NSOffState)];
         // Check for detections
         if (inputLight == outputLight) {
             if (self.running) {
@@ -108,23 +109,32 @@
                 self.statusView.detectCount = [NSString stringWithFormat: @"%d", self.collector.count];
                 self.statusView.detectAverage = [NSString stringWithFormat: @"%.3f ms ± %.3f", self.collector.average / 1000.0, self.collector.stddev / 1000.0];
                 [self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
+				[self.outputCompanion triggerNewOutputValue];
             } else if (self.preRunning) {
                 prerunMoreNeeded--;
                 self.statusView.detectCount = [NSString stringWithFormat: @"%d more", prerunMoreNeeded];
-                self.statusView.detectAverage = @"";
+                self.statusView.detectAverage = [NSString stringWithFormat: @"%.2f .. %.2f", minInputLevel, maxInputLevel];
                 [self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
                 if (1 || VL_DEBUG) NSLog(@"preRunMoreMeeded=%d\n", prerunMoreNeeded);
                 if (prerunMoreNeeded == 0) {
                     outputLevel = 0.5;
                     self.statusView.detectCount = @"";
-                    self.statusView.detectAverage = @"";
+                    //self.statusView.detectAverage = @"";
                     [self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
                     [self performSelectorOnMainThread: @selector(stopPreMeasuring:) withObject: self waitUntilDone: NO];
                     return;
                 }
+				[self.outputCompanion triggerNewOutputValue];
             }
-            [self.outputCompanion triggerNewOutputValue];
         }
+		if (!inErrorMode) {
+			NSString *msg = self.device.lastErrorMessage;
+			if (msg) {
+				inErrorMode = YES;
+				NSAlert *alert = [NSAlert alertWithMessageText:@"Hardware device error" defaultButton:@"OK" alternateButton:nil otherButton:nil informativeTextWithFormat:@"%@", msg];
+				[alert runModal];
+			}
+		}
     }
 }
 
@@ -146,7 +156,6 @@
         // Do actual prerunning
         prerunMoreNeeded = PRERUN_COUNT;
         self.preRunning = YES;
-        outputLevel = 0;
         [self.outputCompanion triggerNewOutputValue];
     }
 }
@@ -177,7 +186,6 @@
 		[self.statusView.bStop setEnabled: YES];
         self.running = YES;
         [self.collector startCollecting: self.measurementType.name input: self.device.deviceID name: self.device.deviceName output: self.device.deviceID name: self.device.deviceName];
-        outputLevel = 0;
         [self.outputCompanion triggerNewOutputValue];
     }
 }

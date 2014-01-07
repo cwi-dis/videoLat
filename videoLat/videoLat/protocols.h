@@ -57,6 +57,7 @@
 - (double)light: (double)level;
 @property (readonly) NSString* deviceID;
 @property (readonly) NSString* deviceName;
+@property (readonly) NSString* lastErrorMessage;
 @end
 
 // Protocol for an object that can provide data to a GraphView
