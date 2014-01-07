@@ -62,11 +62,11 @@
         BOOL nConnected = self.device && [self.device available];
         uint64_t loopTimestamp = [self.clock now];
         @synchronized(self) {
-            if (triggerNewOutputValue) {
+            if (newOutputValueWanted) {
                 outputTimestamp = loopTimestamp;
                 outputLevel = 1-outputLevel;
                 outputLevelChanged = YES;
-                triggerNewOutputValue = NO;
+                newOutputValueWanted = NO;
                 if (VL_DEBUG) NSLog(@"HardwareRunManager: outputLevel %f at %lld", outputLevel, outputTimestamp);
             }
         }
@@ -102,7 +102,7 @@
         // Check for detections
         if (inputLight == outputLight) {
             if (self.running) {
-                if (VL_DEBUG) NSLog(@"light %d transmitted %lld received %lld delta %lld", outputLight, outputTimestamp, inputTimestamp, inputTimestamp - outputTimestamp);
+                if (1 || VL_DEBUG) NSLog(@"light %d transmitted %lld received %lld delta %lld", outputLight, outputTimestamp, inputTimestamp, inputTimestamp - outputTimestamp);
                 [self.collector recordTransmission: outputLight? @"light": @"darkness" at:outputTimestamp];
                 [self.collector recordReception:inputLight? @"light": @"darkness" at:inputTimestamp];
                 self.statusView.detectCount = [NSString stringWithFormat: @"%d", self.collector.count];
@@ -113,7 +113,7 @@
                 self.statusView.detectCount = [NSString stringWithFormat: @"%d more", prerunMoreNeeded];
                 self.statusView.detectAverage = @"";
                 [self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
-                if (VL_DEBUG) NSLog(@"preRunMoreMeeded=%d\n", prerunMoreNeeded);
+                if (1 || VL_DEBUG) NSLog(@"preRunMoreMeeded=%d\n", prerunMoreNeeded);
                 if (prerunMoreNeeded == 0) {
                     outputLevel = 0.5;
                     self.statusView.detectCount = @"";
@@ -123,9 +123,16 @@
                     return;
                 }
             }
-            triggerNewOutputValue = YES;
+            [self.outputCompanion triggerNewOutputValue];
         }
     }
+}
+
+- (void)triggerNewOutputValue
+{
+	if (outputLevel > 0 && outputLevel < 1)
+		outputLevel = 0;
+	newOutputValueWanted = YES;
 }
 
 - (IBAction)startPreMeasuring: (id)sender
@@ -140,7 +147,7 @@
         prerunMoreNeeded = PRERUN_COUNT;
         self.preRunning = YES;
         outputLevel = 0;
-        triggerNewOutputValue = YES;
+        [self.outputCompanion triggerNewOutputValue];
     }
 }
 
@@ -149,7 +156,7 @@
 	@synchronized(self) {
 		self.preRunning = NO;
         outputLevel = 0.5;
-        triggerNewOutputValue = NO;
+        newOutputValueWanted = NO;
 		[self.bPreRun setEnabled: NO];
 		[self.bRun setEnabled: YES];
 		if (!self.statusView) {
@@ -171,7 +178,7 @@
         self.running = YES;
         [self.collector startCollecting: self.measurementType.name input: self.device.deviceID name: self.device.deviceName output: self.device.deviceID name: self.device.deviceName];
         outputLevel = 0;
-        triggerNewOutputValue = YES;
+        [self.outputCompanion triggerNewOutputValue];
     }
 }
 

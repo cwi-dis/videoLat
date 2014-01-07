@@ -45,7 +45,7 @@
 - (IBAction)startMeasuring: (id)sender;
 //- (IBAction)stopMeasuring: (id)sender;
 
-- (void)_triggerNewOutputValue;
+- (void)triggerNewOutputValue;
 - (void) _prerunRecordNoReception;
 - (void) _prerunRecordReception: (NSString *)code;
 

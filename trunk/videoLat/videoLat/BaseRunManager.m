@@ -119,6 +119,11 @@ static NSMutableDictionary *runManagerNibs;
 	[NSException raise:@"BaseRunManager" format:@"Must override stop in subclass"];
 }
 
+- (void)triggerNewOutputValue
+{
+	[NSException raise:@"BaseRunManager" format:@"Must override triggerNewOutputValue in subclass"];
+}
+
 - (CIImage *)newOutputStart
 {
 	[NSException raise:@"BaseRunManager" format:@"Must override newOutputStart in subclass"];

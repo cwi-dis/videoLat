@@ -15,7 +15,7 @@
     
     double outputLevel; // Current output light level
     uint64_t outputTimestamp;
-    BOOL triggerNewOutputValue;
+    BOOL newOutputValueWanted;
     
     double inputLevel;  // Current input pight level
     double minInputLevel;
@@ -46,8 +46,8 @@
 - (IBAction)stopPreMeasuring: (id)sender;
 - (IBAction)startMeasuring: (id)sender;
 
+- (void)triggerNewOutputValue;
 #if 0
-- (void)_triggerNewOutputValue;
 - (void) _prerunRecordNoReception;
 - (void) _prerunRecordReception: (NSString *)code;
 #endif

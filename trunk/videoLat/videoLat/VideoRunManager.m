@@ -108,7 +108,7 @@
 	}
 }
 
-- (void)_triggerNewOutputValue
+- (void)triggerNewOutputValue
 {
 	prerunOutputStartTime = 0;
 	outputStartTime = 0;
@@ -175,7 +175,7 @@
 		self.preRunning = YES;
 		[self.capturer startCapturing: YES];
 		self.outputView.mirrored = self.mirrored;
-		[self _triggerNewOutputValue];
+		[self.outputCompanion triggerNewOutputValue];
 	}
 }
 
@@ -206,7 +206,7 @@
         [self.capturer startCapturing: NO];
         [self.collector startCollecting: self.measurementType.name input: self.capturer.deviceID name: self.capturer.deviceName output: self.outputView.deviceID name: self.outputView.deviceName];
         self.outputView.mirrored = self.mirrored;
-        [self _triggerNewOutputValue];
+        [self.outputCompanion triggerNewOutputValue];
     }
 }
 #pragma mark MeasurementOutputManagerProtocol
@@ -335,7 +335,7 @@
         self.statusView.detectCount = [NSString stringWithFormat: @"%d more, mirrored=%d", prerunMoreNeeded, (int)self.mirrored];
 		self.statusView.detectAverage = @"";
         [self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
-        [self _triggerNewOutputValue];
+        [self.outputCompanion triggerNewOutputValue];
     } 
 #endif
 }
@@ -391,7 +391,7 @@
                                          informativeTextWithFormat:@"QR-code %@ detected %d times. Generating new one.",
                                       prevInputCode, prevInputCodeDetectionCount];
                     [alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
-                    [self _triggerNewOutputValue];
+                    [self.outputCompanion triggerNewOutputValue];
                 }
             } else if (strcmp(code, [outputCode UTF8String]) == 0) {
 				// Correct code found.
@@ -429,7 +429,7 @@
                 prevInputCodeDetectionCount = 0;
                 if (VL_DEBUG) NSLog(@"Received: %@", outputCode);
                 // Now generate a new output code.
-                [self _triggerNewOutputValue];
+                [self.outputCompanion triggerNewOutputValue];
 			} else {
 				// We have transmitted a code, but received a different one??
                 if (self.running) {
@@ -441,7 +441,7 @@
                                          informativeTextWithFormat:@"Expected value was %@, received %s",
                                       outputCode, code];
                     [alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
-					[self _triggerNewOutputValue];
+					[self.outputCompanion triggerNewOutputValue];
                 } else if (self.preRunning) {
 					[self _prerunRecordNoReception];
 				}
