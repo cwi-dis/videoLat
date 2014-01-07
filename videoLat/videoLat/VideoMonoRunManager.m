@@ -82,7 +82,7 @@
             } else if (self.preRunning) {
                 [self _prerunRecordReception: outputCode];
             }
-			[self _triggerNewOutputValue];
+			[self.outputCompanion triggerNewOutputValue];
         } else {
             if (self.preRunning) {
                 [self _prerunRecordNoReception];
@@ -124,7 +124,7 @@
     }
 }
 
-- (void)_triggerNewOutputValue
+- (void)triggerNewOutputValue
 {
     currentColorIsWhite = !currentColorIsWhite;
 	prerunOutputStartTime = 0;
@@ -153,7 +153,7 @@
             if (self.running)
 				[self.collector recordReception: isWhite?@"white":@"black" at: receptionTime];
             outputCode = [NSString stringWithFormat:@"%lld", receptionTime];
-            [self _triggerNewOutputValue];
+            [self.outputCompanion triggerNewOutputValue];
             
         }
         inputStartTime = 0;
@@ -184,29 +184,6 @@
     }
 }
 
-- (void)settingsChanged
-{
-    @synchronized(self) {
-		if (self.outputView) {
-			self.outputView.mirrored = settings.mirrorView;
-			self.outputView.visible = settings.xmit;
-		}
-        if ([settings.coordHelper isEqualToString: @"None"]) {
-			self.delegate = nil;
-		} else {
-			if (self.delegate && ![settings.coordHelper isEqualToString: [self.delegate script]]) {
-				self.delegate = nil;
-			}
-            if (self.delegate == nil) {
-                self.delegate = [[PythonSwitcher alloc] initWithScript: settings.coordHelper];
-                if ([self.delegate hasInput]) {
-                    [self performSelector: @selector(_mono_pollInput) withObject: nil afterDelay:(NSTimeInterval)0.001];
-                }
-			}
-		}
-        [self _triggerNewOutputValue];
-    }
-}
 #endif
 
 @end

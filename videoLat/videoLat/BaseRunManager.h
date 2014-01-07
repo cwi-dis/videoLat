@@ -30,6 +30,7 @@
 - (void)stop;
 - (void)selectMeasurementType: (NSString *)typeName;
 - (void)restart;
+- (void)triggerNewOutputValue;
 
 @property bool running;
 @property bool preRunning;
