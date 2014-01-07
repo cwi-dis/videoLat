@@ -98,7 +98,7 @@
         [self.bDeviceConnected setState: (connected ? NSOnState : NSOffState)];
         [self.bInputNumericValue setDoubleValue: inputLevel];
         [self.bInputValue setState: (inputLight ? NSOnState : NSOffState)];
-        [self.bOutputValue setState: (outputLight ? NSOnState : NSOffState)];
+        [self.outputView.bOutputValue setState: (outputLight ? NSOnState : NSOffState)];
         // Check for detections
         if (inputLight == outputLight) {
             if (self.running) {

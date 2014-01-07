@@ -35,9 +35,10 @@
 @end
 
 // Protocol for an object that is responsible for displaying patterns
-@protocol OutputVideoViewProtocol
+@protocol OutputViewProtocol
 @property (readonly) NSString* deviceID;
 @property (readonly) NSString* deviceName;
+@property BOOL mirrored;
 - (void) showNewData;
 @end
 

@@ -136,12 +136,17 @@
 				size_t len = sizeof(hwName_c);
 				sysctlbyname("hw.model", hwName_c, &len, NULL, 0);
 				NSString *hwName = [NSString stringWithUTF8String:hwName_c];
+				// For all runs (calibration and non-calibration) the hardware platform should match the one in the calibration run
 				if (![baseStore.machineID isEqualToString:hwName]) {
 					errorMessage = [NSString stringWithFormat:@"Base measurement done on %@, current hardware is %@", baseStore.machine, hwName];
 				}
-				if (![baseStore.inputDeviceID isEqualToString:self.capturer.deviceID]) {
-					errorMessage = [NSString stringWithFormat:@"Base measurement uses input %@, current measurement uses %@", baseStore.inputDevice, self.capturer.deviceName];
+				if (!measurementType.isCalibration) {
+					// For non-calibration runs the input device should match the device in the calibration run
+					if (![baseStore.inputDeviceID isEqualToString:self.capturer.deviceID]) {
+						errorMessage = [NSString stringWithFormat:@"Base measurement uses input %@, current measurement uses %@", baseStore.inputDevice, self.capturer.deviceName];
+					}
 				}
+				// For all runs (calibration and non-calibration) the output device should match the one in the calibration run
 				if (![baseStore.outputDeviceID isEqualToString:self.outputView.deviceID]) {
 					errorMessage = [NSString stringWithFormat:@"Base measurement uses output %@, current measurement uses %@", baseStore.outputDevice, self.outputView.deviceName];
 				}

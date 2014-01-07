@@ -7,7 +7,6 @@
 
 #import <Cocoa/Cocoa.h>
 #import "VideoSelectionView.h"
-#import "VideoOutputView.h"
 #import "protocols.h"
 #import "BaseRunManager.h"
 
@@ -30,7 +29,7 @@
     
 }
 @property bool mirrored;
-@property(weak) IBOutlet VideoOutputView *outputView;
+@property(weak) IBOutlet NSObject <OutputViewProtocol> *outputView;
 @property(weak) IBOutlet VideoSelectionView *selectionView;
 @property(weak) IBOutlet id <InputCaptureProtocol> capturer;
 @property(weak) IBOutlet id <ClockProtocol> clock;

@@ -33,6 +33,7 @@
 		047DD1D8183A3B4D00A04F83 /* Document.xib in Resources */ = {isa = PBXBuildFile; fileRef = 047DD1D6183A3B4D00A04F83 /* Document.xib */; };
 		047DD1DB183A3B4D00A04F83 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 047DD1D9183A3B4D00A04F83 /* MainMenu.xib */; };
 		04954193184638BB00516301 /* MeasurementDistribution.m in Sources */ = {isa = PBXBuildFile; fileRef = 04954192184638BB00516301 /* MeasurementDistribution.m */; };
+		04A3D2FD187C0F5B002038E8 /* HardwareOutputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A3D2FC187C0F5B002038E8 /* HardwareOutputView.m */; };
 		04A666D01842A4F700D0CA04 /* BaseRunManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A666CF1842A4F700D0CA04 /* BaseRunManager.m */; };
 		04B173FB1869AFD700A3DA9A /* liblabjackusb.dylib in Resources */ = {isa = PBXBuildFile; fileRef = 04B173F91869AFC400A3DA9A /* liblabjackusb.dylib */; };
 		04B174031869B2E000A3DA9A /* LabJackPython.py in Resources */ = {isa = PBXBuildFile; fileRef = 04B173FC1869B2E000A3DA9A /* LabJackPython.py */; };
@@ -102,6 +103,8 @@
 		047DD1DA183A3B4D00A04F83 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		04954191184638BB00516301 /* MeasurementDistribution.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeasurementDistribution.h; sourceTree = "<group>"; };
 		04954192184638BB00516301 /* MeasurementDistribution.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeasurementDistribution.m; sourceTree = "<group>"; };
+		04A3D2FB187C0F5B002038E8 /* HardwareOutputView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HardwareOutputView.h; sourceTree = "<group>"; };
+		04A3D2FC187C0F5B002038E8 /* HardwareOutputView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HardwareOutputView.m; sourceTree = "<group>"; };
 		04A666CE1842A4F700D0CA04 /* BaseRunManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseRunManager.h; sourceTree = "<group>"; };
 		04A666CF1842A4F700D0CA04 /* BaseRunManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseRunManager.m; sourceTree = "<group>"; };
 		04B173F91869AFC400A3DA9A /* liblabjackusb.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = liblabjackusb.dylib; path = ../../../../../usr/local/lib/liblabjackusb.dylib; sourceTree = "<group>"; };
@@ -192,7 +195,6 @@
 		040CF9D5183E4B4B0094C0D8 /* MeasurementRun */ = {
 			isa = PBXGroup;
 			children = (
-				0412725618731D4B00CB014F /* MixedRun */,
 				04A666CE1842A4F700D0CA04 /* BaseRunManager.h */,
 				04A666CF1842A4F700D0CA04 /* BaseRunManager.m */,
 				04B58F0E183A3CF000360A61 /* RunCollector.h */,
@@ -204,6 +206,7 @@
 				045397CD183AB23B00697348 /* NewMeasurement.xib */,
 				04DCC18C1867913800592A1F /* HardwareRun */,
 				040CF9D6183E4B570094C0D8 /* VideoRun */,
+				0412725618731D4B00CB014F /* MixedRun */,
 			);
 			name = MeasurementRun;
 			sourceTree = "<group>";
@@ -350,6 +353,8 @@
 				04DCC18A1867912A00592A1F /* HardwareRunManager.xib */,
 				04DCC18D1867927800592A1F /* HardwareRunManager.h */,
 				04DCC18E1867927800592A1F /* HardwareRunManager.m */,
+				04A3D2FB187C0F5B002038E8 /* HardwareOutputView.h */,
+				04A3D2FC187C0F5B002038E8 /* HardwareOutputView.m */,
 			);
 			name = HardwareRun;
 			sourceTree = "<group>";
@@ -478,6 +483,7 @@
 				043A1EF11843FC6000883D0B /* VideoCalibrationRunManager.m in Sources */,
 				040CF9D0183E40F20094C0D8 /* findQRcodes.mm in Sources */,
 				04954193184638BB00516301 /* MeasurementDistribution.m in Sources */,
+				04A3D2FD187C0F5B002038E8 /* HardwareOutputView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
