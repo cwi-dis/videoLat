@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import "protocols.h"
 
-@interface VideoOutputView : NSView <OutputVideoViewProtocol> {
+@interface VideoOutputView : NSView <OutputViewProtocol> {
 	BOOL mirrored;
 	NSString *deviceID;
 }

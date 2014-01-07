@@ -7,6 +7,7 @@
 //
 
 #import "BaseRunManager.h"
+#import "HardwareOutputView.h"
 
 @interface HardwareRunManager : BaseRunManager <ClockProtocol> {
     BOOL alive; // True if the class is alive and the periodic timer should run
@@ -28,7 +29,7 @@
 @property(weak) IBOutlet NSButton *bRun;
 @property(weak) IBOutlet NSButton *bDeviceConnected;
 @property(weak) IBOutlet NSPopUpButton *bBase;
-@property(weak) IBOutlet NSButton *bOutputValue;
+@property(weak) IBOutlet HardwareOutputView *outputView;
 @property(weak) IBOutlet NSButton *bInputValue;
 @property(weak) IBOutlet NSTextField *bInputNumericValue;
 @property(weak) IBOutlet NSObject <ClockProtocol> *clock;
