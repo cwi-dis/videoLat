@@ -26,6 +26,7 @@
 + (NSString *)nibForMeasurementType: (NSString *)name;
 
 @property(readonly) MeasurementType *measurementType;
+@property(strong) NSString *outputCode;           // Current code on the display
 
 - (void)stop;
 - (void)selectMeasurementType: (NSString *)typeName;

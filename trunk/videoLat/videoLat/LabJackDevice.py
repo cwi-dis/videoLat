@@ -20,6 +20,7 @@ class LabJackDevice(NSObject, HardwareLightProtocol):
         if DEBUG: print 'LabJackDevice: init called', self
         self = super(LabJackDevice, self).init()
         self.u3Device = None
+        self._lastErrorMessage = None
         return self
     
     def awakeFromNib(self):
@@ -29,7 +30,8 @@ class LabJackDevice(NSObject, HardwareLightProtocol):
         # Open the device
         try:
             self.u3Device = u3.U3()
-        except u3.LabJackException:
+        except u3.LabJackException, arg:
+            self._lastErrorMessage = 'Cannot open: %s' % arg
             return
         # Configure all ports as digital
         self.u3Device.configIO(0)
@@ -37,7 +39,10 @@ class LabJackDevice(NSObject, HardwareLightProtocol):
             u3.BitDirWrite(self.INPUT_PORT, 0),
             u3.BitDirWrite(self.OUTPUT_PORT, 1),
             ])
-    
+
+    def lastErrorMessage(self):
+        return self._lastErrorMessage
+
     def available(self):
         try:
             if DEBUG: print 'LabJackDevice: available called', self
@@ -46,6 +51,7 @@ class LabJackDevice(NSObject, HardwareLightProtocol):
             if DEBUG: print 'available: u3device is', self.u3Device
             return not not self.u3Device
         except:
+            self._lastErrorMessage = 'Exception during LabJackDevice.available'
             if not DEBUG:
                 print 'Exception during LabJackDevice.available'
                 return False
@@ -66,12 +72,16 @@ class LabJackDevice(NSObject, HardwareLightProtocol):
             rv = self.u3Device.getFeedback([inCmd, outCmd])
             if DEBUG: print 'labJackDevice: light_: returned', rv
             return rv[0]
+        except u3.LabJackException, arg:
+            self._lastErrorMessage = 'Exception during LabJackDevice.light_: %s' % arg
         except:
+            self._lastErrorMessage = 'Exception during LabJackDevice.light_'
             if not DEBUG:
                 print 'Exception during LabJackDevice.light_'
                 return 0
             import pdb
             pdb.post_mortem()
+        return 0
                     
     def deviceID(self):
         if DEBUG: print 'LabJackDevice: deviceID called', self

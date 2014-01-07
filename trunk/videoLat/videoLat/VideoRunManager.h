@@ -14,7 +14,6 @@
     uint64_t outputStartTime;       // When the last output was displayed
     uint64_t prerunOutputStartTime;       // Same, but not reset when reported (for prerun duration checking)
     uint64_t prevOutputStartTime;   // For checking they are monotonously increasing
-    NSString *outputCode;           // Current code on the display
     NSString *prevOutputCode;       // Previous code, for dual detections and checking monotonous increase
     CIImage *outputCodeImage;       // Current code as a CIImage
 

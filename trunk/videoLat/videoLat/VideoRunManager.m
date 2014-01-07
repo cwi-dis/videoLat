@@ -31,7 +31,6 @@
 	if (self) {
 		outputStartTime = 0;
         prevOutputStartTime = 0;
-		outputCode = nil;
         prevOutputCode = nil;
 		outputCodeImage = nil;
 
@@ -246,13 +245,13 @@
         }
         
         // Generate the new output code
-        outputCode = [NSString stringWithFormat:@"%lld", outputStartTime];
-        if (VL_DEBUG) NSLog(@"New output code: %@", outputCode);
+        self.outputCode = [NSString stringWithFormat:@"%lld", outputStartTime];
+        if (VL_DEBUG) NSLog(@"New output code: %@", self.outputCode);
         int bpp = 4;
         CGSize size = {480, 480};
         char *bitmapdata = (char*)malloc(size.width*size.height*bpp);
         memset(bitmapdata, 0xf0, size.width*size.height*bpp);
-        [self.genner gen: bitmapdata width:size.width height:size.height code:[outputCode UTF8String]];
+        [self.genner gen: bitmapdata width:size.width height:size.height code:[self.outputCode UTF8String]];
         NSData *data = [NSData dataWithBytesNoCopy:bitmapdata length:sizeof(bitmapdata) freeWhenDone: YES];
         outputCodeImage = [CIImage imageWithBitmapData:data bytesPerRow:bpp*size.width size:size format:kCIFormatARGB8 colorSpace:nil];
         return outputCodeImage;
@@ -265,7 +264,7 @@
         if (outputStartTime == 0) return;
 		uint64_t outputTime = [self.clock now];
 		if (self.running) {
-			[self.collector recordTransmission: outputCode at: outputTime];
+			[self.collector recordTransmission: self.outputCode at: outputTime];
         }
         outputStartTime = 0;
     }
@@ -364,7 +363,7 @@
 - (void) newInputDone: (void*)buffer width: (int)w height: (int)h format: (const char*)formatStr size: (int)size
 {
     @synchronized(self) {
-		if (outputCode == nil) {
+		if (self.outputCompanion.outputCode == nil) {
 			if (VL_DEBUG) NSLog(@"newInputDone called, but no output code yet\n");
 			return;
 		}
@@ -393,53 +392,53 @@
                     [alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
                     [self.outputCompanion triggerNewOutputValue];
                 }
-            } else if (strcmp(code, [outputCode UTF8String]) == 0) {
+            } else if (strcmp(code, [self.outputCompanion.outputCode UTF8String]) == 0) {
 				// Correct code found.
                 
                 // Let's first report it.
 				if (self.running) {
-					BOOL ok = [self.collector recordReception: outputCode at: inputStartTime];
+					BOOL ok = [self.collector recordReception: self.outputCompanion.outputCode at: inputStartTime];
                     if (!ok) {
                         NSAlert *alert = [NSAlert alertWithMessageText:@"Reception before transmission."
                                                          defaultButton:@"OK"
                                                        alternateButton:nil
                                                            otherButton:nil
                                              informativeTextWithFormat:@"Code %@ was transmitted at %lld, but received at %lld.)",
-                                          outputCode,
+                                          self.outputCompanion.outputCode,
                                           (long long)prerunOutputStartTime,
                                           (long long)inputStartTime];
                         [alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
                     }
                 } else if (self.preRunning) {
-                    [self _prerunRecordReception: outputCode];
+                    [self _prerunRecordReception: self.outputCompanion.outputCode];
                 }
                 // Now do a sanity check that it is greater than the previous detected code
-                if (prevInputCode && [prevInputCode length] >= [outputCode length] && [prevInputCode compare:outputCode] >= 0) {
+                if (prevInputCode && [prevInputCode length] >= [self.outputCompanion.outputCode length] && [prevInputCode compare:self.outputCompanion.outputCode] >= 0) {
                     NSAlert *alert = [NSAlert alertWithMessageText:@"Warning: input QR-code not monotonically increasing."
                                                      defaultButton:@"OK"
                                                    alternateButton:nil
                                                        otherButton:nil
                                          informativeTextWithFormat:@"Previous value was %@, current value is %@",
-                                            prevInputCode, outputCode];
+                                            prevInputCode, self.outputCompanion.outputCode];
                     [alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
                 }
                 // Now let's remember it so we don't generate "bad code" messages
                 // if we detect it a second time.
-                prevInputCode = outputCode;
+                prevInputCode = self.outputCompanion.outputCode;
                 prevInputCodeDetectionCount = 0;
-                if (VL_DEBUG) NSLog(@"Received: %@", outputCode);
+                if (VL_DEBUG) NSLog(@"Received: %@", self.outputCompanion.outputCode);
                 // Now generate a new output code.
                 [self.outputCompanion triggerNewOutputValue];
 			} else {
 				// We have transmitted a code, but received a different one??
                 if (self.running) {
-                    NSLog(@"Bad data: expected %@, got %s", outputCode, code);
+                    NSLog(@"Bad data: expected %@, got %s", self.outputCompanion.outputCode, code);
                     NSAlert *alert = [NSAlert alertWithMessageText:@"Warning: received unexpected QR-code."
                                                      defaultButton:@"OK"
                                                    alternateButton:nil
                                                        otherButton:nil
                                          informativeTextWithFormat:@"Expected value was %@, received %s",
-                                      outputCode, code];
+                                      self.outputCompanion.outputCode, code];
                     [alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
 					[self.outputCompanion triggerNewOutputValue];
                 } else if (self.preRunning) {

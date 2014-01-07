@@ -12,6 +12,7 @@
 @interface HardwareRunManager : BaseRunManager <ClockProtocol> {
     BOOL alive; // True if the class is alive and the periodic timer should run
     BOOL connected; // True if the hardware device is connected
+	BOOL inErrorMode; // True if we have displayed an error message
     
     double outputLevel; // Current output light level
     uint64_t outputTimestamp;

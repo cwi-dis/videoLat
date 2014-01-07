@@ -53,7 +53,7 @@
             NSLog(@"Unexpected newInputDone format %s", formatStr);
             return;
 		}
-        if (outputCode == nil) return;
+        if (self.outputCompanion.outputCode == nil) return;
         
 		int minx, x, maxx, miny, y, maxy, ystep;
 		minx = sensitiveArea.origin.x + (sensitiveArea.size.width/4);
@@ -78,9 +78,9 @@
 		if (foundColorIsWhite == currentColorIsWhite) {
 			// Found expected color.
             if (self.running) {
-                [self.collector recordReception: outputCode at: inputStartTime];
+                [self.collector recordReception: self.outputCompanion.outputCode at: inputStartTime];
             } else if (self.preRunning) {
-                [self _prerunRecordReception: outputCode];
+                [self _prerunRecordReception: self.outputCompanion.outputCode];
             }
 			[self.outputCompanion triggerNewOutputValue];
         } else {
@@ -113,10 +113,10 @@
         prerunOutputStartTime = outputStartTime;
 		if (currentColorIsWhite) {
 			newImage = [CIImage imageWithColor:[CIColor colorWithRed:1 green:1 blue:1]];
-            outputCode = @"white";
+            self.outputCode = @"white";
 		} else {
 			newImage = [CIImage imageWithColor:[CIColor colorWithRed:0 green:0 blue:0]];
-            outputCode = @"black";
+            self.outputCode = @"black";
         }
 		CGRect rect = {0, 0, 480, 480};
 		newImage = [newImage imageByCroppingToRect: rect];
@@ -130,60 +130,7 @@
 	prerunOutputStartTime = 0;
 	outputStartTime = 0;
 	inputStartTime = 0;
-    outputCode = nil;
+    self.outputCode = nil;
 	[self.outputView performSelectorOnMainThread:@selector(showNewData) withObject:nil waitUntilDone:NO ];
 }
-
-#if 0
-
-- (void) _mono_newInputDone: (bool)isWhite
-{
-	uint64_t receptionTime = [self.clock now];
-    @synchronized(self) {
-        assert(inputStartTime != 0);
-        if (!self.running) return;
-        
-        if (isWhite == currentColorIsWhite) {
-            // Found it! Invert for the next round
-            currentColorIsWhite = !currentColorIsWhite;
-            nBWdetections++;
-            //xyzzy            status.bwString = [NSString stringWithFormat: @"found %d (current %s)", nBWdetections, isWhite?"white":"black"];
-            [self.statusView update: self];
-            // XXXJACK Is this correct? is "now" the best timestamp we have for the incoming hardware data?
-            if (self.running)
-				[self.collector recordReception: isWhite?@"white":@"black" at: receptionTime];
-            outputCode = [NSString stringWithFormat:@"%lld", receptionTime];
-            [self.outputCompanion triggerNewOutputValue];
-            
-        }
-        inputStartTime = 0;
-    }
-}
-
-- (void)_mono_pollInput
-{
-    @synchronized(self) {
-        if (self.delegate == nil || ![self.delegate hasInput]) return;
-        [self newInputStart];
-        bool result = [self.delegate inputBW];
-        if (VL_DEBUG) NSLog(@"checkinput: %d\n", result);
-        [self _mono_newInputDone: result];
-        // XXXX save result, if running
-        [self performSelector:@selector(_mono_pollInput) withObject: nil afterDelay: (NSTimeInterval)0.001];
-    }
-}
-
-- (void)_mono_showNewData
-{
-    @synchronized(self) {
-        if (self.delegate && [self.delegate respondsToSelector:@selector(newBWOutput:)]) {
-            [self.delegate newBWOutput: currentColorIsWhite];
-			if (self.running)
-				[self.collector recordTransmission: currentColorIsWhite?@"white":@"black" at: [self.clock now]];
-        }
-    }
-}
-
-#endif
-
 @end
