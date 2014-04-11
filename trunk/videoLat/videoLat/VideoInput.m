@@ -102,12 +102,6 @@
     } else
 #endif
 	{
-#ifdef USE_MACH_ABSOLUTE_TIME
-        UInt64 machTimestamp = mach_absolute_time();
-        Nanoseconds nanoTimestamp = AbsoluteToNanoseconds(*(AbsoluteTime*)&machTimestamp);
-        timestamp = *(UInt64 *)&nanoTimestamp;
-        timestamp = timestamp / 1000;
-#else
 		clock_serv_t cclock;
 		mach_timespec_t mts;
 
@@ -115,7 +109,6 @@
 		clock_get_time(cclock, &mts);
 		mach_port_deallocate(mach_task_self(), cclock);
 		timestamp = ((UInt64)mts.tv_sec*1000000LL) + mts.tv_nsec/1000LL;
-#endif
     }
     return timestamp - epoch;
 }
@@ -271,7 +264,16 @@
     /* Create the video capture output, and let us be its delegate */
     outputCapturer = [[AVCaptureVideoDataOutput alloc] init];
 	outputCapturer.alwaysDiscardsLateVideoFrames = YES;
-	[outputCapturer setSampleBufferDelegate: self queue:sampleBufferQueue];
+#if 0
+    AVCaptureConnection *conn = [outputCapturer connectionWithMediaType:AVMediaTypeVideo];
+    if (conn && conn.supportsVideoMinFrameDuration) {
+        conn.videoMinFrameDuration = CMTimeMake(1,5);
+        conn.videoMaxFrameDuration = CMTimeMake(1,5);
+    } else {
+        NSLog(@"Cannot throttle framerate");
+    }
+#endif
+    [outputCapturer setSampleBufferDelegate: self queue:sampleBufferQueue];
     [session addOutput: outputCapturer];
 	// XXXJACK Should catch AVCaptureSessionRuntimeErrorNotification
 
@@ -380,53 +382,17 @@
 	lastTimeStamp = timestamp;
 	nFrames++;
 #endif
-#if 1
-	// Complain about preposterous timestamps
-	if (timestamp > now_timestamp) {
-#if 0
-		// The timestamp of the frame is in the future. Cannot happen.
-		NSAlert *alert = [NSAlert alertWithMessageText:@"Timestamp error" defaultButton:@"OK" alternateButton:nil otherButton:nil informativeTextWithFormat:@"Capture timestamp %lld is %lld µS in the future. This \"cannot happen\".", timestamp, timestamp - now_timestamp];
-		[alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:YES];
-		[session stopRunning];
-		session = nil;
-#else
-	NSLog(@"Capture timestamp %lld is %lld µS in the future. This \"cannot happen\".", timestamp, timestamp - now_timestamp);
-#ifdef WITH_STATISTICS
-	nEarlyDrops++;
-#endif
-	return;
-#endif
-	}
-	if (timestamp < now_timestamp - 500000) {
-#if 0
-		// Timestamp is more than half a second in the past
-		NSAlert *alert = [NSAlert alertWithMessageText:@"Timestamp error" defaultButton:@"OK" alternateButton:nil otherButton:nil informativeTextWithFormat:@"Capture timestamp %lld is %lld µS in the past. This makes the current run useless. ", timestamp, now_timestamp - timestamp];
-		[alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:YES];
-		[session stopRunning];
-		session = nil;
-#else
-	NSLog(@"Capture timestamp %lld is %lld µS in the past. This makes the current run useless. ", timestamp, now_timestamp - timestamp);
-#ifdef WITH_STATISTICS
-	nLateDrops++;
-#endif
-	return;
-#endif
-	}
-#else
-    if (timestamp < now_timestamp) {
-        // Presentation time is in the past. Adjust our clock.
-		UInt64 delta = now_timestamp - timestamp;
-		if (capturing) {
-			// Presentation time is in the past. Drop frame.
-			NSLog(@"VideoInput: frame is %lld uS late. Drop.", delta);
-			return;
-		} else
-		{
-			//epoch += delta;
-			NSLog(@"VideoInput: clock: delta %lld us, epoch set to %lld uS", delta, epoch);
-		}
+    SInt64 delta = now_timestamp - timestamp;
+    if (1) {
+        //
+        // Suspect code ahead. On some combinations of camera and OS the video presentation
+        // timestamp clock drifts. We compensate by slowly moving the epoch of our software
+        // clock (which is used for output timestamping) to move towards the video input
+        // timestamp clock. We do so slowly, because our dispatch_queue seems to give us
+        // callbacks in some time-slotted fashion.
+        epoch += (delta/10);
+        NSLog(@"VideoInput: clock: delta %lld us, epoch set to %lld uS", delta, epoch);
     }
-#endif
 	[self.manager newInputStart: timestamp];
 
     CMFormatDescriptionRef formatDescription = CMSampleBufferGetFormatDescription(sampleBuffer);

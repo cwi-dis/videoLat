@@ -42,15 +42,8 @@ void loop() {
   int nAvailable;
   while ((nAvailable = Serial.available()) < 2) delay(1);
   sequenceNumber = Serial.read();
-  outputValue = Serial.read();
   if (sequenceNumber < 0) {
     Serial.write(254);
-    Serial.write(nAvailable);
-    delay(500);
-    return;
-  }
-  if (outputValue < 0) {
-    Serial.write(253);
     Serial.write(nAvailable);
     delay(500);
     return;
@@ -58,6 +51,14 @@ void loop() {
   if (sequenceNumber < 128 || sequenceNumber > 192) {
     Serial.write(252);
     Serial.write(sequenceNumber);
+    delay(500);
+    return;
+  }
+
+  outputValue = Serial.read();
+  if (outputValue < 0) {
+    Serial.write(253);
+    Serial.write(nAvailable);
     delay(500);
     return;
   }
@@ -77,8 +78,12 @@ void loop() {
   // Keep min and max sensor values, and scale our result
   if (sensorValue < minSensorValue)
      minSensorValue = sensorValue;
+  else
+     minSensorValue++;
   if (sensorValue > maxSensorValue)
      maxSensorValue = sensorValue;
+  else
+     maxSensorValue--;
   scaledValue = (sensorValue - minSensorValue) * (127 / (maxSensorValue - minSensorValue));
   
   // Set the LED output level
