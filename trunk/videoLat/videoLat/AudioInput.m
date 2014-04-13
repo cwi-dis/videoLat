@@ -14,6 +14,28 @@
 @synthesize deviceName;
 @synthesize manager;
 
+- (AudioInput *)init
+{
+    self = [super init];
+    if (self) {
+        outputCapturer = nil;
+        deviceID = nil;
+        sampleBufferQueue = dispatch_queue_create("Audio Sample Queue", DISPATCH_QUEUE_SERIAL);
+#if __MAC_OS_X_VERSION_MAX_ALLOWED >= 1080
+		if (CMClockGetHostTimeClock != NULL) {
+			clock = CMClockGetHostTimeClock();
+		}
+#endif
+        epoch = 0;
+    }
+    return self;
+}
+
+- (void)dealloc
+{
+	[self stop];
+}
+
 - (uint64_t)now
 {
     return 0;
@@ -63,7 +85,7 @@
     if (dev == nil)
         return NO;
 	[self _switchToDevice:dev];
-    [[NSUserDefaults standardUserDefaults] setObject:name forKey:@"Camera"];
+    [[NSUserDefaults standardUserDefaults] setObject:name forKey:@"AudioInput"];
     return YES;
 }
 
@@ -169,6 +191,20 @@
 
 - (void) stop
 {
+}
+
+- (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection
+{
+    // Determine input level for VU-meter
+    float db = 0;
+    AVCaptureConnection *conn = [outputCapturer.connections objectAtIndex: 0];
+    AVCaptureAudioChannel *ch;
+    for (ch in conn.audioChannels) {
+        db += ch.averagePowerLevel;
+    }
+    db /= [connection.audioChannels count];
+    float level = (pow(10.f, 0.05f * db) * 20.0f);
+    [[self bInputValue] setFloatValue:level*100];
 }
 
 @end

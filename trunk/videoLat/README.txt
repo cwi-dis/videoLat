@@ -55,13 +55,9 @@ You need two third party packages:
 These should be included in a videoLat source distribution in the thirdParty
 subdirectory.
 
-You also need a few more packages, install these through macports, all universal:
+You also need libpng 1.5, download from http://sourceforge.net/projects/libpng/files/libpng15/
 
-% sudo port install libiconv +universal
-% sudo port install ImageMagick +universal
-% sudo port install cmake +universal
-
-(this list may be incomplete, please inform me if this is the case).
+You may need a few more packages, to be determined.
 
 1. Build zbar with:
 	% mkdir thirdParty/installed
@@ -76,6 +72,7 @@ You also need a few more packages, install these through macports, all universal
 		--without-imagemagick \
 		--without-x \
 		--without-xshm \
+		--without-python \
 		--prefix=$INST \
 		PKG_CONFIG_PATH=/opt/local/lib/pkgconfig \
 		CFLAGS="-arch i386 -arch x86_64" \

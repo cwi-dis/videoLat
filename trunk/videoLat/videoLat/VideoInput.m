@@ -60,7 +60,7 @@
     if (self) {
         outputCapturer = nil;
         deviceID = nil;
-        sampleBufferQueue = dispatch_queue_create("Sample Queue", DISPATCH_QUEUE_SERIAL);
+        sampleBufferQueue = dispatch_queue_create("Video Sample Queue", DISPATCH_QUEUE_SERIAL);
 #if __MAC_OS_X_VERSION_MAX_ALLOWED >= 1080
 		if (CMClockGetHostTimeClock != NULL) {
 			clock = CMClockGetHostTimeClock();
