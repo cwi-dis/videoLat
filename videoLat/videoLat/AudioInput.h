@@ -16,6 +16,7 @@
 }
 @property (readonly) NSString *deviceID;
 @property (readonly) NSString *deviceName;
+@property(weak) IBOutlet NSLevelIndicator *bInputValue;
 @property(weak) IBOutlet id <RunInputManagerProtocol> manager;
 
 - (uint64_t)now;

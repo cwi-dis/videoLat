@@ -16,7 +16,6 @@
 }
 //@property(weak) IBOutlet NSPopUpButton *bBase;
 @property(weak) IBOutlet AudioOutputView *outputView;
-@property(weak) IBOutlet NSLevelIndicator *bInputValue;
 @property(weak) IBOutlet AudioSelectionView *selectionView;
 @property(weak) IBOutlet id <InputCaptureProtocol> capturer;
 @property(weak) IBOutlet id <ClockProtocol> clock;
