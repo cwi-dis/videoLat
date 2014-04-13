@@ -11,6 +11,7 @@
 #import "VideoCalibrationRunManager.h"
 #import "VideoMonoRunManager.h"
 #import "HardwareRunManager.h"
+#import "AudioRunManager.h"
 
 @implementation appDelegate
 @synthesize measurementTypes;
@@ -35,6 +36,7 @@
     [VideoCalibrationRunManager class];
 	[VideoMonoRunManager class];
     [HardwareRunManager class];
+    [AudioRunManager class];
 #endif
 	// Initialize location manager stuff
 	self.location = @"Unknown location";
