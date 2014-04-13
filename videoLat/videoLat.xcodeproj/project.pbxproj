@@ -33,6 +33,11 @@
 		047DD1D8183A3B4D00A04F83 /* Document.xib in Resources */ = {isa = PBXBuildFile; fileRef = 047DD1D6183A3B4D00A04F83 /* Document.xib */; };
 		047DD1DB183A3B4D00A04F83 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 047DD1D9183A3B4D00A04F83 /* MainMenu.xib */; };
 		04954193184638BB00516301 /* MeasurementDistribution.m in Sources */ = {isa = PBXBuildFile; fileRef = 04954192184638BB00516301 /* MeasurementDistribution.m */; };
+		049903F118F957E900085C91 /* AudioInput.m in Sources */ = {isa = PBXBuildFile; fileRef = 049903E818F957E900085C91 /* AudioInput.m */; };
+		049903F218F957E900085C91 /* AudioOutputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 049903E918F957E900085C91 /* AudioOutputView.m */; };
+		049903F318F957E900085C91 /* AudioRunManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 049903EA18F957E900085C91 /* AudioRunManager.m */; };
+		049903F418F957E900085C91 /* AudioSelectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 049903EB18F957E900085C91 /* AudioSelectionView.m */; };
+		049903F718F95EE300085C91 /* AudioRunManager.xib in Resources */ = {isa = PBXBuildFile; fileRef = 049903F618F95EE300085C91 /* AudioRunManager.xib */; };
 		04A3D2FD187C0F5B002038E8 /* HardwareOutputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A3D2FC187C0F5B002038E8 /* HardwareOutputView.m */; };
 		04A666D01842A4F700D0CA04 /* BaseRunManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A666CF1842A4F700D0CA04 /* BaseRunManager.m */; };
 		04B173FB1869AFD700A3DA9A /* liblabjackusb.dylib in Resources */ = {isa = PBXBuildFile; fileRef = 04B173F91869AFC400A3DA9A /* liblabjackusb.dylib */; };
@@ -103,6 +108,15 @@
 		047DD1DA183A3B4D00A04F83 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		04954191184638BB00516301 /* MeasurementDistribution.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeasurementDistribution.h; sourceTree = "<group>"; };
 		04954192184638BB00516301 /* MeasurementDistribution.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeasurementDistribution.m; sourceTree = "<group>"; };
+		049903E818F957E900085C91 /* AudioInput.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioInput.m; sourceTree = "<group>"; };
+		049903E918F957E900085C91 /* AudioOutputView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioOutputView.m; sourceTree = "<group>"; };
+		049903EA18F957E900085C91 /* AudioRunManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioRunManager.m; sourceTree = "<group>"; };
+		049903EB18F957E900085C91 /* AudioSelectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioSelectionView.m; sourceTree = "<group>"; };
+		049903EC18F957E900085C91 /* AudioRunManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioRunManager.h; sourceTree = "<group>"; };
+		049903ED18F957E900085C91 /* AudioSelectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioSelectionView.h; sourceTree = "<group>"; };
+		049903EF18F957E900085C91 /* AudioOutputView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioOutputView.h; sourceTree = "<group>"; };
+		049903F018F957E900085C91 /* AudioInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioInput.h; sourceTree = "<group>"; };
+		049903F618F95EE300085C91 /* AudioRunManager.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AudioRunManager.xib; sourceTree = "<group>"; };
 		04A3D2FB187C0F5B002038E8 /* HardwareOutputView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HardwareOutputView.h; sourceTree = "<group>"; };
 		04A3D2FC187C0F5B002038E8 /* HardwareOutputView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HardwareOutputView.m; sourceTree = "<group>"; };
 		04A666CE1842A4F700D0CA04 /* BaseRunManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseRunManager.h; sourceTree = "<group>"; };
@@ -207,6 +221,7 @@
 				04DCC18C1867913800592A1F /* HardwareRun */,
 				040CF9D6183E4B570094C0D8 /* VideoRun */,
 				0412725618731D4B00CB014F /* MixedRun */,
+				049903E718F94BD600085C91 /* AudioRun */,
 			);
 			name = MeasurementRun;
 			sourceTree = "<group>";
@@ -321,6 +336,22 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		049903E718F94BD600085C91 /* AudioRun */ = {
+			isa = PBXGroup;
+			children = (
+				049903F618F95EE300085C91 /* AudioRunManager.xib */,
+				049903F018F957E900085C91 /* AudioInput.h */,
+				049903E818F957E900085C91 /* AudioInput.m */,
+				049903EC18F957E900085C91 /* AudioRunManager.h */,
+				049903EA18F957E900085C91 /* AudioRunManager.m */,
+				049903ED18F957E900085C91 /* AudioSelectionView.h */,
+				049903EB18F957E900085C91 /* AudioSelectionView.m */,
+				049903EF18F957E900085C91 /* AudioOutputView.h */,
+				049903E918F957E900085C91 /* AudioOutputView.m */,
+			);
+			name = AudioRun;
+			sourceTree = "<group>";
+		};
 		04B173F31869AB6E00A3DA9A /* LabJack */ = {
 			isa = PBXGroup;
 			children = (
@@ -433,6 +464,7 @@
 				040CF9DE183E56110094C0D8 /* docicon.icns in Resources */,
 				04187965184382C400303A12 /* VideoRunManager.xib in Resources */,
 				043A1EF61843FD6000883D0B /* VideoMonoRunManager.xib in Resources */,
+				049903F718F95EE300085C91 /* AudioRunManager.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -466,6 +498,7 @@
 				045397D1183AC3D300697348 /* RunTypeView.m in Sources */,
 				04B58F2A183A3D3000360A61 /* appDelegate.m in Sources */,
 				04DCC18F1867927800592A1F /* HardwareRunManager.m in Sources */,
+				049903F218F957E900085C91 /* AudioOutputView.m in Sources */,
 				043A1EF41843FCA000883D0B /* VideoMonoRunManager.m in Sources */,
 				04B58F2B183A3D3000360A61 /* RunCollector.m in Sources */,
 				04B58F2C183A3D3000360A61 /* DocumentView.m in Sources */,
@@ -477,10 +510,13 @@
 				04B58F30183A3D3000360A61 /* VideoRunManager.m in Sources */,
 				04A666D01842A4F700D0CA04 /* BaseRunManager.m in Sources */,
 				04B58F31183A3D3000360A61 /* MeasurementDataStore.m in Sources */,
+				049903F118F957E900085C91 /* AudioInput.m in Sources */,
 				04B58F32183A3D3000360A61 /* VideoOutputView.m in Sources */,
 				045397D7183AC40C00697348 /* RunStatusView.m in Sources */,
 				04B58F35183A3D3000360A61 /* DocumentDescriptionView.m in Sources */,
+				049903F418F957E900085C91 /* AudioSelectionView.m in Sources */,
 				043A1EF11843FC6000883D0B /* VideoCalibrationRunManager.m in Sources */,
+				049903F318F957E900085C91 /* AudioRunManager.m in Sources */,
 				040CF9D0183E40F20094C0D8 /* findQRcodes.mm in Sources */,
 				04954193184638BB00516301 /* MeasurementDistribution.m in Sources */,
 				04A3D2FD187C0F5B002038E8 /* HardwareOutputView.m in Sources */,
@@ -536,7 +572,7 @@
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_ENTITLEMENTS = "";
-				CODE_SIGN_IDENTITY = "Developer ID Application";
+				CODE_SIGN_IDENTITY = "";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -554,7 +590,7 @@
 				HEADER_SEARCH_PATHS = /System/Library/Frameworks/Python.framework/Versions/2.7/include/python2.7;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_CODE_SIGN_FLAGS = "--deep";
+				OTHER_CODE_SIGN_FLAGS = "";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx10.9;
 				USER_HEADER_SEARCH_PATHS = thirdParty/installed/include;
