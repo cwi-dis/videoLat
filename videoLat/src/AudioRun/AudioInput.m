@@ -38,12 +38,43 @@
 
 - (uint64_t)now
 {
-    return 0;
+    UInt64 timestamp;
+#if 0 && __MAC_OS_X_VERSION_MAX_ALLOWED >= 1080
+    if (clock) {
+        CMTime timestampCMT = CMClockGetTime(clock);
+        timestampCMT = CMTimeConvertScale(timestampCMT, 1000000, kCMTimeRoundingMethod_Default);
+        timestamp = timestampCMT.value;
+    } else
+#endif
+	{
+		clock_serv_t cclock;
+		mach_timespec_t mts;
+        
+		host_get_clock_service(mach_host_self(), SYSTEM_CLOCK, &cclock);
+		clock_get_time(cclock, &mts);
+		mach_port_deallocate(mach_task_self(), cclock);
+		timestamp = ((UInt64)mts.tv_sec*1000000LL) + mts.tv_nsec/1000LL;
+    }
+    return timestamp - epoch;
 }
+
+- (void) stop
+{
+	outputCapturer = nil;
+	if (session) {
+        [session stopRunning];
+    }
+	session = nil;
+    sampleBufferQueue = nil;
+#if __MAC_OS_X_VERSION_MAX_ALLOWED >= 1080
+	clock = nil;
+#endif
+}
+
 
 - (bool)available
 {
-    return NO;
+	return session != nil && outputCapturer != nil;
 }
 
 - (NSArray*) deviceNames
@@ -183,14 +214,12 @@
 
 - (void) startCapturing: (BOOL) showPreview
 {
+    capturing = YES;
 }
 
 - (void) stopCapturing
 {
-}
-
-- (void) stop
-{
+    capturing = NO;
 }
 
 - (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection
@@ -204,7 +233,9 @@
     }
     db /= [connection.audioChannels count];
     float level = (pow(10.f, 0.05f * db) * 20.0f);
-    [[self bInputValue] setFloatValue:level*100];
+    [self.bInputValue setFloatValue:level*100];
+    // Pass to the manager
+    [self.manager newInputDone: nil size: 0 at: [self now]]; // XXXJACK
 }
 
 @end

@@ -90,5 +90,8 @@
     height: (int)h
     format: (const char*)formatStr
     size: (int)size;
+- (void)newInputDone: (void*)buffer
+    size: (int)size
+    at: (uint64_t)timestamp;
 @end
 #endif

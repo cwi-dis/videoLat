@@ -78,14 +78,4 @@
 //	[self.outputHandler switchToDeviceWithName: cam];
 }
 
-- (void)_reselectOutput: (NSString *)name
-{
-    if (name)
-        [self.bOutputDevices selectItemWithTitle:name];
-    // Select first item, if nothing has been selected
-    NSMenuItem *newItem = [self.bOutputDevices selectedItem];
-    if (newItem == nil)
-        [self.bOutputDevices selectItemAtIndex: 0];
-}
-
 @end
