@@ -60,6 +60,7 @@
 		0497263E18FD596F00625326 /* MeasurementType.m in Sources */ = {isa = PBXBuildFile; fileRef = 0497263D18FD596F00625326 /* MeasurementType.m */; };
 		0497264118FD5BDA00625326 /* docicon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 0497263F18FD5BDA00625326 /* docicon.icns */; };
 		0497264218FD5BDA00625326 /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 0497264018FD5BDA00625326 /* icon.icns */; };
+		0497264418FD5E5F00625326 /* sounds in Resources */ = {isa = PBXBuildFile; fileRef = 0497264318FD5E5F00625326 /* sounds */; };
 		04B173FB1869AFD700A3DA9A /* liblabjackusb.dylib in Resources */ = {isa = PBXBuildFile; fileRef = 04B173F91869AFC400A3DA9A /* liblabjackusb.dylib */; };
 		04B58F2A183A3D3000360A61 /* appDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B58F1E183A3D3000360A61 /* appDelegate.m */; };
 		04B58F39183A3D5300360A61 /* libzbar.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 04B58F37183A3D5300360A61 /* libzbar.0.dylib */; };
@@ -154,6 +155,7 @@
 		0497263D18FD596F00625326 /* MeasurementType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeasurementType.m; sourceTree = "<group>"; };
 		0497263F18FD5BDA00625326 /* docicon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = docicon.icns; path = icons/docicon.icns; sourceTree = SOURCE_ROOT; };
 		0497264018FD5BDA00625326 /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = icon.icns; path = icons/icon.icns; sourceTree = SOURCE_ROOT; };
+		0497264318FD5E5F00625326 /* sounds */ = {isa = PBXFileReference; lastKnownFileType = folder; path = sounds; sourceTree = SOURCE_ROOT; };
 		04B173F91869AFC400A3DA9A /* liblabjackusb.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = liblabjackusb.dylib; path = ../../../../../usr/local/lib/liblabjackusb.dylib; sourceTree = "<group>"; };
 		04B58F0D183A3CF000360A61 /* appDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = appDelegate.h; sourceTree = "<group>"; };
 		04B58F18183A3CF000360A61 /* protocols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = protocols.h; sourceTree = "<group>"; };
@@ -355,6 +357,7 @@
 		049903E718F94BD600085C91 /* AudioRun */ = {
 			isa = PBXGroup;
 			children = (
+				0497264318FD5E5F00625326 /* sounds */,
 				0497261C18FD589300625326 /* AudioInput.h */,
 				0497261D18FD589300625326 /* AudioInput.m */,
 				0497261E18FD589300625326 /* AudioOutputView.h */,
@@ -460,6 +463,7 @@
 			files = (
 				047DD1CC183A3B4D00A04F83 /* InfoPlist.strings in Resources */,
 				047DD1D2183A3B4D00A04F83 /* Credits.rtf in Resources */,
+				0497264418FD5E5F00625326 /* sounds in Resources */,
 				049725DE18FD563E00625326 /* NewMeasurement.xib in Resources */,
 				0497260E18FD580300625326 /* VideoRunManager.xib in Resources */,
 				049725F918FD573800625326 /* ue9.py in Resources */,
