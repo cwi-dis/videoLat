@@ -166,4 +166,11 @@ static NSMutableDictionary *runManagerNibs;
 {
 	[NSException raise:@"BaseRunManager" format:@"Must override newInputDone in subclass"];
 }
+
+- (void)newInputDone: (void*)buffer
+                size: (int)size
+                  at: (uint64_t)timestamp
+{
+	[NSException raise:@"BaseRunManager" format:@"Must override newInputDone in subclass"];
+}
 @end

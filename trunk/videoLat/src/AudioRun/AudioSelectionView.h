@@ -10,7 +10,6 @@
 #import "AudioInput.h"
 
 @interface AudioSelectionView : NSView
-@property(weak) IBOutlet NSPopUpButton *bOutputDevices;
 @property(weak) IBOutlet NSPopUpButton *bInputDevices;
 @property(weak) IBOutlet NSPopUpButton *bBase;
 @property(weak) IBOutlet NSButton *bPreRun;
@@ -19,7 +18,6 @@
 
 - (void)_updateDeviceNames: (NSNotification*) notification;
 - (IBAction)inputChanged: (id) sender;
-- (IBAction)outputChanged: (id) sender;
 - (void)_reselectInput: (NSString *)name;
 - (void)_reselectOutput: (NSString *)name;
 
