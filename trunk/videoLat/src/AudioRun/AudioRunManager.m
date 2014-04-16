@@ -216,10 +216,11 @@
 - (void) newInputDone: (void*)buffer size: (int)size at: (uint64_t)timestamp
 {
     @synchronized(self) {
-        BOOL foundSample = NO;
+		NSLog(@"Got %d bytes", size);
+        BOOL foundSample = [self.processor feedData:buffer size:size at:timestamp];
         if (foundSample) {
             if (self.running) {
-                BOOL ok = [self.collector recordReception: @"audio" at: timestamp];
+                BOOL ok = [self.collector recordReception: @"audio" at: [self.processor lastMatchTimestamp]];
             } else if (self.preRunning) {
                 [self _prerunRecordReception: self.outputCompanion.outputCode];
             }
@@ -229,6 +230,8 @@
                 [self _prerunRecordNoReception];
             }
         }
+		[self.bDetection setState: (foundSample? NSOnState : NSOffState)];
+		
 		if (self.running) {
 			self.statusView.detectCount = [NSString stringWithFormat: @"%d", self.collector.count];
 			self.statusView.detectAverage = [NSString stringWithFormat: @"%.3f ms ± %.3f", self.collector.average / 1000.0, self.collector.stddev / 1000.0];

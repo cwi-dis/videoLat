@@ -10,6 +10,7 @@
 #import "BaseRunManager.h"
 #import "AudioSelectionView.h"
 #import "AudioOutputView.h"
+#import "AudioProcess.h"
 
 @interface AudioRunManager : BaseRunManager {
     uint64_t outputStartTime;           // When the last output was displayed
@@ -23,6 +24,8 @@
 @property(weak) IBOutlet AudioSelectionView *selectionView;
 @property(weak) IBOutlet id <InputCaptureProtocol> capturer;
 @property(weak) IBOutlet id <ClockProtocol> clock;
+@property(weak) IBOutlet NSButton *bDetection;
+@property(weak) IBOutlet AudioProcess *processor;
 
 + (void)initialize;
 - (AudioRunManager *)init;
