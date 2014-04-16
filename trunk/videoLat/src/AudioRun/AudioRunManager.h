@@ -16,6 +16,7 @@
     uint64_t outputStartTime;           // When the last output was displayed
     uint64_t prerunOutputStartTime;     // Same, but not reset when reported (for prerun duration checking)
     uint64_t prerunDelay;           // How log to wait for prerun code finding
+	BOOL foundSampleReported;		// True if we have reported a match
     int prerunMoreNeeded;           // How many more prerun correct catches we need
     
 }

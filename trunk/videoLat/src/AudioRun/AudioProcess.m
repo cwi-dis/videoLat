@@ -32,7 +32,7 @@
 		energy += fBuffer[i]*fBuffer[i];
 	}
 	energy /= n;
-	NSLog(@"energy=%f, prevEnergy=%f", energy, prevEnergy);
+	//NSLog(@"energy=%f, prevEnergy=%f", energy, prevEnergy);
 	if (wasNoisy) {
 		// If we were noisy before we'll still consider it noisy
 		// if we're over 75% of what we had
