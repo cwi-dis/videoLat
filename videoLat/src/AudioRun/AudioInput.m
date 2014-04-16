@@ -182,7 +182,18 @@
     [outputCapturer setSampleBufferDelegate: self queue:sampleBufferQueue];
     [session addOutput: outputCapturer];
 	// XXXJACK Should catch AVCaptureSessionRuntimeErrorNotification
-    
+    // Set the parameters so that we get the samples in a format we understand.
+	// Unfortunately, setting to 'mono' doesn't seem to work, at least not consistently...
+    NSDictionary *settings = [NSDictionary dictionaryWithObjectsAndKeys:
+		[NSNumber numberWithUnsignedInt:kAudioFormatLinearPCM], AVFormatIDKey,
+		[NSNumber numberWithFloat:44100], AVSampleRateKey,
+//		[NSNumber numberWithUnsignedInteger:1], AVNumberOfChannelsKey,
+		[NSNumber numberWithInt:16], AVLinearPCMBitDepthKey,
+		[NSNumber numberWithBool:NO], AVLinearPCMIsFloatKey,
+//		[NSNumber numberWithBool:YES], AVLinearPCMIsNonInterleaved,
+//		[NSNumber numberWithBool:NO], AVLinearPCMIsBigEndianKey,
+		nil];
+	outputCapturer.audioSettings = settings;
 	/* Let the madness begin */
 	capturing = NO;
 	epoch = 0;
@@ -234,8 +245,49 @@
     db /= [connection.audioChannels count];
     float level = (pow(10.f, 0.05f * db) * 20.0f);
     [self.bInputValue setFloatValue:level*100];
-    // Pass to the manager
-    [self.manager newInputDone: nil size: 0 at: [self now]]; // XXXJACK
+
+	// Get the audio data and timestamp
+	
+    if( !CMSampleBufferDataIsReady(sampleBuffer) )
+    {
+        NSLog( @"sample buffer is not ready. Skipping sample" );
+        return;
+    }
+    if( CMSampleBufferMakeDataReady(sampleBuffer) != noErr)
+    {
+        NSLog( @"Cannot make data ready. Skipping sample" );
+        return;
+    }
+    CMTime timestampCMT = CMSampleBufferGetPresentationTimeStamp(sampleBuffer);
+    timestampCMT = CMTimeConvertScale(timestampCMT, 1000000, kCMTimeRoundingMethod_Default);
+    UInt64 timestamp = timestampCMT.value;
+    UInt64 now_timestamp = [self now];
+    SInt64 delta = now_timestamp - timestamp;
+    if (1) {
+        //
+        // Suspect code ahead. On some combinations of camera and OS the video presentation
+        // timestamp clock drifts. We compensate by slowly moving the epoch of our software
+        // clock (which is used for output timestamping) to move towards the video input
+        // timestamp clock. We do so slowly, because our dispatch_queue seems to give us
+        // callbacks in some time-slotted fashion.
+        epoch += (delta/10);
+        NSLog(@"AudeoInput: clock: delta %lld us, epoch set to %lld uS", delta, epoch);
+    }
+
+    CMFormatDescriptionRef formatDescription = CMSampleBufferGetFormatDescription(sampleBuffer);
+    OSType format = CMFormatDescriptionGetMediaSubType(formatDescription);
+	assert(format == kAudioFormatLinearPCM);
+
+	AudioBufferList bufferList;
+	CMBlockBufferRef bufferOut = nil;
+	OSStatus err = CMSampleBufferGetAudioBufferListWithRetainedBlockBuffer(sampleBuffer, NULL, &bufferList, sizeof(bufferList), NULL, NULL, kCMSampleBufferFlag_AudioBufferList_Assure16ByteAlignment, &bufferOut);
+	if (err == 0 || bufferList.mNumberBuffers == 1) {
+		// Pass to the manager
+		[self.manager newInputDone: bufferList.mBuffers[0].mData size: bufferList.mBuffers[0].mDataByteSize at: [self now]];
+	} else {
+		NSLog(@"AudioInput: CMSampleBufferGetAudioBufferListWithRetainedBlockBuffer returned err=%d, mNumberBuffers=%d", err, bufferList.mNumberBuffers);
+	}
+	if (bufferOut) CFRelease(bufferOut);
 }
 
 @end

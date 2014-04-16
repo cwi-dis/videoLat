@@ -67,6 +67,7 @@
 		04B58F3A183A3D5300360A61 /* libzint.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 04B58F38183A3D5300360A61 /* libzint.dylib */; };
 		04DC70C8185B57EB005110A5 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04DC70C7185B57EB005110A5 /* CoreLocation.framework */; };
 		04DCC18918664C8E00592A1F /* PythonLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DCC18818664C8E00592A1F /* PythonLoader.m */; };
+		04E4586B18FEB39C005712F6 /* AudioProcess.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E4586A18FEB39C005712F6 /* AudioProcess.m */; };
 		04FFDF94185A6FAE00B1CCCC /* videoLat.help in Resources */ = {isa = PBXBuildFile; fileRef = 04FFDF93185A6FAE00B1CCCC /* videoLat.help */; };
 /* End PBXBuildFile section */
 
@@ -165,6 +166,8 @@
 		04DC70C7185B57EB005110A5 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = ../../../../System/Library/Frameworks/CoreLocation.framework; sourceTree = "<group>"; };
 		04DCC18718664C8E00592A1F /* PythonLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PythonLoader.h; sourceTree = "<group>"; };
 		04DCC18818664C8E00592A1F /* PythonLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PythonLoader.m; sourceTree = "<group>"; };
+		04E4586818FEAEAD005712F6 /* AudioProcess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioProcess.h; path = AudioRun/AudioProcess.h; sourceTree = "<group>"; };
+		04E4586A18FEB39C005712F6 /* AudioProcess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AudioProcess.m; path = AudioRun/AudioProcess.m; sourceTree = "<group>"; };
 		04FFDF93185A6FAE00B1CCCC /* videoLat.help */ = {isa = PBXFileReference; lastKnownFileType = folder; path = videoLat.help; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
@@ -367,6 +370,8 @@
 				0497262218FD589300625326 /* AudioRunManager.xib */,
 				0497262318FD589300625326 /* AudioSelectionView.h */,
 				0497262418FD589300625326 /* AudioSelectionView.m */,
+				04E4586818FEAEAD005712F6 /* AudioProcess.h */,
+				04E4586A18FEB39C005712F6 /* AudioProcess.m */,
 			);
 			name = AudioRun;
 			sourceTree = "<group>";
@@ -540,6 +545,7 @@
 				0497260D18FD580300625326 /* VideoRunManager.m in Sources */,
 				049725E118FD563E00625326 /* RunTypeView.m in Sources */,
 				0497262618FD589300625326 /* AudioOutputView.m in Sources */,
+				04E4586B18FEB39C005712F6 /* AudioProcess.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
