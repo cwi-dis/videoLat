@@ -271,7 +271,7 @@
         // timestamp clock. We do so slowly, because our dispatch_queue seems to give us
         // callbacks in some time-slotted fashion.
         epoch += (delta/10);
-        NSLog(@"AudeoInput: clock: delta %lld us, epoch set to %lld uS", delta, epoch);
+        //NSLog(@"AudioInput: clock: delta %lld us, epoch set to %lld uS", delta, epoch);
     }
 
     CMFormatDescriptionRef formatDescription = CMSampleBufferGetFormatDescription(sampleBuffer);

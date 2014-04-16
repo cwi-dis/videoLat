@@ -8,7 +8,7 @@
 
 #import "AudioRunManager.h"
 
-#define PRERUN_COUNT 3
+#define PRERUN_COUNT 10
 #define PRERUN_INITIAL_DELAY 1000000
 
 @implementation AudioRunManager
@@ -190,11 +190,14 @@
 
 - (CIImage *)newOutputStart
 {
-    NSLog(@"AudioRun.newOutputStart");
-    if (self.running || self.preRunning) {
+    if (outputStartTime == 0 && (self.running || self.preRunning)) {
+		NSLog(@"AudioRun.newOutputStart");
 //        prevOutputStartTime = outputStartTime;
         outputStartTime = [self.clock now];
         prerunOutputStartTime = outputStartTime;
+		if (self.running) {
+			[self.collector recordTransmission: @"audio" at: outputStartTime];
+        }
         
     }
     return nil;
@@ -203,22 +206,16 @@
 - (void)newOutputDone
 {
     NSLog(@"AudioRun.newOutputDone");
-    @synchronized(self) {
-        if (outputStartTime == 0) return;
-		uint64_t outputTime = [self.clock now];
-		if (self.running) {
-			[self.collector recordTransmission: self.outputCode at: outputTime];
-        }
-        outputStartTime = 0;
-    }
+	outputStartTime = 0;
 }
 
 - (void) newInputDone: (void*)buffer size: (int)size at: (uint64_t)timestamp
 {
     @synchronized(self) {
-		NSLog(@"Got %d bytes", size);
+		//NSLog(@"Got %d bytes", size);
         BOOL foundSample = [self.processor feedData:buffer size:size at:timestamp];
-        if (foundSample) {
+        if (foundSample && !foundSampleReported) {
+			foundSampleReported = YES;
             if (self.running) {
                 BOOL ok = [self.collector recordReception: @"audio" at: [self.processor lastMatchTimestamp]];
             } else if (self.preRunning) {
@@ -226,6 +223,7 @@
             }
             [self.outputCompanion triggerNewOutputValue];
         } else {
+			foundSampleReported = NO;
             if (self.preRunning) {
                 [self _prerunRecordNoReception];
             }
