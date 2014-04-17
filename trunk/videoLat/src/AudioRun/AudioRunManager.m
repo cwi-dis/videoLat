@@ -145,7 +145,7 @@
 			[self.statusView.bStop setEnabled: NO];
 		}
 		// Do actual prerunning
-		prerunDelay = PRERUN_INITIAL_DELAY; // Start with 1ms delay (ridiculously low)
+		prerunDelay = PRERUN_INITIAL_DELAY;
 		prerunMoreNeeded = PRERUN_COUNT;
 		self.preRunning = YES;
 		[self.capturer startCapturing: YES];
@@ -191,10 +191,10 @@
 - (CIImage *)newOutputStart
 {
     if (outputStartTime == 0 && (self.running || self.preRunning)) {
-		NSLog(@"AudioRun.newOutputStart");
 //        prevOutputStartTime = outputStartTime;
         outputStartTime = [self.clock now];
         prerunOutputStartTime = outputStartTime;
+		NSLog(@"AudioRun.newOutputStart at %lld", outputStartTime);
 		if (self.running) {
 			[self.collector recordTransmission: @"audio" at: outputStartTime];
         }
@@ -205,16 +205,24 @@
 
 - (void)newOutputDone
 {
-    NSLog(@"AudioRun.newOutputDone");
+    NSLog(@"AudioRun.newOutputDone at %lld", [self.clock now]);
 	outputStartTime = 0;
 }
 
 - (void) newInputDone: (void*)buffer size: (int)size at: (uint64_t)timestamp
 {
     @synchronized(self) {
-		//NSLog(@"Got %d bytes", size);
-        BOOL foundSample = [self.processor feedData:buffer size:size at:timestamp];
+		// See whether we detect the pattern we are looking for, and report to user.
+		BOOL foundSample = [self.processor feedData:buffer size:size at:timestamp];
+		[self.bDetection setState: (foundSample? NSOnState : NSOffState)];
+
+		// If we're not running or prerunning we're done.
+		if (!self.running && !self.preRunning)
+			return;
+
+		// Process whether we found a sample (or not)
         if (foundSample && !foundSampleReported) {
+			NSLog(@"newInputDone (%lld) at %lld", timestamp, [self.clock now]);
 			foundSampleReported = YES;
             if (self.running) {
                 BOOL ok = [self.collector recordReception: @"audio" at: [self.processor lastMatchTimestamp]];
@@ -228,8 +236,8 @@
                 [self _prerunRecordNoReception];
             }
         }
-		[self.bDetection setState: (foundSample? NSOnState : NSOffState)];
-		
+
+		// Update status display, if we are running
 		if (self.running) {
 			self.statusView.detectCount = [NSString stringWithFormat: @"%d", self.collector.count];
 			self.statusView.detectAverage = [NSString stringWithFormat: @"%.3f ms ± %.3f", self.collector.average / 1000.0, self.collector.stddev / 1000.0];
@@ -240,12 +248,12 @@
 
 - (void) _prerunRecordNoReception
 {
-    if (VL_DEBUG) NSLog(@"Prerun no reception\n");
+    if (1 || VL_DEBUG) NSLog(@"Prerun no reception\n");
     assert(self.preRunning);
     if (prerunOutputStartTime != 0 && [self.clock now] - prerunOutputStartTime > prerunDelay) {
         // No data found within alotted time. Double the time, reset the count, change mirroring
-        if (VL_DEBUG) NSLog(@"outputStartTime=%llu, prerunDelay=%llu\n", outputStartTime, prerunDelay);
-        prerunDelay *= 2;
+        if (1 || VL_DEBUG) NSLog(@"outputStartTime=%llu, prerunDelay=%llu\n", outputStartTime, prerunDelay);
+        prerunDelay = prerunDelay + (prerunDelay / 4);
         prerunMoreNeeded = PRERUN_COUNT;
         self.statusView.detectCount = [NSString stringWithFormat: @"%d more", prerunMoreNeeded];
 		self.statusView.detectAverage = @"";
@@ -256,15 +264,14 @@
 
 - (void) _prerunRecordReception: (NSString *)code
 {
-#if 1
-    if (VL_DEBUG) NSLog(@"prerun reception %@\n", code);
+    if (1 || VL_DEBUG) NSLog(@"prerun reception %@\n", code);
     assert(self.preRunning);
     if (self.preRunning) {
         prerunMoreNeeded -= 1;
         self.statusView.detectCount = [NSString stringWithFormat: @"%d more", prerunMoreNeeded];
 		self.statusView.detectAverage = @"";
         [self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
-        if (VL_DEBUG) NSLog(@"preRunMoreMeeded=%d\n", prerunMoreNeeded);
+        if (1 || VL_DEBUG) NSLog(@"preRunMoreMeeded=%d\n", prerunMoreNeeded);
         if (prerunMoreNeeded == 0) {
             self.statusView.detectCount = @"";
 			self.statusView.detectAverage = @"";
@@ -272,6 +279,5 @@
             [self performSelectorOnMainThread: @selector(stopPreMeasuring:) withObject: self waitUntilDone: NO];
         }
     }
-#endif
 }
 @end
