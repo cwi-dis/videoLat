@@ -23,7 +23,9 @@
         NSString *title = [comps objectAtIndex: [comps count] - 2];
         [self.bSample addItemWithTitle:title];
     }
+	[self sampleChanged: self.bSample];
 }
+
 - (IBAction)sampleChanged: (id) sender
 {
     NSString *sample = [sender titleOfSelectedItem];
