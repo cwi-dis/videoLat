@@ -24,6 +24,7 @@
 @property(weak) IBOutlet NSView *selectionContainerView;
 @property(weak) IBOutlet NSView *outputContainerView;
 
+- (void)terminate;
 - (IBAction)typeChanged: (id)sender;
 - (IBAction)stopMeasuring: (id)sender;
 

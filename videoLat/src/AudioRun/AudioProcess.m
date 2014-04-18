@@ -10,6 +10,11 @@
 
 @implementation AudioProcess
 
+
+- (void)dealloc
+{
+}
+
 - (AudioProcess *) init
 {
 	self = [super init];

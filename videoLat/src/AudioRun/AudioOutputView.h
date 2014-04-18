@@ -24,6 +24,7 @@
 @property(weak) IBOutlet NSSlider *bVolume;
 @property(weak) IBOutlet NSLevelIndicator *bOutputValue;
 
+- (void)stop;
 - (IBAction)sampleChanged: (id) sender;
 - (void) showNewData;
 

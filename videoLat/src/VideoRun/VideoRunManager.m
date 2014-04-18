@@ -63,6 +63,7 @@
 	if (self.capturer) [self.capturer stop];
 	self.capturer = nil;
 	self.clock = nil;
+	[self terminate];
 }
 
 - (void)restart
