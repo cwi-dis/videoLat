@@ -12,7 +12,7 @@
 #import <Cocoa/Cocoa.h>
 
 // This constant needs to go somewhere...
-#define VIDEOLAT_FILE_VERSION @"0.4"
+#define VIDEOLAT_FILE_VERSION @"0.5"
 
 // Global debug stuff
 #define VL_DEBUG 0

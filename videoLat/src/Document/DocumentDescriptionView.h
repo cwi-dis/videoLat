@@ -18,6 +18,7 @@
 @property(weak) IBOutlet NSTextField *bLocation;
 @property(weak) IBOutlet NSTextField *bDescription;
 @property(weak) IBOutlet NSTextField *bDetectCount;
+@property(weak) IBOutlet NSTextField *bMissCount;
 @property(weak) IBOutlet NSTextField *bDetectAverage;
 @property(weak) IBOutlet NSTextField *bDetectMinDelay;
 @property(weak) IBOutlet NSTextField *bDetectMaxDelay;
@@ -30,6 +31,7 @@
 @property(strong) NSString *location;
 @property(strong) NSString *description;
 @property(strong) NSString *detectCount;
+@property(strong) NSString *missCount;
 @property(strong) NSString *detectAverage;
 @property(strong) NSString *detectMinDelay;
 @property(strong) NSString *detectMaxDelay;

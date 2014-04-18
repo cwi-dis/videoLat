@@ -57,6 +57,10 @@
 - (void) showNewData
 {
     if (player) {
+		if (player.playing) {
+			NSLog(@"AudioOutputView.showNewData: already playing");
+			return;
+		}
         // player.volume = self.bVolume.floatValue;
         [player prepareToPlay];
         [self.manager newOutputStart]; // XXXJACK should have a newOutputStartAt: timestamp and use playAtTime
