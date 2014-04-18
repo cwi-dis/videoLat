@@ -13,10 +13,12 @@
 #import "AudioProcess.h"
 
 @interface AudioRunManager : BaseRunManager {
-    uint64_t outputStartTime;           // When the last output was displayed
-    uint64_t prerunOutputStartTime;     // Same, but not reset when reported (for prerun duration checking)
+    uint64_t outputStartTime;       // When the last output was started
+	BOOL outputActive;				// True while we are outputting (and can't start again
+	BOOL foundCurrentSample;		// True if we have found a match
+	BOOL triggerOutputWhenDone;		// True if we can start a new output when the current one is done
+
     uint64_t prerunDelay;           // How log to wait for prerun code finding
-	BOOL foundSampleReported;		// True if we have reported a match
     int prerunMoreNeeded;           // How many more prerun correct catches we need
     
 }
