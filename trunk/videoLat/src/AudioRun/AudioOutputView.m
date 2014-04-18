@@ -26,6 +26,18 @@
 	[self sampleChanged: self.bSample];
 }
 
+- (void)dealloc
+{
+	if (player) [player stop];
+	player = nil;
+}
+
+- (void)stop
+{
+	if (player) [player stop];
+	player = nil;
+}
+
 - (IBAction)sampleChanged: (id) sender
 {
     NSString *sample = [sender titleOfSelectedItem];

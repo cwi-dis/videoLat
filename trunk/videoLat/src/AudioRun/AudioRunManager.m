@@ -18,6 +18,15 @@
     [BaseRunManager registerNib: @"AudioRunManager" forMeasurementType: @"Audio Calibrate"];
 }
 
+
+- (void)dealloc
+{
+    // Deallocate the capturer first
+    self.capturer = nil;
+	self.clock = nil;
+}
+
+
 - (AudioRunManager*)init
 {
     self = [super init];
@@ -90,6 +99,10 @@
 
 - (void)stop
 {
+	if (self.capturer) [self.capturer stop];
+	if (self.outputView) [self.outputView stop];
+	self.capturer = nil;
+	self.outputView = nil;
 }
 
 - (IBAction)startPreMeasuring: (id)sender

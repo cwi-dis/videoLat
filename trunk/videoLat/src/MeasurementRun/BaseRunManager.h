@@ -28,6 +28,7 @@
 @property(readonly) MeasurementType *measurementType;
 @property(strong) NSString *outputCode;           // Current code on the display
 
+- (void)terminate;
 - (void)stop;
 - (void)selectMeasurementType: (NSString *)typeName;
 - (void)restart;

@@ -67,6 +67,19 @@ static NSMutableDictionary *runManagerNibs;
     return self;
 }
 
+- (void)terminate
+{
+	BaseRunManager *ic = self.inputCompanion, *oc = self.outputCompanion;
+	self.inputCompanion = nil;
+	self.outputCompanion = nil;
+	if (ic) [ic terminate];
+	if (oc) [oc terminate];
+	self.collector = nil;
+	self.statusView = nil;
+	self.measurementMaster = nil;
+	
+}
+
 - (void) dealloc
 {
 }

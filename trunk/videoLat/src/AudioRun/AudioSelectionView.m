@@ -26,6 +26,11 @@
 }
 
 
+- (void)dealloc
+{
+}
+
+
 - (void)_updateDeviceNames: (NSNotification*) notification
 {
     if (VL_DEBUG) NSLog(@"Audio devices changed\n");
