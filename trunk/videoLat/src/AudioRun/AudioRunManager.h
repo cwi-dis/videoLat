@@ -18,7 +18,7 @@
 	BOOL foundCurrentSample;		// True if we have found a match
 	BOOL triggerOutputWhenDone;		// True if we can start a new output when the current one is done
 
-    uint64_t prerunDelay;           // How log to wait for prerun code finding
+    uint64_t maxDelay;				// How long to wait for code finding
     int prerunMoreNeeded;           // How many more prerun correct catches we need
     
 }

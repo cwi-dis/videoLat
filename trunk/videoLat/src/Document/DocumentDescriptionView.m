@@ -17,6 +17,7 @@
 @synthesize bLocation;
 @synthesize bDescription;
 @synthesize bDetectCount;
+@synthesize bMissCount;
 @synthesize bDetectAverage;
 @synthesize bDetectMinDelay;
 @synthesize bDetectMaxDelay;
@@ -29,6 +30,7 @@
 @synthesize location;
 @synthesize description;
 @synthesize detectCount;
+@synthesize missCount;
 @synthesize detectAverage;
 @synthesize detectMinDelay;
 @synthesize detectMaxDelay;
@@ -47,6 +49,7 @@
 	if (bLocation) bLocation.stringValue = location?location:@"";
 	if (bDescription) bDescription.stringValue = description?description:@"";
 	if (bDetectCount) bDetectCount.stringValue = detectCount?detectCount:@"";
+	if (bMissCount) bMissCount.stringValue = detectCount?missCount:@"";
 	if (bDetectAverage) bDetectAverage.stringValue = detectAverage?detectAverage:@"";
 	if (bDetectMinDelay) bDetectMinDelay.stringValue = detectMinDelay?detectMinDelay:@"";
 	if (bDetectMaxDelay) bDetectMaxDelay.stringValue = detectMaxDelay?detectMaxDelay:@"";

@@ -100,6 +100,7 @@
                 if ([self.runManager class] != runClass) {
                     errorMsg = [NSString stringWithFormat: @"RunTypeView: runManager class is %@, expected %@. Programmer error?\n", [self.runManager class], runClass];
                     NSLog(@"%@", errorMsg);
+					[[NSUserDefaults standardUserDefaults] removeObjectForKey:@"measurementType"];
 					abort();
                 }
             } else {
@@ -109,6 +110,7 @@
                         if (self.runManager) {
                             errorMsg = [NSString stringWithFormat: @"RunTypeView: multiple objects of type %@ in NIB file %@. Programmer error?\n", runClass, runClassNib];
                             NSLog(@"%@", errorMsg);
+							[[NSUserDefaults standardUserDefaults] removeObjectForKey:@"measurementType"];
 							abort();
                         }
                         self.runManager = (BaseRunManager *)obj;
@@ -117,6 +119,7 @@
                 if (self.runManager == nil) {
                     errorMsg = [NSString stringWithFormat: @"RunTypeView: no objects of type %@ in NIB file %@. Programmer error?\n", runClass, runClassNib];
                     NSLog(@"%@", errorMsg);
+					[[NSUserDefaults standardUserDefaults] removeObjectForKey:@"measurementType"];
 					abort();
                 }
             }
@@ -130,7 +133,8 @@
     if (!ok || self.runManager == nil) {
         NSAlert *alert = [NSAlert alertWithMessageText:@"Error selecting measurement type" defaultButton:@"OK" alternateButton:nil otherButton:nil informativeTextWithFormat:@"Implementation is missing for %@\n%@", typeName, errorMsg];
         [alert runModal];
-        return;
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"measurementType"];
+		return;
     }
 	[self.runManager selectMeasurementType: typeName];
 }

@@ -15,6 +15,7 @@
     double min;
     double max;
     int count;
+	int missCount;
 
 	NSMutableArray *store;
 };
@@ -31,11 +32,13 @@
 @property(readonly) double average;
 @property(readonly) double stddev;
 @property(readonly) int count;
+@property(readonly) int missCount;
 @property(strong) NSString* baseMeasurementID;
 @property(readonly) double baseMeasurementAverage;
 @property(readonly) double baseMeasurementStddev;
 
 - (void) addDataPoint: (NSString*) data sent: (uint64_t)sent received: (uint64_t) received;
+- (void) addMissingDataPoint: (NSString*) data sent: (uint64_t)sent;
 - (void) trim;
 - (NSString*) asCSVString;
 - (NSNumber *)valueForIndex: (int) i;

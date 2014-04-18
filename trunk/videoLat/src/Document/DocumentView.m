@@ -49,6 +49,7 @@
 		self.status.description = self.document.description;
 		if (self.document.dataStore) {
 			self.status.detectCount = [NSString stringWithFormat: @"%d", self.document.dataStore.count];
+			self.status.missCount = [NSString stringWithFormat: @"%d", self.document.dataStore.missCount];
 			self.status.detectAverage = [NSString stringWithFormat: @"%.3f ms ± %.3f", self.document.dataStore.average / 1000.0, document.dataStore.stddev / 1000.0];
 			self.status.detectMaxDelay = [NSString stringWithFormat:@"%.3f", self.document.dataStore.max / 1000.0];
 			self.status.detectMinDelay = [NSString stringWithFormat:@"%.3f", self.document.dataStore.min / 1000.0];

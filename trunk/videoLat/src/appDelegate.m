@@ -102,7 +102,7 @@
     if (![str isEqualToString:VIDEOLAT_FILE_VERSION]) {
         if (outError) {
             *outError = [[NSError alloc] initWithDomain:NSCocoaErrorDomain code:NSFileReadCorruptFileError
-                                               userInfo:@{NSLocalizedDescriptionKey : @"Unsupported videoLat version file"}];
+                                               userInfo:@{NSLocalizedDescriptionKey : @"Unsupported version in videoLat file"}];
         }
         return NO;
     }

@@ -110,7 +110,9 @@
         }
         return YES;
     }
-    NSLog(@"Collector: received %@, expected %@", data, lastTransmission);
+    NSLog(@"Collector: received %@, expected %@, clearing transmission", data, lastTransmission);
+	lastTransmission = nil;
+	[dataStore addMissingDataPoint: data sent: lastTransmissionTime];
     return NO;
 }
 

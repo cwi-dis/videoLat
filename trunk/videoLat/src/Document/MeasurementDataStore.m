@@ -19,6 +19,7 @@
 @synthesize min;
 @synthesize max;
 @synthesize count;
+@synthesize missCount;
 @synthesize baseMeasurementID;
 @synthesize baseMeasurementAverage;
 @synthesize baseMeasurementStddev;
@@ -63,6 +64,7 @@
     sum = 0;
     sumSquares = 0;
     count = 0;
+	missCount = 0;
     
 	store = [[NSMutableArray alloc] init];
     return self;
@@ -83,6 +85,7 @@
     min = [coder decodeDoubleForKey:@"min"];
     max = [coder decodeDoubleForKey:@"max"];
     count = [coder decodeIntForKey:@"count"];
+    missCount = [coder decodeIntForKey:@"missCount"];
 
 	baseMeasurementAverage = [coder decodeDoubleForKey:@"baseMeasurementAverage"];
 	baseMeasurementStddev = [coder decodeDoubleForKey:@"baseMeasurementStddev"];
@@ -114,6 +117,7 @@
     [coder encodeDouble: min forKey: @"min"];
     [coder encodeDouble: max forKey: @"max"];
     [coder encodeInt: count forKey: @"count"];
+    [coder encodeInt: missCount forKey: @"missCount"];
 
     [coder encodeObject:store forKey: @"store"];
 }
@@ -148,6 +152,11 @@
 		nil];
 	[store addObject: item];
 	
+}
+
+- (void) addMissingDataPoint: (NSString*) data sent: (uint64_t)sent
+{
+    missCount++;	
 }
 
 - (void) trim

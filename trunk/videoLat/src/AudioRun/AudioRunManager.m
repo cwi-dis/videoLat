@@ -31,6 +31,12 @@
 {
     self = [super init];
 	if (self) {
+		outputStartTime = 0;
+		outputActive = NO;
+		foundCurrentSample = NO;
+		triggerOutputWhenDone = NO;
+		maxDelay = PRERUN_INITIAL_DELAY;
+		prerunMoreNeeded = PRERUN_COUNT;
 	}
     return self;
 }
@@ -158,11 +164,15 @@
 			[self.statusView.bStop setEnabled: NO];
 		}
 		// Do actual prerunning
-		prerunDelay = PRERUN_INITIAL_DELAY;
+		maxDelay = PRERUN_INITIAL_DELAY;
 		prerunMoreNeeded = PRERUN_COUNT;
 		self.preRunning = YES;
 		[self.capturer startCapturing: YES];
+#if 0
+		// We don't trigger here, because we will very shortly get a newInputDone
+		// that will trigger the output value.
 		[self.outputCompanion triggerNewOutputValue];
+#endif
 	}
 }
 
@@ -171,6 +181,9 @@
 	@synchronized(self) {
 		self.preRunning = NO;
 		[self.capturer stopCapturing];
+		// We have now found PRERUN_COUNT matches in maxDelay time.
+		// Assume that 4*maxDelay is a decent upper bound for detection.
+		maxDelay = maxDelay*4;
 		[self.selectionView.bPreRun setEnabled: NO];
 		[self.selectionView.bRun setEnabled: YES];
 		if (!self.statusView) {
@@ -258,9 +271,16 @@
             }
             [self.outputCompanion triggerNewOutputValue];
         } else {
-            if (self.preRunning) {
-                [self _prerunRecordNoReception];
-            }
+			// Nothing found. See whether we are still expecting something
+			if ([self.clock now] - outputStartTime > maxDelay) {
+				// No we are not. Admit failure, and do another sample.
+				if (self.preRunning) {
+					[self _prerunRecordNoReception];
+				} else {
+					BOOL ok = [self.collector recordReception: @"noaudio" at: [self.clock now]];
+				}
+				[self.outputCompanion triggerNewOutputValue];
+			}
         }
 
 		// Update status display, if we are running
@@ -276,16 +296,13 @@
 {
     if (VL_DEBUG) NSLog(@"Prerun no reception\n");
     assert(self.preRunning);
-    if (outputActive && [self.clock now] - outputStartTime > prerunDelay) {
-        // No data found within alotted time. Double the time, reset the count, change mirroring
-        if (1 || VL_DEBUG) NSLog(@"outputStartTime=%llu, prerunDelay=%llu\n", outputStartTime, prerunDelay);
-        prerunDelay = prerunDelay + (prerunDelay / 4);
-        prerunMoreNeeded = PRERUN_COUNT;
-        self.statusView.detectCount = [NSString stringWithFormat: @"%d more", prerunMoreNeeded];
-		self.statusView.detectAverage = @"";
-        [self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
-        [self.outputCompanion triggerNewOutputValue];
-    }
+	// No data found within alotted time. Double the time, reset the count, change mirroring
+	if (1 || VL_DEBUG) NSLog(@"outputStartTime=%llu, maxDelay=%llu\n", outputStartTime, maxDelay);
+	maxDelay = maxDelay + (maxDelay / 4);
+	prerunMoreNeeded = PRERUN_COUNT;
+	self.statusView.detectCount = [NSString stringWithFormat: @"%d more", prerunMoreNeeded];
+	self.statusView.detectAverage = @"";
+	[self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
 }
 
 - (void) _prerunRecordReception: (NSString *)code
