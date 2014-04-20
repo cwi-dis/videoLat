@@ -46,7 +46,7 @@ Change Log
 Build Instructions
 ==================
 
-To build videoLat from source you need a Mac (10.6 has been tested).
+To build videoLat from source you need a Mac (10.7 or later).
 You need two third party packages:
 
 - zbar (version 0.10 tested) for barcode generation
