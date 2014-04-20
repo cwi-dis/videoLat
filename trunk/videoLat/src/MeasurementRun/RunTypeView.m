@@ -26,9 +26,14 @@
 
 - (void) dealloc
 {
-	if (self.runManager) [(BaseRunManager *)self.runManager stop];
+    if (self.runManager) [(BaseRunManager *)self.runManager stop];
 }
 
+- (void) terminate
+{
+    if (self.runManager) [(BaseRunManager *)self.runManager stop];
+}
+    
 - (void)awakeFromNib
 {
     for (NSString *itemTitle in [bType itemTitles]) {

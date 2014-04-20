@@ -28,11 +28,11 @@
 {
 }
 
-- (BOOL)feedData: (void *)buffer size: (size_t)size at: (uint64_t)now
+- (BOOL)feedData: (void *)buffer size: (size_t)size channels: (int)channels at: (uint64_t)now
 {
 	short *fBuffer = (short *)buffer;
 	float energy = 0;
-	int n = size / sizeof(short);
+	size_t n = size / sizeof(short);
 	for (int i=0; i < n; i++) {
 		energy += fBuffer[i]*fBuffer[i];
 	}

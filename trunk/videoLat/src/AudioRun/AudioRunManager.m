@@ -7,6 +7,7 @@
 //
 
 #import "AudioRunManager.h"
+#import <sys/sysctl.h>
 
 #define PRERUN_COUNT 10
 #define PRERUN_INITIAL_DELAY 1000000
@@ -245,11 +246,11 @@
 		[self triggerNewOutputValue];
 }
 
-- (void) newInputDone: (void*)buffer size: (int)size at: (uint64_t)timestamp
+- (void) newInputDone: (void*)buffer size: (int)size channels: (int)channels at: (uint64_t)timestamp
 {
     @synchronized(self) {
 		// See whether we detect the pattern we are looking for, and report to user.
-		BOOL foundSample = [self.processor feedData:buffer size:size at:timestamp];
+		BOOL foundSample = [self.processor feedData:buffer size:size channels:channels at:timestamp];
 		[self.bDetection setState: (foundSample? NSOnState : NSOffState)];
 
 		// If we're not running or prerunning we're done.
@@ -265,7 +266,7 @@
 			NSLog(@"newInputDone (%lld) at %lld", timestamp, [self.clock now]);
 			foundCurrentSample = YES;
             if (self.running) {
-                BOOL ok = [self.collector recordReception: @"audio" at: [self.processor lastMatchTimestamp]];
+                [self.collector recordReception: @"audio" at: [self.processor lastMatchTimestamp]];
             } else if (self.preRunning) {
                 [self _prerunRecordReception: self.outputCompanion.outputCode];
             }
@@ -277,7 +278,7 @@
 				if (self.preRunning) {
 					[self _prerunRecordNoReception];
 				} else {
-					BOOL ok = [self.collector recordReception: @"noaudio" at: [self.clock now]];
+					[self.collector recordReception: @"noaudio" at: [self.clock now]];
 				}
 				[self.outputCompanion triggerNewOutputValue];
 			}

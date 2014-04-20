@@ -52,6 +52,7 @@ static NSMutableDictionary *byTag;
     [self addType: @"Video Transmission" tag: 7 isCalibration: NO requires: cal_OUT];
 
     MeasurementType *cal_AR = [self addType: @"Audio Calibrate" tag: 8 isCalibration: YES requires: nil];
+    [self addType: @"Audio Roundtrip" tag: 9 isCalibration: NO requires: cal_AR];
 
 }
 

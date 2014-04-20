@@ -7,6 +7,7 @@
 //
 
 #import "AudioInput.h"
+#import <mach/clock.h>
 
 @implementation AudioInput
 
@@ -190,7 +191,7 @@
 //		[NSNumber numberWithUnsignedInteger:1], AVNumberOfChannelsKey,
 		[NSNumber numberWithInt:16], AVLinearPCMBitDepthKey,
 		[NSNumber numberWithBool:NO], AVLinearPCMIsFloatKey,
-//		[NSNumber numberWithBool:YES], AVLinearPCMIsNonInterleaved,
+		[NSNumber numberWithBool:NO], AVLinearPCMIsNonInterleaved,
 //		[NSNumber numberWithBool:NO], AVLinearPCMIsBigEndianKey,
 		nil];
 	outputCapturer.audioSettings = settings;
@@ -277,17 +278,20 @@
     CMFormatDescriptionRef formatDescription = CMSampleBufferGetFormatDescription(sampleBuffer);
     OSType format = CMFormatDescriptionGetMediaSubType(formatDescription);
 	assert(format == kAudioFormatLinearPCM);
-
-	AudioBufferList bufferList;
+    
 	CMBlockBufferRef bufferOut = nil;
-	OSStatus err = CMSampleBufferGetAudioBufferListWithRetainedBlockBuffer(sampleBuffer, NULL, &bufferList, sizeof(bufferList), NULL, NULL, kCMSampleBufferFlag_AudioBufferList_Assure16ByteAlignment, &bufferOut);
-	if (err == 0 || bufferList.mNumberBuffers == 1) {
+    size_t bufferListSizeNeeded;
+	OSStatus err = CMSampleBufferGetAudioBufferListWithRetainedBlockBuffer(sampleBuffer, &bufferListSizeNeeded, NULL, 0, NULL, NULL, kCMSampleBufferFlag_AudioBufferList_Assure16ByteAlignment, &bufferOut);
+	AudioBufferList *bufferList = malloc(bufferListSizeNeeded);
+	err = CMSampleBufferGetAudioBufferListWithRetainedBlockBuffer(sampleBuffer, NULL, bufferList, bufferListSizeNeeded, NULL, NULL, kCMSampleBufferFlag_AudioBufferList_Assure16ByteAlignment, &bufferOut);
+	if (err == 0 || bufferList[0].mNumberBuffers == 1) {
 		// Pass to the manager
-		[self.manager newInputDone: bufferList.mBuffers[0].mData size: bufferList.mBuffers[0].mDataByteSize at: [self now]];
+		[self.manager newInputDone: bufferList[0].mBuffers[0].mData size: bufferList[0].mBuffers[0].mDataByteSize channels: bufferList[0].mBuffers[0].mNumberChannels at: [self now]];
 	} else {
-		NSLog(@"AudioInput: CMSampleBufferGetAudioBufferListWithRetainedBlockBuffer returned err=%d, mNumberBuffers=%d", err, bufferList.mNumberBuffers);
+		NSLog(@"AudioInput: CMSampleBufferGetAudioBufferListWithRetainedBlockBuffer returned err=%d, mNumberBuffers=%d", err, bufferList[0].mNumberBuffers);
 	}
 	if (bufferOut) CFRelease(bufferOut);
+    if (bufferList) free(bufferList);
 }
 
 @end
