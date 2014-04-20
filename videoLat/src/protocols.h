@@ -92,6 +92,7 @@
     size: (int)size;
 - (void)newInputDone: (void*)buffer
     size: (int)size
+    channels: (int)channels
     at: (uint64_t)timestamp;
 @end
 #endif

@@ -19,6 +19,5 @@
 - (void)_updateDeviceNames: (NSNotification*) notification;
 - (IBAction)inputChanged: (id) sender;
 - (void)_reselectInput: (NSString *)name;
-- (void)_reselectOutput: (NSString *)name;
 
 @end
