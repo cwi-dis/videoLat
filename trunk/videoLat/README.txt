@@ -47,7 +47,7 @@ Build Instructions, fast track
 ==============================
 
 To build videoLat from source you need:
-- a Mac (10.7 has been tested),
+- a Mac (10.7 has been tested, must be 64-bit capable),
 - XCode and the OSX build tools installed,
 - the Apple X11 compatibility package (if running 10.7 or earlier), or
   if you are on a later OSX you need to build and install libpng 1.5 from
@@ -66,7 +66,8 @@ read the next section.
 Build Instructions, detailed
 ============================
 
-To build videoLat from source you need a Mac (10.7 or later).
+To build videoLat from source you need a Mac (10.7 or later, capable of running
+64-bit applications).
 You need two third party packages:
 
 - zbar (version 0.10 tested) for barcode generation
