@@ -43,8 +43,28 @@ Change Log
 0.52: Fixed race condition that could cause negative latencies
 0.51: Added missing Help book
 
-Build Instructions
-==================
+Build Instructions, fast track
+==============================
+
+To build videoLat from source you need:
+- a Mac (10.7 has been tested),
+- XCode and the OSX build tools installed,
+- the Apple X11 compatibility package (if running 10.7 or earlier), or
+  if you are on a later OSX you need to build and install libpng 1.5 from
+  http://sourceforge.net/projects/libpng/files/libpng15, 
+- and the videoLat sources, obviously.
+
+Unpack the sources, go to the source directory, type
+
+% sh scripts/build.sh
+
+This should create the application in "build/Release/videoLat.app".
+
+In case it fails, or if you want to do modifications, or create distributions
+read the next section.
+
+Build Instructions, detailed
+============================
 
 To build videoLat from source you need a Mac (10.7 or later).
 You need two third party packages:
