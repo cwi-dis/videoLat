@@ -61,7 +61,6 @@
 		0497264118FD5BDA00625326 /* docicon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 0497263F18FD5BDA00625326 /* docicon.icns */; };
 		0497264218FD5BDA00625326 /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 0497264018FD5BDA00625326 /* icon.icns */; };
 		0497264418FD5E5F00625326 /* sounds in Resources */ = {isa = PBXBuildFile; fileRef = 0497264318FD5E5F00625326 /* sounds */; };
-		04B173FB1869AFD700A3DA9A /* liblabjackusb.dylib in Resources */ = {isa = PBXBuildFile; fileRef = 04B173F91869AFC400A3DA9A /* liblabjackusb.dylib */; };
 		04B58F2A183A3D3000360A61 /* appDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B58F1E183A3D3000360A61 /* appDelegate.m */; };
 		04B58F39183A3D5300360A61 /* libzbar.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 04B58F37183A3D5300360A61 /* libzbar.0.dylib */; };
 		04B58F3A183A3D5300360A61 /* libzint.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 04B58F38183A3D5300360A61 /* libzint.dylib */; };
@@ -157,7 +156,6 @@
 		0497263F18FD5BDA00625326 /* docicon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = docicon.icns; path = icons/docicon.icns; sourceTree = SOURCE_ROOT; };
 		0497264018FD5BDA00625326 /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = icon.icns; path = icons/icon.icns; sourceTree = SOURCE_ROOT; };
 		0497264318FD5E5F00625326 /* sounds */ = {isa = PBXFileReference; lastKnownFileType = folder; path = sounds; sourceTree = SOURCE_ROOT; };
-		04B173F91869AFC400A3DA9A /* liblabjackusb.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = liblabjackusb.dylib; path = ../../../../../usr/local/lib/liblabjackusb.dylib; sourceTree = "<group>"; };
 		04B58F0D183A3CF000360A61 /* appDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = appDelegate.h; sourceTree = "<group>"; };
 		04B58F18183A3CF000360A61 /* protocols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = protocols.h; sourceTree = "<group>"; };
 		04B58F1E183A3D3000360A61 /* appDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = appDelegate.m; sourceTree = "<group>"; };
@@ -379,7 +377,6 @@
 		04B173F31869AB6E00A3DA9A /* LabJack */ = {
 			isa = PBXGroup;
 			children = (
-				04B173F91869AFC400A3DA9A /* liblabjackusb.dylib */,
 				049725EA18FD572300625326 /* LabJackDevice.py */,
 				049725EC18FD573800625326 /* LabJackPython.py */,
 				049725ED18FD573800625326 /* Modbus.py */,
@@ -481,7 +478,6 @@
 				0497261B18FD585600625326 /* HardwareToCameraRunManager.xib in Resources */,
 				049725F318FD573800625326 /* LabJackPython.py in Resources */,
 				049725F418FD573800625326 /* Modbus.py in Resources */,
-				04B173FB1869AFD700A3DA9A /* liblabjackusb.dylib in Resources */,
 				049725F818FD573800625326 /* u12.py in Resources */,
 				0497261918FD582600625326 /* VideoCalibrationRunManager.xib in Resources */,
 				049725F518FD573800625326 /* skymote.py in Resources */,
