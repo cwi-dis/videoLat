@@ -9,10 +9,12 @@
 #import <Cocoa/Cocoa.h>
 #import <AVFoundation/AVFoundation.h>
 #import "protocols.h"
+#import "AudioProcess.h"
 
 @interface AudioOutputView : NSView <OutputViewProtocol, AVAudioPlayerDelegate> {
     NSArray *samples;
     AVAudioPlayer *player;
+    NSArray *signature;
 }
 
 @property BOOL mirrored; // Ignored
@@ -20,6 +22,7 @@
 @property(readonly) NSString *deviceName;
 //@property(weak) IBOutlet NSObject <HardwareLightProtocol> *device;
 @property(weak) IBOutlet id <RunOutputManagerProtocol> manager;
+@property(weak) IBOutlet AudioProcess *processor;
 @property(weak) IBOutlet NSPopUpButton *bSample;
 @property(weak) IBOutlet NSSlider *bVolume;
 @property(weak) IBOutlet NSLevelIndicator *bOutputValue;
