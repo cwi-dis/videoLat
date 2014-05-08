@@ -40,18 +40,24 @@
 
 - (IBAction)sampleChanged: (id) sender
 {
+    // Get the URL of the sample selected
     NSString *sample = [sender titleOfSelectedItem];
     NSURL * url = [[NSURL alloc] initFileURLWithPath:
                    [[NSBundle mainBundle] pathForResource:sample ofType:@"aif" inDirectory: @"sounds"]];
     NSLog(@"sample URL %@\n", url);
+    
+    // Create the player for it
     NSError *error;
     player = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:&error];
-    if (player) {
-        player.delegate = self;
-        player.meteringEnabled = YES;
-    } else {
+    if (player == nil) {
         NSLog(@"AVAudioPlayer error: %@", error);
+        return;
     }
+    player.delegate = self;
+    player.meteringEnabled = YES;
+
+    // Initialize the processor with it
+    signature = [self.processor processOriginal:url];
 }
 
 - (void) showNewData

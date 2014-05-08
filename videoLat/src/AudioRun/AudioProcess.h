@@ -14,8 +14,10 @@
 	uint64_t matchTimestamp;
 }
 
-- (void)setOriginal: (NSString *) fileName;
+- (NSArray *)processOriginal: (NSURL *) fileURL;
 - (BOOL)feedData: (void *)buffer size: (size_t)size channels: (int)channels at: (uint64_t)now;
 - (uint64_t) lastMatchTimestamp;
+
+- (void)_reset;
 @end
 
