@@ -61,6 +61,8 @@
 		0497264118FD5BDA00625326 /* docicon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 0497263F18FD5BDA00625326 /* docicon.icns */; };
 		0497264218FD5BDA00625326 /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 0497264018FD5BDA00625326 /* icon.icns */; };
 		0497264418FD5E5F00625326 /* sounds in Resources */ = {isa = PBXBuildFile; fileRef = 0497264318FD5E5F00625326 /* sounds */; };
+		04A9C14819216EB70016E6C0 /* AudioCalibrationRunManager.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04A9C14719216EB70016E6C0 /* AudioCalibrationRunManager.xib */; };
+		04A9C14B19216F320016E6C0 /* AudioCalibrationRunManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A9C14A19216F320016E6C0 /* AudioCalibrationRunManager.m */; };
 		04B58F2A183A3D3000360A61 /* appDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B58F1E183A3D3000360A61 /* appDelegate.m */; };
 		04B58F39183A3D5300360A61 /* libzbar.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 04B58F37183A3D5300360A61 /* libzbar.0.dylib */; };
 		04B58F3A183A3D5300360A61 /* libzint.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 04B58F38183A3D5300360A61 /* libzint.dylib */; };
@@ -156,6 +158,9 @@
 		0497263F18FD5BDA00625326 /* docicon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = docicon.icns; path = icons/docicon.icns; sourceTree = SOURCE_ROOT; };
 		0497264018FD5BDA00625326 /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = icon.icns; path = icons/icon.icns; sourceTree = SOURCE_ROOT; };
 		0497264318FD5E5F00625326 /* sounds */ = {isa = PBXFileReference; lastKnownFileType = folder; path = sounds; sourceTree = SOURCE_ROOT; };
+		04A9C14719216EB70016E6C0 /* AudioCalibrationRunManager.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AudioCalibrationRunManager.xib; path = AudioCalibrationRun/AudioCalibrationRunManager.xib; sourceTree = "<group>"; };
+		04A9C14919216F320016E6C0 /* AudioCalibrationRunManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioCalibrationRunManager.h; path = AudioCalibrationRun/AudioCalibrationRunManager.h; sourceTree = "<group>"; };
+		04A9C14A19216F320016E6C0 /* AudioCalibrationRunManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AudioCalibrationRunManager.m; path = AudioCalibrationRun/AudioCalibrationRunManager.m; sourceTree = "<group>"; };
 		04B58F0D183A3CF000360A61 /* appDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = appDelegate.h; sourceTree = "<group>"; };
 		04B58F18183A3CF000360A61 /* protocols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = protocols.h; sourceTree = "<group>"; };
 		04B58F1E183A3D3000360A61 /* appDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = appDelegate.m; sourceTree = "<group>"; };
@@ -226,6 +231,7 @@
 				049725FA18FD57D200625326 /* VideoMonoRun */,
 				0412725618731D4B00CB014F /* MixedRun */,
 				049903E718F94BD600085C91 /* AudioRun */,
+				04A9C14619216E300016E6C0 /* AudioCalibrationRun */,
 			);
 			name = MeasurementRun;
 			sourceTree = "<group>";
@@ -374,6 +380,16 @@
 			name = AudioRun;
 			sourceTree = "<group>";
 		};
+		04A9C14619216E300016E6C0 /* AudioCalibrationRun */ = {
+			isa = PBXGroup;
+			children = (
+				04A9C14719216EB70016E6C0 /* AudioCalibrationRunManager.xib */,
+				04A9C14919216F320016E6C0 /* AudioCalibrationRunManager.h */,
+				04A9C14A19216F320016E6C0 /* AudioCalibrationRunManager.m */,
+			);
+			name = AudioCalibrationRun;
+			sourceTree = "<group>";
+		};
 		04B173F31869AB6E00A3DA9A /* LabJack */ = {
 			isa = PBXGroup;
 			children = (
@@ -480,6 +496,7 @@
 				049725F418FD573800625326 /* Modbus.py in Resources */,
 				049725F818FD573800625326 /* u12.py in Resources */,
 				0497261918FD582600625326 /* VideoCalibrationRunManager.xib in Resources */,
+				04A9C14819216EB70016E6C0 /* AudioCalibrationRunManager.xib in Resources */,
 				049725F518FD573800625326 /* skymote.py in Resources */,
 				04FFDF94185A6FAE00B1CCCC /* videoLat.help in Resources */,
 				049725F618FD573800625326 /* u3.py in Resources */,
@@ -542,6 +559,7 @@
 				049725E118FD563E00625326 /* RunTypeView.m in Sources */,
 				0497262618FD589300625326 /* AudioOutputView.m in Sources */,
 				04E4586B18FEB39C005712F6 /* AudioProcess.m in Sources */,
+				04A9C14B19216F320016E6C0 /* AudioCalibrationRunManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

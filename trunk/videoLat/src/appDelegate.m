@@ -12,6 +12,7 @@
 #import "VideoMonoRunManager.h"
 #import "HardwareRunManager.h"
 #import "AudioRunManager.h"
+#import "AudioCalibrationRunManager.h"
 
 @implementation appDelegate
 @synthesize measurementTypes;
@@ -37,6 +38,7 @@
 	[VideoMonoRunManager class];
     [HardwareRunManager class];
     [AudioRunManager class];
+    [AudioCalibrationRunManager class];
 #endif
 	// Initialize location manager stuff
 	self.location = @"Unknown location";
@@ -88,6 +90,7 @@
 
 - (BOOL)_loadCalibration: (NSURL *)url error: (NSError **)outError
 {
+    NSLog(@"loading calibration from %@\n", url);
 	NSData *data = [NSData dataWithContentsOfURL: url];
     NSMutableDictionary *dict = [NSKeyedUnarchiver unarchiveObjectWithData: data];
     NSString *str;

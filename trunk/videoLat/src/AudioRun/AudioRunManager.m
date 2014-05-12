@@ -15,8 +15,8 @@
 @implementation AudioRunManager
 + (void) initialize
 {
-    [BaseRunManager registerClass: [self class] forMeasurementType: @"Audio Calibrate"];
-    [BaseRunManager registerNib: @"AudioRunManager" forMeasurementType: @"Audio Calibrate"];
+    [BaseRunManager registerClass: [self class] forMeasurementType: @"Audio Roundtrip"];
+    [BaseRunManager registerNib: @"AudioRunManager" forMeasurementType: @"Audio Roundtrip"];
 }
 
 
