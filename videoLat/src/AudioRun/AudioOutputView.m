@@ -13,7 +13,6 @@
 - (void)awakeFromNib
 {
     NSBundle *bundle = [NSBundle mainBundle];
-    
     samples = [bundle pathsForResourcesOfType:@"aif" inDirectory:@"sounds"];
     NSLog(@"Sounds: %@\n", samples);
     [self.bSample removeAllItems];
@@ -30,6 +29,16 @@
 {
 	if (player) [player stop];
 	player = nil;
+}
+
+- (NSString *)deviceID
+{
+    return @"systemDefault";
+}
+
+- (NSString *)deviceName
+{
+    return @"System Default Output";
 }
 
 - (void)stop
