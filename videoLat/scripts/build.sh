@@ -14,7 +14,7 @@ PATH=$INST/bin:$PATH
 #
 # Check for libpng15
 #
-if test thirdParty/libpng-1.5.18/configure; then
+if test -f thirdParty/libpng-1.5.18/configure; then
 	echo libpng 1.5 sources found, building local copy
 	(
 		cd thirdParty/libpng-1.5.18
