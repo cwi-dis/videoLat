@@ -3,7 +3,7 @@
 //  videoLat
 //
 //  Created by Jack Jansen on 7/01/14.
-//  Copyright (c) 2014 CWI. All rights reserved.
+//  Copyright 2010-2014 Centrum voor Wiskunde en Informatica. Licensed under GPL3.
 //
 
 #import "HardwareOutputView.h"

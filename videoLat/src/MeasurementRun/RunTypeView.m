@@ -3,7 +3,7 @@
 //  videoLat
 //
 //  Created by Jack Jansen on 18/11/13.
-//  Copyright (c) 2013 CWI. All rights reserved.
+//  Copyright 2010-2014 Centrum voor Wiskunde en Informatica. Licensed under GPL3.
 //
 
 #import "RunTypeView.h"

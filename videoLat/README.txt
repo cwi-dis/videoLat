@@ -1,7 +1,7 @@
 videoLat README
 ===============
 
-VideoLat is a tool to help you analyse video delays, mainly aimed at
+VideoLat is a tool to help you analyse video and audio delays, mainly aimed at
 conferencing applications. Basically, it works by generating a barcode
 on-screen and then measuring how long it takes until that same barcode is
 detected by the camera. This method of measurement also takes into account
@@ -15,6 +15,8 @@ asymetric measurements, using a videoLat-system on both ends.
 If you have access to the internals of the system-under-test it is possible
 to take measurements there as well, because videoLat encodes the current
 timestamp in the barcode.
+
+More information on videoLat can be found at <http://www.videolat.org>.
 
 Download
 ========
@@ -31,6 +33,8 @@ on <http://videolat.sourceforge.net>.
 
 Change Log
 ==========
+1.0: First official release
+0.90: complete refactoring, new user interface, added audio
 0.57: ported to AVFoundation, new zint version
 0.56: attempt to cater for HD cameras. Also 10.7 is now minimum required OSX.
 0.55: rebuild, some minor details
@@ -47,7 +51,7 @@ Build Instructions, fast track
 ==============================
 
 To build videoLat from source you need:
-- a Mac (10.7 has been tested, must be 64-bit capable),
+- a Mac (10.7-10.9 have been tested, must be 64-bit capable),
 - XCode and the OSX build tools installed,
 - the Apple X11 compatibility package (if running 10.7 or earlier), or
   if you are on a later OSX you need to build and install libpng 1.5 from
@@ -68,19 +72,34 @@ Build Instructions, detailed
 
 To build videoLat from source you need a Mac (10.7 or later, capable of running
 64-bit applications).
-You need two third party packages:
+You need three third party packages:
 
 - zbar (version 0.10 tested) for barcode generation
 - zint (version 2.4.3 tested) for barcode detection
 
-These should be included in a videoLat source distribution in the thirdParty
+The first two should be included in a videoLat source distribution in the thirdParty
 subdirectory.
 
 You also need libpng 1.5, download from http://sourceforge.net/projects/libpng/files/libpng15/
+and put the source tree in thirdParty/libpng-1.5.18. 
 
-You may need a few more packages, to be determined.
+    (Actually, on 10.7 or earlier there is an Apple-installed libpng in te
+    X11 package, so you don't have to download and build libpng unless you
+    want to distribute your built binaries to systems running 10.8 or later).
 
-1. Build zbar with:
+Build the third-party packages:
+1. Build libpng with:
+	% mkdir thirdParty/installed
+	% INST=`(cd thirdParty/installed ; pwd)`
+	% cd thirdParty/libpng-1.5.18
+	% ./configure \
+		--prefix=$INST \
+		CFLAGS="-arch i386 -arch x86_64" \
+		CXXFLAGS="-arch i386 -arch x86_64" \
+		LDFLAGS="-arch i386 -arch x86_64"
+	% make
+	% make install
+2. Build zbar with:
 	% mkdir thirdParty/installed
 	% INST=`(cd thirdParty/installed ; pwd)`
 	% cd thirdParty/zbar-0.10-src
@@ -95,14 +114,13 @@ You may need a few more packages, to be determined.
 		--without-xshm \
 		--without-python \
 		--prefix=$INST \
-		PKG_CONFIG_PATH=/opt/local/lib/pkgconfig \
 		CFLAGS="-arch i386 -arch x86_64" \
 		CXXFLAGS="-arch i386 -arch x86_64" \
 		LDFLAGS="-arch i386 -arch x86_64"
 	% make
 	% make install
 
-2. Build zint with:
+3. Build zint with:
 	% mkdir thirdParty/installed
 	% INST=`(cd thirdParty/installed ; pwd)`
 	% cd thirdParty/zint-2.4.3
@@ -119,7 +137,16 @@ You may need a few more packages, to be determined.
 	% make
 	% make install prefix=$INST
 
-3. Build videoLat, by opening videoLat.xcodeproj and building it.
+4. Build videoLat, by opening videoLat.xcodeproj and building it. The Debug and
+Release targets are as expected, the Distribution target is what you should use
+if you want to distribute a signed copy of your built application, and it will
+only work if you have all the Apple magic certificates and whatnot installed.
+
+5. If you want to create a binary or source distribution please make sure you
+update the VIDEOLAT_VERSION variable in the xcode project "build settings" section.
+Then you "Archive", then you "Validate" and "Distribute" that archive. For a
+source distribution you run the script "scripts/mksrcdistr.sh" which will create
+a tarball in the "build" directory and test that it builds. 
 
 Contact
 =======

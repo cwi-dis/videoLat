@@ -1,41 +1,19 @@
-Here is a partial description of the raw CSV output file.
+Here is a description of the three CSV export files.
 
-It contains all the raw timing information of everything that I thought
-worth measuring. Actually, initially I did the summarization in a
-spreadsheet, but it turned out that each and every spreadsheet slows
-down to a crawl when you have in the order of a couple thousand records
-and want to do aggregation over them.
+The "description" file contains two columns, "key" and "value". This
+file contains the metadata of the measurement run, such as measurement type
+and devices used.
 
-Here's a quick breakdown of the fields, let me know if you need more
-info:
+The "measurements" file continas the raw measurements. It has three columns:
+- "at" is the time of the measurement, in microseconds, since some unspecified epoch.
+- "data" is a string, representing the image (or sound) generated at that time
+- "delay" is the delay in microseconds until the image/sound was detected again
 
-timestamp - when this record was generated.(microseconds since epoch,
-which is almost much start-of-run) eventClass, eventName - what has
-happened
-
-the data, extraName, extraData  fields depend on eventClass/eventName:
-
-systemTime / systemTime - gives current Unix time in "data", so you can
-convert timestamps to wallclock
-
-macVideoXmit / generated - QR code has been put on-screen. data is the
-QR code, extraName is "overhead", extraData is the the overhead (in
-microseconds) incurred in generating and displaying the QR code, insofar
-as this is measurable.
-
-macVideoGrab / data - Good QR code detection. data is the QR code,
-extraName is "overhead", extraData is the the overhead (in microseconds)
-incurred in grabbing, detecting and decoding the QR code, insofar as
-this is measurable. A second (or subsequent) detection of the same QR
-code does not generate a new record.
-
-macVideoGrab / baddata - Bad QR code detection, i.e. it is a QR code,
-but not the one we were expecting.
-
-macVideoGrab / nodata - No QR code detected.
-
-{hardwareXmit, macVideoXmit} / {black, white} - no light/light emission
-by the hardware and screen emitters
-
-{hardwareGrab, macVideoGrab} / {black, white} - no light/light
-detections by the hardware and camera detectors
+The "distribution" file contains a frequency distribution of the measurements,
+split over 100 bins.
+It is for convenience only, it can be generated from the measurements file,
+but in Numbers or Excel this can take an inordinate amount of time if you have
+many data points. It has three columns:
+- "lowerBound" is the lower bound of the bin
+- "upperBound" is the upper bound of the bin (which is the lower bound of the next one)
+- "binValue" is the fraction of the measurements that fall into this bin.
