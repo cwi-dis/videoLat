@@ -2,7 +2,7 @@
 //  OutputManager.h
 //
 //  Created by Jack Jansen on 27-08-10.
-//  Copyright 2010 Centrum voor Wiskunde en Informatica. All rights reserved.
+//  Copyright 2010-2014 Centrum voor Wiskunde en Informatica. Licensed under GPL3.
 //
 
 #import <Cocoa/Cocoa.h>
