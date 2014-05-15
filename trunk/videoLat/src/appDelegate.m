@@ -69,6 +69,16 @@
 	return url;
 }
 
+- (IBAction)openWebsite:(id)sender
+{
+	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://www.videoLat.org"]];
+}
+
+- (IBAction)openCalibrationFolder:(id)sender
+{
+	[[NSWorkspace sharedWorkspace] openURL:[self directoryForCalibrations]];
+}
+
 - (void)_loadCalibrationsFrom: (NSURL *)directory
 {
 	NSError *error;

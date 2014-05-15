@@ -41,9 +41,13 @@
         [[bType itemWithTitle: itemTitle] setEnabled: exists];
     }
     // Try to set same as in previous run
+	[bType selectItemAtIndex:-1];
     NSString *oldType = [[NSUserDefaults standardUserDefaults] stringForKey:@"measurementType"];
-    if (oldType && [[bType itemWithTitle: oldType] isEnabled])
+    if (oldType && [bType itemWithTitle: oldType] && [[bType itemWithTitle: oldType] isEnabled]) {
         [bType selectItemWithTitle: oldType];
+	} else {
+		[bType selectItemAtIndex: 0];
+	}
 	if (self.outputContainerView) {
 		for (NSView *subView in [self.outputContainerView subviews])
 			[subView removeFromSuperview];

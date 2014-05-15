@@ -21,4 +21,6 @@
 - (void)_loadCalibrationsFrom: (NSURL *)directory;
 - (BOOL)_loadCalibration: (NSURL *)directory error: (NSError **)outError;
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation;
+- (IBAction)openWebsite:(id)sender;
+- (IBAction)openCalibrationFolder:(id)sender;
 @end
