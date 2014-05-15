@@ -20,7 +20,13 @@
 
     <li><a href="#measurement-workflow">Measurement Workflow</a></li>
 
+    <li><a href="#fileformat">Export File Format</a></li>
+
     <li><a href="#more">More Information</a></li>
+
+    <li><a href="#building">Building from Source</a></li>
+
+    <li><a href="#known-bugs">Known Bugs</a></li>
 
     <li><a href="#license">Licensing and Copyright</a></li> 
   </ul>
@@ -133,11 +139,7 @@
 
   <p>For a normal run you should save the data in your Documents folder,
   for example. In addition, you can export the measurement run as a set
-  of three comma-separated value files, which are importable into
-  spreadsheets, graphing packages and other programs. The
-  <em>-description.csv</em> file has the metadata,
-  <em>-measurements.csv</em> has the raw data points and
-  <em>-distribution.csv</em> has the distribution.</p>
+  of three comma-separated value files.</p>
 
   <p>If you have access to the internals of the system-under-test it is
   possible to take measurements there as well, because videoLat encodes
@@ -155,10 +157,44 @@
   Lack of trust in your measurement equipment leads to lack of trust in
   your system measurements.</p>
 
+  <h2 id="fileformat">Export File Format</h2>
+  
+  <p>When you export a measurement run as CSV (text file with lines of
+  comma-separated values) you get three output files which you can import into
+  a spreadsheet or plotting program or other external tool.</p>
+
+  <p>The <em>description</em> file has two columns, "key" and "value". This
+  file contains the metadata of the measurement run, such as measurement type
+  and devices used.</p>
+
+  <p>The <em>measurements</em> file contains the raw measurements. It has three columns:</p>
+  <ul>
+    <li> "at" is the time of the measurement, in microseconds, since some unspecified epoch.</li>
+    <li> "data" is a string, representing the image (or sound) generated at that time</li>
+    <li> "delay" is the delay in microseconds until the image/sound was detected again</li>
+  </ul>
+
+  <p>The <em>distribution</em> file contains a frequency distribution of the measurements,
+  split over 100 bins.
+  It is for convenience only, it can be generated from the measurements file,
+  but in Numbers or Excel this can take an inordinate amount of time if you have
+  many data points. It has three columns:</p>
+  <ul>
+    <li>"lowerBound" is the lower bound of the bin</li>
+    <li>"upperBound" is the upper bound of the bin (which is the lower bound of the next one)</li>
+    <li>"binValue" is the fraction of the measurements that fall into this bin.</li>
+  </ul>
+
+  <h2 id="building">Building from Source</h2>
+  
+  <p>VideoLat is open source, and you can download the source to build it yourself,
+  extend it or modify it. The sources are available via <a href="https://sourceforge.net/projects/videolat/">sourceforge.net/projects/videolat/</a>.
+  Build instructions are included with the source distribution. </p>
+  
   <h2 id="more">More Information</h2>
 
   <p>The (rather meagre) website for videoLat is at 
-  <a href="http://videolat.sourceforge.net">videolat.sourceforge.net</a>.</p>
+  <a href="http://www.videolat.org">www.videolat.org</a>.</p>
   
   <p>An earlier version of videoLat and the principles behind it is
   described in the paper "<a
@@ -170,10 +206,21 @@
   href="http://www.youtube.com/watch?v=Xax77SyE0vE">presentation
   video</a> are available too.</p>
 
+  <h2 id="known-bugs">Known Bugs</h2>
+
+  <p>There is one serious known bug: some conbinations of machine, camera and display
+  cause the clocks to drift, which may lead to QR-codes being received before they
+  are transmitted and other anomalies. Sometimes it helps to restart videoLat,
+  sometimes it helps to reboot the machine, otherwise you will have to try a
+  different camera or display.</p>
+
+  <p>If you encounter this problem please contact the authors, having more
+  data points may point us to a solution.</p>
+  
   <h2 id="license">Licensing and Copyright</h2>
 
   <p>VideoLat was written by Jack Jansen, <em>Jack.Jansen@cwi.nl</em>,
-  and is copyright (c) 2013 Stichting Centrum Wiskunde &amp;
+  and is copyright (c) 2010-2014 Stichting Centrum Wiskunde &amp;
   Informatica, Amsterdam, the Neterhlands. It is open source, licensed
   under the GNU General Public License (GPL).</p>
 

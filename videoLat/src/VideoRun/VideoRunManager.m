@@ -239,7 +239,7 @@
                     defaultButton:@"OK"
                     alternateButton:nil
                     otherButton:nil
-                    informativeTextWithFormat:@"Previous value was %lld, current value is %lld",
+                    informativeTextWithFormat:@"Previous value was %lld, current value is %lld.\nConsult Helpfile if this error persists.",
                               (long long)prevOutputStartTime,
                               (long long)outputStartTime];
             [alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
@@ -295,7 +295,7 @@
                                                  defaultButton:@"OK"
                                                alternateButton:nil
                                                    otherButton:nil
-                                     informativeTextWithFormat:@"Previous value was %lld, current value is %lld",
+                                     informativeTextWithFormat:@"Previous value was %lld, current value is %lld.\nConsult Helpfile if this error persists.",
                                   (long long)prevInputStartTime,
                                   (long long)inputStartTime];
                 [alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
@@ -404,7 +404,7 @@
                                                          defaultButton:@"OK"
                                                        alternateButton:nil
                                                            otherButton:nil
-                                             informativeTextWithFormat:@"Code %@ was transmitted at %lld, but received at %lld.)",
+                                             informativeTextWithFormat:@"Code %@ was transmitted at %lld, but received at %lld.\nConsult Helpfile if this error persists.",
                                           self.outputCompanion.outputCode,
                                           (long long)prerunOutputStartTime,
                                           (long long)inputStartTime];
@@ -419,7 +419,7 @@
                                                      defaultButton:@"OK"
                                                    alternateButton:nil
                                                        otherButton:nil
-                                         informativeTextWithFormat:@"Previous value was %@, current value is %@",
+                                         informativeTextWithFormat:@"Previous value was %@, current value is %@.\nConsult Helpfile if this error persists.",
                                             prevInputCode, self.outputCompanion.outputCode];
                     [alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
                 }
@@ -438,7 +438,7 @@
                                                      defaultButton:@"OK"
                                                    alternateButton:nil
                                                        otherButton:nil
-                                         informativeTextWithFormat:@"Expected value was %@, received %s",
+                                         informativeTextWithFormat:@"Expected value was %@, received %s.\nConsult Helpfile if this error persists.",
                                       self.outputCompanion.outputCode, code];
                     [alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
 					[self.outputCompanion triggerNewOutputValue];

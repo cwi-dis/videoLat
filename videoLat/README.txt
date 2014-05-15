@@ -16,7 +16,9 @@ If you have access to the internals of the system-under-test it is possible
 to take measurements there as well, because videoLat encodes the current
 timestamp in the barcode.
 
-More information on videoLat can be found at <http://www.videolat.org>.
+More information on videoLat can be found at <http://www.videolat.org>, by
+using the "help" command from within videoLat or by viewing the file
+videoLat.help/Contents/Resources/videoLat.html in your browser.
 
 Download
 ========
