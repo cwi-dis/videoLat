@@ -158,6 +158,10 @@
 - (void)_setCalibrationFileName
 {
     NSString *fileName = [NSString stringWithFormat: @"%@-%@-%@-%@", self.dataStore.measurementType, self.dataStore.machine, self.dataStore.outputDevice, self.dataStore.inputDevice];
+    NSURL *dirUrl = [(appDelegate *)[[NSApplication sharedApplication] delegate] directoryForCalibrations];
+    NSURL *fileUrl = [NSURL URLWithString:[fileName stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] relativeToURL:dirUrl];
+    [self setFileURL: fileUrl];
+    [self setFileType: [self fileType]];
     [self setDisplayName:fileName];
 }
 
@@ -165,7 +169,9 @@
 {
     if (myType.isCalibration) {
         NSURL *dirUrl = [(appDelegate *)[[NSApplication sharedApplication] delegate] directoryForCalibrations];
+        NSLog(@"prepareSavePanel, directory was %@", [panel directoryURL]);
         [panel setDirectoryURL:dirUrl];
+        NSLog(@"prepareSavePanel, directory is now %@", [panel directoryURL]);
         [panel setNameFieldStringValue:[self displayName]];
     }
     return YES;
