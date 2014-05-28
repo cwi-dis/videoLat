@@ -66,7 +66,6 @@
 		[alert runModal];
 		return nil;
 	}
-    NSLog(@"directoryForCalibrations is %@", url);
 	return url;
 }
 

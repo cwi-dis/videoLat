@@ -35,7 +35,6 @@ on <http://videolat.sourceforge.net>.
 
 Change Log
 ==========
-1.0.2: Bug fix: calibrations could not be found due to sandboxing
 1.0: First official release
 0.90: complete refactoring, new user interface, added audio
 0.57: ported to AVFoundation, new zint version
