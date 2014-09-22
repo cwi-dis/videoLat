@@ -9,6 +9,10 @@
 #import <Cocoa/Cocoa.h>
 #import "protocols.h"
 
+///
+/// Subclass of NSView that adheres to OutputViewProtocol and shows currently
+/// selected hardware output device.
+///
 @interface HardwareOutputView : NSView <OutputViewProtocol> {
 }
 

@@ -9,6 +9,11 @@
 #import <Foundation/Foundation.h>
 #import "protocols.h"
 
+///
+/// Storage for all measured delays of a measurement run, plus
+/// all the metadata pertaining to that run (type, input and output device used, etc).
+///
+
 @interface MeasurementDataStore : NSCoder <GraphDataProviderProtocol> {
     double sum;
     double sumSquares;

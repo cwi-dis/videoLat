@@ -4,6 +4,10 @@
 
 #define WITH_STATISTICS
 
+///
+/// Subclass of NSView that shows preview of what the camera has captured, helper class
+/// for VideoInput class.
+///
 @interface VideoInputView : NSView
 {
 	NSPoint downPoint;
@@ -17,6 +21,10 @@
 
 @end
 
+///
+/// Class that implements InputCaptureProtocol (and ClockProtocol) for video input, using
+/// AVCapture to capture a video stream from a camera.
+///
 @interface VideoInput : NSObject <ClockProtocol, InputCaptureProtocol, AVCaptureVideoDataOutputSampleBufferDelegate> {
     AVCaptureVideoPreviewLayer *selfLayer;
     AVCaptureVideoDataOutput *outputCapturer;

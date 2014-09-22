@@ -10,6 +10,13 @@
 #import "RunStatusView.h"
 #import "RunCollector.h"
 
+///
+/// Subclass of NSView that allows for the selection of the type of measurement run.
+/// When a new type is selected (and when the view is initially loaded) it then loads
+/// the NIBfile corresponding to the selected measurement type. This NIB file will
+/// then populate the IBOutlets of this view with the various views and objects that
+/// allow the measurement run to proceed.
+///
 @interface RunTypeView : NSView {
 	NSArray *runManagerNibObjects;	// Storage for toplevel object references from loaded nibfiles
     BOOL wasAwokenFromNib;
