@@ -11,6 +11,11 @@
 #import "MeasurementDistribution.h"
 #import "MeasurementType.h"
 
+///
+/// Subclass of NSDocument for a videoLat measurement run.
+/// Contains references to all measurements and the distribution, and provides accessors for all the
+/// metadata.
+///
 @interface Document : NSDocument <NSWindowDelegate> {
     NSArray *objectsForNewDocument;
 	MeasurementType *myType;

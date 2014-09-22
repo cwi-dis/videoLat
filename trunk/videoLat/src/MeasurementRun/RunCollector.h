@@ -24,6 +24,10 @@
 #define BASECLASS NSObject
 #endif
 
+///
+/// Helper object for BaseRunManager. Records transmission and reception times and populates
+/// MeasurementDataStore.
+///
 @interface RunCollector : BASECLASS {
     NSString* lastTransmission;
     uint64_t lastTransmissionTime;

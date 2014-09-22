@@ -9,6 +9,11 @@
 #import <Cocoa/Cocoa.h>
 #import "protocols.h"
 
+///
+/// Show a simple graphical representation of an ordered set of numbers.
+/// The numbers are provided by something that adheres to the GraphDataProviderProtocol,
+/// currently either a MeasurementDataStore or a MeasurementDistribution for one of those.
+/// 
 @interface GraphView : NSView {
 }
 @property(strong) NSColor *color;

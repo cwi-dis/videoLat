@@ -8,6 +8,10 @@
 
 #import <Cocoa/Cocoa.h>
 
+///
+/// An NSView that shows information such as number of detections and average delay
+/// while a measurement run is underway.
+///
 @interface RunStatusView : NSView
 @property(weak) IBOutlet NSButton *bStop;
 

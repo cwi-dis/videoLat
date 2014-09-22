@@ -9,6 +9,11 @@
 #import "BaseRunManager.h"
 #import "HardwareOutputView.h"
 
+///
+/// A Subclass of BaseRunManager geared towards doing hardware-assisted video
+/// measurements. It works together with an object implementing the low-level
+/// HardwareLightProtocol to generate light/no light conditions and detect them.
+///
 @interface HardwareRunManager : BaseRunManager <ClockProtocol> {
     BOOL alive; // True if the class is alive and the periodic timer should run
     BOOL connected; // True if the hardware device is connected
