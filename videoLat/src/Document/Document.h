@@ -17,30 +17,30 @@
 /// metadata.
 ///
 @interface Document : NSDocument <NSWindowDelegate> {
-    NSArray *objectsForNewDocument;
-	MeasurementType *myType;
+    NSArray *objectsForNewDocument;                 //!< Internal: stores NIB-created objects for new measurement window so these are refcounted correctly
+	MeasurementType *myType;                        //!< Internal: type of dataStore measurement
 }
-@property(readonly) NSString* measurementType;
-@property(readonly) NSString* baseMeasurementID;
-@property(readonly) NSString* machineID;
-@property(readonly) NSString* machine;
-@property(readonly) NSString* inputDeviceID;
-@property(readonly) NSString* inputDevice;
-@property(readonly) NSString* outputDeviceID;
-@property(readonly) NSString* outputDevice;
-@property(strong) NSString* description;
-@property(strong) NSString* date;
-@property(strong) NSString* location;
+@property(readonly) NSString* measurementType;      //!< accessor for dataStore metadata variable
+@property(readonly) NSString* baseMeasurementID;    //!< accessor for dataStore metadata variable
+@property(readonly) NSString* machineID;            //!< accessor for dataStore metadata variable
+@property(readonly) NSString* machine;              //!< accessor for dataStore metadata variable
+@property(readonly) NSString* inputDeviceID;        //!< accessor for dataStore metadata variable
+@property(readonly) NSString* inputDevice;          //!< accessor for dataStore metadata variable
+@property(readonly) NSString* outputDeviceID;       //!< accessor for dataStore metadata variable
+@property(readonly) NSString* outputDevice;         //!< accessor for dataStore metadata variable
+@property(strong) NSString* description;            //!< accessor for dataStore metadata variable
+@property(strong) NSString* date;                   //!< accessor for dataStore metadata variable
+@property(strong) NSString* location;               //!< accessor for dataStore metadata variable
 
-@property(strong) IBOutlet MeasurementDataStore *dataStore;
-@property(strong) IBOutlet MeasurementDistribution *dataDistribution;
-@property(strong) IBOutlet id myView;
-@property(assign) IBOutlet NSWindow *measurementWindow;
+@property(strong) IBOutlet MeasurementDataStore *dataStore; //!< data for this document
+@property(strong) IBOutlet MeasurementDistribution *dataDistribution;   //!< distribution of dataStore
+@property(strong) IBOutlet id myView;   //!< xxx
+@property(assign) IBOutlet NSWindow *measurementWindow; //!< During new measurement: window containing the NewMeasurement objects
 
-- (IBAction)newDocumentComplete: (id)sender;
-- (IBAction)export: (id)sender;
-- (BOOL)_exportCSV: (NSString *)csvData forType: (NSString *)descr title: (NSString *)title;
-- (NSString *) asCSVString;
-- (void)changed;
-- (void)_setCalibrationFileName;
+- (IBAction)newDocumentComplete: (id)sender;        //!< Callback used by NewMeasurement to signal it has finished.
+- (IBAction)export: (id)sender; //!< Ask user for three filenames and export CSV files for data, distribution and metadata
+- (BOOL)_exportCSV: (NSString *)csvData forType: (NSString *)descr title: (NSString *)title; //!< Internal helper for export: ask for filename and export one CSV file
+- (NSString *) asCSVString; //!< Helper for _exportCSV: return metadata as CSV string
+- (void)changed;    //!< Increment document change count. Unused?
+- (void)_setCalibrationFileName;    //!< Internal: invent unique filename for new calibration run documents
 @end

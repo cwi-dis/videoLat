@@ -18,7 +18,6 @@
 @implementation FindQRcodes
 
 @synthesize rect;
-@synthesize configuring;
 
 - (FindQRcodes*)init
 {

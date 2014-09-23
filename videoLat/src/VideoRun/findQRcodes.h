@@ -17,11 +17,9 @@
     char *lastCode;			//!< Most recent QR code found
     void *scanner_hidden;	//!< Pointer to the zbar scanner object.
     NSRect rect;			//!< Rectangle around most recent QR code found
-    BOOL configuring;		//!< Unused?
 }
 
 @property(readonly) NSRect rect;	//!< Rectangle around most recent QR code found
-@property BOOL configuring;			//!< Unused?
 
 - (char*) find: (void*)buffer width: (int)width height: (int)height format: (const char*)format size:(int)size;
 

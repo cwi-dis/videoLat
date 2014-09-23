@@ -11,13 +11,17 @@
 #import "protocols.h"
 #import "AudioProcess.h"
 
+///
+/// Subclass of NSView that allows the user to select the output device to use, gives
+/// some visual feedback on the audio level transmitted and allows the user to select the output device.
+///
 @interface AudioOutputView : NSView <OutputViewProtocol, AVAudioPlayerDelegate> {
     NSArray *samples;
     AVAudioPlayer *player;
     NSArray *signature;
 }
 
-@property BOOL mirrored; // Ignored
+@property BOOL mirrored; ///!< Ignored, this is an audio device
 @property(readonly) NSString *deviceID;
 @property(readonly) NSString *deviceName;
 //@property(weak) IBOutlet NSObject <HardwareLightProtocol> *device;

@@ -29,21 +29,46 @@
 /// MeasurementDataStore.
 ///
 @interface RunCollector : BASECLASS {
-    NSString* lastTransmission;
-    uint64_t lastTransmissionTime;
-    BOOL lastTransmissionReceived;
+    NSString* lastTransmission;         //!< Internal: records most recently transmitted data
+    uint64_t lastTransmissionTime;      //!< Internal: records timestamp of most recent transmission
+    BOOL lastTransmissionReceived;      //!< Internal: true when lastTramsnission has already been received
 	MeasurementDataStore *dataStore;
 }
-@property(weak) IBOutlet Document *document;
-@property(readonly) double average;
-@property(readonly) double stddev;
-@property(readonly) int count;
-@property(readonly) MeasurementDataStore *dataStore;
+@property(weak) IBOutlet Document *document;    //!< Assigned by NIB: the document this object collects for, used to initialize dataStore
+@property(readonly) double average;             //!< accessor for dataStore average
+@property(readonly) double stddev;              //!< accessor for dataStore stddev
+@property(readonly) int count;                  //!< accessor for dataStore count
+@property(readonly) MeasurementDataStore *dataStore;    //!< Where this RunCollector should store the measurements.
 
+
+///
+/// Signals that this RunCollector should start filling its dataStore.
+/// @param scenario the measurement type in somewhat-human-readable form
+/// @param inputId the input device in somewhat-human-readable form
+/// @param inputName the input device in human readable (but possibly ambiguous) form
+/// @param outputId the output device in somewhat-human-readable form
+/// @param outputName the output device in human readable (but possibly ambiguous) form
+///
 - (void) startCollecting: (NSString*)scenario input: (NSString*)inputId name: (NSString*)inputName output:(NSString*)outputId name: (NSString*)outputName;
-- (void) stopCollecting;
-- (void) trim;
+- (void) stopCollecting;    //!< Stop filling the dataStore
+- (void) trim;              //!< Tell the dataStore to trim its data
 
+///
+/// Called when a transmission has been done.
+/// @param data the data transmitted, recorded in lastTransmission
+/// @param now the clock time the data was transmitted, recorded in lastTransmissionTime
+/// @return always true, at the moment
+///
 - (BOOL) recordTransmission: (NSString*)data at: (uint64_t)now;
+
+///
+/// Called when something has been received.
+/// @param data the data received
+/// @param now the clock time at the moment the data was received
+/// @return true if this data matches the last transmission
+/// If the data matches the last transmission and it has not been received previously then a new delay
+/// sample is stored in the dataStore and true is returned. This will signal the run manager to start a
+/// new measurement cycle.
+///
 - (BOOL) recordReception: (NSString*)data at: (uint64_t)now;
 @end

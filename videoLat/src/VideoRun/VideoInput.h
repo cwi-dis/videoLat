@@ -10,14 +10,14 @@
 ///
 @interface VideoInputView : NSView
 {
-	NSPoint downPoint;
+	NSPoint downPoint;      //!< Internal: position of mouse down event
 }
-@property (weak) IBOutlet id delegate;
-@property (weak) IBOutlet NSButton *visibleButton;
+@property (weak) IBOutlet id delegate;  //!< Set by NIB: corresponding VideoInput object
+@property (weak) IBOutlet NSButton *visibleButton;  //!< UI element, allows user to toggle video preview
 
-- (IBAction)visibleChanged:(id)sender;
-- (void)mouseDown: (NSEvent *)theEvent;
-- (void)mouseUp: (NSEvent *)theEvent;
+- (IBAction)visibleChanged:(id)sender;  //!< Called when user toggles visibleButton
+- (void)mouseDown: (NSEvent *)theEvent; //!< Mouse event handler, to allow selecting a rectangular area
+- (void)mouseUp: (NSEvent *)theEvent;   //!< Mouse event handler, to allow selecting a rectangular area
 
 @end
 

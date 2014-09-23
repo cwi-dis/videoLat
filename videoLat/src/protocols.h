@@ -32,7 +32,6 @@
 ///
 @protocol InputVideoFindProtocol
 @property(readonly) NSRect rect;	/*!< Location of most recent pattern found */
-@property BOOL configuring;
 
 /**
  Scan a grabbed image for a pattern this finder supports
@@ -47,7 +46,7 @@
 @end
 
 ///
-/// Protocol for an object that creates patterns in an image output buffer
+/// Protocol for an object that creates (visual) patterns in an image output buffer.
 ///
 @protocol OutputVideoGenProtocol
 /**
@@ -55,26 +54,29 @@
  @param buffer Where to store the image, as 8-bit greyscale
  @param width Width of the buffer in pixels
  @param height Height of the buffer in pixels
+ @param code The string representation of the code to generate
  */
 - (void) gen: (void*)buffer width: (int)width height: (int)height code: (const char *)code;
 @end
 
 ///
-/// Protocol for an object that is responsible for displaying patterns
+/// Protocol for an object that is responsible for displaying patterns, and for
+/// enabling the user to select the output device to use.
 ///
 @protocol OutputViewProtocol
 @property (readonly) NSString* deviceID;	/*!< Unique string that identifies the output device */
 @property (readonly) NSString* deviceName;	/*!< Human-readable string that identifies the output device */
 @property BOOL mirrored;	/*!< Set to true to display the pattern mirrored */
 
-/**
- Makes output viewer request a new pattern from the OutputRunManager and display it
- */
+///
+/// Makes output viewer request a new pattern from the OutputRunManager and display it.
+///
 - (void) showNewData;
 @end
 
 ///
-/// Protocol for an object that captures input patterns
+/// Protocol for an object that captures input patterns, and for enabling the user to
+/// select the input device to use.
 ///
 @protocol InputCaptureProtocol
 @property (readonly) NSString* deviceID;	/*!< Unique string that identifies the input device */
@@ -95,7 +97,7 @@
 @end
 
 ///
-/// Protocol for a binary (monochrome) hardware input/output device
+/// Protocol for a binary (monochrome) hardware input/output device.
 ///
 @protocol HardwareLightProtocol
 @property (readonly) NSString* deviceID;	/*!< Unique string that identifies the input device */
@@ -172,9 +174,9 @@
 /**
  Signals that a capture cycle has ended and provides image data.
  @param buffer The image data
- @param width Width of the captured image in pixels
- @param height Height of the captured image in pixels
- @param format One of "RGB4", "Y800", "YUYV" or "UYUV"
+ @param w Width of the captured image in pixels
+ @param h Height of the captured image in pixels
+ @param formatStr One of "RGB4", "Y800", "YUYV" or "UYUV"
  @param size Size of the buffer in bytes
  */
 - (void) newInputDone: (void*)buffer
@@ -187,6 +189,7 @@
  @param buffer The audio data, as 16 bit signed integer samples
  @param size Size of the buffer in bytes
  @param channels Number of channels (1 for mono, 2 for stereo)
+ @param timestamp Input capture time of this sample
  */
 - (void)newInputDone: (void*)buffer
     size: (int)size
