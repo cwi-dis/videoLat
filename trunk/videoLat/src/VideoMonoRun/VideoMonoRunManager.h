@@ -9,6 +9,10 @@
 #import <Foundation/Foundation.h>
 #import "VideoRunManager.h"
 
+///
+/// Subclass of VideoRunManager that uses 100% black/white pictures to measure delay.
+/// Compatible with HardwareRunManager.
+///
 @interface VideoMonoRunManager : VideoRunManager {
     bool currentColorIsWhite;
     // Black/white detection
