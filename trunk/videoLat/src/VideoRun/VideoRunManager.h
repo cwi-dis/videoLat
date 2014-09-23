@@ -10,6 +10,9 @@
 #import "protocols.h"
 #import "BaseRunManager.h"
 
+///
+/// Subclass of @see BaseRunManager that handles video measurements based on QR codes.
+///
 @interface VideoRunManager : BaseRunManager {
     uint64_t outputStartTime;       // When the last output was displayed
     uint64_t prerunOutputStartTime;       // Same, but not reset when reported (for prerun duration checking)

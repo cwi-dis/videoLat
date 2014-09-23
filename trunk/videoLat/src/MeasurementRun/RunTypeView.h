@@ -13,26 +13,26 @@
 ///
 /// Subclass of NSView that allows for the selection of the type of measurement run.
 /// When a new type is selected (and when the view is initially loaded) it then loads
-/// the NIBfile corresponding to the selected measurement type. This NIB file will
+/// the NIBfile corresponding to the selected measurement type. That NIB file will
 /// then populate the IBOutlets of this view with the various views and objects that
 /// allow the measurement run to proceed.
 ///
 @interface RunTypeView : NSView {
-	NSArray *runManagerNibObjects;	// Storage for toplevel object references from loaded nibfiles
-    BOOL wasAwokenFromNib;
+	NSArray *runManagerNibObjects;	//!< internal: storage for toplevel object references from loaded nibfiles
+    BOOL wasAwokenFromNib;			//!< Internal: make sure we do some initializations exactly once.
 }
-@property(weak) IBOutlet NSPopUpButton *bType;
-@property(strong) IBOutlet id runManager;
-@property(strong) IBOutlet NSView *selectionView;
-@property(strong) IBOutlet NSView *outputView;
-@property(weak) IBOutlet RunStatusView *statusView;
-@property(weak) IBOutlet RunCollector *collector;
-@property(weak) IBOutlet Document *document;
-@property(weak) IBOutlet NSView *selectionContainerView;
-@property(weak) IBOutlet NSView *outputContainerView;
+@property(weak) IBOutlet NSPopUpButton *bType;		//!< Set by our NIB: reference to the measurement type button
+@property(strong) IBOutlet id runManager;			//!< Set by  measurement type NIB: reference to the measurement type button
+@property(strong) IBOutlet NSView *selectionView;	//!< Set by  measurement type NIB: reference to the view where user can select input source.
+@property(strong) IBOutlet NSView *outputView;		//!< Set by  measurement type NIB: reference to the view where output is shown
+@property(weak) IBOutlet RunStatusView *statusView;	//!< Set by our NIB: reference to the runtime status view (average/count)
+@property(weak) IBOutlet RunCollector *collector;	//!< Set by ??? NIB: reference to the measurement data collector
+@property(weak) IBOutlet Document *document;		//!< Set by our NIB: reference to the document we are creating
+@property(weak) IBOutlet NSView *selectionContainerView;	//!< Set by our NIB: container view for measurement  selectionView
+@property(weak) IBOutlet NSView *outputContainerView;	//!< Set by our NIB: container view for measurement outputView
 
-- (void)terminate;
-- (IBAction)typeChanged: (id)sender;
-- (IBAction)stopMeasuring: (id)sender;
+- (void)terminate;						//!< Unused?
+- (IBAction)typeChanged: (id)sender;	//!< Called on awakeFromNIB or when user selects a different measurement type.
+- (IBAction)stopMeasuring: (id)sender;	//!< Called when user presses "stop" button
 
 @end

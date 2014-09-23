@@ -13,13 +13,13 @@
 /// while a measurement run is underway.
 ///
 @interface RunStatusView : NSView
-@property(weak) IBOutlet NSButton *bStop;
+@property(weak) IBOutlet NSButton *bStop;		//!< Initialized in the NIB: reference to the stop button.
 
-@property(weak) IBOutlet NSTextField *bCount;
-@property(weak) IBOutlet NSTextField *bAverage;
+@property(weak) IBOutlet NSTextField *bCount;	//!< Initialized in the NIB: reference to the count text field.
+@property(weak) IBOutlet NSTextField *bAverage;	//!< Initialized in the NIB: reference to the average delay text field.
 
-@property(strong) NSString *detectCount;
-@property(strong) NSString *detectAverage;
+@property(strong) NSString *detectCount;		//!< Run Manager stores count value here
+@property(strong) NSString *detectAverage;		//!< Run manager stores average value here
 
-- (IBAction)update: (id)sender;
+- (IBAction)update: (id)sender;					//!< Called by Run manager after updating detectCount or detectAverage.
 @end

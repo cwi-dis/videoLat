@@ -20,7 +20,7 @@
 /// specific type that have been done previously (initialized by the appDelegate).
 ///
 @interface MeasurementType : NSObject {
-	NSMutableDictionary *measurements;
+	NSMutableDictionary *measurements;	//!< Internal: all measurements of this type, indexed by name.
 }
 
 + (MeasurementType *)forType: (NSString *)name; //!< Returns MeasurementType with the given name.

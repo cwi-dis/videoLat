@@ -40,6 +40,7 @@
  @param width width in pixels
  @param height height in pixels
  @param format one of "RGB4", "Y800", "YUYV" or "UYUV"
+ @param size size of buffer (in bytes)
  @return string representing the pattern, or nil
  */
 - (char*) find: (void*)buffer width: (int)width height: (int)height format: (const char*)format size:(int)size;

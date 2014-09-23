@@ -10,15 +10,18 @@
 #import "protocols.h"
 #include "zbar.h"
 
+///
+/// Interface to the zbar library to detect QR codes in greyscale image data.
+///
 @interface FindQRcodes : NSObject <InputVideoFindProtocol> {
-    char *lastCode;
-    void *scanner_hidden;	// This is a C++ class, so we do some casting magic
-    NSRect rect;
-    BOOL configuring;
+    char *lastCode;			//!< Most recent QR code found
+    void *scanner_hidden;	//!< Pointer to the zbar scanner object.
+    NSRect rect;			//!< Rectangle around most recent QR code found
+    BOOL configuring;		//!< Unused?
 }
 
-@property(readonly) NSRect rect;
-@property BOOL configuring;
+@property(readonly) NSRect rect;	//!< Rectangle around most recent QR code found
+@property BOOL configuring;			//!< Unused?
 
 - (char*) find: (void*)buffer width: (int)width height: (int)height format: (const char*)format size:(int)size;
 

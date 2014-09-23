@@ -63,6 +63,9 @@
         self.selectionView = nil;
 	}
     if (!wasAwokenFromNib) {
+		// Sometimes we seem to get multiple awakeFromNIB messages (maybe when a sub-NIB
+		// is opened?). We only want to do typeChanged: once, so we remember that we
+		// are awake already.
         wasAwokenFromNib = YES;
         [self typeChanged: self];
     }
