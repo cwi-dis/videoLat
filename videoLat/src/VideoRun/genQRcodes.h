@@ -10,12 +10,14 @@
 #import "protocols.h"
 #include "zint.h"
 
-
+///
+/// QR code generator. Uses the zint library to create greyscale image data prepresenting a QR code.
+///
 @interface GenQRcodes : NSObject <OutputVideoGenProtocol> {
-    struct zint_symbol *symbol;
+    struct zint_symbol *symbol;	//!< Internal: reference to the zint symbol generator.
 }
 
-- (GenQRcodes*)init;
-- (void) gen: (void*)buffer width: (int)width height: (int)height code: (const char *)code;
+- (GenQRcodes*)init; //!< Initialize the object.
+- (void) gen: (void*)buffer width: (int)width height: (int)height code: (const char *)code; //!< Generate a QR code.
 
 @end
