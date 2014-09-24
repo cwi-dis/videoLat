@@ -72,25 +72,6 @@
     }
 }
 
-- (BOOL)visible
-{
-	// XXX Is this correct???
-	NSWindow *w = self.window;
-	if (w == nil) return FALSE;
-	return [w isVisible];
-}
-
-- (void)setVisible:(BOOL)visible
-{
-	NSWindow *w = self.window;
-	if (w == nil) return;
-	if (visible) {
-		[w orderFront: self];
-	} else {
-		[w orderOut: self];
-	}
-}
-
 - (void)showNewData {
 	[self setNeedsDisplay:YES];
 }
