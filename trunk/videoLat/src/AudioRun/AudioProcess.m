@@ -1,5 +1,5 @@
 //
-//  HardwareRunManager.m
+//  AudioProcess
 //  videoLat
 //
 //  Created by Jack Jansen on 22/12/13.
