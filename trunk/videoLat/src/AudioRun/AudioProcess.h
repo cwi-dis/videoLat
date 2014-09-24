@@ -15,9 +15,9 @@
 /// quiet sample.
 ///
 @interface AudioProcess : NSObject {
-	BOOL wasNoisy;				//!< Internal: true if the previous buffer ended noisily
-	float prevEnergy;			//!< Internal: amount of energy in previous buffer
-	uint64_t matchTimestamp;	//!< Internal: timestamp of most recent match
+	BOOL wasNoisy;				//!< true if the previous buffer ended noisily
+	float prevEnergy;			//!< amount of energy in previous buffer
+	uint64_t matchTimestamp;	//!< timestamp of most recent match
 }
 
 ///

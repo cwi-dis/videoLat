@@ -1,9 +1,9 @@
+///
+///  @file Document.h
+///  @brief Defines Document object, part of the standard Cocoa application structure
 //
-//  Document.h
-//  videoLat
-//
-//  Created by Jack Jansen on 18/11/13.
 //  Copyright 2010-2014 Centrum voor Wiskunde en Informatica. Licensed under GPL3.
+//
 //
 
 #import <Cocoa/Cocoa.h>
@@ -15,6 +15,10 @@
 /// Subclass of NSDocument for a videoLat measurement run.
 /// Contains references to all measurements and the distribution, and provides accessors for all the
 /// metadata.
+///
+/// There is one twist: while we are creating a new document the normal document view window is hidden,
+/// and a window from NewMeasurement.xib is shown. This controls the measurement process.
+/// When the measurement run has completed that window disappears and the document window is shown.
 ///
 @interface Document : NSDocument <NSWindowDelegate> {
     NSArray *objectsForNewDocument;                 //!< Internal: stores NIB-created objects for new measurement window so these are refcounted correctly

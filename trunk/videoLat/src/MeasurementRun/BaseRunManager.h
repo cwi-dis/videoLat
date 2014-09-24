@@ -1,9 +1,9 @@
+///
+///  @file BaseRunManager.h
+///  @brief Defines BaseRunManager object.
 //
-//  BaseRunManager.h
-//  videoLat
-//
-//  Created by Jack Jansen on 24/11/13.
 //  Copyright 2010-2014 Centrum voor Wiskunde en Informatica. Licensed under GPL3.
+//
 //
 
 #import <Foundation/Foundation.h>
@@ -30,8 +30,8 @@
 ///
 @interface BaseRunManager : NSObject <RunOutputManagerProtocol, RunInputManagerProtocol> {
     MeasurementType *measurementType;	//!< Exact type of measurement. Needed because a lot of code sharing goes on.
-    BOOL handlesInput;	//!< Internal: true if we are responsible for input processing
-    BOOL handlesOutput;	//!< Internal: true if we are responsible for output processing
+    BOOL handlesInput;	//!< true if we are responsible for input processing
+    BOOL handlesOutput;	//!< true if we are responsible for output processing
 }
 
 + (void)initialize;	//!< Class initializer.
@@ -96,7 +96,8 @@
 @property(weak) IBOutlet RunCollector *collector;			//!< Initialized in the NIB, RunCollector for this measurement run.
 @property(weak) IBOutlet RunStatusView *statusView;			//!< Initialized in the NIB, RunStatusView for this measurement run.
 @property(weak) IBOutlet RunTypeView *measurementMaster;	//!< Initialized in the NIB, our parent object.
-///
+
+//@{
 /// The inputCompanion and outputCompanion properties need a bit of explanation.
 /// If the same RunManager is used for
 /// both input and output the following two outlets are NOT assigned in the NIB.
@@ -106,8 +107,9 @@
 /// two BaseRunManager subclass instances, and ties them together through the inputCompanion
 /// and outputCompanion.
 ///
-@property(weak) IBOutlet BaseRunManager *inputCompanion;
+@property(weak) IBOutlet BaseRunManager *inputCompanion; //!< Our companion object that handles input
 
-@property(weak) IBOutlet BaseRunManager *outputCompanion;   //!< See inputCompanion for a description
+@property(weak) IBOutlet BaseRunManager *outputCompanion; //!< Our companion object that handles output
+//@}
 
 @end

@@ -17,7 +17,7 @@
 /// audio sample to use and the output device.
 ///
 @interface AudioOutputView : NSView <OutputViewProtocol, AVAudioPlayerDelegate> {
-    NSArray *samples;       //!< Internal: list of available sample filenames
+    NSArray *samples;       //!< list of available sample filenames
     AVAudioPlayer *player;  //!< AVFoundatio audio player object
     NSArray *signature;     //!< AudioProcess signature of current sample
 }

@@ -1,9 +1,9 @@
+///
+///  @file RunTypeView.h
+///  @brief Defines RunTypeView object.
 //
-//  MeasurementTypeView.h
-//  videoLat
-//
-//  Created by Jack Jansen on 18/11/13.
 //  Copyright 2010-2014 Centrum voor Wiskunde en Informatica. Licensed under GPL3.
+//
 //
 
 #import <Foundation/Foundation.h>
@@ -12,7 +12,10 @@
 
 ///
 /// Subclass of NSView that allows for the selection of the type of measurement run.
-/// When a new type is selected (and when the view is initially loaded) it then loads
+/// This is the master object for controlling a measurement run, and is instantiated
+/// from the NewMeasurement.xib NIB file.
+///
+/// When a new type is selected (and when this view is initially loaded) it then loads
 /// the NIBfile corresponding to the selected measurement type. That NIB file will
 /// then populate the IBOutlets of this view with the various views and objects that
 /// allow the measurement run to proceed.
