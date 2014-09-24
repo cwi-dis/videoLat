@@ -11,29 +11,21 @@
 
 ///
 /// Subclass of VideoRunManager that uses 100% black/white pictures to measure delay.
-/// Compatible with HardwareRunManager.
+/// Overrides a minimal number of methods to handle black/white, a lot of the other
+/// changes are made through the NIB file. Compatible with HardwareRunManager.
 ///
 @interface VideoMonoRunManager : VideoRunManager {
-    bool currentColorIsWhite;
+    bool currentColorIsWhite;   //!< Internal: true when we are displaying white
     // Black/white detection
-    int blacklevel;
-    int whitelevel;
-    int nBWdetections;
-    NSRect sensitiveArea;
+    int blacklevel;             //!< Internal: darkest color seen during prerun
+    int whitelevel;             //!< Internal: lightest color seen during prerun
+    NSRect sensitiveArea;       //!< Internal: where we look for black/white in the input signal.
 }
 
 + (void)initialize;
 - (VideoMonoRunManager *)init;
 
 - (CIImage *)newOutputStart;
-
-
-#if 0
-// Monochrome support
-- (void)_mono_showNewData;
-- (void)_mono_newInputDone: (bool)isWhite;
-- (void)_mono_pollInput;
-#endif
 
 @end
 

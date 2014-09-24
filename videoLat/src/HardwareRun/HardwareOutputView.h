@@ -16,12 +16,12 @@
 @interface HardwareOutputView : NSView <OutputViewProtocol> {
 }
 
-@property BOOL mirrored; // Ignored
-@property(readonly) NSString *deviceID;
-@property(readonly) NSString *deviceName;
-@property(weak) IBOutlet NSObject <HardwareLightProtocol> *device;
-@property(weak) IBOutlet NSButton *bOutputValue;
+@property BOOL mirrored;                    //!< Unused
+@property(readonly) NSString *deviceID;     //!< accessor for device.deviceID
+@property(readonly) NSString *deviceName;	//!< accessor for device.deviceName
+@property(weak) IBOutlet NSObject <HardwareLightProtocol> *device;  //!< Initialized by NIB: our output device
+@property(weak) IBOutlet NSButton *bOutputValue;    //!< UI element that shows current output value
 
-- (void) showNewData;
+- (void) showNewData;   //!< Called when new data should be shown
  
 @end

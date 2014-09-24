@@ -24,7 +24,6 @@
     if (self) {
 		blacklevel = 255;
 		whitelevel = 0;
-		nBWdetections = 0;
     }
     return self;
 }
