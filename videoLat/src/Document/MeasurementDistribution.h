@@ -19,19 +19,25 @@
 ///
 
 @interface MeasurementDistribution : NSObject <GraphDataProviderProtocol> {
-    NSMutableArray *store;
-    int binCount;
-    double binSize;
+    NSMutableArray *store;  //!< Internal: storage for our distribution bins
+    int binCount;           //!< Internal: number of bins in store
+    double binSize;         //!< Internal: width of each bin
 }
-@property(readonly) double average;
-@property(readonly) double stddev;
-@property(readonly) double max;
-@property(readonly) double maxXaxis;
-@property(weak) IBOutlet id <GraphDataProviderProtocol> source;
+@property(readonly) double average;     //!< accessor for average of source
+@property(readonly) double stddev;      //!< accessor for stddev of source
+@property(readonly) double max;         //!< current maximum value (value of biggest bin)
+@property(readonly) double maxXaxis;    //!< maximum of source, and therefore our rightmost data point
+@property(weak) IBOutlet id <GraphDataProviderProtocol> source; //!< Source of our data points
 
+///
+/// Initializer.
+/// @param source the set of datapoints this object should compute the distribution of
+/// The current implementation expects the source to be static, i.e. it only recomputes the distribution initially
+/// and assumes the data in the source doesn't change.
+///
 - (MeasurementDistribution *)initWithSource: (MeasurementDataStore *)source;
-- (void)awakeFromNib;
-- (void)_recompute;
-- (NSNumber *)valueForIndex: (int) i;
-- (NSString *) asCSVString;
+- (void)awakeFromNib;                   //!< Initializer
+- (void)_recompute;                     //!< Internal: recompute disitrbution
+- (NSNumber *)valueForIndex: (int) i;   //!< Used by GraphView: get one data point
+- (NSString *) asCSVString;             //!< Get distribution data as CSV string
 @end
