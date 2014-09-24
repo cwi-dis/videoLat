@@ -59,19 +59,6 @@
 	}
 }
 
-- (IBAction)toggleFullscreen: (NSMenuItem*)sender
-{
-    NSInteger state = [sender state];
-    state = (state == NSOffState) ? NSOnState : NSOffState;
-    if (VL_DEBUG) NSLog(@"Fullscreen now %d\n", (int)state);
-    [sender setState: state];
-    if (state == NSOnState) {
-        [self enterFullScreenMode: [NSScreen mainScreen] withOptions:nil];
-    } else {
-        [self exitFullScreenModeWithOptions: nil];
-    }
-}
-
 - (void)showNewData {
 	[self setNeedsDisplay:YES];
 }
