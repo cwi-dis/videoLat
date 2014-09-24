@@ -33,7 +33,5 @@
 - (void) showNewData;
 
 - (void)drawRect:(NSRect)dirtyRect;
-	
-- (IBAction)toggleFullscreen: (NSMenuItem*) sender;
  
 @end
