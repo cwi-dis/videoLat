@@ -22,7 +22,6 @@
 }
 
 @property BOOL mirrored;                    //!< Set to true by manager if image should be displayed mirrored
-@property BOOL visible;
 @property(readonly) NSString *deviceID;     //!< Unique string that identifies the output device
 @property(readonly) NSString *deviceName;	//!< Human-readable string that identifies the output device
 @property(weak) IBOutlet id <RunOutputManagerProtocol> manager;
