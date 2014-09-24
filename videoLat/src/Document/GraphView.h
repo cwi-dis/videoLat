@@ -1,8 +1,8 @@
+///
+///  @file GraphView.h
+///  @brief Defines the GraphView object.
 //
-//  GraphView.h
-//  videoLat
-//
-//  Created by Jack Jansen on 12-11-13.
+//  Copyright 2010-2014 Centrum voor Wiskunde en Informatica. Licensed under GPL3.
 //
 //
 

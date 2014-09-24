@@ -1,9 +1,9 @@
+///
+///  @file MeasurementType.h
+///  @brief Definition of MeasurementType object.
 //
-//  MeasurementType.h
-//  videoLat
-//
-//  Created by Jack Jansen on 21/11/13.
 //  Copyright 2010-2014 Centrum voor Wiskunde en Informatica. Licensed under GPL3.
+//
 //
 
 #import <Cocoa/Cocoa.h>

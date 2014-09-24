@@ -1,9 +1,9 @@
+///
+///  @file RunCollector.h
+///  @brief Defines the RunCollector object.
 //
-//  output.h
-//  macMeasurements
-//
-//  Created by Jack Jansen on 23-08-10.
 //  Copyright 2010-2014 Centrum voor Wiskunde en Informatica. Licensed under GPL3.
+//
 //
 
 #import <Cocoa/Cocoa.h>
@@ -21,12 +21,16 @@
 @end
 #define BASECLASS RunClock
 #else
+/// Because CLOCK_IN_COLLECTOR is not defined the RunCollector does not contain a clock.
 #define BASECLASS NSObject
 #endif
 
 ///
 /// Helper object for BaseRunManager. Records transmission and reception times and populates
 /// MeasurementDataStore.
+/// During compile time the decision can be made to either have RunCollector use an internal clock,
+/// or use a clock defined externally and assigned in the NIB. The latter is better, and
+/// will normally use a clock provided by the input driver.
 ///
 @interface RunCollector : BASECLASS {
     NSString* lastTransmission;         //!< Internal: records most recently transmitted data

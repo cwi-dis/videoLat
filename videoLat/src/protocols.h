@@ -1,19 +1,20 @@
+///
+///  @file protocols.h
+///  @brief Various protocols for which multiple implementations exist.
 //
-//  protocols.h
-//  videoLat
-//
-//  Created by Jack Jansen on 06/11/13.
+//  Copyright 2010-2014 Centrum voor Wiskunde en Informatica. Licensed under GPL3.
 //
 //
+
 
 #ifndef videoLat_protocols_h
 #define videoLat_protocols_h
 #import <Cocoa/Cocoa.h>
 
-// This constant needs to go somewhere...
+/// Version of our document files (not program version).
 #define VIDEOLAT_FILE_VERSION @"0.5"
 
-// Global debug stuff
+/// Turn on global debugging, at compile time
 #define VL_DEBUG 0
 
 ///

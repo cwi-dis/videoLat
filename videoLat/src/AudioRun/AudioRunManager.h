@@ -20,13 +20,13 @@
 /// or echo cancellation.
 ///
 @interface AudioRunManager : BaseRunManager {
-    uint64_t outputStartTime;       //!< Internal: When the last output was started
-	BOOL outputActive;				//!< Internal: True while we are outputting (and can't start again
-	BOOL foundCurrentSample;		//!< Internal: True if we have found a match
-	BOOL triggerOutputWhenDone;		//!< Internal: True if we can start a new output when the current one is done
+    uint64_t outputStartTime;       //!< When the last output was started
+	BOOL outputActive;				//!< True while we are outputting (and can't start again
+	BOOL foundCurrentSample;		//!< True if we have found a match
+	BOOL triggerOutputWhenDone;		//!< True if we can start a new output when the current one is done
 
-    uint64_t maxDelay;				//!< Internal: How long to wait for code finding
-    int prerunMoreNeeded;           //!< Internal: How many more prerun correct catches we need
+    uint64_t maxDelay;				//!< How long to wait for code finding
+    int prerunMoreNeeded;           //!< How many more prerun correct catches we need
     
 }
 
