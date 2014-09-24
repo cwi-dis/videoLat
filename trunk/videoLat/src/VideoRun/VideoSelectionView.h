@@ -9,15 +9,21 @@
 #import <Foundation/Foundation.h>
 #import "VideoInput.h"
 
+///
+/// Subclass of NSView that allows user to select camera to use as input source
+/// and possibly the calibration run to base the new measurement run on.
+/// This is a separate class because it is shared among the various video-based
+/// measurement runs.
+///
 @interface VideoSelectionView : NSView
-@property(weak) IBOutlet NSPopUpButton *bCameras;
-@property(weak) IBOutlet NSPopUpButton *bBase;
-@property(weak) IBOutlet NSButton *bPreRun;
-@property(weak) IBOutlet NSButton *bRun;
-@property(weak) IBOutlet VideoInput *inputHandler;
+@property(weak) IBOutlet NSPopUpButton *bCameras;   //!< UI element: all available cameras
+@property(weak) IBOutlet NSPopUpButton *bBase;      //!< UI element: available calibration runs
+@property(weak) IBOutlet NSButton *bPreRun;         //!< UI element: start preparing a measurement run
+@property(weak) IBOutlet NSButton *bRun;            //!< UI element: start a measurement run
+@property(weak) IBOutlet VideoInput *inputHandler;  //!< Input handler, will be told about camera changes
 
-- (IBAction)cameraChanged: (id) sender;
-- (void)_updateCameraNames: (NSNotification*) notification;
-- (void)_reselectCamera: (NSString *)name;
+- (IBAction)cameraChanged: (id) sender;     //!< Called when the user makes a new selection in bCameras
+- (void)_updateCameraNames: (NSNotification*) notification; //!< Called by notification manager when a camera is attached/removed.
+- (void)_reselectCamera: (NSString *)name;  //!< Internal: try to re-select our camera on camera change
 
 @end

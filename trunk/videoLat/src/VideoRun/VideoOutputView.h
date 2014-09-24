@@ -32,6 +32,6 @@
 
 - (void) showNewData;
 
-- (void)drawRect:(NSRect)dirtyRect;
+- (void)drawRect:(NSRect)dirtyRect; //!< redraw callback
  
 @end

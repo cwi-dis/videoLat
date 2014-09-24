@@ -42,7 +42,7 @@
 - (void)stop;
 
 - (IBAction)startPreMeasuring: (id)sender;  //!< Called when user presses "prepare" button
-- (IBAction)stopPreMeasuring: (id)sender;   //!< Internal: stop premeasuring because we have heard enough
+- (IBAction)stopPreMeasuring: (id)sender;   //!< Internal: stop pre-measuring because we have heard enough
 - (IBAction)startMeasuring: (id)sender;     //!< Called when user presses "start" button
 
 - (void)triggerNewOutputValue;
