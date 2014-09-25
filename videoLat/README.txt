@@ -35,6 +35,7 @@ on <http://videolat.sourceforge.net>.
 
 Change Log
 ==========
+1.0.3: Source-only, includes building the Doxygen documentation
 1.0.2: Bug fix: calibrations could not be found due to sandboxing
 1.0: First official release
 0.90: complete refactoring, new user interface, added audio
@@ -150,6 +151,11 @@ update the VIDEOLAT_VERSION variable in the xcode project "build settings" secti
 Then you "Archive", then you "Validate" and "Distribute" that archive. For a
 source distribution you run the script "scripts/mksrcdistr.sh" which will create
 a tarball in the "build" directory and test that it builds. 
+
+6. If you want to build the Doxygen documentation you should install Doxygen
+via <http://www.stack.nl/~dimitri/doxygen/> and GraphViz 
+via <http://www.graphviz.org/Download_macos.php> and install both. Then
+you can use the toplevel Doxyfile or the XCode target.
 
 Contact
 =======

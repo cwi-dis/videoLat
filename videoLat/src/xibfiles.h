@@ -11,7 +11,7 @@
 
  @section global Global structure overview
  
- The global structure of videoLat is follows the normal pattern for a Cocoa dodument-based application.
+ The global structure of videoLat follows the normal pattern for a Cocoa dodument-based application.
  This global structure is contained in the files MainMenu.xib, Document.xib and the inevitable main.m.
  The main classes and their helper classes are:
  
