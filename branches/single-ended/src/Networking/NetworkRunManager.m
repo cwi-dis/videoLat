@@ -98,11 +98,13 @@
 - (void)restart
 {
     NSLog(@"NetworkRunManager.restart. Unsure what to do...");
+    [self.capturer startCapturing: YES];
 }
 
 - (void)stop
 {
-	[NSException raise:@"NetworkRunManager" format:@"Must override stop in subclass"];
+	//[NSException raise:@"NetworkRunManager" format:@"Must override stop in subclass"];
+    NSLog(@"NetworkRunManager.stop. Unsure what to do...");
 }
 
 - (void)triggerNewOutputValue
@@ -132,9 +134,23 @@
 	[NSException raise:@"NetworkRunManager" format:@"Must override newInputStart in subclass"];
 }
 
-- (void)newInputStart: (uint64_t)timestamp
+- (void) newInputStart:(uint64_t)timestamp
 {
-	[NSException raise:@"NetworkRunManager" format:@"Must override newInputStart: in subclass"];
+    @synchronized(self) {
+         inputStartTime = timestamp;
+        
+        // Sanity check: times should be monotonically increasing
+        if (prevInputStartTime && prevInputStartTime >= inputStartTime) {
+            NSAlert *alert = [NSAlert alertWithMessageText:@"Warning: input clock not monotonically increasing."
+                                             defaultButton:@"OK"
+                                           alternateButton:nil
+                                               otherButton:nil
+                                 informativeTextWithFormat:@"Previous value was %lld, current value is %lld.\nConsult Helpfile if this error persists.",
+                              (long long)prevInputStartTime,
+                              (long long)inputStartTime];
+            [alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
+        }
+    }
 }
 
 
@@ -144,15 +160,71 @@
 }
 
 
-- (void) newInputDone: (void*)buffer
-    width: (int)w
-    height: (int)h
-    format: (const char*)formatStr
-    size: (int)size
+- (void) newInputDone: (void*)buffer width: (int)w height: (int)h format: (const char*)formatStr size: (int)size
 {
-	[NSException raise:@"NetworkRunManager" format:@"Must override newInputDone in subclass"];
+    @synchronized(self) {
+        if (inputStartTime == 0) {
+            NSLog(@"newInputDone called, but inputStartTime==0\n");
+            return;
+        }
+        
+        char *code = [self.finder find: buffer width: w height: h format: formatStr size:size];
+        BOOL foundQRcode = (code != NULL);
+        if (foundQRcode) {
+            
+            // Compare the code to what was expected.
+            if (prevInputCode && strcmp(code, [prevInputCode UTF8String]) == 0) {
+                prevInputCodeDetectionCount++;
+                }
+            } else {
+                // Any code found.
+                NSLog(@"Found QR-code: %s", code);
+#if 0
+                // Let's first report it.
+                if (self.running) {
+                    BOOL ok = [self.collector recordReception: self.outputCompanion.outputCode at: inputStartTime];
+                    if (!ok) {
+                        NSAlert *alert = [NSAlert alertWithMessageText:@"Reception before transmission."
+                                                         defaultButton:@"OK"
+                                                       alternateButton:nil
+                                                           otherButton:nil
+                                             informativeTextWithFormat:@"Code %@ was transmitted at %lld, but received at %lld.\nConsult Helpfile if this error persists.",
+                                          self.outputCompanion.outputCode,
+                                          (long long)prerunOutputStartTime,
+                                          (long long)inputStartTime];
+                        [alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
+                    }
+                } else if (self.preRunning) {
+                    [self _prerunRecordReception: self.outputCompanion.outputCode];
+                }
+                // Now do a sanity check that it is greater than the previous detected code
+                if (prevInputCode && [prevInputCode length] >= [self.outputCompanion.outputCode length] && [prevInputCode compare:self.outputCompanion.outputCode] >= 0) {
+                    NSAlert *alert = [NSAlert alertWithMessageText:@"Warning: input QR-code not monotonically increasing."
+                                                     defaultButton:@"OK"
+                                                   alternateButton:nil
+                                                       otherButton:nil
+                                         informativeTextWithFormat:@"Previous value was %@, current value is %@.\nConsult Helpfile if this error persists.",
+                                      prevInputCode, self.outputCompanion.outputCode];
+                    [alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
+                }
+                // Now let's remember it so we don't generate "bad code" messages
+                // if we detect it a second time.
+#endif
+                prevInputCode = self.outputCompanion.outputCode;
+                prevInputCodeDetectionCount = 0;
+                prevInputStartTime = inputStartTime;
+            }
+        }
+        inputStartTime = 0;
+#if 0
+        if (self.running) {
+            self.statusView.detectCount = [NSString stringWithFormat: @"%d", self.collector.count];
+            self.statusView.detectAverage = [NSString stringWithFormat: @"%.3f ms ± %.3f", self.collector.average / 1000.0, self.collector.stddev / 1000.0];
+            [self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
+        }
+#endif
+    }
 }
-
 - (void)newInputDone: (void*)buffer
                 size: (int)size
             channels: (int)channels
