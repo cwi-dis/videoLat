@@ -13,6 +13,7 @@
 #import "HardwareRunManager.h"
 #import "AudioRunManager.h"
 #import "AudioCalibrationRunManager.h"
+#import "NetworkRunManager.h"
 
 @implementation appDelegate
 @synthesize measurementTypes;
@@ -27,20 +28,15 @@
 	[self _loadCalibrationsFrom:url];
     
     // Initialize run manager classes. Should be done differently.
-#if 0
-    [VideoRunManager initialize];
-    [VideoCalibrationRunManager initialize];
-	[VideoMonoRunManager initialize];
-    [HardwareRunManager initialize];
-#else
     [VideoRunManager class];
     [VideoCalibrationRunManager class];
 	[VideoMonoRunManager class];
     [HardwareRunManager class];
     [AudioRunManager class];
     [AudioCalibrationRunManager class];
-#endif
-	// Initialize location manager stuff
+    [NetworkRunManager class];
+
+    // Initialize location manager stuff
 	self.location = @"Unknown location";
 	self.locationManager = [[CLLocationManager alloc] init];
 	self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;

@@ -38,6 +38,7 @@
 {
     for (NSString *itemTitle in [bType itemTitles]) {
         BOOL exists = [BaseRunManager classForMeasurementType: itemTitle] != nil;
+        //if (!exists) NSLog(@"RunTypeView: disable type \"%@\" for which no class exists", itemTitle);
         [[bType itemWithTitle: itemTitle] setEnabled: exists];
     }
     // Try to set same as in previous run
@@ -81,6 +82,8 @@
 	NSString *runClassNib = [BaseRunManager nibForMeasurementType:typeName];
     BOOL ok = YES;
     NSString *errorMsg = @"";
+    // XXXJACK the following code is wrong: different measurements can be done by the same class,
+    // but instantiated through different nib files. Switching between these will not work....
 	if (self.runManager == nil || [self.runManager class] != runClass) {
 		if (self.runManager) [(BaseRunManager *)self.runManager stop];
         self.runManager = nil; // Get rid of old runManager.

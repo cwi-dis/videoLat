@@ -1,5 +1,5 @@
 //
-//  OutputManager.h
+//  VideoRunManager.h
 //
 //  Created by Jack Jansen on 27-08-10.
 //  Copyright 2010-2014 Centrum voor Wiskunde en Informatica. Licensed under GPL3.

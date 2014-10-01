@@ -14,6 +14,8 @@
 {
     [BaseRunManager registerClass: [self class] forMeasurementType: @"Video Mono Roundtrip"];
     [BaseRunManager registerNib: @"VideoMonoRunManager" forMeasurementType: @"Video Mono Roundtrip"];
+    // We also register ourselves for camera calibration. At the very least we must make
+    // sure the nibfile is registered...
     [BaseRunManager registerClass: [self class] forMeasurementType: @"Camera Input Calibrate"];
     [BaseRunManager registerNib: @"HardwareToCameraRunManager" forMeasurementType: @"Camera Input Calibrate"];
 }

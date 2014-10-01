@@ -75,6 +75,11 @@
 - (void) showNewData;
 @end
 
+@protocol NetworkViewProtocol
+- (void) reportClient: (NSString *)ip port: (int)port isUs: (BOOL) us;
+- (void) reportServer: (NSString *)ip port: (int)port isUs: (BOOL) us;
+@end
+
 ///
 /// Protocol for an object that captures input patterns, and for enabling the user to
 /// select the input device to use.

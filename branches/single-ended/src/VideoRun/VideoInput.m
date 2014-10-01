@@ -285,7 +285,7 @@
         [self.selfView setHidden: NO];
     }
     
-	if (1 || VL_DEBUG) NSLog(@"Camera format: %@ %@ %@", dev.activeFormat.mediaType, dev.activeFormat.formatDescription, dev.activeFormat.videoSupportedFrameRateRanges);
+	if (VL_DEBUG) NSLog(@"Camera format: %@ %@ %@", dev.activeFormat.mediaType, dev.activeFormat.formatDescription, dev.activeFormat.videoSupportedFrameRateRanges);
 
 	/* Let the video madness begin */
 	capturing = NO;
@@ -391,7 +391,7 @@
         // timestamp clock. We do so slowly, because our dispatch_queue seems to give us
         // callbacks in some time-slotted fashion.
         epoch += (delta/10);
-        NSLog(@"VideoInput: clock: delta %lld us, epoch set to %lld uS", delta, epoch);
+        //NSLog(@"VideoInput: clock: delta %lld us, epoch set to %lld uS", delta, epoch);
     }
 	[self.manager newInputStart: timestamp];
 

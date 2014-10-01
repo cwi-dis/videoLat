@@ -48,8 +48,8 @@ static NSMutableDictionary *byTag;
     MeasurementType *cal_IN = [self addType: @"Camera Input Calibrate" tag: 4 isCalibration: YES requires: cal_HW];
     MeasurementType *cal_OUT = [self addType: @"Screen Output Calibrate" tag: 5 isCalibration: YES requires: cal_HW];
 
-    [self addType: @"Video Reception" tag: 6 isCalibration: NO requires: cal_IN];
-    [self addType: @"Video Transmission" tag: 7 isCalibration: NO requires: cal_OUT];
+    [self addType: @"Video Transmission (Master/Server)" tag: 6 isCalibration: NO requires: /*cal_OUT*/nil];
+    [self addType: @"Video Reception (Slave/Client)" tag: 7 isCalibration: NO requires: /*cal_IN*/nil];
 
     MeasurementType *cal_AR = [self addType: @"Audio Roundtrip Calibrate" tag: 8 isCalibration: YES requires: nil];
     [self addType: @"Audio Roundtrip" tag: 9 isCalibration: NO requires: cal_AR];
