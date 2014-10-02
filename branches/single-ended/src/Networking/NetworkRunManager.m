@@ -211,11 +211,11 @@
         BOOL foundQRcode = (ccode != NULL);
         if (foundQRcode) {
 			NSString *code = [NSString stringWithUTF8String: ccode];
-            
+
             // Compare the code to what was expected.
             if (prevInputCode && [code isEqualToString: prevInputCode]) {
                 prevInputCodeDetectionCount++;
-				NSLog(@"Found %d copies since %lld (%lld) of %@", prevInputCodeDetectionCount, prevInputStartTime, prevInputStartTimeRemote, prevInputCode);
+				//NSLog(@"Found %d copies since %lld (%lld) of %@", prevInputCodeDetectionCount, prevInputStartTime, prevInputStartTimeRemote, prevInputCode);
             } else {
                 // Any code found.
                 prevInputCode = code;
@@ -223,6 +223,13 @@
                 prevInputStartTime = inputStartTime;
 				prevInputStartTimeRemote = [self.remoteClock remoteNow:prevInputStartTime];
                 NSLog(@"Found QR-code: %@", code);
+				NSURLComponents *urlComps = [NSURLComponents componentsWithString: code];
+				if (urlComps) {
+					if ([urlComps.path isEqualToString: @"/landing"]) {
+						NSString *query = urlComps.query;
+						NSLog(@"Server info: %@", query);
+					}
+				}
 #if 0
                 // Let's first report it.
                 if (self.running) {
