@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		041714DD19DDEF340019FA45 /* NetworkProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 041714DC19DDEF340019FA45 /* NetworkProtocol.m */; };
 		044F3D7D183A46390008CBA3 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 044F3D7C183A46390008CBA3 /* AVFoundation.framework */; };
 		044F3D7F183A46540008CBA3 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 044F3D7E183A46540008CBA3 /* CoreMedia.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		044F3D81183A467F0008CBA3 /* libpython2.7.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 044F3D80183A467F0008CBA3 /* libpython2.7.dylib */; };
@@ -79,6 +80,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		041714DB19DDECBE0019FA45 /* NetworkProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NetworkProtocol.h; path = Networking/NetworkProtocol.h; sourceTree = "<group>"; };
+		041714DC19DDEF340019FA45 /* NetworkProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NetworkProtocol.m; path = Networking/NetworkProtocol.m; sourceTree = "<group>"; };
 		044F3D7C183A46390008CBA3 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = /System/Library/Frameworks/AVFoundation.framework; sourceTree = "<absolute>"; };
 		044F3D7E183A46540008CBA3 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = ../../../../System/Library/Frameworks/CoreMedia.framework; sourceTree = "<group>"; };
 		044F3D80183A467F0008CBA3 /* libpython2.7.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libpython2.7.dylib; path = ../../../../System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/config/libpython2.7.dylib; sourceTree = "<group>"; };
@@ -481,6 +484,8 @@
 				04EEC1D219DC8E2E0056899C /* NetworkInput.m */,
 				04EEC1CE19DC4D9E0056899C /* NetworkOutputView.h */,
 				04EEC1CF19DC4D9E0056899C /* NetworkOutputView.m */,
+				041714DB19DDECBE0019FA45 /* NetworkProtocol.h */,
+				041714DC19DDEF340019FA45 /* NetworkProtocol.m */,
 				04EEC1DA19DC93A70056899C /* NetworkRunManager.h */,
 				04EEC1DB19DC93A70056899C /* NetworkRunManager.m */,
 				04EEC1D519DC8E2E0056899C /* NetworkSelectionView.h */,
@@ -638,6 +643,7 @@
 				049725E818FD568A00625326 /* HardwareRunManager.m in Sources */,
 				0497260918FD580300625326 /* findQRcodes.mm in Sources */,
 				049725DD18FD563E00625326 /* BaseRunManager.m in Sources */,
+				041714DD19DDEF340019FA45 /* NetworkProtocol.m in Sources */,
 				0497261318FD581700625326 /* VideoMonoRunManager.m in Sources */,
 				049725E718FD568A00625326 /* HardwareOutputView.m in Sources */,
 				0497263718FD592C00625326 /* DocumentDescriptionView.m in Sources */,

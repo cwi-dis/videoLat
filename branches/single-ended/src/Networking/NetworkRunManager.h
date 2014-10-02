@@ -8,6 +8,7 @@
 
 #import "BaseRunManager.h"
 #import "NetworkSelectionView.h"
+#import "NetworkProtocol.h"
 
 ///
 /// Subclass of BaseRunManager that handles transmitting and receiving measurement
@@ -28,6 +29,7 @@
 @property(weak) IBOutlet NetworkSelectionView *selectionView;   //!< UI element: all available cameras
 @property(weak) IBOutlet id <InputCaptureProtocol> capturer;        //!< Assigned in NIB: video capturer
 @property(weak) IBOutlet id <InputVideoFindProtocol> finder;        //!< Assigned in NIB: matches incoming QR codes
+@property NetworkProtocolCommon *protocol;
 
 + (void)initialize;	//!< Class initializer.
 

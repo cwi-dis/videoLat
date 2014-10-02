@@ -7,6 +7,7 @@
 //
 
 #import "NetworkRunManager.h"
+
 @interface SimpleRemoteClock : NSObject  <RemoteClockProtocol> {
 	int64_t localTimeToRemoteTime;
 };
@@ -225,9 +226,21 @@
                 NSLog(@"Found QR-code: %@", code);
 				NSURLComponents *urlComps = [NSURLComponents componentsWithString: code];
 				if (urlComps) {
-					if ([urlComps.path isEqualToString: @"/landing"]) {
+					if ([urlComps.path isEqualToString: @"/landing"] && self.protocol == nil) {
 						NSString *query = urlComps.query;
 						NSLog(@"Server info: %@", query);
+                        const char *cQuery = [query UTF8String];
+                        char ipBuffer[128];
+                        int port;
+                        int rv = sscanf(cQuery, "ip=%126[^&]&port=%d", ipBuffer, &port);
+                        if (rv != 2) {
+                            NSLog(@"Unexcepted format in network-address-url: %@", code);
+                        } else {
+                            self.protocol = [[NetworkProtocolClient alloc] initWithPort:port host: [NSString stringWithUTF8String:ipBuffer]];
+                            if (self.protocol == nil) {
+                                NSLog(@"Failed to open network connection");
+                            }
+                        }
 					}
 				}
 #if 0
