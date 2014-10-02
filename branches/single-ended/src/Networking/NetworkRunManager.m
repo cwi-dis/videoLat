@@ -167,17 +167,22 @@
             NSLog(@"newInputDone called, but inputStartTime==0\n");
             return;
         }
-        
-        char *code = [self.finder find: buffer width: w height: h format: formatStr size:size];
-        BOOL foundQRcode = (code != NULL);
+
+		assert(self.finder);
+        char *ccode = [self.finder find: buffer width: w height: h format: formatStr size:size];
+        BOOL foundQRcode = (ccode != NULL);
         if (foundQRcode) {
+			NSString *code = [NSString stringWithUTF8String: ccode];
             
             // Compare the code to what was expected.
-            if (prevInputCode && strcmp(code, [prevInputCode UTF8String]) == 0) {
+            if (prevInputCode && [code isEqualToString: prevInputCode]) {
                 prevInputCodeDetectionCount++;
-                }
+				NSLog(@"Found %d copies since %lld of %@", prevInputCodeDetectionCount, prevInputStartTime, prevInputCode);
             } else {
                 // Any code found.
+                prevInputCode = code;
+                prevInputCodeDetectionCount = 0;
+                prevInputStartTime = inputStartTime;
                 NSLog(@"Found QR-code: %s", code);
 #if 0
                 // Let's first report it.
@@ -210,9 +215,6 @@
                 // Now let's remember it so we don't generate "bad code" messages
                 // if we detect it a second time.
 #endif
-                prevInputCode = self.outputCompanion.outputCode;
-                prevInputCodeDetectionCount = 0;
-                prevInputStartTime = inputStartTime;
             }
         }
         inputStartTime = 0;
