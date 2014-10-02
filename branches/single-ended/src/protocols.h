@@ -29,6 +29,21 @@
 @end
 
 ///
+/// Protocol for an object that tracks a remote clock.
+///
+@protocol RemoteClockProtocol
+///
+/// Convert local time to remote time
+///
+- (uint64_t)remoteNow: (uint64_t) now;
+
+///
+/// Add measurement of round-trip
+///
+- (void)remote: (uint64_t)remote between: (uint64_t)start and: (uint64_t) finish;
+@end
+
+///
 /// Protocol for an object that finds patterns in an image input buffer
 ///
 @protocol InputVideoFindProtocol

@@ -16,12 +16,15 @@
 /// This calss is never used as-is, it is always used as only an input component or only an output component.
 ///
 @interface NetworkRunManager : BaseRunManager {
-    uint64_t inputStartTime;        //!< Internal: When last input was read
-    uint64_t prevInputStartTime;    //!< Internal: When last input was read
-    NSString *prevInputCode;        //!< Internal: for checking monotonous increase
-    int prevInputCodeDetectionCount;    //!<Internal: Number of times we re-detected a code.
+    uint64_t inputStartTime;			//!< Internal: When last input was read, in local clock time
+    uint64_t prevInputStartTime;		//!< Internal: When last input was read
+	uint64_t prevInputStartTimeRemote;	//!< Internal: When last input was read, in remote clock time
+    NSString *prevInputCode;			//!< Internal: for checking monotonous increase
+    int prevInputCodeDetectionCount;    //!< Internal: Number of times we re-detected a code.
+	NSObject <RemoteClockProtocol> *_keepRemoteClock;	//!< Internal: retain self-allocated clock
 }
 
+@property(weak) IBOutlet id <RemoteClockProtocol> remoteClock;	//!< Can be assigned in NIB: object keeping remote time.
 @property(weak) IBOutlet NetworkSelectionView *selectionView;   //!< UI element: all available cameras
 @property(weak) IBOutlet id <InputCaptureProtocol> capturer;        //!< Assigned in NIB: video capturer
 @property(weak) IBOutlet id <InputVideoFindProtocol> finder;        //!< Assigned in NIB: matches incoming QR codes

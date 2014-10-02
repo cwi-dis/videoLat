@@ -7,6 +7,34 @@
 //
 
 #import "NetworkRunManager.h"
+@interface SimpleRemoteClock : NSObject  <RemoteClockProtocol> {
+	int64_t localTimeToRemoteTime;
+};
+- (uint64_t)remoteNow: (uint64_t) now;
+- (void)remote: (uint64_t)remote between: (uint64_t)start and: (uint64_t) finish;
+@end
+
+@implementation SimpleRemoteClock
+- (SimpleRemoteClock *) init
+{
+	self = [super init];
+	localTimeToRemoteTime = 0;
+	return self;
+}
+
+- (uint64_t)remoteNow: (uint64_t) now
+{
+	return now + localTimeToRemoteTime;
+}
+
+- (void)remote: (uint64_t)remote between: (uint64_t)start and: (uint64_t) finish
+{
+	uint64_t mid = (finish+start)/2;
+	localTimeToRemoteTime = remote - mid;
+}
+
+@end
+
 @implementation NetworkRunManager
 
 + (void)initialize
@@ -28,7 +56,6 @@
     [BaseRunManager registerNib: @"SlaveReceiverRun" forMeasurementType: @"Video Reception (Slave/Client)"];
 }
 
-#if 0
 - (NetworkRunManager *) init
 {
     self = [super init];
@@ -38,6 +65,17 @@
     }
     return self;
 }
+
+- (void)awakeFromNib
+{
+	if (self.remoteClock == nil) {
+		_keepRemoteClock = [[SimpleRemoteClock alloc] init];
+		self.remoteClock = _keepRemoteClock;
+	}
+}
+
+
+#if 0
 
 - (void)terminate
 {
@@ -177,13 +215,14 @@
             // Compare the code to what was expected.
             if (prevInputCode && [code isEqualToString: prevInputCode]) {
                 prevInputCodeDetectionCount++;
-				NSLog(@"Found %d copies since %lld of %@", prevInputCodeDetectionCount, prevInputStartTime, prevInputCode);
+				NSLog(@"Found %d copies since %lld (%lld) of %@", prevInputCodeDetectionCount, prevInputStartTime, prevInputStartTimeRemote, prevInputCode);
             } else {
                 // Any code found.
                 prevInputCode = code;
                 prevInputCodeDetectionCount = 0;
                 prevInputStartTime = inputStartTime;
-                NSLog(@"Found QR-code: %s", code);
+				prevInputStartTimeRemote = [self.remoteClock remoteNow:prevInputStartTime];
+                NSLog(@"Found QR-code: %@", code);
 #if 0
                 // Let's first report it.
                 if (self.running) {
