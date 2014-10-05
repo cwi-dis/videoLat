@@ -213,17 +213,24 @@
         if (foundQRcode) {
 			NSString *code = [NSString stringWithUTF8String: ccode];
 
-            // Compare the code to what was expected.
             if (prevInputCode && [code isEqualToString: prevInputCode]) {
+                // We have seen this code before. Only increment the detection count.
                 prevInputCodeDetectionCount++;
 				//NSLog(@"Found %d copies since %lld (%lld) of %@", prevInputCodeDetectionCount, prevInputStartTime, prevInputStartTimeRemote, prevInputCode);
             } else {
-                // Any code found.
+                // We found a new QR code (at least, different from the last detection).
+                // Remember when we first detected it, and then see what we should do with it.
                 prevInputCode = code;
-                prevInputCodeDetectionCount = 0;
+                prevInputCodeDetectionCount = 1;
                 prevInputStartTime = inputStartTime;
 				prevInputStartTimeRemote = [self.remoteClock remoteNow:prevInputStartTime];
                 NSLog(@"Found QR-code: %@", code);
+                
+                // If it is a URL it is probably a prerun QR-code (which is a URL, so that if
+                // the receiver isn't running videoLat but an ordinary QR-code app they will be sent
+                // to the website where they can download videoLat).
+                // The prerun QR-code contains contact information for the server running on the
+                // master copy of videoLat.
 				NSURLComponents *urlComps = [NSURLComponents componentsWithString: code];
 				if (urlComps) {
 					if ([urlComps.path isEqualToString: @"/landing"] && self.protocol == nil) {
@@ -234,15 +241,34 @@
                         int port;
                         int rv = sscanf(cQuery, "ip=%126[^&]&port=%d", ipBuffer, &port);
                         if (rv != 2) {
-                            NSLog(@"Unexcepted format in network-address-url: %@", code);
+                            self.outputView.bPeerStatus.stringValue = [NSString stringWithFormat: @"Unexcepted URL: %@", code];
                         } else {
-                            self.protocol = [[NetworkProtocolClient alloc] initWithPort:port host: [NSString stringWithUTF8String:ipBuffer]];
+                            NSString *ipAddress = [NSString stringWithUTF8String:ipBuffer];
+                            self.outputView.bPeerIPAddress.stringValue = ipAddress;
+                            self.outputView.bPeerPort.intValue = port;
+                            self.outputView.bPeerStatus.stringValue = @"Connecting...";
+                            
+                            self.protocol = [[NetworkProtocolClient alloc] initWithPort:port host: ipAddress];
                             if (self.protocol == nil) {
-                                NSLog(@"Failed to open network connection");
+                                self.outputView.bPeerStatus.stringValue = @"Failed to connect";
+                            } else {
+                                self.protocol.delegate = self;
+                                self.outputView.bPeerStatus.stringValue = @"Connected";
                             }
                         }
 					}
 				}
+                
+                // All QR codes are sent back to the master, assuming we have a connection to the master already.
+                if (self.protocol) {
+                    NSDictionary *msg = @{
+                                          @"code" : code,
+                                          @"myTime" : [NSString stringWithFormat:@"%lld", prevInputStartTime],
+                                          @"yourTime" : [NSString stringWithFormat:@"%lld", prevInputStartTimeRemote],
+                                          @"count" : [NSString stringWithFormat:@"%d", prevInputCodeDetectionCount]
+                                          };
+                    [self.protocol send: msg];
+                }
 #if 0
                 // Let's first report it.
                 if (self.running) {
@@ -286,6 +312,7 @@
 #endif
     }
 }
+
 - (void)newInputDone: (void*)buffer
                 size: (int)size
             channels: (int)channels
@@ -293,4 +320,18 @@
 {
 	[NSException raise:@"NetworkRunManager" format:@"Must override newInputDone in subclass"];
 }
+
+- (void)received:(NSDictionary *)data from: (id)connection
+{
+    NSLog(@"received %@ from %@ (our protocol %@)", data, connection, self.protocol);
+}
+
+- (void)disconnected:(id)connection
+{
+    NSLog(@"received disconnect from %@ (our protocol %@)", connection, self.protocol);
+    self.protocol = nil;
+    self.outputView.bPeerStatus.stringValue = @"Disconnected";
+}
+
+
 @end

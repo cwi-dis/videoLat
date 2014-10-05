@@ -8,6 +8,7 @@
 
 #import "BaseRunManager.h"
 #import "NetworkSelectionView.h"
+#import "NetworkOutputView.h"
 #import "NetworkProtocol.h"
 
 ///
@@ -16,7 +17,7 @@
 ///
 /// This calss is never used as-is, it is always used as only an input component or only an output component.
 ///
-@interface NetworkRunManager : BaseRunManager {
+@interface NetworkRunManager : BaseRunManager <NetworkProtocolDelegate> {
     uint64_t inputStartTime;			//!< Internal: When last input was read, in local clock time
     uint64_t prevInputStartTime;		//!< Internal: When last input was read
 	uint64_t prevInputStartTimeRemote;	//!< Internal: When last input was read, in remote clock time
@@ -29,9 +30,16 @@
 @property(weak) IBOutlet NetworkSelectionView *selectionView;   //!< UI element: all available cameras
 @property(weak) IBOutlet id <InputCaptureProtocol> capturer;        //!< Assigned in NIB: video capturer
 @property(weak) IBOutlet id <InputVideoFindProtocol> finder;        //!< Assigned in NIB: matches incoming QR codes
+@property(weak) IBOutlet NetworkOutputView *outputView;    //!< Assigned in NIB: visual feedback view of output for the user
 @property NetworkProtocolCommon *protocol;
 
 + (void)initialize;	//!< Class initializer.
+
+// NetworkProtocolDelegate implementation
+/// Received data from the remote end.
+- (NSDictionary *)receivedFrom: (id)me;
+/// Remote end disconnected or connection got lost some other way.
+- (void)disconnected:(id)me;
 
 #if 0
 ///

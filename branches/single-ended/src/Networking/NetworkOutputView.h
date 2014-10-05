@@ -19,6 +19,9 @@
 @property BOOL mirrored;                    //!< Unused
 @property(readonly) NSString *deviceID;     //!< accessor for device.deviceID
 @property(readonly) NSString *deviceName;	//!< accessor for device.deviceName
+@property(weak) IBOutlet NSTextField *bPeerIPAddress;   //!< UI element: shows server IP address
+@property(weak) IBOutlet NSTextField *bPeerPort;        //!< UI element: shows server port
+@property(weak) IBOutlet NSTextField *bPeerStatus;      //!< UI element: shows connection status
 
 - (void) showNewData;   //!< Called when new data should be shown
 

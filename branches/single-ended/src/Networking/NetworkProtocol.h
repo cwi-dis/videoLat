@@ -9,8 +9,8 @@
 #import <Foundation/Foundation.h>
 
 @protocol NetworkProtocolDelegate
-- (NSDictionary *)receivedFrom: (id)me;
-- (void)disconnected:(id)me;
+- (void)received: (NSDictionary *)data from: (id)connection;
+- (void)disconnected:(id)connection;
 @end
 
 @interface NetworkProtocolCommon : NSObject {
