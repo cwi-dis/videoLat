@@ -10,6 +10,7 @@
 
 @interface SimpleRemoteClock : NSObject  <RemoteClockProtocol> {
 	int64_t localTimeToRemoteTime;
+    bool initialized;
 };
 - (uint64_t)remoteNow: (uint64_t) now;
 - (void)remote: (uint64_t)remote between: (uint64_t)start and: (uint64_t) finish;
@@ -20,11 +21,13 @@
 {
 	self = [super init];
 	localTimeToRemoteTime = 0;
+    initialized = false;
 	return self;
 }
 
 - (uint64_t)remoteNow: (uint64_t) now
 {
+    if (!initialized) return 0;
 	return now + localTimeToRemoteTime;
 }
 
@@ -32,6 +35,7 @@
 {
 	uint64_t mid = (finish+start)/2;
 	localTimeToRemoteTime = remote - mid;
+    initialized = true;
 }
 
 @end
@@ -259,16 +263,6 @@
 					}
 				}
                 
-                // All QR codes are sent back to the master, assuming we have a connection to the master already.
-                if (self.protocol) {
-                    NSDictionary *msg = @{
-                                          @"code" : code,
-                                          @"myTime" : [NSString stringWithFormat:@"%lld", prevInputStartTime],
-                                          @"yourTime" : [NSString stringWithFormat:@"%lld", prevInputStartTimeRemote],
-                                          @"count" : [NSString stringWithFormat:@"%d", prevInputCodeDetectionCount]
-                                          };
-                    [self.protocol send: msg];
-                }
 #if 0
                 // Let's first report it.
                 if (self.running) {
@@ -300,6 +294,16 @@
                 // Now let's remember it so we don't generate "bad code" messages
                 // if we detect it a second time.
 #endif
+            }
+            // All QR codes are sent back to the master, assuming we have a connection to the master already.
+            if (self.protocol) {
+                NSDictionary *msg = @{
+                                      @"code" : code,
+                                      @"myTime" : [NSString stringWithFormat:@"%lld", prevInputStartTime],
+                                      @"yourTime" : [NSString stringWithFormat:@"%lld", prevInputStartTimeRemote],
+                                      @"count" : [NSString stringWithFormat:@"%d", prevInputCodeDetectionCount]
+                                      };
+                [self.protocol send: msg];
             }
         }
         inputStartTime = 0;

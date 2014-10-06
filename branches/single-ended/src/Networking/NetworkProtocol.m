@@ -46,7 +46,8 @@
 
 - (void) send: (NSDictionary *)data
 {
-    NSString *stringData = [NSString stringWithFormat: @"%@", data];
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:data options:0 error:nil];
+    NSString *stringData = [NSString stringWithUTF8String:[jsonData bytes]];
     [self sendString: stringData];
 }
 
@@ -72,6 +73,7 @@
 {
     self = [super init];
     if (self) {
+        assert(sock >= 0);
         int rv = listen(sock, 1);
         if (rv < 0) {
             NSLog(@"listen failed");
@@ -96,13 +98,15 @@
 {
     self = [super init];
     if (self) {
+        assert(sock >= 0);
         struct sockaddr_in remote;
+        memset(&remote, 0, sizeof(remote));
         remote.sin_family = AF_INET;
         remote.sin_addr.s_addr = inet_addr([host UTF8String]);
         remote.sin_port = htons(port);
-        int rv = connect(sock, NULL, port);
+        int rv = connect(sock, (struct sockaddr *)&remote, sizeof(remote));
         if (rv < 0) {
-            NSLog(@"connect failed");
+            NSLog(@"connect failed: %s", strerror(errno));
             return nil;
         }
     }
