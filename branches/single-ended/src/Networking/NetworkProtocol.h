@@ -13,8 +13,9 @@
 - (void)disconnected:(id)connection;
 @end
 
-@interface NetworkProtocolCommon : NSObject {
-    int sock;
+@interface NetworkProtocolCommon : NSThread {
+    int sock;               //<! our socket
+    NSString *sendBuffer;   //<! next buffer to send
 }
 
 @property (weak) IBOutlet id <NetworkProtocolDelegate> delegate;
@@ -25,6 +26,7 @@
 - (void) send: (NSDictionary *)data;
 - (void) sendString: (NSString *)data;
 - (void) close;
+- (void) main;
 @end
 
 @interface NetworkProtocolServer : NetworkProtocolCommon

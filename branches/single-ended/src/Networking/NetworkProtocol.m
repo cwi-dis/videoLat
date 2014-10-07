@@ -46,23 +46,55 @@
 
 - (void) send: (NSDictionary *)data
 {
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:data options:0 error:nil];
+    NSError *myError;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:data options:0 error:&myError];
+    if (myError) {
+        NSLog(@"dataWithJSONObject returned error %@", myError);
+        return;
+    }
     NSString *stringData = [NSString stringWithUTF8String:[jsonData bytes]];
-    [self sendString: stringData];
+    if (stringData) {
+        [self sendString: stringData];
+    } else {
+        NSLog(@"send: could not get JSON data for %@", data);
+    }
 }
 
 - (void) sendString: (NSString *)data
 {
     const char *cData = [data UTF8String];
+    NSLog(@"sendString: sending %ld bytes", strlen(cData));
     ssize_t rv = send(sock, cData, strlen(cData), 0);
     if (rv < 0) {
-        [self.delegate disconnected: self];
         [self close];
+        [self.delegate disconnected: self];
     }
 }
 
 - (void) close
 {
+    close(sock);
+    sock = -1;
+}
+
+- (void) main
+{
+    while (sock >= 0) {
+        char buffer[2048];
+        ssize_t rv = recv(sock, buffer, sizeof(buffer), 0);
+        if (rv <= 0) {
+            [self close];
+            [self.delegate disconnected: self];
+        } else {
+            if (buffer[0] == '{' && buffer[rv-1] == '}') {
+                NSData *dataBuf = [NSData dataWithBytesNoCopy:buffer length:rv];
+                NSDictionary *data = [NSJSONSerialization JSONObjectWithData: dataBuf options:0 error:nil];
+                [self.delegate received:data from:self];
+            } else {
+                NSLog(@"Received message not of form {.....}");
+            }
+        }
+    }
 }
 
 @end
@@ -109,6 +141,7 @@
             NSLog(@"connect failed: %s", strerror(errno));
             return nil;
         }
+        [self start];
     }
     return self;
 }
