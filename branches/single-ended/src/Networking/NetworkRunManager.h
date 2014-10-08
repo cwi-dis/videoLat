@@ -26,11 +26,12 @@
 	NSObject <RemoteClockProtocol> *_keepRemoteClock;	//!< Internal: retain self-allocated clock
 }
 
+@property(weak) IBOutlet id <ClockProtocol> clock;              //!< Assigned in NIB: clock source
 @property(weak) IBOutlet id <RemoteClockProtocol> remoteClock;	//!< Can be assigned in NIB: object keeping remote time.
 @property(weak) IBOutlet NetworkSelectionView *selectionView;   //!< UI element: all available cameras
-@property(weak) IBOutlet id <InputCaptureProtocol> capturer;        //!< Assigned in NIB: video capturer
-@property(weak) IBOutlet id <InputVideoFindProtocol> finder;        //!< Assigned in NIB: matches incoming QR codes
-@property(weak) IBOutlet NetworkOutputView *outputView;    //!< Assigned in NIB: visual feedback view of output for the user
+@property(weak) IBOutlet id <InputCaptureProtocol> capturer;    //!< Assigned in NIB: video capturer
+@property(weak) IBOutlet id <InputVideoFindProtocol> finder;    //!< Assigned in NIB: matches incoming QR codes
+@property(weak) IBOutlet NetworkOutputView *outputView;         //!< Assigned in NIB: visual feedback view of output for the user
 @property NetworkProtocolCommon *protocol;
 
 + (void)initialize;	//!< Class initializer.

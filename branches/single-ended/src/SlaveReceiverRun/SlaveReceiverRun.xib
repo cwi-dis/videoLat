@@ -90,7 +90,6 @@
 						<string key="NSFrameSize">{268, 219}</string>
 						<reference key="NSSuperview" ref="875939645"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<string key="NSClassName">VideoInputView</string>
 					</object>
 					<object class="NSPopUpButton" id="654444595">
@@ -365,7 +364,6 @@
 						<string key="NSFrame">{{206, 511}, {416, 22}}</string>
 						<reference key="NSSuperview" ref="652629579"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="483803114">
@@ -1560,7 +1558,7 @@
 				<string key="223.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="224.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="228.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<array key="229.IBNSViewMetadataConstraints"/>
+				<reference key="229.IBNSViewMetadataConstraints" ref="0"/>
 				<boolean value="NO" key="229.IBNSViewMetadataTranslatesAutoresizingMaskIntoConstraints"/>
 				<string key="229.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="231.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -1861,6 +1859,7 @@
 					<string key="superclassName">BaseRunManager</string>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="capturer">id</string>
+						<string key="clock">id</string>
 						<string key="collector">RunCollector</string>
 						<string key="finder">id</string>
 						<string key="inputCompanion">BaseRunManager</string>
@@ -1874,6 +1873,10 @@
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
 						<object class="IBToOneOutletInfo" key="capturer">
 							<string key="name">capturer</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="clock">
+							<string key="name">clock</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="collector">

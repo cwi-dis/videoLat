@@ -34,7 +34,7 @@
 - (void)remote: (uint64_t)remote between: (uint64_t)start and: (uint64_t) finish
 {
 	uint64_t mid = (finish+start)/2;
-	localTimeToRemoteTime = remote - mid;
+	localTimeToRemoteTime = (int64_t)remote - (int64_t)mid;
     initialized = true;
 }
 
@@ -297,10 +297,13 @@
             }
             // All QR codes are sent back to the master, assuming we have a connection to the master already.
             if (self.protocol) {
+                uint64_t now = [self.clock now];
+                uint64_t remoteNow = [self.remoteClock remoteNow: now];
                 NSDictionary *msg = @{
                                       @"code" : code,
-                                      @"myTime" : [NSString stringWithFormat:@"%lld", prevInputStartTime],
-                                      @"yourTime" : [NSString stringWithFormat:@"%lld", prevInputStartTimeRemote],
+                                      @"masterDetectTime": [NSString stringWithFormat:@"%lld", prevInputStartTimeRemote],
+                                      @"slaveTime" : [NSString stringWithFormat:@"%lld", now],
+                                      @"masterTime" : [NSString stringWithFormat:@"%lld", remoteNow],
                                       @"count" : [NSString stringWithFormat:@"%d", prevInputCodeDetectionCount]
                                       };
                 [self.protocol send: msg];
@@ -327,7 +330,29 @@
 
 - (void)received:(NSDictionary *)data from: (id)connection
 {
-    NSLog(@"received %@ from %@ (our protocol %@)", data, connection, self.protocol);
+    //NSLog(@"received %@ from %@ (our protocol %@)", data, connection, self.protocol);
+    id lastSlaveTime = [data objectForKey: @"lastSlaveTime"];
+    id lastMasterTime = [data objectForKey: @"lastMasterTime"];
+    if (lastSlaveTime && lastMasterTime) {
+        uint64_t slaveTimestamp, masterTimestamp;
+        if ([lastSlaveTime respondsToSelector:@selector(unsignedLongLongValue)]) {
+            slaveTimestamp = [lastSlaveTime unsignedLongLongValue];
+        } else if (sscanf([lastSlaveTime UTF8String], "%lld", &slaveTimestamp) != 1) {
+            NSLog(@"Cannot convert to uint64: %@", lastSlaveTime);
+            return;
+        }
+        if ([lastMasterTime respondsToSelector:@selector(unsignedLongLongValue)]) {
+            masterTimestamp = [lastMasterTime unsignedLongLongValue];
+        } else if (sscanf([lastMasterTime UTF8String], "%lld", &masterTimestamp) != 1) {
+            NSLog(@"Cannot convert to uint64: %@", lastMasterTime);
+            return;
+        }
+        uint64_t now = [self.clock now];
+        NSLog(@"master %lld in %lld..%lld (delta=%lld)", masterTimestamp, slaveTimestamp, now, now-slaveTimestamp);
+        [self.remoteClock remote:masterTimestamp between:slaveTimestamp and:now];
+    } else {
+        NSLog(@"unexpected data from master: %@", data);
+    }
 }
 
 - (void)disconnected:(id)connection
