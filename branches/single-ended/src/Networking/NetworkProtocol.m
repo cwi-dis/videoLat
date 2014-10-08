@@ -52,12 +52,16 @@
         NSLog(@"dataWithJSONObject returned error %@", myError);
         return;
     }
-    NSString *stringData = [NSString stringWithUTF8String:[jsonData bytes]];
-    if (stringData) {
-        [self sendString: stringData];
-    } else {
-        NSLog(@"send: could not get JSON data for %@", data);
+    if (jsonData == nil) {
+        NSLog(@"dataWithJSONObject returned nil but no error");
+        return;
     }
+    NSString *stringData = [[NSString alloc] initWithBytes:[jsonData bytes] length:[jsonData length] encoding:NSUTF8StringEncoding];
+    if (stringData == nil) {
+        NSLog(@"send: could not get NSString for NSdata for %@", data);
+        return;
+    }
+    [self sendString: stringData];
 }
 
 - (void) sendString: (NSString *)data
@@ -87,7 +91,7 @@
             [self.delegate disconnected: self];
         } else {
             if (buffer[0] == '{' && buffer[rv-1] == '}') {
-                NSData *dataBuf = [NSData dataWithBytesNoCopy:buffer length:rv];
+                NSData *dataBuf = [NSData dataWithBytes:buffer length:rv];
                 NSDictionary *data = [NSJSONSerialization JSONObjectWithData: dataBuf options:0 error:nil];
                 [self.delegate received:data from:self];
             } else {
