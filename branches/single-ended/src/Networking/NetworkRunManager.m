@@ -348,7 +348,9 @@
             return;
         }
         uint64_t now = [self.clock now];
-        NSLog(@"master %lld in %lld..%lld (delta=%lld)", masterTimestamp, slaveTimestamp, now, now-slaveTimestamp);
+        uint64_t rtt = now-slaveTimestamp;
+        self.outputView.bPeerRTT.intValue = (int)(rtt/1000);
+        NSLog(@"master %lld in %lld..%lld (delta=%lld)", masterTimestamp, slaveTimestamp, now, rtt);
         [self.remoteClock remote:masterTimestamp between:slaveTimestamp and:now];
     } else {
         NSLog(@"unexpected data from master: %@", data);

@@ -22,6 +22,7 @@
 @property(weak) IBOutlet NSTextField *bPeerIPAddress;   //!< UI element: shows server IP address
 @property(weak) IBOutlet NSTextField *bPeerPort;        //!< UI element: shows server port
 @property(weak) IBOutlet NSTextField *bPeerStatus;      //!< UI element: shows connection status
+@property(weak) IBOutlet NSTextField *bPeerRTT;      //!< UI element: shows roundtrip time
 
 - (void) showNewData;   //!< Called when new data should be shown
 
