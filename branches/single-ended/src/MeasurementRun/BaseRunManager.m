@@ -187,4 +187,9 @@ static NSMutableDictionary *runManagerNibs;
 {
 	[NSException raise:@"BaseRunManager" format:@"Must override newInputDone in subclass"];
 }
+
+- (NSString *)genPrerunCode
+{
+    return nil;
+}
 @end

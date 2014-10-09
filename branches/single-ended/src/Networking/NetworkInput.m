@@ -39,10 +39,6 @@
 
 - (uint64_t)now
 {
-#if 1
-    assert(0);
-    return 0;
-#else
     UInt64 timestamp;
 #if 0 && __MAC_OS_X_VERSION_MAX_ALLOWED >= 1080
     if (clock) {
@@ -60,8 +56,7 @@
 		mach_port_deallocate(mach_task_self(), cclock);
 		timestamp = ((UInt64)mts.tv_sec*1000000LL) + mts.tv_nsec/1000LL;
     }
-    return timestamp - epoch;
-#endif
+    return timestamp;
 }
 
 - (void) stop

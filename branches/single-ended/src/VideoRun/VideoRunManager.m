@@ -249,8 +249,16 @@
             [alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
         }
         
-        // Generate the new output code
-        self.outputCode = [NSString stringWithFormat:@"%lld", outputStartTime];
+        // Generate the new output code. During preRunning, our input companion can
+        // supply the codes, if it wants to (the NetworkRunManager does this, so the
+        // codes contain the ip/port combination of the server)
+        self.outputCode = nil;
+        if (self.preRunning && [self.inputCompanion respondsToSelector:@selector(genPrerunCode)]) {
+            self.outputCode = [self.inputCompanion genPrerunCode];
+        }
+        if (self.outputCode == nil) {
+            self.outputCode = [NSString stringWithFormat:@"%lld", outputStartTime];
+        }
         if (VL_DEBUG) NSLog(@"New output code: %@", self.outputCode);
         int bpp = 4;
         CGSize size = {480, 480};

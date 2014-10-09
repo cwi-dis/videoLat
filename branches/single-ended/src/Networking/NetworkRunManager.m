@@ -389,9 +389,16 @@
 
 }
 
+- (NSString *)genPrerunCode
+{
+    assert (self.protocol);
+    return [NSString stringWithFormat:@"http://videolat.org/landing?ip=%@&port=%d", self.protocol.host, self.protocol.port];
+}
+
 - (IBAction)startPreMeasuring: (id)sender
 {
     @synchronized(self) {
+        assert(handlesInput);
         [self.selectionView.bPreRun setEnabled: NO];
         [self.selectionView.bRun setEnabled: NO];
         if (self.statusView) {
@@ -400,6 +407,8 @@
         // Do actual prerunning
 //        prerunMoreNeeded = PRERUN_COUNT;
         self.preRunning = YES;
+        if (!handlesOutput)
+            self.outputCompanion.preRunning = YES;
         [self.outputCompanion triggerNewOutputValue];
     }
 }
@@ -407,7 +416,10 @@
 - (IBAction)stopPreMeasuring: (id)sender
 {
     @synchronized(self) {
+        assert(handlesInput);
         self.preRunning = NO;
+        if (!handlesOutput)
+            self.outputCompanion.preRunning = NO;
 //        outputLevel = 0.5;
 //        newOutputValueWanted = NO;
         [self.selectionView.bPreRun setEnabled: NO];
@@ -429,6 +441,8 @@
         }
         [self.statusView.bStop setEnabled: YES];
         self.running = YES;
+        if (!handlesOutput)
+            self.outputCompanion.running = YES;
 //        [self.collector startCollecting: self.measurementType.name input: self.device.deviceID name: self.device.deviceName output: self.device.deviceID name: self.device.deviceName];
         [self.outputCompanion triggerNewOutputValue];
     }

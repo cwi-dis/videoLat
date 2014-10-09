@@ -46,6 +46,7 @@
 - (IBAction)stopPreMeasuring: (id)sender;   //!< Internal: stop pre-measuring because we have heard enough
 - (IBAction)startMeasuring: (id)sender;     //!< Called when user presses "start" button
 
+- (NSString *)genPrerunCode;    //!< Returns QR-code containing our IP/port combination
 #if 0
 ///
 /// Register a BaseRunManager subclass for a specific measurement type.

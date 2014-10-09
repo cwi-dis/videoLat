@@ -90,6 +90,14 @@
 ///
 - (void)triggerNewOutputValue;
 
+///
+/// Can be overridden by RunManagers responsible for input, to enforce certain codes to be
+/// used during prerunning.
+/// Implemented by the NetworkRunManager to communicate the ip/port of the listener to the remote
+/// end.
+///
+- (NSString *)genPrerunCode;
+
 @property bool running;		//!< True after user has pressed "run" button, false again after pressing "stop".
 @property bool preRunning;	//!< True after user has pressed "prepare" button, false again after pressing "run".
 
