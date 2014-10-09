@@ -23,6 +23,10 @@
 {
     [BaseRunManager registerClass: [self class] forMeasurementType: @"Video Roundtrip"];
     [BaseRunManager registerNib: @"VideoRunManager" forMeasurementType: @"Video Roundtrip"];
+    // We also register ourselves for send-only, as a slave. At the very least we must make
+    // sure the nibfile is registered...
+    [BaseRunManager registerClass: [self class] forMeasurementType: @"Video Transmission (Master/Server)"];
+    [BaseRunManager registerNib: @"MasterSenderRun" forMeasurementType: @"Video Transmission (Master/Server)"];
 }
 
 - (VideoRunManager*)init

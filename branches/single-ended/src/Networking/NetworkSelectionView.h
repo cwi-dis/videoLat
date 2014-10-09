@@ -14,6 +14,11 @@
 /// parameters
 ///
 @interface NetworkSelectionView : NSView <NetworkViewProtocol>
+@property(weak) IBOutlet NSPopUpButton *bBase;      //!< UI element: available calibration runs
+@property(weak) IBOutlet NSButton *bPreRun;         //!< UI element: start preparing a measurement run
+@property(weak) IBOutlet NSButton *bRun;            //!< UI element: start a measurement run
+@property(weak) IBOutlet NSTextField *bOurPort;     //!< UI element: shows server port
+@property(weak) IBOutlet NSTextField *bOurStatus;   //!< UI element: shows connection status
 
 - (void) reportClient: (NSString *)ip port: (int)port isUs: (BOOL) us;
 - (void) reportServer: (NSString *)ip port: (int)port isUs: (BOOL) us;

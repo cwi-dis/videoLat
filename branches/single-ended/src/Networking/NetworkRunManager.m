@@ -49,13 +49,7 @@
     [BaseRunManager registerClass: [self class] forMeasurementType: @"Networking"];
     // No nib is registered...
 #endif
-#if 0
-    // We also register ourselves for send-only, as a slave. At the very least we must make
-    // sure the nibfile is registered...
-    [BaseRunManager registerClass: [self class] forMeasurementType: @"Video Transmission (Master/Server)"];
-    [BaseRunManager registerNib: @"MasterSenderRun" forMeasurementType: @"Video Transmission (Master/Server)"];
-#endif
-    // We also register ourselves for receive-only, as a slave. At the very least we must make
+    // We register ourselves for receive-only, as a slave. At the very least we must make
     // sure the nibfile is registered...
     [BaseRunManager registerClass: [self class] forMeasurementType: @"Video Reception (Slave/Client)"];
     [BaseRunManager registerNib: @"SlaveReceiverRun" forMeasurementType: @"Video Reception (Slave/Client)"];
@@ -363,6 +357,24 @@
     self.protocol = nil;
     self.outputView.bPeerStatus.stringValue = @"Disconnected";
 }
+
+- (IBAction)startPreMeasuring: (id)sender
+{
+    NSLog(@"startPreMeasuring, unsure what to do");
+}
+
+- (IBAction)stopPreMeasuring: (id)sender
+{
+    NSLog(@"stopPreMeasuring, unsure what to do");
+}
+
+
+- (IBAction)startMeasuring: (id)sender
+{
+    NSLog(@"startMeasuring, unsure what to do");
+}
+
+
 
 
 @end

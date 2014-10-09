@@ -13,6 +13,7 @@
 		044F3D81183A467F0008CBA3 /* libpython2.7.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 044F3D80183A467F0008CBA3 /* libpython2.7.dylib */; };
 		044F3D83183A469D0008CBA3 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 044F3D82183A469D0008CBA3 /* IOKit.framework */; };
 		044F3D85183A47170008CBA3 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 044F3D84183A47170008CBA3 /* QuartzCore.framework */; };
+		045AA71619E71BA400E28AED /* MasterSenderRun.xib in Resources */ = {isa = PBXBuildFile; fileRef = 045AA71519E71BA300E28AED /* MasterSenderRun.xib */; };
 		047DD1C2183A3B4C00A04F83 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 047DD1C1183A3B4C00A04F83 /* Cocoa.framework */; };
 		047DD1CC183A3B4D00A04F83 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 047DD1CA183A3B4D00A04F83 /* InfoPlist.strings */; };
 		047DD1CE183A3B4D00A04F83 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 047DD1CD183A3B4D00A04F83 /* main.m */; };
@@ -87,6 +88,7 @@
 		044F3D80183A467F0008CBA3 /* libpython2.7.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libpython2.7.dylib; path = ../../../../System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/config/libpython2.7.dylib; sourceTree = "<group>"; };
 		044F3D82183A469D0008CBA3 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = ../../../../System/Library/Frameworks/IOKit.framework; sourceTree = "<group>"; };
 		044F3D84183A47170008CBA3 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = ../../../../System/Library/Frameworks/QuartzCore.framework; sourceTree = "<group>"; };
+		045AA71519E71BA300E28AED /* MasterSenderRun.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MasterSenderRun.xib; path = MasterSenderRun/MasterSenderRun.xib; sourceTree = "<group>"; };
 		047DD1BD183A3B4C00A04F83 /* videoLat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = videoLat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		047DD1C1183A3B4C00A04F83 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		047DD1C4183A3B4C00A04F83 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -465,6 +467,7 @@
 		04EEC1C919DC4B8F0056899C /* MasterSenderRun */ = {
 			isa = PBXGroup;
 			children = (
+				045AA71519E71BA300E28AED /* MasterSenderRun.xib */,
 			);
 			name = MasterSenderRun;
 			sourceTree = "<group>";
@@ -581,6 +584,7 @@
 				04EEC1CC19DC4C5E0056899C /* SlaveReceiverRun.xib in Resources */,
 				0497264418FD5E5F00625326 /* sounds in Resources */,
 				049725DE18FD563E00625326 /* NewMeasurement.xib in Resources */,
+				045AA71619E71BA400E28AED /* MasterSenderRun.xib in Resources */,
 				0497260E18FD580300625326 /* VideoRunManager.xib in Resources */,
 				049725F918FD573800625326 /* ue9.py in Resources */,
 				0497264218FD5BDA00625326 /* icon.icns in Resources */,

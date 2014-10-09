@@ -42,6 +42,10 @@
 /// Remote end disconnected or connection got lost some other way.
 - (void)disconnected:(id)me;
 
+- (IBAction)startPreMeasuring: (id)sender;  //!< Called when user presses "prepare" button
+- (IBAction)stopPreMeasuring: (id)sender;   //!< Internal: stop pre-measuring because we have heard enough
+- (IBAction)startMeasuring: (id)sender;     //!< Called when user presses "start" button
+
 #if 0
 ///
 /// Register a BaseRunManager subclass for a specific measurement type.
