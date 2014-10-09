@@ -65,34 +65,6 @@
     return self;
 }
 
-- (void)awakeFromNib
-{
-	if (self.remoteClock == nil) {
-		_keepRemoteClock = [[SimpleRemoteClock alloc] init];
-		self.remoteClock = _keepRemoteClock;
-	}
-}
-
-
-#if 0
-
-- (void)terminate
-{
-	BaseRunManager *ic = self.inputCompanion, *oc = self.outputCompanion;
-	self.inputCompanion = nil;
-	self.outputCompanion = nil;
-	if (ic) [ic terminate];
-	if (oc) [oc terminate];
-	self.collector = nil;
-	self.statusView = nil;
-	self.measurementMaster = nil;
-	
-}
-
-- (void) dealloc
-{
-}
-
 - (void) awakeFromNib
 {
     NSString *errorMessage = nil;
@@ -121,7 +93,45 @@
         NSAlert *alert = [NSAlert alertWithMessageText: @"Internal error" defaultButton:@"OK" alternateButton:nil otherButton:nil informativeTextWithFormat:@"%@", errorMessage];
         [alert runModal];
     }
+    // If we handle input (i.e. input is coming over the net) we start the server and
+    // report the port number
+    if (handlesInput) {
+        assert(self.protocol == nil);
+        self.protocol = [[NetworkProtocolServer alloc] init];
+        self.protocol.delegate = self;
+        self.selectionView.bOurPort.intValue = self.protocol.port;
+    }
+    // If we handle output (i.e. we get video from the camera and report QR codes to the server)
+    // we only allocate a clock, the client-side of the network connection will be created once we
+    // know ip/port (which will come in encoded as a QR-code)
+    if (handlesOutput) {
+        if (self.remoteClock == nil) {
+            _keepRemoteClock = [[SimpleRemoteClock alloc] init];
+            self.remoteClock = _keepRemoteClock;
+        }
+    }
 }
+
+
+#if 0
+
+- (void)terminate
+{
+	BaseRunManager *ic = self.inputCompanion, *oc = self.outputCompanion;
+	self.inputCompanion = nil;
+	self.outputCompanion = nil;
+	if (ic) [ic terminate];
+	if (oc) [oc terminate];
+	self.collector = nil;
+	self.statusView = nil;
+	self.measurementMaster = nil;
+	
+}
+
+- (void) dealloc
+{
+}
+
 
 - (void) selectMeasurementType:(NSString *)typeName
 {
@@ -147,17 +157,20 @@
 - (void)triggerNewOutputValue
 {
 	[NSException raise:@"NetworkRunManager" format:@"Must override triggerNewOutputValue in subclass"];
+    assert(handlesOutput);
 }
 
 - (CIImage *)newOutputStart
 {
 	[NSException raise:@"NetworkRunManager" format:@"Must override newOutputStart in subclass"];
+    assert(handlesOutput);
 	return nil;
 }
 
 - (void)newOutputDone
 {
 	[NSException raise:@"NetworkRunManager" format:@"Must override newOutputDone in subclass"];
+    assert(handlesOutput);
 }
 
 - (void)setFinderRect: (NSRect)theRect
@@ -174,7 +187,8 @@
 - (void) newInputStart:(uint64_t)timestamp
 {
     @synchronized(self) {
-         inputStartTime = timestamp;
+        assert(handlesInput);
+        inputStartTime = timestamp;
         
         // Sanity check: times should be monotonically increasing
         if (prevInputStartTime && prevInputStartTime >= inputStartTime) {
@@ -200,6 +214,7 @@
 - (void) newInputDone: (void*)buffer width: (int)w height: (int)h format: (const char*)formatStr size: (int)size
 {
     @synchronized(self) {
+        assert(handlesInput);
         if (inputStartTime == 0) {
             NSLog(@"newInputDone called, but inputStartTime==0\n");
             return;
@@ -324,30 +339,38 @@
 
 - (void)received:(NSDictionary *)data from: (id)connection
 {
-    //NSLog(@"received %@ from %@ (our protocol %@)", data, connection, self.protocol);
-    id lastSlaveTime = [data objectForKey: @"lastSlaveTime"];
-    id lastMasterTime = [data objectForKey: @"lastMasterTime"];
-    if (lastSlaveTime && lastMasterTime) {
-        uint64_t slaveTimestamp, masterTimestamp;
-        if ([lastSlaveTime respondsToSelector:@selector(unsignedLongLongValue)]) {
-            slaveTimestamp = [lastSlaveTime unsignedLongLongValue];
-        } else if (sscanf([lastSlaveTime UTF8String], "%lld", &slaveTimestamp) != 1) {
-            NSLog(@"Cannot convert to uint64: %@", lastSlaveTime);
-            return;
+    if (handlesOutput) {
+        assert(self.outputView);
+        //NSLog(@"received %@ from %@ (our protocol %@)", data, connection, self.protocol);
+        id lastSlaveTime = [data objectForKey: @"lastSlaveTime"];
+        id lastMasterTime = [data objectForKey: @"lastMasterTime"];
+        if (lastSlaveTime && lastMasterTime) {
+            uint64_t slaveTimestamp, masterTimestamp;
+            if ([lastSlaveTime respondsToSelector:@selector(unsignedLongLongValue)]) {
+                slaveTimestamp = [lastSlaveTime unsignedLongLongValue];
+            } else if (sscanf([lastSlaveTime UTF8String], "%lld", &slaveTimestamp) != 1) {
+                NSLog(@"Cannot convert to uint64: %@", lastSlaveTime);
+                return;
+            }
+            if ([lastMasterTime respondsToSelector:@selector(unsignedLongLongValue)]) {
+                masterTimestamp = [lastMasterTime unsignedLongLongValue];
+            } else if (sscanf([lastMasterTime UTF8String], "%lld", &masterTimestamp) != 1) {
+                NSLog(@"Cannot convert to uint64: %@", lastMasterTime);
+                return;
+            }
+            uint64_t now = [self.clock now];
+            uint64_t rtt = now-slaveTimestamp;
+            self.outputView.bPeerRTT.intValue = (int)(rtt/1000);
+            NSLog(@"master %lld in %lld..%lld (delta=%lld)", masterTimestamp, slaveTimestamp, now, rtt);
+            [self.remoteClock remote:masterTimestamp between:slaveTimestamp and:now];
+        } else {
+            NSLog(@"unexpected data from master: %@", data);
         }
-        if ([lastMasterTime respondsToSelector:@selector(unsignedLongLongValue)]) {
-            masterTimestamp = [lastMasterTime unsignedLongLongValue];
-        } else if (sscanf([lastMasterTime UTF8String], "%lld", &masterTimestamp) != 1) {
-            NSLog(@"Cannot convert to uint64: %@", lastMasterTime);
-            return;
-        }
-        uint64_t now = [self.clock now];
-        uint64_t rtt = now-slaveTimestamp;
-        self.outputView.bPeerRTT.intValue = (int)(rtt/1000);
-        NSLog(@"master %lld in %lld..%lld (delta=%lld)", masterTimestamp, slaveTimestamp, now, rtt);
-        [self.remoteClock remote:masterTimestamp between:slaveTimestamp and:now];
-    } else {
-        NSLog(@"unexpected data from master: %@", data);
+    }
+    if (handlesInput) {
+        assert(self.selectionView);
+        self.selectionView.bOurStatus.stringValue = @"Connected";
+        NSLog(@"received %@ from %@ (our protocol %@)", data, connection, self.protocol);
     }
 }
 
@@ -355,26 +378,60 @@
 {
     NSLog(@"received disconnect from %@ (our protocol %@)", connection, self.protocol);
     self.protocol = nil;
-    self.outputView.bPeerStatus.stringValue = @"Disconnected";
+    if (handlesOutput) {
+        assert(self.outputView);
+        self.outputView.bPeerStatus.stringValue = @"Disconnected";
+    }
+    if (handlesInput) {
+        assert(self.selectionView);
+        self.selectionView.bOurStatus.stringValue = @"Disconnected";
+    }
+
 }
 
 - (IBAction)startPreMeasuring: (id)sender
 {
-    NSLog(@"startPreMeasuring, unsure what to do");
+    @synchronized(self) {
+        [self.selectionView.bPreRun setEnabled: NO];
+        [self.selectionView.bRun setEnabled: NO];
+        if (self.statusView) {
+            [self.statusView.bStop setEnabled: NO];
+        }
+        // Do actual prerunning
+//        prerunMoreNeeded = PRERUN_COUNT;
+        self.preRunning = YES;
+        [self.outputCompanion triggerNewOutputValue];
+    }
 }
 
 - (IBAction)stopPreMeasuring: (id)sender
 {
-    NSLog(@"stopPreMeasuring, unsure what to do");
+    @synchronized(self) {
+        self.preRunning = NO;
+//        outputLevel = 0.5;
+//        newOutputValueWanted = NO;
+        [self.selectionView.bPreRun setEnabled: NO];
+        [self.selectionView.bRun setEnabled: YES];
+        if (!self.statusView) {
+            // XXXJACK Make sure statusview is active/visible
+        }
+        [self.statusView.bStop setEnabled: NO];
+    }
 }
-
 
 - (IBAction)startMeasuring: (id)sender
 {
-    NSLog(@"startMeasuring, unsure what to do");
+    @synchronized(self) {
+        [self.selectionView.bPreRun setEnabled: NO];
+        [self.selectionView.bRun setEnabled: NO];
+        if (!self.statusView) {
+            // XXXJACK Make sure statusview is active/visible
+        }
+        [self.statusView.bStop setEnabled: YES];
+        self.running = YES;
+//        [self.collector startCollecting: self.measurementType.name input: self.device.deviceID name: self.device.deviceName output: self.device.deviceID name: self.device.deviceName];
+        [self.outputCompanion triggerNewOutputValue];
+    }
 }
-
-
-
 
 @end

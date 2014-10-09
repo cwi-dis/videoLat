@@ -18,7 +18,12 @@
 - (NSString *)host
 {
     struct sockaddr_in myAddr;
-    getsockname(sock, (struct sockaddr *)&myAddr, sizeof(myAddr));
+    socklen_t myAddrLen = sizeof(myAddr);
+    int rv = getsockname(sock, (struct sockaddr *)&myAddr, &myAddrLen);
+    if (rv < 0) {
+        NSLog(@"getsockname failed: %s", strerror(errno));
+        return nil;
+    }
     
     return [NSString stringWithUTF8String: inet_ntoa(myAddr.sin_addr)];
 }
@@ -26,7 +31,12 @@
 - (int)port
 {
     struct sockaddr_in myAddr;
-    getsockname(sock, (struct sockaddr *)&myAddr, sizeof(myAddr));
+    socklen_t myAddrLen = sizeof(myAddr);
+    int rv = getsockname(sock, (struct sockaddr *)&myAddr, &myAddrLen);
+    if (rv < 0) {
+        NSLog(@"getsockname failed: %s", strerror(errno));
+        return nil;
+    }
     
     return ntohs(myAddr.sin_port);
 }
@@ -37,7 +47,7 @@
     if (self) {
         sock = socket(AF_INET, SOCK_STREAM, 0);
         if (sock < 0) {
-            NSLog(@"Cannot create socket");
+            NSLog(@"socket failed: %s", strerror(errno));
             return nil;
         }
     }
@@ -70,6 +80,7 @@
     NSLog(@"sendString: sending %ld bytes", strlen(cData));
     ssize_t rv = send(sock, cData, strlen(cData), 0);
     if (rv < 0) {
+        NSLog(@"send failed: %s", strerror(errno));
         [self close];
         [self.delegate disconnected: self];
     }
@@ -87,6 +98,7 @@
         char buffer[2048];
         ssize_t rv = recv(sock, buffer, sizeof(buffer), 0);
         if (rv <= 0) {
+             NSLog(@"recv failed: %s", strerror(errno));
             [self close];
             [self.delegate disconnected: self];
         } else {
@@ -112,18 +124,36 @@
         assert(sock >= 0);
         int rv = listen(sock, 1);
         if (rv < 0) {
-            NSLog(@"listen failed");
+            NSLog(@"listen failed: %s", strerror(errno));
             return nil;
         }
-        // XXXJACK start receiver thread, and maybe wait for it?
+        [self start];
     }
     return self;
 }
 
+- (void)main
+{
+    struct sockaddr_in peerAddr;
+    socklen_t peerAddrLen = sizeof(peerAddr);
+    int connSock = accept(sock, (struct sockaddr *)&peerAddr, &peerAddrLen);
+    if (connSock < 0) {
+        NSLog(@"accept failed: %s", strerror(errno));
+        [self close];
+        [self.delegate disconnected: self];
+        return;
+    }
+    close(sock);
+    sock = connSock;
+    [super main];
+}
+
+#if 0
 - (void) sendString: (NSString *)data
 {
     // Pass to server thread
 }
+#endif
 
 @end
 
