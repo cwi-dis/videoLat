@@ -10,10 +10,12 @@
 
 @interface SimpleRemoteClock : NSObject  <RemoteClockProtocol> {
 	int64_t localTimeToRemoteTime;
+    uint64_t rtt;
     bool initialized;
 };
 - (uint64_t)remoteNow: (uint64_t) now;
 - (void)remote: (uint64_t)remote between: (uint64_t)start and: (uint64_t) finish;
+- (uint64_t)rtt;
 @end
 
 @implementation SimpleRemoteClock
@@ -33,9 +35,15 @@
 
 - (void)remote: (uint64_t)remote between: (uint64_t)start and: (uint64_t) finish
 {
+    rtt = finish-start;
 	uint64_t mid = (finish+start)/2;
 	localTimeToRemoteTime = (int64_t)remote - (int64_t)mid;
     initialized = true;
+}
+
+- (uint64_t) rtt
+{
+    return rtt;
 }
 
 @end
@@ -93,9 +101,9 @@
         NSAlert *alert = [NSAlert alertWithMessageText: @"Internal error" defaultButton:@"OK" alternateButton:nil otherButton:nil informativeTextWithFormat:@"%@", errorMessage];
         [alert runModal];
     }
-    // If we handle input (i.e. input is coming over the net) we start the server and
+    // If we don't handle output (i.e. output is going through video) we start the server and
     // report the port number
-    if (handlesInput) {
+    if (!handlesOutput) {
         assert(self.protocol == nil);
         self.protocol = [[NetworkProtocolServer alloc] init];
         self.protocol.delegate = self;
@@ -359,10 +367,9 @@
                 return;
             }
             uint64_t now = [self.clock now];
-            uint64_t rtt = now-slaveTimestamp;
-            self.outputView.bPeerRTT.intValue = (int)(rtt/1000);
-            NSLog(@"master %lld in %lld..%lld (delta=%lld)", masterTimestamp, slaveTimestamp, now, rtt);
             [self.remoteClock remote:masterTimestamp between:slaveTimestamp and:now];
+            self.outputView.bPeerRTT.intValue = (int)([self.remoteClock rtt]/1000);
+            NSLog(@"master %lld in %lld..%lld (delta=%lld)", masterTimestamp, slaveTimestamp, now, [self.remoteClock rtt]);
         } else {
             NSLog(@"unexpected data from master: %@", data);
         }
@@ -378,12 +385,10 @@
 {
     NSLog(@"received disconnect from %@ (our protocol %@)", connection, self.protocol);
     self.protocol = nil;
-    if (handlesOutput) {
-        assert(self.outputView);
+    if (self.outputView) {
         self.outputView.bPeerStatus.stringValue = @"Disconnected";
     }
-    if (handlesInput) {
-        assert(self.selectionView);
+    if (self.selectionView) {
         self.selectionView.bOurStatus.stringValue = @"Disconnected";
     }
 

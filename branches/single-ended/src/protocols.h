@@ -41,6 +41,11 @@
 /// Add measurement of round-trip
 ///
 - (void)remote: (uint64_t)remote between: (uint64_t)start and: (uint64_t) finish;
+
+///
+/// Return round-trip-time
+///
+- (uint64_t)rtt;
 @end
 
 ///
