@@ -38,7 +38,7 @@
 
 // NetworkProtocolDelegate implementation
 /// Received data from the remote end.
-- (NSDictionary *)receivedFrom: (id)me;
+- (void)received: (NSDictionary *)data from: (id)connection;
 /// Remote end disconnected or connection got lost some other way.
 - (void)disconnected:(id)me;
 

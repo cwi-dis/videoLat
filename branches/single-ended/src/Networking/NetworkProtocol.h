@@ -31,7 +31,6 @@
 
 @interface NetworkProtocolServer : NetworkProtocolCommon
 - (NetworkProtocolServer *)init;
-- (void) sendString: (NSString *)data;
 @end
 
 @interface NetworkProtocolClient : NetworkProtocolCommon

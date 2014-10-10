@@ -264,6 +264,7 @@
         CGSize size = {480, 480};
         char *bitmapdata = (char*)malloc(size.width*size.height*bpp);
         memset(bitmapdata, 0xf0, size.width*size.height*bpp);
+        assert(self.genner);
         [self.genner gen: bitmapdata width:size.width height:size.height code:[self.outputCode UTF8String]];
         NSData *data = [NSData dataWithBytesNoCopy:bitmapdata length:sizeof(bitmapdata) freeWhenDone: YES];
         outputCodeImage = [CIImage imageWithBitmapData:data bytesPerRow:bpp*size.width size:size format:kCIFormatARGB8 colorSpace:nil];
