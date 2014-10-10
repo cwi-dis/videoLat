@@ -17,9 +17,36 @@
 
 - (NSString *)host
 {
+#if 0
+    // Asking our own socket for its IP address too often returns 0.0.0.0.
     struct sockaddr_in myAddr;
     socklen_t myAddrLen = sizeof(myAddr);
     int rv = getsockname(sock, (struct sockaddr *)&myAddr, &myAddrLen);
+#else
+    // In stead use a datagram socket and connect it to a known website.
+    int tmpSock = socket(AF_INET, SOCK_DGRAM, 0);
+    if (tmpSock < 0) {
+        NSLog(@"socket(tmpSock) failed: %s", strerror(errno));
+        return nil;
+    }
+    
+    struct sockaddr_in remote;
+    memset(&remote, 0, sizeof(remote));
+    remote.sin_family = AF_INET;
+    remote.sin_addr.s_addr = inet_addr("1.1.1.1");
+    remote.sin_port = htons(11111);
+    int rv = connect(tmpSock, (struct sockaddr *)&remote, sizeof(remote));
+    if (rv < 0) {
+        NSLog(@"connect(tmpSock) failed: %s", strerror(errno));
+        return nil;
+    }
+    
+
+    struct sockaddr_in myAddr;
+    socklen_t myAddrLen = sizeof(myAddr);
+    rv = getsockname(tmpSock, (struct sockaddr *)&myAddr, &myAddrLen);
+
+#endif
     if (rv < 0) {
         NSLog(@"getsockname failed: %s", strerror(errno));
         return nil;
