@@ -8,6 +8,26 @@
 
 #import "NetworkRunManager.h"
 
+///
+/// Helper function: get an uint64_t from a dictionary item, if it exists
+static uint64_t getTimestamp(NSDictionary *data, NSString *key)
+{
+    id timeObject = [data objectForKey: key];
+    if (timeObject == nil) {
+        NSLog(@"No key %@ in %@", key, data);
+        return 0;
+    }
+    if ([timeObject respondsToSelector:@selector(unsignedLongLongValue)]) {
+        return [timeObject unsignedLongLongValue];
+    }
+    uint64_t timestamp;
+    if (sscanf([timeObject UTF8String], "%lld", &timestamp) == 1) {
+        return timestamp;
+    }
+    NSLog(@"Cannot convert to uint64: %@", timeObject);
+    return 0;
+}
+
 @interface SimpleRemoteClock : NSObject  <RemoteClockProtocol> {
 	int64_t localTimeToRemoteTime;
     uint64_t rtt;
@@ -217,8 +237,18 @@
 {
 	[NSException raise:@"NetworkRunManager" format:@"Must override newInputDone in subclass"];
 }
+///
+/// This version of newInputDone is used when running in master mode, it signals a reception
+/// by the network module
+///
+- (void) newInputDone: (NSString *)data count: (int)count at: (uint64_t) timeStamp
+{
+}
 
-
+///
+/// This version of newInputDone is used when running in slave mode, it signals that the camera
+/// has captured an input.
+///
 - (void) newInputDone: (void*)buffer width: (int)w height: (int)h format: (const char*)formatStr size: (int)size
 {
     @synchronized(self) {
@@ -316,12 +346,14 @@
             if (self.protocol) {
                 uint64_t now = [self.clock now];
                 uint64_t remoteNow = [self.remoteClock remoteNow: now];
+                uint64_t rtt = [self.remoteClock rtt];
                 NSDictionary *msg = @{
                                       @"code" : code,
                                       @"masterDetectTime": [NSString stringWithFormat:@"%lld", prevInputStartTimeRemote],
                                       @"slaveTime" : [NSString stringWithFormat:@"%lld", now],
                                       @"masterTime" : [NSString stringWithFormat:@"%lld", remoteNow],
-                                      @"count" : [NSString stringWithFormat:@"%d", prevInputCodeDetectionCount]
+                                      @"count" : [NSString stringWithFormat:@"%d", prevInputCodeDetectionCount],
+                                      @"rtt" : [NSString stringWithFormat:@"%lld", rtt]
                                       };
                 [self.protocol send: msg];
             }
@@ -348,24 +380,12 @@
 - (void)received:(NSDictionary *)data from: (id)connection
 {
     if (handlesOutput) {
+        // This code runs in the slave (video receiver, network transmitter)
         assert(self.outputView);
         //NSLog(@"received %@ from %@ (our protocol %@)", data, connection, self.protocol);
-        id lastSlaveTime = [data objectForKey: @"lastSlaveTime"];
-        id lastMasterTime = [data objectForKey: @"lastMasterTime"];
-        if (lastSlaveTime && lastMasterTime) {
-            uint64_t slaveTimestamp, masterTimestamp;
-            if ([lastSlaveTime respondsToSelector:@selector(unsignedLongLongValue)]) {
-                slaveTimestamp = [lastSlaveTime unsignedLongLongValue];
-            } else if (sscanf([lastSlaveTime UTF8String], "%lld", &slaveTimestamp) != 1) {
-                NSLog(@"Cannot convert to uint64: %@", lastSlaveTime);
-                return;
-            }
-            if ([lastMasterTime respondsToSelector:@selector(unsignedLongLongValue)]) {
-                masterTimestamp = [lastMasterTime unsignedLongLongValue];
-            } else if (sscanf([lastMasterTime UTF8String], "%lld", &masterTimestamp) != 1) {
-                NSLog(@"Cannot convert to uint64: %@", lastMasterTime);
-                return;
-            }
+        uint64_t slaveTimestamp = getTimestamp(data, @"lastSlaveTime");
+        uint64_t masterTimestamp = getTimestamp(data, @"lastMasterTime");
+        if (slaveTimestamp && masterTimestamp) {
             uint64_t now = [self.clock now];
             [self.remoteClock remote:masterTimestamp between:slaveTimestamp and:now];
             self.outputView.bPeerRTT.intValue = (int)([self.remoteClock rtt]/1000);
@@ -373,11 +393,33 @@
         } else {
             NSLog(@"unexpected data from master: %@", data);
         }
-    }
-    if (handlesInput) {
+    } else {
+        // This code runs in the master (video sender, network receiver)
         assert(self.selectionView);
         self.selectionView.bOurStatus.stringValue = @"Connected";
         NSLog(@"received %@ from %@ (our protocol %@)", data, connection, self.protocol);
+        
+        uint64_t slaveTimestamp = getTimestamp(data, @"slaveTime");
+        uint64_t masterTimestamp = getTimestamp(data, @"masterTime");
+        uint64_t rtt = getTimestamp(data, @"rtt");
+        uint64_t count = getTimestamp(data, @"count");
+        NSString *code = [data objectForKey: @"code"];
+        
+        if (slaveTimestamp) {
+            uint64_t now = [self.clock now];
+            NSDictionary *msg = @{
+                                  @"lastMasterTime": [NSString stringWithFormat:@"%lld", now],
+                                  @"lastSlaveTime" : [NSString stringWithFormat:@"%lld", slaveTimestamp],
+                                  };
+            [self.protocol send: msg];
+        }
+        if (rtt) {
+            self.selectionView.bRTT.intValue = (int)(rtt/1000);
+        }
+        
+        if(code && masterTimestamp) {
+            [self newInputDone: code count: (int)count at: masterTimestamp];
+        }
     }
 }
 

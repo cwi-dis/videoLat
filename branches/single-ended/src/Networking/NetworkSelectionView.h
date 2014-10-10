@@ -19,6 +19,7 @@
 @property(weak) IBOutlet NSButton *bRun;            //!< UI element: start a measurement run
 @property(weak) IBOutlet NSTextField *bOurPort;     //!< UI element: shows server port
 @property(weak) IBOutlet NSTextField *bOurStatus;   //!< UI element: shows connection status
+@property(weak) IBOutlet NSTextField *bRTT;         //!< UI element: shows round-trip-time
 
 - (void) reportClient: (NSString *)ip port: (int)port isUs: (BOOL) us;
 - (void) reportServer: (NSString *)ip port: (int)port isUs: (BOOL) us;
