@@ -8,6 +8,8 @@
 
 #import "NetworkRunManager.h"
 
+#define PRERUN_COUNT 128
+
 ///
 /// Helper function: get an uint64_t from a dictionary item, if it exists
 static uint64_t getTimestamp(NSDictionary *data, NSString *key)
@@ -95,6 +97,9 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 
 - (void) awakeFromNib
 {
+    if ([super respondsToSelector:@selector(awakeFromNib)]) [super awakeFromNib];
+    self.statusView = self.measurementMaster.statusView;
+    assert(self.clock);
     NSString *errorMessage = nil;
     handlesInput = self.inputCompanion == nil;
     handlesOutput = self.outputCompanion == nil;
@@ -128,6 +133,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
         self.protocol = [[NetworkProtocolServer alloc] init];
         self.protocol.delegate = self;
         self.selectionView.bOurPort.intValue = self.protocol.port;
+        self.collector = self.measurementMaster.collector;
     }
     // If we handle output (i.e. we get video from the camera and report QR codes to the server)
     // we only allocate a clock, the client-side of the network connection will be created once we
@@ -243,6 +249,22 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 ///
 - (void) newInputDone: (NSString *)data count: (int)count at: (uint64_t) timeStamp
 {
+    if (self.preRunning) {
+        if (prerunCode == nil || ![prerunCode isEqualToString:data]) {
+            NSLog(@"Peer sent us code %@ but we expected %@", data, prerunCode);
+            return;
+        }
+        if (count < PRERUN_COUNT) {
+            self.statusView.detectCount = [NSString stringWithFormat: @"%d", count];
+        } else {
+            self.statusView.detectCount = @"";
+            [self stopPreMeasuring: self];
+        }
+        [self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
+    }
+    if (self.running) {
+        NSLog(@"Running, received code %@", data);
+    }
 }
 
 ///
@@ -439,7 +461,10 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 - (NSString *)genPrerunCode
 {
     assert (self.protocol);
-    return [NSString stringWithFormat:@"http://videolat.org/landing?ip=%@&port=%d", self.protocol.host, self.protocol.port];
+    if (prerunCode == nil) {
+        prerunCode = [NSString stringWithFormat:@"http://videolat.org/landing?ip=%@&port=%d", self.protocol.host, self.protocol.port];
+    }
+    return prerunCode;
 }
 
 - (IBAction)startPreMeasuring: (id)sender
@@ -475,6 +500,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
             // XXXJACK Make sure statusview is active/visible
         }
         [self.statusView.bStop setEnabled: NO];
+        [self.outputCompanion triggerNewOutputValue];
     }
 }
 

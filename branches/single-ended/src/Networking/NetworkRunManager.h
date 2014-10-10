@@ -22,6 +22,7 @@
     uint64_t prevInputStartTime;		//!< Internal: When last input was read
 	uint64_t prevInputStartTimeRemote;	//!< Internal: When last input was read, in remote clock time
     NSString *prevInputCode;			//!< Internal: for checking monotonous increase
+    NSString *prerunCode;               //!< Internal: data for prerun qrcode
     int prevInputCodeDetectionCount;    //!< Internal: Number of times we re-detected a code.
 	NSObject <RemoteClockProtocol> *_keepRemoteClock;	//!< Internal: retain self-allocated clock
 }
