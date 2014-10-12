@@ -198,6 +198,14 @@
  */
 - (void)newInputStart;
 /**
+ Signals that a capture cycle has ended and provides the data.
+ @param data The data captured
+ @param count How often this exact data item has been detected already
+ @param timestamp The timestamp of the first capture of this data item
+ */
+- (void) newInputDone: (NSString *)data count: (int)count at: (uint64_t) timestamp;
+
+/**
  Signals that a capture cycle has ended and provides image data.
  @param buffer The image data
  @param w Width of the captured image in pixels

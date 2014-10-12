@@ -8,7 +8,24 @@
 
 #import "NetworkRunManager.h"
 
+///
+/// How many times do we want to get a message that the prerun code has been detected?
+/// This define is used on the master side, and stops the prerun sequence. It should be high enough that we
+/// have a reasonable measurement of the RTT and the clock difference.
 #define PRERUN_COUNT 128
+
+///
+/// How often do we send a message if we have not received a QR-code (in microseconds)?
+/// This define is used on the slave side, it keeps the connection open and the RTT clock difference.
+/// In addition, it will trigger the master side to emit a fresh QR code if the current QR code hasn't been
+/// detected for some time.
+#define HEARTBEAT_INTERVAL 1000000LL
+
+///
+/// What is the maximum time we try to detect a QR-code (in microseconds)?
+/// This define is used on the master side, to trigger a new QR code if the old one was never detected, for some reason.
+#define MAX_DETECTION_INTERVAL 5000000LL
+
 
 ///
 /// Helper function: get an uint64_t from a dictionary item, if it exists
@@ -241,17 +258,31 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 
 - (void)newInputDone
 {
-	[NSException raise:@"NetworkRunManager" format:@"Must override newInputDone in subclass"];
+    if (!self.running)
+        return;
+    
+    uint64_t now = [self.clock now];
+    if (now - lastDetectionReceivedTime < MAX_DETECTION_INTERVAL)
+        return;
+    
+    // Nothing detected for a long time. Record this fact, and generate a new code.
+    BOOL ok = [self.collector recordReception: @"nothing" at: now];
+    assert(!ok);
+    [self.outputCompanion triggerNewOutputValue];
+    // This isn't true, but works well:
+    lastDetectionReceivedTime = now;
 }
+
 ///
 /// This version of newInputDone is used when running in master mode, it signals a reception
 /// by the network module
 ///
-- (void) newInputDone: (NSString *)data count: (int)count at: (uint64_t) timeStamp
+- (void) newInputDone: (NSString *)code count: (int)count at: (uint64_t) timestamp
 {
+    lastDetectionReceivedTime = timestamp;
     if (self.preRunning) {
-        if (prerunCode == nil || ![prerunCode isEqualToString:data]) {
-            NSLog(@"Peer sent us code %@ but we expected %@", data, prerunCode);
+        if (prerunCode == nil || ![prerunCode isEqualToString:code]) {
+            NSLog(@"Peer sent us code %@ but we expected %@", code, prerunCode);
             return;
         }
         if (count < PRERUN_COUNT) {
@@ -263,7 +294,74 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
         [self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
     }
     if (self.running) {
-        NSLog(@"Running, received code %@", data);
+        NSLog(@"Running, received code %@", code);
+        if (self.outputCompanion.outputCode == nil) {
+            if (VL_DEBUG) NSLog(@"newInputDone called, but no output code yet\n");
+            return;
+        }
+    
+        // Compare the code to what was expected.
+        if (count > 1) {
+            NSLog(@"Received old output code again: %@, %d times", code, count);
+            return;
+        if ((count % 128) == 0) {
+                NSAlert *alert = [NSAlert alertWithMessageText:@"Warning: no new QR code generated."
+                                                 defaultButton:@"OK"
+                                               alternateButton:nil
+                                                   otherButton:nil
+                                     informativeTextWithFormat:@"QR-code %@ detected %d times. Generating new one.",
+                                  prevInputCode, prevInputCodeDetectionCount];
+                [alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
+                [self.outputCompanion triggerNewOutputValue];
+            }
+        } else if ([code isEqualToString: self.outputCompanion.outputCode]) {
+            // Correct code found.
+            
+            // Let's first report it.
+            BOOL ok = [self.collector recordReception: self.outputCompanion.outputCode at: timestamp];
+            if (!ok) {
+                NSAlert *alert = [NSAlert alertWithMessageText:@"Reception before transmission."
+                                                 defaultButton:@"OK"
+                                               alternateButton:nil
+                                                   otherButton:nil
+                                     informativeTextWithFormat:@"Code %@ was transmitted at (unknown), but received at %lld.\nConsult Helpfile if this error persists.",
+                                  self.outputCompanion.outputCode,
+                                  (long long)timestamp];
+                [alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
+            }
+
+            // Now do a sanity check that it is greater than the previous detected code
+            if (prevInputCode && [prevInputCode length] >= [self.outputCompanion.outputCode length] && [prevInputCode compare:self.outputCompanion.outputCode] >= 0) {
+                NSAlert *alert = [NSAlert alertWithMessageText:@"Warning: input QR-code not monotonically increasing."
+                                                 defaultButton:@"OK"
+                                               alternateButton:nil
+                                                   otherButton:nil
+                                     informativeTextWithFormat:@"Previous value was %@, current value is %@.\nConsult Helpfile if this error persists.",
+                                  prevInputCode, self.outputCompanion.outputCode];
+                [alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
+            }
+            // Now let's remember it so we don't generate "bad code" messages
+            // if we detect it a second time.
+            prevInputCode = self.outputCompanion.outputCode;
+            prevInputCodeDetectionCount = 0;
+            if (VL_DEBUG) NSLog(@"Received: %@", self.outputCompanion.outputCode);
+            // Now generate a new output code.
+            [self.outputCompanion triggerNewOutputValue];
+        } else {
+            // We have transmitted a code, but received a different one??
+            NSLog(@"Bad data: expected %@, got %@", self.outputCompanion.outputCode, code);
+            NSAlert *alert = [NSAlert alertWithMessageText:@"Warning: received unexpected QR-code."
+                                             defaultButton:@"OK"
+                                           alternateButton:nil
+                                               otherButton:nil
+                                 informativeTextWithFormat:@"Expected value was %@, received %@.\nConsult Helpfile if this error persists.",
+                              self.outputCompanion.outputCode, code];
+            [alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
+            [self.outputCompanion triggerNewOutputValue];
+        }
+        self.statusView.detectCount = [NSString stringWithFormat: @"%d", self.collector.count];
+        self.statusView.detectAverage = [NSString stringWithFormat: @"%.3f ms ± %.3f", self.collector.average / 1000.0, self.collector.stddev / 1000.0];
+        [self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
     }
 }
 
@@ -332,37 +430,6 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 					}
 				}
                 
-#if 0
-                // Let's first report it.
-                if (self.running) {
-                    BOOL ok = [self.collector recordReception: self.outputCompanion.outputCode at: inputStartTime];
-                    if (!ok) {
-                        NSAlert *alert = [NSAlert alertWithMessageText:@"Reception before transmission."
-                                                         defaultButton:@"OK"
-                                                       alternateButton:nil
-                                                           otherButton:nil
-                                             informativeTextWithFormat:@"Code %@ was transmitted at %lld, but received at %lld.\nConsult Helpfile if this error persists.",
-                                          self.outputCompanion.outputCode,
-                                          (long long)prerunOutputStartTime,
-                                          (long long)inputStartTime];
-                        [alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
-                    }
-                } else if (self.preRunning) {
-                    [self _prerunRecordReception: self.outputCompanion.outputCode];
-                }
-                // Now do a sanity check that it is greater than the previous detected code
-                if (prevInputCode && [prevInputCode length] >= [self.outputCompanion.outputCode length] && [prevInputCode compare:self.outputCompanion.outputCode] >= 0) {
-                    NSAlert *alert = [NSAlert alertWithMessageText:@"Warning: input QR-code not monotonically increasing."
-                                                     defaultButton:@"OK"
-                                                   alternateButton:nil
-                                                       otherButton:nil
-                                         informativeTextWithFormat:@"Previous value was %@, current value is %@.\nConsult Helpfile if this error persists.",
-                                      prevInputCode, self.outputCompanion.outputCode];
-                    [alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
-                }
-                // Now let's remember it so we don't generate "bad code" messages
-                // if we detect it a second time.
-#endif
             }
             // All QR codes are sent back to the master, assuming we have a connection to the master already.
             if (self.protocol) {
@@ -378,6 +445,21 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
                                       @"rtt" : [NSString stringWithFormat:@"%lld", rtt]
                                       };
                 [self.protocol send: msg];
+                lastMessageSentTime = now;
+            }
+        } else {
+             // No QR-code detected. Send a heartbeat every second.
+            uint64_t now = [self.clock now];
+            if (self.protocol && now - lastMessageSentTime > HEARTBEAT_INTERVAL) {
+                uint64_t remoteNow = [self.remoteClock remoteNow: now];
+                uint64_t rtt = [self.remoteClock rtt];
+                NSDictionary *msg = @{
+                                      @"slaveTime" : [NSString stringWithFormat:@"%lld", now],
+                                      @"masterTime" : [NSString stringWithFormat:@"%lld", remoteNow],
+                                      @"rtt" : [NSString stringWithFormat:@"%lld", rtt]
+                                      };
+                [self.protocol send: msg];
+                lastMessageSentTime = now;
             }
         }
         inputStartTime = 0;
@@ -441,6 +523,8 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
         
         if(code && masterTimestamp) {
             [self newInputDone: code count: (int)count at: masterTimestamp];
+        } else {
+            [self newInputDone];
         }
     }
 }
@@ -455,6 +539,8 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
     if (self.selectionView) {
         self.selectionView.bOurStatus.stringValue = @"Disconnected";
     }
+    if (self.preRunning)
+        [self stopPreMeasuring: self];
 
 }
 

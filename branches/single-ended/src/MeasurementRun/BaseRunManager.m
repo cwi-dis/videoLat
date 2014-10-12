@@ -124,50 +124,55 @@ static NSMutableDictionary *runManagerNibs;
 
 - (void)restart
 {
-	[NSException raise:@"BaseRunManager" format:@"Must override restart in subclass"];
+	[NSException raise:@"BaseRunManager" format:@"Must override restart in subclass %@", [self class]];
 }
 
 - (void)stop
 {
-	[NSException raise:@"BaseRunManager" format:@"Must override stop in subclass"];
+	[NSException raise:@"BaseRunManager" format:@"Must override stop in subclass %@", [self class]];
 }
 
 - (void)triggerNewOutputValue
 {
-	[NSException raise:@"BaseRunManager" format:@"Must override triggerNewOutputValue in subclass"];
+	[NSException raise:@"BaseRunManager" format:@"Must override triggerNewOutputValue in subclass %@", [self class]];
 }
 
 - (CIImage *)newOutputStart
 {
-	[NSException raise:@"BaseRunManager" format:@"Must override newOutputStart in subclass"];
+	[NSException raise:@"BaseRunManager" format:@"Must override newOutputStart in subclass %@", [self class]];
 	return nil;
 }
 
 - (void)newOutputDone
 {
-	[NSException raise:@"BaseRunManager" format:@"Must override newOutputDone in subclass"];
+	[NSException raise:@"BaseRunManager" format:@"Must override newOutputDone in subclass %@", [self class]];
 }
 
 - (void)setFinderRect: (NSRect)theRect
 {
-	[NSException raise:@"BaseRunManager" format:@"Must override setFinderRect in subclass"];
+	[NSException raise:@"BaseRunManager" format:@"Must override setFinderRect in subclass %@", [self class]];
 }
 
 
 - (void)newInputStart
 {
-	[NSException raise:@"BaseRunManager" format:@"Must override newInputStart in subclass"];
+	[NSException raise:@"BaseRunManager" format:@"Must override newInputStart in subclass %@", [self class]];
 }
 
 - (void)newInputStart: (uint64_t)timestamp
 {
-	[NSException raise:@"BaseRunManager" format:@"Must override newInputStart: in subclass"];
+	[NSException raise:@"BaseRunManager" format:@"Must override newInputStart: in subclass %@", [self class]];
 }
 
 
 - (void)newInputDone
 {
-	[NSException raise:@"BaseRunManager" format:@"Must override newInputDone in subclass"];
+	[NSException raise:@"BaseRunManager" format:@"Must override newInputDone in subclass %@", [self class]];
+}
+
+- (void) newInputDone: (NSString *)data count: (int)count at: (uint64_t) timestamp
+{
+    [NSException raise:@"BaseRunManager" format:@"Must override newInputDone:count:at in subclass %@", [self class]];
 }
 
 
@@ -177,7 +182,7 @@ static NSMutableDictionary *runManagerNibs;
     format: (const char*)formatStr
     size: (int)size
 {
-	[NSException raise:@"BaseRunManager" format:@"Must override newInputDone in subclass"];
+	[NSException raise:@"BaseRunManager" format:@"Must override newInputDone:width:height:format:size in subclass %@", [self class]];
 }
 
 - (void)newInputDone: (void*)buffer
@@ -185,7 +190,7 @@ static NSMutableDictionary *runManagerNibs;
             channels: (int)channels
                   at: (uint64_t)timestamp
 {
-	[NSException raise:@"BaseRunManager" format:@"Must override newInputDone in subclass"];
+	[NSException raise:@"BaseRunManager" format:@"Must override newInputDone:buffer:size:channels:at in subclass %@", [self class]];
 }
 
 - (NSString *)genPrerunCode

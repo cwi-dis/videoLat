@@ -21,6 +21,8 @@
     uint64_t inputStartTime;			//!< Internal: When last input was read, in local clock time
     uint64_t prevInputStartTime;		//!< Internal: When last input was read
 	uint64_t prevInputStartTimeRemote;	//!< Internal: When last input was read, in remote clock time
+    uint64_t lastMessageSentTime;       //!< Internal: Last time we sent a message to the master
+    uint64_t lastDetectionReceivedTime; //!< Internal: Last time we received a QR-code detection
     NSString *prevInputCode;			//!< Internal: for checking monotonous increase
     NSString *prerunCode;               //!< Internal: data for prerun qrcode
     int prevInputCodeDetectionCount;    //!< Internal: Number of times we re-detected a code.
