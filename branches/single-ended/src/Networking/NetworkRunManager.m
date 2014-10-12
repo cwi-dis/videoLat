@@ -117,32 +117,6 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
     if ([super respondsToSelector:@selector(awakeFromNib)]) [super awakeFromNib];
     self.statusView = self.measurementMaster.statusView;
     assert(self.clock);
-    NSString *errorMessage = nil;
-    handlesInput = self.inputCompanion == nil;
-    handlesOutput = self.outputCompanion == nil;
-    if (handlesInput && handlesOutput) {
-        // This run manager is responsible for both input and output
-        self.inputCompanion = self;
-        self.outputCompanion = self;
-    }
-    if (handlesInput) {
-        // We handle only input. Assert output handler exists and points back to us
-        if (self.outputCompanion.inputCompanion != self) {
-            errorMessage = [NSString stringWithFormat:@"Programmer error: %@ has outputCompanion %@ but it has inputCompanion %@",
-                            self, self.outputCompanion, self.outputCompanion.inputCompanion];
-        }
-    }
-    if (handlesOutput) {
-        // We handle only output. Assert input handler exists and points back to us
-        if (self.inputCompanion.outputCompanion != self) {
-            errorMessage = [NSString stringWithFormat:@"Programmer error: %@ has inputCompanion %@ but it has outputCompanion %@",
-                            self, self.inputCompanion, self.inputCompanion.outputCompanion];
-        }
-    }
-    if (errorMessage) {
-        NSAlert *alert = [NSAlert alertWithMessageText: @"Internal error" defaultButton:@"OK" alternateButton:nil otherButton:nil informativeTextWithFormat:@"%@", errorMessage];
-        [alert runModal];
-    }
     // If we don't handle output (i.e. output is going through video) we start the server and
     // report the port number
     if (!handlesOutput) {
