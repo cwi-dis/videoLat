@@ -467,7 +467,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
             uint64_t now = [self.clock now];
             [self.remoteClock remote:masterTimestamp between:slaveTimestamp and:now];
             self.outputView.bPeerRTT.intValue = (int)([self.remoteClock rtt]/1000);
-            NSLog(@"master %lld in %lld..%lld (delta=%lld)", masterTimestamp, slaveTimestamp, now, [self.remoteClock rtt]);
+            //NSLog(@"master %lld in %lld..%lld (delta=%lld)", masterTimestamp, slaveTimestamp, now, [self.remoteClock rtt]);
         } else {
             NSLog(@"unexpected data from master: %@", data);
         }
@@ -475,7 +475,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
         // This code runs in the master (video sender, network receiver)
         assert(self.selectionView);
         self.selectionView.bOurStatus.stringValue = @"Connected";
-        NSLog(@"received %@ from %@ (our protocol %@)", data, connection, self.protocol);
+        //NSLog(@"received %@ from %@ (our protocol %@)", data, connection, self.protocol);
         
         uint64_t slaveTimestamp = getTimestamp(data, @"slaveTime");
         uint64_t masterTimestamp = getTimestamp(data, @"masterTime");

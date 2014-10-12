@@ -104,7 +104,7 @@
 - (void) sendString: (NSString *)data
 {
     const char *cData = [data UTF8String];
-    NSLog(@"sendString: sending %ld bytes", strlen(cData));
+    //NSLog(@"sendString: sending %ld bytes", strlen(cData));
     ssize_t rv = send(sock, cData, strlen(cData), 0);
     if (rv < 0) {
         NSLog(@"send failed: %s", strerror(errno));
@@ -129,9 +129,12 @@
             [self close];
             [self.delegate disconnected: self];
         } else {
-            if (buffer[0] == '{' && buffer[rv-1] == '}') {
-                NSData *dataBuf = [NSData dataWithBytes:buffer length:rv];
+            char *closePtr = strchr(buffer, '}');
+            if (buffer[0] == '{' && closePtr && *closePtr == '}') {
+                NSData *dataBuf = [NSData dataWithBytes:buffer length:closePtr-buffer+1];
+                assert(dataBuf);
                 NSDictionary *data = [NSJSONSerialization JSONObjectWithData: dataBuf options:0 error:nil];
+                assert(data);
                 [self.delegate received:data from:self];
             } else {
                 NSLog(@"Received message not of form {.....}");
