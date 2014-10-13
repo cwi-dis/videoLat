@@ -1,22 +1,19 @@
 /*
-  Analog input, analog output, serial output
- 
- Reads an analog input pin, maps the result to a range from 0 to 255
- and uses the result to set the pulsewidth modulation (PWM) of an output pin.
- Also prints the results to the serial monitor.
- 
- The circuit:
- * potentiometer connected to pin 5.
-   Center pin of the potentiometer goes to the pin.
-   side pins of the potentiometer go to +3.3V and ground
- * LED connected from pin 3 to ground
- 
- created 29 Dec. 2008
- modified 9 Apr 2012
- by Tom Igoe
- 
- This example code is in the public domain.
- 
+ Weird protocol to send and receive analog values.
+ Each message and response is 2 bytes. First byte is one of
+ 0..128 Illegal, reserved for data bytes
+ 129..192 Sequence number. Echoed in response, so message and response can be matched.
+ 255 Filler, to resynchronise. The single byte is read and discarded.
+ 192..254 Errors (only used in response):
+     254 No command received. Data: number of bytes in buffer (0 or 1, I guess)
+     253 No data byte received. Data: number of bytes in buffer (0 or 1, I guess)
+     252 Illegal sequence number read (not between 129 and 192)
+     251 Illegal data byte read (not between 0 and 127) Data: the byte read.
+     
+   The data bytes are 7-bit values. The output values (in the message) are multiplied by
+   two and sent to the LED as an 8-bit value. The input values are auto-scaled
+   by keeping minimal and maximal value ever received and using those to scale
+   the current value read.
  */
 
 // These constants won't change.  They're used to give names
@@ -41,13 +38,15 @@ void loop() {
   // Wait for the sequence number byte
   int nAvailable;
   while ((nAvailable = Serial.available()) < 2) delay(1);
-  sequenceNumber = Serial.read();
-  if (sequenceNumber < 0) {
-    Serial.write(254);
-    Serial.write(nAvailable);
-    delay(500);
-    return;
-  }
+  do {
+    sequenceNumber = Serial.read();
+    if (sequenceNumber < 0) {
+      Serial.write(254);
+      Serial.write(nAvailable);
+      delay(500);
+      return;
+    }
+  } while (sequenceNumber == 255);
   if (sequenceNumber < 128 || sequenceNumber > 192) {
     Serial.write(252);
     Serial.write(sequenceNumber);
@@ -78,12 +77,12 @@ void loop() {
   // Keep min and max sensor values, and scale our result
   if (sensorValue < minSensorValue)
      minSensorValue = sensorValue;
-  else
-     minSensorValue++;
+//  else
+//     minSensorValue++;
   if (sensorValue > maxSensorValue)
      maxSensorValue = sensorValue;
-  else
-     maxSensorValue--;
+//  else
+//     maxSensorValue--;
   scaledValue = (sensorValue - minSensorValue) * (127 / (maxSensorValue - minSensorValue));
   
   // Set the LED output level
