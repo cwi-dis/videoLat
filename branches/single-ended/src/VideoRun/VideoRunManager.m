@@ -13,7 +13,7 @@
 //
 // Prerun parameters.
 // We want 10 consecutive catches, and we initially start with a 1ms delay (doubled at every failure)
-#define PRERUN_COUNT 100
+#define PRERUN_COUNT 10
 #define PRERUN_INITIAL_DELAY 1000
 
 @implementation VideoRunManager
