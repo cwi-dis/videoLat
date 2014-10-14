@@ -157,7 +157,7 @@
 
 - (void)_setCalibrationFileName
 {
-    NSString *fileName = [NSString stringWithFormat: @"%@-%@-%@-%@", self.dataStore.measurementType, self.dataStore.machine, self.dataStore.outputDevice, self.dataStore.inputDevice];
+    NSString *fileName = [NSString stringWithFormat: @"%@-%@-%@-%@.vlCalibration", self.dataStore.measurementType, self.dataStore.machine, self.dataStore.outputDevice, self.dataStore.inputDevice];
     NSURL *dirUrl = [(appDelegate *)[[NSApplication sharedApplication] delegate] directoryForCalibrations];
     NSURL *fileUrl = [NSURL URLWithString:[fileName stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] relativeToURL:dirUrl];
     [self setFileURL: fileUrl];
