@@ -101,13 +101,23 @@
         [self.bInputNumericValue setDoubleValue: inputLevel];
         [self.bInputValue setState: (inputLight ? NSOnState : NSOffState)];
         [self.outputView.bOutputValue setState: (outputMixed ? NSMixedState : outputLight ? NSOnState : NSOffState)];
+        NSString *oldOutputCode = self.outputCode;
+        if (outputMixed) {
+            self.outputCode = nil;
+        } else {
+            self.outputCode = outputLight ? @"white" : @"black";
+        }
+        if (self.running && self.outputCode && (oldOutputCode == nil || ![self.outputCode isEqualToString: oldOutputCode])) {
+            // We have generated a new output code. Remember it, if we are running
+            [self.collector recordTransmission: outputLight? @"white": @"black" at:outputTimestamp];
+        }
+        if (!handlesInput) return;
         // Check for detections
         NSLog(@" inputLight %d outputLight %d outputMixed %d", inputLight, outputLight, outputMixed);
         if (inputLight == outputLight) {
             if (self.running) {
                 if (1 || VL_DEBUG) NSLog(@"light %d transmitted %lld received %lld delta %lld", outputLight, outputTimestamp, inputTimestamp, inputTimestamp - outputTimestamp);
-                [self.collector recordTransmission: outputLight? @"light": @"darkness" at:outputTimestamp];
-                [self.collector recordReception:inputLight? @"light": @"darkness" at:inputTimestamp];
+                [self.collector recordReception:inputLight? @"white": @"black" at:inputTimestamp];
                 self.statusView.detectCount = [NSString stringWithFormat: @"%d", self.collector.count];
                 self.statusView.detectAverage = [NSString stringWithFormat: @"%.3f ms ± %.3f", self.collector.average / 1000.0, self.collector.stddev / 1000.0];
                 [self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
@@ -142,8 +152,14 @@
 
 - (void)triggerNewOutputValue
 {
-	if (outputLevel > 0 && outputLevel < 1)
-		outputLevel = 0;
+    if (!self.running && !self.preRunning) {
+        // Idle, show intermediate value
+        outputLevel = 0.5;
+    } else {
+        // If we are running or prerunning we only want 0 and 1.
+        if (outputLevel > 0 && outputLevel < 1)
+            outputLevel = 0;
+    }
 	newOutputValueWanted = YES;
     NSLog(@"triggerNewOutputValue called");
 }
@@ -158,6 +174,8 @@
         }
         // Do actual prerunning
         prerunMoreNeeded = PRERUN_COUNT;
+        if (!handlesOutput)
+            self.outputCompanion.preRunning = YES;
         self.preRunning = YES;
         [self.outputCompanion triggerNewOutputValue];
     }
@@ -167,6 +185,8 @@
 {
 	@synchronized(self) {
 		self.preRunning = NO;
+        if (!handlesOutput)
+            self.outputCompanion.preRunning = NO;
         outputLevel = 0.5;
         newOutputValueWanted = NO;
 		[self.bPreRun setEnabled: NO];
@@ -188,6 +208,8 @@
 		}
 		[self.statusView.bStop setEnabled: YES];
         self.running = YES;
+        if (!handlesOutput)
+            self.outputCompanion.running = YES;
         [self.collector startCollecting: self.measurementType.name input: self.device.deviceID name: self.device.deviceName output: self.device.deviceID name: self.device.deviceName];
         [self.outputCompanion triggerNewOutputValue];
     }

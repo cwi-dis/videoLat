@@ -576,7 +576,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
         self.running = YES;
         if (!handlesOutput)
             self.outputCompanion.running = YES;
-//        [self.collector startCollecting: self.measurementType.name input: self.device.deviceID name: self.device.deviceName output: self.device.deviceID name: self.device.deviceName];
+//  XXXJACK enable?      [self.collector startCollecting: self.measurementType.name input: self.device.deviceID name: self.device.deviceName output: self.device.deviceID name: self.device.deviceName];
         [self.outputCompanion triggerNewOutputValue];
     }
 }

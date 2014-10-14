@@ -75,6 +75,7 @@
 		if (average < blacklevel) blacklevel = average;
 		if (average > whitelevel) whitelevel = average;
 		bool foundColorIsWhite = average > (whitelevel+blacklevel) / 2;
+        NSLog(@" level %d (black %d white %d) isWhite %d", average, blacklevel, whitelevel, foundColorIsWhite);
         
 		if (foundColorIsWhite == currentColorIsWhite) {
 			// Found expected color.

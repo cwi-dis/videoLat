@@ -11,6 +11,8 @@
 
 static double _RoundUpTo125(double value)
 {
+    if (value <= 0)
+        return 0;
     double magnitude;
     magnitude = floor(log10(value));
     value /= pow(10.0, magnitude);

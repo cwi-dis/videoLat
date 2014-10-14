@@ -13,7 +13,7 @@
 //
 // Prerun parameters.
 // We want 10 consecutive catches, and we initially start with a 1ms delay (doubled at every failure)
-#define PRERUN_COUNT 10
+#define PRERUN_COUNT 100
 #define PRERUN_INITIAL_DELAY 1000
 
 @implementation VideoRunManager
@@ -177,6 +177,8 @@
 		prerunDelay = PRERUN_INITIAL_DELAY; // Start with 1ms delay (ridiculously low)
 		prerunMoreNeeded = PRERUN_COUNT;
 		self.preRunning = YES;
+        if (!handlesOutput)
+            self.outputCompanion.preRunning = YES;
 		[self.capturer startCapturing: YES];
 		self.outputView.mirrored = self.mirrored;
 		[self.outputCompanion triggerNewOutputValue];
@@ -187,6 +189,8 @@
 {
 	@synchronized(self) {
 		self.preRunning = NO;
+        if (!handlesOutput)
+            self.outputCompanion.preRunning = NO;
 		[self.capturer stopCapturing];
 		[self.selectionView.bPreRun setEnabled: NO];
 		[self.selectionView.bRun setEnabled: YES];
@@ -207,6 +211,8 @@
 		}
 		[self.statusView.bStop setEnabled: YES];
         self.running = YES;
+        if (!handlesOutput)
+            self.outputCompanion.running = YES;
         [self.capturer startCapturing: NO];
         [self.collector startCollecting: self.measurementType.name input: self.capturer.deviceID name: self.capturer.deviceName output: self.outputView.deviceID name: self.outputView.deviceName];
         self.outputView.mirrored = self.mirrored;
