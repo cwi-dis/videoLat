@@ -36,6 +36,7 @@
 
 - (void)awakeFromNib
 {
+    if ([super respondsToSelector:@selector(awakeFromNib)]) [super awakeFromNib];
 	// Check that the Python script has loaded correctly
 	if (self.device && ![self.device respondsToSelector: @selector(available)])
 		self.device = nil;
@@ -101,6 +102,7 @@
         [self.bInputValue setState: (inputLight ? NSOnState : NSOffState)];
         [self.outputView.bOutputValue setState: (outputMixed ? NSMixedState : outputLight ? NSOnState : NSOffState)];
         // Check for detections
+        NSLog(@" inputLight %d outputLight %d outputMixed %d", inputLight, outputLight, outputMixed);
         if (inputLight == outputLight) {
             if (self.running) {
                 if (1 || VL_DEBUG) NSLog(@"light %d transmitted %lld received %lld delta %lld", outputLight, outputTimestamp, inputTimestamp, inputTimestamp - outputTimestamp);
@@ -143,6 +145,7 @@
 	if (outputLevel > 0 && outputLevel < 1)
 		outputLevel = 0;
 	newOutputValueWanted = YES;
+    NSLog(@"triggerNewOutputValue called");
 }
 
 - (IBAction)startPreMeasuring: (id)sender
