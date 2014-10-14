@@ -20,9 +20,12 @@
     PythonLoader *pl = [PythonLoader sharedPythonLoader];
     BOOL hwfound = [pl loadScriptNamed:@"LabJackDevice"];
 	if (hwfound) {
-		[BaseRunManager registerClass: [self class] forMeasurementType: @"Hardware Calibrate"];
-		[BaseRunManager registerNib: @"HardwareRunManager" forMeasurementType: @"Hardware Calibrate"];
-		NSLog(@"HardwareLightProtocol = %@", @protocol(HardwareLightProtocol));
+        [BaseRunManager registerClass: [self class] forMeasurementType: @"Hardware Calibrate"];
+        [BaseRunManager registerNib: @"HardwareRunManager" forMeasurementType: @"Hardware Calibrate"];
+
+        [BaseRunManager registerClass: [self class] forMeasurementType: @"Screen Output Calibrate"];
+        [BaseRunManager registerNib: @"ScreenToHardwareRunManager" forMeasurementType: @"Screen Output Calibrate"];
+NSLog(@"HardwareLightProtocol = %@", @protocol(HardwareLightProtocol));
 	}
 }
 

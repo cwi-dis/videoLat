@@ -69,6 +69,7 @@
 		04B58F2A183A3D3000360A61 /* appDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B58F1E183A3D3000360A61 /* appDelegate.m */; };
 		04B58F39183A3D5300360A61 /* libzbar.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 04B58F37183A3D5300360A61 /* libzbar.0.dylib */; };
 		04B58F3A183A3D5300360A61 /* libzint.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 04B58F38183A3D5300360A61 /* libzint.dylib */; };
+		04B6A69E19ED63C300E1E3B6 /* ScreenToHardwareRunManager.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04B6A69D19ED63C300E1E3B6 /* ScreenToHardwareRunManager.xib */; };
 		04DC70C8185B57EB005110A5 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04DC70C7185B57EB005110A5 /* CoreLocation.framework */; };
 		04DCC18918664C8E00592A1F /* PythonLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DCC18818664C8E00592A1F /* PythonLoader.m */; };
 		04E4586B18FEB39C005712F6 /* AudioProcess.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E4586A18FEB39C005712F6 /* AudioProcess.m */; };
@@ -180,6 +181,7 @@
 		04B58F1E183A3D3000360A61 /* appDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = appDelegate.m; sourceTree = "<group>"; };
 		04B58F37183A3D5300360A61 /* libzbar.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libzbar.0.dylib; path = thirdParty/installed/lib/libzbar.0.dylib; sourceTree = "<group>"; };
 		04B58F38183A3D5300360A61 /* libzint.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libzint.dylib; path = thirdParty/installed/lib/libzint.dylib; sourceTree = "<group>"; };
+		04B6A69D19ED63C300E1E3B6 /* ScreenToHardwareRunManager.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ScreenToHardwareRunManager.xib; path = MixedRun/ScreenToHardwareRunManager.xib; sourceTree = "<group>"; };
 		04DC70C7185B57EB005110A5 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = ../../../../System/Library/Frameworks/CoreLocation.framework; sourceTree = "<group>"; };
 		04DCC18718664C8E00592A1F /* PythonLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PythonLoader.h; sourceTree = "<group>"; };
 		04DCC18818664C8E00592A1F /* PythonLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PythonLoader.m; sourceTree = "<group>"; };
@@ -286,6 +288,7 @@
 			isa = PBXGroup;
 			children = (
 				0497261A18FD585600625326 /* HardwareToCameraRunManager.xib */,
+				04B6A69D19ED63C300E1E3B6 /* ScreenToHardwareRunManager.xib */,
 			);
 			name = MixedRun;
 			sourceTree = "<group>";
@@ -587,6 +590,7 @@
 				045AA71619E71BA400E28AED /* MasterSenderRun.xib in Resources */,
 				0497260E18FD580300625326 /* VideoRunManager.xib in Resources */,
 				049725F918FD573800625326 /* ue9.py in Resources */,
+				04B6A69E19ED63C300E1E3B6 /* ScreenToHardwareRunManager.xib in Resources */,
 				0497264218FD5BDA00625326 /* icon.icns in Resources */,
 				049725E918FD568A00625326 /* HardwareRunManager.xib in Resources */,
 				0497264118FD5BDA00625326 /* docicon.icns in Resources */,
