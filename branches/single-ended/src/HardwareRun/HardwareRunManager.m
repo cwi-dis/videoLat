@@ -18,8 +18,12 @@
 + (void) initialize
 {
     PythonLoader *pl = [PythonLoader sharedPythonLoader];
+#if 1
+    BOOL hwfound = [pl loadScriptNamed:@"ArduinoDevice"];
+#else
     BOOL hwfound = [pl loadScriptNamed:@"LabJackDevice"];
-	if (hwfound) {
+#endif
+    if (hwfound) {
         [BaseRunManager registerClass: [self class] forMeasurementType: @"Hardware Calibrate"];
         [BaseRunManager registerNib: @"HardwareRunManager" forMeasurementType: @"Hardware Calibrate"];
 

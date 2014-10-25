@@ -78,6 +78,8 @@
 		04EEC1D719DC8E2E0056899C /* NetworkInput.m in Sources */ = {isa = PBXBuildFile; fileRef = 04EEC1D219DC8E2E0056899C /* NetworkInput.m */; };
 		04EEC1D919DC8E2E0056899C /* NetworkSelectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04EEC1D619DC8E2E0056899C /* NetworkSelectionView.m */; };
 		04EEC1DC19DC93A70056899C /* NetworkRunManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 04EEC1DB19DC93A70056899C /* NetworkRunManager.m */; };
+		04FEF96F19FC55DC00BF5FCC /* ArduinoDevice.py in Resources */ = {isa = PBXBuildFile; fileRef = 04FEF96D19FC55DC00BF5FCC /* ArduinoDevice.py */; };
+		04FEF97019FC55DC00BF5FCC /* arduinoserial.py in Resources */ = {isa = PBXBuildFile; fileRef = 04FEF96E19FC55DC00BF5FCC /* arduinoserial.py */; };
 		04FFDF94185A6FAE00B1CCCC /* videoLat.help in Resources */ = {isa = PBXBuildFile; fileRef = 04FFDF93185A6FAE00B1CCCC /* videoLat.help */; };
 /* End PBXBuildFile section */
 
@@ -196,6 +198,8 @@
 		04EEC1D619DC8E2E0056899C /* NetworkSelectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NetworkSelectionView.m; path = Networking/NetworkSelectionView.m; sourceTree = "<group>"; };
 		04EEC1DA19DC93A70056899C /* NetworkRunManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NetworkRunManager.h; path = Networking/NetworkRunManager.h; sourceTree = "<group>"; };
 		04EEC1DB19DC93A70056899C /* NetworkRunManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NetworkRunManager.m; path = Networking/NetworkRunManager.m; sourceTree = "<group>"; };
+		04FEF96D19FC55DC00BF5FCC /* ArduinoDevice.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; name = ArduinoDevice.py; path = RFDuinoAnalogIO/ArduinoDevice.py; sourceTree = "<group>"; };
+		04FEF96E19FC55DC00BF5FCC /* arduinoserial.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; name = arduinoserial.py; path = RFDuinoAnalogIO/arduinoserial.py; sourceTree = "<group>"; };
 		04FFDF93185A6FAE00B1CCCC /* videoLat.help */ = {isa = PBXFileReference; lastKnownFileType = folder; path = videoLat.help; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
@@ -457,6 +461,7 @@
 		04DCC18C1867913800592A1F /* HardwareRun */ = {
 			isa = PBXGroup;
 			children = (
+				04FEF96C19FC55B100BF5FCC /* Arduino */,
 				04B173F31869AB6E00A3DA9A /* LabJack */,
 				049725E218FD568A00625326 /* HardwareOutputView.h */,
 				049725E318FD568A00625326 /* HardwareOutputView.m */,
@@ -498,6 +503,15 @@
 				04EEC1D619DC8E2E0056899C /* NetworkSelectionView.m */,
 			);
 			name = Networking;
+			sourceTree = "<group>";
+		};
+		04FEF96C19FC55B100BF5FCC /* Arduino */ = {
+			isa = PBXGroup;
+			children = (
+				04FEF96D19FC55DC00BF5FCC /* ArduinoDevice.py */,
+				04FEF96E19FC55DC00BF5FCC /* arduinoserial.py */,
+			);
+			name = Arduino;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -590,6 +604,7 @@
 				045AA71619E71BA400E28AED /* MasterSenderRun.xib in Resources */,
 				0497260E18FD580300625326 /* VideoRunManager.xib in Resources */,
 				049725F918FD573800625326 /* ue9.py in Resources */,
+				04FEF96F19FC55DC00BF5FCC /* ArduinoDevice.py in Resources */,
 				04B6A69E19ED63C300E1E3B6 /* ScreenToHardwareRunManager.xib in Resources */,
 				0497264218FD5BDA00625326 /* icon.icns in Resources */,
 				049725E918FD568A00625326 /* HardwareRunManager.xib in Resources */,
@@ -600,6 +615,7 @@
 				0497261B18FD585600625326 /* HardwareToCameraRunManager.xib in Resources */,
 				049725F318FD573800625326 /* LabJackPython.py in Resources */,
 				049725F418FD573800625326 /* Modbus.py in Resources */,
+				04FEF97019FC55DC00BF5FCC /* arduinoserial.py in Resources */,
 				04B1915119D2ECBC001ABA66 /* Doxyfile in Resources */,
 				049725F818FD573800625326 /* u12.py in Resources */,
 				0497261918FD582600625326 /* VideoCalibrationRunManager.xib in Resources */,

@@ -10,9 +10,9 @@ import arduinoserial
 
 DEBUG=False
 
-#HardwareLightProtocol = objc.protocolNamed('HardwareLightProtocol')
+HardwareLightProtocol = objc.protocolNamed('HardwareLightProtocol')
 
-class ArduinoDevice(NSObject):
+class ArduinoDevice(NSObject, HardwareLightProtocol):
     """Implementation of HardwareLightProtocol using a LabJack U3."""
     PORT='/dev/tty.usbserial-DC008NKM'
     BAUD=9600
@@ -114,7 +114,7 @@ class ArduinoDevice(NSObject):
         if DEBUG: print 'ArduinoDevice: deviceName called', self
         return 'Arduino'
 
-if __name__ == '__main__':
+if 0:  # __name__ == '__main__':
     import random
     
     d = ArduinoDevice.alloc().init()
