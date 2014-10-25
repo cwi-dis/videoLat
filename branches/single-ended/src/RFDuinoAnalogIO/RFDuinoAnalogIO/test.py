@@ -1,7 +1,8 @@
-import arduinoserial
 import time
 import sys
 import threading
+sys.path.append('..')
+import arduinoserial
 
 PORT='/dev/tty.usbserial-DC008NKM'
 BAUD=9600
