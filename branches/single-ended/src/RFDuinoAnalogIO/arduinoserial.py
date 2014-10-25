@@ -65,7 +65,7 @@ def bps_to_termios_sym(bps):
   
 class SerialPort:
 
-  def __init__(self, serialport, bps):
+  def __init__(self, serialport, bps, nonblocking=False):
     """Takes the string name of the serial port
     (e.g. "/dev/tty.usbserial","COM1") and a baud rate (bps) and
     connects to that port at that speed and 8N1. Opens the port in
@@ -103,7 +103,10 @@ class SerialPort:
     # It's complicated--See
     # http://unixwiz.net/techtips/termios-vmin-vtime.html
     attrs[CC][termios.VMIN] = 0
-    attrs[CC][termios.VTIME] = 40
+    if nonblocking:
+        attrs[CC][termios.VTIME] = 0
+    else:
+        attrs[CC][termios.VTIME] = 40
     termios.tcsetattr(self.fd, termios.TCSANOW, attrs)
 
   def read_until(self, until):
@@ -128,6 +131,9 @@ class SerialPort:
     
   def read_byte(self):
     return os.read(self.fd, 1)
+    
+  def read(self, n):
+    return os.read(self.fd, n)
 
   def drainOutput(self):
     termios.tcdrain(self.fd)
