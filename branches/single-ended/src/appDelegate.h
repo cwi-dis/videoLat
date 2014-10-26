@@ -28,4 +28,5 @@
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation;
 - (IBAction)openWebsite:(id)sender; //!< Method to be called when the user wants to view the videoLat website.
 - (IBAction)openCalibrationFolder:(id)sender;   //!< Method to be called when the user wants to view the calibration folder.
+- (IBAction)openHardwareFolder:(id)sender;      //!< Method to be called when the user wants to view the hardware support folder.
 @end

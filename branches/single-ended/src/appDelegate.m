@@ -76,6 +76,13 @@
 	[[NSWorkspace sharedWorkspace] openURL:[self directoryForCalibrations]];
 }
 
+- (IBAction)openHardwareFolder:(id)sender
+{
+    NSBundle *bundle = [NSBundle mainBundle];
+    NSURL *url = [bundle URLForResource:@"HardwareDevices" withExtension: nil];
+    [[NSWorkspace sharedWorkspace] openURL: url];
+}
+
 - (void)_loadCalibrationsFrom: (NSURL *)directory
 {
 	NSError *error;
