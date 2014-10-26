@@ -122,6 +122,10 @@
             }
         }
         double nInputLevel = [self.device light: outputLevel];
+        if (nInputLevel < 0) {
+            [self performSelectorOnMainThread:@selector(_update:) withObject:self waitUntilDone:NO];
+            continue;
+        }
         
         @synchronized(self) {
 			if (inputLevel < minInputLevel)
@@ -163,7 +167,7 @@
         }
         if (!handlesInput) return;
         // Check for detections
-        NSLog(@" inputLight %d outputLight %d outputMixed %d", inputLight, outputLight, outputMixed);
+        NSLog(@" inputLevel %f (%f..%f) inputLight %d outputLight %d outputMixed %d", inputLevel, minInputLevel, maxInputLevel, inputLight, outputLight, outputMixed);
         if (inputLight == outputLight) {
             if (self.running) {
                 if (1 || VL_DEBUG) NSLog(@"light %d transmitted %lld received %lld delta %lld", outputLight, outputTimestamp, inputTimestamp, inputTimestamp - outputTimestamp);
