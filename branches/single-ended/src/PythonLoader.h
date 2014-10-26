@@ -27,10 +27,25 @@
 ///
 
 - (BOOL)loadURL: (NSURL *)script;
+
+///
+/// Load a module from a given directory.
+/// @param module the name of the module to load
+/// @param directory where to load it from
+/// @return true if successful
+- (BOOL)loadModule: (NSString *)module fromDirectory: (NSURL *)directory;
+
 ///
 /// Load a Python script from a named resource.
 /// @param name the name of the script
 /// @return true if successful
 ///
 - (BOOL)loadScriptNamed: (NSString *)name;
+
+///
+/// Load a Python package from a named resource.
+/// @param name the name of the package
+/// @return true if successful
+///
+- (BOOL)loadPackageNamed: (NSString *)name;
 @end

@@ -20,6 +20,7 @@
 		047DD1D2183A3B4D00A04F83 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 047DD1D0183A3B4D00A04F83 /* Credits.rtf */; };
 		047DD1D8183A3B4D00A04F83 /* Document.xib in Resources */ = {isa = PBXBuildFile; fileRef = 047DD1D6183A3B4D00A04F83 /* Document.xib */; };
 		047DD1DB183A3B4D00A04F83 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 047DD1D9183A3B4D00A04F83 /* MainMenu.xib */; };
+		048FB6F519FD21040023D29C /* HardwareDevices in Resources */ = {isa = PBXBuildFile; fileRef = 048FB6F419FD21040023D29C /* HardwareDevices */; };
 		049725DD18FD563E00625326 /* BaseRunManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 049725D518FD563E00625326 /* BaseRunManager.m */; };
 		049725DE18FD563E00625326 /* NewMeasurement.xib in Resources */ = {isa = PBXBuildFile; fileRef = 049725D618FD563E00625326 /* NewMeasurement.xib */; };
 		049725DF18FD563E00625326 /* RunCollector.m in Sources */ = {isa = PBXBuildFile; fileRef = 049725D818FD563E00625326 /* RunCollector.m */; };
@@ -28,14 +29,6 @@
 		049725E718FD568A00625326 /* HardwareOutputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 049725E318FD568A00625326 /* HardwareOutputView.m */; };
 		049725E818FD568A00625326 /* HardwareRunManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 049725E518FD568A00625326 /* HardwareRunManager.m */; };
 		049725E918FD568A00625326 /* HardwareRunManager.xib in Resources */ = {isa = PBXBuildFile; fileRef = 049725E618FD568A00625326 /* HardwareRunManager.xib */; };
-		049725EB18FD572300625326 /* LabJackDevice.py in Resources */ = {isa = PBXBuildFile; fileRef = 049725EA18FD572300625326 /* LabJackDevice.py */; };
-		049725F318FD573800625326 /* LabJackPython.py in Resources */ = {isa = PBXBuildFile; fileRef = 049725EC18FD573800625326 /* LabJackPython.py */; };
-		049725F418FD573800625326 /* Modbus.py in Resources */ = {isa = PBXBuildFile; fileRef = 049725ED18FD573800625326 /* Modbus.py */; };
-		049725F518FD573800625326 /* skymote.py in Resources */ = {isa = PBXBuildFile; fileRef = 049725EE18FD573800625326 /* skymote.py */; };
-		049725F618FD573800625326 /* u3.py in Resources */ = {isa = PBXBuildFile; fileRef = 049725EF18FD573800625326 /* u3.py */; };
-		049725F718FD573800625326 /* u6.py in Resources */ = {isa = PBXBuildFile; fileRef = 049725F018FD573800625326 /* u6.py */; };
-		049725F818FD573800625326 /* u12.py in Resources */ = {isa = PBXBuildFile; fileRef = 049725F118FD573800625326 /* u12.py */; };
-		049725F918FD573800625326 /* ue9.py in Resources */ = {isa = PBXBuildFile; fileRef = 049725F218FD573800625326 /* ue9.py */; };
 		0497260918FD580300625326 /* findQRcodes.mm in Sources */ = {isa = PBXBuildFile; fileRef = 049725FD18FD580300625326 /* findQRcodes.mm */; };
 		0497260A18FD580300625326 /* genQRcodes.m in Sources */ = {isa = PBXBuildFile; fileRef = 049725FF18FD580300625326 /* genQRcodes.m */; };
 		0497260B18FD580300625326 /* VideoInput.m in Sources */ = {isa = PBXBuildFile; fileRef = 0497260118FD580300625326 /* VideoInput.m */; };
@@ -78,8 +71,6 @@
 		04EEC1D719DC8E2E0056899C /* NetworkInput.m in Sources */ = {isa = PBXBuildFile; fileRef = 04EEC1D219DC8E2E0056899C /* NetworkInput.m */; };
 		04EEC1D919DC8E2E0056899C /* NetworkSelectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04EEC1D619DC8E2E0056899C /* NetworkSelectionView.m */; };
 		04EEC1DC19DC93A70056899C /* NetworkRunManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 04EEC1DB19DC93A70056899C /* NetworkRunManager.m */; };
-		04FEF96F19FC55DC00BF5FCC /* ArduinoDevice.py in Resources */ = {isa = PBXBuildFile; fileRef = 04FEF96D19FC55DC00BF5FCC /* ArduinoDevice.py */; };
-		04FEF97019FC55DC00BF5FCC /* arduinoserial.py in Resources */ = {isa = PBXBuildFile; fileRef = 04FEF96E19FC55DC00BF5FCC /* arduinoserial.py */; };
 		04FFDF94185A6FAE00B1CCCC /* videoLat.help in Resources */ = {isa = PBXBuildFile; fileRef = 04FFDF93185A6FAE00B1CCCC /* videoLat.help */; };
 /* End PBXBuildFile section */
 
@@ -105,6 +96,7 @@
 		047DD1D7183A3B4D00A04F83 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/Document.xib; sourceTree = "<group>"; };
 		047DD1DA183A3B4D00A04F83 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		048224A719256E91009BD255 /* videoLat.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = videoLat.entitlements; sourceTree = "<group>"; };
+		048FB6F419FD21040023D29C /* HardwareDevices */ = {isa = PBXFileReference; lastKnownFileType = folder; path = HardwareDevices; sourceTree = "<group>"; };
 		049725D418FD563E00625326 /* BaseRunManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BaseRunManager.h; path = MeasurementRun/BaseRunManager.h; sourceTree = "<group>"; };
 		049725D518FD563E00625326 /* BaseRunManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BaseRunManager.m; path = MeasurementRun/BaseRunManager.m; sourceTree = "<group>"; };
 		049725D618FD563E00625326 /* NewMeasurement.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = NewMeasurement.xib; path = MeasurementRun/NewMeasurement.xib; sourceTree = "<group>"; };
@@ -119,14 +111,6 @@
 		049725E418FD568A00625326 /* HardwareRunManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HardwareRunManager.h; path = HardwareRun/HardwareRunManager.h; sourceTree = "<group>"; };
 		049725E518FD568A00625326 /* HardwareRunManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HardwareRunManager.m; path = HardwareRun/HardwareRunManager.m; sourceTree = "<group>"; };
 		049725E618FD568A00625326 /* HardwareRunManager.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = HardwareRunManager.xib; path = HardwareRun/HardwareRunManager.xib; sourceTree = "<group>"; };
-		049725EA18FD572300625326 /* LabJackDevice.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; name = LabJackDevice.py; path = LabJack/LabJackDevice.py; sourceTree = "<group>"; };
-		049725EC18FD573800625326 /* LabJackPython.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; name = LabJackPython.py; path = LabJack/pylabjack/LabJackPython.py; sourceTree = "<group>"; };
-		049725ED18FD573800625326 /* Modbus.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; name = Modbus.py; path = LabJack/pylabjack/Modbus.py; sourceTree = "<group>"; };
-		049725EE18FD573800625326 /* skymote.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; name = skymote.py; path = LabJack/pylabjack/skymote.py; sourceTree = "<group>"; };
-		049725EF18FD573800625326 /* u3.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; name = u3.py; path = LabJack/pylabjack/u3.py; sourceTree = "<group>"; };
-		049725F018FD573800625326 /* u6.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; name = u6.py; path = LabJack/pylabjack/u6.py; sourceTree = "<group>"; };
-		049725F118FD573800625326 /* u12.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; name = u12.py; path = LabJack/pylabjack/u12.py; sourceTree = "<group>"; };
-		049725F218FD573800625326 /* ue9.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; name = ue9.py; path = LabJack/pylabjack/ue9.py; sourceTree = "<group>"; };
 		049725FC18FD580300625326 /* findQRcodes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = findQRcodes.h; path = VideoRun/findQRcodes.h; sourceTree = "<group>"; };
 		049725FD18FD580300625326 /* findQRcodes.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = findQRcodes.mm; path = VideoRun/findQRcodes.mm; sourceTree = "<group>"; };
 		049725FE18FD580300625326 /* genQRcodes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = genQRcodes.h; path = VideoRun/genQRcodes.h; sourceTree = "<group>"; };
@@ -198,8 +182,6 @@
 		04EEC1D619DC8E2E0056899C /* NetworkSelectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NetworkSelectionView.m; path = Networking/NetworkSelectionView.m; sourceTree = "<group>"; };
 		04EEC1DA19DC93A70056899C /* NetworkRunManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NetworkRunManager.h; path = Networking/NetworkRunManager.h; sourceTree = "<group>"; };
 		04EEC1DB19DC93A70056899C /* NetworkRunManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NetworkRunManager.m; path = Networking/NetworkRunManager.m; sourceTree = "<group>"; };
-		04FEF96D19FC55DC00BF5FCC /* ArduinoDevice.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; name = ArduinoDevice.py; path = RFDuinoAnalogIO/ArduinoDevice.py; sourceTree = "<group>"; };
-		04FEF96E19FC55DC00BF5FCC /* arduinoserial.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; name = arduinoserial.py; path = RFDuinoAnalogIO/arduinoserial.py; sourceTree = "<group>"; };
 		04FFDF93185A6FAE00B1CCCC /* videoLat.help */ = {isa = PBXFileReference; lastKnownFileType = folder; path = videoLat.help; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
@@ -426,21 +408,6 @@
 			name = AudioCalibrationRun;
 			sourceTree = "<group>";
 		};
-		04B173F31869AB6E00A3DA9A /* LabJack */ = {
-			isa = PBXGroup;
-			children = (
-				049725EA18FD572300625326 /* LabJackDevice.py */,
-				049725EC18FD573800625326 /* LabJackPython.py */,
-				049725ED18FD573800625326 /* Modbus.py */,
-				049725EE18FD573800625326 /* skymote.py */,
-				049725EF18FD573800625326 /* u3.py */,
-				049725F018FD573800625326 /* u6.py */,
-				049725F118FD573800625326 /* u12.py */,
-				049725F218FD573800625326 /* ue9.py */,
-			);
-			name = LabJack;
-			sourceTree = "<group>";
-		};
 		04B1914F19D2ECA4001ABA66 /* Documentation */ = {
 			isa = PBXGroup;
 			children = (
@@ -461,8 +428,7 @@
 		04DCC18C1867913800592A1F /* HardwareRun */ = {
 			isa = PBXGroup;
 			children = (
-				04FEF96C19FC55B100BF5FCC /* Arduino */,
-				04B173F31869AB6E00A3DA9A /* LabJack */,
+				048FB6F419FD21040023D29C /* HardwareDevices */,
 				049725E218FD568A00625326 /* HardwareOutputView.h */,
 				049725E318FD568A00625326 /* HardwareOutputView.m */,
 				049725E418FD568A00625326 /* HardwareRunManager.h */,
@@ -503,15 +469,6 @@
 				04EEC1D619DC8E2E0056899C /* NetworkSelectionView.m */,
 			);
 			name = Networking;
-			sourceTree = "<group>";
-		};
-		04FEF96C19FC55B100BF5FCC /* Arduino */ = {
-			isa = PBXGroup;
-			children = (
-				04FEF96D19FC55DC00BF5FCC /* ArduinoDevice.py */,
-				04FEF96E19FC55DC00BF5FCC /* arduinoserial.py */,
-			);
-			name = Arduino;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -603,8 +560,6 @@
 				049725DE18FD563E00625326 /* NewMeasurement.xib in Resources */,
 				045AA71619E71BA400E28AED /* MasterSenderRun.xib in Resources */,
 				0497260E18FD580300625326 /* VideoRunManager.xib in Resources */,
-				049725F918FD573800625326 /* ue9.py in Resources */,
-				04FEF96F19FC55DC00BF5FCC /* ArduinoDevice.py in Resources */,
 				04B6A69E19ED63C300E1E3B6 /* ScreenToHardwareRunManager.xib in Resources */,
 				0497264218FD5BDA00625326 /* icon.icns in Resources */,
 				049725E918FD568A00625326 /* HardwareRunManager.xib in Resources */,
@@ -613,19 +568,12 @@
 				047DD1D8183A3B4D00A04F83 /* Document.xib in Resources */,
 				0497261418FD581700625326 /* VideoMonoRunManager.xib in Resources */,
 				0497261B18FD585600625326 /* HardwareToCameraRunManager.xib in Resources */,
-				049725F318FD573800625326 /* LabJackPython.py in Resources */,
-				049725F418FD573800625326 /* Modbus.py in Resources */,
-				04FEF97019FC55DC00BF5FCC /* arduinoserial.py in Resources */,
 				04B1915119D2ECBC001ABA66 /* Doxyfile in Resources */,
-				049725F818FD573800625326 /* u12.py in Resources */,
 				0497261918FD582600625326 /* VideoCalibrationRunManager.xib in Resources */,
 				04A9C14819216EB70016E6C0 /* AudioCalibrationRunManager.xib in Resources */,
-				049725F518FD573800625326 /* skymote.py in Resources */,
+				048FB6F519FD21040023D29C /* HardwareDevices in Resources */,
 				04FFDF94185A6FAE00B1CCCC /* videoLat.help in Resources */,
-				049725F618FD573800625326 /* u3.py in Resources */,
 				047DD1DB183A3B4D00A04F83 /* MainMenu.xib in Resources */,
-				049725EB18FD572300625326 /* LabJackDevice.py in Resources */,
-				049725F718FD573800625326 /* u6.py in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

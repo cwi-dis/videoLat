@@ -19,7 +19,7 @@
 {
     PythonLoader *pl = [PythonLoader sharedPythonLoader];
 #if 1
-    BOOL hwfound = [pl loadScriptNamed:@"ArduinoDevice"];
+    BOOL hwfound = [pl loadPackageNamed:@"Arduino"];
 #else
     BOOL hwfound = [pl loadScriptNamed:@"LabJackDevice"];
 #endif

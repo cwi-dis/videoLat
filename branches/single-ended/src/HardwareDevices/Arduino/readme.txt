@@ -17,5 +17,12 @@ Notes taken while doing this the second time:-)
   the command line...
 - Build the circuit that isn't described yet, to be done.
 - Select the right board and the right port.
-- Download RFDuinoAnalogIO.ino into the RFDuino
-- 
+- Download RFDuinoAnalogIO/RFDuinoAnalogIO.ino into the RFDuino
+- there is a test.py script there that may help you debugging whether the rfduino
+  works as expected.
+  
+Now first run a hardware calibrate.
+Point the LED and the Phototransistor at each other in a dark place.
+This should give a calibration of around 16ms (for me).
+
+Next you can run a camera calibration. Put the LED and the camera in a dark place. Run.

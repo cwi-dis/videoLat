@@ -51,8 +51,8 @@ static PythonLoader *theSharedPythonLoader;
     if (![dir getFileSystemRepresentation:cDir maxLength:sizeof(cDir)])
         goto bad;
 #else
-	const char *cScript = [[script path] UTF8String];
-	const char *cDir = [[dir path] UTF8String];
+    const char *cScript = [[script path] UTF8String];
+    const char *cDir = [[dir path] UTF8String];
 #endif
     pDir = PyString_InternFromString(cDir);
     if (pDir == NULL) goto bad;
@@ -76,7 +76,49 @@ static PythonLoader *theSharedPythonLoader;
     fclose(fp);
     if (rsvReturn >= 0)
         rv = YES;
+    
+bad:
+    Py_DECREF(prv);
+    Py_XDECREF(sysPath);
+    Py_XDECREF(sys);
+    Py_XDECREF(pDir);
+    PyGILState_Release(gstate);
+    return rv;
+}
 
+
+- (BOOL)loadModule: (NSString *)module fromDirectory: (NSURL *)directory
+{
+    PyGILState_STATE gstate;
+    gstate = PyGILState_Ensure();
+    NSLog(@"PythonLoader loadModule %@ fromDirectory", module, directory);
+    BOOL rv = NO;
+    PyObject *pDir = NULL, *sys = NULL, *sysPath = NULL, *prv = NULL;
+    int rsvReturn = 0;
+    
+    NSString *cmd = [NSString stringWithFormat:@"import %@", module];
+    const char *cCmd = [cmd UTF8String];
+    
+    const char *cDir = [[directory path] UTF8String];
+    pDir = PyString_InternFromString(cDir);
+    if (pDir == NULL) goto bad;
+    
+    // Add directory path to sys.path
+    sys = PyImport_ImportModule("sys");
+    if (sys == NULL) goto bad;
+    sysPath = PyObject_GetAttrString(sys, "path");
+    if (sysPath == NULL) goto bad;
+    if (!PySequence_Contains(sysPath, pDir)) {
+        prv = PyObject_CallMethod(sysPath, "insert", "iO", 0, pDir);
+        if (prv == NULL) goto bad;
+        Py_DECREF(prv);
+    }
+    
+    // Import script
+    rsvReturn = PyRun_SimpleString(cCmd);
+    if (rsvReturn >= 0)
+        rv = YES;
+    
 bad:
     Py_DECREF(prv);
     Py_XDECREF(sysPath);
@@ -90,10 +132,21 @@ bad:
 {
     NSBundle *bundle = [NSBundle mainBundle];
     NSURL *url = [bundle URLForResource:name withExtension: @"py"];
-	if (url == nil) {
-		NSLog(@"PythonLoader: cannot find script %@ in resources", name);
-		return NO;
-	}
+    if (url == nil) {
+        NSLog(@"PythonLoader: cannot find script %@ in resources", name);
+        return NO;
+    }
     return [self loadURL: url];
+}
+
+- (BOOL)loadPackageNamed: (NSString *)name
+{
+    NSBundle *bundle = [NSBundle mainBundle];
+    NSURL *url = [bundle URLForResource:@"HardwareDevices" withExtension: nil];
+    if (url == nil) {
+        NSLog(@"PythonLoader: cannot find package %@ in resources", name);
+        return NO;
+    }
+    return [self loadModule: name  fromDirectory: url];
 }
 @end

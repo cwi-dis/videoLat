@@ -10,6 +10,9 @@ import arduinoserial
 
 DEBUG=False
 
+# Sequence that should resynchronise things
+RESYNC="\xff\xff\xff\xff"
+
 HardwareLightProtocol = objc.protocolNamed('HardwareLightProtocol')
 
 class ArduinoDevice(NSObject, HardwareLightProtocol):
@@ -67,6 +70,8 @@ class ArduinoDevice(NSObject, HardwareLightProtocol):
         
     def light_(self, level):
         """Set output light level to 'level' and read return input light level."""
+        if not self.arduino:
+            return -1
         seqno = self._newSeqNo()
         iLevel = int(level * 127)
         self.arduino.write(chr(seqno) + chr(iLevel))
@@ -76,33 +81,33 @@ class ArduinoDevice(NSObject, HardwareLightProtocol):
             inseqno = self.arduino.read_byte()
             if not inseqno:
                 self._lastErrorMessage = 'No data (seqno) from Arduino'
-                return 0.5
+                return -1
             inseqno = ord(inseqno)
 
         if inseqno < 128:
             self._lastErrorMessage = 'Sync error, got data in stead of seqno from arduino'
             self.arduino.write(RESYNC)
-            return 0.5
+            return -1
             
         indata = self.arduino.read_byte()
         if not indata: 
             self._lastErrorMessage = 'No data (analog value) from Arduino'
-            return 0.5
+            return -1
 
         indata = ord(indata)
         if indata >= 128:
             self._lastErrorMessage = 'Sync error, got seqno (%d) in stead of data from ardino' % indata
-            return 0.5
+            return -1
             
         if inseqno > 192:
             self._lastErrorMessage = 'Received error %d, %d from arduino' % (inseqno, indata)
-            return 0.5
+            return -1
             
         if inseqno != seqno:
             self._lastErrorMessage = 'Arduino sent seqno %d, expected %d' % (inseqno, seqno)
             return 0.5
             
-        return float(indata) / 127.0
+        return round(float(indata) / 127.0, 2)
                     
     def deviceID(self):
         """Return the unique device-ID"""
