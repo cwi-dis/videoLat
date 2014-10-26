@@ -86,7 +86,12 @@ void loop() {
   scaledValue = (sensorValue - minSensorValue) * (127 / (maxSensorValue - minSensorValue));
   
   // Set the LED output level
-  analogWrite(analogOutPin, outputValue*2);
+  if (outputValue == 0) 
+    digitalWrite(analogOutPin, 0);
+  else if (outputValue == 127)
+    digitalWrite(analogOutPin, 1);
+  else
+    analogWrite(analogOutPin, outputValue*2);
 
   // Send the report back
   Serial.write(sequenceNumber);

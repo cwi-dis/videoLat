@@ -94,6 +94,8 @@
     [self.bRun setEnabled: NO];
     self.preRunning = NO;
     self.running = NO;
+    minInputLevel = 1.0;
+    maxInputLevel = 0.0;
 }
 
 - (uint64_t)now
@@ -128,9 +130,9 @@
         }
         
         @synchronized(self) {
-			if (inputLevel < minInputLevel)
+			if (inputLevel > 0 && inputLevel < minInputLevel)
 				minInputLevel = inputLevel;
-			if (inputLevel > maxInputLevel)
+			if (inputLevel < 1 && inputLevel > maxInputLevel)
 				maxInputLevel = inputLevel;
             if (first || nConnected != connected || nInputLevel != inputLevel || outputLevelChanged) {
                 connected = nConnected;
