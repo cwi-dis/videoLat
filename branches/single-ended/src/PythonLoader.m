@@ -8,6 +8,7 @@
 
 #import "PythonLoader.h"
 #import <Python.h>
+#import "appDelegate.h"
 
 @implementation PythonLoader
 
@@ -78,7 +79,7 @@ static PythonLoader *theSharedPythonLoader;
         rv = YES;
     
 bad:
-    Py_DECREF(prv);
+    Py_XDECREF(prv);
     Py_XDECREF(sysPath);
     Py_XDECREF(sys);
     Py_XDECREF(pDir);
@@ -91,7 +92,7 @@ bad:
 {
     PyGILState_STATE gstate;
     gstate = PyGILState_Ensure();
-    NSLog(@"PythonLoader loadModule %@ fromDirectory", module, directory);
+    NSLog(@"PythonLoader loadModule %@ fromDirectory %@", module, directory);
     BOOL rv = NO;
     PyObject *pDir = NULL, *sys = NULL, *sysPath = NULL, *prv = NULL;
     int rsvReturn = 0;
@@ -120,7 +121,7 @@ bad:
         rv = YES;
     
 bad:
-    Py_DECREF(prv);
+    Py_XDECREF(prv);
     Py_XDECREF(sysPath);
     Py_XDECREF(sys);
     Py_XDECREF(pDir);
@@ -142,7 +143,8 @@ bad:
 - (BOOL)loadPackageNamed: (NSString *)name
 {
     NSBundle *bundle = [NSBundle mainBundle];
-    NSURL *url = [bundle URLForResource:@"HardwareDevices" withExtension: nil];
+    NSURL *url = [(appDelegate *)[[NSApplication sharedApplication] delegate] hardwareFolder];
+    
     if (url == nil) {
         NSLog(@"PythonLoader: cannot find package %@ in resources", name);
         return NO;

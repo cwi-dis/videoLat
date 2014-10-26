@@ -15,15 +15,15 @@ RESYNC="\xff\xff\xff\xff"
 
 HardwareLightProtocol = objc.protocolNamed('HardwareLightProtocol')
 
-class ArduinoDevice(NSObject, HardwareLightProtocol):
+class Arduino(NSObject, HardwareLightProtocol):
     """Implementation of HardwareLightProtocol using a LabJack U3."""
     PORT='/dev/tty.usbserial-DC008NKM'
     BAUD=9600
 
     def init(self):
         """ObjC-style initializer function"""
-        if DEBUG: print 'ArduinoDevice: init called', self
-        self = super(ArduinoDevice, self).init()
+        if DEBUG: print 'Arduino: init called', self
+        self = super(Arduino, self).init()
         self.arduino = None
         self._lastErrorMessage = None
         self._seqno = 0
@@ -31,7 +31,7 @@ class ArduinoDevice(NSObject, HardwareLightProtocol):
     
     def awakeFromNib(self):
         """Standard initializer"""
-        if DEBUG: print 'ArduinoDevice: awakeFromNib called', self
+        if DEBUG: print 'Arduino: awakeFromNib called', self
     
     def _tryOpen(self):
         # Open the device
@@ -48,15 +48,15 @@ class ArduinoDevice(NSObject, HardwareLightProtocol):
     def available(self):
         """Returns true if the library is installed and the hardware connected."""
         try:
-            if DEBUG: print 'ArduinoDevice: available called', self
+            if DEBUG: print 'Arduino: available called', self
             if not self.arduino:
                 self._tryOpen()
             if DEBUG: print 'available: arduino is', self.arduino
             return not not self.arduino
         except:
-            self._lastErrorMessage = 'Exception during ArduinoDevice.available'
+            self._lastErrorMessage = 'Exception during Arduino.available'
             if not DEBUG:
-                print 'Exception during ArduinoDevice.available'
+                print 'Exception during Arduino.available'
                 return False
             import pdb
             pdb.post_mortem()
@@ -111,18 +111,18 @@ class ArduinoDevice(NSObject, HardwareLightProtocol):
                     
     def deviceID(self):
         """Return the unique device-ID"""
-        if DEBUG: print 'ArduinoDevice: deviceID called', self
+        if DEBUG: print 'Arduino: deviceID called', self
         return 'ArduinoID'
 
     def deviceName(self):
         """Return the human-readable device name"""
-        if DEBUG: print 'ArduinoDevice: deviceName called', self
+        if DEBUG: print 'Arduino: deviceName called', self
         return 'Arduino'
 
 if 0:  # __name__ == '__main__':
     import random
     
-    d = ArduinoDevice.alloc().init()
+    d = Arduino.alloc().init()
     if not d.available():
         print 'Device not avaialable:',d.lastErrorMessage()
     

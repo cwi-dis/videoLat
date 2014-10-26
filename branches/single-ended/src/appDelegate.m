@@ -76,13 +76,6 @@
 	[[NSWorkspace sharedWorkspace] openURL:[self directoryForCalibrations]];
 }
 
-- (IBAction)openHardwareFolder:(id)sender
-{
-    NSBundle *bundle = [NSBundle mainBundle];
-    NSURL *url = [bundle URLForResource:@"HardwareDevices" withExtension: nil];
-    [[NSWorkspace sharedWorkspace] openURL: url];
-}
-
 - (void)_loadCalibrationsFrom: (NSURL *)directory
 {
 	NSError *error;
@@ -146,4 +139,24 @@
 	self.location = newLocation.description;
 }
 
+- (IBAction)openHardwareFolder:(id)sender
+{
+    [[NSWorkspace sharedWorkspace] openURL: [self hardwareFolder]];
+}
+
+- (NSArray *)hardwareNames
+{
+    // We should dynamically determine this, but I am too lazy for now...
+    return @[
+             @"Arduino",
+             @"LabJack"
+             ];
+}
+
+- (NSURL *)hardwareFolder
+{
+    NSBundle *bundle = [NSBundle mainBundle];
+    NSURL *url = [bundle URLForResource:@"HardwareDevices" withExtension: nil];
+    return url;
+}
 @end

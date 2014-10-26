@@ -8,6 +8,7 @@
 
 #import "HardwareRunManager.h"
 #import "PythonLoader.h"
+#import "appDelegate.h"
 #import <mach/mach.h>
 #import <mach/mach_time.h>
 #import <mach/clock.h>
@@ -17,20 +18,12 @@
 @implementation HardwareRunManager
 + (void) initialize
 {
-    PythonLoader *pl = [PythonLoader sharedPythonLoader];
-#if 1
-    BOOL hwfound = [pl loadPackageNamed:@"Arduino"];
-#else
-    BOOL hwfound = [pl loadScriptNamed:@"LabJackDevice"];
-#endif
-    if (hwfound) {
-        [BaseRunManager registerClass: [self class] forMeasurementType: @"Hardware Calibrate"];
-        [BaseRunManager registerNib: @"HardwareRunManager" forMeasurementType: @"Hardware Calibrate"];
+    [BaseRunManager registerClass: [self class] forMeasurementType: @"Hardware Calibrate"];
+    [BaseRunManager registerNib: @"HardwareRunManager" forMeasurementType: @"Hardware Calibrate"];
 
-        [BaseRunManager registerClass: [self class] forMeasurementType: @"Screen Output Calibrate"];
-        [BaseRunManager registerNib: @"ScreenToHardwareRunManager" forMeasurementType: @"Screen Output Calibrate"];
-NSLog(@"HardwareLightProtocol = %@", @protocol(HardwareLightProtocol));
-	}
+    [BaseRunManager registerClass: [self class] forMeasurementType: @"Screen Output Calibrate"];
+    [BaseRunManager registerNib: @"ScreenToHardwareRunManager" forMeasurementType: @"Screen Output Calibrate"];
+    NSLog(@"HardwareLightProtocol = %@", @protocol(HardwareLightProtocol));
 }
 
 - (HardwareRunManager*)init
@@ -44,13 +37,63 @@ NSLog(@"HardwareLightProtocol = %@", @protocol(HardwareLightProtocol));
 - (void)awakeFromNib
 {
     if ([super respondsToSelector:@selector(awakeFromNib)]) [super awakeFromNib];
-	// Check that the Python script has loaded correctly
+    NSArray *names = ((appDelegate *)[[NSApplication sharedApplication] delegate]).hardwareNames;
+
+    if ([names count]) {
+        [self.bDevices removeAllItems];
+        [self.bDevices addItemsWithTitles: names];
+        [self.bDevices selectItemAtIndex:0];
+    }
+        
+#if 0
+    // Check that the Python script has loaded correctly
 	if (self.device && ![self.device respondsToSelector: @selector(available)])
 		self.device = nil;
+#endif
     self.statusView = self.measurementMaster.statusView;
     self.collector = self.measurementMaster.collector;
     if (self.clock == nil) self.clock = self;
     [self restart];
+}
+
+- (IBAction) selectDevice: (id)sender
+{
+    inErrorMode = NO;
+    
+    NSString *selectedDevice = [self.bDevices titleOfSelectedItem];
+    NSString *oldDevice = nil;
+    if (self.device)
+        oldDevice = [self.device deviceName];
+    if (selectedDevice && oldDevice && [selectedDevice isEqualToString: oldDevice])
+        return;
+    
+    self.device = nil;
+    self.outputView.device = nil;
+    
+    PythonLoader *pl = [PythonLoader sharedPythonLoader];
+    BOOL ok = [pl loadPackageNamed: selectedDevice];
+    if (!ok) {
+        NSLog(@"HardwareRunManager: Programmer error: Python module %@ does not exist", selectedDevice);
+        return;
+    }
+    
+    Class deviceClass = NSClassFromString(selectedDevice);
+    if (deviceClass == nil) {
+        NSLog(@"HardwareRunManager: Programmer error: class %@ does not exist", selectedDevice);
+        return;
+    }
+    self.device = [[deviceClass alloc] init];
+    if (self.device == nil) {
+        NSLog(@"HardwareRunManager: cannot allocate %@ object", deviceClass);
+    }
+    
+    self.outputView.device = self.device;
+    BOOL available = [self.device available];
+    [self.bConnected setState: (int)available];
+    [self.bPreRun setEnabled: available];
+    [self.bRun setEnabled: NO];
+    self.preRunning = NO;
+    self.running = NO;
 }
 
 - (uint64_t)now
@@ -104,7 +147,7 @@ NSLog(@"HardwareLightProtocol = %@", @protocol(HardwareLightProtocol));
         BOOL inputLight =(inputLevel > (maxInputLevel + minInputLevel)/2);
 		BOOL outputMixed = (outputLevel == 0.5);
         BOOL outputLight = (outputLevel > 0.5);
-        [self.bDeviceConnected setState: (connected ? NSOnState : NSOffState)];
+        [self.bConnected setState: (connected ? NSOnState : NSOffState)];
         [self.bInputNumericValue setDoubleValue: inputLevel];
         [self.bInputValue setState: (inputLight ? NSOnState : NSOffState)];
         [self.outputView.bOutputValue setState: (outputMixed ? NSMixedState : outputLight ? NSOnState : NSOffState)];
@@ -226,6 +269,7 @@ NSLog(@"HardwareLightProtocol = %@", @protocol(HardwareLightProtocol));
 {
     @synchronized(self) {
 		if (measurementType == nil) return;
+        [self selectDevice: self];
         if (self.device == nil) {
             NSLog(@"HardwareRunManager: no hardware device available");
             [self.bPreRun setEnabled: NO];

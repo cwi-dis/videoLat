@@ -40,18 +40,21 @@
 
 @property(weak) IBOutlet NSButton *bPreRun;                 //!< UI element: start a measurement run
 @property(weak) IBOutlet NSButton *bRun;                    //!< UI element: start preparing a measurement run
-@property(weak) IBOutlet NSButton *bDeviceConnected;        //!< Indicator for the user that the device works
+@property(weak) IBOutlet NSPopUpButton *bDevices;           //!< UI element: select the hardware device to use
+@property(weak) IBOutlet NSButton *bConnected;              //!< Indicator for the user that the selected device works
 @property(weak) IBOutlet NSPopUpButton *bBase;              //!< UI element: available calibration runs
 @property(weak) IBOutlet HardwareOutputView *outputView;    //!< Assigned in NIB: visual feedback view of output for the user
 @property(weak) IBOutlet NSButton *bInputValue;             //!< UI element: feedback on light/no light detected
 @property(weak) IBOutlet NSTextField *bInputNumericValue;   //!< UI element: feedback on analog input received
 @property(weak) IBOutlet NSObject <ClockProtocol> *clock;   //!< Assigned in NIB: clock source
-@property(weak) IBOutlet NSObject <HardwareLightProtocol> *device;  //!< Assigned in NIB: hardware device handler
+
+@property NSObject <HardwareLightProtocol> *device;         //!< Hardware device handler
 
 + (void)initialize;
 - (HardwareRunManager *)init;   //!< Initializer
 -(void)stop;
 
+- (IBAction)selectDevice: (id)sender;   //!< Called when the user selects a different device
 ///
 /// The worker thread.
 /// Once every millisecond (at most) it calls the light method on the device to
