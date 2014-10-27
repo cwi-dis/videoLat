@@ -55,6 +55,7 @@
 -(void)stop;
 
 - (IBAction)selectDevice: (id)sender;   //!< Called when the user selects a different device
+- (IBAction)selectBase: (id)sender;     //!< Called when the user selects a different base measurement
 ///
 /// The worker thread.
 /// Once every millisecond (at most) it calls the light method on the device to

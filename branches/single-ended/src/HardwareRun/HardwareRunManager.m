@@ -59,6 +59,8 @@
 - (IBAction) selectDevice: (id)sender
 {
     inErrorMode = NO;
+    if (self.bDevices == nil)
+        return;
     
     NSString *selectedDevice = [self.bDevices titleOfSelectedItem];
     NSString *oldDevice = nil;
@@ -70,6 +72,15 @@
     self.device = nil;
     self.outputView.device = nil;
     
+    if (selectedDevice == nil)
+        return;
+    
+    [self _switchToDevice: selectedDevice];
+}
+
+- (void)_switchToDevice: (NSString *)selectedDevice
+{
+    [self.bConnected setState: 0];
     PythonLoader *pl = [PythonLoader sharedPythonLoader];
     BOOL ok = [pl loadPackageNamed: selectedDevice];
     if (!ok) {
@@ -96,6 +107,34 @@
     self.running = NO;
     minInputLevel = 1.0;
     maxInputLevel = 0.0;
+}
+
+- (IBAction)selectBase: (id) sender
+{
+    if (self.bBase == nil) {
+        NSLog(@"HardwareRunManager: bBase == nil");
+        return;
+    }
+    NSMenuItem *baseItem = [self.bBase selectedItem];
+    NSString *baseName = [baseItem title];
+    if (baseName == nil) {
+        NSLog(@"HardwareRunManager: baseName == nil");
+        return;
+    }
+    MeasurementType *baseType = measurementType.requires;
+    MeasurementDataStore *baseStore = [baseType measurementNamed: baseName];
+    if (baseStore == nil) {
+        NSLog(@"HardwareRunManager: no base measurement named %@", baseName);
+        return;
+    }
+    NSString *deviceName = baseStore.inputDevice;
+    [self _switchToDevice:deviceName];
+    // This call is in completely the wrong place....
+    if (!alive) {
+        alive = YES;
+        [self performSelectorInBackground:@selector(_periodic:) withObject:self];
+    }
+
 }
 
 - (uint64_t)now
@@ -275,7 +314,13 @@
 {
     @synchronized(self) {
 		if (measurementType == nil) return;
-        [self selectDevice: self];
+        // Pre-select the correct device. Sometimes through device popup, sometimes through base
+        if (self.bDevices) {
+            [self selectDevice: self];
+        } else if (self.bBase) {
+            [self selectBase:self];
+        }
+        
         if (self.device == nil) {
             NSLog(@"HardwareRunManager: no hardware device available");
             [self.bPreRun setEnabled: NO];
