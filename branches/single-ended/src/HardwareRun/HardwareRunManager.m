@@ -41,6 +41,9 @@
 
     if ([names count]) {
         [self.bDevices removeAllItems];
+        [self.bDevices setAutoenablesItems: NO];
+        [self.bDevices addItemWithTitle:@"Select Hardware Device"];
+        [[self.bDevices itemAtIndex:0] setEnabled: NO];
         [self.bDevices addItemsWithTitles: names];
         [self.bDevices selectItemAtIndex:0];
     }
@@ -61,7 +64,8 @@
     inErrorMode = NO;
     if (self.bDevices == nil)
         return;
-    
+    if ([self.bDevices indexOfSelectedItem] == 0)
+        return;
     NSString *selectedDevice = [self.bDevices titleOfSelectedItem];
     NSString *oldDevice = nil;
     if (self.device)
@@ -107,6 +111,11 @@
     self.running = NO;
     minInputLevel = 1.0;
     maxInputLevel = 0.0;
+    // This call is in completely the wrong place....
+    if (!alive) {
+        alive = YES;
+        [self performSelectorInBackground:@selector(_periodic:) withObject:self];
+    }
 }
 
 - (IBAction)selectBase: (id) sender
@@ -129,12 +138,6 @@
     }
     NSString *deviceName = baseStore.inputDevice;
     [self _switchToDevice:deviceName];
-    // This call is in completely the wrong place....
-    if (!alive) {
-        alive = YES;
-        [self performSelectorInBackground:@selector(_periodic:) withObject:self];
-    }
-
 }
 
 - (uint64_t)now
