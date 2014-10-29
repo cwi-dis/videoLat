@@ -195,6 +195,11 @@
         BOOL inputLight =(inputLevel > (maxInputLevel + minInputLevel)/2);
 		BOOL outputMixed = (outputLevel == 0.5);
         BOOL outputLight = (outputLevel > 0.5);
+		// Special case for some other component handling output
+		if (!handlesOutput) {
+			outputLight = [self.outputCompanion.outputCode isEqualToString:@"white"];
+		}
+
         [self.bConnected setState: (connected ? NSOnState : NSOffState)];
         [self.bInputNumericValue setDoubleValue: inputLevel];
         [self.bInputValue setState: (inputLight ? NSOnState : NSOffState)];

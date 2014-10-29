@@ -151,7 +151,7 @@
 					}
 				}
 				// For all runs (calibration and non-calibration) the output device should match the one in the calibration run
-				if (![baseStore.outputDeviceID isEqualToString:self.outputView.deviceID]) {
+				if (handlesInput && ![baseStore.outputDeviceID isEqualToString:self.outputView.deviceID]) {
 					errorMessage = [NSString stringWithFormat:@"Base measurement uses output %@, current measurement uses %@", baseStore.outputDevice, self.outputView.deviceName];
 				}
 			}

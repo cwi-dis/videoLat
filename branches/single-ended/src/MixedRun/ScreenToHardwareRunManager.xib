@@ -414,14 +414,12 @@
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="184191430"/>
-				<string key="NSClassName">NSView</string>
+				<string key="NSClassName">VideoSelectionView</string>
 			</object>
 			<object class="NSView" id="802102319">
-				<reference key="NSNextResponder"/>
+				<nil key="NSNextResponder"/>
 				<int key="NSvFlags">257</int>
 				<string key="NSFrameSize">{640, 640}</string>
-				<reference key="NSSuperview"/>
-				<reference key="NSWindow"/>
 			</object>
 		</array>
 		<object class="IBObjectContainer" key="IBDocument.Objects">
@@ -484,6 +482,14 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
+						<string key="label">selectionView</string>
+						<reference key="source" ref="445606192"/>
+						<reference key="destination" ref="233854155"/>
+					</object>
+					<int key="connectionID">325</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
 						<string key="label">measurementMaster</string>
 						<reference key="source" ref="450298705"/>
 						<reference key="destination" ref="1001"/>
@@ -516,22 +522,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
-						<string key="label">startMeasuring:</string>
-						<reference key="source" ref="450298705"/>
-						<reference key="destination" ref="413737278"/>
-					</object>
-					<int key="connectionID">295</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">startPreMeasuring:</string>
-						<reference key="source" ref="450298705"/>
-						<reference key="destination" ref="417313018"/>
-					</object>
-					<int key="connectionID">296</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
 						<string key="label">selectBase:</string>
 						<reference key="source" ref="450298705"/>
 						<reference key="destination" ref="715009662"/>
@@ -553,6 +543,46 @@
 						<reference key="destination" ref="490681591"/>
 					</object>
 					<int key="connectionID">321</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">startPreMeasuring:</string>
+						<reference key="source" ref="450298705"/>
+						<reference key="destination" ref="417313018"/>
+					</object>
+					<int key="connectionID">328</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">startMeasuring:</string>
+						<reference key="source" ref="450298705"/>
+						<reference key="destination" ref="413737278"/>
+					</object>
+					<int key="connectionID">329</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">bBase</string>
+						<reference key="source" ref="233854155"/>
+						<reference key="destination" ref="715009662"/>
+					</object>
+					<int key="connectionID">322</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">bPreRun</string>
+						<reference key="source" ref="233854155"/>
+						<reference key="destination" ref="417313018"/>
+					</object>
+					<int key="connectionID">323</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">bRun</string>
+						<reference key="source" ref="233854155"/>
+						<reference key="destination" ref="413737278"/>
+					</object>
+					<int key="connectionID">324</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -648,6 +678,42 @@
 								<int key="contentType">3</int>
 								<bool key="placeholder">NO</bool>
 							</object>
+							<object class="IBNSLayoutConstraint" id="862995149">
+								<reference key="firstItem" ref="417313018"/>
+								<int key="firstAttribute">3</int>
+								<int key="relation">0</int>
+								<reference key="secondItem" ref="233854155"/>
+								<int key="secondAttribute">3</int>
+								<float key="multiplier">1</float>
+								<string key="multiplierString">1</string>
+								<object class="IBLayoutConstant" key="constant">
+									<double key="value">137</double>
+								</object>
+								<float key="priority">1000</float>
+								<reference key="containingView" ref="233854155"/>
+								<int key="scoringType">3</int>
+								<float key="scoringTypeFloat">9</float>
+								<int key="contentType">3</int>
+								<bool key="placeholder">NO</bool>
+							</object>
+							<object class="IBNSLayoutConstraint" id="472568694">
+								<reference key="firstItem" ref="417313018"/>
+								<int key="firstAttribute">11</int>
+								<int key="relation">0</int>
+								<reference key="secondItem" ref="413737278"/>
+								<int key="secondAttribute">11</int>
+								<float key="multiplier">1</float>
+								<string key="multiplierString">1</string>
+								<object class="IBLayoutConstant" key="constant">
+									<double key="value">0.0</double>
+								</object>
+								<float key="priority">1000</float>
+								<reference key="containingView" ref="233854155"/>
+								<int key="scoringType">6</int>
+								<float key="scoringTypeFloat">24</float>
+								<int key="contentType">2</int>
+								<bool key="placeholder">NO</bool>
+							</object>
 							<object class="IBNSLayoutConstraint" id="183956013">
 								<reference key="firstItem" ref="372143075"/>
 								<int key="firstAttribute">3</int>
@@ -718,42 +784,6 @@
 								<int key="scoringType">0</int>
 								<float key="scoringTypeFloat">29</float>
 								<int key="contentType">3</int>
-								<bool key="placeholder">NO</bool>
-							</object>
-							<object class="IBNSLayoutConstraint" id="862995149">
-								<reference key="firstItem" ref="417313018"/>
-								<int key="firstAttribute">3</int>
-								<int key="relation">0</int>
-								<reference key="secondItem" ref="233854155"/>
-								<int key="secondAttribute">3</int>
-								<float key="multiplier">1</float>
-								<string key="multiplierString">1</string>
-								<object class="IBLayoutConstant" key="constant">
-									<double key="value">137</double>
-								</object>
-								<float key="priority">1000</float>
-								<reference key="containingView" ref="233854155"/>
-								<int key="scoringType">3</int>
-								<float key="scoringTypeFloat">9</float>
-								<int key="contentType">3</int>
-								<bool key="placeholder">NO</bool>
-							</object>
-							<object class="IBNSLayoutConstraint" id="472568694">
-								<reference key="firstItem" ref="417313018"/>
-								<int key="firstAttribute">11</int>
-								<int key="relation">0</int>
-								<reference key="secondItem" ref="413737278"/>
-								<int key="secondAttribute">11</int>
-								<float key="multiplier">1</float>
-								<string key="multiplierString">1</string>
-								<object class="IBLayoutConstant" key="constant">
-									<double key="value">0.0</double>
-								</object>
-								<float key="priority">1000</float>
-								<reference key="containingView" ref="233854155"/>
-								<int key="scoringType">6</int>
-								<float key="scoringTypeFloat">24</float>
-								<int key="contentType">2</int>
 								<bool key="placeholder">NO</bool>
 							</object>
 							<object class="IBNSLayoutConstraint" id="700613769">
@@ -1600,12 +1630,12 @@
 					<reference ref="686231725"/>
 					<reference ref="736408890"/>
 					<reference ref="700613769"/>
-					<reference ref="472568694"/>
-					<reference ref="862995149"/>
 					<reference ref="570474086"/>
 					<reference ref="957647549"/>
 					<reference ref="1013484754"/>
 					<reference ref="183956013"/>
+					<reference ref="472568694"/>
+					<reference ref="862995149"/>
 					<reference ref="405434788"/>
 					<reference ref="963851324"/>
 				</array>
@@ -1797,7 +1827,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">321</int>
+			<int key="maxID">329</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
