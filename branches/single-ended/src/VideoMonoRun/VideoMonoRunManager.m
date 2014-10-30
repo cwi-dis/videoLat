@@ -18,6 +18,10 @@
     // sure the nibfile is registered...
     [BaseRunManager registerClass: [self class] forMeasurementType: @"Camera Input Calibrate"];
     [BaseRunManager registerNib: @"HardwareToCameraRunManager" forMeasurementType: @"Camera Input Calibrate"];
+    [BaseRunManager registerClass: [self class] forMeasurementType: @"Camera Input Calibrate (based on Screen)"];
+    [BaseRunManager registerNib: @"CalibrateCameraFromScreenRunManager" forMeasurementType: @"Camera Input Calibrate (based on Screen)"];
+    [BaseRunManager registerClass: [self class] forMeasurementType: @"Screen Output Calibrate (based on Camera)"];
+    [BaseRunManager registerNib: @"CalibrateScreenFromCameraRunManager" forMeasurementType: @"Screen Output Calibrate (based on Camera)"];
 }
 
 - (VideoMonoRunManager*)init

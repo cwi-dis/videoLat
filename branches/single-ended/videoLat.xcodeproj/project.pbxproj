@@ -63,6 +63,8 @@
 		04B58F39183A3D5300360A61 /* libzbar.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 04B58F37183A3D5300360A61 /* libzbar.0.dylib */; };
 		04B58F3A183A3D5300360A61 /* libzint.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 04B58F38183A3D5300360A61 /* libzint.dylib */; };
 		04B6A69E19ED63C300E1E3B6 /* ScreenToHardwareRunManager.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04B6A69D19ED63C300E1E3B6 /* ScreenToHardwareRunManager.xib */; };
+		04D411121A02CABC009AFEED /* CalibrateScreenFromCameraRunManager.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04D411101A02CABC009AFEED /* CalibrateScreenFromCameraRunManager.xib */; };
+		04D411131A02CABC009AFEED /* CalibrateCameraFromScreenRunManager.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04D411111A02CABC009AFEED /* CalibrateCameraFromScreenRunManager.xib */; };
 		04DC70C8185B57EB005110A5 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04DC70C7185B57EB005110A5 /* CoreLocation.framework */; };
 		04DCC18918664C8E00592A1F /* PythonLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DCC18818664C8E00592A1F /* PythonLoader.m */; };
 		04E4586B18FEB39C005712F6 /* AudioProcess.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E4586A18FEB39C005712F6 /* AudioProcess.m */; };
@@ -168,6 +170,8 @@
 		04B58F37183A3D5300360A61 /* libzbar.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libzbar.0.dylib; path = thirdParty/installed/lib/libzbar.0.dylib; sourceTree = "<group>"; };
 		04B58F38183A3D5300360A61 /* libzint.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libzint.dylib; path = thirdParty/installed/lib/libzint.dylib; sourceTree = "<group>"; };
 		04B6A69D19ED63C300E1E3B6 /* ScreenToHardwareRunManager.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ScreenToHardwareRunManager.xib; path = MixedRun/ScreenToHardwareRunManager.xib; sourceTree = "<group>"; };
+		04D411101A02CABC009AFEED /* CalibrateScreenFromCameraRunManager.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CalibrateScreenFromCameraRunManager.xib; path = VideoMonoRun/CalibrateScreenFromCameraRunManager.xib; sourceTree = "<group>"; };
+		04D411111A02CABC009AFEED /* CalibrateCameraFromScreenRunManager.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CalibrateCameraFromScreenRunManager.xib; path = VideoMonoRun/CalibrateCameraFromScreenRunManager.xib; sourceTree = "<group>"; };
 		04DC70C7185B57EB005110A5 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = ../../../../System/Library/Frameworks/CoreLocation.framework; sourceTree = "<group>"; };
 		04DCC18718664C8E00592A1F /* PythonLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PythonLoader.h; sourceTree = "<group>"; };
 		04DCC18818664C8E00592A1F /* PythonLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PythonLoader.m; sourceTree = "<group>"; };
@@ -365,6 +369,8 @@
 				0497261018FD581700625326 /* VideoMonoRunManager.h */,
 				0497261118FD581700625326 /* VideoMonoRunManager.m */,
 				0497261218FD581700625326 /* VideoMonoRunManager.xib */,
+				04D411101A02CABC009AFEED /* CalibrateScreenFromCameraRunManager.xib */,
+				04D411111A02CABC009AFEED /* CalibrateCameraFromScreenRunManager.xib */,
 			);
 			name = VideoMonoRun;
 			sourceTree = "<group>";
@@ -561,6 +567,7 @@
 				045AA71619E71BA400E28AED /* MasterSenderRun.xib in Resources */,
 				0497260E18FD580300625326 /* VideoRunManager.xib in Resources */,
 				04B6A69E19ED63C300E1E3B6 /* ScreenToHardwareRunManager.xib in Resources */,
+				04D411121A02CABC009AFEED /* CalibrateScreenFromCameraRunManager.xib in Resources */,
 				0497264218FD5BDA00625326 /* icon.icns in Resources */,
 				049725E918FD568A00625326 /* HardwareRunManager.xib in Resources */,
 				0497264118FD5BDA00625326 /* docicon.icns in Resources */,
@@ -570,6 +577,7 @@
 				0497261B18FD585600625326 /* HardwareToCameraRunManager.xib in Resources */,
 				04B1915119D2ECBC001ABA66 /* Doxyfile in Resources */,
 				0497261918FD582600625326 /* VideoCalibrationRunManager.xib in Resources */,
+				04D411131A02CABC009AFEED /* CalibrateCameraFromScreenRunManager.xib in Resources */,
 				04A9C14819216EB70016E6C0 /* AudioCalibrationRunManager.xib in Resources */,
 				048FB6F519FD21040023D29C /* HardwareDevices in Resources */,
 				04FFDF94185A6FAE00B1CCCC /* videoLat.help in Resources */,

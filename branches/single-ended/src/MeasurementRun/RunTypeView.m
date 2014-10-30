@@ -38,7 +38,7 @@
 {
     for (NSString *itemTitle in [bType itemTitles]) {
         BOOL exists = [BaseRunManager classForMeasurementType: itemTitle] != nil;
-        //if (!exists) NSLog(@"RunTypeView: disable type \"%@\" for which no class exists", itemTitle);
+        if (!exists) NSLog(@"RunTypeView: disable type \"%@\" for which no class exists", itemTitle);
         [[bType itemWithTitle: itemTitle] setEnabled: exists];
     }
     // Try to set same as in previous run
