@@ -31,7 +31,9 @@ int outputValue;
 
 void setup() {
   // initialize serial communications at 9600 bps:
-  Serial.begin(9600); 
+  Serial.begin(9600);
+  pinMode(analogInPin, INPUT);
+  pinMode(analogOutPin, OUTPUT);
 }
 
 void loop() {
