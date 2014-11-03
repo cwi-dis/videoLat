@@ -35,9 +35,11 @@
 - (NSArray *)measurementNames;  //!< Return all names for measurements of this type, used for menu population.
 - (NSArray *)measurementNamesForType: (NSString *)typeName; //!< No longer used?
 
-@property(readonly) NSUInteger tag; //!< Tag for this type, used to order measurement types logically in menus.
-@property(readonly) NSString *name; //!< Human-readable type
+@property(readonly) NSUInteger tag;     //!< Tag for this type, used to order measurement types logically in menus.
+@property(readonly) NSString *name;     //!< Human-readable type
 @property(readonly) BOOL isCalibration; //!< True if this type is a calibration meaurement type
+@property BOOL inputOnlyCalibration;    //!< True if only the input should match
+@property BOOL outputOnlyCalibration;   //!< True if only the output should match
 @property(readonly) MeasurementType *requires;  //!< What this measurement type depends on (usually a calibration) or nil.
 
 @end

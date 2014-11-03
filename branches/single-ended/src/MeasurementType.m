@@ -15,6 +15,8 @@ static NSMutableDictionary *byTag;
 @synthesize tag;
 @synthesize name;
 @synthesize isCalibration;
+@synthesize inputOnlyCalibration;
+@synthesize outputOnlyCalibration;
 @synthesize requires;
 
 + (MeasurementType *)forType: (NSString *)typeName
@@ -46,9 +48,13 @@ static NSMutableDictionary *byTag;
     
     MeasurementType *cal_HW = [self addType: @"Hardware Calibrate" tag: 3 isCalibration: YES requires: nil];
     MeasurementType *cal_IN = [self addType: @"Camera Input Calibrate" tag: 4 isCalibration: YES requires: cal_HW];
+    cal_IN.inputOnlyCalibration = YES;
     MeasurementType *cal_OUT = [self addType: @"Screen Output Calibrate" tag: 5 isCalibration: YES requires: cal_HW];
-    [self addType: @"Camera Input Calibrate (based on Screen)" tag: 4 isCalibration: YES requires: cal_OUT];
-    [self addType: @"Screen Output Calibrate (based on Camera)" tag: 5 isCalibration: YES requires: cal_IN];
+    cal_OUT.outputOnlyCalibration = YES;
+    MeasurementType *cal_IN2 = [self addType: @"Camera Input Calibrate (based on Screen)" tag: 4 isCalibration: YES requires: cal_OUT];
+    cal_IN2.inputOnlyCalibration = YES;
+    MeasurementType *cal_OUT2 = [self addType: @"Screen Output Calibrate (based on Camera)" tag: 5 isCalibration: YES requires: cal_IN];
+    cal_OUT2.outputOnlyCalibration = YES;
 
     [self addType: @"Video Transmission (Master/Server)" tag: 6 isCalibration: NO requires: /*cal_OUT*/nil];
     [self addType: @"Video Reception (Slave/Client)" tag: 7 isCalibration: NO requires: /*cal_IN*/nil];
@@ -65,6 +71,8 @@ static NSMutableDictionary *byTag;
         name = _name;
         tag = _tag;
         isCalibration = _isCalibration;
+        inputOnlyCalibration = NO;
+        outputOnlyCalibration = NO;
         requires = _requires;
         measurements = [[NSMutableDictionary alloc] initWithCapacity:1];
     }
