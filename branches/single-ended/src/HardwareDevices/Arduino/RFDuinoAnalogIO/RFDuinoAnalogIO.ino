@@ -31,7 +31,7 @@ int outputValue;
 
 void setup() {
   // initialize serial communications at 9600 bps:
-  Serial.begin(9600);
+  Serial.begin(115200);
   pinMode(analogInPin, INPUT);
   pinMode(analogOutPin, OUTPUT);
 }
@@ -89,9 +89,9 @@ void loop() {
   
   // Set the LED output level
   if (outputValue == 0) 
-    digitalWrite(analogOutPin, 0);
+    digitalWrite(analogOutPin, LOW);
   else if (outputValue == 127)
-    digitalWrite(analogOutPin, 1);
+    digitalWrite(analogOutPin, HIGH);
   else
     analogWrite(analogOutPin, outputValue*2);
 

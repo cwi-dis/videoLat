@@ -5,7 +5,7 @@ sys.path.append('..')
 import arduinoserial
 
 PORT='/dev/tty.usbserial-DC008NKM'
-BAUD=9600
+BAUD=115200
 
 RESYNC = chr(255)*4
 

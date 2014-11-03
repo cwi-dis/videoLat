@@ -18,7 +18,7 @@ HardwareLightProtocol = objc.protocolNamed('HardwareLightProtocol')
 class Arduino(NSObject, HardwareLightProtocol):
     """Implementation of HardwareLightProtocol using a LabJack U3."""
     PORT='/dev/tty.usbserial-DC008NKM'
-    BAUD=9600
+    BAUD=115200
 
     def init(self):
         """ObjC-style initializer function"""
@@ -40,6 +40,7 @@ class Arduino(NSObject, HardwareLightProtocol):
         except OSError, arg:
             self._lastErrorMessage = 'Cannot open: %s' % arg
             return
+        self.arduino.write(RESYNC)
 
     def lastErrorMessage(self):
         """Returns last error message from hardware/library, for display to the user."""
