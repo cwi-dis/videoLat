@@ -62,7 +62,7 @@
 		[alert runModal];
 		return nil;
 	}
-    NSLog(@"directoryForCalibrations is %@", url);
+    if (VL_DEBUG) NSLog(@"directoryForCalibrations is %@", url);
 	return url;
 }
 
@@ -97,7 +97,7 @@
 
 - (BOOL)_loadCalibration: (NSURL *)url error: (NSError **)outError
 {
-    NSLog(@"loading calibration from %@\n", url);
+    if (VL_DEBUG) NSLog(@"loading calibration from %@\n", url);
 	NSData *data = [NSData dataWithContentsOfURL: url];
     NSMutableDictionary *dict = [NSKeyedUnarchiver unarchiveObjectWithData: data];
     NSString *str;

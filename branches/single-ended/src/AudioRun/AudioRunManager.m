@@ -228,7 +228,7 @@
 	foundCurrentSample = NO;
     if ((self.running || self.preRunning)) {
         outputStartTime = [self.clock now];
-		NSLog(@"AudioRun.newOutputStart at %lld", outputStartTime);
+		if (VL_DEBUG) NSLog(@"AudioRun.newOutputStart at %lld", outputStartTime);
 		if (self.running) {
 			[self.collector recordTransmission: @"audio" at: outputStartTime];
         }
@@ -239,7 +239,7 @@
 
 - (void)newOutputDone
 {
-    NSLog(@"AudioRun.newOutputDone at %lld", [self.clock now]);
+    if (VL_DEBUG) NSLog(@"AudioRun.newOutputDone at %lld", [self.clock now]);
 	assert(outputActive);
 	outputActive = NO;
 	if (triggerOutputWhenDone)
@@ -263,7 +263,7 @@
 			
 		// Process whether we found a sample (or not)
         if (foundSample) {
-			NSLog(@"newInputDone (%lld) at %lld", timestamp, [self.clock now]);
+			if (VL_DEBUG) NSLog(@"newInputDone (%lld) at %lld", timestamp, [self.clock now]);
 			foundCurrentSample = YES;
             if (self.running) {
                 [self.collector recordReception: @"audio" at: [self.processor lastMatchTimestamp]];

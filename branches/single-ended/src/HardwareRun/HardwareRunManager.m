@@ -23,7 +23,9 @@
 
     [BaseRunManager registerClass: [self class] forMeasurementType: @"Screen Output Calibrate"];
     [BaseRunManager registerNib: @"ScreenToHardwareRunManager" forMeasurementType: @"Screen Output Calibrate"];
-    NSLog(@"HardwareLightProtocol = %@", @protocol(HardwareLightProtocol));
+    // We should also ensure that the hardware protocol is actually part of the binary
+    Protocol *hlp = @protocol(HardwareLightProtocol);
+    if (VL_DEBUG) NSLog(@"HardwareLightProtocol = %@", hlp);
 }
 
 - (HardwareRunManager*)init
@@ -88,7 +90,7 @@
     PythonLoader *pl = [PythonLoader sharedPythonLoader];
     BOOL ok = [pl loadPackageNamed: selectedDevice];
     if (!ok) {
-        NSLog(@"HardwareRunManager: Programmer error: Python module %@ does not exist", selectedDevice);
+        NSLog(@"HardwareRunManager: Programmer error: Python module %@ cannot be imported", selectedDevice);
         return;
     }
     
@@ -162,7 +164,7 @@
                 outputLevel = 1-outputLevel;
                 outputLevelChanged = YES;
                 newOutputValueWanted = NO;
-                if (1 || VL_DEBUG) NSLog(@"HardwareRunManager: outputLevel %f at %lld", outputLevel, outputTimestamp);
+                if (VL_DEBUG) NSLog(@"HardwareRunManager: outputLevel %f at %lld", outputLevel, outputTimestamp);
             }
         }
         double nInputLevel = [self.device light: outputLevel];
@@ -216,10 +218,10 @@
         }
         if (!handlesInput) return;
         // Check for detections
-        NSLog(@" inputLevel %f (%f..%f) inputLight %d outputLight %d outputMixed %d", inputLevel, minInputLevel, maxInputLevel, inputLight, outputLight, outputMixed);
+        if (VL_DEBUG) NSLog(@" inputLevel %f (%f..%f) inputLight %d outputLight %d outputMixed %d", inputLevel, minInputLevel, maxInputLevel, inputLight, outputLight, outputMixed);
         if (inputLight == outputLight) {
             if (self.running) {
-                if (1 || VL_DEBUG) NSLog(@"light %d transmitted %lld received %lld delta %lld", outputLight, outputTimestamp, inputTimestamp, inputTimestamp - outputTimestamp);
+                if (VL_DEBUG) NSLog(@"light %d transmitted %lld received %lld delta %lld", outputLight, outputTimestamp, inputTimestamp, inputTimestamp - outputTimestamp);
                 [self.collector recordReception:inputLight? @"white": @"black" at:inputTimestamp];
                 self.statusView.detectCount = [NSString stringWithFormat: @"%d", self.collector.count];
                 self.statusView.detectAverage = [NSString stringWithFormat: @"%.3f ms ± %.3f", self.collector.average / 1000.0, self.collector.stddev / 1000.0];
@@ -230,7 +232,7 @@
                 self.statusView.detectCount = [NSString stringWithFormat: @"%d more", prerunMoreNeeded];
                 self.statusView.detectAverage = [NSString stringWithFormat: @"%.2f .. %.2f", minInputLevel, maxInputLevel];
                 [self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
-                if (1 || VL_DEBUG) NSLog(@"preRunMoreMeeded=%d\n", prerunMoreNeeded);
+                if (VL_DEBUG) NSLog(@"preRunMoreMeeded=%d\n", prerunMoreNeeded);
                 if (prerunMoreNeeded == 0) {
                     outputLevel = 0.5;
                     self.statusView.detectCount = @"";
@@ -264,7 +266,7 @@
             outputLevel = 0;
     }
 	newOutputValueWanted = YES;
-    NSLog(@"triggerNewOutputValue called");
+    if (VL_DEBUG) NSLog(@"triggerNewOutputValue called");
 }
 
 - (IBAction)startPreMeasuring: (id)sender

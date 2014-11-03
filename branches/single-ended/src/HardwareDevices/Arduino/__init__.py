@@ -41,6 +41,9 @@ class Arduino(NSObject, HardwareLightProtocol):
             self._lastErrorMessage = 'Cannot open: %s' % arg
             return
         self.arduino.write(RESYNC)
+        while self.arduino.read_byte():
+            pass
+        self.arduino.write(RESYNC)
 
     def lastErrorMessage(self):
         """Returns last error message from hardware/library, for display to the user."""

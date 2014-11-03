@@ -61,7 +61,7 @@
 {
 	NSMenuItem *item = [sender selectedItem];
 	NSString *cam = [item title];
-	NSLog(@"Switch audioInput to %@\n", cam);
+	if (VL_DEBUG) NSLog(@"Switch audioInput to %@\n", cam);
 	[self.inputHandler switchToDeviceWithName: cam];
 }
 
@@ -79,7 +79,7 @@
 {
 	NSMenuItem *item = [sender selectedItem];
 	NSString *cam = [item title];
-	NSLog(@"Switch audioOutput to %@\n", cam);
+	if (VL_DEBUG) NSLog(@"Switch audioOutput to %@\n", cam);
 //	[self.outputHandler switchToDeviceWithName: cam];
 }
 

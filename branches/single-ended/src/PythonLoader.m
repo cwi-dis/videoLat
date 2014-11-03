@@ -28,7 +28,7 @@ static PythonLoader *theSharedPythonLoader;
     if (self) {
         PyEval_InitThreads();
 		Py_Initialize();
-		NSLog(@"Python home=%s\n", Py_GetPythonHome());
+		if (VL_DEBUG) NSLog(@"Python home=%s\n", Py_GetPythonHome());
 		PyEval_SaveThread();
     }
     return self;
@@ -38,7 +38,7 @@ static PythonLoader *theSharedPythonLoader;
 {
     PyGILState_STATE gstate;
     gstate = PyGILState_Ensure();
-    NSLog(@"PythonLoader loadURL %@", script);
+    if (VL_DEBUG) NSLog(@"PythonLoader loadURL %@", script);
     BOOL rv = NO;
     NSURL *dir = [script URLByDeletingLastPathComponent];
     PyObject *pDir = NULL, *sys = NULL, *sysPath = NULL, *prv = NULL;
