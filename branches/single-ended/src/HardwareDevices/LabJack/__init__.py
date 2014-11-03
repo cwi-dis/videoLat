@@ -50,7 +50,9 @@ class LabJack(NSObject, HardwareLightProtocol):
 
     def lastErrorMessage(self):
         """Returns last error message from hardware/library, for display to the user."""
-        return self._lastErrorMessage
+        rv = self._lastErrorMessage
+        self._lastErrorMessage = None
+        return rv
 
     def available(self):
         """Returns true if the library is installed and the hardware connected."""

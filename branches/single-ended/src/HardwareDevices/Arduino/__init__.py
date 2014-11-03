@@ -29,6 +29,9 @@ class Arduino(NSObject, HardwareLightProtocol):
         self._seqno = 0
         return self
     
+    def dealloc(self):
+        self.arduino = None
+
     def awakeFromNib(self):
         """Standard initializer"""
         if DEBUG: print 'Arduino: awakeFromNib called', self
@@ -40,14 +43,18 @@ class Arduino(NSObject, HardwareLightProtocol):
         except OSError, arg:
             self._lastErrorMessage = 'Cannot open: %s' % arg
             return
+        self._resync()
+        print 'Arduino: device opened, fd=%d' % self.arduino.fd
+        
+    def _resync(self):
         self.arduino.write(RESYNC)
-        while self.arduino.read_byte():
-            pass
-        self.arduino.write(RESYNC)
+        self.arduino.flushInput()
 
     def lastErrorMessage(self):
         """Returns last error message from hardware/library, for display to the user."""
-        return self._lastErrorMessage
+        rv = self._lastErrorMessage
+        self._lastErrorMessage = None
+        return rv
 
     def available(self):
         """Returns true if the library is installed and the hardware connected."""
@@ -60,7 +67,7 @@ class Arduino(NSObject, HardwareLightProtocol):
         except:
             self._lastErrorMessage = 'Exception during Arduino.available'
             if not DEBUG:
-                print 'Exception during Arduino.available'
+                print 'Arduino: Exception during Arduino.available'
                 return False
             import pdb
             pdb.post_mortem()
@@ -90,26 +97,30 @@ class Arduino(NSObject, HardwareLightProtocol):
 
         if inseqno < 128:
             self._lastErrorMessage = 'Sync error, got data in stead of seqno from arduino'
-            self.arduino.write(RESYNC)
+            self._resync()
             return -1
             
         indata = self.arduino.read_byte()
         if not indata: 
             self._lastErrorMessage = 'No data (analog value) from Arduino'
+            self._resync()
             return -1
 
         indata = ord(indata)
         if indata >= 128:
             self._lastErrorMessage = 'Sync error, got seqno (%d) in stead of data from ardino' % indata
+            self._resync()
             return -1
             
         if inseqno > 192:
             self._lastErrorMessage = 'Received error %d, %d from arduino' % (inseqno, indata)
+            self._resync()
             return -1
             
         if inseqno != seqno:
             self._lastErrorMessage = 'Arduino sent seqno %d, expected %d' % (inseqno, seqno)
-            return 0.5
+            self._resync()
+            return -1
             
         return round(float(indata) / 127.0, 2)
                     

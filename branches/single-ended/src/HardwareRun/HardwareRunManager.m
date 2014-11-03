@@ -63,7 +63,7 @@
 
 - (IBAction) selectDevice: (id)sender
 {
-    inErrorMode = NO;
+    lastError = nil;
     if (self.bDevices == nil)
         return;
     if ([self.bDevices indexOfSelectedItem] == 0)
@@ -243,15 +243,15 @@
                 }
 				[self.outputCompanion triggerNewOutputValue];
             }
+        } else {
+            // We did not detect the light level we expected
         }
-		if (!inErrorMode) {
-			NSString *msg = self.device.lastErrorMessage;
-			if (msg) {
-				inErrorMode = YES;
-				NSAlert *alert = [NSAlert alertWithMessageText:@"Hardware device error" defaultButton:@"OK" alternateButton:nil otherButton:nil informativeTextWithFormat:@"%@", msg];
-				[alert runModal];
-			}
-		}
+        NSString *msg = self.device.lastErrorMessage;
+        if (msg && ![msg isEqualToString:lastError]) {
+            lastError = msg;
+            NSAlert *alert = [NSAlert alertWithMessageText:@"Hardware device error" defaultButton:@"OK" alternateButton:nil otherButton:nil informativeTextWithFormat:@"%@", msg];
+            [alert runModal];
+        }
     }
 }
 

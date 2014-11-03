@@ -72,11 +72,9 @@ class SerialPort:
     fully raw mode so you can send binary data.
     """
 #    self.fd = os.open(serialport, os.O_RDWR | os.O_NOCTTY | os.O_NDELAY)
-    print 'About to open'
+    self.fd = -1
     self.fd = os.open(serialport, os.O_RDWR | os.O_NOCTTY | os.O_NONBLOCK)
-    print 'open returned', self.fd
     rv = fcntl.fcntl(self.fd, os.O_NONBLOCK, 0)
-    print 'fcntl returned', rv
     attrs = termios.tcgetattr(self.fd)
     bps_sym = bps_to_termios_sym(bps)
     # Set I/O speed.
@@ -108,6 +106,14 @@ class SerialPort:
     else:
         attrs[CC][termios.VTIME] = 40
     termios.tcsetattr(self.fd, termios.TCSANOW, attrs)
+
+  def __del__(self):
+    self.close()
+  
+  def close(self):
+    if self.fd > 0:
+      os.close(self.fd)
+      self.fd = -1
 
   def read_until(self, until):
     buf = ""

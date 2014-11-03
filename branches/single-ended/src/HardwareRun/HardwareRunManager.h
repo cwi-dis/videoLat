@@ -24,7 +24,7 @@
 @interface HardwareRunManager : BaseRunManager <ClockProtocol> {
     BOOL alive;                 //!< True when the _periodic method should run
     BOOL connected;             //!< True if the hardware device is connected
-	BOOL inErrorMode;           //!< True if we have displayed an error message (such as "no hardware found")
+    NSString *lastError;        //!< Last error message from device
     
     double outputLevel;         //!< Current output light level
     uint64_t outputTimestamp;   //!< When the last output light level change was made
