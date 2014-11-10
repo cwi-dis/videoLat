@@ -124,6 +124,7 @@
 - (IBAction)startPreMeasuring: (id)sender
 {
 	@synchronized(self) {
+        assert(handlesInput);
 		// First check that everything is OK with base measurement and such
 		if (self.measurementType.requires != nil) {
 			// First check that a base measurement has been selected.
@@ -172,9 +173,6 @@
 			[self.statusView.bStop setEnabled: NO];
 		}
 		// Do actual prerunning
-		prerunDelay = PRERUN_INITIAL_DELAY; // Start with 1ms delay (ridiculously low)
-		prerunMoreNeeded = PRERUN_COUNT;
-		self.preRunning = YES;
         if (!handlesOutput) {
             BOOL ok = [self.outputCompanion companionStartPreMeasuring];
             if (!ok) return;
@@ -208,6 +206,7 @@
 - (IBAction)startMeasuring: (id)sender
 {
     @synchronized(self) {
+        assert(handlesInput);
 		[self.selectionView.bPreRun setEnabled: NO];
 		[self.selectionView.bRun setEnabled: NO];
 		if (!self.statusView) {

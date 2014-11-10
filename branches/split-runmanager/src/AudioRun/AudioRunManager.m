@@ -54,15 +54,16 @@
 - (void)restart
 {
 	@synchronized(self) {
-		if (measurementType == nil) return;
+        assert(handlesInput);
+		if (self.measurementType == nil) return;
 		if (!self.selectionView) {
 			// XXXJACK Make sure selectionView is active/visible
 		}
-		if (measurementType.requires == nil) {
+		if (self.measurementType.requires == nil) {
 			[self.selectionView.bBase setEnabled:NO];
 			[self.selectionView.bPreRun setEnabled: YES];
 		} else {
-			NSArray *calibrationNames = measurementType.requires.measurementNames;
+			NSArray *calibrationNames = self.measurementType.requires.measurementNames;
             [self.selectionView.bBase removeAllItems];
 			[self.selectionView.bBase addItemsWithTitles:calibrationNames];
             if ([self.selectionView.bBase numberOfItems])
@@ -78,8 +79,8 @@
                                                alternateButton:nil
                                                    otherButton:nil
                                      informativeTextWithFormat:@"\"%@\" measurements should be based on a \"%@\" calibration. Please calibrate first.",
-                                  measurementType.name,
-                                  measurementType.requires.name
+                                  self.measurementType.name,
+                                  self.measurementType.requires.name
                                   ];
 				[alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
 			}
@@ -115,13 +116,14 @@
 - (IBAction)startPreMeasuring: (id)sender
 {
 	@synchronized(self) {
+        assert(handlesInput);
 		// First check that everything is OK with base measurement and such
-		if (measurementType.requires != nil) {
+		if (self.measurementType.requires != nil) {
 			// First check that a base measurement has been selected.
 			NSString *errorMessage;
 			NSMenuItem *baseItem = [self.selectionView.bBase selectedItem];
 			NSString *baseName = [baseItem title];
-			MeasurementType *baseType = measurementType.requires;
+			MeasurementType *baseType = self.measurementType.requires;
 			MeasurementDataStore *baseStore = [baseType measurementNamed: baseName];
 			if (baseType == nil) {
 				errorMessage = @"No base (calibration) measurement selected.";
@@ -162,16 +164,15 @@
 		if (self.statusView) {
 			[self.statusView.bStop setEnabled: NO];
 		}
+        if (!handlesOutput) {
+            BOOL ok = [self.outputCompanion companionStartPreMeasuring];
+            if (!ok) return;
+        }
 		// Do actual prerunning
 		maxDelay = PRERUN_INITIAL_DELAY;
 		prerunMoreNeeded = PRERUN_COUNT;
 		self.preRunning = YES;
 		[self.capturer startCapturing: YES];
-#if 0
-		// We don't trigger here, because we will very shortly get a newInputDone
-		// that will trigger the output value.
-		[self.outputCompanion triggerNewOutputValue];
-#endif
 	}
 }
 
@@ -179,6 +180,8 @@
 {
 	@synchronized(self) {
 		self.preRunning = NO;
+        if (!handlesOutput)
+            [self.outputCompanion companionStopPreMeasuring];
 		[self.capturer stopCapturing];
 		// We have now found PRERUN_COUNT matches in maxDelay time.
 		// Assume that 4*maxDelay is a decent upper bound for detection.
@@ -195,6 +198,7 @@
 - (IBAction)startMeasuring: (id)sender
 {
     @synchronized(self) {
+        assert(handlesInput);
 		[self.selectionView.bPreRun setEnabled: NO];
 		[self.selectionView.bRun setEnabled: NO];
 		if (!self.statusView) {
@@ -202,6 +206,8 @@
 		}
 		[self.statusView.bStop setEnabled: YES];
         self.running = YES;
+        if (!handlesOutput)
+            [self.outputCompanion companionStartMeasuring];
         [self.capturer startCapturing: NO];
         [self.collector startCollecting: self.measurementType.name input: self.capturer.deviceID name: self.capturer.deviceName output: self.outputView.deviceID name: self.outputView.deviceName];
         [self.outputCompanion triggerNewOutputValue];

@@ -329,7 +329,7 @@
 {
     @synchronized(self) {
         assert(handlesInput);
-		if (self.inputCompanion.measurementType == nil) return;
+		if (self.measurementType == nil) return;
         // Pre-select the correct device. Sometimes through device popup, sometimes through base
         if (self.bDevices) {
             [self selectDevice: self];
@@ -347,11 +347,17 @@
             return;
         }
 //
-        if (self.inputCompanion.measurementType.requires == nil) {
+        if (self.measurementType.requires == nil) {
 			[self.bBase setEnabled:NO];
 			[self.bPreRun setEnabled: YES];
 		} else {
-			NSArray *calibrationNames = self.inputCompanion.measurementType.requires.measurementNames;
+#if 1
+			NSArray *calibrationNames = self.measurementType.requires.measurementNames;
+#else
+            NSObject<MeasurementTypeProtocol> *mtp = self.measurementType;
+            MeasurementType *mt = (MeasurementType *)mtp;
+            NSArray *calibrationNames = mt.requires.measurementNames;
+#endif
             [self.bBase removeAllItems];
 			[self.bBase addItemsWithTitles:calibrationNames];
             if ([self.bBase numberOfItems])
@@ -366,8 +372,8 @@
                                                alternateButton:nil
                                                    otherButton:nil
                                      informativeTextWithFormat:@"\"%@\" measurements should be based on a \"%@\" calibration. Please calibrate first.",
-                                  self.inputCompanion.measurementType.name,
-                                  self.inputCompanion.measurementType.requires.name
+                                  self.measurementType.name,
+                                  self.measurementType.requires.name
                                   ];
 				[alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
 			}
