@@ -39,17 +39,7 @@
 - (void)awakeFromNib
 {
     if ([super respondsToSelector:@selector(awakeFromNib)]) [super awakeFromNib];
-    NSArray *names = ((appDelegate *)[[NSApplication sharedApplication] delegate]).hardwareNames;
-
-    if ([names count]) {
-        [self.bDevices removeAllItems];
-        [self.bDevices setAutoenablesItems: NO];
-        [self.bDevices addItemWithTitle:@"Select Hardware Device"];
-        [[self.bDevices itemAtIndex:0] setEnabled: NO];
-        [self.bDevices addItemsWithTitles: names];
-        [self.bDevices selectItemAtIndex:0];
-    }
-        
+    
 #if 0
     // Check that the Python script has loaded correctly
 	if (self.device && ![self.device respondsToSelector: @selector(available)])
@@ -64,11 +54,11 @@
 - (IBAction) selectDevice: (id)sender
 {
     lastError = nil;
-    if (self.bDevices == nil)
+    if (self.selectionView.bDevices == nil)
         return;
-    if ([self.bDevices indexOfSelectedItem] == 0)
+    if ([self.selectionView.bDevices indexOfSelectedItem] == 0)
         return;
-    NSString *selectedDevice = [self.bDevices titleOfSelectedItem];
+    NSString *selectedDevice = [self.selectionView.bDevices titleOfSelectedItem];
     NSString *oldDevice = nil;
     if (self.device)
         oldDevice = [self.device deviceName];
@@ -81,10 +71,10 @@
     if (selectedDevice == nil)
         return;
     
-    [self _switchToDevice: selectedDevice];
+    [self switchToDevice: selectedDevice];
 }
 
-- (void)_switchToDevice: (NSString *)selectedDevice
+- (void)switchToDevice: (NSString *)selectedDevice
 {
     [self.bConnected setState: 0];
     PythonLoader *pl = [PythonLoader sharedPythonLoader];
@@ -123,11 +113,11 @@
 - (IBAction)selectBase: (id) sender
 {
     assert(handlesInput);
-    if (self.bBase == nil) {
+    if (self.selectionView.bBase == nil) {
         NSLog(@"HardwareRunManager: bBase == nil");
         return;
     }
-    NSMenuItem *baseItem = [self.bBase selectedItem];
+    NSMenuItem *baseItem = [self.selectionView.bBase selectedItem];
     NSString *baseName = [baseItem title];
     if (baseName == nil) {
         NSLog(@"HardwareRunManager: baseName == nil");
@@ -140,7 +130,7 @@
         return;
     }
     NSString *deviceName = baseStore.inputDevice;
-    [self _switchToDevice:deviceName];
+    [self switchToDevice:deviceName];
 }
 
 - (uint64_t)now
@@ -331,9 +321,9 @@
 		if (self.measurementType == nil) return;
         assert(handlesInput);
         // Pre-select the correct device. Sometimes through device popup, sometimes through base
-        if (self.bDevices) {
+        if (self.selectionView.bDevices) {
             [self selectDevice: self];
-        } else if (self.bBase) {
+        } else if (self.selectionView.bBase) {
             [self selectBase:self];
         }
         
@@ -348,7 +338,7 @@
         }
 //
         if (self.measurementType.requires == nil) {
-			[self.bBase setEnabled:NO];
+			[self.selectionView.bBase setEnabled:NO];
 			[self.bPreRun setEnabled: YES];
 		} else {
 #if 1
@@ -358,12 +348,12 @@
             MeasurementType *mt = (MeasurementType *)mtp;
             NSArray *calibrationNames = mt.requires.measurementNames;
 #endif
-            [self.bBase removeAllItems];
-			[self.bBase addItemsWithTitles:calibrationNames];
-            if ([self.bBase numberOfItems])
-                [self.bBase selectItemAtIndex:0];
-			[self.bBase setEnabled:YES];
-			if ([self.bBase selectedItem]) {
+            [self.selectionView.bBase removeAllItems];
+			[self.selectionView.bBase addItemsWithTitles:calibrationNames];
+            if ([self.selectionView.bBase numberOfItems])
+                [self.selectionView.bBase selectItemAtIndex:0];
+			[self.selectionView.bBase setEnabled:YES];
+			if ([self.selectionView.bBase selectedItem]) {
 				[self.bPreRun setEnabled: YES];
 			} else {
 				[self.bPreRun setEnabled: NO];

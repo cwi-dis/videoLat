@@ -8,6 +8,7 @@
 
 #import "BaseRunManager.h"
 #import "HardwareOutputView.h"
+#import "HardwareSelectionView.h"
 
 ///
 /// A Subclass of BaseRunManager geared towards doing hardware-assisted video
@@ -40,9 +41,10 @@
 
 @property(weak) IBOutlet NSButton *bPreRun;                 //!< UI element: start a measurement run
 @property(weak) IBOutlet NSButton *bRun;                    //!< UI element: start preparing a measurement run
-@property(weak) IBOutlet NSPopUpButton *bDevices;           //!< UI element: select the hardware device to use
+//@property(weak) IBOutlet NSPopUpButton *bDevices;           //!< UI element: select the hardware device to use
 @property(weak) IBOutlet NSButton *bConnected;              //!< Indicator for the user that the selected device works
-@property(weak) IBOutlet NSPopUpButton *bBase;              //!< UI element: available calibration runs
+//@property(weak) IBOutlet NSPopUpButton *bBase;              //!< UI element: available calibration runs
+@property(weak) IBOutlet HardwareSelectionView *selectionView;  //!< Assigned in NIB: hardware device selector
 @property(weak) IBOutlet HardwareOutputView *outputView;    //!< Assigned in NIB: visual feedback view of output for the user
 @property(weak) IBOutlet NSButton *bInputValue;             //!< UI element: feedback on light/no light detected
 @property(weak) IBOutlet NSTextField *bInputNumericValue;   //!< UI element: feedback on analog input received
@@ -54,7 +56,7 @@
 - (HardwareRunManager *)init;   //!< Initializer
 -(void)stop;
 
-- (IBAction)selectDevice: (id)sender;   //!< Called when the user selects a different device
+- (void)switchToDevice: (NSString *)selectedDevice;
 - (IBAction)selectBase: (id)sender;     //!< Called when the user selects a different base measurement
 ///
 /// The worker thread.

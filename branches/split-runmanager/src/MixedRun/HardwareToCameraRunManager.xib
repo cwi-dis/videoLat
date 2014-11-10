@@ -345,7 +345,7 @@
 				</array>
 				<string key="NSFrameSize">{268, 394}</string>
 				<reference key="NSNextKeyView" ref="521529064"/>
-				<string key="NSClassName">VideoSelectionView</string>
+				<string key="NSClassName">HardwareSelectionView</string>
 			</object>
 			<object class="NSView" id="652629579">
 				<nil key="NSNextResponder"/>
@@ -599,14 +599,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">bBase</string>
-						<reference key="source" ref="450298705"/>
-						<reference key="destination" ref="968561338"/>
-					</object>
-					<int key="connectionID">196</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
 						<string key="label">outputView</string>
 						<reference key="source" ref="450298705"/>
 						<reference key="destination" ref="652629579"/>
@@ -636,6 +628,14 @@
 						<reference key="destination" ref="296673180"/>
 					</object>
 					<int key="connectionID">312</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">selectionView</string>
+						<reference key="source" ref="450298705"/>
+						<reference key="destination" ref="875939645"/>
+					</object>
+					<int key="connectionID">313</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -1868,7 +1868,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">312</int>
+			<int key="maxID">313</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes"/>
 		<int key="IBDocument.localizationMode">0</int>

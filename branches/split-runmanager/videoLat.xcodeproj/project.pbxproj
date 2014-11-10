@@ -67,6 +67,7 @@
 		04D411131A02CABC009AFEED /* CalibrateCameraFromScreenRunManager.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04D411111A02CABC009AFEED /* CalibrateCameraFromScreenRunManager.xib */; };
 		04DC70C8185B57EB005110A5 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04DC70C7185B57EB005110A5 /* CoreLocation.framework */; };
 		04DCC18918664C8E00592A1F /* PythonLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DCC18818664C8E00592A1F /* PythonLoader.m */; };
+		04DE78C81A11759A002BA654 /* HardwareSelectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DE78C71A11759A002BA654 /* HardwareSelectionView.m */; };
 		04E4586B18FEB39C005712F6 /* AudioProcess.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E4586A18FEB39C005712F6 /* AudioProcess.m */; };
 		04EEC1CC19DC4C5E0056899C /* SlaveReceiverRun.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04EEC1CB19DC4C5E0056899C /* SlaveReceiverRun.xib */; };
 		04EEC1D019DC4D9E0056899C /* NetworkOutputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04EEC1CF19DC4D9E0056899C /* NetworkOutputView.m */; };
@@ -175,6 +176,8 @@
 		04DC70C7185B57EB005110A5 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = ../../../../System/Library/Frameworks/CoreLocation.framework; sourceTree = "<group>"; };
 		04DCC18718664C8E00592A1F /* PythonLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PythonLoader.h; sourceTree = "<group>"; };
 		04DCC18818664C8E00592A1F /* PythonLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PythonLoader.m; sourceTree = "<group>"; };
+		04DE78C61A11759A002BA654 /* HardwareSelectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HardwareSelectionView.h; path = HardwareRun/HardwareSelectionView.h; sourceTree = "<group>"; };
+		04DE78C71A11759A002BA654 /* HardwareSelectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HardwareSelectionView.m; path = HardwareRun/HardwareSelectionView.m; sourceTree = "<group>"; };
 		04E4586818FEAEAD005712F6 /* AudioProcess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioProcess.h; path = AudioRun/AudioProcess.h; sourceTree = "<group>"; };
 		04E4586A18FEB39C005712F6 /* AudioProcess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AudioProcess.m; path = AudioRun/AudioProcess.m; sourceTree = "<group>"; };
 		04EEC1CB19DC4C5E0056899C /* SlaveReceiverRun.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SlaveReceiverRun.xib; path = SlaveReceiverRun/SlaveReceiverRun.xib; sourceTree = "<group>"; };
@@ -440,6 +443,8 @@
 				049725E418FD568A00625326 /* HardwareRunManager.h */,
 				049725E518FD568A00625326 /* HardwareRunManager.m */,
 				049725E618FD568A00625326 /* HardwareRunManager.xib */,
+				04DE78C61A11759A002BA654 /* HardwareSelectionView.h */,
+				04DE78C71A11759A002BA654 /* HardwareSelectionView.m */,
 			);
 			name = HardwareRun;
 			sourceTree = "<group>";
@@ -614,6 +619,7 @@
 				0497263B18FD592C00625326 /* MeasurementDistribution.m in Sources */,
 				04EEC1D719DC8E2E0056899C /* NetworkInput.m in Sources */,
 				0497262918FD589300625326 /* AudioSelectionView.m in Sources */,
+				04DE78C81A11759A002BA654 /* HardwareSelectionView.m in Sources */,
 				0497262718FD589300625326 /* AudioRunManager.m in Sources */,
 				0497263818FD592C00625326 /* DocumentView.m in Sources */,
 				049725E018FD563E00625326 /* RunStatusView.m in Sources */,
