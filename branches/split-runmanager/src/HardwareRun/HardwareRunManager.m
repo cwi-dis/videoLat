@@ -328,8 +328,8 @@
 - (void)restart
 {
     @synchronized(self) {
-        assert(handlesInput);
 		if (self.measurementType == nil) return;
+        assert(handlesInput);
         // Pre-select the correct device. Sometimes through device popup, sometimes through base
         if (self.bDevices) {
             [self selectDevice: self];

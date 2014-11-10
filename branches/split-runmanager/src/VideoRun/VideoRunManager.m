@@ -74,6 +74,7 @@
 {
 	@synchronized(self) {
 		if (self.measurementType == nil) return;
+        assert(handlesInput);
 		if (!self.selectionView) {
 			// XXXJACK Make sure selectionView is active/visible
 		}
