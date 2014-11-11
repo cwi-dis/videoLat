@@ -211,33 +211,22 @@
         }
         if (!handlesInput) return;
         // Check for detections
+		NSString *inputCode = inputLight? @"white": @"black";
         if (VL_DEBUG) NSLog(@" inputLevel %f (%f..%f) inputLight %d outputLight %d outputMixed %d", inputLevel, minInputLevel, maxInputLevel, inputLight, outputLight, outputMixed);
         if (inputLight == outputLight) {
             if (self.running) {
                 if (VL_DEBUG) NSLog(@"light %d transmitted %lld received %lld delta %lld", outputLight, outputTimestamp, inputTimestamp, inputTimestamp - outputTimestamp);
-                [self.collector recordReception:inputLight? @"white": @"black" at:inputTimestamp];
+                [self.collector recordReception:inputCode at:inputTimestamp];
                 self.statusView.detectCount = [NSString stringWithFormat: @"%d", self.collector.count];
                 self.statusView.detectAverage = [NSString stringWithFormat: @"%.3f ms ± %.3f", self.collector.average / 1000.0, self.collector.stddev / 1000.0];
                 [self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
 				[self.outputCompanion triggerNewOutputValue];
             } else if (self.preRunning) {
-                prerunMoreNeeded--;
-                self.statusView.detectCount = [NSString stringWithFormat: @"%d more", prerunMoreNeeded];
-                self.statusView.detectAverage = [NSString stringWithFormat: @"%.2f .. %.2f", minInputLevel, maxInputLevel];
-                [self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
-                if (VL_DEBUG) NSLog(@"preRunMoreMeeded=%d\n", prerunMoreNeeded);
-                if (prerunMoreNeeded == 0) {
-                    outputLevel = 0.5;
-                    self.statusView.detectCount = @"";
-                    //self.statusView.detectAverage = @"";
-                    [self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
-                    [self performSelectorOnMainThread: @selector(stopPreMeasuring:) withObject: self waitUntilDone: NO];
-                    return;
-                }
-				[self.outputCompanion triggerNewOutputValue];
+				[self _prerunRecordReception: inputCode];
             }
         } else {
             // We did not detect the light level we expected
+			[self _prerunRecordNoReception];
         }
         NSString *msg = self.device.lastErrorMessage;
         if (msg && ![msg isEqualToString:lastError]) {
@@ -247,6 +236,39 @@
         }
     }
 }
+
+- (void)_prerunRecordReception: (NSString *)code
+{
+	prerunMoreNeeded--;
+	if (1 || VL_DEBUG) NSLog(@"prerunRecordReception %@ preRunMoreMeeded=%d\n", code, prerunMoreNeeded);
+	self.statusView.detectCount = [NSString stringWithFormat: @"%d more", prerunMoreNeeded];
+	self.statusView.detectAverage = [NSString stringWithFormat: @"%.2f .. %.2f", minInputLevel, maxInputLevel];
+	[self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
+	if (prerunMoreNeeded == 0) {
+		outputLevel = 0.5;
+		self.statusView.detectCount = @"";
+		//self.statusView.detectAverage = @"";
+		[self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
+		[self performSelectorOnMainThread: @selector(stopPreMeasuring:) withObject: self waitUntilDone: NO];
+		return;
+	}
+	[self.outputCompanion triggerNewOutputValue];
+}
+
+- (void) _prerunRecordNoReception
+{
+	assert(self.preRunning);
+	// Check that we have waited long enough
+	if ([self.clock now] < outputTimestamp + maxDelay)
+		return;
+	maxDelay *= 2;
+	prerunMoreNeeded = self.initialPrerunCount;
+	if (1 || VL_DEBUG) NSLog(@"prerunRecordNoReception, maxDelay is now %d", maxDelay);
+	self.statusView.detectCount = [NSString stringWithFormat: @"%d more", prerunMoreNeeded];
+	self.statusView.detectAverage = [NSString stringWithFormat: @"%.2f .. %.2f", minInputLevel, maxInputLevel];
+	[self.outputCompanion triggerNewOutputValue];
+}
+
 
 - (void)triggerNewOutputValue
 {
