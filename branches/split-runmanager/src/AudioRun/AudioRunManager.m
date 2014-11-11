@@ -9,10 +9,11 @@
 #import "AudioRunManager.h"
 #import <sys/sysctl.h>
 
-#define PRERUN_COUNT 10
-#define PRERUN_INITIAL_DELAY 1000000
-
 @implementation AudioRunManager
+
+- (int) initialPrerunCount { return 10; }
+- (int) initialPrerunDelay { return 1000000; }
+
 + (void) initialize
 {
     [BaseRunManager registerClass: [self class] forMeasurementType: @"Audio Roundtrip"];
@@ -36,8 +37,8 @@
 		outputActive = NO;
 		foundCurrentSample = NO;
 		triggerOutputWhenDone = NO;
-		maxDelay = PRERUN_INITIAL_DELAY;
-		prerunMoreNeeded = PRERUN_COUNT;
+		maxDelay = 0;
+		prerunMoreNeeded = 0;
 	}
     return self;
 }
@@ -49,55 +50,6 @@
     self.collector = self.measurementMaster.collector;
 //    if (self.clock == nil) self.clock = self;
     [self restart];
-}
-
-- (void)restart
-{
-	@synchronized(self) {
-		if (self.measurementType == nil) return;
-        assert(handlesInput);
-		if (!self.selectionView) {
-			// XXXJACK Make sure selectionView is active/visible
-		}
-		if (self.measurementType.requires == nil) {
-			[self.selectionView.bBase setEnabled:NO];
-			[self.selectionView.bPreRun setEnabled: YES];
-		} else {
-			NSArray *calibrationNames = self.measurementType.requires.measurementNames;
-            [self.selectionView.bBase removeAllItems];
-			[self.selectionView.bBase addItemsWithTitles:calibrationNames];
-            if ([self.selectionView.bBase numberOfItems])
-                [self.selectionView.bBase selectItemAtIndex:0];
-			[self.selectionView.bBase setEnabled:YES];
-            
-			if ([self.selectionView.bBase selectedItem]) {
-				[self.selectionView.bPreRun setEnabled: YES];
-			} else {
-				[self.selectionView.bPreRun setEnabled: NO];
-				NSAlert *alert = [NSAlert alertWithMessageText:@"No calibrations available."
-                                                 defaultButton:@"OK"
-                                               alternateButton:nil
-                                                   otherButton:nil
-                                     informativeTextWithFormat:@"\"%@\" measurements should be based on a \"%@\" calibration. Please calibrate first.",
-                                  self.measurementType.name,
-                                  self.measurementType.requires.name
-                                  ];
-				[alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
-			}
-		}
-		self.preRunning = NO;
-		self.running = NO;
-		[self.selectionView.bRun setEnabled: NO];
-		if (self.statusView) {
-			[self.statusView.bStop setEnabled: NO];
-		}
-	}
-}
-
-- (void) companionRestart
-{
-	self.preRunning = NO;
-	self.running = NO;
 }
 
 #if 0
@@ -175,8 +127,8 @@
             if (!ok) return;
         }
 		// Do actual prerunning
-		maxDelay = PRERUN_INITIAL_DELAY;
-		prerunMoreNeeded = PRERUN_COUNT;
+		maxDelay = self.initialPrerunDelay;
+		prerunMoreNeeded = self.initialPrerunCount;
 		self.preRunning = YES;
 		[self.capturer startCapturing: YES];
 	}
@@ -189,7 +141,7 @@
         if (!handlesOutput)
             [self.outputCompanion companionStopPreMeasuring];
 		[self.capturer stopCapturing];
-		// We have now found PRERUN_COUNT matches in maxDelay time.
+		// We have now found enough matches in maxDelay time.
 		// Assume that 4*maxDelay is a decent upper bound for detection.
 		maxDelay = maxDelay*4;
 		[self.selectionView.bPreRun setEnabled: NO];
@@ -305,12 +257,13 @@
 
 - (void) _prerunRecordNoReception
 {
+	assert(handlesInput);
     if (VL_DEBUG) NSLog(@"Prerun no reception\n");
     assert(self.preRunning);
 	// No data found within alotted time. Double the time, reset the count, change mirroring
 	if (1 || VL_DEBUG) NSLog(@"outputStartTime=%llu, maxDelay=%llu\n", outputStartTime, maxDelay);
 	maxDelay = maxDelay + (maxDelay / 4);
-	prerunMoreNeeded = PRERUN_COUNT;
+	prerunMoreNeeded = self.initialPrerunCount;
 	self.statusView.detectCount = [NSString stringWithFormat: @"%d more", prerunMoreNeeded];
 	self.statusView.detectAverage = @"";
 	[self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];

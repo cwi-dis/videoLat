@@ -29,9 +29,15 @@
 /// measurement types and their NIBs (initialized by the class initializers of the subclasses).
 ///
 @interface BaseRunManager : NSObject <RunOutputManagerProtocol, RunInputManagerProtocol> {
-    BOOL handlesInput;	//!< true if we are responsible for input processing
-    BOOL handlesOutput;	//!< true if we are responsible for output processing
+    BOOL handlesInput;		//!< true if we are responsible for input processing
+    BOOL handlesOutput;		//!< true if we are responsible for output processing
+    uint64_t maxDelay;   //!< Internal: How log to wait for prerun code finding
+    int prerunMoreNeeded;   //!< Internal: How many more prerun correct catches we need
 }
+
+@property(weak) IBOutlet id<SelectionView> selectionView;         //!< Assigned in NIB: view that allows selection of input device
+@property(weak) IBOutlet id <InputCaptureProtocol> capturer;    //!< Assigned in NIB: input capturer
+@property(weak) IBOutlet NSView <OutputViewProtocol> *outputView; //!< Assigned in NIB: Displays current output QR code
 
 + (void)initialize;	//!< Class initializer.
 

@@ -7,6 +7,7 @@
 //
 
 #import "BaseRunManager.h"
+#import <sys/sysctl.h>
 
 static NSMutableDictionary *runManagerClasses;
 static NSMutableDictionary *runManagerNibs;
@@ -15,6 +16,19 @@ static NSMutableDictionary *runManagerNibs;
 
 @synthesize running;
 @synthesize preRunning;
+
+- (int) initialPrerunCount
+{
+	[NSException raise:@"BaseRunManager" format:@"Must override initialPrerunCount in subclass %@", [self class]];
+	return 1;
+}
+
+- (int) initialPrerunDelay
+{
+	[NSException raise:@"BaseRunManager" format:@"Must override initialPrerunDelay in subclass %@", [self class]];
+	return 1;
+}
+
 
 + (void)initialize
 {
@@ -130,6 +144,111 @@ static NSMutableDictionary *runManagerNibs;
 	NSLog(@"BaseRunManager: device changed");
 }
 
+- (IBAction)startPreMeasuring: (id)sender
+{
+	@synchronized(self) {
+        assert(handlesInput);
+		// First check that everything is OK with base measurement and such
+		if (self.measurementType.requires != nil) {
+			// First check that a base measurement has been selected.
+			NSString *errorMessage;
+			NSMenuItem *baseItem = [self.selectionView.bBase selectedItem];
+			NSString *baseName = [baseItem title];
+			MeasurementType *baseType = self.measurementType.requires;
+			MeasurementDataStore *baseStore = [baseType measurementNamed: baseName];
+			if (baseType == nil) {
+				errorMessage = @"No base (calibration) measurement selected.";
+			} else {
+				// Check that the base measurement is compatible with this measurement,
+				char hwName_c[100] = "unknown";
+				size_t len = sizeof(hwName_c);
+				sysctlbyname("hw.model", hwName_c, &len, NULL, 0);
+				NSString *hwName = [NSString stringWithUTF8String:hwName_c];
+				// For all runs (calibration and non-calibration) the hardware platform should match the one in the calibration run
+				if (![baseStore.machineID isEqualToString:hwName]) {
+					errorMessage = [NSString stringWithFormat:@"Base measurement done on %@, current hardware is %@", baseStore.machine, hwName];
+				}
+                // For runs where we are responsible for input the input device should match
+				assert(self.capturer);
+                if (!baseType.outputOnlyCalibration && ![baseStore.inputDeviceID isEqualToString:self.capturer.deviceID]) {
+                    errorMessage = [NSString stringWithFormat:@"Base measurement uses input %@, current measurement uses %@", baseStore.inputDevice, self.capturer.deviceName];
+                }
+				assert(self.outputView);
+				// For runs where we are responsible for output the output device should match
+                if (!baseType.inputOnlyCalibration && ![baseStore.outputDeviceID isEqualToString:self.outputView.deviceID]) {
+					errorMessage = [NSString stringWithFormat:@"Base measurement uses output %@, current measurement uses %@", baseStore.outputDevice, self.outputView.deviceName];
+				}
+			}
+			if (errorMessage) {
+				NSAlert *alert = [NSAlert alertWithMessageText: @"Base calibration mismatch, are you sure you want to continue?"
+					defaultButton:@"Cancel"
+					alternateButton:@"Continue"
+					otherButton:nil
+					informativeTextWithFormat:@"%@", errorMessage];
+				NSInteger button = [alert runModal];
+				if (button == NSAlertDefaultReturn)
+					return;
+			}
+			[self.collector.dataStore useCalibration:baseStore];
+				
+		}
+		[self.selectionView.bPreRun setEnabled: NO];
+		[self.selectionView.bRun setEnabled: NO];
+		if (self.statusView) {
+			[self.statusView.bStop setEnabled: NO];
+		}
+		// Do actual prerunning
+        if (!handlesOutput) {
+            BOOL ok = [self.outputCompanion companionStartPreMeasuring];
+            if (!ok) return;
+        }
+        // Do actual prerunning
+        maxDelay = self.initialPrerunDelay; // Start with 1ms delay (ridiculously low)
+        prerunMoreNeeded = self.initialPrerunCount;
+        self.preRunning = YES;
+		[self.capturer startCapturing: YES];
+		[self.outputCompanion triggerNewOutputValue];
+	}
+}
+
+- (IBAction)stopPreMeasuring: (id)sender
+{
+	@synchronized(self) {
+		self.preRunning = NO;
+		// We now have a ballpark figure for the maximum delay. Use 4 times that as the highest
+		// we are willing to wait for.
+		maxDelay = maxDelay * 4;
+        if (!handlesOutput)
+            [self.outputCompanion companionStopPreMeasuring];
+		[self.capturer stopCapturing];
+		[self.selectionView.bPreRun setEnabled: NO];
+		[self.selectionView.bRun setEnabled: YES];
+		if (!self.statusView) {
+			// XXXJACK Make sure statusview is active/visible
+		}
+		[self.statusView.bStop setEnabled: NO];
+	}
+}
+
+- (IBAction)startMeasuring: (id)sender
+{
+    @synchronized(self) {
+        assert(handlesInput);
+		[self.selectionView.bPreRun setEnabled: NO];
+		[self.selectionView.bRun setEnabled: NO];
+		if (!self.statusView) {
+			// XXXJACK Make sure statusview is active/visible
+		}
+		[self.statusView.bStop setEnabled: YES];
+        self.running = YES;
+        if (!handlesOutput)
+            [self.outputCompanion companionStartMeasuring];
+        [self.capturer startCapturing: NO];
+        [self.collector startCollecting: self.measurementType.name input: self.capturer.deviceID name: self.capturer.deviceName output: self.outputView.deviceID name: self.outputView.deviceName];
+        [self.outputCompanion triggerNewOutputValue];
+    }
+}
+
 - (BOOL)companionStartPreMeasuring
 {
     self.preRunning = YES;
@@ -154,14 +273,52 @@ static NSMutableDictionary *runManagerNibs;
 
 - (void)restart
 {
-	[NSException raise:@"BaseRunManager" format:@"Must override restart in subclass %@", [self class]];
+	@synchronized(self) {
+		if (self.measurementType == nil) return;
+        assert(handlesInput);
+		if (!self.selectionView) {
+			// XXXJACK Make sure selectionView is active/visible
+		}
+		if (self.measurementType.requires == nil) {
+			[self.selectionView.bBase setEnabled:NO];
+			[self.selectionView.bPreRun setEnabled: YES];
+		} else {
+			NSArray *calibrationNames = self.measurementType.requires.measurementNames;
+            [self.selectionView.bBase removeAllItems];
+			[self.selectionView.bBase addItemsWithTitles:calibrationNames];
+            if ([self.selectionView.bBase numberOfItems])
+                [self.selectionView.bBase selectItemAtIndex:0];
+			[self.selectionView.bBase setEnabled:YES];
+
+			if ([self.selectionView.bBase selectedItem]) {
+				[self.selectionView.bPreRun setEnabled: YES];
+			} else {
+				[self.selectionView.bPreRun setEnabled: NO];
+				NSAlert *alert = [NSAlert alertWithMessageText:@"No calibrations available."
+					defaultButton:@"OK"
+					alternateButton:nil
+					otherButton:nil
+					informativeTextWithFormat:@"\"%@\" measurements should be based on a \"%@\" calibration. Please calibrate first.",
+						self.measurementType.name,
+						self.measurementType.requires.name
+					];
+				[alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
+			}
+		}
+		self.preRunning = NO;
+		self.running = NO;
+		[self.selectionView.bRun setEnabled: NO];
+		if (self.statusView) {
+			[self.statusView.bStop setEnabled: NO];
+		}
+	}
 }
 
-- (void)companionRestart
+- (void) companionRestart
 {
-	[NSException raise:@"BaseRunManager" format:@"Must override companionRestart in subclass %@", [self class]];
+	self.preRunning = NO;
+	self.running = NO;
 }
-
 - (void)stop
 {
 	[NSException raise:@"BaseRunManager" format:@"Must override stop in subclass %@", [self class]];

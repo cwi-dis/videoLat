@@ -158,12 +158,6 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 }
 #endif
 
-- (void)restart
-{
-    NSLog(@"NetworkRunManager.restart. Unsure what to do...");
-    [self.capturer startCapturing: YES];
-}
-
 - (void)stop
 {
 	//[NSException raise:@"NetworkRunManager" format:@"Must override stop in subclass"];

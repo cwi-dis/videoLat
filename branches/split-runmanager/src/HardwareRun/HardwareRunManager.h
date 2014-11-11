@@ -35,8 +35,6 @@
     double minInputLevel;       //!< Lowest analog input level seen
     double maxInputLevel;       //!< Highest analog input level seen
     uint64_t inputTimestamp;    //!< When inputLevel was measured
-    
-    int prerunMoreNeeded;       //!< Internal: How many more prerun correct catches we need
 }
 
 @property(weak) IBOutlet NSButton *bPreRun;                 //!< UI element: start a measurement run

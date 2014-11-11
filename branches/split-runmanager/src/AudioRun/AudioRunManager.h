@@ -24,10 +24,6 @@
 	BOOL outputActive;				//!< True while we are outputting (and can't start again
 	BOOL foundCurrentSample;		//!< True if we have found a match
 	BOOL triggerOutputWhenDone;		//!< True if we can start a new output when the current one is done
-
-    uint64_t maxDelay;				//!< How long to wait for code finding
-    int prerunMoreNeeded;           //!< How many more prerun correct catches we need
-    
 }
 
 @property(weak) IBOutlet AudioOutputView *outputView;           //!< Assigned in NIB: visual feedback view of output for the user

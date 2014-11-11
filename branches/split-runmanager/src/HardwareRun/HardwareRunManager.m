@@ -13,9 +13,11 @@
 #import <mach/mach_time.h>
 #import <mach/clock.h>
 
-#define PRERUN_COUNT 200
-
 @implementation HardwareRunManager
+
+- (int) initialPrerunCount { return 100; }
+- (int) initialPrerunDelay { return 1000; }
+
 + (void) initialize
 {
     [BaseRunManager registerClass: [self class] forMeasurementType: @"Hardware Calibrate"];
@@ -271,7 +273,7 @@
             [self.statusView.bStop setEnabled: NO];
         }
         // Do actual prerunning
-        prerunMoreNeeded = PRERUN_COUNT;
+        prerunMoreNeeded = self.initialPrerunCount;
         if (!handlesOutput) {
             BOOL ok = [self.outputCompanion companionStartPreMeasuring];
             if (!ok) return;
@@ -336,52 +338,9 @@
             }
             return;
         }
-//
-        if (self.measurementType.requires == nil) {
-			[self.selectionView.bBase setEnabled:NO];
-			[self.bPreRun setEnabled: YES];
-		} else {
-#if 1
-			NSArray *calibrationNames = self.measurementType.requires.measurementNames;
-#else
-            NSObject<MeasurementTypeProtocol> *mtp = self.measurementType;
-            MeasurementType *mt = (MeasurementType *)mtp;
-            NSArray *calibrationNames = mt.requires.measurementNames;
-#endif
-            [self.selectionView.bBase removeAllItems];
-			[self.selectionView.bBase addItemsWithTitles:calibrationNames];
-            if ([self.selectionView.bBase numberOfItems])
-                [self.selectionView.bBase selectItemAtIndex:0];
-			[self.selectionView.bBase setEnabled:YES];
-			if ([self.selectionView.bBase selectedItem]) {
-				[self.bPreRun setEnabled: YES];
-			} else {
-				[self.bPreRun setEnabled: NO];
-				NSAlert *alert = [NSAlert alertWithMessageText:@"No calibrations available."
-                                                 defaultButton:@"OK"
-                                               alternateButton:nil
-                                                   otherButton:nil
-                                     informativeTextWithFormat:@"\"%@\" measurements should be based on a \"%@\" calibration. Please calibrate first.",
-                                  self.measurementType.name,
-                                  self.measurementType.requires.name
-                                  ];
-				[alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
-			}
-		}
-		self.preRunning = NO;
-		self.running = NO;
-		[self.bRun setEnabled: NO];
-		if (self.statusView) {
-			[self.statusView.bStop setEnabled: NO];
-		}
-
-//
-        outputLevel = 0.5;
-        [self.bRun setEnabled: NO];
-        if (self.statusView) {
-            [self.statusView.bStop setEnabled: NO];
-        }
-        if (!alive) {
+		[super restart];
+		outputLevel = 0.5;
+		if (!alive) {
             alive = YES;
             [self performSelectorInBackground:@selector(_periodic:) withObject:self];
         }
@@ -390,8 +349,7 @@
 
 - (void) companionRestart
 {
-	self.preRunning = NO;
-	self.running = NO;
+	[super companionRestart];
 	outputLevel = 0.5;
 	if (!alive) {
 		alive = YES;

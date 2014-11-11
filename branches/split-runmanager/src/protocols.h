@@ -230,6 +230,8 @@
 @property(weak) IBOutlet NSObject<RunOutputManagerProtocol> *outputCompanion; //!< Our companion object that handles output
 
 @property(readonly) NSObject<MeasurementTypeProtocol> *measurementType;
+@property(readonly) int initialPrerunCount;
+@property(readonly) int initialPrerunDelay;
 
 ///
 /// Called from the SelectionView whenever the (input) device changes.
@@ -250,6 +252,10 @@
 - (void)restart;
 
 - (void)terminate;  //<! RunManager is about to disappear, clean up.
+
+- (IBAction)startPreMeasuring: (id)sender;  //!< Called when user presses "prepare" button
+- (IBAction)stopPreMeasuring: (id)sender;   //!< Internal: stop pre-measuring because we have heard enough
+- (IBAction)startMeasuring: (id)sender;     //!< Called when user presses "start" button
 
 ///
 /// Not yet used.
