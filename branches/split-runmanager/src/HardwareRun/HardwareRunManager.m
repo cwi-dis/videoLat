@@ -51,7 +51,7 @@
     [self restart];
 }
 
-- (IBAction) selectDevice: (id)sender
+- (IBAction) deviceChanged: (id)sender
 {
     lastError = nil;
     if (self.selectionView.bDevices == nil)
@@ -71,10 +71,10 @@
     if (selectedDevice == nil)
         return;
     
-    [self switchToDevice: selectedDevice];
+    [self _switchToDevice: selectedDevice];
 }
 
-- (void)switchToDevice: (NSString *)selectedDevice
+- (void)_switchToDevice: (NSString *)selectedDevice
 {
     [self.bConnected setState: 0];
     PythonLoader *pl = [PythonLoader sharedPythonLoader];
@@ -130,7 +130,7 @@
         return;
     }
     NSString *deviceName = baseStore.inputDevice;
-    [self switchToDevice:deviceName];
+    [self _switchToDevice:deviceName];
 }
 
 - (uint64_t)now
@@ -322,7 +322,7 @@
         assert(handlesInput);
         // Pre-select the correct device. Sometimes through device popup, sometimes through base
         if (self.selectionView.bDevices) {
-            [self selectDevice: self];
+            [self deviceChanged: self];
         } else if (self.selectionView.bBase) {
             [self selectBase:self];
         }
@@ -386,6 +386,17 @@
             [self performSelectorInBackground:@selector(_periodic:) withObject:self];
         }
     }
+}
+
+- (void) companionRestart
+{
+	self.preRunning = NO;
+	self.running = NO;
+	outputLevel = 0.5;
+	if (!alive) {
+		alive = YES;
+		[self performSelectorInBackground:@selector(_periodic:) withObject:self];
+	}
 }
 
 - (void)stop

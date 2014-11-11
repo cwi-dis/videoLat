@@ -20,7 +20,7 @@
 @property(weak) IBOutlet NSPopUpButton *bBase;      //!< UI element: available calibration runs
 @property(weak) IBOutlet NSButton *bPreRun;         //!< UI element: start preparing a measurement run
 @property(weak) IBOutlet NSButton *bRun;            //!< UI element: start a measurement run
-@property(weak) IBOutlet NSObject *manager;         //!< Manager, will be told about hardware changes
+@property(weak) IBOutlet NSObject<RunInputManagerProtocol> *manager;         //!< Manager, will be told about hardware changes
 
 - (IBAction)deviceChanged: (id) sender;     //!< Called when the user makes a new selection in bDevices
 

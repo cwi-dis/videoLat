@@ -125,6 +125,10 @@ static NSMutableDictionary *runManagerNibs;
     }
 }
 
+- (IBAction)deviceChanged: (id) sender
+{
+	NSLog(@"BaseRunManager: device changed");
+}
 
 - (BOOL)companionStartPreMeasuring
 {
@@ -151,6 +155,11 @@ static NSMutableDictionary *runManagerNibs;
 - (void)restart
 {
 	[NSException raise:@"BaseRunManager" format:@"Must override restart in subclass %@", [self class]];
+}
+
+- (void)companionRestart
+{
+	[NSException raise:@"BaseRunManager" format:@"Must override companionRestart in subclass %@", [self class]];
 }
 
 - (void)stop

@@ -94,6 +94,12 @@
 	}
 }
 
+- (void) companionRestart
+{
+	self.preRunning = NO;
+	self.running = NO;
+}
+
 #if 0
 - (uint64_t)now
 {

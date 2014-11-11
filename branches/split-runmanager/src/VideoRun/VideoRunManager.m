@@ -113,6 +113,12 @@
 	}
 }
 
+- (void) companionRestart
+{
+	self.preRunning = NO;
+	self.running = NO;
+}
+
 - (void)triggerNewOutputValue
 {
 	prerunOutputStartTime = 0;

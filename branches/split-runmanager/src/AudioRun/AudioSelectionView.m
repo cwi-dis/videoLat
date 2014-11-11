@@ -57,12 +57,14 @@
     // Repeat for output devices...
 }
 
-- (IBAction)inputChanged: (id) sender
+- (IBAction)deviceChanged: (id) sender
 {
 	NSMenuItem *item = [sender selectedItem];
 	NSString *cam = [item title];
 	if (VL_DEBUG) NSLog(@"Switch audioInput to %@\n", cam);
 	[self.inputHandler switchToDeviceWithName: cam];
+	assert(self.manager);
+	[self.manager deviceChanged: self];
 }
 
 - (void)_reselectInput: (NSString *)name

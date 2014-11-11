@@ -17,6 +17,9 @@
 /// Turn on global debugging, at compile time
 #define VL_DEBUG 0
 
+// Forward declarations
+@protocol RunInputManagerProtocol;
+
 @protocol MeasurementTypeProtocol
 @property(readonly) NSUInteger tag;     //!< Tag for this type, used to order measurement types logically in menus.
 @property(readonly) NSString *name;     //!< Human-readable type
@@ -113,6 +116,7 @@
 @property(weak) IBOutlet NSPopUpButton *bBase;      //!< UI element: available calibration runs
 @property(weak) IBOutlet NSButton *bPreRun;         //!< UI element: start preparing a measurement run
 @property(weak) IBOutlet NSButton *bRun;            //!< UI element: start a measurement run
+@property(weak) IBOutlet NSObject <RunInputManagerProtocol> *manager;
 @end
 
 @protocol NetworkViewProtocol
@@ -195,12 +199,12 @@
 //@property(weak) IBOutlet NSObject<RunInputManagerProtocol> *inputCompanion; //!< Our companion object that handles input
 @property(weak) IBOutlet NSObject *inputCompanion; //!< Our companion object that handles input
 
-- (BOOL)companionStartPreMeasuring;
-- (void)companionStopPreMeasuring;
-- (void)companionStartMeasuring;
-- (void)companionStopMeasuring;
-- (void)companionRestart;
-- (void)terminate;  //<! RunManager is about to disappear, clean up.
+- (BOOL)companionStartPreMeasuring;		//!< outputCompanion portion of startPreMeasuring
+- (void)companionStopPreMeasuring;		//!< outputCompanion portion of stopPreMeasuring
+- (void)companionStartMeasuring;		//!< outputCompanion portion of startMeasuring
+- (void)companionStopMeasuring;			//!< outputCompanion portion of stopMeasuring
+- (void)companionRestart;				//!< outputCompanion portion of restart
+- (void)terminate;						//<! RunManager is about to disappear, clean up.
 
 ///
 /// Prepare data for a new delay measurement. Called on the output companion, should
@@ -226,6 +230,12 @@
 @property(weak) IBOutlet NSObject<RunOutputManagerProtocol> *outputCompanion; //!< Our companion object that handles output
 
 @property(readonly) NSObject<MeasurementTypeProtocol> *measurementType;
+
+///
+/// Called from the SelectionView whenever the (input) device changes.
+///
+- (IBAction)deviceChanged: (id) sender;
+
 ///
 /// Can be overridden by RunManagers responsible for input, to enforce certain codes to be
 /// used during prerunning.

@@ -21,8 +21,9 @@
 @property(weak) IBOutlet NSButton *bPreRun;         //!< UI element: start preparing a measurement run
 @property(weak) IBOutlet NSButton *bRun;            //!< UI element: start a measurement run
 @property(weak) IBOutlet VideoInput *inputHandler;  //!< Input handler, will be told about camera changes
+@property(weak) IBOutlet NSObject<RunInputManagerProtocol> *manager;         //!< Manager, will be told about hardware changes
 
-- (IBAction)cameraChanged: (id) sender;     //!< Called when the user makes a new selection in bCameras
+- (IBAction)deviceChanged: (id) sender;     //!< Called when the user makes a new selection in bCameras
 - (void)_updateCameraNames: (NSNotification*) notification; //!< Called by notification manager when a camera is attached/removed.
 - (void)_reselectCamera: (NSString *)name;  //!< Internal: try to re-select our camera on camera change
 

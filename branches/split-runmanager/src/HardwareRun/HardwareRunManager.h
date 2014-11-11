@@ -56,7 +56,7 @@
 - (HardwareRunManager *)init;   //!< Initializer
 -(void)stop;
 
-- (void)switchToDevice: (NSString *)selectedDevice;
+- (void)_switchToDevice: (NSString *)selectedDevice;
 - (IBAction)selectBase: (id)sender;     //!< Called when the user selects a different base measurement
 ///
 /// The worker thread.

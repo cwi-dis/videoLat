@@ -59,12 +59,14 @@
         [self.bCameras selectItemAtIndex: 0];
 }
 
-- (IBAction)cameraChanged: (id) sender
+- (IBAction)deviceChanged: (id) sender
 {
 	NSMenuItem *item = [sender selectedItem];
 	NSString *cam = [item title];
 	NSLog(@"Switch to %@\n", cam);
 	[self.inputHandler switchToDeviceWithName: cam];
+	assert(self.manager);
+	[self.manager deviceChanged: self];
 }
 
 @end

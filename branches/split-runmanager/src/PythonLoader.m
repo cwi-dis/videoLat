@@ -142,7 +142,6 @@ bad:
 
 - (BOOL)loadPackageNamed: (NSString *)name
 {
-    NSBundle *bundle = [NSBundle mainBundle];
     NSURL *url = [(appDelegate *)[[NSApplication sharedApplication] delegate] hardwareFolder];
     
     if (url == nil) {

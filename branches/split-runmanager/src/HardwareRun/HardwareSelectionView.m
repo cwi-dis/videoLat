@@ -31,8 +31,8 @@
 	NSMenuItem *item = [sender selectedItem];
 	NSString *device = [item title];
 	NSLog(@"Switch to %@\n", device);
-    assert(0);
-//	[self.manager switchToDeviceWithName: cam];
+	assert(self.manager);
+	[self.manager deviceChanged: self];
 }
 
 @end
