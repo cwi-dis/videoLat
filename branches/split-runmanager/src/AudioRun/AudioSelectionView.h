@@ -13,7 +13,7 @@
 /// Subclass of NSView, allows the user to select the audio input device.
 ///
 @interface AudioSelectionView : NSView<SelectionView>
-@property(weak) IBOutlet NSPopUpButton *bInputDevices;  //!< UI element: all available audio input sources
+@property(weak) IBOutlet NSPopUpButton *bDevices;  //!< UI element: all available audio input sources
 @property(weak) IBOutlet NSPopUpButton *bBase;          //!< UI element: available calibration runs
 @property(weak) IBOutlet NSButton *bPreRun;             //!< UI element: start a measurement run
 @property(weak) IBOutlet NSButton *bRun;                //!< UI element: start preparing a measurement run

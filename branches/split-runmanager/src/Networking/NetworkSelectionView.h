@@ -14,6 +14,7 @@
 /// parameters
 ///
 @interface NetworkSelectionView : NSView <SelectionView, NetworkViewProtocol>
+@property(weak) IBOutlet NSPopUpButton *bDevices;   //!< Unused for now, could be network interface
 @property(weak) IBOutlet NSPopUpButton *bBase;      //!< UI element: available calibration runs
 @property(weak) IBOutlet NSButton *bPreRun;         //!< UI element: start preparing a measurement run
 @property(weak) IBOutlet NSButton *bRun;            //!< UI element: start a measurement run

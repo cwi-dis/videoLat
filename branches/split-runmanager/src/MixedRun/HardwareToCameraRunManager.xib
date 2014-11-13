@@ -58,7 +58,7 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{79, 289}, {90, 18}}</string>
 						<reference key="NSSuperview" ref="875939645"/>
-						<reference key="NSNextKeyView" ref="710505477"/>
+						<reference key="NSNextKeyView" ref="354571387"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="197726106">
@@ -213,7 +213,7 @@
 						<int key="NSvFlags">256</int>
 						<string key="NSFrame">{{79, 309}, {172, 26}}</string>
 						<reference key="NSSuperview" ref="875939645"/>
-						<reference key="NSNextKeyView" ref="354571387"/>
+						<reference key="NSNextKeyView" ref="252354878"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSPopUpButtonCell" key="NSCell" id="545298513">
 							<int key="NSCellFlags">608174144</int>
@@ -323,7 +323,7 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{18, 366}, {232, 17}}</string>
 						<reference key="NSSuperview" ref="875939645"/>
-						<reference key="NSNextKeyView" ref="252354878"/>
+						<reference key="NSNextKeyView" ref="710505477"/>
 						<string key="NSHuggingPriority">{251, 750}</string>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="1042750926">
@@ -345,7 +345,7 @@
 				</array>
 				<string key="NSFrameSize">{268, 394}</string>
 				<reference key="NSNextKeyView" ref="521529064"/>
-				<string key="NSClassName">HardwareSelectionView</string>
+				<string key="NSClassName">VideoSelectionView</string>
 			</object>
 			<object class="NSView" id="652629579">
 				<nil key="NSNextResponder"/>
@@ -439,14 +439,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">capturer</string>
-						<reference key="source" ref="445606192"/>
-						<reference key="destination" ref="328560526"/>
-					</object>
-					<int key="connectionID">49</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
 						<string key="label">selectionView</string>
 						<reference key="source" ref="445606192"/>
 						<reference key="destination" ref="875939645"/>
@@ -471,14 +463,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">clock</string>
-						<reference key="source" ref="445606192"/>
-						<reference key="destination" ref="328560526"/>
-					</object>
-					<int key="connectionID">71</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
 						<string key="label">outputCompanion</string>
 						<reference key="source" ref="445606192"/>
 						<reference key="destination" ref="450298705"/>
@@ -492,6 +476,22 @@
 						<reference key="destination" ref="652629579"/>
 					</object>
 					<int key="connectionID">202</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">capturer</string>
+						<reference key="source" ref="445606192"/>
+						<reference key="destination" ref="450298705"/>
+					</object>
+					<int key="connectionID">317</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">clock</string>
+						<reference key="source" ref="445606192"/>
+						<reference key="destination" ref="450298705"/>
+					</object>
+					<int key="connectionID">318</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -519,14 +519,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">bCameras</string>
-						<reference key="source" ref="875939645"/>
-						<reference key="destination" ref="654444595"/>
-					</object>
-					<int key="connectionID">57</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
 						<string key="label">bRun</string>
 						<reference key="source" ref="875939645"/>
 						<reference key="destination" ref="1058017852"/>
@@ -550,20 +542,28 @@
 					<int key="connectionID">60</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">cameraChanged:</string>
-						<reference key="source" ref="875939645"/>
-						<reference key="destination" ref="654444595"/>
-					</object>
-					<int key="connectionID">73</int>
-				</object>
-				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">manager</string>
 						<reference key="source" ref="875939645"/>
 						<reference key="destination" ref="445606192"/>
 					</object>
 					<int key="connectionID">314</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">bDevices</string>
+						<reference key="source" ref="875939645"/>
+						<reference key="destination" ref="654444595"/>
+					</object>
+					<int key="connectionID">315</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">deviceChanged:</string>
+						<reference key="source" ref="875939645"/>
+						<reference key="destination" ref="654444595"/>
+					</object>
+					<int key="connectionID">316</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -1876,7 +1876,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">314</int>
+			<int key="maxID">318</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes"/>
 		<int key="IBDocument.localizationMode">0</int>

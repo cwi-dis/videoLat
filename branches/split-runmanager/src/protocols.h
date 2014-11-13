@@ -113,6 +113,7 @@
 /// and starting of preruns and runs.
 ///
 @protocol SelectionView
+@property(weak) IBOutlet NSPopUpButton *bDevices;   //!< UI element: all available cameras
 @property(weak) IBOutlet NSPopUpButton *bBase;      //!< UI element: available calibration runs
 @property(weak) IBOutlet NSButton *bPreRun;         //!< UI element: start preparing a measurement run
 @property(weak) IBOutlet NSButton *bRun;            //!< UI element: start a measurement run

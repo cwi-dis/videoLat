@@ -36,7 +36,7 @@
     if (VL_DEBUG) NSLog(@"Audio devices changed\n");
     // Remember the old selection (if any)
     NSString *oldInput = nil;
-	NSMenuItem *oldItem = [self.bInputDevices selectedItem];
+	NSMenuItem *oldItem = [self.bDevices selectedItem];
     if (oldItem) {
         oldInput = [oldItem title];
     } else {
@@ -45,12 +45,12 @@
     }
     // Add all input devices
     NSArray *newList = [self.inputHandler deviceNames];
-    [self.bInputDevices removeAllItems];
-    [self.bInputDevices addItemsWithTitles: newList];
+    [self.bDevices removeAllItems];
+    [self.bDevices addItemsWithTitles: newList];
     // Re-select old selection, if possible
     [self _reselectInput:oldInput];
     // Tell the input handler if the device has changed
-    NSMenuItem *newItem = [self.bInputDevices selectedItem];
+    NSMenuItem *newItem = [self.bDevices selectedItem];
     NSString *newInput = [newItem title];
     if (![newInput isEqualToString:oldInput] || notification == nil)
         [self.inputHandler switchToDeviceWithName:newInput];
@@ -70,11 +70,11 @@
 - (void)_reselectInput: (NSString *)name
 {
     if (name)
-        [self.bInputDevices selectItemWithTitle:name];
+        [self.bDevices selectItemWithTitle:name];
     // Select first item, if nothing has been selected
-    NSMenuItem *newItem = [self.bInputDevices selectedItem];
+    NSMenuItem *newItem = [self.bDevices selectedItem];
     if (newItem == nil)
-        [self.bInputDevices selectItemAtIndex: 0];
+        [self.bDevices selectItemAtIndex: 0];
 }
 
 - (IBAction)outputChanged: (id) sender

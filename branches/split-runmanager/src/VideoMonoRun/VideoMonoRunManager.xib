@@ -465,14 +465,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">bCameras</string>
-						<reference key="source" ref="875939645"/>
-						<reference key="destination" ref="654444595"/>
-					</object>
-					<int key="connectionID">57</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
 						<string key="label">bRun</string>
 						<reference key="source" ref="875939645"/>
 						<reference key="destination" ref="1058017852"/>
@@ -510,6 +502,14 @@
 						<reference key="destination" ref="445606192"/>
 					</object>
 					<int key="connectionID">112</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">bDevices</string>
+						<reference key="source" ref="875939645"/>
+						<reference key="destination" ref="654444595"/>
+					</object>
+					<int key="connectionID">113</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -1573,7 +1573,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">112</int>
+			<int key="maxID">113</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1581,13 +1581,20 @@
 					<string key="className">BaseRunManager</string>
 					<string key="superclassName">NSObject</string>
 					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="capturer">id</string>
 						<string key="collector">RunCollector</string>
 						<string key="inputCompanion">NSObject</string>
 						<string key="measurementMaster">RunTypeView</string>
 						<string key="outputCompanion">NSObject</string>
+						<string key="outputView">NSView</string>
+						<string key="selectionView">id</string>
 						<string key="statusView">RunStatusView</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="capturer">
+							<string key="name">capturer</string>
+							<string key="candidateClassName">id</string>
+						</object>
 						<object class="IBToOneOutletInfo" key="collector">
 							<string key="name">collector</string>
 							<string key="candidateClassName">RunCollector</string>
@@ -1604,6 +1611,14 @@
 							<string key="name">outputCompanion</string>
 							<string key="candidateClassName">NSObject</string>
 						</object>
+						<object class="IBToOneOutletInfo" key="outputView">
+							<string key="name">outputView</string>
+							<string key="candidateClassName">NSView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="selectionView">
+							<string key="name">selectionView</string>
+							<string key="candidateClassName">id</string>
+						</object>
 						<object class="IBToOneOutletInfo" key="statusView">
 							<string key="name">statusView</string>
 							<string key="candidateClassName">RunStatusView</string>
@@ -1612,6 +1627,37 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">../src/MeasurementRun/BaseRunManager.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">BaseRunManager</string>
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="deviceChanged:">id</string>
+						<string key="startMeasuring:">id</string>
+						<string key="startPreMeasuring:">id</string>
+						<string key="stopPreMeasuring:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="deviceChanged:">
+							<string key="name">deviceChanged:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="startMeasuring:">
+							<string key="name">startMeasuring:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="startPreMeasuring:">
+							<string key="name">startPreMeasuring:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="stopPreMeasuring:">
+							<string key="name">stopPreMeasuring:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">../src/MeasurementRun/BaseRunManager.m</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
@@ -1871,7 +1917,7 @@
 							<string key="candidateClassName">VideoInputView</string>
 						</object>
 					</dictionary>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier" id="974115539">
+					<object class="IBClassDescriptionSource" key="sourceIdentifier" id="7625605">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">../src/VideoRun/VideoInput.h</string>
 					</object>
@@ -1904,7 +1950,7 @@
 							<string key="candidateClassName">NSButton</string>
 						</object>
 					</dictionary>
-					<reference key="sourceIdentifier" ref="974115539"/>
+					<reference key="sourceIdentifier" ref="7625605"/>
 				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">VideoInputView</string>
@@ -1957,31 +2003,11 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">VideoRunManager</string>
 					<string key="superclassName">BaseRunManager</string>
-					<dictionary class="NSMutableDictionary" key="actions">
-						<string key="startMeasuring:">id</string>
-						<string key="startPreMeasuring:">id</string>
-						<string key="stopPreMeasuring:">id</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="actionInfosByName">
-						<object class="IBActionInfo" key="startMeasuring:">
-							<string key="name">startMeasuring:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="startPreMeasuring:">
-							<string key="name">startPreMeasuring:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="stopPreMeasuring:">
-							<string key="name">stopPreMeasuring:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="capturer">id</string>
 						<string key="clock">id</string>
 						<string key="finder">id</string>
 						<string key="genner">id</string>
-						<string key="outputView">NSObject</string>
 						<string key="selectionView">VideoSelectionView</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
@@ -2001,10 +2027,6 @@
 							<string key="name">genner</string>
 							<string key="candidateClassName">id</string>
 						</object>
-						<object class="IBToOneOutletInfo" key="outputView">
-							<string key="name">outputView</string>
-							<string key="candidateClassName">NSObject</string>
-						</object>
 						<object class="IBToOneOutletInfo" key="selectionView">
 							<string key="name">selectionView</string>
 							<string key="candidateClassName">VideoSelectionView</string>
@@ -2017,25 +2039,17 @@
 				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">VideoRunManager</string>
-					<dictionary class="NSMutableDictionary" key="actions">
-						<string key="startMeasuring:">id</string>
-						<string key="startPreMeasuring:">id</string>
-						<string key="stopPreMeasuring:">id</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="actionInfosByName">
-						<object class="IBActionInfo" key="startMeasuring:">
-							<string key="name">startMeasuring:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="startPreMeasuring:">
+					<object class="NSMutableDictionary" key="actions">
+						<string key="NS.key.0">startPreMeasuring:</string>
+						<string key="NS.object.0">id</string>
+					</object>
+					<object class="NSMutableDictionary" key="actionInfosByName">
+						<string key="NS.key.0">startPreMeasuring:</string>
+						<object class="IBActionInfo" key="NS.object.0">
 							<string key="name">startPreMeasuring:</string>
 							<string key="candidateClassName">id</string>
 						</object>
-						<object class="IBActionInfo" key="stopPreMeasuring:">
-							<string key="name">stopPreMeasuring:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</dictionary>
+					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">../src/VideoRun/VideoRunManager.m</string>
@@ -2057,7 +2071,7 @@
 					</object>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="bBase">NSPopUpButton</string>
-						<string key="bCameras">NSPopUpButton</string>
+						<string key="bDevices">NSPopUpButton</string>
 						<string key="bPreRun">NSButton</string>
 						<string key="bRun">NSButton</string>
 						<string key="inputHandler">VideoInput</string>
@@ -2068,8 +2082,8 @@
 							<string key="name">bBase</string>
 							<string key="candidateClassName">NSPopUpButton</string>
 						</object>
-						<object class="IBToOneOutletInfo" key="bCameras">
-							<string key="name">bCameras</string>
+						<object class="IBToOneOutletInfo" key="bDevices">
+							<string key="name">bDevices</string>
 							<string key="candidateClassName">NSPopUpButton</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="bPreRun">

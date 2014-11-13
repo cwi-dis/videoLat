@@ -17,6 +17,15 @@
 
 - (int) initialPrerunCount { return 100; }
 - (int) initialPrerunDelay { return 1000; }
+- (NSString*) deviceID
+{
+	return self.device.deviceID;
+}
+
+- (NSString*) deviceName
+{
+	return self.device.deviceName;
+}
 
 + (void) initialize
 {
@@ -41,15 +50,11 @@
 - (void)awakeFromNib
 {
     if ([super respondsToSelector:@selector(awakeFromNib)]) [super awakeFromNib];
-    
-#if 0
-    // Check that the Python script has loaded correctly
-	if (self.device && ![self.device respondsToSelector: @selector(available)])
-		self.device = nil;
-#endif
+
     self.statusView = self.measurementMaster.statusView;
     self.collector = self.measurementMaster.collector;
     if (self.clock == nil) self.clock = self;
+	if (self.capturer == nil) self.capturer = self;
     [self restart];
 }
 
@@ -114,7 +119,6 @@
 
 - (IBAction)selectBase: (id) sender
 {
-    assert(handlesInput);
     if (self.selectionView.bBase == nil) {
         NSLog(@"HardwareRunManager: bBase == nil");
         return;
@@ -361,7 +365,7 @@
 }
 #endif
 
-- (BOOL) prepareInputDevice
+- (BOOL) _prepareDevice
 {
 	if (self.selectionView.bDevices == nil || self.selectionView.bBase == nil) {
 		// Not fully initialized yet
@@ -377,9 +381,16 @@
 	return YES;
 }
 
+- (BOOL) prepareInputDevice
+{
+	assert(handlesInput);
+	return [self _prepareDevice];
+}
+
 - (BOOL) prepareOutputDevice
 {
-	return [self prepareInputDevice];
+	assert(handlesOutput);
+	return [self _prepareDevice];
 }
 
 - (void)restart
@@ -453,4 +464,13 @@
 {
 	[NSException raise:@"HardwareRunManager" format:@"Must override newInputDone in subclass"];
 }
+
+- (void) startCapturing: (BOOL)showPreview
+{
+}
+
+- (void) stopCapturing
+{
+}
+
 @end

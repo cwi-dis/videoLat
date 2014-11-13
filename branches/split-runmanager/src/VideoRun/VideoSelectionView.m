@@ -29,7 +29,7 @@
     if (VL_DEBUG) NSLog(@"Cameras changed\n");
     // Remember the old selection (if any)
     NSString *oldCam = nil;
-	NSMenuItem *oldItem = [self.bCameras selectedItem];
+	NSMenuItem *oldItem = [self.bDevices selectedItem];
     if (oldItem) {
         oldCam = [oldItem title];
     } else {
@@ -38,12 +38,12 @@
     }
     // Add all cameras
     NSArray *newList = [self.inputHandler deviceNames];
-    [self.bCameras removeAllItems];
-    [self.bCameras addItemsWithTitles: newList];
+    [self.bDevices removeAllItems];
+    [self.bDevices addItemsWithTitles: newList];
     // Re-select old selection, if possible
     [self _reselectCamera:oldCam];
     // Tell the input handler if the device has changed
-    NSMenuItem *newItem = [self.bCameras selectedItem];
+    NSMenuItem *newItem = [self.bDevices selectedItem];
     NSString *newCam = [newItem title];
     if (![newCam isEqualToString:oldCam] || notification == nil)
         [self.inputHandler switchToDeviceWithName:newCam];
@@ -52,11 +52,11 @@
 - (void)_reselectCamera: (NSString *)oldCam
 {
     if (oldCam)
-        [self.bCameras selectItemWithTitle:oldCam];
+        [self.bDevices selectItemWithTitle:oldCam];
     // Select first item, if nothing has been selected
-    NSMenuItem *newItem = [self.bCameras selectedItem];
+    NSMenuItem *newItem = [self.bDevices selectedItem];
     if (newItem == nil)
-        [self.bCameras selectItemAtIndex: 0];
+        [self.bDevices selectItemAtIndex: 0];
 }
 
 - (IBAction)deviceChanged: (id) sender

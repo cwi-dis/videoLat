@@ -234,6 +234,11 @@ static NSMutableDictionary *runManagerNibs;
 {
     @synchronized(self) {
         assert(handlesInput);
+		assert(self.measurementType.name);
+		assert(self.capturer.deviceID);
+		assert(self.capturer.deviceName);
+		assert(self.outputView.deviceID);
+		assert(self.outputView.deviceName);
 		[self.selectionView.bPreRun setEnabled: NO];
 		[self.selectionView.bRun setEnabled: NO];
 		if (!self.statusView) {
@@ -286,16 +291,11 @@ static NSMutableDictionary *runManagerNibs;
 	@synchronized(self) {
 		if (self.measurementType == nil) return;
         assert(handlesInput);
-		if (![self prepareInputDevice] || ![self.outputCompanion prepareOutputDevice]) {
-			[self.selectionView.bBase setEnabled:NO];
-			[self.selectionView.bPreRun setEnabled: NO];
-			return;
-		}
 		if (!self.selectionView) {
 			// XXXJACK Make sure selectionView is active/visible
 		}
 		if (self.measurementType.requires == nil) {
-			[self.selectionView.bBase setEnabled:NO];
+			[self.selectionView.bBase setEnabled: NO];
 			[self.selectionView.bPreRun setEnabled: YES];
 		} else {
 			NSArray *calibrationNames = self.measurementType.requires.measurementNames;
@@ -325,6 +325,9 @@ static NSMutableDictionary *runManagerNibs;
 		[self.selectionView.bRun setEnabled: NO];
 		if (self.statusView) {
 			[self.statusView.bStop setEnabled: NO];
+		}
+		if (![self prepareInputDevice] || ![self.outputCompanion prepareOutputDevice]) {
+			[self.selectionView.bPreRun setEnabled: NO];
 		}
 	}
 }

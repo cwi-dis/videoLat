@@ -22,7 +22,7 @@
 /// When compared to the other run manager this class also implements the input and
 /// selection view object functionality. Should be fixed at some point.
 ///
-@interface HardwareRunManager : BaseRunManager <ClockProtocol> {
+@interface HardwareRunManager : BaseRunManager <ClockProtocol, InputCaptureProtocol> {
     BOOL alive;                 //!< True when the _periodic method should run
     BOOL connected;             //!< True if the hardware device is connected
     NSString *lastError;        //!< Last error message from device
@@ -43,6 +43,8 @@
 @property(weak) IBOutlet HardwareSelectionView *selectionView;  //!< Assigned in NIB: hardware device selector
 @property(weak) IBOutlet HardwareOutputView *outputView;    //!< Assigned in NIB: visual feedback view of output for the user
 @property(weak) IBOutlet NSObject <ClockProtocol> *clock;   //!< Assigned in NIB: clock source
+@property (readonly) NSString* deviceID;					//!< Unique string that identifies the input device
+@property (readonly) NSString* deviceName;					//!< Human-readable string that identifies the input device
 
 @property NSObject <HardwareLightProtocol> *device;         //!< Hardware device handler
 
@@ -84,5 +86,9 @@
                height: (int)h
                format: (const char*)formatStr
                  size: (int)size;
+
+// InputCaptureProtocol
+- (void) startCapturing: (BOOL)showPreview;
+- (void) stopCapturing;
 
 @end
