@@ -199,6 +199,12 @@
 //@property(weak) IBOutlet NSObject<RunInputManagerProtocol> *inputCompanion; //!< Our companion object that handles input
 @property(weak) IBOutlet NSObject *inputCompanion; //!< Our companion object that handles input
 
+///
+/// Called to prepare the output device, if needed, when restarting.
+/// @return NO if not successful
+- (BOOL) prepareOutputDevice;
+
+
 - (BOOL)companionStartPreMeasuring;		//!< outputCompanion portion of startPreMeasuring
 - (void)companionStopPreMeasuring;		//!< outputCompanion portion of stopPreMeasuring
 - (void)companionStartMeasuring;		//!< outputCompanion portion of startMeasuring
@@ -237,6 +243,11 @@
 /// Called from the SelectionView whenever the (input) device changes.
 ///
 - (IBAction)deviceChanged: (id) sender;
+
+///
+/// Called to prepare the input device, if needed, when restarting.
+/// @return NO if not successful
+- (BOOL) prepareInputDevice;
 
 ///
 /// Can be overridden by RunManagers responsible for input, to enforce certain codes to be

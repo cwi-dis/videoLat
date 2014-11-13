@@ -7,6 +7,7 @@ import u3
 # Import the ObjC/Cocoa support
 from Cocoa import *
 import objc
+import threading
 
 DEBUG=False
 
@@ -28,6 +29,7 @@ class LabJack(NSObject, HardwareLightProtocol):
         self = super(LabJack, self).init()
         self.u3Device = None
         self._lastErrorMessage = None
+        self.lock = threading.Lock()
         return self
     
     def awakeFromNib(self):
@@ -39,6 +41,7 @@ class LabJack(NSObject, HardwareLightProtocol):
         try:
             self.u3Device = u3.U3()
         except u3.LabJackException, arg:
+            if DEBUG: print 'LabJack._tryOpen: Cannot open LabJack U3: %s' % arg
             self._lastErrorMessage = 'Cannot open LabJack U3: %s' % arg
             return
         # Configure all ports as digital
@@ -50,52 +53,56 @@ class LabJack(NSObject, HardwareLightProtocol):
 
     def lastErrorMessage(self):
         """Returns last error message from hardware/library, for display to the user."""
-        rv = self._lastErrorMessage
-        self._lastErrorMessage = None
-        return rv
+        with self.lock:
+            rv = self._lastErrorMessage
+            self._lastErrorMessage = None
+            return rv
 
     def available(self):
         """Returns true if the library is installed and the hardware connected."""
-        try:
-            if DEBUG: print 'LabJack: available called', self
-            if not self.u3Device:
-                self._tryOpen()
-            if DEBUG: print 'available: u3device is', self.u3Device
-            return not not self.u3Device
-        except:
-            self._lastErrorMessage = 'Exception during LabJack.available'
-            if not DEBUG:
-                print 'Exception during LabJack.available'
-                return False
-            import pdb
-            pdb.post_mortem()
+        with self.lock:
+            try:
+                if DEBUG: print 'LabJack.available: called with self=', self
+                #import pdb ; pdb.set_trace()
+                if not self.u3Device:
+                    self._tryOpen()
+                if DEBUG: print 'LabJack.available: u3device is', self.u3Device
+                return not not self.u3Device
+            except:
+                if DEBUG: print 'LabJack.available: exception during _tryopen'
+                self._lastErrorMessage = 'Exception during LabJack.available'
+                if not DEBUG:
+                    print 'Exception during LabJack.available'
+                    return False
+                import pdb
+                pdb.post_mortem()
     
     def light_(self, level):
         """Set output light level to 'level' and read return input light level."""
-            
-        try:
-            if DEBUG: print 'LabJack: light_ called', self, level
-            if not self.u3Device:
-                return 0
-            # Note: the logic is reversed here: 0 means light
-            if level < 0.5:
-                outCmd = u3.BitStateWrite(self.OUTPUT_PORT, 1)
-            else:
-                outCmd = u3.BitStateWrite(self.OUTPUT_PORT, 0)
-            inCmd = u3.BitStateRead(self.INPUT_PORT)
-            rv = self.u3Device.getFeedback([inCmd, outCmd])
-            if DEBUG: print 'labJackDevice: light_: returned', rv
-            return rv[0]
-        except u3.LabJackException, arg:
-            self._lastErrorMessage = 'Exception during LabJack.light_: %s' % arg
-        except:
-            self._lastErrorMessage = 'Exception during LabJack.light_'
-            if not DEBUG:
-                print 'Exception during LabJack.light_'
-                return 0
-            import pdb
-            pdb.post_mortem()
-        return 0
+        with self.lock:
+            try:
+                if DEBUG: print 'LabJack: light_ called', self, level
+                if not self.u3Device:
+                    return 0
+                # Note: the logic is reversed here: 0 means light
+                if level < 0.5:
+                    outCmd = u3.BitStateWrite(self.OUTPUT_PORT, 1)
+                else:
+                    outCmd = u3.BitStateWrite(self.OUTPUT_PORT, 0)
+                inCmd = u3.BitStateRead(self.INPUT_PORT)
+                rv = self.u3Device.getFeedback([inCmd, outCmd])
+                if DEBUG: print 'labJackDevice: light_: returned', rv
+                return rv[0]
+            except u3.LabJackException, arg:
+                self._lastErrorMessage = 'Exception during LabJack.light_: %s' % arg
+            except:
+                self._lastErrorMessage = 'Exception during LabJack.light_'
+                if not DEBUG:
+                    print 'Exception during LabJack.light_'
+                    return 0
+                import pdb
+                pdb.post_mortem()
+            return 0
                     
     def deviceID(self):
         """Return the unique device-ID"""

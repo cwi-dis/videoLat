@@ -97,10 +97,10 @@
     }
     
     self.outputView.device = self.device;
-    BOOL available = [self.device available];
-    [self.bConnected setState: (int)available];
-    [self.bPreRun setEnabled: available];
-    [self.bRun setEnabled: NO];
+    connected = [self.device available];
+    [self.bConnected setState: (int)connected];
+    [self.selectionView.bPreRun setEnabled: connected];
+    [self.selectionView.bRun setEnabled: NO];
     self.preRunning = NO;
     self.running = NO;
     minInputLevel = 1.0;
@@ -179,7 +179,10 @@
 			// - output level changed
 			// - maxDelay has passed since last call
             if (first || nConnected != connected || nInputLevel != inputLevel || outputLevelChanged || loopTimestamp > lastUpdateCall + maxDelay) {
-                connected = nConnected;
+				// Stopgap measure: if the device wasn't available we won't let it come available.
+				// This triggers some bug in our code...
+				if (connected)
+					connected = nConnected;
                 inputLevel = nInputLevel;
                 inputTimestamp = loopTimestamp;
                 [self performSelectorOnMainThread:@selector(_update:) withObject:self waitUntilDone:NO];
@@ -358,27 +361,32 @@
 }
 #endif
 
+- (BOOL) prepareInputDevice
+{
+	if (self.selectionView.bDevices == nil || self.selectionView.bBase == nil) {
+		// Not fully initialized yet
+		return NO;
+	}
+	[self deviceChanged: self];
+	[self selectBase: self];
+
+	if (self.device == nil) {
+		NSLog(@"HardwareRunManager: no hardware device available");
+		return NO;
+	}
+	return YES;
+}
+
+- (BOOL) prepareOutputDevice
+{
+	return [self prepareInputDevice];
+}
+
 - (void)restart
 {
     @synchronized(self) {
 		if (self.measurementType == nil) return;
         assert(handlesInput);
-        // Pre-select the correct device. Sometimes through device popup, sometimes through base
-        if (self.selectionView.bDevices) {
-            [self deviceChanged: self];
-        } else if (self.selectionView.bBase) {
-            [self selectBase:self];
-        }
-        
-        if (self.device == nil) {
-            NSLog(@"HardwareRunManager: no hardware device available");
-            [self.bPreRun setEnabled: NO];
-            [self.bRun setEnabled: NO];
-            if (self.statusView) {
-                [self.statusView.bStop setEnabled: NO];
-            }
-            return;
-        }
 		[super restart];
 		outputLevel = 0.5;
 		if (!alive) {

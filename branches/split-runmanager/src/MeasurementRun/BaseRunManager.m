@@ -271,11 +271,26 @@ static NSMutableDictionary *runManagerNibs;
     self.running = NO;
 }
 
+- (BOOL) prepareInputDevice
+{
+	return YES;
+}
+
+- (BOOL) prepareOutputDevice
+{
+	return YES;
+}
+
 - (void)restart
 {
 	@synchronized(self) {
 		if (self.measurementType == nil) return;
         assert(handlesInput);
+		if (![self prepareInputDevice] || ![self.outputCompanion prepareOutputDevice]) {
+			[self.selectionView.bBase setEnabled:NO];
+			[self.selectionView.bPreRun setEnabled: NO];
+			return;
+		}
 		if (!self.selectionView) {
 			// XXXJACK Make sure selectionView is active/visible
 		}
