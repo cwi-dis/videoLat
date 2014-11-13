@@ -148,6 +148,7 @@
 {
     BOOL first = YES;
     BOOL outputLevelChanged = NO;
+	uint64_t lastUpdateCall = 0;
     while(alive) {
         BOOL nConnected = self.device && [self.device available];
         uint64_t loopTimestamp = [self.clock now];
@@ -171,11 +172,18 @@
 				minInputLevel = inputLevel;
 			if (inputLevel < 1 && inputLevel > maxInputLevel)
 				maxInputLevel = inputLevel;
-            if (first || nConnected != connected || nInputLevel != inputLevel || outputLevelChanged) {
+			// We call update for a number of cases:
+			// - first time through the loop
+			// - device connected or disconnected
+			// - input level changed
+			// - output level changed
+			// - maxDelay has passed since last call
+            if (first || nConnected != connected || nInputLevel != inputLevel || outputLevelChanged || loopTimestamp > lastUpdateCall + maxDelay) {
                 connected = nConnected;
                 inputLevel = nInputLevel;
                 inputTimestamp = loopTimestamp;
                 [self performSelectorOnMainThread:@selector(_update:) withObject:self waitUntilDone:NO];
+				lastUpdateCall = loopTimestamp;
                 first = NO;
             }
         }
@@ -226,7 +234,8 @@
             }
         } else {
             // We did not detect the light level we expected
-			[self _prerunRecordNoReception];
+			if (self.preRunning)
+				[self _prerunRecordNoReception];
         }
         NSString *msg = self.device.lastErrorMessage;
         if (msg && ![msg isEqualToString:lastError]) {
@@ -261,9 +270,10 @@
 	// Check that we have waited long enough
 	if ([self.clock now] < outputTimestamp + maxDelay)
 		return;
+	assert(maxDelay);
 	maxDelay *= 2;
 	prerunMoreNeeded = self.initialPrerunCount;
-	if (1 || VL_DEBUG) NSLog(@"prerunRecordNoReception, maxDelay is now %d", maxDelay);
+	if (1 || VL_DEBUG) NSLog(@"prerunRecordNoReception, maxDelay is now %lld", maxDelay);
 	self.statusView.detectCount = [NSString stringWithFormat: @"%d more", prerunMoreNeeded];
 	self.statusView.detectAverage = [NSString stringWithFormat: @"%.2f .. %.2f", minInputLevel, maxInputLevel];
 	[self.outputCompanion triggerNewOutputValue];
@@ -284,6 +294,7 @@
     if (VL_DEBUG) NSLog(@"triggerNewOutputValue called");
 }
 
+#if 0
 - (IBAction)startPreMeasuring: (id)sender
 {
 	@synchronized(self) {
@@ -304,9 +315,14 @@
         [self.outputCompanion triggerNewOutputValue];
     }
 }
+#endif
 
 - (IBAction)stopPreMeasuring: (id)sender
 {
+#if 1
+	[super stopPreMeasuring: sender];
+	outputLevel = 0.5;
+#else
 	@synchronized(self) {
 		self.preRunning = NO;
         if (!handlesOutput)
@@ -320,8 +336,10 @@
 		}
 		[self.statusView.bStop setEnabled: NO];
 	}
+#endif
 }
 
+#if 0
 - (IBAction)startMeasuring: (id)sender
 {
     @synchronized(self) {
@@ -338,6 +356,7 @@
         [self.outputCompanion triggerNewOutputValue];
     }
 }
+#endif
 
 - (void)restart
 {
