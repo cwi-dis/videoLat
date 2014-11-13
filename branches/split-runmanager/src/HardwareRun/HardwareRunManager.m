@@ -12,6 +12,7 @@
 #import <mach/mach.h>
 #import <mach/mach_time.h>
 #import <mach/clock.h>
+#import <stdlib.h>
 
 @implementation HardwareRunManager
 
@@ -43,6 +44,7 @@
 {
     self = [super init];
 	if (self) {
+        maxDelay = self.initialPrerunDelay;
 	}
     return self;
 }
@@ -60,6 +62,7 @@
 
 - (IBAction) deviceChanged: (id)sender
 {
+    if (!handlesInput) return;
     lastError = nil;
     if (self.selectionView.bDevices == nil)
         return;
@@ -129,14 +132,21 @@
         NSLog(@"HardwareRunManager: baseName == nil");
         return;
     }
-    MeasurementType *baseType = self.measurementType.requires;
+    MeasurementType *baseType = (MeasurementType *)self.inputCompanion.measurementType.requires;
     MeasurementDataStore *baseStore = [baseType measurementNamed: baseName];
     if (baseStore == nil) {
         NSLog(@"HardwareRunManager: no base measurement named %@", baseName);
         return;
     }
-    NSString *deviceName = baseStore.inputDevice;
-    [self _switchToDevice:deviceName];
+    if (handlesInput) {
+        NSString *deviceName = baseStore.inputDevice;
+        [self _switchToDevice:deviceName];
+    } else if (handlesOutput) {
+        NSString *deviceName = baseStore.outputDevice;
+        [self _switchToDevice:deviceName];
+    } else {
+        assert(0);
+    }
 }
 
 - (uint64_t)now
@@ -153,16 +163,24 @@
     BOOL first = YES;
     BOOL outputLevelChanged = NO;
 	uint64_t lastUpdateCall = 0;
+    float outputLevel = 0.5;
     while(alive) {
         BOOL nConnected = self.device && [self.device available];
         uint64_t loopTimestamp = [self.clock now];
         @synchronized(self) {
             if (newOutputValueWanted) {
                 outputTimestamp = loopTimestamp;
-                outputLevel = 1-outputLevel;
-                outputLevelChanged = YES;
+                if ([self.outputCode isEqualToString: @"white"]) {
+                    outputLevel = 1;
+                    outputLevelChanged = YES;
+                } else if ([self.outputCode isEqualToString: @"black"]) {
+                    outputLevel = 0;
+                    outputLevelChanged = YES;
+                }
                 newOutputValueWanted = NO;
                 if (VL_DEBUG) NSLog(@"HardwareRunManager: outputLevel %f at %lld", outputLevel, outputTimestamp);
+            } else if ([self.outputCode isEqualToString:@"mixed"]) {
+                outputLevel = (double)rand() / (double)RAND_MAX;
             }
         }
         double nInputLevel = [self.device light: outputLevel];
@@ -181,8 +199,13 @@
 			// - device connected or disconnected
 			// - input level changed
 			// - output level changed
-			// - maxDelay has passed since last call
-            if (first || nConnected != connected || nInputLevel != inputLevel || outputLevelChanged || loopTimestamp > lastUpdateCall + maxDelay) {
+			// - maxDelay has passed since last call and we are running or prerunning
+            if (first
+                    || nConnected != connected
+                    || nInputLevel != inputLevel
+                    || outputLevelChanged
+                    || ((self.preRunning || self.running) && loopTimestamp > lastUpdateCall + maxDelay)
+                    ) {
 				// Stopgap measure: if the device wasn't available we won't let it come available.
 				// This triggers some bug in our code...
 				if (connected)
@@ -202,35 +225,45 @@
 - (void)_update: (id)sender
 {
     @synchronized(self) {
-        BOOL inputLight =(inputLevel > (maxInputLevel + minInputLevel)/2);
-		BOOL outputMixed = (outputLevel == 0.5);
-        BOOL outputLight = (outputLevel > 0.5);
+        NSString *inputCode = @"mixed";
+        float delta = (maxInputLevel - minInputLevel);
+        if (delta > 0) {
+            if (inputLevel < minInputLevel + (delta / 3))
+                inputCode = @"black";
+            if (inputLevel > maxInputLevel - (delta / 3))
+                inputCode = @"white";
+        }
 		// Special case for some other component handling output
 		if (!handlesOutput) {
-			outputLight = [self.outputCompanion.outputCode isEqualToString:@"white"];
+            assert(0); //outputLight = [self.outputCompanion.outputCode isEqualToString:@"white"];
 		}
 
         [self.bConnected setState: (connected ? NSOnState : NSOffState)];
         [self.bInputNumericValue setDoubleValue: inputLevel];
-        [self.bInputValue setState: (inputLight ? NSOnState : NSOffState)];
-        [self.outputView.bOutputValue setState: (outputMixed ? NSMixedState : outputLight ? NSOnState : NSOffState)];
-        NSString *oldOutputCode = self.outputCode;
-        if (outputMixed) {
-            self.outputCode = nil;
-        } else {
-            self.outputCode = outputLight ? @"white" : @"black";
+        NSCellStateValue iVal = NSMixedState;
+        if ([inputCode isEqualToString:@"black"]) {
+            iVal = NSOffState;
+        } else if ([inputCode isEqualToString:@"white"]) {
+            iVal = NSOnState;
         }
-        if (self.running && self.outputCode && (oldOutputCode == nil || ![self.outputCode isEqualToString: oldOutputCode])) {
+        [self.bInputValue setState: iVal];
+        NSCellStateValue oVal = NSMixedState;
+        if ([self.outputCode isEqualToString:@"white"]) {
+            oVal = NSOnState;
+        } else if ([self.outputCode isEqualToString: @"black"]) {
+            oVal = NSOffState;
+        }
+        [self.outputView.bOutputValue setState: oVal];
+        if (self.running && self.outputCode && ![self.outputCode isEqualToString: oldOutputCode]) {
             // We have generated a new output code. Remember it, if we are running
-            [self.collector recordTransmission: outputLight? @"white": @"black" at:outputTimestamp];
+            [self.collector recordTransmission: self.outputCode at:outputTimestamp];
+            oldOutputCode = self.outputCode;
         }
         if (!handlesInput) return;
         // Check for detections
-		NSString *inputCode = inputLight? @"white": @"black";
-        if (VL_DEBUG) NSLog(@" inputLevel %f (%f..%f) inputLight %d outputLight %d outputMixed %d", inputLevel, minInputLevel, maxInputLevel, inputLight, outputLight, outputMixed);
-        if (inputLight == outputLight) {
+        if (1 || VL_DEBUG) NSLog(@" input %@ (%f  range %f..%f) output %@", inputCode, inputLevel, minInputLevel, maxInputLevel, self.outputCode);
+        if ([inputCode isEqualToString: self.outputCode]) {
             if (self.running) {
-                if (VL_DEBUG) NSLog(@"light %d transmitted %lld received %lld delta %lld", outputLight, outputTimestamp, inputTimestamp, inputTimestamp - outputTimestamp);
                 [self.collector recordReception:inputCode at:inputTimestamp];
                 self.statusView.detectCount = [NSString stringWithFormat: @"%d", self.collector.count];
                 self.statusView.detectAverage = [NSString stringWithFormat: @"%.3f ms ± %.3f", self.collector.average / 1000.0, self.collector.stddev / 1000.0];
@@ -261,7 +294,7 @@
 	self.statusView.detectAverage = [NSString stringWithFormat: @"%.2f .. %.2f", minInputLevel, maxInputLevel];
 	[self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
 	if (prerunMoreNeeded == 0) {
-		outputLevel = 0.5;
+		self.outputCode = @"mixed";
 		self.statusView.detectCount = @"";
 		//self.statusView.detectAverage = @"";
 		[self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
@@ -291,11 +324,13 @@
 {
     if (!self.running && !self.preRunning) {
         // Idle, show intermediate value
-        outputLevel = 0.5;
+        self.outputCode = @"mixed";
     } else {
-        // If we are running or prerunning we only want 0 and 1.
-        if (outputLevel > 0 && outputLevel < 1)
-            outputLevel = 0;
+        if ([self.outputCode isEqualToString:@"black"]) {
+            self.outputCode = @"white";
+        } else {
+            self.outputCode = @"black";
+        }
     }
 	newOutputValueWanted = YES;
     if (VL_DEBUG) NSLog(@"triggerNewOutputValue called");
@@ -328,7 +363,7 @@
 {
 #if 1
 	[super stopPreMeasuring: sender];
-	outputLevel = 0.5;
+	self.outputCode = @"mixed";
 #else
 	@synchronized(self) {
 		self.preRunning = NO;
@@ -399,7 +434,7 @@
 		if (self.measurementType == nil) return;
         assert(handlesInput);
 		[super restart];
-		outputLevel = 0.5;
+		self.outputCode = @"mixed";
 		if (!alive) {
             alive = YES;
             [self performSelectorInBackground:@selector(_periodic:) withObject:self];
@@ -410,7 +445,7 @@
 - (void) companionRestart
 {
 	[super companionRestart];
-	outputLevel = 0.5;
+	self.outputCode = @"mixed";
 	if (!alive) {
 		alive = YES;
 		[self performSelectorInBackground:@selector(_periodic:) withObject:self];

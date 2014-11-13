@@ -104,8 +104,8 @@ class SerialPort:
     if nonblocking:
         attrs[CC][termios.VTIME] = 0
     else:
-        attrs[CC][termios.VTIME] = 40
-    termios.tcsetattr(self.fd, termios.TCSANOW, attrs)
+        attrs[CC][termios.VTIME] = 2
+    termios.tcsetattr(self.fd, termios.TCSAFLUSH, attrs)
 
   def __del__(self):
     self.close()

@@ -27,9 +27,9 @@
     BOOL connected;             //!< True if the hardware device is connected
     NSString *lastError;        //!< Last error message from device
     
-    double outputLevel;         //!< Current output light level
     uint64_t outputTimestamp;   //!< When the last output light level change was made
     BOOL newOutputValueWanted;  //!< True if we need to change the output light level
+    NSString *oldOutputCode;    //!< Last output code reported to collector
     
     double inputLevel;          //!< Current input light level
     double minInputLevel;       //!< Lowest analog input level seen
