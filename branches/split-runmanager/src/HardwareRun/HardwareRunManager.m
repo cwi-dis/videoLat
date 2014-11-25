@@ -178,7 +178,7 @@
                     outputLevelChanged = YES;
                 }
                 newOutputValueWanted = NO;
-                if (VL_DEBUG) NSLog(@"HardwareRunManager: outputLevel %f at %lld", outputLevel, outputTimestamp);
+                if (1 || VL_DEBUG) NSLog(@"HardwareRunManager: outputLevel %f at %lld", outputLevel, outputTimestamp);
             } else if ([self.outputCode isEqualToString:@"mixed"]) {
                 outputLevel = (double)rand() / (double)RAND_MAX;
             }
@@ -259,23 +259,24 @@
             [self.collector recordTransmission: self.outputCode at:outputTimestamp];
             oldOutputCode = self.outputCode;
         }
-        if (!handlesInput) return;
-        // Check for detections
-        if (1 || VL_DEBUG) NSLog(@" input %@ (%f  range %f..%f) output %@", inputCode, inputLevel, minInputLevel, maxInputLevel, self.outputCode);
-        if ([inputCode isEqualToString: self.outputCode]) {
-            if (self.running) {
-                [self.collector recordReception:inputCode at:inputTimestamp];
-                self.statusView.detectCount = [NSString stringWithFormat: @"%d", self.collector.count];
-                self.statusView.detectAverage = [NSString stringWithFormat: @"%.3f ms ± %.3f", self.collector.average / 1000.0, self.collector.stddev / 1000.0];
-                [self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
-				[self.outputCompanion triggerNewOutputValue];
-            } else if (self.preRunning) {
-				[self _prerunRecordReception: inputCode];
+        if (handlesInput) {
+            // Check for detections
+            if (1 || VL_DEBUG) NSLog(@" input %@ (%f  range %f..%f) output %@", inputCode, inputLevel, minInputLevel, maxInputLevel, self.outputCode);
+            if ([inputCode isEqualToString: self.outputCode]) {
+                if (self.running) {
+                    [self.collector recordReception:inputCode at:inputTimestamp];
+                    self.statusView.detectCount = [NSString stringWithFormat: @"%d", self.collector.count];
+                    self.statusView.detectAverage = [NSString stringWithFormat: @"%.3f ms ± %.3f", self.collector.average / 1000.0, self.collector.stddev / 1000.0];
+                    [self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
+                    [self.outputCompanion triggerNewOutputValue];
+                } else if (self.preRunning) {
+                    [self _prerunRecordReception: inputCode];
+                }
+            } else {
+                // We did not detect the light level we expected
+                if (self.preRunning)
+                    [self _prerunRecordNoReception];
             }
-        } else {
-            // We did not detect the light level we expected
-			if (self.preRunning)
-				[self _prerunRecordNoReception];
         }
         NSString *msg = self.device.lastErrorMessage;
         if (msg && ![msg isEqualToString:lastError]) {

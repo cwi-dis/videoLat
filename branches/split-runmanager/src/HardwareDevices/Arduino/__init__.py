@@ -100,37 +100,44 @@ class Arduino(NSObject, HardwareLightProtocol):
                 inseqno = self.arduino.read_byte()
                 if not inseqno:
                     self._lastErrorMessage = 'No data (seqno) from Arduino'
+                    if 1 or DEBUG: print 'Arduino error:', self._lastErrorMessage
                     return -1
                 inseqno = ord(inseqno)
 
             if inseqno < 128:
                 self._lastErrorMessage = 'Sync error, got data in stead of seqno from arduino'
+                if 1 or DEBUG: print 'Arduino error:', self._lastErrorMessage
                 self._resync()
                 return -1
                 
             indata = self.arduino.read_byte()
             if not indata: 
                 self._lastErrorMessage = 'No data (analog value) from Arduino'
+                if 1 or DEBUG: print 'Arduino error:', self._lastErrorMessage
                 self._resync()
                 return -1
 
             indata = ord(indata)
             if indata >= 128:
                 self._lastErrorMessage = 'Sync error, got seqno (%d) in stead of data from ardino' % indata
+                if 1 or DEBUG: print 'Arduino error:', self._lastErrorMessage
                 self._resync()
                 return -1
                 
             if inseqno > 192:
                 self._lastErrorMessage = 'Received error %d, %d from arduino' % (inseqno, indata)
+                if 1 or DEBUG: print 'Arduino error:', self._lastErrorMessage
                 self._resync()
                 return -1
                 
             if inseqno != seqno:
                 self._lastErrorMessage = 'Arduino sent seqno %d, expected %d' % (inseqno, seqno)
+                if 1 or DEBUG: print 'Arduino error:', self._lastErrorMessage
                 self._resync()
                 return -1
-                
-            return round(float(indata) / 127.0, 2)
+            rv = round(float(indata) / 127.0, 2)
+            if 1 or DEBUG: print 'light(%f=%d) -> %f=%d' % (level, iLevel, rv, indata)
+            return rv
                     
     def deviceID(self):
         """Return the unique device-ID"""
