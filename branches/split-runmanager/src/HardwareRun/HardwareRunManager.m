@@ -190,10 +190,18 @@
         }
         
         @synchronized(self) {
+#ifdef IGNORE_LEVELS_0_AND_1
 			if (inputLevel > 0 && inputLevel < minInputLevel)
 				minInputLevel = inputLevel;
 			if (inputLevel < 1 && inputLevel > maxInputLevel)
 				maxInputLevel = inputLevel;
+#else
+			if (inputLevel >= 0 && inputLevel < minInputLevel)
+				minInputLevel = inputLevel;
+			if (inputLevel <= 1 && inputLevel > maxInputLevel)
+				maxInputLevel = inputLevel;
+
+#endif
 			// We call update for a number of cases:
 			// - first time through the loop
 			// - device connected or disconnected
