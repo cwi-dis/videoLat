@@ -113,6 +113,7 @@
     self.running = NO;
     minInputLevel = 1.0;
     maxInputLevel = 0.0;
+    inputLevel = -1;
     // This call is in completely the wrong place....
     if (!alive) {
         alive = YES;
@@ -235,7 +236,7 @@
     @synchronized(self) {
         NSString *inputCode = @"mixed";
         float delta = (maxInputLevel - minInputLevel);
-        if (delta > 0) {
+        if (inputLevel >= 0 && delta > 0) {
             if (inputLevel < minInputLevel + (delta / 3))
                 inputCode = @"black";
             if (inputLevel > maxInputLevel - (delta / 3))
@@ -280,17 +281,26 @@
                 } else if (self.preRunning) {
                     [self _prerunRecordReception: inputCode];
                 }
+
             } else {
                 // We did not detect the light level we expected
-                if (self.preRunning)
+                if (self.preRunning) {
                     [self _prerunRecordNoReception];
+                }
             }
+            if (!self.running && !self.preRunning) {
+                // If we're not doing anything yet provide feedback on min/max light level
+                self.statusView.detectAverage = [NSString stringWithFormat: @"%.2f .. %.2f", minInputLevel, maxInputLevel];
+                [self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
+            }
+
         }
         NSString *msg = self.device.lastErrorMessage;
         if (msg && ![msg isEqualToString:lastError]) {
             lastError = msg;
-            NSAlert *alert = [NSAlert alertWithMessageText:@"Hardware device error" defaultButton:@"OK" alternateButton:nil otherButton:nil informativeTextWithFormat:@"%@", msg];
-            [alert runModal];
+            NSAlert *alert = [NSAlert alertWithMessageText:@"Hardware device error" defaultButton:@"Continue" alternateButton:@"Stop" otherButton:nil informativeTextWithFormat:@"%@", msg];
+            if ([alert runModal] == NSAlertAlternateReturn)
+                [self stop];
         }
     }
 }

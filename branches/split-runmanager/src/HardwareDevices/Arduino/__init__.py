@@ -46,11 +46,13 @@ class Arduino(NSObject, HardwareLightProtocol):
         except OSError, arg:
             self._lastErrorMessage = 'Cannot open: %s' % arg
             return
+        time.sleep(2)
         self._resync()
         print 'Arduino: device opened, fd=%d' % self.arduino.fd
         
     def _resync(self):
         self.arduino.write(RESYNC)
+        time.sleep(1)
         self.arduino.flushInput()
 
     def lastErrorMessage(self):
@@ -78,8 +80,8 @@ class Arduino(NSObject, HardwareLightProtocol):
                 pdb.post_mortem()
 
     def _newSeqNo(self):
-        if self._seqno < 128 or self._seqno >= 192:
-            self._seqno = 128
+        if self._seqno < 129 or self._seqno >= 192:
+            self._seqno = 129
         else:
             self._seqno += 1
         return self._seqno
@@ -131,7 +133,13 @@ class Arduino(NSObject, HardwareLightProtocol):
                 return -1
                 
             if inseqno != seqno:
-                self._lastErrorMessage = 'Arduino sent seqno %d, expected %d' % (inseqno, seqno)
+                self._lastErrorMessage = 'Received seqno %d from Arduino, expected %d' % (inseqno, seqno)
+                if 1 or DEBUG: print 'Arduino error:', self._lastErrorMessage
+                self._resync()
+                return -1
+            
+            if indata == 0:
+                self._lastErrorMessage = 'Received questionable analog value 0 from Arduino'
                 if 1 or DEBUG: print 'Arduino error:', self._lastErrorMessage
                 self._resync()
                 return -1
