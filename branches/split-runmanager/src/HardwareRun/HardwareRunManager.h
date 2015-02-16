@@ -40,6 +40,8 @@
 @property(weak) IBOutlet NSButton *bConnected;              //!< Indicator for the user that the selected device works
 @property(weak) IBOutlet NSButton *bInputValue;             //!< UI element: feedback on light/no light detected
 @property(weak) IBOutlet NSTextField *bInputNumericValue;   //!< UI element: feedback on analog input received
+@property(weak) IBOutlet NSTextField *bInputNumericMinValue;   //!< UI element: feedback on analog input received
+@property(weak) IBOutlet NSTextField *bInputNumericMaxValue;   //!< UI element: feedback on analog input received
 @property(weak) IBOutlet HardwareSelectionView *selectionView;  //!< Assigned in NIB: hardware device selector
 @property(weak) IBOutlet HardwareOutputView *outputView;    //!< Assigned in NIB: visual feedback view of output for the user
 @property(weak) IBOutlet NSObject <ClockProtocol> *clock;   //!< Assigned in NIB: clock source

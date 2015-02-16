@@ -249,6 +249,8 @@
 
         [self.bConnected setState: (connected ? NSOnState : NSOffState)];
         [self.bInputNumericValue setDoubleValue: inputLevel];
+        [self.bInputNumericMinValue setDoubleValue: minInputLevel];
+        [self.bInputNumericMaxValue setDoubleValue: maxInputLevel];
         NSCellStateValue iVal = NSMixedState;
         if ([inputCode isEqualToString:@"black"]) {
             iVal = NSOffState;
@@ -288,12 +290,6 @@
                     [self _prerunRecordNoReception];
                 }
             }
-            if (!self.running && !self.preRunning) {
-                // If we're not doing anything yet provide feedback on min/max light level
-                self.statusView.detectAverage = [NSString stringWithFormat: @"%.2f .. %.2f", minInputLevel, maxInputLevel];
-                [self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
-            }
-
         }
         NSString *msg = self.device.lastErrorMessage;
         if (msg && ![msg isEqualToString:lastError]) {

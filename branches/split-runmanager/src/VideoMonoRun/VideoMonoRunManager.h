@@ -22,6 +22,11 @@
     NSRect sensitiveArea;       //!< Internal: where we look for black/white in the input signal.
 }
 
+@property(weak) IBOutlet NSButton *bInputValue;             //!< UI element: feedback on light/no light detected
+@property(weak) IBOutlet NSTextField *bInputNumericValue;   //!< UI element: feedback on analog input received
+@property(weak) IBOutlet NSTextField *bInputNumericMinValue;   //!< UI element: feedback on analog input received
+@property(weak) IBOutlet NSTextField *bInputNumericMaxValue;   //!< UI element: feedback on analog input received
+
 + (void)initialize;
 - (VideoMonoRunManager *)init;
 

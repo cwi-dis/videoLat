@@ -43,6 +43,7 @@
 - (void) newInputDone: (void*)buffer width: (int)w height: (int)h format: (const char*)formatStr size: (int)size
 {
     @synchronized(self) {
+        assert(handlesInput);
 		// Detect black/white
 		int pixelstep, pixelstart;
 		if (strcmp(formatStr, "Y800") == 0) {
@@ -78,29 +79,42 @@
 		int average = (int)(total/count);
 		if (average < blacklevel) blacklevel = average;
 		if (average > whitelevel) whitelevel = average;
-		bool foundColorIsWhite = average > (whitelevel+blacklevel) / 2;
-        NSLog(@" level %d (black %d white %d) isWhite %d", average, blacklevel, whitelevel, foundColorIsWhite);
-        
-		if (foundColorIsWhite == currentColorIsWhite) {
-			// Found expected color.
-            if (self.running) {
-                [self.collector recordReception: self.outputCompanion.outputCode at: inputStartTime];
-            } else if (self.preRunning) {
-                [self _prerunRecordReception: self.outputCompanion.outputCode];
-            }
-			[self.outputCompanion triggerNewOutputValue];
-        } else {
-            if (self.preRunning) {
-                [self _prerunRecordNoReception];
-            }
-            
-		}
-		inputStartTime = 0;
-        if (self.running) {
-            self.statusView.detectCount = [NSString stringWithFormat: @"%d", self.collector.count];
-            self.statusView.detectAverage = [NSString stringWithFormat: @"%.3f ms ± %.3f", self.collector.average / 1000.0, self.collector.stddev / 1000.0];
-            [self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
+		//bool foundColorIsWhite = average > (whitelevel+blacklevel) / 2;
+        NSString *inputCode = @"mixed";
+        int delta = (whitelevel - blacklevel);
+        if (delta > 0) {
+            if (average < blacklevel + (delta / 3))
+                inputCode = @"black";
+            if (average > whitelevel - (delta / 3))
+                inputCode = @"white";
         }
+        NSLog(@" level %d (black %d white %d) found code %@", average, blacklevel, whitelevel, inputCode);
+        [self.bInputNumericValue setIntValue: average];
+        [self.bInputNumericMinValue setIntValue: blacklevel];
+        [self.bInputNumericMaxValue setIntValue: whitelevel];
+        NSCellStateValue iVal = NSMixedState;
+        if ([inputCode isEqualToString:@"black"]) {
+            iVal = NSOffState;
+        } else if ([inputCode isEqualToString:@"white"]) {
+            iVal = NSOnState;
+        }
+        [self.bInputValue setState: iVal];
+        
+        if ([inputCode isEqualToString: self.outputCode]) {
+            if (self.running) {
+                [self.collector recordReception: inputCode at: inputStartTime];
+                self.statusView.detectCount = [NSString stringWithFormat: @"%d", self.collector.count];
+                self.statusView.detectAverage = [NSString stringWithFormat: @"%.3f ms ± %.3f", self.collector.average / 1000.0, self.collector.stddev / 1000.0];
+                [self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
+                [self.outputCompanion triggerNewOutputValue];
+            } else if (self.preRunning) {
+                [self _prerunRecordReception: inputCode];
+            }
+        } else if (self.preRunning) {
+            [self _prerunRecordNoReception];
+        }
+        inputStartTime = 0;
+        
 	}
 }
 
