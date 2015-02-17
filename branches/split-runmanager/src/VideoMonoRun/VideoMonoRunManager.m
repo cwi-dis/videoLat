@@ -7,6 +7,10 @@
 
 #import "VideoMonoRunManager.h"
 
+// How long we keep a random light level before changing it, when not running or
+// prerunning. In microseconds.
+#define IDLE_LIGHT_INTERVAL 200000
+
 @implementation VideoMonoRunManager
 
 + (void) initialize
@@ -46,8 +50,8 @@
         assert(handlesInput);
 		[super restart];
 		self.outputCode = @"mixed";
-		minInputLevel = 1.0;
-		maxInputLevel = 0.0;
+		minInputLevel = 255;
+		maxInputLevel = 0;
     }
 }
 
@@ -88,12 +92,15 @@
 			}
 		}
 		int average = (int)(total/count);
+		// Complicated way to keep black and white level but adjust to changing camera apertures
+		if (minInputLevel < 255) minInputLevel++;
+		if (maxInputLevel > 0) maxInputLevel--;
 		if (average < minInputLevel) minInputLevel = average;
 		if (average > maxInputLevel) maxInputLevel = average;
 		//bool foundColorIsWhite = average > (whitelevel+blacklevel) / 2;
         NSString *inputCode = @"mixed";
         int delta = (maxInputLevel - minInputLevel);
-        if (delta > 0) {
+        if (delta > 10) {
             if (average < minInputLevel + (delta / 3))
                 inputCode = @"black";
             if (average > maxInputLevel - (delta / 3))
@@ -125,7 +132,11 @@
             [self _prerunRecordNoReception];
         }
         inputStartTime = 0;
-        
+		// While idle, change output value once in a while
+		if (!self.running && !self.preRunning) {
+			[self.outputCompanion triggerNewOutputValue];
+		}
+
 	}
 }
 
@@ -139,10 +150,21 @@
 		} else if ([self.outputCode isEqualToString: @"black"]) {
 			newImage = [CIImage imageWithColor:[CIColor colorWithRed:0 green:0 blue:0]];
         } else {
+#if 1
+			static double outputLevel;
+			static uint64_t lastChange;
+			if ([self.clock now] > lastChange + IDLE_LIGHT_INTERVAL) {
+				outputLevel = (double)rand() / (double)RAND_MAX;
+				lastChange = [self.clock now];
+			}
+            newImage = [CIImage imageWithColor:[CIColor colorWithRed:outputLevel green:outputLevel blue:outputLevel]];
+#else
             newImage = [CIImage imageWithColor:[CIColor colorWithRed:0.1 green:0.4 blue:0.5]];
+#endif
 		}
 		CGRect rect = {0, 0, 480, 480};
 		newImage = [newImage imageByCroppingToRect: rect];
+        if (outputStartTime) prevOutputStartTime = outputStartTime;
         outputStartTime = [self.clock now];
         prerunOutputStartTime = outputStartTime;
 		NSLog(@"VideoMonoRunManager.newOutputStart: returning %@ image", self.outputCode);
