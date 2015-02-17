@@ -13,6 +13,9 @@
 
 @implementation VideoMonoRunManager
 
+- (int) initialPrerunCount { return 40; }
+- (int) initialPrerunDelay { return 1000; }
+
 + (void) initialize
 {
     [BaseRunManager registerClass: [self class] forMeasurementType: @"Video Mono Roundtrip"];
@@ -117,20 +120,22 @@
             iVal = NSOnState;
         }
         [self.bInputValue setState: iVal];
-        
-        if ([inputCode isEqualToString: self.outputCode]) {
-            if (self.running) {
-                [self.collector recordReception: inputCode at: inputStartTime];
-                self.statusView.detectCount = [NSString stringWithFormat: @"%d", self.collector.count];
-                self.statusView.detectAverage = [NSString stringWithFormat: @"%.3f ms ± %.3f", self.collector.average / 1000.0, self.collector.stddev / 1000.0];
-                [self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
-                [self.outputCompanion triggerNewOutputValue];
-            } else if (self.preRunning) {
-                [self _prerunRecordReception: inputCode];
-            }
-        } else if (self.preRunning) {
-            [self _prerunRecordNoReception];
-        }
+
+		if (![self.outputCode isEqualToString:@"mixed"]) {
+			if ([inputCode isEqualToString: self.outputCode]) {
+				if (self.running) {
+					[self.collector recordReception: inputCode at: inputStartTime];
+					self.statusView.detectCount = [NSString stringWithFormat: @"%d", self.collector.count];
+					self.statusView.detectAverage = [NSString stringWithFormat: @"%.3f ms ± %.3f", self.collector.average / 1000.0, self.collector.stddev / 1000.0];
+					[self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
+				} else if (self.preRunning) {
+					[self _prerunRecordReception: inputCode];
+				}
+				[self.outputCompanion triggerNewOutputValue];
+			} else if (self.preRunning) {
+				[self _prerunRecordNoReception];
+			}
+		}
         inputStartTime = 0;
 		// While idle, change output value once in a while
 		if (!self.running && !self.preRunning) {
