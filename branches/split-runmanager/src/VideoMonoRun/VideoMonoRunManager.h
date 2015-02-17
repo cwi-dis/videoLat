@@ -15,10 +15,9 @@
 /// changes are made through the NIB file. Compatible with HardwareRunManager.
 ///
 @interface VideoMonoRunManager : VideoRunManager {
-    bool currentColorIsWhite;   //!< Internal: true when we are displaying white
     // Black/white detection
-    int blacklevel;             //!< Internal: darkest color seen during prerun
-    int whitelevel;             //!< Internal: lightest color seen during prerun
+    int minInputLevel;             //!< Internal: darkest color seen during prerun
+    int maxInputLevel;             //!< Internal: lightest color seen during prerun
     NSRect sensitiveArea;       //!< Internal: where we look for black/white in the input signal.
 }
 

@@ -1,4 +1,3 @@
-//
 //  VideoMonoRunManager.m
 //  videoLat
 //
@@ -28,8 +27,8 @@
 {
     self = [super init];
     if (self) {
-		blacklevel = 255;
-		whitelevel = 0;
+		minInputLevel = 255;
+		maxInputLevel = 0;
     }
     return self;
 }
@@ -38,6 +37,18 @@
 {
     if ([super respondsToSelector:@selector(awakeFromNib)]) [super awakeFromNib];
     sensitiveArea = NSMakeRect(160, 120, 320, 240);
+}
+
+- (void)restart
+{
+    @synchronized(self) {
+		if (self.measurementType == nil) return;
+        assert(handlesInput);
+		[super restart];
+		self.outputCode = @"mixed";
+		minInputLevel = 1.0;
+		maxInputLevel = 0.0;
+    }
 }
 
 - (void) newInputDone: (void*)buffer width: (int)w height: (int)h format: (const char*)formatStr size: (int)size
@@ -77,21 +88,21 @@
 			}
 		}
 		int average = (int)(total/count);
-		if (average < blacklevel) blacklevel = average;
-		if (average > whitelevel) whitelevel = average;
+		if (average < minInputLevel) minInputLevel = average;
+		if (average > maxInputLevel) maxInputLevel = average;
 		//bool foundColorIsWhite = average > (whitelevel+blacklevel) / 2;
         NSString *inputCode = @"mixed";
-        int delta = (whitelevel - blacklevel);
+        int delta = (maxInputLevel - minInputLevel);
         if (delta > 0) {
-            if (average < blacklevel + (delta / 3))
+            if (average < minInputLevel + (delta / 3))
                 inputCode = @"black";
-            if (average > whitelevel - (delta / 3))
+            if (average > maxInputLevel - (delta / 3))
                 inputCode = @"white";
         }
-        NSLog(@" level %d (black %d white %d) found code %@", average, blacklevel, whitelevel, inputCode);
+        NSLog(@" level %d (black %d white %d) found code %@", average, minInputLevel, maxInputLevel, inputCode);
         [self.bInputNumericValue setIntValue: average];
-        [self.bInputNumericMinValue setIntValue: blacklevel];
-        [self.bInputNumericMaxValue setIntValue: whitelevel];
+        [self.bInputNumericMinValue setIntValue: minInputLevel];
+        [self.bInputNumericMaxValue setIntValue: maxInputLevel];
         NSCellStateValue iVal = NSMixedState;
         if ([inputCode isEqualToString:@"black"]) {
             iVal = NSOffState;
@@ -123,34 +134,37 @@
 {
     @synchronized(self) {
         CIImage *newImage = nil;
-        if (!self.running && !self.preRunning) {
-            newImage = [CIImage imageWithColor:[CIColor colorWithRed:0.1 green:0.4 blue:0.5]];
-            CGRect rect = {0, 0, 480, 480};
-            newImage = [newImage imageByCroppingToRect: rect];
-            return newImage;
-        }
-        outputStartTime = [self.clock now];
-        prerunOutputStartTime = outputStartTime;
-		if (currentColorIsWhite) {
+		if ([self.outputCode isEqualToString: @"white"]) {
 			newImage = [CIImage imageWithColor:[CIColor colorWithRed:1 green:1 blue:1]];
-            self.outputCode = @"white";
-		} else {
+		} else if ([self.outputCode isEqualToString: @"black"]) {
 			newImage = [CIImage imageWithColor:[CIColor colorWithRed:0 green:0 blue:0]];
-            self.outputCode = @"black";
-        }
+        } else {
+            newImage = [CIImage imageWithColor:[CIColor colorWithRed:0.1 green:0.4 blue:0.5]];
+		}
 		CGRect rect = {0, 0, 480, 480};
 		newImage = [newImage imageByCroppingToRect: rect];
+        outputStartTime = [self.clock now];
+        prerunOutputStartTime = outputStartTime;
+		NSLog(@"VideoMonoRunManager.newOutputStart: returning %@ image", self.outputCode);
 		return newImage;
     }
 }
 
 - (void)triggerNewOutputValue
 {
-    currentColorIsWhite = !currentColorIsWhite;
+    if (!self.running && !self.preRunning) {
+        // Idle, show intermediate value
+        self.outputCode = @"mixed";
+    } else {
+        if ([self.outputCode isEqualToString:@"black"]) {
+            self.outputCode = @"white";
+        } else {
+            self.outputCode = @"black";
+        }
+    }
 	prerunOutputStartTime = 0;
 	outputStartTime = 0;
 	inputStartTime = 0;
-    self.outputCode = nil;
 	[self.outputView performSelectorOnMainThread:@selector(showNewData) withObject:nil waitUntilDone:NO ];
 }
 @end
