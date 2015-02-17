@@ -14,6 +14,10 @@
 #import <mach/clock.h>
 #import <stdlib.h>
 
+// How long we keep a random light level before changing it, when not running or
+// prerunning. In microseconds.
+#define IDLE_LIGHT_INTERVAL 200000
+
 @implementation HardwareRunManager
 
 - (int) initialPrerunCount { return 100; }
@@ -164,7 +168,6 @@
     BOOL first = YES;
     BOOL outputLevelChanged = NO;
 	uint64_t lastUpdateCall = 0;
-    float outputLevel = 0.5;
     while(alive) {
         BOOL nConnected = self.device && [self.device available];
         uint64_t loopTimestamp = [self.clock now];
@@ -177,11 +180,11 @@
                 } else if ([self.outputCode isEqualToString: @"black"]) {
                     outputLevel = 0;
                     outputLevelChanged = YES;
-                }
+                } else {
+					outputLevel = (double)rand() / (double)RAND_MAX;
+				}
                 newOutputValueWanted = NO;
-                if (1 || VL_DEBUG) NSLog(@"HardwareRunManager: outputLevel %f at %lld", outputLevel, outputTimestamp);
-            } else if ([self.outputCode isEqualToString:@"mixed"]) {
-                outputLevel = (double)rand() / (double)RAND_MAX;
+                if (VL_DEBUG) NSLog(@"HardwareRunManager: outputLevel %f at %lld", outputLevel, outputTimestamp);
             }
         }
         double nInputLevel = [self.device light: outputLevel];
@@ -225,6 +228,9 @@
 				lastUpdateCall = loopTimestamp;
                 first = NO;
             }
+			// Finally, if we are not running, we change the light level every once in a while
+			if (!self.preRunning && !self.running && [self.clock now] > outputTimestamp + IDLE_LIGHT_INTERVAL)
+				newOutputValueWanted = YES;
         }
         outputLevelChanged = NO;
         [NSThread sleepForTimeInterval:0.001];
@@ -272,7 +278,7 @@
         }
         if (handlesInput) {
             // Check for detections
-            if (1 || VL_DEBUG) NSLog(@" input %@ (%f  range %f..%f) output %@", inputCode, inputLevel, minInputLevel, maxInputLevel, self.outputCode);
+            if (VL_DEBUG) NSLog(@" input %@ (%f  range %f..%f) output %@", inputCode, inputLevel, minInputLevel, maxInputLevel, self.outputCode);
             if ([inputCode isEqualToString: self.outputCode]) {
                 if (self.running) {
                     [self.collector recordReception:inputCode at:inputTimestamp];
@@ -304,7 +310,7 @@
 - (void)_prerunRecordReception: (NSString *)code
 {
 	prerunMoreNeeded--;
-	if (1 || VL_DEBUG) NSLog(@"prerunRecordReception %@ preRunMoreMeeded=%d\n", code, prerunMoreNeeded);
+	if (VL_DEBUG) NSLog(@"prerunRecordReception %@ preRunMoreMeeded=%d\n", code, prerunMoreNeeded);
 	self.statusView.detectCount = [NSString stringWithFormat: @"%d more", prerunMoreNeeded];
 	self.statusView.detectAverage = [NSString stringWithFormat: @"%.2f .. %.2f", minInputLevel, maxInputLevel];
 	[self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
@@ -328,7 +334,7 @@
 	assert(maxDelay);
 	maxDelay *= 2;
 	prerunMoreNeeded = self.initialPrerunCount;
-	if (1 || VL_DEBUG) NSLog(@"prerunRecordNoReception, maxDelay is now %lld", maxDelay);
+	if (VL_DEBUG) NSLog(@"prerunRecordNoReception, maxDelay is now %lld", maxDelay);
 	self.statusView.detectCount = [NSString stringWithFormat: @"%d more", prerunMoreNeeded];
 	self.statusView.detectAverage = [NSString stringWithFormat: @"%.2f .. %.2f", minInputLevel, maxInputLevel];
 	[self.outputCompanion triggerNewOutputValue];

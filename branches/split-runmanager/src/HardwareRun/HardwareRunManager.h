@@ -29,6 +29,7 @@
     
     uint64_t outputTimestamp;   //!< When the last output light level change was made
     BOOL newOutputValueWanted;  //!< True if we need to change the output light level
+	double outputLevel;			//!< Current output light level
     NSString *oldOutputCode;    //!< Last output code reported to collector
     
     double inputLevel;          //!< Current input light level
