@@ -8,8 +8,7 @@
 
 #import "BaseRunManager.h"
 #import "HardwareOutputView.h"
-#import "HardwareSelectionView.h"
-
+#import "protocols.h"
 ///
 /// A Subclass of BaseRunManager geared towards doing hardware-assisted video
 /// measurements. It works together with an object implementing the low-level
@@ -43,7 +42,7 @@
 @property(weak) IBOutlet NSTextField *bInputNumericValue;   //!< UI element: feedback on analog input received
 @property(weak) IBOutlet NSTextField *bInputNumericMinValue;   //!< UI element: feedback on analog input received
 @property(weak) IBOutlet NSTextField *bInputNumericMaxValue;   //!< UI element: feedback on analog input received
-@property(weak) IBOutlet HardwareSelectionView *selectionView;  //!< Assigned in NIB: hardware device selector
+@property(weak) IBOutlet NSObject<SelectionView> *selectionView;  //!< Assigned in NIB: hardware device selector
 @property(weak) IBOutlet HardwareOutputView *outputView;    //!< Assigned in NIB: visual feedback view of output for the user
 @property(weak) IBOutlet NSObject <ClockProtocol> *clock;   //!< Assigned in NIB: clock source
 @property (readonly) NSString* deviceID;					//!< Unique string that identifies the input device

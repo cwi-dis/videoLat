@@ -173,7 +173,9 @@ static NSMutableDictionary *runManagerNibs;
                 if (!self.measurementType.inputOnlyCalibration && ![baseStore.inputDeviceID isEqualToString:self.capturer.deviceID]) {
                     errorMessage = [NSString stringWithFormat:@"Base measurement uses input %@, current measurement uses %@", baseStore.inputDevice, self.capturer.deviceName];
                 }
-				assert(self.outputView);
+				if (handlesOutput) {
+					assert(self.outputView);
+				}
 				// For runs where we are responsible for output the output device should match
                 if (!self.measurementType.outputOnlyCalibration && ![baseStore.outputDeviceID isEqualToString:self.outputView.deviceID]) {
 					errorMessage = [NSString stringWithFormat:@"Base measurement uses output %@, current measurement uses %@", baseStore.outputDevice, self.outputView.deviceName];
@@ -293,6 +295,7 @@ static NSMutableDictionary *runManagerNibs;
         assert(handlesInput);
 		if (!self.selectionView) {
 			// XXXJACK Make sure selectionView is active/visible
+			assert(0);
 		}
 		if (self.measurementType.requires == nil) {
 			[self.selectionView.bBase setEnabled: NO];

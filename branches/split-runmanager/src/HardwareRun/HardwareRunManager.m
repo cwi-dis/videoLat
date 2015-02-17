@@ -90,6 +90,7 @@
 
 - (void)_switchToDevice: (NSString *)selectedDevice
 {
+	assert(self.selectionView);
     [self.bConnected setState: 0];
     PythonLoader *pl = [PythonLoader sharedPythonLoader];
     BOOL ok = [pl loadPackageNamed: selectedDevice];
@@ -127,6 +128,7 @@
 
 - (IBAction)selectBase: (id) sender
 {
+	assert(self.selectionView);
     if (self.selectionView.bBase == nil) {
         NSLog(@"HardwareRunManager: bBase == nil");
         return;
@@ -137,7 +139,12 @@
         NSLog(@"HardwareRunManager: baseName == nil");
         return;
     }
-    MeasurementType *baseType = (MeasurementType *)self.inputCompanion.measurementType.requires;
+    MeasurementType *baseType;
+	if (handlesInput) {
+		baseType = (MeasurementType *)self.measurementType.requires;
+	} else {
+		baseType = (MeasurementType *)self.inputCompanion.measurementType.requires;
+	}
     MeasurementDataStore *baseStore = [baseType measurementNamed: baseName];
     if (baseStore == nil) {
         NSLog(@"HardwareRunManager: no base measurement named %@", baseName);
@@ -184,7 +191,7 @@
 					outputLevel = (double)rand() / (double)RAND_MAX;
 				}
                 newOutputValueWanted = NO;
-                if (VL_DEBUG) NSLog(@"HardwareRunManager: outputLevel %f at %lld", outputLevel, outputTimestamp);
+                if (1 || VL_DEBUG) NSLog(@"HardwareRunManager: outputLevel %f at %lld", outputLevel, outputTimestamp);
             }
         }
         double nInputLevel = [self.device light: outputLevel];
@@ -250,7 +257,7 @@
         }
 		// Special case for some other component handling output
 		if (!handlesOutput) {
-            assert(0); //outputLight = [self.outputCompanion.outputCode isEqualToString:@"white"];
+            //assert(0); //outputLight = [self.outputCompanion.outputCode isEqualToString:@"white"];
 		}
 
         [self.bConnected setState: (connected ? NSOnState : NSOffState)];
@@ -423,7 +430,7 @@
 
 - (BOOL) _prepareDevice
 {
-	if (self.selectionView.bDevices == nil || self.selectionView.bBase == nil) {
+	if (self.selectionView.bDevices == nil && self.selectionView.bBase == nil) {
 		// Not fully initialized yet
 		return NO;
 	}
