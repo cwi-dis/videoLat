@@ -121,8 +121,8 @@
         }
         [self.bInputValue setState: iVal];
 
-		if (![self.outputCode isEqualToString:@"mixed"]) {
-			if ([inputCode isEqualToString: self.outputCode]) {
+		if (![self.outputCompanion.outputCode isEqualToString:@"mixed"]) {
+			if ([inputCode isEqualToString: self.outputCompanion.outputCode]) {
 				if (self.running) {
 					[self.collector recordReception: inputCode at: inputStartTime];
 					self.statusView.detectCount = [NSString stringWithFormat: @"%d", self.collector.count];
@@ -149,6 +149,7 @@
 - (CIImage *)newOutputStart
 {
     @synchronized(self) {
+		assert(handlesOutput);
         CIImage *newImage = nil;
 		if ([self.outputCode isEqualToString: @"white"]) {
 			newImage = [CIImage imageWithColor:[CIColor colorWithRed:1 green:1 blue:1]];
@@ -179,6 +180,7 @@
 
 - (void)triggerNewOutputValue
 {
+	assert(handlesOutput);
     if (!self.running && !self.preRunning) {
         // Idle, show intermediate value
         self.outputCode = @"mixed";
