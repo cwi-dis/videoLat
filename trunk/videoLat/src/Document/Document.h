@@ -25,16 +25,22 @@
 	MeasurementType *myType;                        //!< Internal: type of dataStore measurement
 }
 @property(readonly) NSString* measurementType;      //!< accessor for dataStore metadata variable
-@property(readonly) NSString* baseMeasurementID;    //!< accessor for dataStore metadata variable
-@property(readonly) NSString* machineTypeID;            //!< accessor for dataStore metadata variable
-@property(readonly) NSString* machine;              //!< accessor for dataStore metadata variable
+@property(readonly) NSString* inputBaseMeasurementID;    //!< accessor for dataStore metadata variable
+@property(readonly) NSString* inputMachineTypeID;   //!< accessor for dataStore metadata variable
+@property(readonly) NSString* inputMachineID;       //!< accessor for dataStore metadata variable
+@property(readonly) NSString* inputMachine;         //!< accessor for dataStore metadata variable
 @property(readonly) NSString* inputDeviceID;        //!< accessor for dataStore metadata variable
 @property(readonly) NSString* inputDevice;          //!< accessor for dataStore metadata variable
+@property(readonly) NSString* outputBaseMeasurementID;    //!< accessor for dataStore metadata variable
+@property(readonly) NSString* outputMachineTypeID;  //!< accessor for dataStore metadata variable
+@property(readonly) NSString* outputMachineID;      //!< accessor for dataStore metadata variable
+@property(readonly) NSString* outputMachine;        //!< accessor for dataStore metadata variable
 @property(readonly) NSString* outputDeviceID;       //!< accessor for dataStore metadata variable
 @property(readonly) NSString* outputDevice;         //!< accessor for dataStore metadata variable
 @property(strong) NSString* description;            //!< accessor for dataStore metadata variable
 @property(strong) NSString* date;                   //!< accessor for dataStore metadata variable
-@property(strong) NSString* location;               //!< accessor for dataStore metadata variable
+@property(strong) NSString* inputLocation;               //!< accessor for dataStore metadata variable
+@property(strong) NSString* outputLocation;               //!< accessor for dataStore metadata variable
 
 @property(strong) IBOutlet MeasurementDataStore *dataStore; //!< data for this document
 @property(strong) IBOutlet MeasurementDistribution *dataDistribution;   //!< distribution of dataStore

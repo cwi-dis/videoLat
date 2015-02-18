@@ -16,16 +16,22 @@
 @synthesize measurementWindow;
 
 - (NSString*) measurementType { return self.dataStore?self.dataStore.measurementType:@""; }
-- (NSString*) baseMeasurementID { return self.dataStore?self.dataStore.baseMeasurementID:nil; }
-- (NSString*) machineTypeID { return self.dataStore?self.dataStore.machineTypeID:@""; }
-- (NSString*) machine { return self.dataStore?self.dataStore.machine:@""; }
+- (NSString*) inputBaseMeasurementID { return self.dataStore?self.dataStore.inputBaseMeasurementID:nil; }
+- (NSString*) inputMachineTypeID { return self.dataStore?self.dataStore.inputMachineTypeID:@""; }
+- (NSString*) inputMachineID { return self.dataStore?self.dataStore.inputMachineID:@""; }
+- (NSString*) inputMachine { return self.dataStore?self.dataStore.inputMachine:@""; }
 - (NSString*) inputDeviceID { return self.dataStore?self.dataStore.inputDeviceID:@""; }
 - (NSString*) inputDevice { return self.dataStore?self.dataStore.inputDevice:@""; }
+- (NSString*) outputBaseMeasurementID { return self.dataStore?self.dataStore.outputBaseMeasurementID:nil; }
+- (NSString*) outputMachineTypeID { return self.dataStore?self.dataStore.outputMachineTypeID:@""; }
+- (NSString*) outputMachineID { return self.dataStore?self.dataStore.outputMachineID:@""; }
+- (NSString*) outputMachine { return self.dataStore?self.dataStore.outputMachine:@""; }
 - (NSString*) outputDeviceID { return self.dataStore?self.dataStore.outputDeviceID:@""; }
 - (NSString*) outputDevice { return self.dataStore?self.dataStore.outputDevice:@""; }
 @synthesize description;
 @synthesize date;
-@synthesize location;
+@synthesize inputLocation;
+@synthesize outputLocation;
 
 - (id)init
 {
@@ -115,7 +121,8 @@
     // Keep the data
 	self.dataDistribution = [[MeasurementDistribution alloc] initWithSource:self.dataStore];
 	// Set location, etc
-	self.location = ((appDelegate *)[[NSApplication sharedApplication] delegate]).location;
+    self.inputLocation = ((appDelegate *)[[NSApplication sharedApplication] delegate]).location; // XXXJACK wrong! May come from remote side!
+    self.outputLocation = ((appDelegate *)[[NSApplication sharedApplication] delegate]).location; // XXXJACK wrong! May come from remote side!
 	self.description = @"";
 	self.date = [[NSDate date] descriptionWithCalendarFormat:nil timeZone:nil locale:nil];
 
@@ -157,7 +164,7 @@
 
 - (void)_setCalibrationFileName
 {
-    NSString *fileName = [NSString stringWithFormat: @"%@-%@-%@-%@.vlCalibration", self.dataStore.measurementType, self.dataStore.machine, self.dataStore.outputDevice, self.dataStore.inputDevice];
+    NSString *fileName = [NSString stringWithFormat: @"%@-%@-%@-%@.vlCalibration", self.dataStore.measurementType, self.dataStore.outputMachineTypeID, self.dataStore.outputDevice, self.dataStore.inputDevice];
     NSURL *dirUrl = [(appDelegate *)[[NSApplication sharedApplication] delegate] directoryForCalibrations];
     NSURL *fileUrl = [NSURL URLWithString:[fileName stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] relativeToURL:dirUrl];
     [self setFileURL: fileUrl];
@@ -189,7 +196,8 @@
     [dict setObject:@"videoLat" forKey:@"videoLat"];
     [dict setObject:VIDEOLAT_FILE_VERSION forKey:@"version"];
     [dict setObject:self.description forKey:@"description"];
-    [dict setObject:self.location forKey:@"location"];
+    [dict setObject:self.inputLocation forKey:@"inputLocation"];
+    [dict setObject:self.outputLocation forKey:@"outputLocation"];
     [dict setObject:self.date forKey:@"date"];
     [dict setObject:self.dataStore forKey:@"dataStore"];
 //    [dict setObject:self.dataDistribution forKey:@"dataDistribution"];
@@ -218,7 +226,14 @@
     }
     self.description = [dict objectForKey: @"description"];
     self.date = [dict objectForKey: @"date"];
-    self.location = [dict objectForKey: @"location"];
+    self.inputLocation = [dict objectForKey: @"inputLocation"];
+    self.outputLocation = [dict objectForKey: @"outputLocation"];
+#if 1
+    // Old version compatility
+    if (!self.inputLocation) {
+        self.inputLocation = self.outputLocation = [dict objectForKey: @"location"];
+    }
+#endif
     self.dataStore = [dict objectForKey: @"dataStore"];
 //    self.dataDistribution = [dict objectForKey: @"dataDistribution"];
     self.dataDistribution = [[MeasurementDistribution alloc] initWithSource:self.dataStore];
@@ -276,10 +291,19 @@
 	rv = [NSMutableString stringWithCapacity: 0];
 	[rv appendString:@"key,value\n"];
 	[rv appendFormat: @"measurementType,\"%@\"\n", self.measurementType];
-	[rv appendFormat: @"baseMeasurementID,\"%@\"\n", self.baseMeasurementID];
+    [rv appendFormat: @"outputBaseMeasurementID,\"%@\"\n", self.outputBaseMeasurementID];
+    [rv appendFormat: @"outputMachineTypeID,\"%@\"\n", self.outputMachineTypeID];
+    [rv appendFormat: @"outputMachineID,\"%@\"\n", self.outputMachineID];
+    [rv appendFormat: @"outputMachine,\"%@\"\n", self.outputMachine];
+    [rv appendFormat: @"outputLocation,\"%@\"\n", self.outputLocation];
+    [rv appendFormat: @"outputDeviceID,\"%@\"\n", self.outputDeviceID];
+    [rv appendFormat: @"outputDevice,\"%@\"\n", self.outputDevice];
+    [rv appendFormat: @"inputBaseMeasurementID,\"%@\"\n", self.inputBaseMeasurementID];
+    [rv appendFormat: @"inputMachineTypeID,\"%@\"\n", self.inputMachineTypeID];
+    [rv appendFormat: @"inputMachineID,\"%@\"\n", self.inputMachineID];
+    [rv appendFormat: @"inputMachine,\"%@\"\n", self.inputMachine];
+    [rv appendFormat: @"inputLocation,\"%@\"\n", self.inputLocation];
 	[rv appendFormat: @"inputDeviceID,\"%@\"\n", self.inputDeviceID];
-	[rv appendFormat: @"inputDevice,\"%@\"\n", self.inputDevice];
-	[rv appendFormat: @"outputDeviceID,\"%@\"\n", self.outputDeviceID];
 	[rv appendFormat: @"outputDevice,\"%@\"\n", self.outputDevice];
 	[rv appendFormat: @"description,\"%@\"\n", self.description];
 	[rv appendFormat: @"date,\"%@\"\n", self.date];

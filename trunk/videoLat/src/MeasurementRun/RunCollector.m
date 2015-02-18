@@ -77,10 +77,14 @@
 	size_t len = sizeof(hwName_c);
 	sysctlbyname("hw.model", hwName_c, &len, NULL, 0);
 	NSString *hwName = [NSString stringWithUTF8String:hwName_c];
-	dataStore.machine = hwName;
-	dataStore.machineTypeID = hwName;
+	dataStore.inputMachineID = @"00:00:00:00:00:00"; // XXXX
+    dataStore.inputMachine = @"My Mac"; // XXXX
+	dataStore.inputMachineTypeID = hwName;
 	dataStore.inputDevice = inputName;
 	dataStore.inputDeviceID = inputId;
+    dataStore.outputMachineID = @"00:00:00:00:00:00"; // XXXX
+    dataStore.outputMachine = @"My Mac"; // XXXX
+    dataStore.outputMachineTypeID = hwName;
 	dataStore.outputDevice = outputName;
 	dataStore.outputDeviceID = outputId;
 }
