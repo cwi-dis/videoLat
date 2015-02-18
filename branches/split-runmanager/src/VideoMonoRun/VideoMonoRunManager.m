@@ -109,7 +109,7 @@
             if (average > maxInputLevel - (delta / 3))
                 inputCode = @"white";
         }
-        NSLog(@" level %d (black %d white %d) found code %@", average, minInputLevel, maxInputLevel, inputCode);
+        if (VL_DEBUG) NSLog(@" level %d (black %d white %d) found code %@", average, minInputLevel, maxInputLevel, inputCode);
         [self.bInputNumericValue setIntValue: average];
         [self.bInputNumericMinValue setIntValue: minInputLevel];
         [self.bInputNumericMaxValue setIntValue: maxInputLevel];
@@ -173,7 +173,7 @@
         if (outputStartTime) prevOutputStartTime = outputStartTime;
         outputStartTime = [self.clock now];
         prerunOutputStartTime = outputStartTime;
-		NSLog(@"VideoMonoRunManager.newOutputStart: returning %@ image", self.outputCode);
+		if (VL_DEBUG) NSLog(@"VideoMonoRunManager.newOutputStart: returning %@ image", self.outputCode);
 		return newImage;
     }
 }

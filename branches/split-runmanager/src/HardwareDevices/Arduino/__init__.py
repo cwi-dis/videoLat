@@ -144,7 +144,7 @@ class Arduino(NSObject, HardwareLightProtocol):
                 self._resync()
                 return -1
             rv = round(float(indata) / 127.0, 2)
-            if 1 or DEBUG: print 'light(%f=%d) -> %f=%d' % (level, iLevel, rv, indata)
+            if DEBUG: print 'light(%f=%d) -> %f=%d' % (level, iLevel, rv, indata)
             return rv
                     
     def deviceID(self):

@@ -239,8 +239,13 @@ static NSMutableDictionary *runManagerNibs;
 		assert(self.measurementType.name);
 		assert(self.capturer.deviceID);
 		assert(self.capturer.deviceName);
-		assert(self.outputView.deviceID);
-		assert(self.outputView.deviceName);
+		NSView <OutputViewProtocol> *outputView;
+		if (handlesOutput)
+			outputView = self.outputView;
+		else
+			outputView = self.outputCompanion.outputView;
+		assert(outputView.deviceID);
+		assert(outputView.deviceName);
 		[self.selectionView.bPreRun setEnabled: NO];
 		[self.selectionView.bRun setEnabled: NO];
 		if (!self.statusView) {
@@ -251,7 +256,7 @@ static NSMutableDictionary *runManagerNibs;
         if (!handlesOutput)
             [self.outputCompanion companionStartMeasuring];
         [self.capturer startCapturing: NO];
-        [self.collector startCollecting: self.measurementType.name input: self.capturer.deviceID name: self.capturer.deviceName output: self.outputView.deviceID name: self.outputView.deviceName];
+        [self.collector startCollecting: self.measurementType.name input: self.capturer.deviceID name: self.capturer.deviceName output: outputView.deviceID name: outputView.deviceName];
         [self.outputCompanion triggerNewOutputValue];
     }
 }

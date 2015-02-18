@@ -191,7 +191,7 @@
 					outputLevel = (double)rand() / (double)RAND_MAX;
 				}
                 newOutputValueWanted = NO;
-                if (1 || VL_DEBUG) NSLog(@"HardwareRunManager: outputLevel %f at %lld", outputLevel, outputTimestamp);
+                if (VL_DEBUG) NSLog(@"HardwareRunManager: outputLevel %f at %lld", outputLevel, outputTimestamp);
             }
         }
         double nInputLevel = [self.device light: outputLevel];
@@ -271,22 +271,24 @@
             iVal = NSOnState;
         }
         [self.bInputValue setState: iVal];
-        NSCellStateValue oVal = NSMixedState;
-        if ([self.outputCode isEqualToString:@"white"]) {
-            oVal = NSOnState;
-        } else if ([self.outputCode isEqualToString: @"black"]) {
-            oVal = NSOffState;
-        }
-        [self.outputView.bOutputValue setState: oVal];
-        if (self.running && self.outputCode && ![self.outputCode isEqualToString: oldOutputCode]) {
-            // We have generated a new output code. Remember it, if we are running
-            [self.collector recordTransmission: self.outputCode at:outputTimestamp];
-            oldOutputCode = self.outputCode;
-        }
+		if (handlesOutput) {
+			NSCellStateValue oVal = NSMixedState;
+			if ([self.outputCode isEqualToString:@"white"]) {
+				oVal = NSOnState;
+			} else if ([self.outputCode isEqualToString: @"black"]) {
+				oVal = NSOffState;
+			}
+			[self.outputView.bOutputValue setState: oVal];
+			if (self.running && self.outputCode && ![self.outputCode isEqualToString: oldOutputCode]) {
+				// We have generated a new output code. Remember it, if we are running
+				[self.collector recordTransmission: self.outputCode at:outputTimestamp];
+				oldOutputCode = self.outputCode;
+			}
+		}
         if (handlesInput) {
             // Check for detections
-            if (VL_DEBUG) NSLog(@" input %@ (%f  range %f..%f) output %@", inputCode, inputLevel, minInputLevel, maxInputLevel, self.outputCode);
-            if ([inputCode isEqualToString: self.outputCode]) {
+            if (1 || VL_DEBUG) NSLog(@" input %@ (%f  range %f..%f) output %@", inputCode, inputLevel, minInputLevel, maxInputLevel, self.outputCode);
+            if ([inputCode isEqualToString: self.outputCompanion.outputCode]) {
                 if (self.running) {
                     [self.collector recordReception:inputCode at:inputTimestamp];
                     self.statusView.detectCount = [NSString stringWithFormat: @"%d", self.collector.count];

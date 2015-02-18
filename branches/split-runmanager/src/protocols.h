@@ -199,6 +199,7 @@
 @property(strong) NSString *outputCode;           // Current code on the display
 //@property(weak) IBOutlet NSObject<RunInputManagerProtocol> *inputCompanion; //!< Our companion object that handles input
 @property(weak) IBOutlet NSObject *inputCompanion; //!< Our companion object that handles input
+@property(weak) IBOutlet NSView <OutputViewProtocol> *outputView; //!< Assigned in NIB: Displays current output QR code
 
 ///
 /// Called to prepare the output device, if needed, when restarting.
