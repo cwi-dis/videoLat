@@ -96,10 +96,10 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
     [BaseRunManager registerClass: [self class] forMeasurementType: @"Networking"];
     // No nib is registered...
 #endif
-    // We register ourselves for receive-only, as a slave. At the very least we must make
+    // We also register ourselves for send-only, as a slave. At the very least we must make
     // sure the nibfile is registered...
-    [BaseRunManager registerClass: [self class] forMeasurementType: @"Video Reception (Slave/Client)"];
-    [BaseRunManager registerNib: @"SlaveReceiverRun" forMeasurementType: @"Video Reception (Slave/Client)"];
+    [BaseRunManager registerClass: [self class] forMeasurementType: @"Video Transmission (Master/Server)"];
+    [BaseRunManager registerNib: @"MasterSenderRun" forMeasurementType: @"Video Transmission (Master/Server)"];
 }
 
 - (NetworkRunManager *) init
