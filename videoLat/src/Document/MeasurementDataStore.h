@@ -25,20 +25,28 @@
 	NSMutableArray *store;  //!< Internal: the values themselves
 };
 
-@property(strong) NSString* measurementType;    //!< Metadata variable, set by owner
-@property(strong) NSString* machineTypeID;          //!< Metadata variable, set by owner
-@property(strong) NSString* machine;            //!< Metadata variable, set by owner
-@property(strong) NSString* inputDeviceID;      //!< Metadata variable, set by owner
-@property(strong) NSString* inputDevice;        //!< Metadata variable, set by owner
-@property(strong) NSString* outputDeviceID;     //!< Metadata variable, set by owner
-@property(strong) NSString* outputDevice;       //!< Metadata variable, set by owner
+@property(strong) NSString* measurementType;        //!< Metadata variable, set by owner
+
+@property(strong) NSString* inputMachineTypeID;     //!< Metadata variable, set by owner
+@property(strong) NSString* inputMachineID;         //!< Metadata variable, set by owner
+@property(strong) NSString* inputMachine;           //!< Metadata variable, set by owner
+@property(strong) NSString* inputDeviceID;          //!< Metadata variable, set by owner
+@property(strong) NSString* inputDevice;            //!< Metadata variable, set by owner
+@property(strong) NSString* inputBaseMeasurementID; //!< Metadata variable, set by owner
+
+@property(strong) NSString* outputMachineTypeID;    //!< Metadata variable, set by owner
+@property(strong) NSString* outputMachineID;        //!< Metadata variable, set by owner
+@property(strong) NSString* outputMachine;          //!< Metadata variable, set by owner
+@property(strong) NSString* outputDeviceID;         //!< Metadata variable, set by owner
+@property(strong) NSString* outputDevice;           //!< Metadata variable, set by owner
+@property(strong) NSString* outputBaseMeasurementID;//!< Metadata variable, set by owner
+
 @property(readonly) double min;
 @property(readonly) double max;
-@property(readonly) double average;             //!< Returns the average of all values
-@property(readonly) double stddev;              //!< Returns the standard deviation of all values
+@property(readonly) double average;                 //!< Returns the average of all values
+@property(readonly) double stddev;                  //!< Returns the standard deviation of all values
 @property(readonly) int count;
 @property(readonly) int missCount;
-@property(strong) NSString* baseMeasurementID;    //!< Metadata variable, set by owner
 @property(readonly) double baseMeasurementAverage;  //!< Records average of base measurement, for convenience
 @property(readonly) double baseMeasurementStddev;  //!< Records stddev of base measurement, for convenience
 
@@ -73,4 +81,10 @@
 /// @param calibration the calibration measurement object.
 /// This call initializes the baseMeasurementAverage and baseMeasurementStddev variables.
 - (void)useCalibration: (MeasurementDataStore *)calibration;
+///
+/// Indicates the input and output calibration measurement for this measurement run.
+/// @param inputCalibration the calibration measurement object.
+/// @param outputCalibration the calibration measurement object.
+/// This call initializes the baseMeasurementAverage and baseMeasurementStddev variables.
+- (void)useInputCalibration: (MeasurementDataStore *)inputCalibration outputCalibration: (MeasurementDataStore *)outputCalibration;
 @end

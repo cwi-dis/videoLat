@@ -36,16 +36,25 @@
 	if (self.document ) {
         initialValues = YES;
 		NSString *measurementType = self.document.measurementType;
-		NSString *baseMeasurementID = self.document.baseMeasurementID;
-		if (baseMeasurementID) {
-			measurementType = [NSString stringWithFormat: @"%@ (based on %@)", measurementType, baseMeasurementID];
-		}
+        NSString *inputBaseMeasurementID = self.document.inputBaseMeasurementID;
+        NSString *outputBaseMeasurementID = self.document.outputBaseMeasurementID;
+		if (inputBaseMeasurementID && outputBaseMeasurementID && inputBaseMeasurementID != outputBaseMeasurementID) {
+			measurementType = [NSString stringWithFormat: @"%@ (based on %@ and %@)", measurementType, outputBaseMeasurementID, inputBaseMeasurementID];
+        } else if (inputBaseMeasurementID) {
+            measurementType = [NSString stringWithFormat: @"%@ (based on %@)", measurementType, inputBaseMeasurementID];
+        } else if (outputBaseMeasurementID) {
+            measurementType = [NSString stringWithFormat: @"%@ (based on %@)", measurementType, outputBaseMeasurementID];
+        }
 		self.status.measurementType = measurementType;
-		self.status.machine = self.document.machine;
+        self.status.inputMachineTypeID = self.document.inputMachineTypeID;
+        self.status.inputMachine = self.document.inputMachine;
+        self.status.inputLocation = self.document.inputLocation;
 		self.status.inputDevice = self.document.inputDevice;
+        self.status.outputMachineTypeID = self.document.outputMachineTypeID;
+        self.status.outputMachine = self.document.outputMachine;
+        self.status.outputLocation = self.document.outputLocation;
 		self.status.outputDevice = self.document.outputDevice;
 		self.status.date = self.document.date;
-		self.status.location = self.document.location;
 		self.status.description = self.document.description;
 		if (self.document.dataStore) {
 			self.status.detectCount = [NSString stringWithFormat: @"%d", self.document.dataStore.count];

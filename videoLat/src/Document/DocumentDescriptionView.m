@@ -10,11 +10,15 @@
 
 @implementation DocumentDescriptionView
 @synthesize bMeasurementType;
-@synthesize bMachine;
+@synthesize bInputMachineTypeID;
+@synthesize bInputMachine;
+@synthesize bInputLocation;
 @synthesize bInputDevice;
+@synthesize bOutputMachineTypeID;
+@synthesize bOutputMachine;
+@synthesize bOutputLocation;
 @synthesize bOutputDevice;
 @synthesize bDate;
-@synthesize bLocation;
 @synthesize bDescription;
 @synthesize bDetectCount;
 @synthesize bMissCount;
@@ -23,11 +27,15 @@
 @synthesize bDetectMaxDelay;
 
 @synthesize measurementType;
-@synthesize machine;
+@synthesize inputMachineTypeID;
+@synthesize inputMachine;
+@synthesize inputLocation;
 @synthesize inputDevice;
+@synthesize outputMachineTypeID;
+@synthesize outputMachine;
+@synthesize outputLocation;
 @synthesize outputDevice;
 @synthesize date;
-@synthesize location;
 @synthesize description;
 @synthesize detectCount;
 @synthesize missCount;
@@ -42,11 +50,15 @@
 - (void) update: (id)sender
 {
 	if (bMeasurementType) bMeasurementType.stringValue = measurementType?measurementType:@"";
-	if (bMachine) bMachine.stringValue = machine?machine:@"";
+    if (bInputMachineTypeID) bInputMachineTypeID.stringValue = inputMachine?inputMachineTypeID:@"";
+    if (bInputMachine) bInputMachine.stringValue = inputMachine?inputMachine:@"";
+    if (bInputLocation) bInputLocation.stringValue = inputLocation?inputLocation:@"";
 	if (bInputDevice) bInputDevice.stringValue = inputDevice?inputDevice:@"";
+    if (bOutputMachineTypeID) bOutputMachineTypeID.stringValue = outputMachine?outputMachineTypeID:@"";
+    if (bOutputMachine) bOutputMachine.stringValue = outputMachine?outputMachine:@"";
+    if (bOutputLocation) bOutputLocation.stringValue = outputLocation?outputLocation:@"";
 	if (bOutputDevice) bOutputDevice.stringValue = outputDevice?outputDevice:@"";
 	if (bDate) bDate.stringValue = date?date:@"";
-	if (bLocation) bLocation.stringValue = location?location:@"";
 	if (bDescription) bDescription.stringValue = description?description:@"";
 	if (bDetectCount) bDetectCount.stringValue = detectCount?detectCount:@"";
 	if (bMissCount) bMissCount.stringValue = detectCount?missCount:@"";
