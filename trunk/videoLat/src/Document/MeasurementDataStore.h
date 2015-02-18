@@ -14,6 +14,10 @@
 /// all the metadata pertaining to that run (type, input and output device used, etc).
 ///
 
+@interface DeviceDescription {
+};
+
+@end
 @interface MeasurementDataStore : NSCoder <GraphDataProviderProtocol> {
     double sum;         //!< Internal: sum of all values
     double sumSquares;  //!< Internal: sum of the squares of all values
@@ -26,7 +30,10 @@
 };
 
 @property(strong) NSString* measurementType;        //!< Metadata variable, set by owner
+@property(strong) NSString* date;                   //!< Metadata variable, set by owner
+@property(strong) NSString* description;            //!< Metadata variable, set by owner
 
+@property(strong) NSString* inputLocation;          //!< Metadata variable, set by owner
 @property(strong) NSString* inputMachineTypeID;     //!< Metadata variable, set by owner
 @property(strong) NSString* inputMachineID;         //!< Metadata variable, set by owner
 @property(strong) NSString* inputMachine;           //!< Metadata variable, set by owner
@@ -34,6 +41,7 @@
 @property(strong) NSString* inputDevice;            //!< Metadata variable, set by owner
 @property(strong) NSString* inputBaseMeasurementID; //!< Metadata variable, set by owner
 
+@property(strong) NSString* outputLocation;         //!< Metadata variable, set by owner
 @property(strong) NSString* outputMachineTypeID;    //!< Metadata variable, set by owner
 @property(strong) NSString* outputMachineID;        //!< Metadata variable, set by owner
 @property(strong) NSString* outputMachine;          //!< Metadata variable, set by owner

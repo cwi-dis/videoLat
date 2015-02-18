@@ -10,7 +10,10 @@
 
 @implementation MeasurementDataStore
 @synthesize measurementType;
+@synthesize date;
+@synthesize description;
 
+@synthesize inputLocation;
 @synthesize inputMachineTypeID;
 @synthesize inputMachineID;
 @synthesize inputMachine;
@@ -18,6 +21,7 @@
 @synthesize inputDevice;
 @synthesize inputBaseMeasurementID;
 
+@synthesize outputLocation;
 @synthesize outputMachineTypeID;
 @synthesize outputMachineID;
 @synthesize outputMachine;
@@ -58,6 +62,9 @@
 {
     self = [super init];
     measurementType = nil;
+    date = nil;
+    description = nil;
+    inputLocation = nil;
     inputMachineTypeID = nil;
     inputMachineID = nil;
     inputMachine = nil;
@@ -65,6 +72,7 @@
     inputDevice = nil;
     inputBaseMeasurementID = nil;
 
+    outputLocation = nil;
     outputMachineTypeID = nil;
     outputMachineID = nil;
     outputMachine = nil;
@@ -88,32 +96,25 @@
 {
     self = [super init];
     measurementType = [coder decodeObjectForKey: @"scenario"];
+    date = [coder decodeObjectForKey: @"date"];
+    description = [coder decodeObjectForKey: @"description"];
+    
+    inputLocation = [coder decodeObjectForKey:@"inputLocation"];
     inputMachineTypeID = [coder decodeObjectForKey:@"inputMachineTypeID"];
     inputMachineID = [coder decodeObjectForKey:@"inputMachineID"];
     inputMachine = [coder decodeObjectForKey:@"inputMachine"];
     inputBaseMeasurementID = [coder decodeObjectForKey:@"inputBaseMeasurementID"];
+    inputDeviceID = [coder decodeObjectForKey: @"inputID"];
+    inputDevice = [coder decodeObjectForKey: @"inputName"];
+    
+    outputLocation = [coder decodeObjectForKey:@"outputLocation"];
     outputMachineTypeID = [coder decodeObjectForKey:@"outputMachineTypeID"];
     outputMachineID = [coder decodeObjectForKey:@"outputMachineID"];
     outputMachine = [coder decodeObjectForKey:@"outputMachine"];
     outputBaseMeasurementID = [coder decodeObjectForKey:@"outputBaseMeasurementID"];
-#if 1
-    // Compatibility with previous measurement format
-    if (inputMachineTypeID == nil) {
-        id old_machineTypeID = [coder decodeObjectForKey: @"machineID"];
-        id old_machine = [coder decodeObjectForKey: @"machineName"];
-        id old_baseMeasurementID = [coder decodeObjectForKey: @"baseMeasurementID"];
-        inputMachineTypeID = old_machineTypeID;
-        inputMachine = old_machine;
-        inputBaseMeasurementID = old_baseMeasurementID;
-        outputMachineTypeID = old_machineTypeID;
-        outputMachine = old_machine;
-        outputBaseMeasurementID = old_baseMeasurementID;
-    }
-#endif
-    inputDeviceID = [coder decodeObjectForKey: @"inputID"];
-    inputDevice = [coder decodeObjectForKey: @"inputName"];
     outputDeviceID = [coder decodeObjectForKey: @"outputID"];
     outputDevice = [coder decodeObjectForKey: @"outputName"];
+
     sum = [coder decodeDoubleForKey:@"sum"];
     sumSquares = [coder decodeDoubleForKey:@"sumSquares"];
     min = [coder decodeDoubleForKey:@"min"];
@@ -135,18 +136,25 @@
 - (void)encodeWithCoder:(NSCoder *)coder
 {
     [coder encodeObject:measurementType forKey: @"scenario"];
+    [coder encodeObject:date forKey: @"date"];
+    [coder encodeObject:description forKey: @"description"];
+    
+    [coder encodeObject:inputLocation forKey: @"inputLocation"];
     [coder encodeObject:inputMachineTypeID forKey: @"inputMachineTypeID"];
     [coder encodeObject:inputMachineID forKey: @"inputMachineID"];
     [coder encodeObject:inputMachine forKey: @"inputMachine"];
     [coder encodeObject:inputDeviceID forKey: @"inputID"];
     [coder encodeObject:inputDevice forKey: @"inputName"];
     [coder encodeObject: inputBaseMeasurementID forKey: @"inputBaseMeasurementID"];
+    
+    [coder encodeObject:outputLocation forKey: @"outputLocation"];
     [coder encodeObject:outputMachineTypeID forKey: @"outputMachineTypeID"];
     [coder encodeObject:outputMachineID forKey: @"outputMachineID"];
     [coder encodeObject:outputMachine forKey: @"outputMachine"];
     [coder encodeObject:outputDeviceID forKey: @"outputID"];
     [coder encodeObject:outputDevice forKey: @"outputName"];
     [coder encodeObject: outputBaseMeasurementID forKey: @"outputBaseMeasurementID"];
+    
     [coder encodeDouble: baseMeasurementAverage forKey: @"baseMeasurementAverage"];
     [coder encodeDouble: baseMeasurementStddev forKey: @"baseMeasurementStddev"];
 

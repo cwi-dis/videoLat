@@ -35,9 +35,9 @@
 {
 	if (self.document ) {
         initialValues = YES;
-		NSString *measurementType = self.document.measurementType;
-        NSString *inputBaseMeasurementID = self.document.inputBaseMeasurementID;
-        NSString *outputBaseMeasurementID = self.document.outputBaseMeasurementID;
+		NSString *measurementType = self.document.dataStore.measurementType;
+        NSString *inputBaseMeasurementID = self.document.dataStore.inputBaseMeasurementID;
+        NSString *outputBaseMeasurementID = self.document.dataStore.outputBaseMeasurementID;
 		if (inputBaseMeasurementID && outputBaseMeasurementID && inputBaseMeasurementID != outputBaseMeasurementID) {
 			measurementType = [NSString stringWithFormat: @"%@ (based on %@ and %@)", measurementType, outputBaseMeasurementID, inputBaseMeasurementID];
         } else if (inputBaseMeasurementID) {
@@ -46,16 +46,16 @@
             measurementType = [NSString stringWithFormat: @"%@ (based on %@)", measurementType, outputBaseMeasurementID];
         }
 		self.status.measurementType = measurementType;
-        self.status.inputMachineTypeID = self.document.inputMachineTypeID;
-        self.status.inputMachine = self.document.inputMachine;
-        self.status.inputLocation = self.document.inputLocation;
-		self.status.inputDevice = self.document.inputDevice;
-        self.status.outputMachineTypeID = self.document.outputMachineTypeID;
-        self.status.outputMachine = self.document.outputMachine;
-        self.status.outputLocation = self.document.outputLocation;
-		self.status.outputDevice = self.document.outputDevice;
-		self.status.date = self.document.date;
-		self.status.description = self.document.description;
+        self.status.inputMachineTypeID = self.document.dataStore.inputMachineTypeID;
+        self.status.inputMachine = self.document.dataStore.inputMachine;
+        self.status.inputLocation = self.document.dataStore.inputLocation;
+		self.status.inputDevice = self.document.dataStore.inputDevice;
+        self.status.outputMachineTypeID = self.document.dataStore.outputMachineTypeID;
+        self.status.outputMachine = self.document.dataStore.outputMachine;
+        self.status.outputLocation = self.document.dataStore.outputLocation;
+		self.status.outputDevice = self.document.dataStore.outputDevice;
+		self.status.date = self.document.dataStore.date;
+		self.status.description = self.document.dataStore.description;
 		if (self.document.dataStore) {
 			self.status.detectCount = [NSString stringWithFormat: @"%d", self.document.dataStore.count];
 			self.status.missCount = [NSString stringWithFormat: @"%d", self.document.dataStore.missCount];
@@ -88,7 +88,7 @@
 {
     // This is not very clean.....
     self.status.description = self.status.bDescription.stringValue;
-    self.document.description = self.status.description;
+    self.document.dataStore.description = self.status.description;
     [self.document changed];
 }
 @end
