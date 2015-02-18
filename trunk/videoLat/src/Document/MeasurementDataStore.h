@@ -26,7 +26,7 @@
 };
 
 @property(strong) NSString* measurementType;    //!< Metadata variable, set by owner
-@property(strong) NSString* machineID;          //!< Metadata variable, set by owner
+@property(strong) NSString* machineTypeID;          //!< Metadata variable, set by owner
 @property(strong) NSString* machine;            //!< Metadata variable, set by owner
 @property(strong) NSString* inputDeviceID;      //!< Metadata variable, set by owner
 @property(strong) NSString* inputDevice;        //!< Metadata variable, set by owner

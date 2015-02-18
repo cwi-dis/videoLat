@@ -10,7 +10,7 @@
 
 @implementation MeasurementDataStore
 @synthesize measurementType;
-@synthesize machineID;
+@synthesize machineTypeID;
 @synthesize machine;
 @synthesize inputDeviceID;
 @synthesize inputDevice;
@@ -50,7 +50,7 @@
 {
     self = [super init];
     measurementType = nil;
-    machineID = nil;
+    machineTypeID = nil;
     machine = nil;
     inputDeviceID = nil;
     inputDevice = nil;
@@ -74,7 +74,7 @@
 {
     self = [super init];
     measurementType = [coder decodeObjectForKey: @"scenario"];
-    machineID = [coder decodeObjectForKey: @"machineID"];
+    machineTypeID = [coder decodeObjectForKey: @"machineID"];
     machine = [coder decodeObjectForKey: @"machineName"];
     inputDeviceID = [coder decodeObjectForKey: @"inputID"];
     inputDevice = [coder decodeObjectForKey: @"inputName"];
@@ -102,7 +102,7 @@
 - (void)encodeWithCoder:(NSCoder *)coder
 {
     [coder encodeObject:measurementType forKey: @"scenario"];
-    [coder encodeObject:machineID forKey: @"machineID"];
+    [coder encodeObject:machineTypeID forKey: @"machineID"];
     [coder encodeObject:machine forKey: @"machineName"];
     [coder encodeObject:inputDeviceID forKey: @"inputID"];
     [coder encodeObject:inputDevice forKey: @"inputName"];
