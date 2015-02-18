@@ -15,6 +15,8 @@ static NSMutableDictionary *byTag;
 @synthesize tag;
 @synthesize name;
 @synthesize isCalibration;
+@synthesize inputOnlyCalibration;
+@synthesize outputOnlyCalibration;
 @synthesize requires;
 
 + (MeasurementType *)forType: (NSString *)typeName
@@ -45,11 +47,21 @@ static NSMutableDictionary *byTag;
     [self addType: @"Video Mono Roundtrip" tag: 8 isCalibration: NO requires: cal_VR];
     
     MeasurementType *cal_HW = [self addType: @"Hardware Calibrate" tag: 3 isCalibration: YES requires: nil];
+    
     MeasurementType *cal_IN = [self addType: @"Camera Input Calibrate" tag: 4 isCalibration: YES requires: cal_HW];
+    cal_IN.inputOnlyCalibration = YES;
     MeasurementType *cal_OUT = [self addType: @"Screen Output Calibrate" tag: 5 isCalibration: YES requires: cal_HW];
+    cal_OUT.outputOnlyCalibration = YES;
+    
+    MeasurementType *cal_IN2 = [self addType: @"Camera Input Calibrate (based on Screen)" tag: 4 isCalibration: YES requires: cal_OUT];
+    cal_IN2.inputOnlyCalibration = YES;
+    [cal_IN2 isSubtypeOf: cal_IN];
+    MeasurementType *cal_OUT2 = [self addType: @"Screen Output Calibrate (based on Camera)" tag: 5 isCalibration: YES requires: cal_IN];
+    cal_OUT2.outputOnlyCalibration = YES;
+    [cal_OUT2 isSubtypeOf: cal_OUT];
 
-    [self addType: @"Video Reception" tag: 6 isCalibration: NO requires: cal_IN];
-    [self addType: @"Video Transmission" tag: 7 isCalibration: NO requires: cal_OUT];
+    [self addType: @"Video Transmission (Master/Server)" tag: 6 isCalibration: NO requires: cal_OUT];
+    [self addType: @"Video Reception (Slave/Client)" tag: 7 isCalibration: NO requires: cal_IN];
 
     MeasurementType *cal_AR = [self addType: @"Audio Roundtrip Calibrate" tag: 8 isCalibration: YES requires: nil];
     [self addType: @"Audio Roundtrip" tag: 9 isCalibration: NO requires: cal_AR];
@@ -60,13 +72,25 @@ static NSMutableDictionary *byTag;
 {
     self = [super init];
     if (self) {
+        superType = nil;
         name = _name;
         tag = _tag;
         isCalibration = _isCalibration;
+        inputOnlyCalibration = NO;
+        outputOnlyCalibration = NO;
         requires = _requires;
         measurements = [[NSMutableDictionary alloc] initWithCapacity:1];
     }
     return self;
+}
+
+- (void) isSubtypeOf: (MeasurementType *)_superType
+{
+    assert(superType == nil);
+    assert(self.isCalibration == _superType.isCalibration);
+    assert(self.inputOnlyCalibration == _superType.inputOnlyCalibration);
+    assert(self.outputOnlyCalibration == _superType.outputOnlyCalibration);
+    superType = _superType;
 }
 
 - (void)addMeasurement: (MeasurementDataStore *)item
@@ -84,6 +108,9 @@ static NSMutableDictionary *byTag;
 		}
 	}
 	[measurements setObject: item forKey: itemName];
+    if (superType) {
+        [superType addMeasurement: item];
+    }
 }
 
 - (MeasurementDataStore *)measurementNamed: (NSString *)itemName

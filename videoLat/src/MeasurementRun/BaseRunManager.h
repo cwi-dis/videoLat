@@ -29,10 +29,15 @@
 /// measurement types and their NIBs (initialized by the class initializers of the subclasses).
 ///
 @interface BaseRunManager : NSObject <RunOutputManagerProtocol, RunInputManagerProtocol> {
-    MeasurementType *measurementType;	//!< Exact type of measurement. Needed because a lot of code sharing goes on.
-    BOOL handlesInput;	//!< true if we are responsible for input processing
-    BOOL handlesOutput;	//!< true if we are responsible for output processing
+    BOOL handlesInput;		//!< true if we are responsible for input processing
+    BOOL handlesOutput;		//!< true if we are responsible for output processing
+    uint64_t maxDelay;   //!< Internal: How log to wait for prerun code finding
+    int prerunMoreNeeded;   //!< Internal: How many more prerun correct catches we need
 }
+
+@property(weak) IBOutlet id<SelectionView> selectionView;         //!< Assigned in NIB: view that allows selection of input device
+@property(weak) IBOutlet id <InputCaptureProtocol> capturer;    //!< Assigned in NIB: input capturer
+@property(weak) IBOutlet NSView <OutputViewProtocol> *outputView; //!< Assigned in NIB: Displays current output QR code
 
 + (void)initialize;	//!< Class initializer.
 
@@ -64,7 +69,7 @@
 ///
 + (NSString *)nibForMeasurementType: (NSString *)name;
 
-@property(readonly) MeasurementType *measurementType;
+@property(strong) MeasurementType *measurementType;
 ///
 /// Textual representation of the current output code, for example @"white", or
 /// @"123456789" for QR code measurements. Set by the BaseRunManager that is
@@ -90,6 +95,14 @@
 ///
 - (void)triggerNewOutputValue;
 
+///
+/// Can be overridden by RunManagers responsible for input, to enforce certain codes to be
+/// used during prerunning.
+/// Implemented by the NetworkRunManager to communicate the ip/port of the listener to the remote
+/// end.
+///
+- (NSString *)genPrerunCode;
+
 @property bool running;		//!< True after user has pressed "run" button, false again after pressing "stop".
 @property bool preRunning;	//!< True after user has pressed "prepare" button, false again after pressing "run".
 
@@ -107,9 +120,9 @@
 /// two BaseRunManager subclass instances, and ties them together through the inputCompanion
 /// and outputCompanion.
 ///
-@property(weak) IBOutlet BaseRunManager *inputCompanion; //!< Our companion object that handles input
+@property(weak) IBOutlet NSObject<RunInputManagerProtocol> *inputCompanion; //!< Our companion object that handles input
 
-@property(weak) IBOutlet BaseRunManager *outputCompanion; //!< Our companion object that handles output
+@property(weak) IBOutlet NSObject<RunOutputManagerProtocol> *outputCompanion; //!< Our companion object that handles output
 //@}
 
 @end

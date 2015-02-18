@@ -6,6 +6,7 @@
 //  Copyright 2010-2014 Centrum voor Wiskunde en Informatica. Licensed under GPL3.
 //
 
+#import "protocols.h"
 #import "AudioProcess.h"
 #import <AVFoundation/AVFoundation.h>
 
@@ -32,7 +33,7 @@
 
 - (NSArray *)processOriginal: (NSURL *) fileURL
 {
-    NSLog(@"Processing in setOriginal: %@", fileURL);
+    if (VL_DEBUG) NSLog(@"Processing in setOriginal: %@", fileURL);
     [self _reset];
     // Create an ASSetReader for our input file
     AVURLAsset *fileAsset = [AVURLAsset URLAssetWithURL:fileURL options:nil];
@@ -73,7 +74,7 @@
         if (err == 0 || bufferList[0].mNumberBuffers == 1) {
             // Pass to the manager
             BOOL noisy = [self feedData: bufferList[0].mBuffers[0].mData size: bufferList[0].mBuffers[0].mDataByteSize channels: bufferList[0].mBuffers[0].mNumberChannels at: timestamp];
-            NSLog(@"timestamp %lld noisy %d", timestamp, noisy);
+            if (VL_DEBUG) NSLog(@"timestamp %lld noisy %d", timestamp, noisy);
         } else {
             NSLog(@"AudioInput: CMSampleBufferGetAudioBufferListWithRetainedBlockBuffer returned err=%d, mNumberBuffers=%d", err, bufferList[0].mNumberBuffers);
         }

@@ -14,7 +14,7 @@
 {
     NSBundle *bundle = [NSBundle mainBundle];
     samples = [bundle pathsForResourcesOfType:@"aif" inDirectory:@"sounds"];
-    NSLog(@"Sounds: %@\n", samples);
+    if (VL_DEBUG) NSLog(@"Sounds: %@\n", samples);
     [self.bSample removeAllItems];
     NSString *filename;
     for (filename in samples) {
@@ -53,7 +53,7 @@
     NSString *sample = [sender titleOfSelectedItem];
     NSURL * url = [[NSURL alloc] initFileURLWithPath:
                    [[NSBundle mainBundle] pathForResource:sample ofType:@"aif" inDirectory: @"sounds"]];
-    NSLog(@"sample URL %@\n", url);
+    if (VL_DEBUG) NSLog(@"sample URL %@\n", url);
     
     // Create the player for it
     NSError *error;

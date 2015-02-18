@@ -53,6 +53,7 @@
     double sourceMin = self.source.min;
     double sourceMax = self.source.max;
     if (sourceMin > 0) sourceMin = 0; // For now we want distribution plots to start at 0.0
+    if (sourceMax <= sourceMin) sourceMax = sourceMin + 1;
     binSize = (sourceMax - sourceMin) / (binCount-1);
     int sourceCount = self.source.count;
     for (int i=0; i < sourceCount; i++) {

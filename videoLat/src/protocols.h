@@ -17,6 +17,19 @@
 /// Turn on global debugging, at compile time
 #define VL_DEBUG 0
 
+// Forward declarations
+@protocol RunInputManagerProtocol;
+
+@protocol MeasurementTypeProtocol
+@property(readonly) NSUInteger tag;     //!< Tag for this type, used to order measurement types logically in menus.
+@property(readonly) NSString *name;     //!< Human-readable type
+@property(readonly) BOOL isCalibration; //!< True if this type is a calibration meaurement type
+@property BOOL inputOnlyCalibration;    //!< True if only the input should match
+@property BOOL outputOnlyCalibration;   //!< True if only the output should match
+@property(readonly) NSObject<MeasurementTypeProtocol> *requires;  //!< What this measurement type depends on (usually a calibration) or nil.
+@end
+
+
 ///
 /// Protocol for an object that provides time values (in microseconds)
 ///
@@ -26,6 +39,26 @@
  @return Timevalue in microseconds
  */
 - (uint64_t)now;
+@end
+
+///
+/// Protocol for an object that tracks a remote clock.
+///
+@protocol RemoteClockProtocol
+///
+/// Convert local time to remote time
+///
+- (uint64_t)remoteNow: (uint64_t) now;
+
+///
+/// Add measurement of round-trip
+///
+- (void)remote: (uint64_t)remote between: (uint64_t)start and: (uint64_t) finish;
+
+///
+/// Return round-trip-time
+///
+- (uint64_t)rtt;
 @end
 
 ///
@@ -73,6 +106,23 @@
 /// Makes output viewer request a new pattern from the OutputRunManager and display it.
 ///
 - (void) showNewData;
+@end
+
+///
+/// Protocol for an object that allows selection of input device, base measurement (optional),
+/// and starting of preruns and runs.
+///
+@protocol SelectionView
+@property(weak) IBOutlet NSPopUpButton *bDevices;   //!< UI element: all available cameras
+@property(weak) IBOutlet NSPopUpButton *bBase;      //!< UI element: available calibration runs
+@property(weak) IBOutlet NSButton *bPreRun;         //!< UI element: start preparing a measurement run
+@property(weak) IBOutlet NSButton *bRun;            //!< UI element: start a measurement run
+@property(weak) IBOutlet NSObject <RunInputManagerProtocol> *manager;
+@end
+
+@protocol NetworkViewProtocol
+- (void) reportClient: (NSString *)ip port: (int)port isUs: (BOOL) us;
+- (void) reportServer: (NSString *)ip port: (int)port isUs: (BOOL) us;
 @end
 
 ///
@@ -141,14 +191,42 @@
 /// Protocol used by OutputViewProtocol objects to request new data and report results.
 ///
 @protocol RunOutputManagerProtocol
-/**
- Request a new output pattern.
- @return The pattern to display, as a CIImage.
- */
+///
+/// Textual representation of the current output code, for example @"white", or
+/// @"123456789" for QR code measurements. Set by the BaseRunManager that is
+/// responsible for output, read by its inputCompanion.
+///
+@property(strong) NSString *outputCode;           // Current code on the display
+//@property(weak) IBOutlet NSObject<RunInputManagerProtocol> *inputCompanion; //!< Our companion object that handles input
+@property(weak) IBOutlet NSObject *inputCompanion; //!< Our companion object that handles input
+@property(weak) IBOutlet NSView <OutputViewProtocol> *outputView; //!< Assigned in NIB: Displays current output QR code
+
+///
+/// Called to prepare the output device, if needed, when restarting.
+/// @return NO if not successful
+- (BOOL) prepareOutputDevice;
+
+
+- (BOOL)companionStartPreMeasuring;		//!< outputCompanion portion of startPreMeasuring
+- (void)companionStopPreMeasuring;		//!< outputCompanion portion of stopPreMeasuring
+- (void)companionStartMeasuring;		//!< outputCompanion portion of startMeasuring
+- (void)companionStopMeasuring;			//!< outputCompanion portion of stopMeasuring
+- (void)companionRestart;				//!< outputCompanion portion of restart
+- (void)terminate;						//<! RunManager is about to disappear, clean up.
+
+///
+/// Prepare data for a new delay measurement. Called on the output companion, should
+/// create a pattern that is distinghuisable from the previous pattern and display it.
+///
+- (void)triggerNewOutputValue;
+
+///
+/// Request a new output pattern.
+/// @return The pattern to display, as a CIImage.
 - (CIImage *)newOutputStart;
-/**
- Signals that output pattern should now be visible. This records the timestamp.
- */
+///
+/// Signals that output pattern should now be visible. This records the timestamp.
+///
 - (void)newOutputDone;
 @end
 
@@ -156,49 +234,92 @@
 /// Protocol used by InputCaptureProtocol objects to report new data and timing.
 ///
 @protocol RunInputManagerProtocol
-/**
- Signals that a measurement run should be restarted (for example because the input device has changed).
- */
+
+@property(weak) IBOutlet NSObject<RunOutputManagerProtocol> *outputCompanion; //!< Our companion object that handles output
+
+@property(readonly) NSObject<MeasurementTypeProtocol> *measurementType;
+@property(readonly) int initialPrerunCount;
+@property(readonly) int initialPrerunDelay;
+
+///
+/// Called from the SelectionView whenever the (input) device changes.
+///
+- (IBAction)deviceChanged: (id) sender;
+
+///
+/// Called to prepare the input device, if needed, when restarting.
+/// @return NO if not successful
+- (BOOL) prepareInputDevice;
+
+///
+/// Can be overridden by RunManagers responsible for input, to enforce certain codes to be
+/// used during prerunning.
+/// Implemented by the NetworkRunManager to communicate the ip/port of the listener to the remote
+/// end.
+///
+- (NSString *)genPrerunCode;
+
+///
+/// Signals that a measurement run should be restarted (for example because the input device has changed).
+///
 - (void)restart;
-/**
- Not yet used.
- */
+
+- (void)terminate;  //<! RunManager is about to disappear, clean up.
+
+- (IBAction)startPreMeasuring: (id)sender;  //!< Called when user presses "prepare" button
+- (IBAction)stopPreMeasuring: (id)sender;   //!< Internal: stop pre-measuring because we have heard enough
+- (IBAction)startMeasuring: (id)sender;     //!< Called when user presses "start" button
+
+///
+/// Not yet used.
+///
 - (void)setFinderRect: (NSRect)theRect;
-/**
- Signals that a capture cycle has started at the given time.
- */
+
+///
+/// Signals that a capture cycle has started at the given time.
+///
 - (void)newInputStart:(uint64_t)timestamp;
-/**
- Signals that a capture cycle has started now.
- */
+
+///
+/// Signals that a capture cycle has started now.
+///
 - (void)newInputStart;
-/**
- Signals that a capture cycle has ended and provides image data.
- @param buffer The image data
- @param w Width of the captured image in pixels
- @param h Height of the captured image in pixels
- @param formatStr One of "RGB4", "Y800", "YUYV" or "UYUV"
- @param size Size of the buffer in bytes
- */
+
+///
+/// Signals that a capture cycle has ended and provides the data.
+/// @param data The data captured
+/// @param count How often this exact data item has been detected already
+/// @param timestamp The timestamp of the first capture of this data item
+///
+- (void) newInputDone: (NSString *)data count: (int)count at: (uint64_t) timestamp;
+
+///
+/// Signals that a capture cycle has ended and provides image data.
+/// @param buffer The image data
+/// @param w Width of the captured image in pixels
+/// @param h Height of the captured image in pixels
+/// @param formatStr One of "RGB4", "Y800", "YUYV" or "UYUV"
+/// @param size Size of the buffer in bytes
+///
 - (void) newInputDone: (void*)buffer
     width: (int)w
     height: (int)h
     format: (const char*)formatStr
     size: (int)size;
-/**
- Signals that a capture cycle has ended and provides audio data.
- @param buffer The audio data, as 16 bit signed integer samples
- @param size Size of the buffer in bytes
- @param channels Number of channels (1 for mono, 2 for stereo)
- @param timestamp Input capture time of this sample
- */
+///
+/// Signals that a capture cycle has ended and provides audio data.
+/// @param buffer The audio data, as 16 bit signed integer samples
+/// @param size Size of the buffer in bytes
+/// @param channels Number of channels (1 for mono, 2 for stereo)
+/// @param timestamp Input capture time of this sample
+///
 - (void)newInputDone: (void*)buffer
     size: (int)size
     channels: (int)channels
     at: (uint64_t)timestamp;
-/**
- Signals that a capture cycle has ended without providing any data.
- */
+///
+/// Signals that a capture cycle has ended without providing any data.
+///
 - (void)newInputDone;
 @end
 #endif

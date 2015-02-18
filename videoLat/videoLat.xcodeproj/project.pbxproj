@@ -7,17 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		041714DD19DDEF340019FA45 /* NetworkProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 041714DC19DDEF340019FA45 /* NetworkProtocol.m */; };
 		044F3D7D183A46390008CBA3 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 044F3D7C183A46390008CBA3 /* AVFoundation.framework */; };
 		044F3D7F183A46540008CBA3 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 044F3D7E183A46540008CBA3 /* CoreMedia.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		044F3D81183A467F0008CBA3 /* libpython2.7.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 044F3D80183A467F0008CBA3 /* libpython2.7.dylib */; };
 		044F3D83183A469D0008CBA3 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 044F3D82183A469D0008CBA3 /* IOKit.framework */; };
 		044F3D85183A47170008CBA3 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 044F3D84183A47170008CBA3 /* QuartzCore.framework */; };
+		045AA71619E71BA400E28AED /* MasterSenderRun.xib in Resources */ = {isa = PBXBuildFile; fileRef = 045AA71519E71BA300E28AED /* MasterSenderRun.xib */; };
 		047DD1C2183A3B4C00A04F83 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 047DD1C1183A3B4C00A04F83 /* Cocoa.framework */; };
 		047DD1CC183A3B4D00A04F83 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 047DD1CA183A3B4D00A04F83 /* InfoPlist.strings */; };
 		047DD1CE183A3B4D00A04F83 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 047DD1CD183A3B4D00A04F83 /* main.m */; };
 		047DD1D2183A3B4D00A04F83 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 047DD1D0183A3B4D00A04F83 /* Credits.rtf */; };
 		047DD1D8183A3B4D00A04F83 /* Document.xib in Resources */ = {isa = PBXBuildFile; fileRef = 047DD1D6183A3B4D00A04F83 /* Document.xib */; };
 		047DD1DB183A3B4D00A04F83 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 047DD1D9183A3B4D00A04F83 /* MainMenu.xib */; };
+		048FB6F519FD21040023D29C /* HardwareDevices in Resources */ = {isa = PBXBuildFile; fileRef = 048FB6F419FD21040023D29C /* HardwareDevices */; };
 		049725DD18FD563E00625326 /* BaseRunManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 049725D518FD563E00625326 /* BaseRunManager.m */; };
 		049725DE18FD563E00625326 /* NewMeasurement.xib in Resources */ = {isa = PBXBuildFile; fileRef = 049725D618FD563E00625326 /* NewMeasurement.xib */; };
 		049725DF18FD563E00625326 /* RunCollector.m in Sources */ = {isa = PBXBuildFile; fileRef = 049725D818FD563E00625326 /* RunCollector.m */; };
@@ -26,14 +29,6 @@
 		049725E718FD568A00625326 /* HardwareOutputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 049725E318FD568A00625326 /* HardwareOutputView.m */; };
 		049725E818FD568A00625326 /* HardwareRunManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 049725E518FD568A00625326 /* HardwareRunManager.m */; };
 		049725E918FD568A00625326 /* HardwareRunManager.xib in Resources */ = {isa = PBXBuildFile; fileRef = 049725E618FD568A00625326 /* HardwareRunManager.xib */; };
-		049725EB18FD572300625326 /* LabJackDevice.py in Resources */ = {isa = PBXBuildFile; fileRef = 049725EA18FD572300625326 /* LabJackDevice.py */; };
-		049725F318FD573800625326 /* LabJackPython.py in Resources */ = {isa = PBXBuildFile; fileRef = 049725EC18FD573800625326 /* LabJackPython.py */; };
-		049725F418FD573800625326 /* Modbus.py in Resources */ = {isa = PBXBuildFile; fileRef = 049725ED18FD573800625326 /* Modbus.py */; };
-		049725F518FD573800625326 /* skymote.py in Resources */ = {isa = PBXBuildFile; fileRef = 049725EE18FD573800625326 /* skymote.py */; };
-		049725F618FD573800625326 /* u3.py in Resources */ = {isa = PBXBuildFile; fileRef = 049725EF18FD573800625326 /* u3.py */; };
-		049725F718FD573800625326 /* u6.py in Resources */ = {isa = PBXBuildFile; fileRef = 049725F018FD573800625326 /* u6.py */; };
-		049725F818FD573800625326 /* u12.py in Resources */ = {isa = PBXBuildFile; fileRef = 049725F118FD573800625326 /* u12.py */; };
-		049725F918FD573800625326 /* ue9.py in Resources */ = {isa = PBXBuildFile; fileRef = 049725F218FD573800625326 /* ue9.py */; };
 		0497260918FD580300625326 /* findQRcodes.mm in Sources */ = {isa = PBXBuildFile; fileRef = 049725FD18FD580300625326 /* findQRcodes.mm */; };
 		0497260A18FD580300625326 /* genQRcodes.m in Sources */ = {isa = PBXBuildFile; fileRef = 049725FF18FD580300625326 /* genQRcodes.m */; };
 		0497260B18FD580300625326 /* VideoInput.m in Sources */ = {isa = PBXBuildFile; fileRef = 0497260118FD580300625326 /* VideoInput.m */; };
@@ -67,18 +62,30 @@
 		04B58F2A183A3D3000360A61 /* appDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B58F1E183A3D3000360A61 /* appDelegate.m */; };
 		04B58F39183A3D5300360A61 /* libzbar.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 04B58F37183A3D5300360A61 /* libzbar.0.dylib */; };
 		04B58F3A183A3D5300360A61 /* libzint.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 04B58F38183A3D5300360A61 /* libzint.dylib */; };
+		04B6A69E19ED63C300E1E3B6 /* ScreenToHardwareRunManager.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04B6A69D19ED63C300E1E3B6 /* ScreenToHardwareRunManager.xib */; };
+		04D411121A02CABC009AFEED /* CalibrateScreenFromCameraRunManager.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04D411101A02CABC009AFEED /* CalibrateScreenFromCameraRunManager.xib */; };
+		04D411131A02CABC009AFEED /* CalibrateCameraFromScreenRunManager.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04D411111A02CABC009AFEED /* CalibrateCameraFromScreenRunManager.xib */; };
 		04DC70C8185B57EB005110A5 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04DC70C7185B57EB005110A5 /* CoreLocation.framework */; };
 		04DCC18918664C8E00592A1F /* PythonLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DCC18818664C8E00592A1F /* PythonLoader.m */; };
+		04DE78C81A11759A002BA654 /* HardwareSelectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DE78C71A11759A002BA654 /* HardwareSelectionView.m */; };
 		04E4586B18FEB39C005712F6 /* AudioProcess.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E4586A18FEB39C005712F6 /* AudioProcess.m */; };
+		04EEC1CC19DC4C5E0056899C /* SlaveReceiverRun.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04EEC1CB19DC4C5E0056899C /* SlaveReceiverRun.xib */; };
+		04EEC1D019DC4D9E0056899C /* NetworkOutputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04EEC1CF19DC4D9E0056899C /* NetworkOutputView.m */; };
+		04EEC1D719DC8E2E0056899C /* NetworkInput.m in Sources */ = {isa = PBXBuildFile; fileRef = 04EEC1D219DC8E2E0056899C /* NetworkInput.m */; };
+		04EEC1D919DC8E2E0056899C /* NetworkSelectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04EEC1D619DC8E2E0056899C /* NetworkSelectionView.m */; };
+		04EEC1DC19DC93A70056899C /* NetworkRunManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 04EEC1DB19DC93A70056899C /* NetworkRunManager.m */; };
 		04FFDF94185A6FAE00B1CCCC /* videoLat.help in Resources */ = {isa = PBXBuildFile; fileRef = 04FFDF93185A6FAE00B1CCCC /* videoLat.help */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		041714DB19DDECBE0019FA45 /* NetworkProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NetworkProtocol.h; path = Networking/NetworkProtocol.h; sourceTree = "<group>"; };
+		041714DC19DDEF340019FA45 /* NetworkProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NetworkProtocol.m; path = Networking/NetworkProtocol.m; sourceTree = "<group>"; };
 		044F3D7C183A46390008CBA3 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = /System/Library/Frameworks/AVFoundation.framework; sourceTree = "<absolute>"; };
 		044F3D7E183A46540008CBA3 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = ../../../../System/Library/Frameworks/CoreMedia.framework; sourceTree = "<group>"; };
 		044F3D80183A467F0008CBA3 /* libpython2.7.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libpython2.7.dylib; path = ../../../../System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/config/libpython2.7.dylib; sourceTree = "<group>"; };
 		044F3D82183A469D0008CBA3 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = ../../../../System/Library/Frameworks/IOKit.framework; sourceTree = "<group>"; };
 		044F3D84183A47170008CBA3 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = ../../../../System/Library/Frameworks/QuartzCore.framework; sourceTree = "<group>"; };
+		045AA71519E71BA300E28AED /* MasterSenderRun.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MasterSenderRun.xib; path = MasterSenderRun/MasterSenderRun.xib; sourceTree = "<group>"; };
 		047DD1BD183A3B4C00A04F83 /* videoLat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = videoLat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		047DD1C1183A3B4C00A04F83 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		047DD1C4183A3B4C00A04F83 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -92,6 +99,7 @@
 		047DD1D7183A3B4D00A04F83 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/Document.xib; sourceTree = "<group>"; };
 		047DD1DA183A3B4D00A04F83 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		048224A719256E91009BD255 /* videoLat.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = videoLat.entitlements; sourceTree = "<group>"; };
+		048FB6F419FD21040023D29C /* HardwareDevices */ = {isa = PBXFileReference; lastKnownFileType = folder; path = HardwareDevices; sourceTree = "<group>"; };
 		049725D418FD563E00625326 /* BaseRunManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BaseRunManager.h; path = MeasurementRun/BaseRunManager.h; sourceTree = "<group>"; };
 		049725D518FD563E00625326 /* BaseRunManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BaseRunManager.m; path = MeasurementRun/BaseRunManager.m; sourceTree = "<group>"; };
 		049725D618FD563E00625326 /* NewMeasurement.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = NewMeasurement.xib; path = MeasurementRun/NewMeasurement.xib; sourceTree = "<group>"; };
@@ -106,14 +114,6 @@
 		049725E418FD568A00625326 /* HardwareRunManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HardwareRunManager.h; path = HardwareRun/HardwareRunManager.h; sourceTree = "<group>"; };
 		049725E518FD568A00625326 /* HardwareRunManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HardwareRunManager.m; path = HardwareRun/HardwareRunManager.m; sourceTree = "<group>"; };
 		049725E618FD568A00625326 /* HardwareRunManager.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = HardwareRunManager.xib; path = HardwareRun/HardwareRunManager.xib; sourceTree = "<group>"; };
-		049725EA18FD572300625326 /* LabJackDevice.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; name = LabJackDevice.py; path = LabJack/LabJackDevice.py; sourceTree = "<group>"; };
-		049725EC18FD573800625326 /* LabJackPython.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; name = LabJackPython.py; path = LabJack/pylabjack/LabJackPython.py; sourceTree = "<group>"; };
-		049725ED18FD573800625326 /* Modbus.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; name = Modbus.py; path = LabJack/pylabjack/Modbus.py; sourceTree = "<group>"; };
-		049725EE18FD573800625326 /* skymote.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; name = skymote.py; path = LabJack/pylabjack/skymote.py; sourceTree = "<group>"; };
-		049725EF18FD573800625326 /* u3.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; name = u3.py; path = LabJack/pylabjack/u3.py; sourceTree = "<group>"; };
-		049725F018FD573800625326 /* u6.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; name = u6.py; path = LabJack/pylabjack/u6.py; sourceTree = "<group>"; };
-		049725F118FD573800625326 /* u12.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; name = u12.py; path = LabJack/pylabjack/u12.py; sourceTree = "<group>"; };
-		049725F218FD573800625326 /* ue9.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; name = ue9.py; path = LabJack/pylabjack/ue9.py; sourceTree = "<group>"; };
 		049725FC18FD580300625326 /* findQRcodes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = findQRcodes.h; path = VideoRun/findQRcodes.h; sourceTree = "<group>"; };
 		049725FD18FD580300625326 /* findQRcodes.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = findQRcodes.mm; path = VideoRun/findQRcodes.mm; sourceTree = "<group>"; };
 		049725FE18FD580300625326 /* genQRcodes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = genQRcodes.h; path = VideoRun/genQRcodes.h; sourceTree = "<group>"; };
@@ -170,11 +170,25 @@
 		04B58F1E183A3D3000360A61 /* appDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = appDelegate.m; sourceTree = "<group>"; };
 		04B58F37183A3D5300360A61 /* libzbar.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libzbar.0.dylib; path = thirdParty/installed/lib/libzbar.0.dylib; sourceTree = "<group>"; };
 		04B58F38183A3D5300360A61 /* libzint.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libzint.dylib; path = thirdParty/installed/lib/libzint.dylib; sourceTree = "<group>"; };
+		04B6A69D19ED63C300E1E3B6 /* ScreenToHardwareRunManager.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ScreenToHardwareRunManager.xib; path = MixedRun/ScreenToHardwareRunManager.xib; sourceTree = "<group>"; };
+		04D411101A02CABC009AFEED /* CalibrateScreenFromCameraRunManager.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CalibrateScreenFromCameraRunManager.xib; path = VideoMonoRun/CalibrateScreenFromCameraRunManager.xib; sourceTree = "<group>"; };
+		04D411111A02CABC009AFEED /* CalibrateCameraFromScreenRunManager.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CalibrateCameraFromScreenRunManager.xib; path = VideoMonoRun/CalibrateCameraFromScreenRunManager.xib; sourceTree = "<group>"; };
 		04DC70C7185B57EB005110A5 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = ../../../../System/Library/Frameworks/CoreLocation.framework; sourceTree = "<group>"; };
 		04DCC18718664C8E00592A1F /* PythonLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PythonLoader.h; sourceTree = "<group>"; };
 		04DCC18818664C8E00592A1F /* PythonLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PythonLoader.m; sourceTree = "<group>"; };
+		04DE78C61A11759A002BA654 /* HardwareSelectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HardwareSelectionView.h; path = HardwareRun/HardwareSelectionView.h; sourceTree = "<group>"; };
+		04DE78C71A11759A002BA654 /* HardwareSelectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HardwareSelectionView.m; path = HardwareRun/HardwareSelectionView.m; sourceTree = "<group>"; };
 		04E4586818FEAEAD005712F6 /* AudioProcess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioProcess.h; path = AudioRun/AudioProcess.h; sourceTree = "<group>"; };
 		04E4586A18FEB39C005712F6 /* AudioProcess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AudioProcess.m; path = AudioRun/AudioProcess.m; sourceTree = "<group>"; };
+		04EEC1CB19DC4C5E0056899C /* SlaveReceiverRun.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SlaveReceiverRun.xib; path = SlaveReceiverRun/SlaveReceiverRun.xib; sourceTree = "<group>"; };
+		04EEC1CE19DC4D9E0056899C /* NetworkOutputView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NetworkOutputView.h; path = Networking/NetworkOutputView.h; sourceTree = "<group>"; };
+		04EEC1CF19DC4D9E0056899C /* NetworkOutputView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NetworkOutputView.m; path = Networking/NetworkOutputView.m; sourceTree = "<group>"; };
+		04EEC1D119DC8E2E0056899C /* NetworkInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NetworkInput.h; path = Networking/NetworkInput.h; sourceTree = "<group>"; };
+		04EEC1D219DC8E2E0056899C /* NetworkInput.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NetworkInput.m; path = Networking/NetworkInput.m; sourceTree = "<group>"; };
+		04EEC1D519DC8E2E0056899C /* NetworkSelectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NetworkSelectionView.h; path = Networking/NetworkSelectionView.h; sourceTree = "<group>"; };
+		04EEC1D619DC8E2E0056899C /* NetworkSelectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NetworkSelectionView.m; path = Networking/NetworkSelectionView.m; sourceTree = "<group>"; };
+		04EEC1DA19DC93A70056899C /* NetworkRunManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NetworkRunManager.h; path = Networking/NetworkRunManager.h; sourceTree = "<group>"; };
+		04EEC1DB19DC93A70056899C /* NetworkRunManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NetworkRunManager.m; path = Networking/NetworkRunManager.m; sourceTree = "<group>"; };
 		04FFDF93185A6FAE00B1CCCC /* videoLat.help */ = {isa = PBXFileReference; lastKnownFileType = folder; path = videoLat.help; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
@@ -236,6 +250,9 @@
 				0412725618731D4B00CB014F /* MixedRun */,
 				049903E718F94BD600085C91 /* AudioRun */,
 				04A9C14619216E300016E6C0 /* AudioCalibrationRun */,
+				04EEC1C919DC4B8F0056899C /* MasterSenderRun */,
+				04EEC1CA19DC4BCE0056899C /* SlaveReceiverRun */,
+				04EEC1CD19DC4D1A0056899C /* Networking */,
 			);
 			name = MeasurementRun;
 			sourceTree = "<group>";
@@ -264,6 +281,7 @@
 			isa = PBXGroup;
 			children = (
 				0497261A18FD585600625326 /* HardwareToCameraRunManager.xib */,
+				04B6A69D19ED63C300E1E3B6 /* ScreenToHardwareRunManager.xib */,
 			);
 			name = MixedRun;
 			sourceTree = "<group>";
@@ -354,6 +372,8 @@
 				0497261018FD581700625326 /* VideoMonoRunManager.h */,
 				0497261118FD581700625326 /* VideoMonoRunManager.m */,
 				0497261218FD581700625326 /* VideoMonoRunManager.xib */,
+				04D411101A02CABC009AFEED /* CalibrateScreenFromCameraRunManager.xib */,
+				04D411111A02CABC009AFEED /* CalibrateCameraFromScreenRunManager.xib */,
 			);
 			name = VideoMonoRun;
 			sourceTree = "<group>";
@@ -397,21 +417,6 @@
 			name = AudioCalibrationRun;
 			sourceTree = "<group>";
 		};
-		04B173F31869AB6E00A3DA9A /* LabJack */ = {
-			isa = PBXGroup;
-			children = (
-				049725EA18FD572300625326 /* LabJackDevice.py */,
-				049725EC18FD573800625326 /* LabJackPython.py */,
-				049725ED18FD573800625326 /* Modbus.py */,
-				049725EE18FD573800625326 /* skymote.py */,
-				049725EF18FD573800625326 /* u3.py */,
-				049725F018FD573800625326 /* u6.py */,
-				049725F118FD573800625326 /* u12.py */,
-				049725F218FD573800625326 /* ue9.py */,
-			);
-			name = LabJack;
-			sourceTree = "<group>";
-		};
 		04B1914F19D2ECA4001ABA66 /* Documentation */ = {
 			isa = PBXGroup;
 			children = (
@@ -432,14 +437,49 @@
 		04DCC18C1867913800592A1F /* HardwareRun */ = {
 			isa = PBXGroup;
 			children = (
-				04B173F31869AB6E00A3DA9A /* LabJack */,
+				048FB6F419FD21040023D29C /* HardwareDevices */,
 				049725E218FD568A00625326 /* HardwareOutputView.h */,
 				049725E318FD568A00625326 /* HardwareOutputView.m */,
 				049725E418FD568A00625326 /* HardwareRunManager.h */,
 				049725E518FD568A00625326 /* HardwareRunManager.m */,
 				049725E618FD568A00625326 /* HardwareRunManager.xib */,
+				04DE78C61A11759A002BA654 /* HardwareSelectionView.h */,
+				04DE78C71A11759A002BA654 /* HardwareSelectionView.m */,
 			);
 			name = HardwareRun;
+			sourceTree = "<group>";
+		};
+		04EEC1C919DC4B8F0056899C /* MasterSenderRun */ = {
+			isa = PBXGroup;
+			children = (
+				045AA71519E71BA300E28AED /* MasterSenderRun.xib */,
+			);
+			name = MasterSenderRun;
+			sourceTree = "<group>";
+		};
+		04EEC1CA19DC4BCE0056899C /* SlaveReceiverRun */ = {
+			isa = PBXGroup;
+			children = (
+				04EEC1CB19DC4C5E0056899C /* SlaveReceiverRun.xib */,
+			);
+			name = SlaveReceiverRun;
+			sourceTree = "<group>";
+		};
+		04EEC1CD19DC4D1A0056899C /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				04EEC1D119DC8E2E0056899C /* NetworkInput.h */,
+				04EEC1D219DC8E2E0056899C /* NetworkInput.m */,
+				04EEC1CE19DC4D9E0056899C /* NetworkOutputView.h */,
+				04EEC1CF19DC4D9E0056899C /* NetworkOutputView.m */,
+				041714DB19DDECBE0019FA45 /* NetworkProtocol.h */,
+				041714DC19DDEF340019FA45 /* NetworkProtocol.m */,
+				04EEC1DA19DC93A70056899C /* NetworkRunManager.h */,
+				04EEC1DB19DC93A70056899C /* NetworkRunManager.m */,
+				04EEC1D519DC8E2E0056899C /* NetworkSelectionView.h */,
+				04EEC1D619DC8E2E0056899C /* NetworkSelectionView.m */,
+			);
+			name = Networking;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -526,10 +566,13 @@
 			files = (
 				047DD1CC183A3B4D00A04F83 /* InfoPlist.strings in Resources */,
 				047DD1D2183A3B4D00A04F83 /* Credits.rtf in Resources */,
+				04EEC1CC19DC4C5E0056899C /* SlaveReceiverRun.xib in Resources */,
 				0497264418FD5E5F00625326 /* sounds in Resources */,
 				049725DE18FD563E00625326 /* NewMeasurement.xib in Resources */,
+				045AA71619E71BA400E28AED /* MasterSenderRun.xib in Resources */,
 				0497260E18FD580300625326 /* VideoRunManager.xib in Resources */,
-				049725F918FD573800625326 /* ue9.py in Resources */,
+				04B6A69E19ED63C300E1E3B6 /* ScreenToHardwareRunManager.xib in Resources */,
+				04D411121A02CABC009AFEED /* CalibrateScreenFromCameraRunManager.xib in Resources */,
 				0497264218FD5BDA00625326 /* icon.icns in Resources */,
 				049725E918FD568A00625326 /* HardwareRunManager.xib in Resources */,
 				0497264118FD5BDA00625326 /* docicon.icns in Resources */,
@@ -537,18 +580,13 @@
 				047DD1D8183A3B4D00A04F83 /* Document.xib in Resources */,
 				0497261418FD581700625326 /* VideoMonoRunManager.xib in Resources */,
 				0497261B18FD585600625326 /* HardwareToCameraRunManager.xib in Resources */,
-				049725F318FD573800625326 /* LabJackPython.py in Resources */,
-				049725F418FD573800625326 /* Modbus.py in Resources */,
 				04B1915119D2ECBC001ABA66 /* Doxyfile in Resources */,
-				049725F818FD573800625326 /* u12.py in Resources */,
 				0497261918FD582600625326 /* VideoCalibrationRunManager.xib in Resources */,
+				04D411131A02CABC009AFEED /* CalibrateCameraFromScreenRunManager.xib in Resources */,
 				04A9C14819216EB70016E6C0 /* AudioCalibrationRunManager.xib in Resources */,
-				049725F518FD573800625326 /* skymote.py in Resources */,
+				048FB6F519FD21040023D29C /* HardwareDevices in Resources */,
 				04FFDF94185A6FAE00B1CCCC /* videoLat.help in Resources */,
-				049725F618FD573800625326 /* u3.py in Resources */,
 				047DD1DB183A3B4D00A04F83 /* MainMenu.xib in Resources */,
-				049725EB18FD572300625326 /* LabJackDevice.py in Resources */,
-				049725F718FD573800625326 /* u6.py in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -579,21 +617,26 @@
 				0497262518FD589300625326 /* AudioInput.m in Sources */,
 				047DD1CE183A3B4D00A04F83 /* main.m in Sources */,
 				0497263B18FD592C00625326 /* MeasurementDistribution.m in Sources */,
+				04EEC1D719DC8E2E0056899C /* NetworkInput.m in Sources */,
 				0497262918FD589300625326 /* AudioSelectionView.m in Sources */,
+				04DE78C81A11759A002BA654 /* HardwareSelectionView.m in Sources */,
 				0497262718FD589300625326 /* AudioRunManager.m in Sources */,
 				0497263818FD592C00625326 /* DocumentView.m in Sources */,
 				049725E018FD563E00625326 /* RunStatusView.m in Sources */,
 				0497260A18FD580300625326 /* genQRcodes.m in Sources */,
+				04EEC1D019DC4D9E0056899C /* NetworkOutputView.m in Sources */,
 				04B58F2A183A3D3000360A61 /* appDelegate.m in Sources */,
 				049725E818FD568A00625326 /* HardwareRunManager.m in Sources */,
 				0497260918FD580300625326 /* findQRcodes.mm in Sources */,
 				049725DD18FD563E00625326 /* BaseRunManager.m in Sources */,
+				041714DD19DDEF340019FA45 /* NetworkProtocol.m in Sources */,
 				0497261318FD581700625326 /* VideoMonoRunManager.m in Sources */,
 				049725E718FD568A00625326 /* HardwareOutputView.m in Sources */,
 				0497263718FD592C00625326 /* DocumentDescriptionView.m in Sources */,
 				0497260C18FD580300625326 /* VideoOutputView.m in Sources */,
 				0497263918FD592C00625326 /* GraphView.m in Sources */,
 				0497263E18FD596F00625326 /* MeasurementType.m in Sources */,
+				04EEC1DC19DC93A70056899C /* NetworkRunManager.m in Sources */,
 				04DCC18918664C8E00592A1F /* PythonLoader.m in Sources */,
 				049725DF18FD563E00625326 /* RunCollector.m in Sources */,
 				0497260B18FD580300625326 /* VideoInput.m in Sources */,
@@ -601,6 +644,7 @@
 				0497260F18FD580300625326 /* VideoSelectionView.m in Sources */,
 				0497263A18FD592C00625326 /* MeasurementDataStore.m in Sources */,
 				0497261818FD582600625326 /* VideoCalibrationRunManager.m in Sources */,
+				04EEC1D919DC8E2E0056899C /* NetworkSelectionView.m in Sources */,
 				0497260D18FD580300625326 /* VideoRunManager.m in Sources */,
 				049725E118FD563E00625326 /* RunTypeView.m in Sources */,
 				0497262618FD589300625326 /* AudioOutputView.m in Sources */,
@@ -673,7 +717,7 @@
 				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx;
 				USER_HEADER_SEARCH_PATHS = thirdParty/installed/include;
-				VIDEOLAT_VERSION = 1.0.2;
+				VIDEOLAT_VERSION = 1.1.1;
 			};
 			name = Distribution;
 		};
@@ -729,7 +773,7 @@
 				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx;
 				USER_HEADER_SEARCH_PATHS = thirdParty/installed/include;
-				VIDEOLAT_VERSION = 1.0.2;
+				VIDEOLAT_VERSION = 1.1.1;
 			};
 			name = Debug;
 		};
@@ -757,7 +801,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				SDKROOT = macosx;
 				USER_HEADER_SEARCH_PATHS = thirdParty/installed/include;
-				VIDEOLAT_VERSION = 1.0.2;
+				VIDEOLAT_VERSION = 1.1.1;
 			};
 			name = Release;
 		};

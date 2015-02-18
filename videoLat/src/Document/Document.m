@@ -67,7 +67,7 @@
 			ok = [NSBundle loadNibNamed:@"NewMeasurement" owner:self];
 			objectsForNewDocument = [[NSMutableArray alloc] init];
 		}
-        if (1 || VL_DEBUG) NSLog(@"Loaded NewMeasurement: %d, objects %@, window %@ controller %@\n", (int)ok, objectsForNewDocument, self.measurementWindow, self.measurementWindow.windowController);
+        if (VL_DEBUG) NSLog(@"Loaded NewMeasurement: %d, objects %@, window %@ controller %@\n", (int)ok, objectsForNewDocument, self.measurementWindow, self.measurementWindow.windowController);
         if (!ok) {
             if (outError)
                 *outError = [[NSError alloc] initWithDomain:@"VideoLat" code:NSFileReadNoSuchFileError
@@ -157,7 +157,7 @@
 
 - (void)_setCalibrationFileName
 {
-    NSString *fileName = [NSString stringWithFormat: @"%@-%@-%@-%@", self.dataStore.measurementType, self.dataStore.machine, self.dataStore.outputDevice, self.dataStore.inputDevice];
+    NSString *fileName = [NSString stringWithFormat: @"%@-%@-%@-%@.vlCalibration", self.dataStore.measurementType, self.dataStore.machine, self.dataStore.outputDevice, self.dataStore.inputDevice];
     NSURL *dirUrl = [(appDelegate *)[[NSApplication sharedApplication] delegate] directoryForCalibrations];
     NSURL *fileUrl = [NSURL URLWithString:[fileName stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] relativeToURL:dirUrl];
     [self setFileURL: fileUrl];
@@ -169,11 +169,12 @@
 {
     if (myType.isCalibration) {
         NSURL *dirUrl = [(appDelegate *)[[NSApplication sharedApplication] delegate] directoryForCalibrations];
-        NSLog(@"prepareSavePanel, directory was %@", [panel directoryURL]);
+        if (VL_DEBUG) NSLog(@"prepareSavePanel, directory was %@", [panel directoryURL]);
         [panel setDirectoryURL:dirUrl];
-        NSLog(@"prepareSavePanel, directory is now %@", [panel directoryURL]);
+        if (VL_DEBUG) NSLog(@"prepareSavePanel, directory is now %@", [panel directoryURL]);
         [panel setNameFieldStringValue:[self displayName]];
     }
+    // XXXX Otherwise we should set it back to the original value (or do this after calibration save finishes?)
     return YES;
 }
 
