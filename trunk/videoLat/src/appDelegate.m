@@ -13,6 +13,7 @@
 #import "HardwareRunManager.h"
 #import "AudioRunManager.h"
 #import "AudioCalibrationRunManager.h"
+#import "NetworkRunManager.h"
 
 @implementation appDelegate
 @synthesize measurementTypes;
@@ -27,20 +28,15 @@
 	[self _loadCalibrationsFrom:url];
     
     // Initialize run manager classes. Should be done differently.
-#if 0
-    [VideoRunManager initialize];
-    [VideoCalibrationRunManager initialize];
-	[VideoMonoRunManager initialize];
-    [HardwareRunManager initialize];
-#else
     [VideoRunManager class];
     [VideoCalibrationRunManager class];
 	[VideoMonoRunManager class];
     [HardwareRunManager class];
     [AudioRunManager class];
     [AudioCalibrationRunManager class];
-#endif
-	// Initialize location manager stuff
+    [NetworkRunManager class];
+
+    // Initialize location manager stuff
 	self.location = @"Unknown location";
 	self.locationManager = [[CLLocationManager alloc] init];
 	self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
@@ -66,7 +62,7 @@
 		[alert runModal];
 		return nil;
 	}
-    NSLog(@"directoryForCalibrations is %@", url);
+    if (VL_DEBUG) NSLog(@"directoryForCalibrations is %@", url);
 	return url;
 }
 
@@ -101,7 +97,7 @@
 
 - (BOOL)_loadCalibration: (NSURL *)url error: (NSError **)outError
 {
-    NSLog(@"loading calibration from %@\n", url);
+    if (VL_DEBUG) NSLog(@"loading calibration from %@\n", url);
 	NSData *data = [NSData dataWithContentsOfURL: url];
     NSMutableDictionary *dict = [NSKeyedUnarchiver unarchiveObjectWithData: data];
     NSString *str;
@@ -143,4 +139,24 @@
 	self.location = newLocation.description;
 }
 
+- (IBAction)openHardwareFolder:(id)sender
+{
+    [[NSWorkspace sharedWorkspace] openURL: [self hardwareFolder]];
+}
+
+- (NSArray *)hardwareNames
+{
+    // We should dynamically determine this, but I am too lazy for now...
+    return @[
+             @"Arduino",
+             @"LabJack"
+             ];
+}
+
+- (NSURL *)hardwareFolder
+{
+    NSBundle *bundle = [NSBundle mainBundle];
+    NSURL *url = [bundle URLForResource:@"HardwareDevices" withExtension: nil];
+    return url;
+}
 @end

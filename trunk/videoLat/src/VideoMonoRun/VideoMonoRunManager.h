@@ -15,12 +15,16 @@
 /// changes are made through the NIB file. Compatible with HardwareRunManager.
 ///
 @interface VideoMonoRunManager : VideoRunManager {
-    bool currentColorIsWhite;   //!< Internal: true when we are displaying white
     // Black/white detection
-    int blacklevel;             //!< Internal: darkest color seen during prerun
-    int whitelevel;             //!< Internal: lightest color seen during prerun
+    int minInputLevel;             //!< Internal: darkest color seen during prerun
+    int maxInputLevel;             //!< Internal: lightest color seen during prerun
     NSRect sensitiveArea;       //!< Internal: where we look for black/white in the input signal.
 }
+
+@property(weak) IBOutlet NSButton *bInputValue;             //!< UI element: feedback on light/no light detected
+@property(weak) IBOutlet NSTextField *bInputNumericValue;   //!< UI element: feedback on analog input received
+@property(weak) IBOutlet NSTextField *bInputNumericMinValue;   //!< UI element: feedback on analog input received
+@property(weak) IBOutlet NSTextField *bInputNumericMaxValue;   //!< UI element: feedback on analog input received
 
 + (void)initialize;
 - (VideoMonoRunManager *)init;

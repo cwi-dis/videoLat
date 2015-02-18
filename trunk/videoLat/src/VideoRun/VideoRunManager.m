@@ -1,5 +1,5 @@
 //
-//  OutputManager.m
+//  VideoRunManager.m
 //
 //  Created by Jack Jansen on 27-08-10.
 //  Copyright 2010-2014 Centrum voor Wiskunde en Informatica. Licensed under GPL3.
@@ -13,16 +13,20 @@
 //
 // Prerun parameters.
 // We want 10 consecutive catches, and we initially start with a 1ms delay (doubled at every failure)
-#define PRERUN_COUNT 10
-#define PRERUN_INITIAL_DELAY 1000
 
 @implementation VideoRunManager
 @synthesize mirrored;
+- (int) initialPrerunCount { return 10; }
+- (int) initialPrerunDelay { return 1000; }
 
 + (void) initialize
 {
     [BaseRunManager registerClass: [self class] forMeasurementType: @"Video Roundtrip"];
     [BaseRunManager registerNib: @"VideoRunManager" forMeasurementType: @"Video Roundtrip"];
+    // We also register ourselves for send-only, as a slave. At the very least we must make
+    // sure the nibfile is registered...
+    [BaseRunManager registerClass: [self class] forMeasurementType: @"Video Transmission (Master/Server)"];
+    [BaseRunManager registerNib: @"MasterSenderRun" forMeasurementType: @"Video Transmission (Master/Server)"];
 }
 
 - (VideoRunManager*)init
@@ -66,48 +70,6 @@
 	[self terminate];
 }
 
-- (void)restart
-{
-	@synchronized(self) {
-		if (measurementType == nil) return;
-		if (!self.selectionView) {
-			// XXXJACK Make sure selectionView is active/visible
-		}
-		if (measurementType.requires == nil) {
-			[self.selectionView.bBase setEnabled:NO];
-			[self.selectionView.bPreRun setEnabled: YES];
-		} else {
-			NSArray *calibrationNames = measurementType.requires.measurementNames;
-            [self.selectionView.bBase removeAllItems];
-			[self.selectionView.bBase addItemsWithTitles:calibrationNames];
-            if ([self.selectionView.bBase numberOfItems])
-                [self.selectionView.bBase selectItemAtIndex:0];
-			[self.selectionView.bBase setEnabled:YES];
-
-			if ([self.selectionView.bBase selectedItem]) {
-				[self.selectionView.bPreRun setEnabled: YES];
-			} else {
-				[self.selectionView.bPreRun setEnabled: NO];
-				NSAlert *alert = [NSAlert alertWithMessageText:@"No calibrations available."
-					defaultButton:@"OK"
-					alternateButton:nil
-					otherButton:nil
-					informativeTextWithFormat:@"\"%@\" measurements should be based on a \"%@\" calibration. Please calibrate first.",
-						measurementType.name,
-						measurementType.requires.name
-					];
-				[alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
-			}
-		}
-		self.preRunning = NO;
-		self.running = NO;
-		[self.selectionView.bRun setEnabled: NO];
-		if (self.statusView) {
-			[self.statusView.bStop setEnabled: NO];
-		}
-	}
-}
-
 - (void)triggerNewOutputValue
 {
 	prerunOutputStartTime = 0;
@@ -117,98 +79,7 @@
 	[self.outputView performSelectorOnMainThread:@selector(showNewData) withObject:nil waitUntilDone:NO ];
 }
 
-- (IBAction)startPreMeasuring: (id)sender
-{
-	@synchronized(self) {
-		// First check that everything is OK with base measurement and such
-		if (measurementType.requires != nil) {
-			// First check that a base measurement has been selected.
-			NSString *errorMessage;
-			NSMenuItem *baseItem = [self.selectionView.bBase selectedItem];
-			NSString *baseName = [baseItem title];
-			MeasurementType *baseType = measurementType.requires;
-			MeasurementDataStore *baseStore = [baseType measurementNamed: baseName];
-			if (baseType == nil) {
-				errorMessage = @"No base (calibration) measurement selected.";
-			} else {
-				// Check that the base measurement is compatible with this measurement,
-				char hwName_c[100] = "unknown";
-				size_t len = sizeof(hwName_c);
-				sysctlbyname("hw.model", hwName_c, &len, NULL, 0);
-				NSString *hwName = [NSString stringWithUTF8String:hwName_c];
-				// For all runs (calibration and non-calibration) the hardware platform should match the one in the calibration run
-				if (![baseStore.machineID isEqualToString:hwName]) {
-					errorMessage = [NSString stringWithFormat:@"Base measurement done on %@, current hardware is %@", baseStore.machine, hwName];
-				}
-				if (!measurementType.isCalibration) {
-					// For non-calibration runs the input device should match the device in the calibration run
-					if (![baseStore.inputDeviceID isEqualToString:self.capturer.deviceID]) {
-						errorMessage = [NSString stringWithFormat:@"Base measurement uses input %@, current measurement uses %@", baseStore.inputDevice, self.capturer.deviceName];
-					}
-				}
-				// For all runs (calibration and non-calibration) the output device should match the one in the calibration run
-				if (![baseStore.outputDeviceID isEqualToString:self.outputView.deviceID]) {
-					errorMessage = [NSString stringWithFormat:@"Base measurement uses output %@, current measurement uses %@", baseStore.outputDevice, self.outputView.deviceName];
-				}
-			}
-			if (errorMessage) {
-				NSAlert *alert = [NSAlert alertWithMessageText: @"Base calibration mismatch, are you sure you want to continue?"
-					defaultButton:@"Cancel"
-					alternateButton:@"Continue"
-					otherButton:nil
-					informativeTextWithFormat:@"%@", errorMessage];
-				NSInteger button = [alert runModal];
-				if (button == NSAlertDefaultReturn)
-					return;
-			}
-			[self.collector.dataStore useCalibration:baseStore];
-				
-		}
-		[self.selectionView.bPreRun setEnabled: NO];
-		[self.selectionView.bRun setEnabled: NO];
-		if (self.statusView) {
-			[self.statusView.bStop setEnabled: NO];
-		}
-		// Do actual prerunning
-		prerunDelay = PRERUN_INITIAL_DELAY; // Start with 1ms delay (ridiculously low)
-		prerunMoreNeeded = PRERUN_COUNT;
-		self.preRunning = YES;
-		[self.capturer startCapturing: YES];
-		self.outputView.mirrored = self.mirrored;
-		[self.outputCompanion triggerNewOutputValue];
-	}
-}
 
-- (IBAction)stopPreMeasuring: (id)sender
-{
-	@synchronized(self) {
-		self.preRunning = NO;
-		[self.capturer stopCapturing];
-		[self.selectionView.bPreRun setEnabled: NO];
-		[self.selectionView.bRun setEnabled: YES];
-		if (!self.statusView) {
-			// XXXJACK Make sure statusview is active/visible
-		}
-		[self.statusView.bStop setEnabled: NO];
-	}
-}
-
-- (IBAction)startMeasuring: (id)sender
-{
-    @synchronized(self) {
-		[self.selectionView.bPreRun setEnabled: NO];
-		[self.selectionView.bRun setEnabled: NO];
-		if (!self.statusView) {
-			// XXXJACK Make sure statusview is active/visible
-		}
-		[self.statusView.bStop setEnabled: YES];
-        self.running = YES;
-        [self.capturer startCapturing: NO];
-        [self.collector startCollecting: self.measurementType.name input: self.capturer.deviceID name: self.capturer.deviceName output: self.outputView.deviceID name: self.outputView.deviceName];
-        self.outputView.mirrored = self.mirrored;
-        [self.outputCompanion triggerNewOutputValue];
-    }
-}
 #pragma mark MeasurementOutputManagerProtocol
 
 - (CIImage *)newOutputStart
@@ -245,13 +116,22 @@
             [alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
         }
         
-        // Generate the new output code
-        self.outputCode = [NSString stringWithFormat:@"%lld", outputStartTime];
+        // Generate the new output code. During preRunning, our input companion can
+        // supply the codes, if it wants to (the NetworkRunManager does this, so the
+        // codes contain the ip/port combination of the server)
+        self.outputCode = nil;
+        if (self.preRunning && [self.inputCompanion respondsToSelector:@selector(genPrerunCode)]) {
+            self.outputCode = [self.inputCompanion genPrerunCode];
+        }
+        if (self.outputCode == nil) {
+            self.outputCode = [NSString stringWithFormat:@"%lld", outputStartTime];
+        }
         if (VL_DEBUG) NSLog(@"New output code: %@", self.outputCode);
         int bpp = 4;
         CGSize size = {480, 480};
         char *bitmapdata = (char*)malloc(size.width*size.height*bpp);
         memset(bitmapdata, 0xf0, size.width*size.height*bpp);
+        assert(self.genner);
         [self.genner gen: bitmapdata width:size.width height:size.height code:[self.outputCode UTF8String]];
         NSData *data = [NSData dataWithBytesNoCopy:bitmapdata length:sizeof(bitmapdata) freeWhenDone: YES];
         outputCodeImage = [CIImage imageWithBitmapData:data bytesPerRow:bpp*size.width size:size format:kCIFormatARGB8 colorSpace:nil];
@@ -272,6 +152,12 @@
 }
 
 #pragma mark MeasurementInputManagerProtocol
+
+- (IBAction)startPreMeasuring: (id)sender
+{
+	[super startPreMeasuring: sender];
+	self.outputView.mirrored = self.mirrored;
+}
 
 - (void)setFinderRect: (NSRect)theRect
 {
@@ -325,11 +211,11 @@
 #if 1
     if (VL_DEBUG) NSLog(@"Prerun no reception\n");
     assert(self.preRunning);
-    if (prerunOutputStartTime != 0 && [self.clock now] - prerunOutputStartTime > prerunDelay) {
+    if (prerunOutputStartTime != 0 && [self.clock now] - prerunOutputStartTime > maxDelay) {
         // No data found within alotted time. Double the time, reset the count, change mirroring
-        if (VL_DEBUG) NSLog(@"outputStartTime=%llu, prerunDelay=%llu, mirrored=%d\n", outputStartTime, prerunDelay, self.mirrored);
-        prerunDelay *= 2;
-        prerunMoreNeeded = PRERUN_COUNT;
+        if (VL_DEBUG) NSLog(@"outputStartTime=%llu, prerunDelay=%llu, mirrored=%d\n", outputStartTime, maxDelay, self.mirrored);
+        maxDelay *= 2;
+        prerunMoreNeeded = self.initialPrerunCount;
         self.mirrored = !self.mirrored;
         self.outputView.mirrored = self.mirrored;
         self.statusView.detectCount = [NSString stringWithFormat: @"%d more, mirrored=%d", prerunMoreNeeded, (int)self.mirrored];
@@ -343,7 +229,7 @@
 - (void) _prerunRecordReception: (NSString *)code
 {
 #if 1
-    if (VL_DEBUG) NSLog(@"prerun reception %@\n", code);
+    if (1 || VL_DEBUG) NSLog(@"prerun reception %@\n", code);
     assert(self.preRunning);
     if (self.preRunning) {
         prerunMoreNeeded -= 1;

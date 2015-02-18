@@ -9,10 +9,11 @@
 #import "AudioRunManager.h"
 #import <sys/sysctl.h>
 
-#define PRERUN_COUNT 10
-#define PRERUN_INITIAL_DELAY 1000000
-
 @implementation AudioRunManager
+
+- (int) initialPrerunCount { return 10; }
+- (int) initialPrerunDelay { return 1000000; }
+
 + (void) initialize
 {
     [BaseRunManager registerClass: [self class] forMeasurementType: @"Audio Roundtrip"];
@@ -36,8 +37,8 @@
 		outputActive = NO;
 		foundCurrentSample = NO;
 		triggerOutputWhenDone = NO;
-		maxDelay = PRERUN_INITIAL_DELAY;
-		prerunMoreNeeded = PRERUN_COUNT;
+		maxDelay = 0;
+		prerunMoreNeeded = 0;
 	}
     return self;
 }
@@ -49,48 +50,6 @@
     self.collector = self.measurementMaster.collector;
 //    if (self.clock == nil) self.clock = self;
     [self restart];
-}
-
-- (void)restart
-{
-	@synchronized(self) {
-		if (measurementType == nil) return;
-		if (!self.selectionView) {
-			// XXXJACK Make sure selectionView is active/visible
-		}
-		if (measurementType.requires == nil) {
-			[self.selectionView.bBase setEnabled:NO];
-			[self.selectionView.bPreRun setEnabled: YES];
-		} else {
-			NSArray *calibrationNames = measurementType.requires.measurementNames;
-            [self.selectionView.bBase removeAllItems];
-			[self.selectionView.bBase addItemsWithTitles:calibrationNames];
-            if ([self.selectionView.bBase numberOfItems])
-                [self.selectionView.bBase selectItemAtIndex:0];
-			[self.selectionView.bBase setEnabled:YES];
-            
-			if ([self.selectionView.bBase selectedItem]) {
-				[self.selectionView.bPreRun setEnabled: YES];
-			} else {
-				[self.selectionView.bPreRun setEnabled: NO];
-				NSAlert *alert = [NSAlert alertWithMessageText:@"No calibrations available."
-                                                 defaultButton:@"OK"
-                                               alternateButton:nil
-                                                   otherButton:nil
-                                     informativeTextWithFormat:@"\"%@\" measurements should be based on a \"%@\" calibration. Please calibrate first.",
-                                  measurementType.name,
-                                  measurementType.requires.name
-                                  ];
-				[alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
-			}
-		}
-		self.preRunning = NO;
-		self.running = NO;
-		[self.selectionView.bRun setEnabled: NO];
-		if (self.statusView) {
-			[self.statusView.bStop setEnabled: NO];
-		}
-	}
 }
 
 #if 0
@@ -115,13 +74,14 @@
 - (IBAction)startPreMeasuring: (id)sender
 {
 	@synchronized(self) {
+        assert(handlesInput);
 		// First check that everything is OK with base measurement and such
-		if (measurementType.requires != nil) {
+		if (self.measurementType.requires != nil) {
 			// First check that a base measurement has been selected.
 			NSString *errorMessage;
 			NSMenuItem *baseItem = [self.selectionView.bBase selectedItem];
 			NSString *baseName = [baseItem title];
-			MeasurementType *baseType = measurementType.requires;
+			MeasurementType *baseType = self.measurementType.requires;
 			MeasurementDataStore *baseStore = [baseType measurementNamed: baseName];
 			if (baseType == nil) {
 				errorMessage = @"No base (calibration) measurement selected.";
@@ -135,14 +95,12 @@
 				if (![baseStore.machineID isEqualToString:hwName]) {
 					errorMessage = [NSString stringWithFormat:@"Base measurement done on %@, current hardware is %@", baseStore.machine, hwName];
 				}
-				if (!measurementType.isCalibration) {
-					// For non-calibration runs the input device should match the device in the calibration run
-					if (![baseStore.inputDeviceID isEqualToString:self.capturer.deviceID]) {
-						errorMessage = [NSString stringWithFormat:@"Base measurement uses input %@, current measurement uses %@", baseStore.inputDevice, self.capturer.deviceName];
-					}
-				}
-				// For all runs (calibration and non-calibration) the output device should match the one in the calibration run
-				if (![baseStore.outputDeviceID isEqualToString:self.outputView.deviceID]) {
+                // Check that input device matches (except for output-only calibrations)
+                if (!baseType.outputOnlyCalibration && ![baseStore.inputDeviceID isEqualToString:self.capturer.deviceID]) {
+                    errorMessage = [NSString stringWithFormat:@"Base measurement uses input %@, current measurement uses %@", baseStore.inputDevice, self.capturer.deviceName];
+                }
+				// Check that output device matches (except for input-only calibrations)
+				if (!baseType.inputOnlyCalibration && ![baseStore.outputDeviceID isEqualToString:self.outputView.deviceID]) {
 					errorMessage = [NSString stringWithFormat:@"Base measurement uses output %@, current measurement uses %@", baseStore.outputDevice, self.outputView.deviceName];
 				}
 			}
@@ -164,16 +122,15 @@
 		if (self.statusView) {
 			[self.statusView.bStop setEnabled: NO];
 		}
+        if (!handlesOutput) {
+            BOOL ok = [self.outputCompanion companionStartPreMeasuring];
+            if (!ok) return;
+        }
 		// Do actual prerunning
-		maxDelay = PRERUN_INITIAL_DELAY;
-		prerunMoreNeeded = PRERUN_COUNT;
+		maxDelay = self.initialPrerunDelay;
+		prerunMoreNeeded = self.initialPrerunCount;
 		self.preRunning = YES;
 		[self.capturer startCapturing: YES];
-#if 0
-		// We don't trigger here, because we will very shortly get a newInputDone
-		// that will trigger the output value.
-		[self.outputCompanion triggerNewOutputValue];
-#endif
 	}
 }
 
@@ -181,8 +138,10 @@
 {
 	@synchronized(self) {
 		self.preRunning = NO;
+        if (!handlesOutput)
+            [self.outputCompanion companionStopPreMeasuring];
 		[self.capturer stopCapturing];
-		// We have now found PRERUN_COUNT matches in maxDelay time.
+		// We have now found enough matches in maxDelay time.
 		// Assume that 4*maxDelay is a decent upper bound for detection.
 		maxDelay = maxDelay*4;
 		[self.selectionView.bPreRun setEnabled: NO];
@@ -197,6 +156,7 @@
 - (IBAction)startMeasuring: (id)sender
 {
     @synchronized(self) {
+        assert(handlesInput);
 		[self.selectionView.bPreRun setEnabled: NO];
 		[self.selectionView.bRun setEnabled: NO];
 		if (!self.statusView) {
@@ -204,6 +164,8 @@
 		}
 		[self.statusView.bStop setEnabled: YES];
         self.running = YES;
+        if (!handlesOutput)
+            [self.outputCompanion companionStartMeasuring];
         [self.capturer startCapturing: NO];
         [self.collector startCollecting: self.measurementType.name input: self.capturer.deviceID name: self.capturer.deviceName output: self.outputView.deviceID name: self.outputView.deviceName];
         [self.outputCompanion triggerNewOutputValue];
@@ -228,7 +190,7 @@
 	foundCurrentSample = NO;
     if ((self.running || self.preRunning)) {
         outputStartTime = [self.clock now];
-		NSLog(@"AudioRun.newOutputStart at %lld", outputStartTime);
+		if (VL_DEBUG) NSLog(@"AudioRun.newOutputStart at %lld", outputStartTime);
 		if (self.running) {
 			[self.collector recordTransmission: @"audio" at: outputStartTime];
         }
@@ -239,7 +201,7 @@
 
 - (void)newOutputDone
 {
-    NSLog(@"AudioRun.newOutputDone at %lld", [self.clock now]);
+    if (VL_DEBUG) NSLog(@"AudioRun.newOutputDone at %lld", [self.clock now]);
 	assert(outputActive);
 	outputActive = NO;
 	if (triggerOutputWhenDone)
@@ -263,7 +225,7 @@
 			
 		// Process whether we found a sample (or not)
         if (foundSample) {
-			NSLog(@"newInputDone (%lld) at %lld", timestamp, [self.clock now]);
+			if (VL_DEBUG) NSLog(@"newInputDone (%lld) at %lld", timestamp, [self.clock now]);
 			foundCurrentSample = YES;
             if (self.running) {
                 [self.collector recordReception: @"audio" at: [self.processor lastMatchTimestamp]];
@@ -295,12 +257,13 @@
 
 - (void) _prerunRecordNoReception
 {
+	assert(handlesInput);
     if (VL_DEBUG) NSLog(@"Prerun no reception\n");
     assert(self.preRunning);
 	// No data found within alotted time. Double the time, reset the count, change mirroring
 	if (1 || VL_DEBUG) NSLog(@"outputStartTime=%llu, maxDelay=%llu\n", outputStartTime, maxDelay);
 	maxDelay = maxDelay + (maxDelay / 4);
-	prerunMoreNeeded = PRERUN_COUNT;
+	prerunMoreNeeded = self.initialPrerunCount;
 	self.statusView.detectCount = [NSString stringWithFormat: @"%d more", prerunMoreNeeded];
 	self.statusView.detectAverage = @"";
 	[self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];

@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "MeasurementDataStore.h"
+#import "protocols.h"
 
 ///
 /// Class to store measurements of a given type.
@@ -19,8 +20,9 @@
 /// and for the calibration measurements they also store all instances of masurement runs for that
 /// specific type that have been done previously (initialized by the appDelegate).
 ///
-@interface MeasurementType : NSObject {
+@interface MeasurementType : NSObject<MeasurementTypeProtocol> {
 	NSMutableDictionary *measurements;	//!< Internal: all measurements of this type, indexed by name.
+    MeasurementType *superType;         //!< Pointer to generalization of this measurement type (if there is one)
 }
 
 + (MeasurementType *)forType: (NSString *)name; //!< Returns MeasurementType with the given name.
@@ -34,10 +36,13 @@
 - (MeasurementDataStore *)measurementNamed: (NSString *)name;   //!< Retrieve a measurement run by name.
 - (NSArray *)measurementNames;  //!< Return all names for measurements of this type, used for menu population.
 - (NSArray *)measurementNamesForType: (NSString *)typeName; //!< No longer used?
+- (void)subTypeOf: (MeasurementType *)_superType;
 
-@property(readonly) NSUInteger tag; //!< Tag for this type, used to order measurement types logically in menus.
-@property(readonly) NSString *name; //!< Human-readable type
+@property(readonly) NSUInteger tag;     //!< Tag for this type, used to order measurement types logically in menus.
+@property(readonly) NSString *name;     //!< Human-readable type
 @property(readonly) BOOL isCalibration; //!< True if this type is a calibration meaurement type
+@property BOOL inputOnlyCalibration;    //!< True if only the input should match
+@property BOOL outputOnlyCalibration;   //!< True if only the output should match
 @property(readonly) MeasurementType *requires;  //!< What this measurement type depends on (usually a calibration) or nil.
 
 @end

@@ -65,18 +65,16 @@ def bps_to_termios_sym(bps):
   
 class SerialPort:
 
-  def __init__(self, serialport, bps):
+  def __init__(self, serialport, bps, nonblocking=False):
     """Takes the string name of the serial port
     (e.g. "/dev/tty.usbserial","COM1") and a baud rate (bps) and
     connects to that port at that speed and 8N1. Opens the port in
     fully raw mode so you can send binary data.
     """
 #    self.fd = os.open(serialport, os.O_RDWR | os.O_NOCTTY | os.O_NDELAY)
-    print 'About to open'
+    self.fd = -1
     self.fd = os.open(serialport, os.O_RDWR | os.O_NOCTTY | os.O_NONBLOCK)
-    print 'open returned', self.fd
     rv = fcntl.fcntl(self.fd, os.O_NONBLOCK, 0)
-    print 'fcntl returned', rv
     attrs = termios.tcgetattr(self.fd)
     bps_sym = bps_to_termios_sym(bps)
     # Set I/O speed.
@@ -103,8 +101,19 @@ class SerialPort:
     # It's complicated--See
     # http://unixwiz.net/techtips/termios-vmin-vtime.html
     attrs[CC][termios.VMIN] = 0
-    attrs[CC][termios.VTIME] = 40
-    termios.tcsetattr(self.fd, termios.TCSANOW, attrs)
+    if nonblocking:
+        attrs[CC][termios.VTIME] = 0
+    else:
+        attrs[CC][termios.VTIME] = 2
+    termios.tcsetattr(self.fd, termios.TCSAFLUSH, attrs)
+
+  def __del__(self):
+    self.close()
+  
+  def close(self):
+    if self.fd > 0:
+      os.close(self.fd)
+      self.fd = -1
 
   def read_until(self, until):
     buf = ""
@@ -128,6 +137,9 @@ class SerialPort:
     
   def read_byte(self):
     return os.read(self.fd, 1)
+    
+  def read(self, n):
+    return os.read(self.fd, n)
 
   def drainOutput(self):
     termios.tcdrain(self.fd)
