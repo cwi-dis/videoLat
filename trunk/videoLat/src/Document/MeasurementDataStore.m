@@ -19,7 +19,6 @@
 @synthesize inputMachine;
 @synthesize inputDeviceID;
 @synthesize inputDevice;
-@synthesize inputBaseMeasurementID;
 
 @synthesize outputLocation;
 @synthesize outputMachineTypeID;
@@ -27,14 +26,33 @@
 @synthesize outputMachine;
 @synthesize outputDeviceID;
 @synthesize outputDevice;
-@synthesize outputBaseMeasurementID;
 
 @synthesize min;
 @synthesize max;
 @synthesize count;
 @synthesize missCount;
-@synthesize baseMeasurementAverage;
-@synthesize baseMeasurementStddev;
+
+- (NSString *)outputBaseMeasurementID {
+    MeasurementDataStore *c = outputCalibration;
+    if (c == nil) c = calibration;
+    return [NSString stringWithFormat:@"%@ (%@ to %@)", c.measurementType, c.outputDevice, c.inputDevice];
+}
+
+- (NSString *)inputBaseMeasurementID {
+    MeasurementDataStore *c = inputCalibration;
+    if (c == nil) c = calibration;
+    return [NSString stringWithFormat:@"%@ (%@ to %@)", c.measurementType, c.outputDevice, c.inputDevice];
+}
+
+- (double) baseMeasurementAverage {
+    if (calibration) return calibration.average;
+    return inputCalibration.average + outputCalibration.average;
+}
+
+- (double) baseMeasurementStddev {
+    if (calibration) return calibration.stddev;
+    return fmax(inputCalibration.stddev, outputCalibration.stddev);
+}
 
 - (double) maxXaxis
 {
@@ -70,7 +88,6 @@
     inputMachine = nil;
     inputDeviceID = nil;
     inputDevice = nil;
-    inputBaseMeasurementID = nil;
 
     outputLocation = nil;
     outputMachineTypeID = nil;
@@ -78,10 +95,6 @@
     outputMachine = nil;
     outputDeviceID = nil;
     outputDevice = nil;
-    outputBaseMeasurementID = nil;
-
-	baseMeasurementAverage = 0;
-	baseMeasurementStddev = 0;
 
     sum = 0;
     sumSquares = 0;
@@ -103,7 +116,6 @@
     inputMachineTypeID = [coder decodeObjectForKey:@"inputMachineTypeID"];
     inputMachineID = [coder decodeObjectForKey:@"inputMachineID"];
     inputMachine = [coder decodeObjectForKey:@"inputMachine"];
-    inputBaseMeasurementID = [coder decodeObjectForKey:@"inputBaseMeasurementID"];
     inputDeviceID = [coder decodeObjectForKey: @"inputID"];
     inputDevice = [coder decodeObjectForKey: @"inputName"];
     
@@ -111,7 +123,6 @@
     outputMachineTypeID = [coder decodeObjectForKey:@"outputMachineTypeID"];
     outputMachineID = [coder decodeObjectForKey:@"outputMachineID"];
     outputMachine = [coder decodeObjectForKey:@"outputMachine"];
-    outputBaseMeasurementID = [coder decodeObjectForKey:@"outputBaseMeasurementID"];
     outputDeviceID = [coder decodeObjectForKey: @"outputID"];
     outputDevice = [coder decodeObjectForKey: @"outputName"];
 
@@ -122,8 +133,9 @@
     count = [coder decodeIntForKey:@"count"];
     missCount = [coder decodeIntForKey:@"missCount"];
 
-	baseMeasurementAverage = [coder decodeDoubleForKey:@"baseMeasurementAverage"];
-	baseMeasurementStddev = [coder decodeDoubleForKey:@"baseMeasurementStddev"];
+    calibration = [coder decodeObjectForKey: @"calibration"];
+    inputCalibration = [coder decodeObjectForKey: @"inputCalibration"];
+    outputCalibration = [coder decodeObjectForKey: @"outputCalibration"];
     
     store = [coder decodeObjectForKey: @"store"];
     return self;
@@ -145,7 +157,6 @@
     [coder encodeObject:inputMachine forKey: @"inputMachine"];
     [coder encodeObject:inputDeviceID forKey: @"inputID"];
     [coder encodeObject:inputDevice forKey: @"inputName"];
-    [coder encodeObject: inputBaseMeasurementID forKey: @"inputBaseMeasurementID"];
     
     [coder encodeObject:outputLocation forKey: @"outputLocation"];
     [coder encodeObject:outputMachineTypeID forKey: @"outputMachineTypeID"];
@@ -153,10 +164,6 @@
     [coder encodeObject:outputMachine forKey: @"outputMachine"];
     [coder encodeObject:outputDeviceID forKey: @"outputID"];
     [coder encodeObject:outputDevice forKey: @"outputName"];
-    [coder encodeObject: outputBaseMeasurementID forKey: @"outputBaseMeasurementID"];
-    
-    [coder encodeDouble: baseMeasurementAverage forKey: @"baseMeasurementAverage"];
-    [coder encodeDouble: baseMeasurementStddev forKey: @"baseMeasurementStddev"];
 
     [coder encodeDouble: sum forKey: @"sum"];
     [coder encodeDouble: sumSquares forKey: @"sumSquares"];
@@ -165,10 +172,14 @@
     [coder encodeInt: count forKey: @"count"];
     [coder encodeInt: missCount forKey: @"missCount"];
 
+    [coder encodeObject: calibration forKey: @"calibration"];
+    [coder encodeObject: inputCalibration forKey: @"inputCalibration"];
+    [coder encodeObject: outputCalibration forKey: @"outputCalibration"];
+    
     [coder encodeObject:store forKey: @"store"];
 }
 
-- (void)useCalibration: (MeasurementDataStore *)calibration
+- (void)useCalibration: (MeasurementDataStore *)_calibration
 {
     if (store && [store count]) {
         // Too late, data values entered already...
@@ -176,12 +187,15 @@
         abort();
         return;
     }
-    baseMeasurementAverage = calibration.average;
-    baseMeasurementStddev = calibration.stddev;
-    inputBaseMeasurementID = outputBaseMeasurementID = [NSString stringWithFormat:@"%@ (%@ to %@)", calibration.measurementType, calibration.outputDevice, calibration.inputDevice];
+    if (calibration || inputCalibration || outputCalibration) {
+        NSLog(@"MeasurementDataStore: attempt to set calibration a second time");
+        abort();
+        return;
+    }
+    calibration = _calibration;
 }
 
-- (void)useInputCalibration: (MeasurementDataStore *)inputCalibration outputCalibration: (MeasurementDataStore *)outputCalibration
+- (void)useInputCalibration: (MeasurementDataStore *)_inputCalibration
 {
     if (store && [store count]) {
         // Too late, data values entered already...
@@ -189,16 +203,34 @@
         abort();
         return;
     }
-    baseMeasurementAverage = inputCalibration.average + outputCalibration.average;
-    baseMeasurementStddev = fmax(inputCalibration.stddev, outputCalibration.stddev); // XXXJACK is this correct, statistically????
-    inputBaseMeasurementID  = [NSString stringWithFormat:@"%@ (%@ to %@)", inputCalibration.measurementType, inputCalibration.outputDevice, inputCalibration.inputDevice];
-    outputBaseMeasurementID = [NSString stringWithFormat:@"%@ (%@ to %@)", outputCalibration.measurementType, outputCalibration.outputDevice, outputCalibration.inputDevice];
+    if (calibration || inputCalibration) {
+        NSLog(@"MeasurementDataStore: attempt to set calibration a second time");
+        abort();
+        return;
+    }
+    inputCalibration = _inputCalibration;
+}
+
+- (void)useOutputCalibration: (MeasurementDataStore *)_outputCalibration
+{
+    if (store && [store count]) {
+        // Too late, data values entered already...
+        NSLog(@"MeasurementDataStore: attempt to set calibration after data has been collected already! Programmer error...\n");
+        abort();
+        return;
+    }
+    if (calibration || outputCalibration) {
+        NSLog(@"MeasurementDataStore: attempt to set calibration a second time");
+        abort();
+        return;
+    }
+    outputCalibration = _outputCalibration;
 }
 
 - (void) addDataPoint: (NSString*) data sent: (uint64_t)sent received: (uint64_t) received
 {
 	int64_t delay = received - sent;
-	delay -= (int64_t)baseMeasurementAverage;
+	delay -= (int64_t)self.baseMeasurementAverage;
     sum += delay;
     sumSquares += (delay * delay);
     if (count == 0 || delay < min) min = delay;

@@ -25,7 +25,9 @@
     double max;         //!< maximum value
     int count;          //!< total number of values
 	int missCount;      //!< number of attempts that did not result in a valid measurement
-
+    MeasurementDataStore *calibration;  //!< calibration used, for single-machine measurements
+    MeasurementDataStore *inputCalibration;  //!< calibration used for input, for two-machine measurements
+    MeasurementDataStore *outputCalibration;  //!< calibration used for output, for two-machine measurements
 	NSMutableArray *store;  //!< Internal: the values themselves
 };
 
@@ -39,7 +41,7 @@
 @property(strong) NSString* inputMachine;           //!< Metadata variable, set by owner
 @property(strong) NSString* inputDeviceID;          //!< Metadata variable, set by owner
 @property(strong) NSString* inputDevice;            //!< Metadata variable, set by owner
-@property(strong) NSString* inputBaseMeasurementID; //!< Metadata variable, set by owner
+@property(readonly) NSString* inputBaseMeasurementID; //!< Metadata variable, set by owner
 
 @property(strong) NSString* outputLocation;         //!< Metadata variable, set by owner
 @property(strong) NSString* outputMachineTypeID;    //!< Metadata variable, set by owner
@@ -47,7 +49,7 @@
 @property(strong) NSString* outputMachine;          //!< Metadata variable, set by owner
 @property(strong) NSString* outputDeviceID;         //!< Metadata variable, set by owner
 @property(strong) NSString* outputDevice;           //!< Metadata variable, set by owner
-@property(strong) NSString* outputBaseMeasurementID;//!< Metadata variable, set by owner
+@property(readonly) NSString* outputBaseMeasurementID;//!< Metadata variable, set by owner
 
 @property(readonly) double min;
 @property(readonly) double max;
@@ -92,7 +94,11 @@
 ///
 /// Indicates the input and output calibration measurement for this measurement run.
 /// @param inputCalibration the calibration measurement object.
+/// This call initializes the baseMeasurementAverage and baseMeasurementStddev variables.
+- (void)useInputCalibration: (MeasurementDataStore *)inputCalibration;
+///
+/// Indicates the  output calibration measurement for this measurement run.
 /// @param outputCalibration the calibration measurement object.
 /// This call initializes the baseMeasurementAverage and baseMeasurementStddev variables.
-- (void)useInputCalibration: (MeasurementDataStore *)inputCalibration outputCalibration: (MeasurementDataStore *)outputCalibration;
+- (void)useOutputCalibration: (MeasurementDataStore *)outputCalibration;
 @end
