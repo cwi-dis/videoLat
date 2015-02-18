@@ -8,12 +8,13 @@
 
 #import <Foundation/Foundation.h>
 #import "NetworkInput.h"
+#import "VideoSelectionView.h"
 
 ///
 /// Subclass of NSView that may at some point allow user to select networking
 /// parameters
 ///
-@interface NetworkSelectionView : NSView <SelectionView, NetworkViewProtocol>
+@interface NetworkSelectionView : VideoSelectionView<NetworkViewProtocol>
 @property(weak) IBOutlet NSPopUpButton *bDevices;   //!< Unused for now, could be network interface
 @property(weak) IBOutlet NSPopUpButton *bBase;      //!< UI element: available calibration runs
 @property(weak) IBOutlet NSButton *bPreRun;         //!< UI element: start preparing a measurement run
