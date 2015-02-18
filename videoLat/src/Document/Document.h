@@ -24,6 +24,7 @@
     NSArray *objectsForNewDocument;                 //!< Internal: stores NIB-created objects for new measurement window so these are refcounted correctly
 	MeasurementType *myType;                        //!< Internal: type of dataStore measurement
 }
+#if 0
 @property(readonly) NSString* measurementType;      //!< accessor for dataStore metadata variable
 @property(readonly) NSString* inputBaseMeasurementID;    //!< accessor for dataStore metadata variable
 @property(readonly) NSString* inputMachineTypeID;   //!< accessor for dataStore metadata variable
@@ -41,6 +42,7 @@
 @property(strong) NSString* date;                   //!< accessor for dataStore metadata variable
 @property(strong) NSString* inputLocation;               //!< accessor for dataStore metadata variable
 @property(strong) NSString* outputLocation;               //!< accessor for dataStore metadata variable
+#endif
 
 @property(strong) IBOutlet MeasurementDataStore *dataStore; //!< data for this document
 @property(strong) IBOutlet MeasurementDistribution *dataDistribution;   //!< distribution of dataStore

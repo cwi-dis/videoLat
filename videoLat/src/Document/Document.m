@@ -15,6 +15,7 @@
 @synthesize dataDistribution;
 @synthesize measurementWindow;
 
+#if 0
 - (NSString*) measurementType { return self.dataStore?self.dataStore.measurementType:@""; }
 - (NSString*) inputBaseMeasurementID { return self.dataStore?self.dataStore.inputBaseMeasurementID:nil; }
 - (NSString*) inputMachineTypeID { return self.dataStore?self.dataStore.inputMachineTypeID:@""; }
@@ -32,6 +33,7 @@
 @synthesize date;
 @synthesize inputLocation;
 @synthesize outputLocation;
+#endif
 
 - (id)init
 {
@@ -121,10 +123,10 @@
     // Keep the data
 	self.dataDistribution = [[MeasurementDistribution alloc] initWithSource:self.dataStore];
 	// Set location, etc
-    self.inputLocation = ((appDelegate *)[[NSApplication sharedApplication] delegate]).location; // XXXJACK wrong! May come from remote side!
-    self.outputLocation = ((appDelegate *)[[NSApplication sharedApplication] delegate]).location; // XXXJACK wrong! May come from remote side!
-	self.description = @"";
-	self.date = [[NSDate date] descriptionWithCalendarFormat:nil timeZone:nil locale:nil];
+    self.dataStore.inputLocation = ((appDelegate *)[[NSApplication sharedApplication] delegate]).location; // XXXJACK wrong! May come from remote side!
+    self.dataStore.outputLocation = ((appDelegate *)[[NSApplication sharedApplication] delegate]).location; // XXXJACK wrong! May come from remote side!
+	self.dataStore.description = @"";
+	self.dataStore.date = [[NSDate date] descriptionWithCalendarFormat:nil timeZone:nil locale:nil];
 
     // Do the NSDocument things
 	myType = [MeasurementType forType: self.dataStore.measurementType];
@@ -195,10 +197,6 @@
     NSMutableDictionary *dict = [[NSMutableDictionary alloc] initWithCapacity:10];
     [dict setObject:@"videoLat" forKey:@"videoLat"];
     [dict setObject:VIDEOLAT_FILE_VERSION forKey:@"version"];
-    [dict setObject:self.description forKey:@"description"];
-    [dict setObject:self.inputLocation forKey:@"inputLocation"];
-    [dict setObject:self.outputLocation forKey:@"outputLocation"];
-    [dict setObject:self.date forKey:@"date"];
     [dict setObject:self.dataStore forKey:@"dataStore"];
 //    [dict setObject:self.dataDistribution forKey:@"dataDistribution"];
     return [NSKeyedArchiver archivedDataWithRootObject: dict];
@@ -224,16 +222,6 @@
         }
         return NO;
     }
-    self.description = [dict objectForKey: @"description"];
-    self.date = [dict objectForKey: @"date"];
-    self.inputLocation = [dict objectForKey: @"inputLocation"];
-    self.outputLocation = [dict objectForKey: @"outputLocation"];
-#if 1
-    // Old version compatility
-    if (!self.inputLocation) {
-        self.inputLocation = self.outputLocation = [dict objectForKey: @"location"];
-    }
-#endif
     self.dataStore = [dict objectForKey: @"dataStore"];
 //    self.dataDistribution = [dict objectForKey: @"dataDistribution"];
     self.dataDistribution = [[MeasurementDistribution alloc] initWithSource:self.dataStore];
@@ -290,23 +278,23 @@
 	NSMutableString *rv;
 	rv = [NSMutableString stringWithCapacity: 0];
 	[rv appendString:@"key,value\n"];
-	[rv appendFormat: @"measurementType,\"%@\"\n", self.measurementType];
-    [rv appendFormat: @"outputBaseMeasurementID,\"%@\"\n", self.outputBaseMeasurementID];
-    [rv appendFormat: @"outputMachineTypeID,\"%@\"\n", self.outputMachineTypeID];
-    [rv appendFormat: @"outputMachineID,\"%@\"\n", self.outputMachineID];
-    [rv appendFormat: @"outputMachine,\"%@\"\n", self.outputMachine];
-    [rv appendFormat: @"outputLocation,\"%@\"\n", self.outputLocation];
-    [rv appendFormat: @"outputDeviceID,\"%@\"\n", self.outputDeviceID];
-    [rv appendFormat: @"outputDevice,\"%@\"\n", self.outputDevice];
-    [rv appendFormat: @"inputBaseMeasurementID,\"%@\"\n", self.inputBaseMeasurementID];
-    [rv appendFormat: @"inputMachineTypeID,\"%@\"\n", self.inputMachineTypeID];
-    [rv appendFormat: @"inputMachineID,\"%@\"\n", self.inputMachineID];
-    [rv appendFormat: @"inputMachine,\"%@\"\n", self.inputMachine];
-    [rv appendFormat: @"inputLocation,\"%@\"\n", self.inputLocation];
-	[rv appendFormat: @"inputDeviceID,\"%@\"\n", self.inputDeviceID];
-	[rv appendFormat: @"outputDevice,\"%@\"\n", self.outputDevice];
-	[rv appendFormat: @"description,\"%@\"\n", self.description];
-	[rv appendFormat: @"date,\"%@\"\n", self.date];
+	[rv appendFormat: @"measurementType,\"%@\"\n", self.dataStore.measurementType];
+    [rv appendFormat: @"outputBaseMeasurementID,\"%@\"\n", self.dataStore.outputBaseMeasurementID];
+    [rv appendFormat: @"outputMachineTypeID,\"%@\"\n", self.dataStore.outputMachineTypeID];
+    [rv appendFormat: @"outputMachineID,\"%@\"\n", self.dataStore.outputMachineID];
+    [rv appendFormat: @"outputMachine,\"%@\"\n", self.dataStore.outputMachine];
+    [rv appendFormat: @"outputLocation,\"%@\"\n", self.dataStore.outputLocation];
+    [rv appendFormat: @"outputDeviceID,\"%@\"\n", self.dataStore.outputDeviceID];
+    [rv appendFormat: @"outputDevice,\"%@\"\n", self.dataStore.outputDevice];
+    [rv appendFormat: @"inputBaseMeasurementID,\"%@\"\n", self.dataStore.inputBaseMeasurementID];
+    [rv appendFormat: @"inputMachineTypeID,\"%@\"\n", self.dataStore.inputMachineTypeID];
+    [rv appendFormat: @"inputMachineID,\"%@\"\n", self.dataStore.inputMachineID];
+    [rv appendFormat: @"inputMachine,\"%@\"\n", self.dataStore.inputMachine];
+    [rv appendFormat: @"inputLocation,\"%@\"\n", self.dataStore.inputLocation];
+	[rv appendFormat: @"inputDeviceID,\"%@\"\n", self.dataStore.inputDeviceID];
+	[rv appendFormat: @"outputDevice,\"%@\"\n", self.dataStore.outputDevice];
+	[rv appendFormat: @"description,\"%@\"\n", self.dataStore.description];
+	[rv appendFormat: @"date,\"%@\"\n", self.dataStore.date];
 	[rv appendFormat: @"min,%g\n", self.dataStore.min];
 	[rv appendFormat: @"max,%g\n", self.dataStore.max];
 	[rv appendFormat: @"average,%g\n", self.dataStore.average];

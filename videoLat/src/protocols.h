@@ -12,7 +12,7 @@
 #import <Cocoa/Cocoa.h>
 
 /// Version of our document files (not program version).
-#define VIDEOLAT_FILE_VERSION @"0.5"
+#define VIDEOLAT_FILE_VERSION @"1.2"
 
 /// Turn on global debugging, at compile time
 #define VL_DEBUG 0
