@@ -26,7 +26,7 @@
 }
 @property(readonly) NSString* measurementType;      //!< accessor for dataStore metadata variable
 @property(readonly) NSString* baseMeasurementID;    //!< accessor for dataStore metadata variable
-@property(readonly) NSString* machineID;            //!< accessor for dataStore metadata variable
+@property(readonly) NSString* machineTypeID;            //!< accessor for dataStore metadata variable
 @property(readonly) NSString* machine;              //!< accessor for dataStore metadata variable
 @property(readonly) NSString* inputDeviceID;        //!< accessor for dataStore metadata variable
 @property(readonly) NSString* inputDevice;          //!< accessor for dataStore metadata variable

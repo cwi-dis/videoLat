@@ -17,7 +17,7 @@
 
 - (NSString*) measurementType { return self.dataStore?self.dataStore.measurementType:@""; }
 - (NSString*) baseMeasurementID { return self.dataStore?self.dataStore.baseMeasurementID:nil; }
-- (NSString*) machineID { return self.dataStore?self.dataStore.machineID:@""; }
+- (NSString*) machineTypeID { return self.dataStore?self.dataStore.machineTypeID:@""; }
 - (NSString*) machine { return self.dataStore?self.dataStore.machine:@""; }
 - (NSString*) inputDeviceID { return self.dataStore?self.dataStore.inputDeviceID:@""; }
 - (NSString*) inputDevice { return self.dataStore?self.dataStore.inputDevice:@""; }

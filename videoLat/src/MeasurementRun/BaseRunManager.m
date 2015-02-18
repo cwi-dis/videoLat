@@ -165,9 +165,12 @@ static NSMutableDictionary *runManagerNibs;
 				sysctlbyname("hw.model", hwName_c, &len, NULL, 0);
 				NSString *hwName = [NSString stringWithUTF8String:hwName_c];
 				// For all runs (calibration and non-calibration) the hardware platform should match the one in the calibration run
-				if (![baseStore.machineID isEqualToString:hwName]) {
-					errorMessage = [NSString stringWithFormat:@"Base measurement done on %@, current hardware is %@", baseStore.machine, hwName];
-				}
+                if (handlesOutput && ![baseStore.machineTypeID isEqualToString:hwName]) {
+                    errorMessage = [NSString stringWithFormat:@"Base measurement output done on %@, current hardware is %@", baseStore.machine, hwName];
+                }
+                if (handlesInput && ![baseStore.machineTypeID isEqualToString:hwName]) {
+                    errorMessage = [NSString stringWithFormat:@"Base measurement output done on %@, current hardware is %@", baseStore.machine, hwName];
+                }
                 // For runs where we are responsible for input the input device should match
 				assert(self.capturer);
                 if (!self.measurementType.inputOnlyCalibration && ![baseStore.inputDeviceID isEqualToString:self.capturer.deviceID]) {

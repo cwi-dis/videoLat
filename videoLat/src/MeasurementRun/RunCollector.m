@@ -78,7 +78,7 @@
 	sysctlbyname("hw.model", hwName_c, &len, NULL, 0);
 	NSString *hwName = [NSString stringWithUTF8String:hwName_c];
 	dataStore.machine = hwName;
-	dataStore.machineID = hwName;
+	dataStore.machineTypeID = hwName;
 	dataStore.inputDevice = inputName;
 	dataStore.inputDeviceID = inputId;
 	dataStore.outputDevice = outputName;
