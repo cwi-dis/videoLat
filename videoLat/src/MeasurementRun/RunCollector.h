@@ -54,6 +54,14 @@
 /// @param outputName the output device in human readable (but possibly ambiguous) form
 ///
 - (void) startCollecting: (NSString*)scenario input: (NSString*)inputId name: (NSString*)inputName output:(NSString*)outputId name: (NSString*)outputName;
+///
+/// Signals that this RunCollector should start filling its dataStore, for two-ended measurements.
+/// @param scenario the measurement type in somewhat-human-readable form
+/// @param _input the input device description received from the remote side
+/// @param outputId the output device in somewhat-human-readable form
+/// @param outputName the output device in human readable (but possibly ambiguous) form
+///
+- (void) startCollecting: (NSString*)scenario input: (DeviceDescription *)_input output:(NSString*)outputId name: (NSString*)outputName;
 - (void) stopCollecting;    //!< Stop filling the dataStore
 - (void) trim;              //!< Tell the dataStore to trim its data
 
