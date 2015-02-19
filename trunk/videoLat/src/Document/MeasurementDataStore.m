@@ -35,12 +35,14 @@
 - (NSString *)outputBaseMeasurementID {
     MeasurementDataStore *c = outputCalibration;
     if (c == nil) c = calibration;
+	if (c == nil) return nil;
     return [NSString stringWithFormat:@"%@ (%@ to %@)", c.measurementType, c.outputDevice, c.inputDevice];
 }
 
 - (NSString *)inputBaseMeasurementID {
     MeasurementDataStore *c = inputCalibration;
     if (c == nil) c = calibration;
+	if (c == nil) return nil;
     return [NSString stringWithFormat:@"%@ (%@ to %@)", c.measurementType, c.outputDevice, c.inputDevice];
 }
 
