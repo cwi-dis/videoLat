@@ -530,6 +530,15 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
                                   };
             [self.protocol send: msg];
         }
+		// Let's see whether they transmitted the device descriptor
+		DeviceDescription *dd = [data objectForKey: @"inputDeviceDescriptor"];
+		if (dd) {
+			if (remoteDevice) {
+				// This should probably be an alert.
+				NSLog(@"Received second remote device descriptor %@", dd);
+			}
+			remoteDevice = dd;
+		}
         if (rtt) {
             self.selectionView.bRTT.intValue = (int)(rtt/1000);
         }
