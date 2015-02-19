@@ -430,7 +430,6 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
                                 self.protocol.delegate = self;
                                 self.outputView.bPeerStatus.stringValue = @"Connected";
                             }
-							deviceDescriptorToSend = nil; // XXXJACK calibration input device
                         }
 					}
 				}
@@ -441,16 +440,20 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
                 uint64_t now = [self.clock now];
                 uint64_t remoteNow = [self.remoteClock remoteNow: now];
                 uint64_t rtt = [self.remoteClock rtt];
-                NSMutableDictionary *msg = @{
+                NSMutableDictionary *msg = [@{
                                       @"code" : code,
                                       @"masterDetectTime": [NSString stringWithFormat:@"%lld", prevInputStartTimeRemote],
                                       @"slaveTime" : [NSString stringWithFormat:@"%lld", now],
                                       @"masterTime" : [NSString stringWithFormat:@"%lld", remoteNow],
                                       @"count" : [NSString stringWithFormat:@"%d", prevInputCodeDetectionCount],
                                       @"rtt" : [NSString stringWithFormat:@"%lld", rtt]
-                                      };
+                                      } mutableCopy];
 				if (deviceDescriptorToSend) {
-					[msg setObject: deviceDescriptorToSend forKey:@"inputDeviceDescriptor"];
+                    NSData *ddData = [NSKeyedArchiver archivedDataWithRootObject: deviceDescriptorToSend];
+                    assert(ddData);
+                    NSString *ddString = [ddData base64EncodedStringWithOptions:0];
+                    assert(ddString);
+					[msg setObject: ddString forKey:@"inputDeviceDescriptor"];
 					deviceDescriptorToSend = nil;
 				}
                 [self.protocol send: msg];
@@ -462,14 +465,18 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
             if (self.protocol && now - lastMessageSentTime > HEARTBEAT_INTERVAL) {
                 uint64_t remoteNow = [self.remoteClock remoteNow: now];
                 uint64_t rtt = [self.remoteClock rtt];
-                NSMutableDictionary *msg = @{
+                NSMutableDictionary *msg = [@{
                                       @"slaveTime" : [NSString stringWithFormat:@"%lld", now],
                                       @"masterTime" : [NSString stringWithFormat:@"%lld", remoteNow],
                                       @"rtt" : [NSString stringWithFormat:@"%lld", rtt]
-                                      };
+                                      } mutableCopy];
 				if (deviceDescriptorToSend) {
-					[msg setObject: deviceDescriptorToSend forKey:@"inputDeviceDescriptor"];
-					deviceDescriptorToSend = nil;
+                    NSData *ddData = [NSKeyedArchiver archivedDataWithRootObject: deviceDescriptorToSend];
+                    assert(ddData);
+                    NSString *ddString = [ddData base64EncodedStringWithOptions:0];
+                    assert(ddString);
+                    [msg setObject: ddString forKey:@"inputDeviceDescriptor"];
+                    deviceDescriptorToSend = nil;
 				}
                 [self.protocol send: msg];
                 lastMessageSentTime = now;
@@ -531,12 +538,16 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
             [self.protocol send: msg];
         }
 		// Let's see whether they transmitted the device descriptor
-		DeviceDescription *dd = [data objectForKey: @"inputDeviceDescriptor"];
-		if (dd) {
-			if (remoteDevice) {
-				// This should probably be an alert.
-				NSLog(@"Received second remote device descriptor %@", dd);
-			}
+		NSString *ddString = [data objectForKey: @"inputDeviceDescriptor"];
+		if (ddString) {
+            NSData *ddData = [[NSData alloc] initWithBase64EncodedString:ddString options:0];
+            assert(ddData);
+            DeviceDescription *dd = [NSKeyedUnarchiver unarchiveObjectWithData:ddData];
+            assert(dd);
+            if (remoteDevice) {
+                // This should probably be an alert.
+                NSLog(@"Received second remote device descriptor %@", dd);
+            }
 			remoteDevice = dd;
 		}
         if (rtt) {
