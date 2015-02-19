@@ -343,7 +343,7 @@
 				<string key="NSClassName">NetworkSelectionView</string>
 			</object>
 			<object class="NSView" id="652629579">
-				<reference key="NSNextResponder"/>
+				<nil key="NSNextResponder"/>
 				<int key="NSvFlags">257</int>
 				<array class="NSMutableArray" key="NSSubviews">
 					<object class="NSTextField" id="222199350">
@@ -351,7 +351,6 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{18, 603}, {604, 17}}</string>
 						<reference key="NSSuperview" ref="652629579"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="114547007"/>
 						<string key="NSReuseIdentifierKey">_NS:397</string>
 						<string key="NSHuggingPriority">{251, 750}</string>
@@ -374,7 +373,6 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{30, 575}, {170, 17}}</string>
 						<reference key="NSSuperview" ref="652629579"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="803973421"/>
 						<string key="NSReuseIdentifierKey">_NS:526</string>
 						<string key="NSHuggingPriority">{251, 750}</string>
@@ -397,7 +395,6 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{30, 541}, {130, 17}}</string>
 						<reference key="NSSuperview" ref="652629579"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="175476119"/>
 						<string key="NSReuseIdentifierKey">_NS:526</string>
 						<string key="NSHuggingPriority">{251, 750}</string>
@@ -420,7 +417,6 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{206, 573}, {185, 22}}</string>
 						<reference key="NSSuperview" ref="652629579"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="936847551"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="NSEnabled">YES</bool>
@@ -456,7 +452,6 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{206, 541}, {185, 22}}</string>
 						<reference key="NSSuperview" ref="652629579"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="703783101"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="NSEnabled">YES</bool>
@@ -479,7 +474,6 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{30, 511}, {47, 17}}</string>
 						<reference key="NSSuperview" ref="652629579"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="859273581"/>
 						<string key="NSReuseIdentifierKey">_NS:526</string>
 						<string key="NSHuggingPriority">{251, 750}</string>
@@ -502,7 +496,6 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{206, 511}, {416, 22}}</string>
 						<reference key="NSSuperview" ref="652629579"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="575424586"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="NSEnabled">YES</bool>
@@ -524,7 +517,6 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{30, 481}, {137, 17}}</string>
 						<reference key="NSSuperview" ref="652629579"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="889371109"/>
 						<string key="NSReuseIdentifierKey">_NS:526</string>
 						<string key="NSHuggingPriority">{251, 750}</string>
@@ -547,7 +539,6 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{206, 481}, {416, 22}}</string>
 						<reference key="NSSuperview" ref="652629579"/>
-						<reference key="NSWindow"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="477921431">
@@ -565,8 +556,6 @@
 					</object>
 				</array>
 				<string key="NSFrameSize">{640, 640}</string>
-				<reference key="NSSuperview"/>
-				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="222199350"/>
 			</object>
 			<object class="NSCustomObject" id="37244027">
@@ -662,6 +651,14 @@
 						<reference key="destination" ref="336328010"/>
 					</object>
 					<int key="connectionID">436</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">manager</string>
+						<reference key="source" ref="875939645"/>
+						<reference key="destination" ref="450298705"/>
+					</object>
+					<int key="connectionID">438</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -2574,7 +2571,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">437</int>
+			<int key="maxID">438</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -2879,11 +2876,21 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">NetworkRunManager</string>
 					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="deviceChanged:">id</string>
+						<string key="selectBase:">id</string>
 						<string key="startMeasuring:">id</string>
 						<string key="startPreMeasuring:">id</string>
 						<string key="stopPreMeasuring:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="deviceChanged:">
+							<string key="name">deviceChanged:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="selectBase:">
+							<string key="name">selectBase:</string>
+							<string key="candidateClassName">id</string>
+						</object>
 						<object class="IBActionInfo" key="startMeasuring:">
 							<string key="name">startMeasuring:</string>
 							<string key="candidateClassName">id</string>
@@ -2904,7 +2911,7 @@
 				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">NetworkSelectionView</string>
-					<string key="superclassName">NSView</string>
+					<string key="superclassName">VideoSelectionView</string>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="bBase">NSPopUpButton</string>
 						<string key="bDevices">NSPopUpButton</string>
@@ -3168,6 +3175,77 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">../src/VideoRun/VideoInput.m</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">VideoSelectionView</string>
+					<string key="superclassName">NSView</string>
+					<object class="NSMutableDictionary" key="actions">
+						<string key="NS.key.0">deviceChanged:</string>
+						<string key="NS.object.0">id</string>
+					</object>
+					<object class="NSMutableDictionary" key="actionInfosByName">
+						<string key="NS.key.0">deviceChanged:</string>
+						<object class="IBActionInfo" key="NS.object.0">
+							<string key="name">deviceChanged:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</object>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="bBase">NSPopUpButton</string>
+						<string key="bDevices">NSPopUpButton</string>
+						<string key="bPreRun">NSButton</string>
+						<string key="bRun">NSButton</string>
+						<string key="inputHandler">VideoInput</string>
+						<string key="manager">NSObject</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="bBase">
+							<string key="name">bBase</string>
+							<string key="candidateClassName">NSPopUpButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="bDevices">
+							<string key="name">bDevices</string>
+							<string key="candidateClassName">NSPopUpButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="bPreRun">
+							<string key="name">bPreRun</string>
+							<string key="candidateClassName">NSButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="bRun">
+							<string key="name">bRun</string>
+							<string key="candidateClassName">NSButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="inputHandler">
+							<string key="name">inputHandler</string>
+							<string key="candidateClassName">VideoInput</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="manager">
+							<string key="name">manager</string>
+							<string key="candidateClassName">NSObject</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">../src/VideoRun/VideoSelectionView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">VideoSelectionView</string>
+					<object class="NSMutableDictionary" key="actions">
+						<string key="NS.key.0">deviceChanged:</string>
+						<string key="NS.object.0">id</string>
+					</object>
+					<object class="NSMutableDictionary" key="actionInfosByName">
+						<string key="NS.key.0">deviceChanged:</string>
+						<object class="IBActionInfo" key="NS.object.0">
+							<string key="name">deviceChanged:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</object>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">../src/VideoRun/VideoSelectionView.m</string>
 					</object>
 				</object>
 			</array>

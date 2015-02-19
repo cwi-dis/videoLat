@@ -163,6 +163,44 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 }
 #endif
 
+- (IBAction)deviceChanged:(id)sender
+{
+	assert(handlesInput);
+}
+
+- (IBAction)selectBase:(id)sender
+{
+	// This method is only called on the slave side. We need to obtain the
+	// base measurement for our input device, and set up for it to be transmitted
+	// to the master side.
+	assert(handlesInput);
+	[self restart];
+}
+
+- (BOOL)prepareInputDevice
+{
+	if (handlesInput) {
+		deviceDescriptorToSend = nil;
+		assert(self.selectionView);
+		if (self.selectionView.bBase == nil) {
+			NSLog(@"NetworkRunManager: bBase == nil");
+			return NO;
+		}
+		NSMenuItem *baseItem = [self.selectionView.bBase selectedItem];
+		NSString *baseName = [baseItem title];
+		if (baseName == nil) {
+			NSLog(@"NetworkRunManager: baseName == nil");
+			return NO;
+		}
+		MeasurementType *baseType;
+		baseType = (MeasurementType *)self.measurementType.requires;
+		MeasurementDataStore *baseStore = [baseType measurementNamed: baseName];
+		assert(baseStore.input);
+		deviceDescriptorToSend = baseStore.input;
+	}
+	return YES;
+}
+
 - (void)stop
 {
 	//[NSException raise:@"NetworkRunManager" format:@"Must override stop in subclass"];
@@ -368,6 +406,8 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
                 // master copy of videoLat.
 				NSURLComponents *urlComps = [NSURLComponents componentsWithString: code];
 				if (urlComps) {
+					assert(!self.protocol);	// If multiple different prearm codes are sent by the master this needs to be revisited
+					assert(deviceDescriptorToSend); // Or could this be set at initialization?
 					if ([urlComps.path isEqualToString: @"/landing"] && self.protocol == nil) {
 						NSString *query = urlComps.query;
 						NSLog(@"Server info: %@", query);
@@ -390,6 +430,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
                                 self.protocol.delegate = self;
                                 self.outputView.bPeerStatus.stringValue = @"Connected";
                             }
+							deviceDescriptorToSend = nil; // XXXJACK calibration input device
                         }
 					}
 				}
@@ -400,7 +441,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
                 uint64_t now = [self.clock now];
                 uint64_t remoteNow = [self.remoteClock remoteNow: now];
                 uint64_t rtt = [self.remoteClock rtt];
-                NSDictionary *msg = @{
+                NSMutableDictionary *msg = @{
                                       @"code" : code,
                                       @"masterDetectTime": [NSString stringWithFormat:@"%lld", prevInputStartTimeRemote],
                                       @"slaveTime" : [NSString stringWithFormat:@"%lld", now],
@@ -408,6 +449,10 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
                                       @"count" : [NSString stringWithFormat:@"%d", prevInputCodeDetectionCount],
                                       @"rtt" : [NSString stringWithFormat:@"%lld", rtt]
                                       };
+				if (deviceDescriptorToSend) {
+					[msg setObject: deviceDescriptorToSend forKey:@"inputDeviceDescriptor"];
+					deviceDescriptorToSend = nil;
+				}
                 [self.protocol send: msg];
                 lastMessageSentTime = now;
             }
@@ -417,11 +462,15 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
             if (self.protocol && now - lastMessageSentTime > HEARTBEAT_INTERVAL) {
                 uint64_t remoteNow = [self.remoteClock remoteNow: now];
                 uint64_t rtt = [self.remoteClock rtt];
-                NSDictionary *msg = @{
+                NSMutableDictionary *msg = @{
                                       @"slaveTime" : [NSString stringWithFormat:@"%lld", now],
                                       @"masterTime" : [NSString stringWithFormat:@"%lld", remoteNow],
                                       @"rtt" : [NSString stringWithFormat:@"%lld", rtt]
                                       };
+				if (deviceDescriptorToSend) {
+					[msg setObject: deviceDescriptorToSend forKey:@"inputDeviceDescriptor"];
+					deviceDescriptorToSend = nil;
+				}
                 [self.protocol send: msg];
                 lastMessageSentTime = now;
             }
