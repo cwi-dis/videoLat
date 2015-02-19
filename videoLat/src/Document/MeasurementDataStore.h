@@ -14,10 +14,18 @@
 /// all the metadata pertaining to that run (type, input and output device used, etc).
 ///
 
-@interface DeviceDescription {
+@interface DeviceDescription : NSObject {
 };
+@property(strong) NSString* location;          //!< Metadata variable, set by owner
+@property(strong) NSString* machineTypeID;     //!< Metadata variable, set by owner
+@property(strong) NSString* machineID;         //!< Metadata variable, set by owner
+@property(strong) NSString* machine;           //!< Metadata variable, set by owner
+@property(strong) NSString* deviceID;          //!< Metadata variable, set by owner
+@property(strong) NSString* device;            //!< Metadata variable, set by owner
+@property(readonly) NSString* baseMeasurementID; //!< Metadata variable, set by owner
 
 @end
+
 @interface MeasurementDataStore : NSCoder <GraphDataProviderProtocol> {
     double sum;         //!< Internal: sum of all values
     double sumSquares;  //!< Internal: sum of the squares of all values
@@ -35,21 +43,8 @@
 @property(strong) NSString* date;                   //!< Metadata variable, set by owner
 @property(strong) NSString* description;            //!< Metadata variable, set by owner
 
-@property(strong) NSString* inputLocation;          //!< Metadata variable, set by owner
-@property(strong) NSString* inputMachineTypeID;     //!< Metadata variable, set by owner
-@property(strong) NSString* inputMachineID;         //!< Metadata variable, set by owner
-@property(strong) NSString* inputMachine;           //!< Metadata variable, set by owner
-@property(strong) NSString* inputDeviceID;          //!< Metadata variable, set by owner
-@property(strong) NSString* inputDevice;            //!< Metadata variable, set by owner
-@property(readonly) NSString* inputBaseMeasurementID; //!< Metadata variable, set by owner
-
-@property(strong) NSString* outputLocation;         //!< Metadata variable, set by owner
-@property(strong) NSString* outputMachineTypeID;    //!< Metadata variable, set by owner
-@property(strong) NSString* outputMachineID;        //!< Metadata variable, set by owner
-@property(strong) NSString* outputMachine;          //!< Metadata variable, set by owner
-@property(strong) NSString* outputDeviceID;         //!< Metadata variable, set by owner
-@property(strong) NSString* outputDevice;           //!< Metadata variable, set by owner
-@property(readonly) NSString* outputBaseMeasurementID;//!< Metadata variable, set by owner
+@property(strong) DeviceDescription *input;
+@property(strong) DeviceDescription *output;
 
 @property(readonly) double min;
 @property(readonly) double max;

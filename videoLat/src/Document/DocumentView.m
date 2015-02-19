@@ -36,8 +36,8 @@
 	if (self.document ) {
         initialValues = YES;
 		NSString *measurementType = self.document.dataStore.measurementType;
-        NSString *inputBaseMeasurementID = self.document.dataStore.inputBaseMeasurementID;
-        NSString *outputBaseMeasurementID = self.document.dataStore.outputBaseMeasurementID;
+        NSString *inputBaseMeasurementID = self.document.dataStore.input.baseMeasurementID;
+        NSString *outputBaseMeasurementID = self.document.dataStore.output.baseMeasurementID;
 		if (inputBaseMeasurementID && outputBaseMeasurementID && ![inputBaseMeasurementID isEqualToString: outputBaseMeasurementID]) {
 			measurementType = [NSString stringWithFormat: @"%@ (based on %@ and %@)", measurementType, outputBaseMeasurementID, inputBaseMeasurementID];
         } else if (inputBaseMeasurementID) {
@@ -46,14 +46,14 @@
             measurementType = [NSString stringWithFormat: @"%@ (based on %@)", measurementType, outputBaseMeasurementID];
         }
 		self.status.measurementType = measurementType;
-        self.status.inputMachineTypeID = self.document.dataStore.inputMachineTypeID;
-        self.status.inputMachine = self.document.dataStore.inputMachine;
-        self.status.inputLocation = self.document.dataStore.inputLocation;
-		self.status.inputDevice = self.document.dataStore.inputDevice;
-        self.status.outputMachineTypeID = self.document.dataStore.outputMachineTypeID;
-        self.status.outputMachine = self.document.dataStore.outputMachine;
-        self.status.outputLocation = self.document.dataStore.outputLocation;
-		self.status.outputDevice = self.document.dataStore.outputDevice;
+        self.status.inputMachineTypeID = self.document.dataStore.input.machineTypeID;
+        self.status.inputMachine = self.document.dataStore.input.machine;
+        self.status.inputLocation = self.document.dataStore.input.location;
+		self.status.inputDevice = self.document.dataStore.input.device;
+        self.status.outputMachineTypeID = self.document.dataStore.output.machineTypeID;
+        self.status.outputMachine = self.document.dataStore.output.machine;
+        self.status.outputLocation = self.document.dataStore.output.location;
+		self.status.outputDevice = self.document.dataStore.output.device;
 		self.status.date = self.document.dataStore.date;
 		self.status.description = self.document.dataStore.description;
 		if (self.document.dataStore) {

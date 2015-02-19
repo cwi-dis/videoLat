@@ -151,10 +151,10 @@
         return;
     }
     if (handlesInput) {
-        NSString *deviceName = baseStore.inputDevice;
+        NSString *deviceName = baseStore.input.device;
         [self _switchToDevice:deviceName];
     } else if (handlesOutput) {
-        NSString *deviceName = baseStore.outputDevice;
+        NSString *deviceName = baseStore.output.device;
         [self _switchToDevice:deviceName];
     } else {
         assert(0);

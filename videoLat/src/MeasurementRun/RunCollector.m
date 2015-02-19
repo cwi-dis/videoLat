@@ -77,16 +77,16 @@
 	size_t len = sizeof(hwName_c);
 	sysctlbyname("hw.model", hwName_c, &len, NULL, 0);
 	NSString *hwName = [NSString stringWithUTF8String:hwName_c];
-	dataStore.inputMachineID = @"00:00:00:00:00:00"; // XXXX
-    dataStore.inputMachine = @"My Mac"; // XXXX
-	dataStore.inputMachineTypeID = hwName;
-	dataStore.inputDevice = inputName;
-	dataStore.inputDeviceID = inputId;
-    dataStore.outputMachineID = @"00:00:00:00:00:00"; // XXXX
-    dataStore.outputMachine = @"My Mac"; // XXXX
-    dataStore.outputMachineTypeID = hwName;
-	dataStore.outputDevice = outputName;
-	dataStore.outputDeviceID = outputId;
+	dataStore.input.machineID = @"00:00:00:00:00:00"; // XXXX
+    dataStore.input.machine = @"My Mac"; // XXXX
+	dataStore.input.machineTypeID = hwName;
+	dataStore.input.device = inputName;
+	dataStore.input.deviceID = inputId;
+    dataStore.output.machineID = @"00:00:00:00:00:00"; // XXXX
+    dataStore.output.machine = @"My Mac"; // XXXX
+    dataStore.output.machineTypeID = hwName;
+	dataStore.output.device = outputName;
+	dataStore.output.deviceID = outputId;
 }
 
 - (BOOL) recordTransmission: (NSString*)data at: (uint64_t)now
