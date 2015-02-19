@@ -616,6 +616,50 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 //        outputLevel = 0.5;
 //        newOutputValueWanted = NO;
         [self.selectionView.bPreRun setEnabled: NO];
+        [self.selectionView.bRun setEnabled: NO];
+        //
+        // We should now have the correct output device (locally) and input device (received from remote)
+        NSString *errorMessage;
+        NSMenuItem *baseItem = [self.selectionView.bBase selectedItem];
+        NSString *baseName = [baseItem title];
+        MeasurementType *baseType = self.measurementType.requires;
+        MeasurementDataStore *baseStore = [baseType measurementNamed: baseName];
+        if (baseType == nil) {
+            errorMessage = @"No base (calibration) measurement selected.";
+        } else if (remoteDevice == nil) {
+            errorMessage = @"No device description received from remote (slave) partner.";
+        } else {
+            // Check that the base measurement is compatible with this measurement,
+            char hwName_c[100] = "unknown";
+            size_t len = sizeof(hwName_c);
+            sysctlbyname("hw.model", hwName_c, &len, NULL, 0);
+            NSString *hwName = [NSString stringWithUTF8String:hwName_c];
+            // The hardware platform should match the one in the calibration run
+            if (![baseStore.output.machineTypeID isEqualToString:hwName]) {
+                errorMessage = [NSString stringWithFormat:@"Base measurement output done on %@, current hardware is %@", baseStore.output.machine, hwName];
+            }
+            if (handlesOutput) {
+                assert(self.outputView);
+            }
+            // For runs where we are responsible for output the output device should match
+            if (![baseStore.output.deviceID isEqualToString:self.outputCompanion.outputView.deviceID]) {
+                errorMessage = [NSString stringWithFormat:@"Base measurement uses output %@, current measurement uses %@", baseStore.output.device, self.outputView.deviceName];
+            }
+        }
+        if (errorMessage) {
+            NSAlert *alert = [NSAlert alertWithMessageText: @"Base calibration mismatch, are you sure you want to continue?"
+                                             defaultButton:@"Cancel"
+                                           alternateButton:@"Continue"
+                                               otherButton:nil
+                                 informativeTextWithFormat:@"%@", errorMessage];
+            NSInteger button = [alert runModal];
+            if (button == NSAlertDefaultReturn)
+                return;
+        }
+        // Remember the input and output device in the collector
+        [self.collector.dataStore useOutputCalibration:baseStore];
+        //self.collector.dataStore.input = remoteDevice;
+        
         [self.selectionView.bRun setEnabled: YES];
         if (!self.statusView) {
             // XXXJACK Make sure statusview is active/visible
@@ -637,7 +681,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
         self.running = YES;
         if (!handlesOutput)
             [self.outputCompanion companionStartMeasuring];
-//  XXXJACK enable?      [self.collector startCollecting: self.measurementType.name input: self.device.deviceID name: self.device.deviceName output: self.device.deviceID name: self.device.deviceName];
+        [self.collector startCollecting: self.measurementType.name input: remoteDevice output: self.outputCompanion.outputView.deviceID name: self.outputCompanion.outputView.deviceName];
         [self.outputCompanion triggerNewOutputValue];
     }
 }
