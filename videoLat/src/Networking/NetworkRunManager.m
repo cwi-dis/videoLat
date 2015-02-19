@@ -658,7 +658,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
         }
         // Remember the input and output device in the collector
         [self.collector.dataStore useOutputCalibration:baseStore];
-        //self.collector.dataStore.input = remoteDevice;
+        [self.collector.dataStore useInputCalibration:remoteDevice];
         
         [self.selectionView.bRun setEnabled: YES];
         if (!self.statusView) {
@@ -681,7 +681,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
         self.running = YES;
         if (!handlesOutput)
             [self.outputCompanion companionStartMeasuring];
-        [self.collector startCollecting: self.measurementType.name input: remoteDevice output: self.outputCompanion.outputView.deviceID name: self.outputCompanion.outputView.deviceName];
+        [self.collector startCollecting: self.measurementType.name];
         [self.outputCompanion triggerNewOutputValue];
     }
 }
