@@ -96,7 +96,7 @@ static NSMutableDictionary *byTag;
 - (void)addMeasurement: (MeasurementDataStore *)item
 {
 	// Create Unique name for measurement
-	NSString *itemName = [NSString stringWithFormat: @"%@ to %@", item.outputDevice, item.inputDevice];
+	NSString *itemName = [NSString stringWithFormat: @"%@ to %@", item.output.device, item.input.device];
 	if ([measurements objectForKey:itemName]  != nil) {
 		int i = 2;
 		for(i=2; ;i++) {

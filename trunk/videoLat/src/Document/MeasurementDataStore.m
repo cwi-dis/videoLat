@@ -8,24 +8,23 @@
 
 #import "MeasurementDataStore.h"
 
+@implementation DeviceDescription
+@synthesize location;
+@synthesize machineTypeID;
+@synthesize machineID;
+@synthesize machine;
+@synthesize deviceID;
+@synthesize device;
+
+@end
+
 @implementation MeasurementDataStore
 @synthesize measurementType;
 @synthesize date;
 @synthesize description;
 
-@synthesize inputLocation;
-@synthesize inputMachineTypeID;
-@synthesize inputMachineID;
-@synthesize inputMachine;
-@synthesize inputDeviceID;
-@synthesize inputDevice;
-
-@synthesize outputLocation;
-@synthesize outputMachineTypeID;
-@synthesize outputMachineID;
-@synthesize outputMachine;
-@synthesize outputDeviceID;
-@synthesize outputDevice;
+@synthesize output;
+@synthesize input;
 
 @synthesize min;
 @synthesize max;
@@ -36,14 +35,14 @@
     MeasurementDataStore *c = outputCalibration;
     if (c == nil) c = calibration;
 	if (c == nil) return nil;
-    return [NSString stringWithFormat:@"%@ (%@ to %@)", c.measurementType, c.outputDevice, c.inputDevice];
+    return [NSString stringWithFormat:@"%@ (%@ to %@)", c.measurementType, c.output.device, c.input.device];
 }
 
 - (NSString *)inputBaseMeasurementID {
     MeasurementDataStore *c = inputCalibration;
     if (c == nil) c = calibration;
 	if (c == nil) return nil;
-    return [NSString stringWithFormat:@"%@ (%@ to %@)", c.measurementType, c.outputDevice, c.inputDevice];
+    return [NSString stringWithFormat:@"%@ (%@ to %@)", c.measurementType, c.output.device, c.input.device];
 }
 
 - (double) baseMeasurementAverage {
@@ -84,19 +83,8 @@
     measurementType = nil;
     date = nil;
     description = nil;
-    inputLocation = nil;
-    inputMachineTypeID = nil;
-    inputMachineID = nil;
-    inputMachine = nil;
-    inputDeviceID = nil;
-    inputDevice = nil;
-
-    outputLocation = nil;
-    outputMachineTypeID = nil;
-    outputMachineID = nil;
-    outputMachine = nil;
-    outputDeviceID = nil;
-    outputDevice = nil;
+	input = [[DeviceDescription alloc] init];
+	output = [[DeviceDescription alloc] init];
 
     sum = 0;
     sumSquares = 0;
@@ -110,23 +98,25 @@
 - (id)initWithCoder:(NSCoder *)coder
 {
     self = [super init];
+	input = [[DeviceDescription alloc] init];
+	output = [[DeviceDescription alloc] init];
     measurementType = [coder decodeObjectForKey: @"scenario"];
     date = [coder decodeObjectForKey: @"date"];
     description = [coder decodeObjectForKey: @"description"];
     
-    inputLocation = [coder decodeObjectForKey:@"inputLocation"];
-    inputMachineTypeID = [coder decodeObjectForKey:@"inputMachineTypeID"];
-    inputMachineID = [coder decodeObjectForKey:@"inputMachineID"];
-    inputMachine = [coder decodeObjectForKey:@"inputMachine"];
-    inputDeviceID = [coder decodeObjectForKey: @"inputID"];
-    inputDevice = [coder decodeObjectForKey: @"inputName"];
+    input.location = [coder decodeObjectForKey:@"inputLocation"];
+    input.machineTypeID = [coder decodeObjectForKey:@"inputMachineTypeID"];
+    input.machineID = [coder decodeObjectForKey:@"inputMachineID"];
+    input.machine = [coder decodeObjectForKey:@"inputMachine"];
+    input.deviceID = [coder decodeObjectForKey: @"inputID"];
+    input.device = [coder decodeObjectForKey: @"inputName"];
     
-    outputLocation = [coder decodeObjectForKey:@"outputLocation"];
-    outputMachineTypeID = [coder decodeObjectForKey:@"outputMachineTypeID"];
-    outputMachineID = [coder decodeObjectForKey:@"outputMachineID"];
-    outputMachine = [coder decodeObjectForKey:@"outputMachine"];
-    outputDeviceID = [coder decodeObjectForKey: @"outputID"];
-    outputDevice = [coder decodeObjectForKey: @"outputName"];
+    output.location = [coder decodeObjectForKey:@"outputLocation"];
+    output.machineTypeID = [coder decodeObjectForKey:@"outputMachineTypeID"];
+    output.machineID = [coder decodeObjectForKey:@"outputMachineID"];
+    output.machine = [coder decodeObjectForKey:@"outputMachine"];
+    output.deviceID = [coder decodeObjectForKey: @"outputID"];
+    output.device = [coder decodeObjectForKey: @"outputName"];
 
     sum = [coder decodeDoubleForKey:@"sum"];
     sumSquares = [coder decodeDoubleForKey:@"sumSquares"];
@@ -153,19 +143,19 @@
     [coder encodeObject:date forKey: @"date"];
     [coder encodeObject:description forKey: @"description"];
     
-    [coder encodeObject:inputLocation forKey: @"inputLocation"];
-    [coder encodeObject:inputMachineTypeID forKey: @"inputMachineTypeID"];
-    [coder encodeObject:inputMachineID forKey: @"inputMachineID"];
-    [coder encodeObject:inputMachine forKey: @"inputMachine"];
-    [coder encodeObject:inputDeviceID forKey: @"inputID"];
-    [coder encodeObject:inputDevice forKey: @"inputName"];
+    [coder encodeObject:input.location forKey: @"inputLocation"];
+    [coder encodeObject:input.machineTypeID forKey: @"inputMachineTypeID"];
+    [coder encodeObject:input.machineID forKey: @"inputMachineID"];
+    [coder encodeObject:input.machine forKey: @"inputMachine"];
+    [coder encodeObject:input.deviceID forKey: @"inputID"];
+    [coder encodeObject:input.device forKey: @"inputName"];
     
-    [coder encodeObject:outputLocation forKey: @"outputLocation"];
-    [coder encodeObject:outputMachineTypeID forKey: @"outputMachineTypeID"];
-    [coder encodeObject:outputMachineID forKey: @"outputMachineID"];
-    [coder encodeObject:outputMachine forKey: @"outputMachine"];
-    [coder encodeObject:outputDeviceID forKey: @"outputID"];
-    [coder encodeObject:outputDevice forKey: @"outputName"];
+    [coder encodeObject:output.location forKey: @"outputLocation"];
+    [coder encodeObject:output.machineTypeID forKey: @"outputMachineTypeID"];
+    [coder encodeObject:output.machineID forKey: @"outputMachineID"];
+    [coder encodeObject:output.machine forKey: @"outputMachine"];
+    [coder encodeObject:output.deviceID forKey: @"outputID"];
+    [coder encodeObject:output.device forKey: @"outputName"];
 
     [coder encodeDouble: sum forKey: @"sum"];
     [coder encodeDouble: sumSquares forKey: @"sumSquares"];
