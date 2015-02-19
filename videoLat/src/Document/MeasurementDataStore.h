@@ -14,6 +14,8 @@
 /// all the metadata pertaining to that run (type, input and output device used, etc).
 ///
 
+@class MeasurementDataStore;
+
 @interface DeviceDescription : NSObject {
 };
 @property(strong) NSString* location;          //!< Metadata variable, set by owner
@@ -23,7 +25,7 @@
 @property(strong) NSString* deviceID;          //!< Metadata variable, set by owner
 @property(strong) NSString* device;            //!< Metadata variable, set by owner
 @property(readonly) NSString* baseMeasurementID; //!< Metadata variable, set by owner
-
+@property(strong) MeasurementDataStore* calibration;
 @end
 
 @interface MeasurementDataStore : NSCoder <GraphDataProviderProtocol> {
@@ -34,8 +36,6 @@
     int count;          //!< total number of values
 	int missCount;      //!< number of attempts that did not result in a valid measurement
     MeasurementDataStore *calibration;  //!< calibration used, for single-machine measurements
-    MeasurementDataStore *inputCalibration;  //!< calibration used for input, for two-machine measurements
-    MeasurementDataStore *outputCalibration;  //!< calibration used for output, for two-machine measurements
 	NSMutableArray *store;  //!< Internal: the values themselves
 };
 
