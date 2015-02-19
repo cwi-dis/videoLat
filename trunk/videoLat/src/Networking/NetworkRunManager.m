@@ -404,8 +404,8 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
                 // to the website where they can download videoLat).
                 // The prerun QR-code contains contact information for the server running on the
                 // master copy of videoLat.
-				NSURLComponents *urlComps = [NSURLComponents componentsWithString: code];
-				if (urlComps) {
+				if ([code hasPrefix:@"http:"]) {
+                    NSURLComponents *urlComps = [NSURLComponents componentsWithString: code];
 					assert(!self.protocol);	// If multiple different prearm codes are sent by the master this needs to be revisited
 					assert(deviceDescriptorToSend); // Or could this be set at initialization?
 					if ([urlComps.path isEqualToString: @"/landing"] && self.protocol == nil) {
