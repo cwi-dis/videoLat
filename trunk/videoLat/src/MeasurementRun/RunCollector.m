@@ -90,19 +90,25 @@
 	dataStore.output.deviceID = outputId;
 }
 
-- (void) startCollecting: (NSString*)scenario input: (DeviceDescription *)_input output:(NSString*)outputId name: (NSString*)outputName
+- (void) startCollecting: (NSString*)scenario
 {
 	dataStore.measurementType = scenario;
-	char hwName_c[100] = "unknown";
-	size_t len = sizeof(hwName_c);
-	sysctlbyname("hw.model", hwName_c, &len, NULL, 0);
-	NSString *hwName = [NSString stringWithUTF8String:hwName_c];
-	dataStore.input = _input;
-    dataStore.output.machineID = @"00:00:00:00:00:00"; // XXXX
-    dataStore.output.machine = (__bridge_transfer NSString *)SCDynamicStoreCopyComputerName(nil, nil);
-    dataStore.output.machineTypeID = hwName;
-	dataStore.output.device = outputName;
-	dataStore.output.deviceID = outputId;
+    assert(dataStore.input);
+    assert(dataStore.input.calibration);
+    assert(dataStore.output);
+    assert(dataStore.output.calibration);
+    
+    dataStore.input.machine = dataStore.input.calibration.input.machine;
+    dataStore.input.machineID = dataStore.input.calibration.input.machineID;
+    dataStore.input.machineTypeID = dataStore.input.calibration.input.machineTypeID;
+    dataStore.input.device = dataStore.input.calibration.input.device;
+    dataStore.input.deviceID = dataStore.input.calibration.input.deviceID;
+    
+    dataStore.output.machine = dataStore.output.calibration.output.machine;
+    dataStore.output.machineID = dataStore.output.calibration.output.machineID;
+    dataStore.output.machineTypeID = dataStore.output.calibration.output.machineTypeID;
+    dataStore.output.device = dataStore.output.calibration.output.device;
+    dataStore.output.deviceID = dataStore.output.calibration.output.deviceID;
 }
 
 - (BOOL) recordTransmission: (NSString*)data at: (uint64_t)now
