@@ -27,6 +27,7 @@
     NSString *prerunCode;               //!< Internal: data for prerun qrcode
     int prevInputCodeDetectionCount;    //!< Internal: Number of times we re-detected a code.
 	NSObject <RemoteClockProtocol> *_keepRemoteClock;	//!< Internal: retain self-allocated clock
+	DeviceDescription *remoteDevice;	//!< Internal: description of device used at the remote end
 }
 
 @property(weak) IBOutlet id <ClockProtocol> clock;              //!< Assigned in NIB: clock source

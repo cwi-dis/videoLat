@@ -112,6 +112,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
     if (self) {
         handlesInput = NO;
         handlesOutput = NO;
+		remoteDevice = nil;
     }
     return self;
 }

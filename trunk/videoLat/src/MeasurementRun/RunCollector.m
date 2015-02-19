@@ -90,6 +90,21 @@
 	dataStore.output.deviceID = outputId;
 }
 
+- (void) startCollecting: (NSString*)scenario input: (DeviceDescription *)_input output:(NSString*)outputId name: (NSString*)outputName
+{
+	dataStore.measurementType = scenario;
+	char hwName_c[100] = "unknown";
+	size_t len = sizeof(hwName_c);
+	sysctlbyname("hw.model", hwName_c, &len, NULL, 0);
+	NSString *hwName = [NSString stringWithUTF8String:hwName_c];
+	dataStore.input = _input;
+    dataStore.output.machineID = @"00:00:00:00:00:00"; // XXXX
+    dataStore.output.machine = (__bridge_transfer NSString *)SCDynamicStoreCopyComputerName(nil, nil);
+    dataStore.output.machineTypeID = hwName;
+	dataStore.output.device = outputName;
+	dataStore.output.deviceID = outputId;
+}
+
 - (BOOL) recordTransmission: (NSString*)data at: (uint64_t)now
 {
     lastTransmission = data;
