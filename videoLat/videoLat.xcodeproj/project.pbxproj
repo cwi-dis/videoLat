@@ -20,6 +20,7 @@
 		047DD1D2183A3B4D00A04F83 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 047DD1D0183A3B4D00A04F83 /* Credits.rtf */; };
 		047DD1D8183A3B4D00A04F83 /* Document.xib in Resources */ = {isa = PBXBuildFile; fileRef = 047DD1D6183A3B4D00A04F83 /* Document.xib */; };
 		047DD1DB183A3B4D00A04F83 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 047DD1D9183A3B4D00A04F83 /* MainMenu.xib */; };
+		047F65E01A9620B400D86391 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 047F65DF1A9620B400D86391 /* SystemConfiguration.framework */; };
 		048FB6F519FD21040023D29C /* HardwareDevices in Resources */ = {isa = PBXBuildFile; fileRef = 048FB6F419FD21040023D29C /* HardwareDevices */; };
 		049725DD18FD563E00625326 /* BaseRunManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 049725D518FD563E00625326 /* BaseRunManager.m */; };
 		049725DE18FD563E00625326 /* NewMeasurement.xib in Resources */ = {isa = PBXBuildFile; fileRef = 049725D618FD563E00625326 /* NewMeasurement.xib */; };
@@ -98,6 +99,7 @@
 		047DD1D1183A3B4D00A04F83 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
 		047DD1D7183A3B4D00A04F83 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/Document.xib; sourceTree = "<group>"; };
 		047DD1DA183A3B4D00A04F83 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		047F65DF1A9620B400D86391 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		048224A719256E91009BD255 /* videoLat.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = videoLat.entitlements; sourceTree = "<group>"; };
 		048FB6F419FD21040023D29C /* HardwareDevices */ = {isa = PBXFileReference; lastKnownFileType = folder; path = HardwareDevices; sourceTree = "<group>"; };
 		049725D418FD563E00625326 /* BaseRunManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BaseRunManager.h; path = MeasurementRun/BaseRunManager.h; sourceTree = "<group>"; };
@@ -197,6 +199,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				047F65E01A9620B400D86391 /* SystemConfiguration.framework in Frameworks */,
 				047DD1C2183A3B4C00A04F83 /* Cocoa.framework in Frameworks */,
 				04B58F39183A3D5300360A61 /* libzbar.0.dylib in Frameworks */,
 				04B58F3A183A3D5300360A61 /* libzint.dylib in Frameworks */,
@@ -308,6 +311,7 @@
 		047DD1C0183A3B4C00A04F83 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				047F65DF1A9620B400D86391 /* SystemConfiguration.framework */,
 				04B58F36183A3D3800360A61 /* thirdParty */,
 				044F3D7C183A46390008CBA3 /* AVFoundation.framework */,
 				044F3D7E183A46540008CBA3 /* CoreMedia.framework */,
