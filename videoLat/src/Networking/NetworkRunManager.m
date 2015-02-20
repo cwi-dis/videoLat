@@ -499,6 +499,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 {
 	if (!didReceiveData) {
 		[self _updateStatus: @"Connected"];
+		didReceiveData = YES;
 	}
     if (handlesOutput) {
         // This code runs in the slave (video receiver, network transmitter)
