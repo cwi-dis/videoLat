@@ -115,6 +115,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
         handlesOutput = NO;
 		remoteDevice = nil;
 		statusToPeer = nil;
+		didReceiveData = NO;
     }
     return self;
 }
@@ -421,7 +422,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
                                 self.outputView.bPeerStatus.stringValue = @"Failed to connect";
                             } else {
                                 self.protocol.delegate = self;
-                                self.outputView.bPeerStatus.stringValue = @"Connected";
+                                self.outputView.bPeerStatus.stringValue = @"Connection established";
                             }
                         }
 					}
@@ -496,6 +497,9 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 
 - (void)received:(NSDictionary *)data from: (id)connection
 {
+	if (!didReceiveData) {
+		[self _updateStatus: @"Connected"];
+	}
     if (handlesOutput) {
         // This code runs in the slave (video receiver, network transmitter)
         assert(self.outputView);
@@ -513,9 +517,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
     } else {
         // This code runs in the master (video sender, network receiver)
         assert(self.selectionView);
-        self.selectionView.bOurStatus.stringValue = @"Connected";
-        //NSLog(@"received %@ from %@ (our protocol %@)", data, connection, self.protocol);
-        
+
         uint64_t slaveTimestamp = getTimestamp(data, @"slaveTime");
         uint64_t masterTimestamp = getTimestamp(data, @"masterTime");
         uint64_t rtt = getTimestamp(data, @"rtt");
