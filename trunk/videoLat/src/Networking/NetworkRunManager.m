@@ -523,6 +523,10 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
         } else {
             NSLog(@"unexpected data from master: %@", data);
         }
+		NSString *peerStatus = [data objectForKey:@"peerStatus"];
+		if (peerStatus) {
+			[self _updateStatus: peerStatus];
+		}
     } else {
         // This code runs in the master (video sender, network receiver)
         assert(self.selectionView);
@@ -534,10 +538,14 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
         
         if (slaveTimestamp) {
             uint64_t now = [self.clock now];
-            NSDictionary *msg = @{
+            NSMutableDictionary *msg = [@{
                                   @"lastMasterTime": [NSString stringWithFormat:@"%lld", now],
                                   @"lastSlaveTime" : [NSString stringWithFormat:@"%lld", slaveTimestamp],
-                                  };
+                                  } mutableCopy];
+			if (statusToPeer) {
+				[msg setObject: statusToPeer forKey: @"peerStatus"];
+				statusToPeer = nil;
+			}
             [self.protocol send: msg];
         }
 		// Let's see whether they transmitted the device descriptor
