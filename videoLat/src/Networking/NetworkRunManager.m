@@ -297,7 +297,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
         [self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
     }
     if (self.running) {
-        NSLog(@"Running, received code %@", code);
+        if (VL_DEBUG) NSLog(@"Running, received code %@", code);
         if (self.outputCompanion.outputCode == nil) {
             if (VL_DEBUG) NSLog(@"newInputDone called, but no output code yet\n");
             return;
@@ -305,7 +305,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
     
         // Compare the code to what was expected.
         if (count > 1) {
-            NSLog(@"Received old output code again: %@, %d times", code, count);
+            if (VL_DEBUG) NSLog(@"Received old output code again: %@, %d times", code, count);
             return;
         if ((count % 128) == 0) {
                 NSAlert *alert = [NSAlert alertWithMessageText:@"Warning: no new QR code generated."
@@ -322,6 +322,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
             
             // Let's first report it.
             BOOL ok = [self.collector recordReception: self.outputCompanion.outputCode at: timestamp];
+			if (VL_DEBUG) NSLog(@"Reported %@ at %lld, ok=%d", code, timestamp, ok);
             if (!ok) {
                 NSAlert *alert = [NSAlert alertWithMessageText:@"Reception before transmission."
                                                  defaultButton:@"OK"
@@ -527,7 +528,6 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
         uint64_t slaveTimestamp = getTimestamp(data, @"slaveTime");
         uint64_t masterTimestamp = getTimestamp(data, @"masterTime");
         uint64_t rtt = getTimestamp(data, @"rtt");
-        uint64_t count = getTimestamp(data, @"count");
         NSString *code = [data objectForKey: @"code"];
         
         if (slaveTimestamp) {
@@ -556,6 +556,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
         }
         
         if(code && masterTimestamp) {
+			uint64_t count = getTimestamp(data, @"count");
             [self newInputDone: code count: (int)count at: masterTimestamp];
         } else {
             [self newInputDone];

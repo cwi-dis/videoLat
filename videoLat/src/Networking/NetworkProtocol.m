@@ -121,13 +121,37 @@
 
 - (void) main
 {
+	int bufsiz = 8192;
+	char *buffer = malloc(bufsiz);
     while (sock >= 0) {
-        char buffer[2048];
-        ssize_t rv = recv(sock, buffer, sizeof(buffer), 0);
+		char *bufptr = buffer;
+		ssize_t rv;
+		while(1) {
+			if (buffer == NULL || bufptr == NULL) {
+				NSLog(@"Receiver out of memory");
+				[self close];
+				[self.delegate disconnected: self];
+				rv = -1;
+				break;
+			}
+			rv = recv(sock, bufptr, (buffer+bufsiz)-bufptr, 0);
+			if (rv < 0) break;
+			if (bufptr[rv-1] == '}') {
+				rv += (bufptr-buffer);
+				break;
+			}
+			bufptr += rv;
+			if (bufptr == buffer+bufsiz) {
+				buffer = realloc(buffer, bufsiz*2);
+				bufptr = buffer + bufsiz;
+				bufsiz *= 2;
+			}
+		}
         if (rv <= 0) {
              NSLog(@"recv failed: %s", strerror(errno));
             [self close];
             [self.delegate disconnected: self];
+			break;
         } else {
             char *closePtr = strchr(buffer, '}');
             if (buffer[0] == '{' && closePtr && *closePtr == '}') {
@@ -141,6 +165,7 @@
             }
         }
     }
+	free(buffer);
 }
 
 @end
