@@ -68,11 +68,13 @@
 
 - (void)triggerNewOutputValue
 {
-	prerunOutputStartTime = 0;
-	outputStartTime = 0;
-	inputStartTime = 0;
-	outputCodeImage = nil;
-	[self.outputView performSelectorOnMainThread:@selector(showNewData) withObject:nil waitUntilDone:NO ];
+	@synchronized(self) {
+		prerunOutputStartTime = 0;
+		outputStartTime = 0;
+		inputStartTime = 0;
+		outputCodeImage = nil;
+		[self.outputView performSelectorOnMainThread:@selector(showNewData) withObject:nil waitUntilDone:NO ];
+	}
 }
 
 
