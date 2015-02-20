@@ -7,6 +7,7 @@
 //
 
 #import "NetworkRunManager.h"
+#import <sys/sysctl.h>
 
 ///
 /// How many times do we want to get a message that the prerun code has been detected?
@@ -196,7 +197,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 		baseType = (MeasurementType *)self.measurementType.requires;
 		MeasurementDataStore *baseStore = [baseType measurementNamed: baseName];
 		assert(baseStore.input);
-		deviceDescriptorToSend = baseStore.input;
+		deviceDescriptorToSend = [[DeviceDescription alloc] initFromCalibrationInput: baseStore];
 	}
 	return YES;
 }
@@ -658,7 +659,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
         }
         // Remember the input and output device in the collector
         [self.collector.dataStore useOutputCalibration:baseStore];
-        [self.collector.dataStore useInputCalibration:remoteDevice];
+        self.collector.dataStore.input = remoteDevice;
         
         [self.selectionView.bRun setEnabled: YES];
         if (!self.statusView) {
