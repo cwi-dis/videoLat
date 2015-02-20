@@ -103,8 +103,6 @@
     // Keep the data
 	self.dataDistribution = [[MeasurementDistribution alloc] initWithSource:self.dataStore];
 	// Set location, etc
-    self.dataStore.input.location = ((appDelegate *)[[NSApplication sharedApplication] delegate]).location; // XXXJACK wrong! May come from remote side!
-    self.dataStore.output.location = ((appDelegate *)[[NSApplication sharedApplication] delegate]).location; // XXXJACK wrong! May come from remote side!
 	self.dataStore.description = @"";
 	self.dataStore.date = [[NSDate date] descriptionWithCalendarFormat:nil timeZone:nil locale:nil];
 
