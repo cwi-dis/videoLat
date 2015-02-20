@@ -114,6 +114,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
         handlesInput = NO;
         handlesOutput = NO;
 		remoteDevice = nil;
+		statusToPeer = nil;
     }
     return self;
 }
@@ -143,26 +144,15 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
     }
 }
 
-
-#if 0
-
-- (void)terminate
+- (void) _updateStatus: (NSString *)status
 {
-	BaseRunManager *ic = self.inputCompanion, *oc = self.outputCompanion;
-	self.inputCompanion = nil;
-	self.outputCompanion = nil;
-	if (ic) [ic terminate];
-	if (oc) [oc terminate];
-	self.collector = nil;
-	self.statusView = nil;
-	self.measurementMaster = nil;
-	
+	if (self.outputView) {
+		self.outputView.bPeerStatus.stringValue = status;
+	}
+	if (self.selectionView) {
+		self.selectionView.bOurStatus.stringValue = status;
+	}
 }
-
-- (void) dealloc
-{
-}
-#endif
 
 - (IBAction)deviceChanged:(id)sender
 {
@@ -205,7 +195,8 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 - (void)stop
 {
 	//[NSException raise:@"NetworkRunManager" format:@"Must override stop in subclass"];
-    NSLog(@"NetworkRunManager.stop. Unsure what to do...");
+	[self _updateStatus: @"Measurements complete"];
+	statusToPeer = @"Measurements complete";
 }
 
 - (void)triggerNewOutputValue
@@ -418,7 +409,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
                         int port;
                         int rv = sscanf(cQuery, "ip=%126[^&]&port=%d", ipBuffer, &port);
                         if (rv != 2) {
-                            self.outputView.bPeerStatus.stringValue = [NSString stringWithFormat: @"Unexcepted URL: %@", code];
+                            [self _updateStatus: [NSString stringWithFormat: @"Unexcepted URL: %@", code] ];
                         } else {
                             NSString *ipAddress = [NSString stringWithUTF8String:ipBuffer];
                             self.outputView.bPeerIPAddress.stringValue = ipAddress;
@@ -551,6 +542,10 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
             }
 			remoteDevice = dd;
 		}
+		// And update our status, if needed
+		NSString *peerStatus = [data objectForKey:@"peerStatus"];
+		if (peerStatus) [self _updateStatus: peerStatus];
+
         if (rtt) {
             self.selectionView.bRTT.intValue = (int)(rtt/1000);
         }
@@ -568,12 +563,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 {
     NSLog(@"received disconnect from %@ (our protocol %@)", connection, self.protocol);
     self.protocol = nil;
-    if (self.outputView) {
-        self.outputView.bPeerStatus.stringValue = @"Disconnected";
-    }
-    if (self.selectionView) {
-        self.selectionView.bOurStatus.stringValue = @"Disconnected";
-    }
+	[self _updateStatus: @"Disconnected"];
     if (self.preRunning)
         [self stopPreMeasuring: self];
 
@@ -591,6 +581,8 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 - (IBAction)startPreMeasuring: (id)sender
 {
     @synchronized(self) {
+		[self _updateStatus: @"Determining RTT"];
+		statusToPeer = @"Determining RTT";
         assert(handlesInput);
         [self.selectionView.bPreRun setEnabled: NO];
         [self.selectionView.bRun setEnabled: NO];
@@ -649,6 +641,8 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
             }
         }
         if (errorMessage) {
+			[self _updateStatus: @"Missing calibration"];
+			statusToPeer = @"Missing calibration";
             NSAlert *alert = [NSAlert alertWithMessageText: @"Base calibration mismatch, are you sure you want to continue?"
                                              defaultButton:@"Cancel"
                                            alternateButton:@"Continue"
@@ -661,7 +655,10 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
         // Remember the input and output device in the collector
         [self.collector.dataStore useOutputCalibration:baseStore];
         self.collector.dataStore.input = remoteDevice;
-        
+
+		[self _updateStatus: @"Ready to run"];
+		statusToPeer = @"Ready to run";
+
         [self.selectionView.bRun setEnabled: YES];
         if (!self.statusView) {
             // XXXJACK Make sure statusview is active/visible
@@ -674,6 +671,8 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 - (IBAction)startMeasuring: (id)sender
 {
     @synchronized(self) {
+		[self _updateStatus: @"Running measurements"];
+		statusToPeer = @"Running measurements";
         [self.selectionView.bPreRun setEnabled: NO];
         [self.selectionView.bRun setEnabled: NO];
         if (!self.statusView) {

@@ -29,6 +29,7 @@
 	NSObject <RemoteClockProtocol> *_keepRemoteClock;	//!< Internal: retain self-allocated clock
 	DeviceDescription *remoteDevice;	//!< Internal: description of device used at the remote end
 	DeviceDescription *deviceDescriptorToSend;	//!< Internal: description of local device, to be sent to remote
+	NSString *statusToPeer;				//!< Internal: status update to be transmitted to peer
 }
 
 @property(weak) IBOutlet id <ClockProtocol> clock;              //!< Assigned in NIB: clock source
