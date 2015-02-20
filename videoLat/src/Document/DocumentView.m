@@ -36,8 +36,8 @@
 	if (self.document ) {
         initialValues = YES;
 		NSString *measurementType = self.document.dataStore.measurementType;
-        NSString *inputBaseMeasurementID = self.document.dataStore.input.baseMeasurementID;
-        NSString *outputBaseMeasurementID = self.document.dataStore.output.baseMeasurementID;
+        NSString *inputBaseMeasurementID = self.document.dataStore.inputBaseMeasurementID;
+        NSString *outputBaseMeasurementID = self.document.dataStore.outputBaseMeasurementID;
 		if (inputBaseMeasurementID && outputBaseMeasurementID && ![inputBaseMeasurementID isEqualToString: outputBaseMeasurementID]) {
 			measurementType = [NSString stringWithFormat: @"%@ (based on %@ and %@)", measurementType, outputBaseMeasurementID, inputBaseMeasurementID];
         } else if (inputBaseMeasurementID) {

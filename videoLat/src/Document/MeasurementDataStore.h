@@ -24,7 +24,6 @@
 @property(strong) NSString* machine;           //!< Metadata variable, set by owner
 @property(strong) NSString* deviceID;          //!< Metadata variable, set by owner
 @property(strong) NSString* device;            //!< Metadata variable, set by owner
-@property(readonly) NSString* baseMeasurementID; //!< Metadata variable, set by owner
 @property(strong) MeasurementDataStore* calibration;
 
 /// Standard initializer, assigns only geolocation.
@@ -59,6 +58,8 @@
 @property(readonly) double stddev;                  //!< Returns the standard deviation of all values
 @property(readonly) int count;
 @property(readonly) int missCount;
+@property(readonly) NSString *outputBaseMeasurementID;
+@property(readonly) NSString *inputBaseMeasurementID;
 @property(readonly) double baseMeasurementAverage;  //!< Records average of base measurement, for convenience
 @property(readonly) double baseMeasurementStddev;  //!< Records stddev of base measurement, for convenience
 

@@ -15,26 +15,6 @@
 @synthesize dataDistribution;
 @synthesize measurementWindow;
 
-#if 0
-- (NSString*) measurementType { return self.dataStore?self.dataStore.measurementType:@""; }
-- (NSString*) inputBaseMeasurementID { return self.dataStore?self.dataStore.input.baseMeasurementID:nil; }
-- (NSString*) inputMachineTypeID { return self.dataStore?self.dataStore.input.machineTypeID:@""; }
-- (NSString*) inputMachineID { return self.dataStore?self.dataStore.input.machineID:@""; }
-- (NSString*) inputMachine { return self.dataStore?self.dataStore.input.machine:@""; }
-- (NSString*) inputDeviceID { return self.dataStore?self.dataStore.input.deviceID:@""; }
-- (NSString*) inputDevice { return self.dataStore?self.dataStore.input.device:@""; }
-- (NSString*) outputBaseMeasurementID { return self.dataStore?self.dataStore.output.baseMeasurementID:nil; }
-- (NSString*) outputMachineTypeID { return self.dataStore?self.dataStore.output.machineTypeID:@""; }
-- (NSString*) outputMachineID { return self.dataStore?self.dataStore.output.machineID:@""; }
-- (NSString*) outputMachine { return self.dataStore?self.dataStore.output.machine:@""; }
-- (NSString*) outputDeviceID { return self.dataStore?self.dataStore.output.deviceID:@""; }
-- (NSString*) outputDevice { return self.dataStore?self.dataStore.output.device:@""; }
-@synthesize description;
-@synthesize date;
-@synthesize inputLocation;
-@synthesize outputLocation;
-#endif
-
 - (id)init
 {
     self = [super init];
@@ -279,14 +259,14 @@
 	rv = [NSMutableString stringWithCapacity: 0];
 	[rv appendString:@"key,value\n"];
 	[rv appendFormat: @"measurementType,\"%@\"\n", self.dataStore.measurementType];
-    [rv appendFormat: @"outputBaseMeasurementID,\"%@\"\n", self.dataStore.output.baseMeasurementID];
+    [rv appendFormat: @"outputBaseMeasurementID,\"%@\"\n", self.dataStore.outputBaseMeasurementID];
     [rv appendFormat: @"outputMachineTypeID,\"%@\"\n", self.dataStore.output.machineTypeID];
     [rv appendFormat: @"outputMachineID,\"%@\"\n", self.dataStore.output.machineID];
     [rv appendFormat: @"outputMachine,\"%@\"\n", self.dataStore.output.machine];
     [rv appendFormat: @"outputLocation,\"%@\"\n", self.dataStore.output.location];
     [rv appendFormat: @"outputDeviceID,\"%@\"\n", self.dataStore.output.deviceID];
     [rv appendFormat: @"outputDevice,\"%@\"\n", self.dataStore.output.device];
-    [rv appendFormat: @"inputBaseMeasurementID,\"%@\"\n", self.dataStore.input.baseMeasurementID];
+    [rv appendFormat: @"inputBaseMeasurementID,\"%@\"\n", self.dataStore.inputBaseMeasurementID];
     [rv appendFormat: @"inputMachineTypeID,\"%@\"\n", self.dataStore.input.machineTypeID];
     [rv appendFormat: @"inputMachineID,\"%@\"\n", self.dataStore.input.machineID];
     [rv appendFormat: @"inputMachine,\"%@\"\n", self.dataStore.input.machine];
