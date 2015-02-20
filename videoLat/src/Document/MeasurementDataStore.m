@@ -7,6 +7,7 @@
 //
 
 #import "MeasurementDataStore.h"
+#import "appDelegate.h"
 
 @implementation DeviceDescription
 @synthesize location;
@@ -16,6 +17,26 @@
 @synthesize deviceID;
 @synthesize device;
 @synthesize calibration;
+
+- (DeviceDescription *)init
+{
+	self = [super init];
+	self.location = ((appDelegate *)[[NSApplication sharedApplication] delegate]).location;
+	return self;
+}
+
+- (DeviceDescription *)initFromCalibrationInput:(MeasurementDataStore *)_calibration
+{
+	self = [super init];
+	self.location = ((appDelegate *)[[NSApplication sharedApplication] delegate]).location;
+	self.machineTypeID = _calibration.input.machineTypeID;
+	self.machineID = _calibration.input.machineID;
+	self.machine = _calibration.input.machine;
+	self.deviceID = _calibration.input.deviceID;
+	self.device = _calibration.input.device;
+	self.calibration = _calibration;
+	return self;
+}
 
 - (id)initWithCoder:(NSCoder *)coder
 {

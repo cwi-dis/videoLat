@@ -26,6 +26,13 @@
 @property(strong) NSString* device;            //!< Metadata variable, set by owner
 @property(readonly) NSString* baseMeasurementID; //!< Metadata variable, set by owner
 @property(strong) MeasurementDataStore* calibration;
+
+/// Standard initializer, assigns only geolocation.
+- (DeviceDescription *)init;
+
+/// Initializer for sending DeviceDescription to remote location.
+/// Initializes geolocation to here, and other fields from calibration input device.
+- (DeviceDescription *)initFromCalibrationInput: (MeasurementDataStore *)_calibration;
 @end
 
 @interface MeasurementDataStore : NSCoder <GraphDataProviderProtocol> {
