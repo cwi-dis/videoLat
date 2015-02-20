@@ -450,6 +450,10 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 					[msg setObject: ddString forKey:@"inputDeviceDescriptor"];
 					deviceDescriptorToSend = nil;
 				}
+				if (statusToPeer) {
+					[msg setObject: statusToPeer forKey: @"peerStatus"];
+					statusToPeer = nil;
+				}
                 [self.protocol send: msg];
                 lastMessageSentTime = now;
             }
@@ -471,6 +475,10 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
                     assert(ddString);
                     [msg setObject: ddString forKey:@"inputDeviceDescriptor"];
                     deviceDescriptorToSend = nil;
+				}
+				if (statusToPeer) {
+					[msg setObject: statusToPeer forKey: @"peerStatus"];
+					statusToPeer = nil;
 				}
                 [self.protocol send: msg];
                 lastMessageSentTime = now;
@@ -547,7 +555,9 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 		}
 		// And update our status, if needed
 		NSString *peerStatus = [data objectForKey:@"peerStatus"];
-		if (peerStatus) [self _updateStatus: peerStatus];
+		if (peerStatus) {
+			[self _updateStatus: peerStatus];
+		}
 
         if (rtt) {
             self.selectionView.bRTT.intValue = (int)(rtt/1000);
