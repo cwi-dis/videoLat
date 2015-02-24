@@ -38,7 +38,6 @@
     BOOL lastTransmissionReceived;      //!< Internal: true when lastTramsnission has already been received
 	MeasurementDataStore *dataStore;
 }
-@property(weak) IBOutlet Document *document;    //!< Assigned by NIB: the document this object collects for, used to initialize dataStore
 @property(readonly) double average;             //!< accessor for dataStore average
 @property(readonly) double stddev;              //!< accessor for dataStore stddev
 @property(readonly) int count;                  //!< accessor for dataStore count

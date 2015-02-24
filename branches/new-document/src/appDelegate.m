@@ -159,4 +159,29 @@
     NSURL *url = [bundle URLForResource:@"HardwareDevices" withExtension: nil];
     return url;
 }
+
+- (IBAction)newMeasurement:(id)sender
+{
+    BOOL ok;
+#if __MAC_OS_X_VERSION_MAX_ALLOWED >= 1080
+    if ([[NSBundle mainBundle] respondsToSelector:@selector(loadNibNamed:owner:topLevelObjects:)]) {
+        NSArray *newObjects;
+        ok = [[NSBundle mainBundle] loadNibNamed: @"NewMeasurement" owner: self topLevelObjects: &newObjects];
+        objectsForNewDocument = newObjects;
+    } else
+#endif
+    {
+        ok = [NSBundle loadNibNamed:@"NewMeasurement" owner:self];
+        objectsForNewDocument = [[NSMutableArray alloc] init];
+    }
+    if (!ok) {
+        NSLog(@"Could not open NewMeasurement NIB file");
+        
+    }
+#if 0
+    if (self.measurementWindow) {
+        [self.measurementWindow makeKeyAndOrderFront:self];
+    }
+#endif
+}
 @end

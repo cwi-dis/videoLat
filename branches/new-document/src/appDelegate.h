@@ -10,15 +10,18 @@
 #import <CoreLocation/CoreLocation.h>
 #import "protocols.h"
 #import "MeasurementType.h"
+#import "NewMeasurementView.h"
 
 ///
 /// Application delegate. Stores application-global items, and implements application-global actions.
 ///
 @interface appDelegate : NSObject <CLLocationManagerDelegate>{
+    NSArray *objectsForNewDocument;                 //!< Internal: stores NIB-created objects for new measurement window so these are refcounted correctly
 }
 @property(strong) MeasurementType *measurementTypes;    //!< Object that stores all measurement type implementations
 @property(strong) CLLocationManager *locationManager;   //!< CoreLocation object that sends us GPS position updates.
 @property(strong) NSString *location;   //!< Textual description of current GPS location
+@property(strong) NewMeasurementView *measurementNewView;
 
 - (void)applicationWillFinishLaunching:(NSNotification *)aNotification; //!< Standard method called to signal application start.
 - (NSURL *)directoryForCalibrations;    //!< Returns directory where calibration run documents should be stored/loaded.
@@ -30,6 +33,7 @@
 - (IBAction)openCalibrationFolder:(id)sender;   //!< Method to be called when the user wants to view the calibration folder.
 
 - (IBAction)openHardwareFolder:(id)sender;      //!< Method to be called when the user wants to view the hardware drivers folder.
+- (IBAction)newMeasurement:(id)sender;          //!< Method to be called when the user wants to do a new measurement
 - (NSArray *)hardwareNames;                     //!< Names of all available hardware drivers
 - (NSURL *)hardwareFolder;                      //!< URL of folder containing hardware drivers
 @end

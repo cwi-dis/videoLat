@@ -39,6 +39,7 @@
 - (id)initWithType:(NSString *)typeName error:(NSError **)outError
 {
     self = [super initWithType: typeName error: outError];
+#if 0
     if (self) {
         if (VL_DEBUG) NSLog(@"initWithType: %@\n", typeName);
         self.dataStore = [[MeasurementDataStore alloc] init];
@@ -72,6 +73,7 @@
 #endif
         }
     }
+#endif
     return self;
 }
 

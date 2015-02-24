@@ -63,7 +63,7 @@
 
 - (void) awakeFromNib
 {
-    dataStore = self.document.dataStore;
+    dataStore = [[MeasurementDataStore alloc] init];
 }
 
 - (int) count { return dataStore.count; }

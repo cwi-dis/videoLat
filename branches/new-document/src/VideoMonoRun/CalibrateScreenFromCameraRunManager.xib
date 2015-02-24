@@ -3,12 +3,12 @@
 	<data>
 		<int key="IBDocument.SystemTarget">101000</int>
 		<string key="IBDocument.SystemVersion">13F34</string>
-		<string key="IBDocument.InterfaceBuilderVersion">6250</string>
+		<string key="IBDocument.InterfaceBuilderVersion">6254</string>
 		<string key="IBDocument.AppKitVersion">1265.21</string>
 		<string key="IBDocument.HIToolboxVersion">698.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">6250</string>
+			<string key="NS.object.0">6254</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
 			<string>IBNSLayoutConstraint</string>
@@ -32,7 +32,7 @@
 		</object>
 		<array class="NSMutableArray" key="IBDocument.RootObjects" id="1000">
 			<object class="NSCustomObject" id="1001">
-				<string key="NSClassName">RunTypeView</string>
+				<string key="NSClassName">RunManagerView</string>
 			</object>
 			<object class="NSCustomObject" id="1003">
 				<string key="NSClassName">FirstResponder</string>
@@ -1917,7 +1917,7 @@
 							<string key="candidateClassName">VideoInputView</string>
 						</object>
 					</dictionary>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier" id="162805543">
+					<object class="IBClassDescriptionSource" key="sourceIdentifier" id="791961485">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">../src/VideoRun/VideoInput.h</string>
 					</object>
@@ -1950,7 +1950,7 @@
 							<string key="candidateClassName">NSButton</string>
 						</object>
 					</dictionary>
-					<reference key="sourceIdentifier" ref="162805543"/>
+					<reference key="sourceIdentifier" ref="791961485"/>
 				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">VideoInputView</string>
@@ -1973,6 +1973,30 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">VideoMonoRunManager</string>
 					<string key="superclassName">VideoRunManager</string>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="bInputNumericMaxValue">NSTextField</string>
+						<string key="bInputNumericMinValue">NSTextField</string>
+						<string key="bInputNumericValue">NSTextField</string>
+						<string key="bInputValue">NSButton</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="bInputNumericMaxValue">
+							<string key="name">bInputNumericMaxValue</string>
+							<string key="candidateClassName">NSTextField</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="bInputNumericMinValue">
+							<string key="name">bInputNumericMinValue</string>
+							<string key="candidateClassName">NSTextField</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="bInputNumericValue">
+							<string key="name">bInputNumericValue</string>
+							<string key="candidateClassName">NSTextField</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="bInputValue">
+							<string key="name">bInputValue</string>
+							<string key="candidateClassName">NSButton</string>
+						</object>
+					</dictionary>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">../src/VideoMonoRun/VideoMonoRunManager.h</string>

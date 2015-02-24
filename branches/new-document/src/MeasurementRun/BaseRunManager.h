@@ -10,7 +10,7 @@
 #import "protocols.h"
 #import "MeasurementType.h"
 #import "RunCollector.h"
-#import "RunTypeView.h"
+#import "RunManagerView.h"
 #import "RunStatusView.h"
 
 ///
@@ -108,7 +108,7 @@
 
 @property(weak) IBOutlet RunCollector *collector;			//!< Initialized in the NIB, RunCollector for this measurement run.
 @property(weak) IBOutlet RunStatusView *statusView;			//!< Initialized in the NIB, RunStatusView for this measurement run.
-@property(weak) IBOutlet RunTypeView *measurementMaster;	//!< Initialized in the NIB, our parent object.
+@property(weak) IBOutlet RunManagerView *measurementMaster;	//!< Initialized in the NIB, our parent object.
 
 //@{
 /// The inputCompanion and outputCompanion properties need a bit of explanation.
