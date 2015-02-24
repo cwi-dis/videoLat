@@ -185,10 +185,12 @@
     NSMutableDictionary *dict = [NSKeyedUnarchiver unarchiveObjectWithData: data];
     NSString *str;
     str = [dict objectForKey:@"videoLat"];
-    if (![str isEqualToString:@"videoLat"]) {
+    if (str == nil || ![str isEqualToString:@"videoLat"]) {
         if (outError) {
             *outError = [[NSError alloc] initWithDomain:NSCocoaErrorDomain code:NSFileReadCorruptFileError
-                                               userInfo:@{NSLocalizedDescriptionKey : @"This is not a videoLat file"}];
+                                               userInfo:@{
+                                                          NSLocalizedRecoverySuggestionErrorKey : @"This is not a videoLat file.",
+                                                          }];
         }
         return NO;
     }
@@ -196,7 +198,10 @@
     if (![str isEqualToString:VIDEOLAT_FILE_VERSION]) {
         if (outError) {
             *outError = [[NSError alloc] initWithDomain:NSCocoaErrorDomain code:NSFileReadCorruptFileError
-                                               userInfo:@{NSLocalizedDescriptionKey : @"Unsupported videoLat version file"}];
+                                               userInfo:@{
+                                                          NSLocalizedRecoverySuggestionErrorKey :
+                                                              [NSString stringWithFormat: @"Unsupported version (%@) in videoLat file.", str],
+                                                          }];
         }
         return NO;
     }
