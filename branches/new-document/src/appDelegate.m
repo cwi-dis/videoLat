@@ -167,26 +167,47 @@
 
 - (IBAction)newMeasurement:(id)sender
 {
-    BOOL ok;
-#if __MAC_OS_X_VERSION_MAX_ALLOWED >= 1080
-    if ([[NSBundle mainBundle] respondsToSelector:@selector(loadNibNamed:owner:topLevelObjects:)]) {
-        NSArray *newObjects;
-        ok = [[NSBundle mainBundle] loadNibNamed: @"NewMeasurementView" owner: self topLevelObjects: &newObjects];
-        objectsForNewDocument = newObjects;
-    } else
-#endif
-    {
-        ok = [NSBundle loadNibNamed:@"NewMeasurementView" owner:self];
-        objectsForNewDocument = [[NSMutableArray alloc] init];
+	if (self.measurementNewView == nil) {
+		BOOL ok;
+	#if __MAC_OS_X_VERSION_MAX_ALLOWED >= 1080
+		if ([[NSBundle mainBundle] respondsToSelector:@selector(loadNibNamed:owner:topLevelObjects:)]) {
+			NSArray *newObjects;
+			ok = [[NSBundle mainBundle] loadNibNamed: @"NewMeasurementView" owner: self topLevelObjects: &newObjects];
+			objectsForNewDocument = newObjects;
+		} else
+	#endif
+		{
+			ok = [NSBundle loadNibNamed:@"NewMeasurementView" owner:self];
+			objectsForNewDocument = [[NSMutableArray alloc] init];
+		}
+		if (!ok) {
+			NSLog(@"Could not open NewMeasurement NIB file");
+			
+		}
+	}
+
+    if (self.measurementNewView) {
+        [[self.measurementNewView window] makeKeyAndOrderFront:self];
     }
-    if (!ok) {
-        NSLog(@"Could not open NewMeasurement NIB file");
-        
-    }
-#if 0
-    if (self.measurementWindow) {
-        [self.measurementWindow makeKeyAndOrderFront:self];
-    }
-#endif
+}
+
+- (void) windowWillClose: (NSNotification *)notification
+{
+	if ([notification object] == [self.measurementNewView window])
+		self.measurementNewView = nil;
+}
+
+- (void)openUntitledDocumentWithMeasurement: (MeasurementDataStore *)dataStore
+{
+	NSLog(@"openUntitledDocumentWithMeasurement: %@", dataStore);
+	NSDocumentController *c = [NSDocumentController sharedDocumentController];
+	NSError *error;
+	Document *d = [c openUntitledDocumentAndDisplay: NO error:&error];
+	if (d == nil) {
+		NSLog(@"ERROR: %@", error);
+		return;
+	}
+	d.dataStore = dataStore;
+	[d newDocumentComplete: self];
 }
 @end

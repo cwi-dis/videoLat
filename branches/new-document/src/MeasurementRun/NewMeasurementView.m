@@ -66,11 +66,13 @@
     assert([self.runManagerView.runManager class] == runClass);
     [self.runManagerView.runManager selectMeasurementType: typeName];
     NSLog(@"Should hide NewMeasurementView window....");
+	[self.window orderOut:self];
 }
 
 - (IBAction)measurementTypeCancel:(id)sender
 {
     NSLog(@"User pressed Cancel");
+	[self.window close];
 }
 
 @end

@@ -13,6 +13,8 @@
 #import "RunManagerView.h"
 #import "RunStatusView.h"
 
+@class RunManagerView;
+
 ///
 /// Base class for objects that control a delay measurement run, i.e. a sequence of
 /// many individual delay measurements and collects and stores the individual delays.

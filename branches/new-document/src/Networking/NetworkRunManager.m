@@ -123,7 +123,6 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 - (void) awakeFromNib
 {
     if ([super respondsToSelector:@selector(awakeFromNib)]) [super awakeFromNib];
-    self.statusView = self.measurementMaster.statusView;
     assert(self.clock);
     // If we don't handle output (i.e. output is going through video) we start the server and
     // report the port number
@@ -132,7 +131,6 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
         self.protocol = [[NetworkProtocolServer alloc] init];
         self.protocol.delegate = self;
         self.selectionView.bOurPort.intValue = self.protocol.port;
-        self.collector = self.measurementMaster.collector;
     }
     // If we handle output (i.e. we get video from the camera and report QR codes to the server)
     // we only allocate a clock, the client-side of the network connection will be created once we
