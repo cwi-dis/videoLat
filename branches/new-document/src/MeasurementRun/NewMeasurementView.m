@@ -71,6 +71,7 @@
     assert([self.runManagerView.runManager class] == runClass);
     [self.runManagerView.runManager selectMeasurementType: typeName];
     NSLog(@"Should hide NewMeasurementView window....");
+    [[self.runManagerView window] setDelegate: self];
 	[self.window orderOut:self];
 }
 
@@ -79,5 +80,16 @@
     NSLog(@"User pressed Cancel");
 	[self.window close];
 }
+
+- (void) windowWillClose: (NSNotification *)notification
+{
+    NSObject *obj = [notification object];
+    if (obj == [self.runManagerView window]) {
+        self.runManagerView = nil;
+        runManagerNibObjects = nil;
+        [self.window close];
+    }
+}
+
 
 @end

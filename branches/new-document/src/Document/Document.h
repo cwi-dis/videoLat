@@ -47,7 +47,6 @@
 @property(strong) IBOutlet MeasurementDataStore *dataStore; //!< data for this document
 @property(strong) IBOutlet MeasurementDistribution *dataDistribution;   //!< distribution of dataStore
 @property(strong) IBOutlet id myView;   //!< xxx
-@property(assign) IBOutlet NSWindow *measurementWindow; //!< During new measurement: window containing the NewMeasurement objects
 
 - (IBAction)newDocumentComplete: (id)sender;        //!< Callback used by NewMeasurement to signal it has finished.
 - (IBAction)export: (id)sender; //!< Ask user for three filenames and export CSV files for data, distribution and metadata

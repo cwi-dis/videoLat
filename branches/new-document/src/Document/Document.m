@@ -13,7 +13,6 @@
 @implementation Document
 @synthesize dataStore;
 @synthesize dataDistribution;
-@synthesize measurementWindow;
 
 - (id)init
 {
@@ -29,12 +28,6 @@
 {
 }
 
-
-- (void)makeWindowControllers
-{
-    if (self.measurementWindow == nil)
-        [super makeWindowControllers];
-}
 
 #if 0
 - (id)initWithType:(NSString *)typeName error:(NSError **)outError
@@ -119,31 +112,9 @@
         [self _setCalibrationFileName];
     }
     
-    // Close the measurement window and open the document window
-	if (self.measurementWindow) {
-		NSWindow *windowTmp = self.measurementWindow;
-		self.measurementWindow = nil;
-        windowTmp.delegate = nil;
-		[windowTmp close];
-	}
     [super makeWindowControllers];
     [self showWindows];
     [(DocumentView *)self.myView updateView];
-}
-
-- (void)windowWillClose:(NSNotification *)notification
-{
-	// The "new document" window is closing. Check whether it produced results.
-	// But note this will also be called when closing the "save file" sheet....
-	if (VL_DEBUG) NSLog(@"windowWillClose for new measurement window %@", [notification object]);
-	if (self.measurementWindow) {
-		if (VL_DEBUG) NSLog(@"Closing unfinished document");
-        objectsForNewDocument = nil;
-        //xxxjackKeepIt = self.measurementWindow;
-		self.measurementWindow.delegate = nil;
-		self.measurementWindow = nil;
-		[self close];
-	}
 }
 
 - (void)_setCalibrationFileName

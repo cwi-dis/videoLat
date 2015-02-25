@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import "RunManagerView.h"
 
-@interface NewMeasurementView : NSView {
+@interface NewMeasurementView : NSView<NSWindowDelegate> {
     NSArray *runManagerNibObjects;	//!< internal: storage for toplevel object references from loaded nibfiles
 }
 
