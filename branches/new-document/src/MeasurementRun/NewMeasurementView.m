@@ -13,6 +13,11 @@
 
 @synthesize bType;
 
+- (void) dealloc
+{
+}
+
+
 - (void)awakeFromNib
 {
     for (NSString *itemTitle in [bType itemTitles]) {

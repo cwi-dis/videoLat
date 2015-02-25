@@ -187,14 +187,18 @@
 	}
 
     if (self.measurementNewView) {
+        [[self.measurementNewView window] setDelegate: self];
         [[self.measurementNewView window] makeKeyAndOrderFront:self];
     }
 }
 
 - (void) windowWillClose: (NSNotification *)notification
 {
-	if ([notification object] == [self.measurementNewView window])
+    NSObject *obj = [notification object];
+    if (obj == [self.measurementNewView window]) {
 		self.measurementNewView = nil;
+        objectsForNewDocument = nil;
+    }
 }
 
 - (void)openUntitledDocumentWithMeasurement: (MeasurementDataStore *)dataStore

@@ -36,10 +36,10 @@
         [super makeWindowControllers];
 }
 
+#if 0
 - (id)initWithType:(NSString *)typeName error:(NSError **)outError
 {
     self = [super initWithType: typeName error: outError];
-#if 0
     if (self) {
         if (VL_DEBUG) NSLog(@"initWithType: %@\n", typeName);
         self.dataStore = [[MeasurementDataStore alloc] init];
@@ -73,9 +73,9 @@
 #endif
         }
     }
-#endif
     return self;
 }
+#endif
 
 - (NSString *)windowNibName
 {
@@ -88,6 +88,7 @@
 {
 	[super windowControllerDidLoadNib:aController];
 	// Add any code here that needs to be executed once the windowController has loaded the document's window.
+#if 0
     if (objectsForNewDocument) {
         // We have opened a new-measurement view.
         [[aController window] orderOut: self];
@@ -96,6 +97,7 @@
                 [obj makeKeyAndOrderFront: self];
         }
     }
+#endif
 }
 
 - (IBAction)newDocumentComplete: (id)sender
