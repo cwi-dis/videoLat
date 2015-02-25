@@ -21,9 +21,11 @@
 @property(strong) MeasurementType *measurementTypes;    //!< Object that stores all measurement type implementations
 @property(strong) CLLocationManager *locationManager;   //!< CoreLocation object that sends us GPS position updates.
 @property(strong) NSString *location;   //!< Textual description of current GPS location
-@property(strong) NewMeasurementView *measurementNewView;
+@property(weak) IBOutlet NewMeasurementView *measurementNewView;
 
 - (void)applicationWillFinishLaunching:(NSNotification *)aNotification; //!< Standard method called to signal application start.
+- (BOOL) applicationShouldOpenUntitledFile: (id)sender;
+
 - (NSURL *)directoryForCalibrations;    //!< Returns directory where calibration run documents should be stored/loaded.
 - (void)_loadCalibrationsFrom: (NSURL *)directory;  //!< Internal helper for applicationWillFinishLaunching, loads all calibrations.
 - (BOOL)_loadCalibration: (NSURL *)directory error: (NSError **)outError;   //!< Helper for loadCalibrationsFrom, loads a single calibration.

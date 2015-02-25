@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		041714DD19DDEF340019FA45 /* NetworkProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 041714DC19DDEF340019FA45 /* NetworkProtocol.m */; };
+		041E097F1A9DDAAC006A241C /* TemplateRunManager.xib in Resources */ = {isa = PBXBuildFile; fileRef = 041E097E1A9DDAAC006A241C /* TemplateRunManager.xib */; };
 		044F3D7D183A46390008CBA3 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 044F3D7C183A46390008CBA3 /* AVFoundation.framework */; };
 		044F3D7F183A46540008CBA3 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 044F3D7E183A46540008CBA3 /* CoreMedia.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		044F3D81183A467F0008CBA3 /* libpython2.7.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 044F3D80183A467F0008CBA3 /* libpython2.7.dylib */; };
@@ -82,6 +83,7 @@
 /* Begin PBXFileReference section */
 		041714DB19DDECBE0019FA45 /* NetworkProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NetworkProtocol.h; path = Networking/NetworkProtocol.h; sourceTree = "<group>"; };
 		041714DC19DDEF340019FA45 /* NetworkProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NetworkProtocol.m; path = Networking/NetworkProtocol.m; sourceTree = "<group>"; };
+		041E097E1A9DDAAC006A241C /* TemplateRunManager.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = TemplateRunManager.xib; path = MeasurementRun/TemplateRunManager.xib; sourceTree = "<group>"; };
 		044F3D7C183A46390008CBA3 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = /System/Library/Frameworks/AVFoundation.framework; sourceTree = "<absolute>"; };
 		044F3D7E183A46540008CBA3 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = ../../../../System/Library/Frameworks/CoreMedia.framework; sourceTree = "<group>"; };
 		044F3D80183A467F0008CBA3 /* libpython2.7.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libpython2.7.dylib; path = ../../../../System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/config/libpython2.7.dylib; sourceTree = "<group>"; };
@@ -245,6 +247,7 @@
 				04ED2A161A9D23E2001FA0AC /* NewMeasurementView.h */,
 				04ED2A171A9D23E2001FA0AC /* NewMeasurementView.m */,
 				049725D618FD563E00625326 /* NewMeasurementView.xib */,
+				041E097E1A9DDAAC006A241C /* TemplateRunManager.xib */,
 				049725D718FD563E00625326 /* RunCollector.h */,
 				049725D818FD563E00625326 /* RunCollector.m */,
 				049725D918FD563E00625326 /* RunStatusView.h */,
@@ -592,6 +595,7 @@
 				04B1915119D2ECBC001ABA66 /* Doxyfile in Resources */,
 				0497261918FD582600625326 /* VideoCalibrationRunManager.xib in Resources */,
 				04D411131A02CABC009AFEED /* CalibrateCameraFromScreenRunManager.xib in Resources */,
+				041E097F1A9DDAAC006A241C /* TemplateRunManager.xib in Resources */,
 				04A9C14819216EB70016E6C0 /* AudioCalibrationRunManager.xib in Resources */,
 				048FB6F519FD21040023D29C /* HardwareDevices in Resources */,
 				04FFDF94185A6FAE00B1CCCC /* videoLat.help in Resources */,

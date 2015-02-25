@@ -44,6 +44,11 @@
 	[self.locationManager startUpdatingLocation];	
 }
 
+- (BOOL) applicationShouldOpenUntitledFile: (id)sender
+{
+	return NO;
+}
+
 - (NSURL *)directoryForCalibrations
 {
 	NSError *error;
@@ -166,12 +171,12 @@
 #if __MAC_OS_X_VERSION_MAX_ALLOWED >= 1080
     if ([[NSBundle mainBundle] respondsToSelector:@selector(loadNibNamed:owner:topLevelObjects:)]) {
         NSArray *newObjects;
-        ok = [[NSBundle mainBundle] loadNibNamed: @"NewMeasurement" owner: self topLevelObjects: &newObjects];
+        ok = [[NSBundle mainBundle] loadNibNamed: @"NewMeasurementView" owner: self topLevelObjects: &newObjects];
         objectsForNewDocument = newObjects;
     } else
 #endif
     {
-        ok = [NSBundle loadNibNamed:@"NewMeasurement" owner:self];
+        ok = [NSBundle loadNibNamed:@"NewMeasurementView" owner:self];
         objectsForNewDocument = [[NSMutableArray alloc] init];
     }
     if (!ok) {
