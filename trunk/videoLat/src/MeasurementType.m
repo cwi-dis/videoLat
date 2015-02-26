@@ -48,9 +48,9 @@ static NSMutableDictionary *byTag;
     
     MeasurementType *cal_HW = [self addType: @"Hardware Calibrate" tag: 3 isCalibration: YES requires: nil];
     
-    MeasurementType *cal_IN = [self addType: @"Camera Calibrate using Hardware" tag: 4 isCalibration: YES requires: cal_HW];
+    MeasurementType *cal_IN = [self addType: @"Camera Calibrate" tag: 4 isCalibration: YES requires: cal_HW];
     cal_IN.inputOnlyCalibration = YES;
-    MeasurementType *cal_OUT = [self addType: @"Screen Calibrate using Hardware" tag: 5 isCalibration: YES requires: cal_HW];
+    MeasurementType *cal_OUT = [self addType: @"Screen Calibrate" tag: 5 isCalibration: YES requires: cal_HW];
     cal_OUT.outputOnlyCalibration = YES;
     
     MeasurementType *cal_IN2 = [self addType: @"Camera Calibrate using Calibrated Screen" tag: 4 isCalibration: YES requires: cal_OUT];
