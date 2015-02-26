@@ -68,6 +68,7 @@
 @synthesize measurementType;
 @synthesize date;
 @synthesize description;
+@synthesize uuid;
 
 @synthesize output;
 @synthesize input;
@@ -77,17 +78,27 @@
 @synthesize count;
 @synthesize missCount;
 
-- (NSString *)outputBaseMeasurementID {
+- (MeasurementDataStore *)outputCalibration {
     MeasurementDataStore *c = output.calibration;
     if (c == nil) c = calibration;
-	if (c == nil) return nil;
+    return c;
+}
+
+- (MeasurementDataStore *)inputCalibration {
+    MeasurementDataStore *c = input.calibration;
+    if (c == nil) c = calibration;
+    return c;
+}
+
+- (NSString *)outputBaseMeasurementID {
+    MeasurementDataStore *c = self.outputCalibration;
+    if (c == nil) return nil;
     return [NSString stringWithFormat:@"%@ (%@ to %@)", c.measurementType, c.output.device, c.input.device];
 }
 
 - (NSString *)inputBaseMeasurementID {
-    MeasurementDataStore *c = input.calibration;
-    if (c == nil) c = calibration;
-	if (c == nil) return nil;
+    MeasurementDataStore *c = self.inputCalibration;
+    if (c == nil) return nil;
     return [NSString stringWithFormat:@"%@ (%@ to %@)", c.measurementType, c.output.device, c.input.device];
 }
 
@@ -131,6 +142,7 @@
     measurementType = nil;
     date = nil;
     description = nil;
+    uuid = [[NSUUID UUID] UUIDString];
 	input = [[DeviceDescription alloc] init];
 	output = [[DeviceDescription alloc] init];
 
@@ -149,6 +161,8 @@
     measurementType = [coder decodeObjectForKey: @"scenario"];
     date = [coder decodeObjectForKey: @"date"];
     description = [coder decodeObjectForKey: @"description"];
+    uuid = [coder decodeObjectForKey:@"uuid"];
+    if (uuid == nil) uuid = [[NSUUID UUID] UUIDString];
     
     input = [coder decodeObjectForKey:@"input"];
     output = [coder decodeObjectForKey:@"output"];

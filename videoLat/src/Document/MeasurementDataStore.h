@@ -48,6 +48,7 @@
 @property(strong) NSString* measurementType;        //!< Metadata variable, set by owner
 @property(strong) NSString* date;                   //!< Metadata variable, set by owner
 @property(strong) NSString* description;            //!< Metadata variable, set by owner
+@property(strong) NSString* uuid;                   //!< Unique ID, set at init time
 
 @property(strong) DeviceDescription *input;
 @property(strong) DeviceDescription *output;
@@ -60,6 +61,8 @@
 @property(readonly) int missCount;
 @property(readonly) NSString *outputBaseMeasurementID;
 @property(readonly) NSString *inputBaseMeasurementID;
+@property(readonly) MeasurementDataStore *inputCalibration;
+@property(readonly) MeasurementDataStore *outputCalibration;
 @property(readonly) double baseMeasurementAverage;  //!< Records average of base measurement, for convenience
 @property(readonly) double baseMeasurementStddev;  //!< Records stddev of base measurement, for convenience
 

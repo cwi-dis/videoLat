@@ -28,4 +28,6 @@
 - (void)viewWillDraw;   //!< Called by window manager just before viewing, calls updateView if needed
 - (void)updateView;     //!< Updates variables in status view so they reflect the document values
 - (void)controlTextDidChange:(NSNotification *)aNotification;   //!< Called when description in status view has changed, updates the document
+- (IBAction)openInputCalibration:(id)sender;
+- (IBAction)openOutputCalibration:(id)sender;
 @end

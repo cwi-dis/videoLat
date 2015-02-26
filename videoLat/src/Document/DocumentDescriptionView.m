@@ -14,10 +14,12 @@
 @synthesize bInputMachine;
 @synthesize bInputLocation;
 @synthesize bInputDevice;
+@synthesize bInputCalibration;
 @synthesize bOutputMachineTypeID;
 @synthesize bOutputMachine;
 @synthesize bOutputLocation;
 @synthesize bOutputDevice;
+@synthesize bOutputCalibration;
 @synthesize bDate;
 @synthesize bDescription;
 @synthesize bDetectCount;
@@ -26,15 +28,20 @@
 @synthesize bDetectMinDelay;
 @synthesize bDetectMaxDelay;
 
+@synthesize bOpenInputCalibration;
+@synthesize bOpenOutputCalibration;
+
 @synthesize measurementType;
 @synthesize inputMachineTypeID;
 @synthesize inputMachine;
 @synthesize inputLocation;
 @synthesize inputDevice;
+@synthesize inputCalibration;
 @synthesize outputMachineTypeID;
 @synthesize outputMachine;
 @synthesize outputLocation;
 @synthesize outputDevice;
+@synthesize outputCalibration;
 @synthesize date;
 @synthesize description;
 @synthesize detectCount;
@@ -53,11 +60,31 @@
     if (bInputMachineTypeID) bInputMachineTypeID.stringValue = inputMachine?inputMachineTypeID:@"";
     if (bInputMachine) bInputMachine.stringValue = inputMachine?inputMachine:@"";
     if (bInputLocation) bInputLocation.stringValue = inputLocation?inputLocation:@"";
-	if (bInputDevice) bInputDevice.stringValue = inputDevice?inputDevice:@"";
+    if (bInputDevice) bInputDevice.stringValue = inputDevice?inputDevice:@"";
+    if (bInputCalibration) {
+        NSString *val = inputCalibration;
+        if (val) {
+            [bOpenInputCalibration setEnabled:YES];
+        } else {
+            [bOpenInputCalibration setEnabled:NO];
+            val = @"";
+        }
+        bInputCalibration.stringValue = val;
+    }
     if (bOutputMachineTypeID) bOutputMachineTypeID.stringValue = outputMachine?outputMachineTypeID:@"";
     if (bOutputMachine) bOutputMachine.stringValue = outputMachine?outputMachine:@"";
     if (bOutputLocation) bOutputLocation.stringValue = outputLocation?outputLocation:@"";
-	if (bOutputDevice) bOutputDevice.stringValue = outputDevice?outputDevice:@"";
+    if (bOutputDevice) bOutputDevice.stringValue = outputDevice?outputDevice:@"";
+    if (bOutputCalibration) {
+        NSString *val = outputCalibration;
+        if (val) {
+            [bOpenOutputCalibration setEnabled:YES];
+        } else {
+            [bOpenOutputCalibration setEnabled:NO];
+            val = @"";
+        }
+        bOutputCalibration.stringValue = val;
+    }
 	if (bDate) bDate.stringValue = date?date:@"";
 	if (bDescription) bDescription.stringValue = description?description:@"";
 	if (bDetectCount) bDetectCount.stringValue = detectCount?detectCount:@"";

@@ -7,6 +7,7 @@
 //
 
 #import "DocumentView.h"
+#import "appDelegate.h"
 
 @implementation DocumentView
 @synthesize status;
@@ -42,18 +43,22 @@
 			measurementType = [NSString stringWithFormat: @"%@ (based on %@ and %@)", measurementType, outputBaseMeasurementID, inputBaseMeasurementID];
         } else if (inputBaseMeasurementID) {
             measurementType = [NSString stringWithFormat: @"%@ (based on %@)", measurementType, inputBaseMeasurementID];
+            outputBaseMeasurementID = inputBaseMeasurementID;
         } else if (outputBaseMeasurementID) {
             measurementType = [NSString stringWithFormat: @"%@ (based on %@)", measurementType, outputBaseMeasurementID];
+            inputBaseMeasurementID = outputBaseMeasurementID;
         }
 		self.status.measurementType = measurementType;
         self.status.inputMachineTypeID = self.document.dataStore.input.machineTypeID;
         self.status.inputMachine = self.document.dataStore.input.machine;
         self.status.inputLocation = self.document.dataStore.input.location;
-		self.status.inputDevice = self.document.dataStore.input.device;
+        self.status.inputDevice = self.document.dataStore.input.device;
+        self.status.inputCalibration= inputBaseMeasurementID;
         self.status.outputMachineTypeID = self.document.dataStore.output.machineTypeID;
         self.status.outputMachine = self.document.dataStore.output.machine;
         self.status.outputLocation = self.document.dataStore.output.location;
 		self.status.outputDevice = self.document.dataStore.output.device;
+        self.status.outputCalibration= outputBaseMeasurementID;
 		self.status.date = self.document.dataStore.date;
 		self.status.description = self.document.dataStore.description;
 		if (self.document.dataStore) {
@@ -90,5 +95,23 @@
     self.status.description = self.status.bDescription.stringValue;
     self.document.dataStore.description = self.status.description;
     [self.document changed];
+}
+
+- (IBAction)openInputCalibration:(id)sender
+{
+    appDelegate *d = (appDelegate *)[[NSApplication sharedApplication] delegate];
+    MeasurementDataStore *s = self.document.dataStore.inputCalibration;
+    if (d && s) {
+        [d openUntitledDocumentWithMeasurement:s];
+    }
+}
+
+- (IBAction)openOutputCalibration:(id)sender
+{
+    appDelegate *d = (appDelegate *)[[NSApplication sharedApplication] delegate];
+    MeasurementDataStore *s = self.document.dataStore.outputCalibration;
+    if (d && s) {
+        [d openUntitledDocumentWithMeasurement:s];
+    }
 }
 @end
