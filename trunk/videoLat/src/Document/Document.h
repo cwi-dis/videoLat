@@ -21,33 +21,12 @@
 /// When the measurement run has completed that window disappears and the document window is shown.
 ///
 @interface Document : NSDocument <NSWindowDelegate> {
-    NSArray *objectsForNewDocument;                 //!< Internal: stores NIB-created objects for new measurement window so these are refcounted correctly
 	MeasurementType *myType;                        //!< Internal: type of dataStore measurement
 }
-#if 0
-@property(readonly) NSString* measurementType;      //!< accessor for dataStore metadata variable
-@property(readonly) NSString* inputBaseMeasurementID;    //!< accessor for dataStore metadata variable
-@property(readonly) NSString* inputMachineTypeID;   //!< accessor for dataStore metadata variable
-@property(readonly) NSString* inputMachineID;       //!< accessor for dataStore metadata variable
-@property(readonly) NSString* inputMachine;         //!< accessor for dataStore metadata variable
-@property(readonly) NSString* inputDeviceID;        //!< accessor for dataStore metadata variable
-@property(readonly) NSString* inputDevice;          //!< accessor for dataStore metadata variable
-@property(readonly) NSString* outputBaseMeasurementID;    //!< accessor for dataStore metadata variable
-@property(readonly) NSString* outputMachineTypeID;  //!< accessor for dataStore metadata variable
-@property(readonly) NSString* outputMachineID;      //!< accessor for dataStore metadata variable
-@property(readonly) NSString* outputMachine;        //!< accessor for dataStore metadata variable
-@property(readonly) NSString* outputDeviceID;       //!< accessor for dataStore metadata variable
-@property(readonly) NSString* outputDevice;         //!< accessor for dataStore metadata variable
-@property(strong) NSString* description;            //!< accessor for dataStore metadata variable
-@property(strong) NSString* date;                   //!< accessor for dataStore metadata variable
-@property(strong) NSString* inputLocation;               //!< accessor for dataStore metadata variable
-@property(strong) NSString* outputLocation;               //!< accessor for dataStore metadata variable
-#endif
 
 @property(strong) IBOutlet MeasurementDataStore *dataStore; //!< data for this document
 @property(strong) IBOutlet MeasurementDistribution *dataDistribution;   //!< distribution of dataStore
 @property(strong) IBOutlet id myView;   //!< xxx
-@property(assign) IBOutlet NSWindow *measurementWindow; //!< During new measurement: window containing the NewMeasurement objects
 
 - (IBAction)newDocumentComplete: (id)sender;        //!< Callback used by NewMeasurement to signal it has finished.
 - (IBAction)export: (id)sender; //!< Ask user for three filenames and export CSV files for data, distribution and metadata

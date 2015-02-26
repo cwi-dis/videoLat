@@ -46,8 +46,6 @@
 - (void)awakeFromNib
 {
     if ([super respondsToSelector:@selector(awakeFromNib)]) [super awakeFromNib];
-    self.statusView = self.measurementMaster.statusView;
-    self.collector = self.measurementMaster.collector;
 //    if (self.clock == nil) self.clock = self;
     [self restart];
 }
