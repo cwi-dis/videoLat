@@ -105,9 +105,9 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
     [BaseRunManager registerNib: @"SlaveReceiverRun" forMeasurementType: @"Video Reception (Slave/Client)"];
 
     [BaseRunManager registerClass: [self class] forMeasurementType: @"Camera Calibrate using Remote Calibrated Screen (Slave/Client)"];
-    [BaseRunManager registerNib: @"MasterSenderRun" forMeasurementType: @"Camera Calibrate using Remote Calibrated Screen (Slave/Client)"];
+    [BaseRunManager registerNib: @"SlaveReceiverCameraCalibrationRun" forMeasurementType: @"Camera Calibrate using Remote Calibrated Screen (Slave/Client)"];
     [BaseRunManager registerClass: [self class] forMeasurementType: @"Screen Calibrate using Remote Calibrated Camera (Master/Server)"];
-    [BaseRunManager registerNib: @"MasterSenderRun" forMeasurementType: @"Screen Calibrate using Remote Calibrated Camera (Master/Server)"];
+    [BaseRunManager registerNib: @"MasterSenderScreenCalibrationRun" forMeasurementType: @"Screen Calibrate using Remote Calibrated Camera (Master/Server)"];
 }
 
 - (NetworkRunManager *) init
@@ -184,7 +184,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 	if (handlesInput) {
 		deviceDescriptorToSend = nil;
 		assert(self.selectionView);
-		if (self.selectionView.bBase == nil) {
+		if (self.selectionView.bBase == nil && !self.measurementType.isCalibration) {
 			NSLog(@"NetworkRunManager: bBase == nil");
 			return NO;
 		}
