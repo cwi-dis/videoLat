@@ -122,6 +122,11 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
     return self;
 }
 
+- (void) dealloc
+{
+    
+}
+
 - (void) awakeFromNib
 {
     if (self.capturer) {
