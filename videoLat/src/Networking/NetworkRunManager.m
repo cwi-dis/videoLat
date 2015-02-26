@@ -8,6 +8,7 @@
 
 #import "NetworkRunManager.h"
 #import <sys/sysctl.h>
+#import "appDelegate.h"
 
 ///
 /// How many times do we want to get a message that the prerun code has been detected?
@@ -102,6 +103,9 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
     // sure the nibfile is registered...
     [BaseRunManager registerClass: [self class] forMeasurementType: @"Video Reception (Slave/Client)"];
     [BaseRunManager registerNib: @"SlaveReceiverRun" forMeasurementType: @"Video Reception (Slave/Client)"];
+
+    [BaseRunManager registerClass: [self class] forMeasurementType: @"Camera Input Calibrate for Other device (based on this Screen)"];
+    [BaseRunManager registerNib: @"MasterSenderRun" forMeasurementType: @"Camera Input Calibrate for Other device (based on this Screen)"];
 }
 
 - (NetworkRunManager *) init
@@ -504,6 +508,18 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
     if (handlesOutput) {
         // This code runs in the slave (video receiver, network transmitter)
         assert(self.outputView);
+        
+        // Let's first check whether this message has the results, in that case we display them and are done.
+        NSString *mrString = [data objectForKey: @"measurementResults"];
+        if (mrString) {
+            NSData *mrData = [[NSData alloc] initWithBase64EncodedString:mrString options:0];
+            assert(mrData);
+            MeasurementDataStore *mr = [NSKeyedUnarchiver unarchiveObjectWithData:mrData];
+            assert(mr);
+            appDelegate *ad = (appDelegate *)[[NSApplication sharedApplication] delegate];
+            [ad openUntitledDocumentWithMeasurement: mr];
+            return;
+        }
         //NSLog(@"received %@ from %@ (our protocol %@)", data, connection, self.protocol);
         uint64_t slaveTimestamp = getTimestamp(data, @"lastSlaveTime");
         uint64_t masterTimestamp = getTimestamp(data, @"lastMasterTime");
@@ -540,6 +556,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 			}
             [self.protocol send: msg];
         }
+        
 		// Let's see whether they transmitted the device descriptor
 		NSString *ddString = [data objectForKey: @"inputDeviceDescriptor"];
 		if (ddString) {

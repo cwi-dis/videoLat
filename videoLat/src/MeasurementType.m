@@ -62,6 +62,10 @@ static NSMutableDictionary *byTag;
 
     [self addType: @"Video Transmission (Master/Server)" tag: 6 isCalibration: NO requires: cal_OUT];
     [self addType: @"Video Reception (Slave/Client)" tag: 7 isCalibration: NO requires: cal_IN];
+    
+    MeasurementType *cal_IN3 = [self addType: @"Camera Input Calibrate for Other device (based on this Screen)" tag: 4 isCalibration: YES requires: cal_OUT];
+    cal_IN3.inputOnlyCalibration = YES;
+    [cal_IN3 setIsSubtypeOf: cal_IN];
 
     MeasurementType *cal_AR = [self addType: @"Audio Roundtrip Calibrate" tag: 8 isCalibration: YES requires: nil];
     [self addType: @"Audio Roundtrip" tag: 9 isCalibration: NO requires: cal_AR];
