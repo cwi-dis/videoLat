@@ -15,6 +15,10 @@
 
 @synthesize delegate;
 
+- (void) dealloc
+{
+}
+
 - (NSString *)host
 {
     // Use a datagram socket and connect it to a known website.
@@ -150,9 +154,13 @@
             if (buffer[0] == '{' && closePtr && *closePtr == '}') {
                 NSData *dataBuf = [NSData dataWithBytes:buffer length:closePtr-buffer+1];
                 assert(dataBuf);
-                NSDictionary *data = [NSJSONSerialization JSONObjectWithData: dataBuf options:0 error:nil];
-                assert(data);
-                [self.delegate received:data from:self];
+                NSError *error;
+                NSDictionary *data = [NSJSONSerialization JSONObjectWithData: dataBuf options:0 error:&error];
+                if (data) {
+                    [self.delegate received:data from:self];
+                } else {
+                    NSLog(@"NetworkProtocol: error json-decoding data: %@", error);
+                }
             } else {
                 NSLog(@"Received message not of form {.....}");
             }
