@@ -20,10 +20,25 @@
 
 - (void)awakeFromNib
 {
+    // Enable only the menu entries for which we have the required calibration
     for (NSString *itemTitle in [bType itemTitles]) {
-        BOOL exists = [BaseRunManager classForMeasurementType: itemTitle] != nil;
-        //        if (!exists) NSLog(@"RunTypeView: disable type \"%@\" for which no class exists", itemTitle);
-        [[bType itemWithTitle: itemTitle] setEnabled: exists];
+        if (itemTitle == nil || [itemTitle isEqualToString:@""]) continue;
+        BOOL ok = [BaseRunManager classForMeasurementType: itemTitle] != nil;
+        if (!ok) continue;
+        assert(ok);
+        MeasurementType *myType = [MeasurementType forType: itemTitle];
+        assert(myType);
+        MeasurementType *myCalibration = myType.requires;
+        if (myCalibration == nil) {
+            ok = YES;
+        } else {
+            ok = [[myCalibration measurementNames] count] > 0;
+        }
+        [[bType itemWithTitle: itemTitle] setEnabled: ok];
+        if (!ok) {
+            NSString *tt = [[bType itemWithTitle: itemTitle] toolTip];
+            [[bType itemWithTitle: itemTitle] setToolTip: [NSString stringWithFormat: @"%@\n\nDisabled because it requires a calibration of type %@", tt, myCalibration.name]];
+        }
     }
     // Try to set same as in previous run
     [bType selectItemAtIndex:-1];
