@@ -17,13 +17,7 @@
 
 - (NSString *)host
 {
-#if 0
-    // Asking our own socket for its IP address too often returns 0.0.0.0.
-    struct sockaddr_in myAddr;
-    socklen_t myAddrLen = sizeof(myAddr);
-    int rv = getsockname(sock, (struct sockaddr *)&myAddr, &myAddrLen);
-#else
-    // In stead use a datagram socket and connect it to a known website.
+    // Use a datagram socket and connect it to a known website.
     int tmpSock = socket(AF_INET, SOCK_DGRAM, 0);
     if (tmpSock < 0) {
         NSLog(@"socket(tmpSock) failed: %s", strerror(errno));
@@ -46,7 +40,6 @@
     socklen_t myAddrLen = sizeof(myAddr);
     rv = getsockname(tmpSock, (struct sockaddr *)&myAddr, &myAddrLen);
 
-#endif
     if (rv < 0) {
         NSLog(@"getsockname failed: %s", strerror(errno));
         return nil;
@@ -202,13 +195,6 @@
     sock = connSock;
     [super main];
 }
-
-#if 0
-- (void) sendString: (NSString *)data
-{
-    // Pass to server thread
-}
-#endif
 
 @end
 

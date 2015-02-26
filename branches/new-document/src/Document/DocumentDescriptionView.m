@@ -65,20 +65,6 @@
 	if (bDetectAverage) bDetectAverage.stringValue = detectAverage?detectAverage:@"";
 	if (bDetectMinDelay) bDetectMinDelay.stringValue = detectMinDelay?detectMinDelay:@"";
 	if (bDetectMaxDelay) bDetectMaxDelay.stringValue = detectMaxDelay?detectMaxDelay:@"";
-
-#if 0
-    if (NSIsEmptyRect(finderRect)) {
-        [bFinderRect setStringValue: @"No QR code found yet"];
-    } else {
-        NSString * loc = [NSString stringWithFormat: @"pos %d,%d size %d,%d", 
-            (int)finderRect.origin.x,
-            (int)finderRect.origin.y,
-            (int)finderRect.size.width,
-            (int)finderRect.size.height];
-        [bFinderRect setStringValue: loc];
-    }
-    [bBWstatus setStringValue: bwString];
-#endif
 }
 
 @end

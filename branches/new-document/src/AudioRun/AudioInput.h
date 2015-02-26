@@ -28,15 +28,4 @@
 - (void) startCapturing: (BOOL) showPreview;
 - (void) stopCapturing;
 - (void) stop;
-
-
-#if 0
-// Delegate methods for QTCaptureVideoPreviewOutput:
-- (void)captureOutput:(AVCaptureOutput *)captureOutput
-didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
-       fromConnection:(AVCaptureConnection *)connection;
-- (void)captureOutput:(AVCaptureOutput *)captureOutput
-  didDropSampleBuffer:(CMSampleBufferRef)sampleBuffer
-       fromConnection:(AVCaptureConnection *)connection;
-#endif
 @end

@@ -93,10 +93,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 + (void)initialize
 {
     // Unsure whether we need to register our class?
-#if 0
-    [BaseRunManager registerClass: [self class] forMeasurementType: @"Networking"];
-    // No nib is registered...
-#endif
+
     // We also register ourselves for send-only, as a slave. At the very least we must make
     // sure the nibfile is registered...
     [BaseRunManager registerClass: [self class] forMeasurementType: @"Video Transmission (Master/Server)"];
@@ -483,13 +480,6 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
             }
         }
         inputStartTime = 0;
-#if 0
-        if (self.running) {
-            self.statusView.detectCount = [NSString stringWithFormat: @"%d", self.collector.count];
-            self.statusView.detectAverage = [NSString stringWithFormat: @"%.3f ms ± %.3f", self.collector.average / 1000.0, self.collector.stddev / 1000.0];
-            [self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
-        }
-#endif
     }
 }
 

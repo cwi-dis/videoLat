@@ -29,47 +29,6 @@
 }
 
 
-#if 0
-- (id)initWithType:(NSString *)typeName error:(NSError **)outError
-{
-    self = [super initWithType: typeName error: outError];
-    if (self) {
-        if (VL_DEBUG) NSLog(@"initWithType: %@\n", typeName);
-        self.dataStore = [[MeasurementDataStore alloc] init];
-        objectsForNewDocument = nil;
-		BOOL ok;
-#if __MAC_OS_X_VERSION_MAX_ALLOWED >= 1080
-		if ([[NSBundle mainBundle] respondsToSelector:@selector(loadNibNamed:owner:topLevelObjects:)]) {
-			NSArray *newObjects;
-			ok = [[NSBundle mainBundle] loadNibNamed: @"NewMeasurement" owner: self topLevelObjects: &newObjects];
-			objectsForNewDocument = newObjects;
-		} else
-#endif
-		{
-			ok = [NSBundle loadNibNamed:@"NewMeasurement" owner:self];
-			objectsForNewDocument = [[NSMutableArray alloc] init];
-		}
-        if (VL_DEBUG) NSLog(@"Loaded NewMeasurement: %d, objects %@, window %@ controller %@\n", (int)ok, objectsForNewDocument, self.measurementWindow, self.measurementWindow.windowController);
-        if (!ok) {
-            if (outError)
-                *outError = [[NSError alloc] initWithDomain:@"VideoLat" code:NSFileReadNoSuchFileError
-                                                   userInfo:@{NSLocalizedDescriptionKey : @"Could not open NewMeasurement NIB file"}];
-            return nil;
-            
-        }
-		if (self.measurementWindow) {
-			[self.measurementWindow makeKeyAndOrderFront:self];
-#if 0
-            // This may be needed on 10.7 (and 10.8?)
-			// And it may work on 10.9 now I've changed the measurementWindow property to "assign"
-            [self.measurementWindow setReleasedWhenClosed: YES];
-#endif
-        }
-    }
-    return self;
-}
-#endif
-
 - (NSString *)windowNibName
 {
 	// Override returning the nib file name of the document
@@ -81,22 +40,11 @@
 {
 	[super windowControllerDidLoadNib:aController];
 	// Add any code here that needs to be executed once the windowController has loaded the document's window.
-#if 0
-    if (objectsForNewDocument) {
-        // We have opened a new-measurement view.
-        [[aController window] orderOut: self];
-        for (id obj in objectsForNewDocument) {
-            if ([obj respondsToSelector:@selector(makeKeyAndOrderFront:)])
-                [obj makeKeyAndOrderFront: self];
-        }
-    }
-#endif
 }
 
 - (IBAction)newDocumentComplete: (id)sender
 {
     if (VL_DEBUG) NSLog(@"New document complete\n");
-    objectsForNewDocument = nil;
     // Keep the data
 	self.dataDistribution = [[MeasurementDistribution alloc] initWithSource:self.dataStore];
 	// Set location, etc
