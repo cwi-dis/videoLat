@@ -655,6 +655,9 @@
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
 				<bool key="NSWindowIsRestorable">YES</bool>
 			</object>
+			<object class="NSCustomObject" id="222401622">
+				<string key="NSClassName">RunCollector</string>
+			</object>
 		</array>
 		<object class="IBObjectContainer" key="IBDocument.Objects">
 			<array key="connectionRecords">
@@ -769,6 +772,14 @@
 						<reference key="destination" ref="647782812"/>
 					</object>
 					<int key="connectionID">393</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">collector</string>
+						<reference key="source" ref="445606192"/>
+						<reference key="destination" ref="222401622"/>
+					</object>
+					<int key="connectionID">401</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -1001,7 +1012,7 @@
 						<reference key="object" ref="1035736429"/>
 						<array class="NSMutableArray" key="children">
 							<reference ref="647782812"/>
-							<object class="IBNSLayoutConstraint" id="928039981">
+							<object class="IBNSLayoutConstraint" id="80853951">
 								<reference key="firstItem" ref="647782812"/>
 								<int key="firstAttribute">3</int>
 								<int key="relation">0</int>
@@ -1055,7 +1066,7 @@
 								<int key="contentType">3</int>
 								<bool key="placeholder">NO</bool>
 							</object>
-							<object class="IBNSLayoutConstraint" id="14504229">
+							<object class="IBNSLayoutConstraint" id="842750088">
 								<reference key="firstItem" ref="89013345"/>
 								<int key="firstAttribute">5</int>
 								<int key="relation">0</int>
@@ -1145,7 +1156,7 @@
 								<int key="contentType">3</int>
 								<bool key="placeholder">NO</bool>
 							</object>
-							<object class="IBNSLayoutConstraint" id="849801227">
+							<object class="IBNSLayoutConstraint" id="601467203">
 								<reference key="firstItem" ref="875939645"/>
 								<int key="firstAttribute">3</int>
 								<int key="relation">0</int>
@@ -2988,18 +2999,23 @@
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">396</int>
-						<reference key="object" ref="928039981"/>
+						<reference key="object" ref="80853951"/>
 						<reference key="parent" ref="1035736429"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">397</int>
-						<reference key="object" ref="849801227"/>
+						<reference key="object" ref="601467203"/>
 						<reference key="parent" ref="1035736429"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">399</int>
-						<reference key="object" ref="14504229"/>
+						<reference key="object" ref="842750088"/>
 						<reference key="parent" ref="1035736429"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">400</int>
+						<reference key="object" ref="222401622"/>
+						<reference key="parent" ref="0"/>
 					</object>
 				</array>
 			</object>
@@ -3174,15 +3190,15 @@
 				<array class="NSMutableArray" key="328.IBNSViewMetadataConstraints">
 					<reference ref="371117862"/>
 					<reference ref="741422695"/>
-					<reference ref="849801227"/>
+					<reference ref="601467203"/>
 					<reference ref="253045755"/>
 					<reference ref="442732422"/>
 					<reference ref="553506677"/>
 					<reference ref="254868030"/>
-					<reference ref="14504229"/>
+					<reference ref="842750088"/>
 					<reference ref="237486108"/>
 					<reference ref="404687406"/>
-					<reference ref="928039981"/>
+					<reference ref="80853951"/>
 				</array>
 				<reference key="328.IBNSViewMetadataGestureRecognizers" ref="0"/>
 				<string key="328.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -3315,6 +3331,7 @@
 				<string key="4.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<reference key="4.IBUserGuides" ref="0"/>
 				<boolean value="NO" key="4.showNotes"/>
+				<string key="400.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="43.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<boolean value="NO" key="43.showNotes"/>
 				<string key="45.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -3373,7 +3390,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">399</int>
+			<int key="maxID">401</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
