@@ -123,7 +123,7 @@ static NSMutableDictionary *runManagerNibs;
                             self, self.inputCompanion, self.inputCompanion.outputCompanion];
         }
     }
-    if (self.collector == nil) {
+    if (self.collector == nil && !slaveHandler) {
         errorMessage = [NSString stringWithFormat:@"Programmer error: %@ has collector==nil", self];
     }
     

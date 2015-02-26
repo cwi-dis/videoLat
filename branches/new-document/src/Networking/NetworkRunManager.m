@@ -110,6 +110,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
     if (self) {
         handlesInput = NO;
         handlesOutput = NO;
+        slaveHandler = NO;
 		remoteDevice = nil;
 		statusToPeer = nil;
 		didReceiveData = NO;
@@ -119,6 +120,9 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 
 - (void) awakeFromNib
 {
+    if (self.capturer) {
+        slaveHandler = YES;
+    }
     if ([super respondsToSelector:@selector(awakeFromNib)]) [super awakeFromNib];
     assert(self.clock);
     // If we don't handle output (i.e. output is going through video) we start the server and

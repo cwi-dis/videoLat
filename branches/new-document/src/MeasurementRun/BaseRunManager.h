@@ -33,6 +33,7 @@
 @interface BaseRunManager : NSObject <RunOutputManagerProtocol, RunInputManagerProtocol> {
     BOOL handlesInput;		//!< true if we are responsible for input processing
     BOOL handlesOutput;		//!< true if we are responsible for output processing
+    BOOL slaveHandler;      //!< true if this is a slave, i.e. it has no collector.
     uint64_t maxDelay;   //!< Internal: How log to wait for prerun code finding
     int prerunMoreNeeded;   //!< Internal: How many more prerun correct catches we need
 }
