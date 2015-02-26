@@ -20,6 +20,15 @@
 @synthesize locationManager;
 @synthesize location;
 
+- (appDelegate *)init
+{
+    self = [super init];
+    if (self) {
+        uuidToURL = [[NSMutableDictionary alloc] init];
+    }
+    return self;
+}
+
 - (void)applicationWillFinishLaunching:(NSNotification *)aNotification
 {
 	// Fill measurementTypes
@@ -132,8 +141,14 @@
         }
         return NO;
     }
+    
+    // Store the calibration in its measurementtype object
 	MeasurementType *myType = [MeasurementType forType: dataStore.measurementType];
 	[myType addMeasurement: dataStore];
+    
+    // And remember the URL by uuid
+    NSString *uuid = dataStore.uuid;
+    [uuidToURL setObject: url forKey:uuid];
 	
 	return YES;
 }
@@ -203,7 +218,23 @@
 
 - (void)openUntitledDocumentWithMeasurement: (MeasurementDataStore *)dataStore
 {
-	NSLog(@"openUntitledDocumentWithMeasurement: %@", dataStore);
+	if (1 || VL_DEBUG) NSLog(@"openUntitledDocumentWithMeasurement: %@", dataStore);
+    
+    // If the document is a calibration we already know of (because we have it's uuid)
+    // we open the calibration itself, in stead of an untitled document.
+    NSString *uuid = dataStore.uuid;
+    NSURL *calibrationURL = [uuidToURL objectForKey: uuid];
+    if (calibrationURL) {
+        if (1 || VL_DEBUG) NSLog(@"Open existing document for %@", calibrationURL);
+        [[NSDocumentController sharedDocumentController]
+                    openDocumentWithContentsOfURL:calibrationURL
+                    display:YES
+                    completionHandler:^(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error) {}
+                    ];
+        return;
+    }
+    
+    // The normal case: this is a new document. Open a new empty document for it
 	NSDocumentController *c = [NSDocumentController sharedDocumentController];
 	NSError *error;
 	Document *d = [c openUntitledDocumentAndDisplay: NO error:&error];
@@ -211,7 +242,10 @@
 		NSLog(@"ERROR: %@", error);
 		return;
 	}
+    
+    // Now store the data in the document, and tell the document it can go initialize itself
 	d.dataStore = dataStore;
 	[d newDocumentComplete: self];
 }
+
 @end

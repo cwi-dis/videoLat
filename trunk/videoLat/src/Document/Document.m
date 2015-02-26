@@ -199,7 +199,8 @@
     [rv appendFormat: @"inputLocation,\"%@\"\n", self.dataStore.input.location];
 	[rv appendFormat: @"inputDeviceID,\"%@\"\n", self.dataStore.input.deviceID];
 	[rv appendFormat: @"outputDevice,\"%@\"\n", self.dataStore.output.device];
-	[rv appendFormat: @"description,\"%@\"\n", self.dataStore.description];
+    [rv appendFormat: @"description,\"%@\"\n", self.dataStore.description];
+    [rv appendFormat: @"uuid,\"%@\"\n", self.dataStore.uuid];
 	[rv appendFormat: @"date,\"%@\"\n", self.dataStore.date];
 	[rv appendFormat: @"min,%g\n", self.dataStore.min];
 	[rv appendFormat: @"max,%g\n", self.dataStore.max];
