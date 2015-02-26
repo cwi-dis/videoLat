@@ -123,6 +123,10 @@ static NSMutableDictionary *runManagerNibs;
                             self, self.inputCompanion, self.inputCompanion.outputCompanion];
         }
     }
+    if (self.collector == nil && !slaveHandler) {
+        errorMessage = [NSString stringWithFormat:@"Programmer error: %@ has collector==nil", self];
+    }
+    
     if (errorMessage) {
         NSAlert *alert = [NSAlert alertWithMessageText: @"Internal error" defaultButton:@"OK" alternateButton:nil otherButton:nil informativeTextWithFormat:@"%@", errorMessage];
         [alert runModal];

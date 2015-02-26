@@ -67,16 +67,19 @@
         assert(format == kAudioFormatLinearPCM);
 
         CMBlockBufferRef bufferOut = nil;
-        size_t bufferListSizeNeeded;
+        size_t bufferListSizeNeeded = 0;
+        AudioBufferList *bufferList = NULL;
         OSStatus err = CMSampleBufferGetAudioBufferListWithRetainedBlockBuffer(sampleBuffer, &bufferListSizeNeeded, NULL, 0, NULL, NULL, kCMSampleBufferFlag_AudioBufferList_Assure16ByteAlignment, &bufferOut);
-        AudioBufferList *bufferList = malloc(bufferListSizeNeeded);
-        err = CMSampleBufferGetAudioBufferListWithRetainedBlockBuffer(sampleBuffer, NULL, bufferList, bufferListSizeNeeded, NULL, NULL, kCMSampleBufferFlag_AudioBufferList_Assure16ByteAlignment, &bufferOut);
-        if (err == 0 || bufferList[0].mNumberBuffers == 1) {
+        if (err == 0) {
+            bufferList = malloc(bufferListSizeNeeded);
+            err = CMSampleBufferGetAudioBufferListWithRetainedBlockBuffer(sampleBuffer, NULL, bufferList, bufferListSizeNeeded, NULL, NULL, kCMSampleBufferFlag_AudioBufferList_Assure16ByteAlignment, &bufferOut);
+        }
+        if (err == 0 && bufferList[0].mNumberBuffers == 1) {
             // Pass to the manager
             BOOL noisy = [self feedData: bufferList[0].mBuffers[0].mData size: bufferList[0].mBuffers[0].mDataByteSize channels: bufferList[0].mBuffers[0].mNumberChannels at: timestamp];
             if (VL_DEBUG) NSLog(@"timestamp %lld noisy %d", timestamp, noisy);
         } else {
-            NSLog(@"AudioInput: CMSampleBufferGetAudioBufferListWithRetainedBlockBuffer returned err=%d, mNumberBuffers=%d", err, bufferList[0].mNumberBuffers);
+            NSLog(@"AudioInput: CMSampleBufferGetAudioBufferListWithRetainedBlockBuffer returned err=%d, mNumberBuffers=%d", err, bufferList?bufferList[0].mNumberBuffers:-1);
         }
         if (bufferOut) CFRelease(bufferOut);
         if (bufferList) free(bufferList);

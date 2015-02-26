@@ -93,10 +93,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 + (void)initialize
 {
     // Unsure whether we need to register our class?
-#if 0
-    [BaseRunManager registerClass: [self class] forMeasurementType: @"Networking"];
-    // No nib is registered...
-#endif
+
     // We also register ourselves for send-only, as a slave. At the very least we must make
     // sure the nibfile is registered...
     [BaseRunManager registerClass: [self class] forMeasurementType: @"Video Transmission (Master/Server)"];
@@ -113,6 +110,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
     if (self) {
         handlesInput = NO;
         handlesOutput = NO;
+        slaveHandler = NO;
 		remoteDevice = nil;
 		statusToPeer = nil;
 		didReceiveData = NO;
@@ -122,8 +120,10 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 
 - (void) awakeFromNib
 {
+    if (self.capturer) {
+        slaveHandler = YES;
+    }
     if ([super respondsToSelector:@selector(awakeFromNib)]) [super awakeFromNib];
-    self.statusView = self.measurementMaster.statusView;
     assert(self.clock);
     // If we don't handle output (i.e. output is going through video) we start the server and
     // report the port number
@@ -132,7 +132,6 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
         self.protocol = [[NetworkProtocolServer alloc] init];
         self.protocol.delegate = self;
         self.selectionView.bOurPort.intValue = self.protocol.port;
-        self.collector = self.measurementMaster.collector;
     }
     // If we handle output (i.e. we get video from the camera and report QR codes to the server)
     // we only allocate a clock, the client-side of the network connection will be created once we
@@ -485,13 +484,6 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
             }
         }
         inputStartTime = 0;
-#if 0
-        if (self.running) {
-            self.statusView.detectCount = [NSString stringWithFormat: @"%d", self.collector.count];
-            self.statusView.detectAverage = [NSString stringWithFormat: @"%.3f ms ± %.3f", self.collector.average / 1000.0, self.collector.stddev / 1000.0];
-            [self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
-        }
-#endif
     }
 }
 

@@ -52,8 +52,6 @@
 {
     if ([super respondsToSelector:@selector(awakeFromNib)]) [super awakeFromNib];
     @synchronized(self) {
-        self.statusView = self.measurementMaster.statusView;
-        self.collector = self.measurementMaster.collector;
         assert(self.clock);
     }
 }
@@ -63,7 +61,6 @@
 	if (self.capturer) [self.capturer stop];
 	self.capturer = nil;
 	self.clock = nil;
-	[self terminate];
 }
 
 - (void)triggerNewOutputValue

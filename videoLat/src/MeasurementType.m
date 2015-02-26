@@ -55,10 +55,10 @@ static NSMutableDictionary *byTag;
     
     MeasurementType *cal_IN2 = [self addType: @"Camera Input Calibrate (based on Screen)" tag: 4 isCalibration: YES requires: cal_OUT];
     cal_IN2.inputOnlyCalibration = YES;
-    [cal_IN2 isSubtypeOf: cal_IN];
+    [cal_IN2 setIsSubtypeOf: cal_IN];
     MeasurementType *cal_OUT2 = [self addType: @"Screen Output Calibrate (based on Camera)" tag: 5 isCalibration: YES requires: cal_IN];
     cal_OUT2.outputOnlyCalibration = YES;
-    [cal_OUT2 isSubtypeOf: cal_OUT];
+    [cal_OUT2 setIsSubtypeOf: cal_OUT];
 
     [self addType: @"Video Transmission (Master/Server)" tag: 6 isCalibration: NO requires: cal_OUT];
     [self addType: @"Video Reception (Slave/Client)" tag: 7 isCalibration: NO requires: cal_IN];
@@ -84,7 +84,7 @@ static NSMutableDictionary *byTag;
     return self;
 }
 
-- (void) isSubtypeOf: (MeasurementType *)_superType
+- (void) setIsSubtypeOf: (MeasurementType *)_superType
 {
     assert(superType == nil);
     assert(self.isCalibration == _superType.isCalibration);

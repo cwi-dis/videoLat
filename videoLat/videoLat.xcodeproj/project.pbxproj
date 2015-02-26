@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		041714DD19DDEF340019FA45 /* NetworkProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 041714DC19DDEF340019FA45 /* NetworkProtocol.m */; };
+		041E097F1A9DDAAC006A241C /* TemplateRunManager.xib in Resources */ = {isa = PBXBuildFile; fileRef = 041E097E1A9DDAAC006A241C /* TemplateRunManager.xib */; };
 		044F3D7D183A46390008CBA3 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 044F3D7C183A46390008CBA3 /* AVFoundation.framework */; };
 		044F3D7F183A46540008CBA3 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 044F3D7E183A46540008CBA3 /* CoreMedia.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		044F3D81183A467F0008CBA3 /* libpython2.7.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 044F3D80183A467F0008CBA3 /* libpython2.7.dylib */; };
@@ -23,10 +24,10 @@
 		047F65E01A9620B400D86391 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 047F65DF1A9620B400D86391 /* SystemConfiguration.framework */; };
 		048FB6F519FD21040023D29C /* HardwareDevices in Resources */ = {isa = PBXBuildFile; fileRef = 048FB6F419FD21040023D29C /* HardwareDevices */; };
 		049725DD18FD563E00625326 /* BaseRunManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 049725D518FD563E00625326 /* BaseRunManager.m */; };
-		049725DE18FD563E00625326 /* NewMeasurement.xib in Resources */ = {isa = PBXBuildFile; fileRef = 049725D618FD563E00625326 /* NewMeasurement.xib */; };
+		049725DE18FD563E00625326 /* NewMeasurementView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 049725D618FD563E00625326 /* NewMeasurementView.xib */; };
 		049725DF18FD563E00625326 /* RunCollector.m in Sources */ = {isa = PBXBuildFile; fileRef = 049725D818FD563E00625326 /* RunCollector.m */; };
 		049725E018FD563E00625326 /* RunStatusView.m in Sources */ = {isa = PBXBuildFile; fileRef = 049725DA18FD563E00625326 /* RunStatusView.m */; };
-		049725E118FD563E00625326 /* RunTypeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 049725DC18FD563E00625326 /* RunTypeView.m */; };
+		049725E118FD563E00625326 /* RunManagerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 049725DC18FD563E00625326 /* RunManagerView.m */; };
 		049725E718FD568A00625326 /* HardwareOutputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 049725E318FD568A00625326 /* HardwareOutputView.m */; };
 		049725E818FD568A00625326 /* HardwareRunManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 049725E518FD568A00625326 /* HardwareRunManager.m */; };
 		049725E918FD568A00625326 /* HardwareRunManager.xib in Resources */ = {isa = PBXBuildFile; fileRef = 049725E618FD568A00625326 /* HardwareRunManager.xib */; };
@@ -70,6 +71,7 @@
 		04DCC18918664C8E00592A1F /* PythonLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DCC18818664C8E00592A1F /* PythonLoader.m */; };
 		04DE78C81A11759A002BA654 /* HardwareSelectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DE78C71A11759A002BA654 /* HardwareSelectionView.m */; };
 		04E4586B18FEB39C005712F6 /* AudioProcess.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E4586A18FEB39C005712F6 /* AudioProcess.m */; };
+		04ED2A181A9D23E2001FA0AC /* NewMeasurementView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04ED2A171A9D23E2001FA0AC /* NewMeasurementView.m */; };
 		04EEC1CC19DC4C5E0056899C /* SlaveReceiverRun.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04EEC1CB19DC4C5E0056899C /* SlaveReceiverRun.xib */; };
 		04EEC1D019DC4D9E0056899C /* NetworkOutputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04EEC1CF19DC4D9E0056899C /* NetworkOutputView.m */; };
 		04EEC1D719DC8E2E0056899C /* NetworkInput.m in Sources */ = {isa = PBXBuildFile; fileRef = 04EEC1D219DC8E2E0056899C /* NetworkInput.m */; };
@@ -81,6 +83,7 @@
 /* Begin PBXFileReference section */
 		041714DB19DDECBE0019FA45 /* NetworkProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NetworkProtocol.h; path = Networking/NetworkProtocol.h; sourceTree = "<group>"; };
 		041714DC19DDEF340019FA45 /* NetworkProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NetworkProtocol.m; path = Networking/NetworkProtocol.m; sourceTree = "<group>"; };
+		041E097E1A9DDAAC006A241C /* TemplateRunManager.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = TemplateRunManager.xib; path = MeasurementRun/TemplateRunManager.xib; sourceTree = "<group>"; };
 		044F3D7C183A46390008CBA3 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = /System/Library/Frameworks/AVFoundation.framework; sourceTree = "<absolute>"; };
 		044F3D7E183A46540008CBA3 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = ../../../../System/Library/Frameworks/CoreMedia.framework; sourceTree = "<group>"; };
 		044F3D80183A467F0008CBA3 /* libpython2.7.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libpython2.7.dylib; path = ../../../../System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/config/libpython2.7.dylib; sourceTree = "<group>"; };
@@ -104,13 +107,13 @@
 		048FB6F419FD21040023D29C /* HardwareDevices */ = {isa = PBXFileReference; lastKnownFileType = folder; path = HardwareDevices; sourceTree = "<group>"; };
 		049725D418FD563E00625326 /* BaseRunManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BaseRunManager.h; path = MeasurementRun/BaseRunManager.h; sourceTree = "<group>"; };
 		049725D518FD563E00625326 /* BaseRunManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BaseRunManager.m; path = MeasurementRun/BaseRunManager.m; sourceTree = "<group>"; };
-		049725D618FD563E00625326 /* NewMeasurement.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = NewMeasurement.xib; path = MeasurementRun/NewMeasurement.xib; sourceTree = "<group>"; };
+		049725D618FD563E00625326 /* NewMeasurementView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = NewMeasurementView.xib; path = MeasurementRun/NewMeasurementView.xib; sourceTree = "<group>"; };
 		049725D718FD563E00625326 /* RunCollector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RunCollector.h; path = MeasurementRun/RunCollector.h; sourceTree = "<group>"; };
 		049725D818FD563E00625326 /* RunCollector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RunCollector.m; path = MeasurementRun/RunCollector.m; sourceTree = "<group>"; };
 		049725D918FD563E00625326 /* RunStatusView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RunStatusView.h; path = MeasurementRun/RunStatusView.h; sourceTree = "<group>"; };
 		049725DA18FD563E00625326 /* RunStatusView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RunStatusView.m; path = MeasurementRun/RunStatusView.m; sourceTree = "<group>"; };
-		049725DB18FD563E00625326 /* RunTypeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RunTypeView.h; path = MeasurementRun/RunTypeView.h; sourceTree = "<group>"; };
-		049725DC18FD563E00625326 /* RunTypeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RunTypeView.m; path = MeasurementRun/RunTypeView.m; sourceTree = "<group>"; };
+		049725DB18FD563E00625326 /* RunManagerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RunManagerView.h; path = MeasurementRun/RunManagerView.h; sourceTree = "<group>"; };
+		049725DC18FD563E00625326 /* RunManagerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RunManagerView.m; path = MeasurementRun/RunManagerView.m; sourceTree = "<group>"; };
 		049725E218FD568A00625326 /* HardwareOutputView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HardwareOutputView.h; path = HardwareRun/HardwareOutputView.h; sourceTree = "<group>"; };
 		049725E318FD568A00625326 /* HardwareOutputView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HardwareOutputView.m; path = HardwareRun/HardwareOutputView.m; sourceTree = "<group>"; };
 		049725E418FD568A00625326 /* HardwareRunManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HardwareRunManager.h; path = HardwareRun/HardwareRunManager.h; sourceTree = "<group>"; };
@@ -182,6 +185,8 @@
 		04DE78C71A11759A002BA654 /* HardwareSelectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HardwareSelectionView.m; path = HardwareRun/HardwareSelectionView.m; sourceTree = "<group>"; };
 		04E4586818FEAEAD005712F6 /* AudioProcess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioProcess.h; path = AudioRun/AudioProcess.h; sourceTree = "<group>"; };
 		04E4586A18FEB39C005712F6 /* AudioProcess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AudioProcess.m; path = AudioRun/AudioProcess.m; sourceTree = "<group>"; };
+		04ED2A161A9D23E2001FA0AC /* NewMeasurementView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NewMeasurementView.h; path = MeasurementRun/NewMeasurementView.h; sourceTree = "<group>"; };
+		04ED2A171A9D23E2001FA0AC /* NewMeasurementView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NewMeasurementView.m; path = MeasurementRun/NewMeasurementView.m; sourceTree = "<group>"; };
 		04EEC1CB19DC4C5E0056899C /* SlaveReceiverRun.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SlaveReceiverRun.xib; path = SlaveReceiverRun/SlaveReceiverRun.xib; sourceTree = "<group>"; };
 		04EEC1CE19DC4D9E0056899C /* NetworkOutputView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NetworkOutputView.h; path = Networking/NetworkOutputView.h; sourceTree = "<group>"; };
 		04EEC1CF19DC4D9E0056899C /* NetworkOutputView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NetworkOutputView.m; path = Networking/NetworkOutputView.m; sourceTree = "<group>"; };
@@ -239,13 +244,16 @@
 			children = (
 				049725D418FD563E00625326 /* BaseRunManager.h */,
 				049725D518FD563E00625326 /* BaseRunManager.m */,
-				049725D618FD563E00625326 /* NewMeasurement.xib */,
+				04ED2A161A9D23E2001FA0AC /* NewMeasurementView.h */,
+				04ED2A171A9D23E2001FA0AC /* NewMeasurementView.m */,
+				049725D618FD563E00625326 /* NewMeasurementView.xib */,
+				041E097E1A9DDAAC006A241C /* TemplateRunManager.xib */,
 				049725D718FD563E00625326 /* RunCollector.h */,
 				049725D818FD563E00625326 /* RunCollector.m */,
 				049725D918FD563E00625326 /* RunStatusView.h */,
 				049725DA18FD563E00625326 /* RunStatusView.m */,
-				049725DB18FD563E00625326 /* RunTypeView.h */,
-				049725DC18FD563E00625326 /* RunTypeView.m */,
+				049725DB18FD563E00625326 /* RunManagerView.h */,
+				049725DC18FD563E00625326 /* RunManagerView.m */,
 				04DCC18C1867913800592A1F /* HardwareRun */,
 				040CF9D6183E4B570094C0D8 /* VideoRun */,
 				049725FB18FD57E200625326 /* VideoCalibrationRun */,
@@ -572,7 +580,7 @@
 				047DD1D2183A3B4D00A04F83 /* Credits.rtf in Resources */,
 				04EEC1CC19DC4C5E0056899C /* SlaveReceiverRun.xib in Resources */,
 				0497264418FD5E5F00625326 /* sounds in Resources */,
-				049725DE18FD563E00625326 /* NewMeasurement.xib in Resources */,
+				049725DE18FD563E00625326 /* NewMeasurementView.xib in Resources */,
 				045AA71619E71BA400E28AED /* MasterSenderRun.xib in Resources */,
 				0497260E18FD580300625326 /* VideoRunManager.xib in Resources */,
 				04B6A69E19ED63C300E1E3B6 /* ScreenToHardwareRunManager.xib in Resources */,
@@ -587,6 +595,7 @@
 				04B1915119D2ECBC001ABA66 /* Doxyfile in Resources */,
 				0497261918FD582600625326 /* VideoCalibrationRunManager.xib in Resources */,
 				04D411131A02CABC009AFEED /* CalibrateCameraFromScreenRunManager.xib in Resources */,
+				041E097F1A9DDAAC006A241C /* TemplateRunManager.xib in Resources */,
 				04A9C14819216EB70016E6C0 /* AudioCalibrationRunManager.xib in Resources */,
 				048FB6F519FD21040023D29C /* HardwareDevices in Resources */,
 				04FFDF94185A6FAE00B1CCCC /* videoLat.help in Resources */,
@@ -641,6 +650,7 @@
 				0497263918FD592C00625326 /* GraphView.m in Sources */,
 				0497263E18FD596F00625326 /* MeasurementType.m in Sources */,
 				04EEC1DC19DC93A70056899C /* NetworkRunManager.m in Sources */,
+				04ED2A181A9D23E2001FA0AC /* NewMeasurementView.m in Sources */,
 				04DCC18918664C8E00592A1F /* PythonLoader.m in Sources */,
 				049725DF18FD563E00625326 /* RunCollector.m in Sources */,
 				0497260B18FD580300625326 /* VideoInput.m in Sources */,
@@ -650,7 +660,7 @@
 				0497261818FD582600625326 /* VideoCalibrationRunManager.m in Sources */,
 				04EEC1D919DC8E2E0056899C /* NetworkSelectionView.m in Sources */,
 				0497260D18FD580300625326 /* VideoRunManager.m in Sources */,
-				049725E118FD563E00625326 /* RunTypeView.m in Sources */,
+				049725E118FD563E00625326 /* RunManagerView.m in Sources */,
 				0497262618FD589300625326 /* AudioOutputView.m in Sources */,
 				04E4586B18FEB39C005712F6 /* AudioProcess.m in Sources */,
 				04A9C14B19216F320016E6C0 /* AudioCalibrationRunManager.m in Sources */,

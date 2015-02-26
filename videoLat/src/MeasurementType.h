@@ -36,7 +36,6 @@
 - (MeasurementDataStore *)measurementNamed: (NSString *)name;   //!< Retrieve a measurement run by name.
 - (NSArray *)measurementNames;  //!< Return all names for measurements of this type, used for menu population.
 - (NSArray *)measurementNamesForType: (NSString *)typeName; //!< No longer used?
-- (void)subTypeOf: (MeasurementType *)_superType;
 
 @property(readonly) NSUInteger tag;     //!< Tag for this type, used to order measurement types logically in menus.
 @property(readonly) NSString *name;     //!< Human-readable type

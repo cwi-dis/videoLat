@@ -44,6 +44,11 @@
 	[self.locationManager startUpdatingLocation];	
 }
 
+- (BOOL) applicationShouldOpenUntitledFile: (id)sender
+{
+	return NO;
+}
+
 - (NSURL *)directoryForCalibrations
 {
 	NSError *error;
@@ -158,5 +163,55 @@
     NSBundle *bundle = [NSBundle mainBundle];
     NSURL *url = [bundle URLForResource:@"HardwareDevices" withExtension: nil];
     return url;
+}
+
+- (IBAction)newMeasurement:(id)sender
+{
+	if (self.measurementNewView == nil) {
+		BOOL ok;
+	#if __MAC_OS_X_VERSION_MAX_ALLOWED >= 1080
+		if ([[NSBundle mainBundle] respondsToSelector:@selector(loadNibNamed:owner:topLevelObjects:)]) {
+			NSArray *newObjects;
+			ok = [[NSBundle mainBundle] loadNibNamed: @"NewMeasurementView" owner: self topLevelObjects: &newObjects];
+			objectsForNewDocument = newObjects;
+		} else
+	#endif
+		{
+			ok = [NSBundle loadNibNamed:@"NewMeasurementView" owner:self];
+			objectsForNewDocument = [[NSMutableArray alloc] init];
+		}
+		if (!ok) {
+			NSLog(@"Could not open NewMeasurement NIB file");
+			
+		}
+	}
+
+    if (self.measurementNewView) {
+        [[self.measurementNewView window] setDelegate: self];
+        [[self.measurementNewView window] makeKeyAndOrderFront:self];
+    }
+}
+
+- (void) windowWillClose: (NSNotification *)notification
+{
+    NSObject *obj = [notification object];
+    if (obj == [self.measurementNewView window]) {
+		self.measurementNewView = nil;
+        objectsForNewDocument = nil;
+    }
+}
+
+- (void)openUntitledDocumentWithMeasurement: (MeasurementDataStore *)dataStore
+{
+	NSLog(@"openUntitledDocumentWithMeasurement: %@", dataStore);
+	NSDocumentController *c = [NSDocumentController sharedDocumentController];
+	NSError *error;
+	Document *d = [c openUntitledDocumentAndDisplay: NO error:&error];
+	if (d == nil) {
+		NSLog(@"ERROR: %@", error);
+		return;
+	}
+	d.dataStore = dataStore;
+	[d newDocumentComplete: self];
 }
 @end

@@ -10,8 +10,10 @@
 #import "protocols.h"
 #import "MeasurementType.h"
 #import "RunCollector.h"
-#import "RunTypeView.h"
+#import "RunManagerView.h"
 #import "RunStatusView.h"
+
+@class RunManagerView;
 
 ///
 /// Base class for objects that control a delay measurement run, i.e. a sequence of
@@ -31,6 +33,7 @@
 @interface BaseRunManager : NSObject <RunOutputManagerProtocol, RunInputManagerProtocol> {
     BOOL handlesInput;		//!< true if we are responsible for input processing
     BOOL handlesOutput;		//!< true if we are responsible for output processing
+    BOOL slaveHandler;      //!< true if this is a slave, i.e. it has no collector.
     uint64_t maxDelay;   //!< Internal: How log to wait for prerun code finding
     int prerunMoreNeeded;   //!< Internal: How many more prerun correct catches we need
 }
@@ -108,7 +111,7 @@
 
 @property(weak) IBOutlet RunCollector *collector;			//!< Initialized in the NIB, RunCollector for this measurement run.
 @property(weak) IBOutlet RunStatusView *statusView;			//!< Initialized in the NIB, RunStatusView for this measurement run.
-@property(weak) IBOutlet RunTypeView *measurementMaster;	//!< Initialized in the NIB, our parent object.
+@property(weak) IBOutlet RunManagerView *measurementMaster;	//!< Initialized in the NIB, our parent object.
 
 //@{
 /// The inputCompanion and outputCompanion properties need a bit of explanation.

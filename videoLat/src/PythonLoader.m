@@ -43,18 +43,9 @@ static PythonLoader *theSharedPythonLoader;
     NSURL *dir = [script URLByDeletingLastPathComponent];
     PyObject *pDir = NULL, *sys = NULL, *sysPath = NULL, *prv = NULL;
     
-#if 0
-    // Get script path and containing directory path in C strings.
-    char cScript[1024];
-    if (![script getFileSystemRepresentation:cScript maxLength:sizeof(cScript)])
-        goto bad;
-    char cDir[1024];
-    if (![dir getFileSystemRepresentation:cDir maxLength:sizeof(cDir)])
-        goto bad;
-#else
+
     const char *cScript = [[script path] UTF8String];
     const char *cDir = [[dir path] UTF8String];
-#endif
     pDir = PyString_InternFromString(cDir);
     if (pDir == NULL) goto bad;
     
