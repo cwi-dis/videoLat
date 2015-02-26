@@ -61,7 +61,7 @@
 	if (bDate) bDate.stringValue = date?date:@"";
 	if (bDescription) bDescription.stringValue = description?description:@"";
 	if (bDetectCount) bDetectCount.stringValue = detectCount?detectCount:@"";
-	if (bMissCount) bMissCount.stringValue = detectCount?missCount:@"";
+	if (bMissCount) bMissCount.stringValue = missCount?missCount:@"";
 	if (bDetectAverage) bDetectAverage.stringValue = detectAverage?detectAverage:@"";
 	if (bDetectMinDelay) bDetectMinDelay.stringValue = detectMinDelay?detectMinDelay:@"";
 	if (bDetectMaxDelay) bDetectMaxDelay.stringValue = detectMaxDelay?detectMaxDelay:@"";

@@ -64,6 +64,13 @@
         
         ok = [NSBundle loadNibNamed:runClassNib owner:self];
     }
+    if (!ok) {
+        NSAlert *alert = [NSAlert alertWithMessageText:@"Error selecting measurement type" defaultButton:@"OK" alternateButton:nil otherButton:nil informativeTextWithFormat:@"NIB is missing for %@\n", typeName];
+        [alert runModal];
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"measurementType"];
+        return;
+    }
+    
     // Keep the toplevel objects, and search for the runManager by class name (unless it has been set by the NIB already)
     runManagerNibObjects = newObjects;
     assert(self.runManagerView);

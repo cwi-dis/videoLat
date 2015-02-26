@@ -51,13 +51,11 @@
 
 - (void)dealloc
 {
-    zbar::ImageScanner *scanner = reinterpret_cast<zbar::ImageScanner *>(scanner_hidden);
     if (lastCode) free(lastCode);
     lastCode = NULL;
-#if 1
+#if 0
     // There seems to be a problem deallocing the scanner.....
-    scanner = NULL;
-#else
+    zbar::ImageScanner *scanner = reinterpret_cast<zbar::ImageScanner *>(scanner_hidden);
     delete scanner;
 #endif
 }

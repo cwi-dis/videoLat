@@ -94,7 +94,8 @@
 				count++;
 			}
 		}
-		int average = (int)(total/count);
+        int average = 0;
+        if (count) average = (int)(total/count);
 		// Complicated way to keep black and white level but adjust to changing camera apertures
 		if (minInputLevel < 255) minInputLevel++;
 		if (maxInputLevel > 0) maxInputLevel--;

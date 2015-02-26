@@ -37,7 +37,7 @@
     self.statusView.detectAverage = [NSString stringWithFormat: @"%.3f ms ± %.3f", self.runManager.collector.average / 1000.0, self.runManager.collector.stddev / 1000.0];
     [self.statusView update: self];
     NSLog(@"Should do something now with the collector data...");
-	appDelegate *d = [[NSApplication sharedApplication] delegate];
+	appDelegate *d = (appDelegate *)[[NSApplication sharedApplication] delegate];
 	[d openUntitledDocumentWithMeasurement:self.runManager.collector.dataStore];
 	[self.window close];
 }
