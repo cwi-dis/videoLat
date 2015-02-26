@@ -15,6 +15,8 @@
 		044F3D83183A469D0008CBA3 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 044F3D82183A469D0008CBA3 /* IOKit.framework */; };
 		044F3D85183A47170008CBA3 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 044F3D84183A47170008CBA3 /* QuartzCore.framework */; };
 		045AA71619E71BA400E28AED /* MasterSenderRun.xib in Resources */ = {isa = PBXBuildFile; fileRef = 045AA71519E71BA300E28AED /* MasterSenderRun.xib */; };
+		0461ED201A9FCD1F00439749 /* MasterSenderScreenCalibrationRun.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0461ED1F1A9FCD1F00439749 /* MasterSenderScreenCalibrationRun.xib */; };
+		0461ED221A9FCD9600439749 /* SlaveReceiverRun.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0461ED211A9FCD9600439749 /* SlaveReceiverRun.xib */; };
 		047DD1C2183A3B4C00A04F83 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 047DD1C1183A3B4C00A04F83 /* Cocoa.framework */; };
 		047DD1CC183A3B4D00A04F83 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 047DD1CA183A3B4D00A04F83 /* InfoPlist.strings */; };
 		047DD1CE183A3B4D00A04F83 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 047DD1CD183A3B4D00A04F83 /* main.m */; };
@@ -72,7 +74,7 @@
 		04DE78C81A11759A002BA654 /* HardwareSelectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DE78C71A11759A002BA654 /* HardwareSelectionView.m */; };
 		04E4586B18FEB39C005712F6 /* AudioProcess.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E4586A18FEB39C005712F6 /* AudioProcess.m */; };
 		04ED2A181A9D23E2001FA0AC /* NewMeasurementView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04ED2A171A9D23E2001FA0AC /* NewMeasurementView.m */; };
-		04EEC1CC19DC4C5E0056899C /* SlaveReceiverRun.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04EEC1CB19DC4C5E0056899C /* SlaveReceiverRun.xib */; };
+		04EEC1CC19DC4C5E0056899C /* SlaveReceiverCameraCalibrationRun.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04EEC1CB19DC4C5E0056899C /* SlaveReceiverCameraCalibrationRun.xib */; };
 		04EEC1D019DC4D9E0056899C /* NetworkOutputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04EEC1CF19DC4D9E0056899C /* NetworkOutputView.m */; };
 		04EEC1D719DC8E2E0056899C /* NetworkInput.m in Sources */ = {isa = PBXBuildFile; fileRef = 04EEC1D219DC8E2E0056899C /* NetworkInput.m */; };
 		04EEC1D919DC8E2E0056899C /* NetworkSelectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04EEC1D619DC8E2E0056899C /* NetworkSelectionView.m */; };
@@ -90,6 +92,8 @@
 		044F3D82183A469D0008CBA3 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = ../../../../System/Library/Frameworks/IOKit.framework; sourceTree = "<group>"; };
 		044F3D84183A47170008CBA3 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = ../../../../System/Library/Frameworks/QuartzCore.framework; sourceTree = "<group>"; };
 		045AA71519E71BA300E28AED /* MasterSenderRun.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MasterSenderRun.xib; path = MasterSenderRun/MasterSenderRun.xib; sourceTree = "<group>"; };
+		0461ED1F1A9FCD1F00439749 /* MasterSenderScreenCalibrationRun.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MasterSenderScreenCalibrationRun.xib; path = MasterSenderRun/MasterSenderScreenCalibrationRun.xib; sourceTree = "<group>"; };
+		0461ED211A9FCD9600439749 /* SlaveReceiverRun.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SlaveReceiverRun.xib; path = SlaveReceiverRun/SlaveReceiverRun.xib; sourceTree = "<group>"; };
 		047DD1BD183A3B4C00A04F83 /* videoLat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = videoLat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		047DD1C1183A3B4C00A04F83 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		047DD1C4183A3B4C00A04F83 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -187,7 +191,7 @@
 		04E4586A18FEB39C005712F6 /* AudioProcess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AudioProcess.m; path = AudioRun/AudioProcess.m; sourceTree = "<group>"; };
 		04ED2A161A9D23E2001FA0AC /* NewMeasurementView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NewMeasurementView.h; path = MeasurementRun/NewMeasurementView.h; sourceTree = "<group>"; };
 		04ED2A171A9D23E2001FA0AC /* NewMeasurementView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NewMeasurementView.m; path = MeasurementRun/NewMeasurementView.m; sourceTree = "<group>"; };
-		04EEC1CB19DC4C5E0056899C /* SlaveReceiverRun.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SlaveReceiverRun.xib; path = SlaveReceiverRun/SlaveReceiverRun.xib; sourceTree = "<group>"; };
+		04EEC1CB19DC4C5E0056899C /* SlaveReceiverCameraCalibrationRun.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SlaveReceiverCameraCalibrationRun.xib; path = SlaveReceiverRun/SlaveReceiverCameraCalibrationRun.xib; sourceTree = "<group>"; };
 		04EEC1CE19DC4D9E0056899C /* NetworkOutputView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NetworkOutputView.h; path = Networking/NetworkOutputView.h; sourceTree = "<group>"; };
 		04EEC1CF19DC4D9E0056899C /* NetworkOutputView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NetworkOutputView.m; path = Networking/NetworkOutputView.m; sourceTree = "<group>"; };
 		04EEC1D119DC8E2E0056899C /* NetworkInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NetworkInput.h; path = Networking/NetworkInput.h; sourceTree = "<group>"; };
@@ -465,6 +469,7 @@
 			isa = PBXGroup;
 			children = (
 				045AA71519E71BA300E28AED /* MasterSenderRun.xib */,
+				0461ED1F1A9FCD1F00439749 /* MasterSenderScreenCalibrationRun.xib */,
 			);
 			name = MasterSenderRun;
 			sourceTree = "<group>";
@@ -472,7 +477,8 @@
 		04EEC1CA19DC4BCE0056899C /* SlaveReceiverRun */ = {
 			isa = PBXGroup;
 			children = (
-				04EEC1CB19DC4C5E0056899C /* SlaveReceiverRun.xib */,
+				0461ED211A9FCD9600439749 /* SlaveReceiverRun.xib */,
+				04EEC1CB19DC4C5E0056899C /* SlaveReceiverCameraCalibrationRun.xib */,
 			);
 			name = SlaveReceiverRun;
 			sourceTree = "<group>";
@@ -578,7 +584,7 @@
 			files = (
 				047DD1CC183A3B4D00A04F83 /* InfoPlist.strings in Resources */,
 				047DD1D2183A3B4D00A04F83 /* Credits.rtf in Resources */,
-				04EEC1CC19DC4C5E0056899C /* SlaveReceiverRun.xib in Resources */,
+				04EEC1CC19DC4C5E0056899C /* SlaveReceiverCameraCalibrationRun.xib in Resources */,
 				0497264418FD5E5F00625326 /* sounds in Resources */,
 				049725DE18FD563E00625326 /* NewMeasurementView.xib in Resources */,
 				045AA71619E71BA400E28AED /* MasterSenderRun.xib in Resources */,
@@ -588,6 +594,7 @@
 				0497264218FD5BDA00625326 /* icon.icns in Resources */,
 				049725E918FD568A00625326 /* HardwareRunManager.xib in Resources */,
 				0497264118FD5BDA00625326 /* docicon.icns in Resources */,
+				0461ED201A9FCD1F00439749 /* MasterSenderScreenCalibrationRun.xib in Resources */,
 				0497262818FD589300625326 /* AudioRunManager.xib in Resources */,
 				047DD1D8183A3B4D00A04F83 /* Document.xib in Resources */,
 				0497261418FD581700625326 /* VideoMonoRunManager.xib in Resources */,
@@ -599,6 +606,7 @@
 				04A9C14819216EB70016E6C0 /* AudioCalibrationRunManager.xib in Resources */,
 				048FB6F519FD21040023D29C /* HardwareDevices in Resources */,
 				04FFDF94185A6FAE00B1CCCC /* videoLat.help in Resources */,
+				0461ED221A9FCD9600439749 /* SlaveReceiverRun.xib in Resources */,
 				047DD1DB183A3B4D00A04F83 /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

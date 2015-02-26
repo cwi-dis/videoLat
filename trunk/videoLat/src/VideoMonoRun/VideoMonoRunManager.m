@@ -22,12 +22,13 @@
     [BaseRunManager registerNib: @"VideoMonoRunManager" forMeasurementType: @"Video Mono Roundtrip"];
     // We also register ourselves for camera calibration. At the very least we must make
     // sure the nibfile is registered...
-    [BaseRunManager registerClass: [self class] forMeasurementType: @"Camera Input Calibrate"];
-    [BaseRunManager registerNib: @"HardwareToCameraRunManager" forMeasurementType: @"Camera Input Calibrate"];
-    [BaseRunManager registerClass: [self class] forMeasurementType: @"Camera Input Calibrate (based on Screen)"];
-    [BaseRunManager registerNib: @"CalibrateCameraFromScreenRunManager" forMeasurementType: @"Camera Input Calibrate (based on Screen)"];
-    [BaseRunManager registerClass: [self class] forMeasurementType: @"Screen Output Calibrate (based on Camera)"];
-    [BaseRunManager registerNib: @"CalibrateScreenFromCameraRunManager" forMeasurementType: @"Screen Output Calibrate (based on Camera)"];
+    [BaseRunManager registerClass: [self class] forMeasurementType: @"Camera Calibrate using Hardware"];
+    [BaseRunManager registerNib: @"HardwareToCameraRunManager" forMeasurementType: @"Camera Calibrate using Hardware"];
+    
+    [BaseRunManager registerClass: [self class] forMeasurementType: @"Camera Calibrate using Calibrated Screen"];
+    [BaseRunManager registerNib: @"CalibrateCameraFromScreenRunManager" forMeasurementType: @"Camera Calibrate using Calibrated Screen"];
+    [BaseRunManager registerClass: [self class] forMeasurementType: @"Screen Calibrate using Calibrated Camera"];
+    [BaseRunManager registerNib: @"CalibrateScreenFromCameraRunManager" forMeasurementType: @"Screen Calibrate using Calibrated Camera"];
 }
 
 - (VideoMonoRunManager*)init
