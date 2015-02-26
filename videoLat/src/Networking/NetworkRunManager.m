@@ -104,8 +104,10 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
     [BaseRunManager registerClass: [self class] forMeasurementType: @"Video Reception (Slave/Client)"];
     [BaseRunManager registerNib: @"SlaveReceiverRun" forMeasurementType: @"Video Reception (Slave/Client)"];
 
-    [BaseRunManager registerClass: [self class] forMeasurementType: @"Camera Input Calibrate for Other device (based on this Screen)"];
-    [BaseRunManager registerNib: @"MasterSenderRun" forMeasurementType: @"Camera Input Calibrate for Other device (based on this Screen)"];
+    [BaseRunManager registerClass: [self class] forMeasurementType: @"Camera Calibrate using Remote Calibrated Screen (Slave/Client)"];
+    [BaseRunManager registerNib: @"MasterSenderRun" forMeasurementType: @"Camera Calibrate using Remote Calibrated Screen (Slave/Client)"];
+    [BaseRunManager registerClass: [self class] forMeasurementType: @"Screen Calibrate using Remote Calibrated Camera (Master/Server)"];
+    [BaseRunManager registerNib: @"MasterSenderRun" forMeasurementType: @"Screen Calibrate using Remote Calibrated Camera (Master/Server)"];
 }
 
 - (NetworkRunManager *) init
