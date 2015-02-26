@@ -201,6 +201,14 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 	//[NSException raise:@"NetworkRunManager" format:@"Must override stop in subclass"];
 	[self _updateStatus: @"Measurements complete"];
 	statusToPeer = @"Measurements complete";
+    MeasurementDataStore *ds = self.collector.dataStore;
+    if (self.protocol && ds) {
+        NSData *dsData = [NSKeyedArchiver archivedDataWithRootObject: ds];
+        assert(dsData);
+        NSString *dsString = [dsData base64EncodedStringWithOptions:0];
+        assert(dsString);
+        [self.protocol send: @{@"measurementResults" : dsString}];
+    }
 }
 
 - (void)triggerNewOutputValue
