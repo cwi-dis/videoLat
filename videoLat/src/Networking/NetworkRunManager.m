@@ -184,21 +184,36 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 	if (handlesInput) {
 		deviceDescriptorToSend = nil;
 		assert(self.selectionView);
-		if (self.selectionView.bBase == nil && !self.measurementType.isCalibration) {
-			NSLog(@"NetworkRunManager: bBase == nil");
-			return NO;
-		}
-		NSMenuItem *baseItem = [self.selectionView.bBase selectedItem];
-		NSString *baseName = [baseItem title];
-		if (baseName == nil) {
-			NSLog(@"NetworkRunManager: baseName == nil");
-			return NO;
-		}
-		MeasurementType *baseType;
-		baseType = (MeasurementType *)self.measurementType.requires;
-		MeasurementDataStore *baseStore = [baseType measurementNamed: baseName];
-		assert(baseStore.input);
-		deviceDescriptorToSend = [[DeviceDescription alloc] initFromCalibrationInput: baseStore];
+        if (self.measurementType.isCalibration) {
+            assert(self.selectionView.bBase == nil);
+            assert(self.selectionView.bDevices != nil);
+            // XXXX Concoct device descriptor from current input device and such.
+           NSMenuItem *baseItem = [self.selectionView.bBase selectedItem];
+            NSString *baseName = [baseItem title];
+            if (baseName == nil) {
+                NSLog(@"NetworkRunManager: baseName == nil");
+                return NO;
+            }
+            MeasurementType *baseType;
+            baseType = (MeasurementType *)self.measurementType.requires;
+            MeasurementDataStore *baseStore = [baseType measurementNamed: baseName];
+            assert(baseStore.input);
+            deviceDescriptorToSend = [[DeviceDescription alloc] initFromCalibrationInput: baseStore];
+        } else {
+            assert(self.selectionView.bBase != nil);
+            assert(self.selectionView.bDevices == nil);
+            NSMenuItem *baseItem = [self.selectionView.bBase selectedItem];
+            NSString *baseName = [baseItem title];
+            if (baseName == nil) {
+                NSLog(@"NetworkRunManager: baseName == nil");
+                return NO;
+            }
+            MeasurementType *baseType;
+            baseType = (MeasurementType *)self.measurementType.requires;
+            MeasurementDataStore *baseStore = [baseType measurementNamed: baseName];
+            assert(baseStore.input);
+            deviceDescriptorToSend = [[DeviceDescription alloc] initFromCalibrationInput: baseStore];
+        }
 	}
 	return YES;
 }
