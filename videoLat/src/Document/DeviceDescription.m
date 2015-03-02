@@ -74,7 +74,7 @@
 {
     [coder encodeObject:location forKey: @"location"];
     [coder encodeObject:machineTypeID forKey: @"machineTypeID"];
-    [coder encodeObject:machineID forKey: @"nachineID"];
+    [coder encodeObject:machineID forKey: @"machineID"];
     [coder encodeObject:machine forKey: @"machine"];
     [coder encodeObject:deviceID forKey: @"deviceID"];
     [coder encodeObject:device forKey: @"device"];
