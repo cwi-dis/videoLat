@@ -164,12 +164,12 @@ static NSMutableDictionary *runManagerNibs;
 			} else {
 				// Check that the base measurement is compatible with this measurement,
 				NSString *hwName = [[MachineDescription thisMachine] machineTypeID];
-				// For all runs (calibration and non-calibration) the hardware platform should match the one in the calibration run
-                if (handlesOutput && ![baseStore.output.machineTypeID isEqualToString:hwName]) {
-                    errorMessage = [NSString stringWithFormat:@"Base measurement output done on %@, current hardware is %@", baseStore.output.machine, hwName];
+				// For all runs that are not single-ended clibrations the hardware platform should match the one in the calibration run
+                if (handlesOutput && !self.measurementType.outputOnlyCalibration && ![baseStore.output.machineTypeID isEqualToString:hwName]) {
+                    errorMessage = [NSString stringWithFormat:@"Base measurement output done on %@, current hardware is %@", baseStore.output.machineTypeID, hwName];
                 }
-                if (handlesInput && ![baseStore.input.machineTypeID isEqualToString:hwName]) {
-                    errorMessage = [NSString stringWithFormat:@"Base measurement input done on %@, current hardware is %@", baseStore.input.machine, hwName];
+                if (handlesInput && !self.measurementType.inputOnlyCalibration && ![baseStore.input.machineTypeID isEqualToString:hwName]) {
+                    errorMessage = [NSString stringWithFormat:@"Base measurement input done on %@, current hardware is %@", baseStore.input.machineTypeID, hwName];
                 }
                 // For runs where we are responsible for input the input device should match
 				assert(self.capturer);
