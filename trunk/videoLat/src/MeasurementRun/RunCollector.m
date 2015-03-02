@@ -90,21 +90,36 @@
 {
 	dataStore.measurementType = scenario;
     assert(dataStore.input);
-    assert(dataStore.input.calibration);
     assert(dataStore.output);
-    assert(dataStore.output.calibration);
-    
-    dataStore.input.machine = dataStore.input.calibration.input.machine;
-    dataStore.input.machineID = dataStore.input.calibration.input.machineID;
-    dataStore.input.machineTypeID = dataStore.input.calibration.input.machineTypeID;
-    dataStore.input.device = dataStore.input.calibration.input.device;
-    dataStore.input.deviceID = dataStore.input.calibration.input.deviceID;
-    
-    dataStore.output.machine = dataStore.output.calibration.output.machine;
-    dataStore.output.machineID = dataStore.output.calibration.output.machineID;
-    dataStore.output.machineTypeID = dataStore.output.calibration.output.machineTypeID;
-    dataStore.output.device = dataStore.output.calibration.output.device;
-    dataStore.output.deviceID = dataStore.output.calibration.output.deviceID;
+
+	if (dataStore.input.calibration) {
+		dataStore.input.machine = dataStore.input.calibration.input.machine;
+		dataStore.input.machineID = dataStore.input.calibration.input.machineID;
+		dataStore.input.machineTypeID = dataStore.input.calibration.input.machineTypeID;
+		dataStore.input.device = dataStore.input.calibration.input.device;
+		dataStore.input.deviceID = dataStore.input.calibration.input.deviceID;
+	} else {
+		assert(dataStore.input.machine);
+		assert(dataStore.input.machineID);
+		assert(dataStore.input.machineTypeID);
+		assert(dataStore.input.device);
+		assert(dataStore.input.deviceID);
+	}
+
+	if (dataStore.output.calibration) {
+		dataStore.output.machine = dataStore.output.calibration.output.machine;
+		dataStore.output.machineID = dataStore.output.calibration.output.machineID;
+		dataStore.output.machineTypeID = dataStore.output.calibration.output.machineTypeID;
+		dataStore.output.device = dataStore.output.calibration.output.device;
+		dataStore.output.deviceID = dataStore.output.calibration.output.deviceID;
+	} else {
+		assert(dataStore.output.machine);
+		assert(dataStore.output.machineID);
+		assert(dataStore.output.machineTypeID);
+		assert(dataStore.output.device);
+		assert(dataStore.output.deviceID);
+	}
+
 }
 
 - (BOOL) recordTransmission: (NSString*)data at: (uint64_t)now
