@@ -46,11 +46,13 @@
 	if (self == nil) return nil;
 
 	MachineDescription *md = [MachineDescription thisMachine];
+	self.location = ((appDelegate *)[[NSApplication sharedApplication] delegate]).location;
 	self.machineID = md.machineID;
     self.machine = md.machineName;
 	self.machineTypeID = md.machineTypeID;
 	self.device = inputDevice.deviceName;
 	self.deviceID = inputDevice.deviceID;
+	self.calibration = nil;
 	return self;
 }
 
