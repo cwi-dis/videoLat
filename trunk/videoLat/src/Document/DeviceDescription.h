@@ -30,4 +30,7 @@
 /// Initializer for sending DeviceDescription to remote location.
 /// Initialize everything from input device
 - (DeviceDescription *)initFromInputDevice: (id<InputCaptureProtocol>)inputDevice;
+/// Initializer for output-only calibrations
+/// Initialize everything from output device
+- (DeviceDescription *)initFromOutputDevice: (id<OutputViewProtocol>)inputDevice;
 @end
