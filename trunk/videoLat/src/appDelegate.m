@@ -246,6 +246,12 @@
     // Now store the data in the document, and tell the document it can go initialize itself
 	d.dataStore = dataStore;
 	[d newDocumentComplete: self];
+
+	// Finally we add the document to the list of known measurements, if it is a calibration
+	// (so it becomes available during this run already). Unfortunately we cannot add it to the URL cache yet.
+	// Store the calibration in its measurementtype object
+	MeasurementType *myType = [MeasurementType forType: dataStore.measurementType];
+	[myType addMeasurement: dataStore];
 }
 
 @end
