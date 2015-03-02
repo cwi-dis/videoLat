@@ -132,7 +132,7 @@
 				break;
 			}
 			rv = recv(sock, bufptr, (buffer+bufsiz)-bufptr, 0);
-			if (rv < 0) break;
+			if (rv <= 0) break;
 			if (bufptr[rv-1] == '}') {
 				rv += (bufptr-buffer);
 				break;

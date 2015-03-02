@@ -60,13 +60,13 @@ static NSMutableDictionary *byTag;
     cal_OUT2.outputOnlyCalibration = YES;
     [cal_OUT2 setIsSubtypeOf: cal_OUT];
 
-    [self addType: @"Video Transmission (Master/Server)" tag: 6 isCalibration: NO requires: cal_OUT];
-    [self addType: @"Video Reception (Slave/Client)" tag: 7 isCalibration: NO requires: cal_IN];
+    [self addType: @"Video Transmission (Master,Server)" tag: 6 isCalibration: NO requires: cal_OUT];
+    [self addType: @"Video Reception (Slave,Client)" tag: 7 isCalibration: NO requires: cal_IN];
     
-    MeasurementType *cal_IN3 = [self addType: @"Camera Calibrate using Remote Calibrated Screen (Slave/Client)" tag: 4 isCalibration: YES requires: nil];
+    MeasurementType *cal_IN3 = [self addType: @"Camera Calibrate using Remote Calibrated Screen (Slave,Client)" tag: 4 isCalibration: YES requires: nil];
     cal_IN3.inputOnlyCalibration = YES;
     [cal_IN3 setIsSubtypeOf: cal_IN];
-    MeasurementType *cal_OUT3 = [self addType: @"Screen Calibrate using Remote Calibrated Camera (Master/Server)" tag: 5 isCalibration: YES requires: nil];
+    MeasurementType *cal_OUT3 = [self addType: @"Screen Calibrate using Remote Calibrated Camera (Master,Server)" tag: 5 isCalibration: YES requires: nil];
     cal_OUT3.outputOnlyCalibration = YES;
     [cal_OUT3 setIsSubtypeOf: cal_OUT];
 

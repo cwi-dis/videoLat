@@ -97,17 +97,17 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 
     // We also register ourselves for send-only, as a slave. At the very least we must make
     // sure the nibfile is registered...
-    [BaseRunManager registerClass: [self class] forMeasurementType: @"Video Transmission (Master/Server)"];
-    [BaseRunManager registerNib: @"MasterSenderRun" forMeasurementType: @"Video Transmission (Master/Server)"];
+    [BaseRunManager registerClass: [self class] forMeasurementType: @"Video Transmission (Master,Server)"];
+    [BaseRunManager registerNib: @"MasterSenderRun" forMeasurementType: @"Video Transmission (Master,Server)"];
     // We register ourselves for receive-only, as a slave. At the very least we must make
     // sure the nibfile is registered...
-    [BaseRunManager registerClass: [self class] forMeasurementType: @"Video Reception (Slave/Client)"];
-    [BaseRunManager registerNib: @"SlaveReceiverRun" forMeasurementType: @"Video Reception (Slave/Client)"];
+    [BaseRunManager registerClass: [self class] forMeasurementType: @"Video Reception (Slave,Client)"];
+    [BaseRunManager registerNib: @"SlaveReceiverRun" forMeasurementType: @"Video Reception (Slave,Client)"];
 
-    [BaseRunManager registerClass: [self class] forMeasurementType: @"Camera Calibrate using Remote Calibrated Screen (Slave/Client)"];
-    [BaseRunManager registerNib: @"SlaveReceiverCameraCalibrationRun" forMeasurementType: @"Camera Calibrate using Remote Calibrated Screen (Slave/Client)"];
-    [BaseRunManager registerClass: [self class] forMeasurementType: @"Screen Calibrate using Remote Calibrated Camera (Master/Server)"];
-    [BaseRunManager registerNib: @"MasterSenderScreenCalibrationRun" forMeasurementType: @"Screen Calibrate using Remote Calibrated Camera (Master/Server)"];
+    [BaseRunManager registerClass: [self class] forMeasurementType: @"Camera Calibrate using Remote Calibrated Screen (Slave,Client)"];
+    [BaseRunManager registerNib: @"SlaveReceiverCameraCalibrationRun" forMeasurementType: @"Camera Calibrate using Remote Calibrated Screen (Slave,Client)"];
+    [BaseRunManager registerClass: [self class] forMeasurementType: @"Screen Calibrate using Remote Calibrated Camera (Master,Server)"];
+    [BaseRunManager registerNib: @"MasterSenderScreenCalibrationRun" forMeasurementType: @"Screen Calibrate using Remote Calibrated Camera (Master,Server)"];
 }
 
 - (NetworkRunManager *) init
@@ -536,8 +536,13 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
             assert(mrData);
             MeasurementDataStore *mr = [NSKeyedUnarchiver unarchiveObjectWithData:mrData];
             assert(mr);
+            //
+            // Override description with our description
+            //
+            mr.measurementType = self.measurementType.name;
             appDelegate *ad = (appDelegate *)[[NSApplication sharedApplication] delegate];
-            [ad openUntitledDocumentWithMeasurement: mr];
+            [ad performSelectorOnMainThread: @selector(openUntitledDocumentWithMeasurement:) withObject: mr waitUntilDone: YES];
+            [self.selectionView.window close];
             return;
         }
         //NSLog(@"received %@ from %@ (our protocol %@)", data, connection, self.protocol);
