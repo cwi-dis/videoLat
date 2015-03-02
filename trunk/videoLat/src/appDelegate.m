@@ -253,5 +253,4 @@
 	MeasurementType *myType = [MeasurementType forType: dataStore.measurementType];
 	[myType addMeasurement: dataStore];
 }
-
 @end

@@ -8,31 +8,13 @@
 
 #import <Foundation/Foundation.h>
 #import "protocols.h"
+#import "DeviceDescription.h"
 
 ///
 /// Storage for all measured delays of a measurement run, plus
 /// all the metadata pertaining to that run (type, input and output device used, etc).
 ///
 
-@class MeasurementDataStore;
-
-@interface DeviceDescription : NSObject {
-};
-@property(strong) NSString* location;          //!< Metadata variable, set by owner
-@property(strong) NSString* machineTypeID;     //!< Metadata variable, set by owner
-@property(strong) NSString* machineID;         //!< Metadata variable, set by owner
-@property(strong) NSString* machine;           //!< Metadata variable, set by owner
-@property(strong) NSString* deviceID;          //!< Metadata variable, set by owner
-@property(strong) NSString* device;            //!< Metadata variable, set by owner
-@property(strong) MeasurementDataStore* calibration;
-
-/// Standard initializer, assigns only geolocation.
-- (DeviceDescription *)init;
-
-/// Initializer for sending DeviceDescription to remote location.
-/// Initializes geolocation to here, and other fields from calibration input device.
-- (DeviceDescription *)initFromCalibrationInput: (MeasurementDataStore *)_calibration;
-@end
 
 @interface MeasurementDataStore : NSCoder <GraphDataProviderProtocol> {
     double sum;         //!< Internal: sum of all values

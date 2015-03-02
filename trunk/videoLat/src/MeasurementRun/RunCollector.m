@@ -9,13 +9,12 @@
 #import <AppKit/AppKit.h>
 #import <AppKit/NSNibLoading.h>
 #import "RunCollector.h"
+#import "MachineDescription.h"
 #import <mach/mach.h>
 #import <mach/mach_time.h>
 #import <CoreServices/CoreServices.h>
 #import <QuartzCore/QuartzCore.h>
 #import <sys/time.h>
-#import <sys/sysctl.h>
-#import <SystemConfiguration/SystemConfiguration.h>
 
 #ifdef CLOCK_IN_COLLECTOR
 @implementation RunClock
@@ -74,18 +73,15 @@
 - (void) startCollecting: (NSString*)scenario input: (NSString*)inputId name: (NSString*)inputName output:(NSString*)outputId name: (NSString*)outputName
 {
 	dataStore.measurementType = scenario;
-	char hwName_c[100] = "unknown";
-	size_t len = sizeof(hwName_c);
-	sysctlbyname("hw.model", hwName_c, &len, NULL, 0);
-	NSString *hwName = [NSString stringWithUTF8String:hwName_c];
-	dataStore.input.machineID = @"00:00:00:00:00:00"; // XXXX
-    dataStore.input.machine = (__bridge_transfer NSString *)SCDynamicStoreCopyComputerName(nil, nil);
-	dataStore.input.machineTypeID = hwName;
+	MachineDescription *md = [MachineDescription thisMachine];
+	dataStore.input.machineID = md.machineID;
+    dataStore.input.machine = md.machineName;
+	dataStore.input.machineTypeID = md.machineTypeID;
 	dataStore.input.device = inputName;
 	dataStore.input.deviceID = inputId;
-    dataStore.output.machineID = @"00:00:00:00:00:00"; // XXXX
-    dataStore.output.machine = (__bridge_transfer NSString *)SCDynamicStoreCopyComputerName(nil, nil);
-    dataStore.output.machineTypeID = hwName;
+    dataStore.output.machineID = md.machineID;
+    dataStore.output.machine = md.machineName;
+    dataStore.output.machineTypeID = md.machineTypeID;
 	dataStore.output.device = outputName;
 	dataStore.output.deviceID = outputId;
 }
