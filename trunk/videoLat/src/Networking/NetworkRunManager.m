@@ -192,7 +192,6 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 			deviceDescriptorToSend = [[DeviceDescription alloc] initFromInputDevice: self.capturer];
         } else {
             assert(self.selectionView.bBase != nil);
-            assert(self.selectionView.bDevices == nil);
             NSMenuItem *baseItem = [self.selectionView.bBase selectedItem];
             NSString *baseName = [baseItem title];
             if (baseName == nil) {
