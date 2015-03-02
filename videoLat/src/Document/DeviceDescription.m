@@ -42,18 +42,34 @@
 
 - (DeviceDescription *)initFromInputDevice: (id<InputCaptureProtocol>)inputDevice
 {
-	self = [super init];
-	if (self == nil) return nil;
-
-	MachineDescription *md = [MachineDescription thisMachine];
-	self.location = ((appDelegate *)[[NSApplication sharedApplication] delegate]).location;
-	self.machineID = md.machineID;
+    self = [super init];
+    if (self == nil) return nil;
+    
+    MachineDescription *md = [MachineDescription thisMachine];
+    self.location = ((appDelegate *)[[NSApplication sharedApplication] delegate]).location;
+    self.machineID = md.machineID;
     self.machine = md.machineName;
-	self.machineTypeID = md.machineTypeID;
-	self.device = inputDevice.deviceName;
-	self.deviceID = inputDevice.deviceID;
-	self.calibration = nil;
-	return self;
+    self.machineTypeID = md.machineTypeID;
+    self.device = inputDevice.deviceName;
+    self.deviceID = inputDevice.deviceID;
+    self.calibration = nil;
+    return self;
+}
+
+- (DeviceDescription *)initFromOutputDevice: (id<OutputViewProtocol>)outputDevice
+{
+    self = [super init];
+    if (self == nil) return nil;
+    
+    MachineDescription *md = [MachineDescription thisMachine];
+    self.location = ((appDelegate *)[[NSApplication sharedApplication] delegate]).location;
+    self.machineID = md.machineID;
+    self.machine = md.machineName;
+    self.machineTypeID = md.machineTypeID;
+    self.device = outputDevice.deviceName;
+    self.deviceID = outputDevice.deviceID;
+    self.calibration = nil;
+    return self;
 }
 
 - (id)initWithCoder:(NSCoder *)coder

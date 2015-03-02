@@ -9,6 +9,7 @@
 #import "NetworkRunManager.h"
 #import "appDelegate.h"
 #import "MachineDescription.h"
+#import "NetworkInput.h"
 
 ///
 /// How many times do we want to get a message that the prerun code has been detected?
@@ -181,7 +182,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 
 - (BOOL)prepareInputDevice
 {
-	if (handlesInput) {
+    if (handlesInput && ![self.capturer isKindOfClass: [NetworkInput class]]) {
 		deviceDescriptorToSend = nil;
 		assert(self.selectionView);
         if (self.measurementType.isCalibration) {
@@ -668,29 +669,34 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
         [self.selectionView.bRun setEnabled: NO];
         //
         // We should now have the correct output device (locally) and input device (received from remote)
-        NSString *errorMessage;
-        NSMenuItem *baseItem = [self.selectionView.bBase selectedItem];
-        NSString *baseName = [baseItem title];
-        MeasurementType *baseType = self.measurementType.requires;
-        MeasurementDataStore *baseStore = [baseType measurementNamed: baseName];
-        if (baseType == nil) {
-            errorMessage = @"No base (calibration) measurement selected.";
-        } else if (remoteDevice == nil) {
+        NSString *errorMessage = nil;
+        MeasurementDataStore *baseStore = nil;
+        if (!self.measurementType.isCalibration) {
+            // If this is not a calibration we should check our base type
+            NSMenuItem *baseItem = [self.selectionView.bBase selectedItem];
+            NSString *baseName = [baseItem title];
+            MeasurementType *baseType = self.measurementType.requires;
+            baseStore = [baseType measurementNamed: baseName];
+            if (baseType == nil) {
+                errorMessage = @"No base (calibration) measurement selected.";
+            } else {
+                // Check that the base measurement is compatible with this measurement,
+                NSString *hwName = [[MachineDescription thisMachine] machineTypeID];
+                // The hardware platform should match the one in the calibration run
+                if (![baseStore.output.machineTypeID isEqualToString:hwName]) {
+                    errorMessage = [NSString stringWithFormat:@"Base measurement output done on %@, current hardware is %@", baseStore.output.machine, hwName];
+                }
+                if (handlesOutput) {
+                    assert(self.outputView);
+                }
+                // For runs where we are responsible for output the output device should match
+                if (![baseStore.output.deviceID isEqualToString:self.outputCompanion.outputView.deviceID]) {
+                    errorMessage = [NSString stringWithFormat:@"Base measurement uses output %@, current measurement uses %@", baseStore.output.device, self.outputView.deviceName];
+                }
+            }
+        }
+        if (errorMessage == nil && remoteDevice == nil) {
             errorMessage = @"No device description received from remote (slave) partner.";
-        } else {
-            // Check that the base measurement is compatible with this measurement,
-			NSString *hwName = [[MachineDescription thisMachine] machineTypeID];
-            // The hardware platform should match the one in the calibration run
-            if (![baseStore.output.machineTypeID isEqualToString:hwName]) {
-                errorMessage = [NSString stringWithFormat:@"Base measurement output done on %@, current hardware is %@", baseStore.output.machine, hwName];
-            }
-            if (handlesOutput) {
-                assert(self.outputView);
-            }
-            // For runs where we are responsible for output the output device should match
-            if (![baseStore.output.deviceID isEqualToString:self.outputCompanion.outputView.deviceID]) {
-                errorMessage = [NSString stringWithFormat:@"Base measurement uses output %@, current measurement uses %@", baseStore.output.device, self.outputView.deviceName];
-            }
         }
         if (errorMessage) {
 			[self _updateStatus: @"Missing calibration"];
@@ -705,7 +711,11 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
                 return;
         }
         // Remember the input and output device in the collector
-        [self.collector.dataStore useOutputCalibration:baseStore];
+        if (baseStore) {
+            [self.collector.dataStore useOutputCalibration:baseStore];
+        } else {
+            self.collector.dataStore.output = [[DeviceDescription alloc] initFromOutputDevice: self.outputCompanion.outputView];
+        }
         self.collector.dataStore.input = remoteDevice;
 
 		[self _updateStatus: @"Ready to run"];
