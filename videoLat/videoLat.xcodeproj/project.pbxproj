@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		04068ECE1AA476E3004EF502 /* MachineDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = 04068ECD1AA476E3004EF502 /* MachineDescription.m */; };
+		04068ED11AA47CD5004EF502 /* DeviceDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = 04068ED01AA47CD5004EF502 /* DeviceDescription.m */; };
 		041714DD19DDEF340019FA45 /* NetworkProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 041714DC19DDEF340019FA45 /* NetworkProtocol.m */; };
 		041E097F1A9DDAAC006A241C /* TemplateRunManager.xib in Resources */ = {isa = PBXBuildFile; fileRef = 041E097E1A9DDAAC006A241C /* TemplateRunManager.xib */; };
 		044F3D7D183A46390008CBA3 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 044F3D7C183A46390008CBA3 /* AVFoundation.framework */; };
@@ -83,6 +85,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		04068ECC1AA476E3004EF502 /* MachineDescription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MachineDescription.h; path = Document/MachineDescription.h; sourceTree = "<group>"; };
+		04068ECD1AA476E3004EF502 /* MachineDescription.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MachineDescription.m; path = Document/MachineDescription.m; sourceTree = "<group>"; };
+		04068ECF1AA47CD5004EF502 /* DeviceDescription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeviceDescription.h; path = Document/DeviceDescription.h; sourceTree = "<group>"; };
+		04068ED01AA47CD5004EF502 /* DeviceDescription.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DeviceDescription.m; path = Document/DeviceDescription.m; sourceTree = "<group>"; };
 		041714DB19DDECBE0019FA45 /* NetworkProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NetworkProtocol.h; path = Networking/NetworkProtocol.h; sourceTree = "<group>"; };
 		041714DC19DDEF340019FA45 /* NetworkProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NetworkProtocol.m; path = Networking/NetworkProtocol.m; sourceTree = "<group>"; };
 		041E097E1A9DDAAC006A241C /* TemplateRunManager.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = TemplateRunManager.xib; path = MeasurementRun/TemplateRunManager.xib; sourceTree = "<group>"; };
@@ -235,10 +241,14 @@
 				0497262F18FD592C00625326 /* DocumentView.m */,
 				0497263018FD592C00625326 /* GraphView.h */,
 				0497263118FD592C00625326 /* GraphView.m */,
+				04068ECC1AA476E3004EF502 /* MachineDescription.h */,
+				04068ECD1AA476E3004EF502 /* MachineDescription.m */,
 				0497263218FD592C00625326 /* MeasurementDataStore.h */,
 				0497263318FD592C00625326 /* MeasurementDataStore.m */,
 				0497263418FD592C00625326 /* MeasurementDistribution.h */,
 				0497263518FD592C00625326 /* MeasurementDistribution.m */,
+				04068ECF1AA47CD5004EF502 /* DeviceDescription.h */,
+				04068ED01AA47CD5004EF502 /* DeviceDescription.m */,
 			);
 			name = Document;
 			sourceTree = "<group>";
@@ -659,7 +669,9 @@
 				0497263E18FD596F00625326 /* MeasurementType.m in Sources */,
 				04EEC1DC19DC93A70056899C /* NetworkRunManager.m in Sources */,
 				04ED2A181A9D23E2001FA0AC /* NewMeasurementView.m in Sources */,
+				04068ECE1AA476E3004EF502 /* MachineDescription.m in Sources */,
 				04DCC18918664C8E00592A1F /* PythonLoader.m in Sources */,
+				04068ED11AA47CD5004EF502 /* DeviceDescription.m in Sources */,
 				049725DF18FD563E00625326 /* RunCollector.m in Sources */,
 				0497260B18FD580300625326 /* VideoInput.m in Sources */,
 				0497263618FD592C00625326 /* Document.m in Sources */,

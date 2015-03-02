@@ -7,8 +7,7 @@
 //
 
 #import "BaseRunManager.h"
-#import <sys/sysctl.h>
-
+#import "MachineDescription.h"
 static NSMutableDictionary *runManagerClasses;
 static NSMutableDictionary *runManagerNibs;
 
@@ -164,10 +163,7 @@ static NSMutableDictionary *runManagerNibs;
 				errorMessage = @"No base (calibration) measurement selected.";
 			} else {
 				// Check that the base measurement is compatible with this measurement,
-				char hwName_c[100] = "unknown";
-				size_t len = sizeof(hwName_c);
-				sysctlbyname("hw.model", hwName_c, &len, NULL, 0);
-				NSString *hwName = [NSString stringWithUTF8String:hwName_c];
+				NSString *hwName = [[MachineDescription thisMachine] machineTypeID];
 				// For all runs (calibration and non-calibration) the hardware platform should match the one in the calibration run
                 if (handlesOutput && ![baseStore.output.machineTypeID isEqualToString:hwName]) {
                     errorMessage = [NSString stringWithFormat:@"Base measurement output done on %@, current hardware is %@", baseStore.output.machine, hwName];

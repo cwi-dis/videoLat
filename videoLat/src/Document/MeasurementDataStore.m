@@ -7,62 +7,6 @@
 //
 
 #import "MeasurementDataStore.h"
-#import "appDelegate.h"
-
-@implementation DeviceDescription
-@synthesize location;
-@synthesize machineTypeID;
-@synthesize machineID;
-@synthesize machine;
-@synthesize deviceID;
-@synthesize device;
-@synthesize calibration;
-
-- (DeviceDescription *)init
-{
-	self = [super init];
-	self.location = ((appDelegate *)[[NSApplication sharedApplication] delegate]).location;
-	return self;
-}
-
-- (DeviceDescription *)initFromCalibrationInput:(MeasurementDataStore *)_calibration
-{
-	self = [super init];
-	self.location = ((appDelegate *)[[NSApplication sharedApplication] delegate]).location;
-	self.machineTypeID = _calibration.input.machineTypeID;
-	self.machineID = _calibration.input.machineID;
-	self.machine = _calibration.input.machine;
-	self.deviceID = _calibration.input.deviceID;
-	self.device = _calibration.input.device;
-	self.calibration = _calibration;
-	return self;
-}
-
-- (id)initWithCoder:(NSCoder *)coder
-{
-    self = [super init];
-    location = [coder decodeObjectForKey:@"location"];
-    machineTypeID = [coder decodeObjectForKey:@"machineTypeID"];
-    machineID = [coder decodeObjectForKey:@"machineID"];
-    machine = [coder decodeObjectForKey:@"machine"];
-    deviceID = [coder decodeObjectForKey: @"deviceID"];
-    device = [coder decodeObjectForKey: @"device"];
-    calibration = [coder decodeObjectForKey: @"calibration"];
-    return self;
-}
-
-- (void)encodeWithCoder:(NSCoder *)coder
-{
-    [coder encodeObject:location forKey: @"location"];
-    [coder encodeObject:machineTypeID forKey: @"machineTypeID"];
-    [coder encodeObject:machineID forKey: @"nachineID"];
-    [coder encodeObject:machine forKey: @"machine"];
-    [coder encodeObject:deviceID forKey: @"deviceID"];
-    [coder encodeObject:device forKey: @"device"];
-    [coder encodeObject: calibration forKey: @"calibration"];
-}
-
-@end
 
 @implementation MeasurementDataStore
 @synthesize measurementType;

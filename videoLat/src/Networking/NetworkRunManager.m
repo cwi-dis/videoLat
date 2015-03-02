@@ -7,8 +7,8 @@
 //
 
 #import "NetworkRunManager.h"
-#import <sys/sysctl.h>
 #import "appDelegate.h"
+#import "MachineDescription.h"
 
 ///
 /// How many times do we want to get a message that the prerun code has been detected?
@@ -684,10 +684,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
             errorMessage = @"No device description received from remote (slave) partner.";
         } else {
             // Check that the base measurement is compatible with this measurement,
-            char hwName_c[100] = "unknown";
-            size_t len = sizeof(hwName_c);
-            sysctlbyname("hw.model", hwName_c, &len, NULL, 0);
-            NSString *hwName = [NSString stringWithUTF8String:hwName_c];
+			NSString *hwName = [[MachineDescription thisMachine] machineTypeID];
             // The hardware platform should match the one in the calibration run
             if (![baseStore.output.machineTypeID isEqualToString:hwName]) {
                 errorMessage = [NSString stringWithFormat:@"Base measurement output done on %@, current hardware is %@", baseStore.output.machine, hwName];
