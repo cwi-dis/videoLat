@@ -142,30 +142,39 @@ static double normFunc(double x, double average, double stddev)
 
 	NSBezierPath *path;
 	// Draw the x=0 and y=0 lines, if visible
-	if (minYaxis < 0) {
-		NSColor *axisColor = [[NSColor whiteColor] shadowWithLevel: 0.3];
+	NSColor *axisColor = [[NSColor whiteColor] shadowWithLevel: 0.3];
+	double gridlineSpacer = _dividerSteps(minYaxis, maxYaxis);
+	double gridLinePosition = 0;
+	while (gridLinePosition > minYaxis) gridLinePosition -= gridlineSpacer;
+	gridLinePosition += gridlineSpacer;
+	while (gridLinePosition <= maxYaxis) {
 		path = [NSBezierPath bezierPath];
-		double value = (0-minYaxis)*yPixelPerUnit;
+		double value = (gridLinePosition-minYaxis)*yPixelPerUnit;
 		[path moveToPoint: NSMakePoint(dstRect.origin.x, value)];
         [path lineToPoint: NSMakePoint(dstRect.origin.x+dstRect.size.width, value)];
         [axisColor set];
         [path stroke];
 		path = nil;
+		gridLinePosition += gridlineSpacer;
 	}
-	if (minXaxis < 0) {
-		NSColor *axisColor = [[NSColor whiteColor] shadowWithLevel: 0.3];
+	gridlineSpacer = _dividerSteps(minXaxis, maxXaxis);
+	gridLinePosition = 0;
+	while (gridLinePosition > minXaxis) gridLinePosition -= gridlineSpacer;
+	gridLinePosition += gridlineSpacer;
+	while (gridLinePosition <= maxXaxis) {
 		path = [NSBezierPath bezierPath];
-		double value = (0-minXaxis)*xPixelPerUnit;
+		double value = (gridLinePosition-minXaxis)*xPixelPerUnit;
 		[path moveToPoint: NSMakePoint(value, dstRect.origin.y)];
         [path lineToPoint: NSMakePoint(value, dstRect.origin.y+dstRect.size.height) ];
         [axisColor set];
         [path stroke];
 		path = nil;
+		gridLinePosition += gridlineSpacer;
 	}
 
     // Compute the closed path
     path = [NSBezierPath bezierPath];
-    CGFloat oldX = minXaxis, oldY = 0;
+    CGFloat oldX = minXaxis, oldY = -minYaxis*yPixelPerUnit;
     CGFloat newX = oldX, newY;
 
     [path moveToPoint: NSMakePoint(oldX, oldY)];
@@ -183,7 +192,7 @@ static double normFunc(double x, double average, double stddev)
         if (VL_DEBUG) NSLog(@"point %f, %f", newX, newY);
         oldX = newX;
     }
-    [path lineToPoint: NSMakePoint(newX, 0)];
+    [path lineToPoint: NSMakePoint(newX, -minYaxis*yPixelPerUnit)];
     [path closePath];
     
     [self.color set];
