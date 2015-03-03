@@ -63,6 +63,11 @@
     return count;
 }
 
+- (double) binSize
+{
+	return 1;
+}
+
 - (double) average
 {
     double rv = sum / count;

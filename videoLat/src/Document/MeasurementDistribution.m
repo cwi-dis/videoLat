@@ -13,6 +13,7 @@
 - (double) average { return self.source.average; }
 - (double) stddev { return self.source.stddev; }
 - (double) maxXaxis { return self.source.max; }
+- (double) binSize { return binSize; }
 
 - (MeasurementDistribution *) init
 {

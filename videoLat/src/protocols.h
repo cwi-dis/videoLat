@@ -178,6 +178,7 @@
 @property(readonly) double min;	/*!< Minimum value */
 @property(readonly) double max;	/*!< Maximum value */
 @property(readonly) double maxXaxis;	/*!< For distribution plots: maximum bin value */
+@property(readonly) double binSize;	/*!< x-increments for which new values are available */
 
 /**
  Return one value.
