@@ -37,6 +37,16 @@ static double _RoundUpTo125(double value)
     return sign*value;
 }
 
+static double _dividerSteps(double minAxis, double maxAxis)
+{
+	double axisStep = _RoundUpTo125(maxAxis * 1.01) / 10.0;
+	if (minAxis < 0) {
+		double altAxisStep = _RoundUpTo125(-minAxis *1.01) / 10.0;
+		if (altAxisStep > axisStep) axisStep = altAxisStep;
+	}
+	return axisStep;
+}
+
 static double normFunc(double x, double average, double stddev)
 {
     if (stddev == 0) return 0;
@@ -132,20 +142,22 @@ static double normFunc(double x, double average, double stddev)
 
 	NSBezierPath *path;
 	// Draw the x=0 and y=0 lines, if visible
-	if (minXaxis < 0) {
-		NSColor *axisColor = [NSColor blackColor];
+	if (minYaxis < 0) {
+		NSColor *axisColor = [[NSColor whiteColor] shadowWithLevel: 0.3];
 		path = [NSBezierPath bezierPath];
-		[path moveToPoint: NSMakePoint(dstRect.origin.x, (0-minY)/ yPixelPerUnit)];
-        [path lineToPoint: NSMakePoint(dstRect.origin.x+dstRect.size.width, (0-minY) / yPixelPerUnit)];
+		double value = (0-minYaxis)*yPixelPerUnit;
+		[path moveToPoint: NSMakePoint(dstRect.origin.x, value)];
+        [path lineToPoint: NSMakePoint(dstRect.origin.x+dstRect.size.width, value)];
         [axisColor set];
         [path stroke];
 		path = nil;
 	}
-	if (minYaxis < 0) {
-		NSColor *axisColor = [NSColor blackColor];
+	if (minXaxis < 0) {
+		NSColor *axisColor = [[NSColor whiteColor] shadowWithLevel: 0.3];
 		path = [NSBezierPath bezierPath];
-		[path moveToPoint: NSMakePoint((0-minX)/xPixelPerUnit, dstRect.origin.y)];
-        [path lineToPoint: NSMakePoint((0-minX)/yPixelPerUnit, dstRect.origin.y+dstRect.size.height) ];
+		double value = (0-minXaxis)*xPixelPerUnit;
+		[path moveToPoint: NSMakePoint(value, dstRect.origin.y)];
+        [path lineToPoint: NSMakePoint(value, dstRect.origin.y+dstRect.size.height) ];
         [axisColor set];
         [path stroke];
 		path = nil;
