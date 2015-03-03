@@ -177,6 +177,7 @@
 @property(readonly) double stddev;	/*!< Standard deviation of all values */
 @property(readonly) double min;	/*!< Minimum value */
 @property(readonly) double max;	/*!< Maximum value */
+@property(readonly) double minXaxis;	/*!< For distribution plots: minimum bin value */
 @property(readonly) double maxXaxis;	/*!< For distribution plots: maximum bin value */
 @property(readonly) double binSize;	/*!< x-increments for which new values are available */
 

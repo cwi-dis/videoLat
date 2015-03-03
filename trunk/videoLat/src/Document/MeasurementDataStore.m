@@ -63,6 +63,11 @@
     return count;
 }
 
+- (double) minXaxis
+{
+	return 0;
+}
+
 - (double) binSize
 {
 	return 1;

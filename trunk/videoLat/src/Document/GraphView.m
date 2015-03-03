@@ -102,7 +102,7 @@ static double normFunc(double x, double average, double stddev)
     
     // Determine X scale. Start at zero, unless we get less than a pixel per value,
     // then we discard the oldest data (lowest X indices)
-    CGFloat minX = 0;
+    CGFloat minX = self.source.minXaxis;
     CGFloat maxX = self.source.maxXaxis;
 	CGFloat minXaxis = (CGFloat)_RoundUpTo125(minX);
     CGFloat maxXaxis = (CGFloat)_RoundUpTo125(maxX);
@@ -174,18 +174,18 @@ static double normFunc(double x, double average, double stddev)
 
     // Compute the closed path
     path = [NSBezierPath bezierPath];
-    CGFloat oldX = minXaxis, oldY = -minYaxis*yPixelPerUnit;
+    CGFloat oldX = (minX-minXaxis)*xPixelPerUnit, oldY = -minYaxis*yPixelPerUnit;
     CGFloat newX = oldX, newY;
 
     [path moveToPoint: NSMakePoint(oldX, oldY)];
     int i;
-	int minXindex = (int)(minX / [self.source binSize]);
+	int minXindex = 0;
 	assert(minXindex >= 0);
-	int maxXindex = (int)(maxX / [self.source binSize]);
+	int maxXindex = (int)((maxX-minX) / [self.source binSize]);
     for (i=minXindex; i<=maxXindex; i++) {
         newX = oldX + xPixelPerUnit*[self.source binSize];
 		CGFloat value = 0;
-		if (i < maxXindex) value = [[self.source valueForIndex:i] doubleValue];
+		if (i > minXindex && i < maxXindex) value = [[self.source valueForIndex:i] doubleValue];
         newY = (value - minYaxis) * yPixelPerUnit;
         [path lineToPoint: NSMakePoint(oldX, newY)];
         [path lineToPoint: NSMakePoint(newX, newY)];
@@ -212,7 +212,7 @@ static double normFunc(double x, double average, double stddev)
 	   // Draw the cumulative distribution of the real data
 		NSColor *cumulativeColor = [self.color shadowWithLevel:0.5];
 		NSBezierPath *cumulativePath = [NSBezierPath bezierPath];
-		oldX = minX;
+		oldX = (minX-minXaxis)*xPixelPerUnit;
 		CGFloat oldCumulativeY = 0;
 		newX = oldX;
 		CGFloat newCumulativeY;
@@ -252,7 +252,7 @@ static double normFunc(double x, double average, double stddev)
         [path stroke];
 		// And draw the average
 		path = [NSBezierPath bezierPath];
-		double value = (average-minX)*xPixelPerUnit;
+		double value = (average-minXaxis)*xPixelPerUnit;
 		[path moveToPoint: NSMakePoint(value, dstRect.origin.y)];
         [path lineToPoint: NSMakePoint(value, dstRect.origin.y+dstRect.size.height) ];
         [cumulativeColor set];
