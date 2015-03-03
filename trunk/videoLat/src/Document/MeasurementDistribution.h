@@ -27,6 +27,7 @@
 @property(readonly) double stddev;      //!< accessor for stddev of source
 @property(readonly) double max;         //!< current maximum value (value of biggest bin)
 @property(readonly) double maxXaxis;    //!< maximum of source, and therefore our rightmost data point
+@property(readonly) double binSize;		//!< width of each bin
 @property(weak) IBOutlet id <GraphDataProviderProtocol> source; //!< Source of our data points
 
 ///

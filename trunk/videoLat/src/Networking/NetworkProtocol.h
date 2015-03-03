@@ -10,6 +10,7 @@
 
 @protocol NetworkProtocolDelegate
 - (void)received: (NSDictionary *)data from: (id)connection;
+- (void)connected:(id)connection;
 - (void)disconnected:(id)connection;
 @end
 
