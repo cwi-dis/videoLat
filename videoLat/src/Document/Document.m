@@ -9,6 +9,7 @@
 #import "Document.h"
 #import "DocumentView.h"
 #import "appDelegate.h"
+#import "Uploader.h"
 
 @implementation Document
 @synthesize dataStore;
@@ -40,6 +41,11 @@
 {
 	[super windowControllerDidLoadNib:aController];
 	// Add any code here that needs to be executed once the windowController has loaded the document's window.
+    // Finally see whether this document is worth uploading
+    if (!dontUpload) {
+        Uploader *uploader = [Uploader sharedUploader];
+        [uploader shouldUpload:self.dataStore delegate:self];
+    }
 }
 
 - (IBAction)newDocumentComplete: (id)sender
@@ -63,6 +69,9 @@
     [super makeWindowControllers];
     [self showWindows];
     [(DocumentView *)self.myView updateView];
+    // Finally see whether this document is worth uploading
+    Uploader *uploader = [Uploader sharedUploader];
+    [uploader shouldUpload:self.dataStore delegate:self];
 }
 
 - (void)_setCalibrationFileName
@@ -99,7 +108,8 @@
     [dict setObject:@"videoLat" forKey:@"videoLat"];
     [dict setObject:VIDEOLAT_FILE_VERSION forKey:@"version"];
     [dict setObject:self.dataStore forKey:@"dataStore"];
-//    [dict setObject:self.dataDistribution forKey:@"dataDistribution"];
+    if (dontUpload) [dict setObject: [NSNumber numberWithBool: YES] forKey:@"dontUpload"];
+    
     return [NSKeyedArchiver archivedDataWithRootObject: dict];
 }
 
@@ -133,8 +143,13 @@
     self.dataDistribution = [[MeasurementDistribution alloc] initWithSource:self.dataStore];
     [self.myView updateView];
 
+    NSNumber *du = [dict objectForKey: @"dontUpload"];
+    if (du && [du boolValue])
+        dontUpload = YES;
+    
 	myType = [MeasurementType forType: self.dataStore.measurementType];
 	
+    
 	return YES;
 }
 
@@ -215,5 +230,47 @@
 - (void)changed
 {
 	[self updateChangeCount:NSChangeDone];
+}
+
+- (void)shouldUpload:(BOOL)answer
+{
+    if (answer) {
+        NSLog(@"Should upload this document");
+        NSWindow *win = [self windowForSheet];
+        Uploader *uploader = [Uploader sharedUploader];
+        NSAlert *alert = [NSAlert alertWithMessageText:@"Do you want to share this calibration with other videoLat users?"
+                                          defaultButton:@"Yes"
+                                        alternateButton:@"Never"
+                                            otherButton:@"Not now"
+                              informativeTextWithFormat:@"videoLat.org has no calibration for this hardware combination yet."
+                           "If you think your measurement is trustworthy you can share it with other people (anonymously)."
+                           ];
+        if (win) {
+            [alert beginSheetModalForWindow: win completionHandler:^(NSModalResponse returnCode) {
+                if (returnCode == NSAlertDefaultReturn) {
+                    [uploader uploadAsynchronously:self.dataStore];
+                } else if (returnCode == NSAlertAlternateReturn) {
+                    dontUpload = YES;
+                    [self changed];
+                }
+            }];
+        } else {
+            NSModalResponse answer = [alert runModal];
+            if (answer == NSAlertDefaultReturn) {
+                [uploader uploadAsynchronously:self.dataStore];
+            } else if (answer == NSAlertAlternateReturn) {
+                dontUpload = YES;
+                [self changed];
+            }
+        }
+    }
+}
+
+- (void)didUpload: (BOOL)answer
+{
+    if (answer) {
+        dontUpload = YES;
+        [self changed];
+    }
 }
 @end

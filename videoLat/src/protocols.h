@@ -324,4 +324,26 @@
 ///
 - (void)newInputDone;
 @end
+
+///
+/// Protocol that returns answers to "should I upload this calibration?" queries
+///
+@protocol UploadQueryDelegate
+- (void) shouldUpload: (BOOL)answer;
+@end
+
+///
+/// Protocol that returns answers to "Upload this calibration" commands
+///
+@protocol UploadDelegate
+- (void) didUpload: (BOOL)answer;
+@end
+
+///
+/// Protocol that returns answers to "Which calibrations are available for download?" queries
+///
+@protocol DownloadQueryDelegate
+- (void) availableCalibrations: (NSDictionary *)allCalibrations;
+@end
+
 #endif
