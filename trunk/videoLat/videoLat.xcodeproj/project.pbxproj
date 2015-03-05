@@ -11,6 +11,7 @@
 		04068ED11AA47CD5004EF502 /* DeviceDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = 04068ED01AA47CD5004EF502 /* DeviceDescription.m */; };
 		041714DD19DDEF340019FA45 /* NetworkProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 041714DC19DDEF340019FA45 /* NetworkProtocol.m */; };
 		041E097F1A9DDAAC006A241C /* TemplateRunManager.xib in Resources */ = {isa = PBXBuildFile; fileRef = 041E097E1A9DDAAC006A241C /* TemplateRunManager.xib */; };
+		042574921AA8F28800CFD180 /* Uploader.m in Sources */ = {isa = PBXBuildFile; fileRef = 042574911AA8F28800CFD180 /* Uploader.m */; };
 		044F3D7D183A46390008CBA3 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 044F3D7C183A46390008CBA3 /* AVFoundation.framework */; };
 		044F3D7F183A46540008CBA3 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 044F3D7E183A46540008CBA3 /* CoreMedia.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		044F3D81183A467F0008CBA3 /* libpython2.7.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 044F3D80183A467F0008CBA3 /* libpython2.7.dylib */; };
@@ -92,6 +93,8 @@
 		041714DB19DDECBE0019FA45 /* NetworkProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NetworkProtocol.h; path = Networking/NetworkProtocol.h; sourceTree = "<group>"; };
 		041714DC19DDEF340019FA45 /* NetworkProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NetworkProtocol.m; path = Networking/NetworkProtocol.m; sourceTree = "<group>"; };
 		041E097E1A9DDAAC006A241C /* TemplateRunManager.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = TemplateRunManager.xib; path = MeasurementRun/TemplateRunManager.xib; sourceTree = "<group>"; };
+		042574901AA8F28800CFD180 /* Uploader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Uploader.h; path = Sharing/Uploader.h; sourceTree = "<group>"; };
+		042574911AA8F28800CFD180 /* Uploader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Uploader.m; path = Sharing/Uploader.m; sourceTree = "<group>"; };
 		044F3D7C183A46390008CBA3 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = /System/Library/Frameworks/AVFoundation.framework; sourceTree = "<absolute>"; };
 		044F3D7E183A46540008CBA3 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = ../../../../System/Library/Frameworks/CoreMedia.framework; sourceTree = "<group>"; };
 		044F3D80183A467F0008CBA3 /* libpython2.7.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libpython2.7.dylib; path = ../../../../System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/config/libpython2.7.dylib; sourceTree = "<group>"; };
@@ -311,6 +314,15 @@
 			name = MixedRun;
 			sourceTree = "<group>";
 		};
+		0425748F1AA8F1B000CFD180 /* Sharing */ = {
+			isa = PBXGroup;
+			children = (
+				042574901AA8F28800CFD180 /* Uploader.h */,
+				042574911AA8F28800CFD180 /* Uploader.m */,
+			);
+			name = Sharing;
+			sourceTree = "<group>";
+		};
 		047DD1B2183A3B4C00A04F83 = {
 			isa = PBXGroup;
 			children = (
@@ -370,6 +382,7 @@
 				04DCC18818664C8E00592A1F /* PythonLoader.m */,
 				040CF9D5183E4B4B0094C0D8 /* MeasurementRun */,
 				040CF9D4183E4B1F0094C0D8 /* Document */,
+				0425748F1AA8F1B000CFD180 /* Sharing */,
 				047DD1C8183A3B4D00A04F83 /* Supporting Files */,
 			);
 			path = src;
@@ -662,6 +675,7 @@
 				049725DD18FD563E00625326 /* BaseRunManager.m in Sources */,
 				041714DD19DDEF340019FA45 /* NetworkProtocol.m in Sources */,
 				0497261318FD581700625326 /* VideoMonoRunManager.m in Sources */,
+				042574921AA8F28800CFD180 /* Uploader.m in Sources */,
 				049725E718FD568A00625326 /* HardwareOutputView.m in Sources */,
 				0497263718FD592C00625326 /* DocumentDescriptionView.m in Sources */,
 				0497260C18FD580300625326 /* VideoOutputView.m in Sources */,
