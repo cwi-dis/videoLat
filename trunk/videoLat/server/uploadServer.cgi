@@ -2,6 +2,7 @@
 import cgi
 import cgitb
 import os
+import sys
 
 cgitb.enable()
 
@@ -25,6 +26,9 @@ class Uploader:
         self.machineTypeID = None
         self.inputDeviceID = None
         self.outputDeviceID = None
+        self.dataSize = None
+        self.data = None
+        self.pathname = None
         assert os.path.exists(BASEDIR)
         
     def parseArguments(self):
@@ -35,12 +39,17 @@ class Uploader:
         self.machineTypeID = args.getfirst('machineTypeID', None)
         self.inputDeviceID = args.getfirst('inputDeviceID', None)
         self.outputDeviceID = args.getfirst('outputDeviceID', None)
+        self.dataSize = args.getfirst('dataSize', None)
         assert self.op
         assert self.uuid
         assert self.measurementTypeID
         assert self.machineTypeID
         assert self.inputDeviceID or self.outputDeviceID
         assert  not (self.inputDeviceID and self.outputDeviceID)
+        if self.dataSize:
+            self.data = sys.stdin.read()
+            dataSize = int(self.dataSize)
+            assert len(self.data) == dataSize, "Expected %d bytes got %d bytes" % (dataSize, len(self.data))
         
     def run(self):
         self.parseArguments()
@@ -63,7 +72,18 @@ class Uploader:
             self.output(True)
             return
         elif self.op == "upload":
-            pass
+            assert self.data
+            dirpath = os.path.join(BASEDIR, self.measurementTypeID, self.machineTypeID)
+            if self.inputDeviceID:
+                dirpath = os.path.join(dirpath, self.inputDeviceID)
+            elif self.outputDeviceID:
+                dirpath = os.path.join(dirpath, self.outputDeviceID)
+            os.makedirs(dirpath)
+            filepath = os.path.join(dirpath, self.uuid)
+            fp = open(filepath, 'w')
+            fp.write(self.data)
+            self.output(True)
+            return
         else:
             assert 0, "Unknown operation %s" % self.op
         self.output(True)
