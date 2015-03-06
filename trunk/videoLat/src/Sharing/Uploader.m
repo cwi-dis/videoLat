@@ -148,7 +148,7 @@
 {
     static Uploader *shared = nil;
     if (shared == nil) {
-        shared = [[Uploader alloc] initWithServer: [NSURL URLWithString: @"http://videolat.org/calibrationsharing"]];
+        shared = [[Uploader alloc] initWithServer: [NSURL URLWithString: @"http://localhost/~jack/cgi-bin/uploadServer.cgi"]];
     }
     return shared;
 }
