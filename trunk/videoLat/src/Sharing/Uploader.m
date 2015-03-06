@@ -92,7 +92,7 @@
     if (machineTypeID) query = [NSString stringWithFormat: @"%@&machineTypeID=%@", query, [machineTypeID stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     if (inputDeviceID) query = [NSString stringWithFormat: @"%@&inputDeviceID=%@", query, [inputDeviceID stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     if (outputDeviceID) query = [NSString stringWithFormat: @"%@&outputDeviceID=%@", query, [outputDeviceID stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-    NSURL *url = [NSURL URLWithString: [NSString stringWithFormat: @"%@%@", [baseURL absoluteString], query]];
+    url = [NSURL URLWithString: [NSString stringWithFormat: @"%@%@", [baseURL absoluteString], query]];
 }
 
 - (void)shouldUpload: (id<UploadQueryDelegate>)_delegate
@@ -100,13 +100,43 @@
     delegate = _delegate;
     [self _fillURLWithOp:@"check"];
     NSLog(@"shouldUpload: URL=%@", url);
-    [delegate shouldUpload: YES];
+	[self start];
 }
 
 - (void)uploadAsynchronously
 {
     [self _fillURLWithOp:@"upload"];
     NSLog(@"uploadAsynchronously: URL=%@", url);
+}
+
+- (void) main
+{
+	NSLog(@"UploadHelper thread started");
+	NSURLRequest *req = [NSURLRequest requestWithURL: url];
+	if (req == nil) {
+		NSLog(@"UploadHelper: NSURLRequest returned nil for %@", url);
+		return;
+	}
+	if (![NSURLConnection canHandleRequest: req]) {
+		NSLog(@"UploadHelper: NSURLConnection cannot handle request for %@", url);
+		return;
+	}
+	NSURLResponse *resp;
+	NSError *err;
+	NSData *result = [NSURLConnection sendSynchronousRequest: req returningResponse:&resp error:&err];
+	if (result == nil) {
+		NSLog(@"UploadHelper: sendSynchronousRequest failed, error=%@", err);
+		return;
+	}
+	if (1 || VL_DEBUG) NSLog(@"UploadHelper: sendSynchronousRequest returned %@", result);
+	char *s_result = (char *)[result bytes];
+	if (strncmp(s_result, "YES\n", 4) == 0) {
+		[delegate shouldUpload: YES];
+	} else if (strncmp(s_result, "NO\n", 3) == 0) {
+		[delegate shouldUpload: NO];
+	} else {
+		NSLog(@"UploadHelper: Unexpected reply, starting with %40.40s", s_result);
+	}
 }
 
 @end

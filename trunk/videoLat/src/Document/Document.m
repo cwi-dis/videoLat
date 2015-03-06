@@ -263,7 +263,12 @@
                 [self changed];
             }
         }
-    }
+    } else {
+		// A "No" answer from the server is different than no answer, it means that the
+		// server doesn't want this calibration.
+		dontUpload = YES;
+		[self changed];
+	}
 }
 
 - (void)didUpload: (BOOL)answer
