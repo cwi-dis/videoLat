@@ -125,7 +125,7 @@
 
 	if (data) {
 		req.HTTPBody = data;
-		req.HTTPMethod = @"POST";
+		req.HTTPMethod = @"PUT";
 	}
 
 	if (![NSURLConnection canHandleRequest: req]) {
@@ -141,7 +141,7 @@
 		return;
 	}
 
-	if (1 || VL_DEBUG) NSLog(@"UploadHelper: sendSynchronousRequest returned %@", result);
+	if (VL_DEBUG) NSLog(@"UploadHelper: sendSynchronousRequest returned %@", result);
 	char *s_result = (char *)[result bytes];
 	if (strncmp(s_result, "YES\n", 4) == 0) {
 		if (delegate) [delegate shouldUpload: YES];
@@ -149,7 +149,7 @@
 		if (delegate) [delegate shouldUpload: NO];
 	} else {
 		NSLog(@"UploadHelper: Unexpected reply, starting with %40.40s", s_result);
-		NSLog(@"%s", s_result);
+		if (VL_DEBUG) NSLog(@"%s", s_result);
 	}
 }
 

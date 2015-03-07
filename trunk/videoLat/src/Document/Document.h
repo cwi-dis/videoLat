@@ -37,4 +37,5 @@
 - (void)changed;    //!< Increment document change count. Unused?
 - (void)_setCalibrationFileName;    //!< Internal: invent unique filename for new calibration run documents
 - (void)shouldUpload: (BOOL)answer;
+- (void)_doShouldUpload;            //!< Help for shouldUpload, runs in main thread
 @end

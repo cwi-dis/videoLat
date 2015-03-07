@@ -32,6 +32,8 @@ class Uploader:
         assert os.path.exists(BASEDIR)
         
     def parseArguments(self):
+        if 'REQUEST_METHOD' in os.environ and os.environ['REQUEST_METHOD'] == 'PUT':
+            os.environ['REQUEST_METHOD'] = 'GET'
         args = cgi.FieldStorage()
         self.op = args.getfirst('op', None)
         self.uuid = args.getfirst('uuid', None)
