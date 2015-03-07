@@ -229,7 +229,13 @@
 
 - (void)changed
 {
-	[self updateChangeCount:NSChangeDone];
+    dontUpload = NO;
+    [self _changed];
+}
+
+- (void)_changed
+{
+    [self updateChangeCount:NSChangeDone];
 }
 
 - (void)shouldUpload:(BOOL)answer
@@ -240,7 +246,7 @@
 		// A "No" answer from the server is different than no answer, it means that the
 		// server doesn't want this calibration.
 		dontUpload = YES;
-		[self performSelectorOnMainThread:@selector(changed) withObject:nil waitUntilDone:NO];
+		[self performSelectorOnMainThread:@selector(_changed) withObject:nil waitUntilDone:NO];
 	}
 }
 
@@ -263,7 +269,7 @@
                 [uploader uploadAsynchronously:self.dataStore];
             } else if (returnCode == NSAlertAlternateReturn) {
                 dontUpload = YES;
-                [self performSelectorOnMainThread:@selector(changed) withObject:nil waitUntilDone:NO];
+                [self performSelectorOnMainThread:@selector(_changed) withObject:nil waitUntilDone:NO];
             }
         }];
     } else {
@@ -272,7 +278,7 @@
             [uploader uploadAsynchronously:self.dataStore];
         } else if (answer == NSAlertAlternateReturn) {
             dontUpload = YES;
-            [self performSelectorOnMainThread:@selector(changed) withObject:nil waitUntilDone:NO];
+            [self performSelectorOnMainThread:@selector(_changed) withObject:nil waitUntilDone:NO];
         }
     }
 }
@@ -281,7 +287,7 @@
 {
     if (answer) {
         dontUpload = YES;
-        [self performSelectorOnMainThread:@selector(changed) withObject:nil waitUntilDone:NO];
+        [self performSelectorOnMainThread:@selector(_changed) withObject:nil waitUntilDone:NO];
     }
 }
 @end

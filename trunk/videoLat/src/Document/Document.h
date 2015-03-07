@@ -34,8 +34,9 @@
 - (IBAction)askToUpload: (id)sender;    //!< Response to
 - (BOOL)_exportCSV: (NSString *)csvData forType: (NSString *)descr title: (NSString *)title; //!< Internal helper for export: ask for filename and export one CSV file
 - (NSString *) asCSVString; //!< Helper for _exportCSV: return metadata as CSV string
-- (void)changed;    //!< Increment document change count. Unused?
+- (void)changed;    //!< Increment document change count because user made a change, also clears dontUpload flag
+- (void)_changed;    //!< Internal: increment document change count.
 - (void)_setCalibrationFileName;    //!< Internal: invent unique filename for new calibration run documents
-- (void)shouldUpload: (BOOL)answer;
+- (void)shouldUpload: (BOOL)answer; //!< UploadQueryDelegate method called when the server answers whether or not to upload this document.
 - (void)_doShouldUpload;            //!< Help for shouldUpload, runs in main thread
 @end
