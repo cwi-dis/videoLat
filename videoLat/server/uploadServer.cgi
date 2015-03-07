@@ -12,9 +12,9 @@ cgitb.enable()
 #                     247c5cd7-f4c1-4153-ba96-e86dc2088655 - Measurement that should not be uploaded (inspected, and faulty)
 #         measurementTypeID/
 #                           machineTypeID/
-#                                         inputDeviceID/
+#                                         inputDeviceTypeID/
 #                                                       247c5cd7-f4c1-4153-ba96-e86dc2088655
-#                                         outputDeviceID/
+#                                         outputDeviceTypeID/
 #                                                        247c5cd7-f4c1-4153-ba96-e86dc2088655
 BASEDIR=os.path.join(os.path.dirname(os.path.dirname(__file__)), "measurements")
 
@@ -24,8 +24,8 @@ class Uploader:
         self.uuid = None
         self.measurementTypeID = None
         self.machineTypeID = None
-        self.inputDeviceID = None
-        self.outputDeviceID = None
+        self.inputDeviceTypeID = None
+        self.outputDeviceTypeID = None
         self.dataSize = None
         self.data = None
         self.pathname = None
@@ -39,15 +39,15 @@ class Uploader:
         self.uuid = args.getfirst('uuid', None)
         self.measurementTypeID = args.getfirst('measurementTypeID', None)
         self.machineTypeID = args.getfirst('machineTypeID', None)
-        self.inputDeviceID = args.getfirst('inputDeviceID', None)
-        self.outputDeviceID = args.getfirst('outputDeviceID', None)
+        self.inputDeviceTypeID = args.getfirst('inputDeviceTypeID', None)
+        self.outputDeviceTypeID = args.getfirst('outputDeviceTypeID', None)
         self.dataSize = args.getfirst('dataSize', None)
         assert self.op
         assert self.uuid
         assert self.measurementTypeID
         assert self.machineTypeID
-        assert self.inputDeviceID or self.outputDeviceID
-        assert  not (self.inputDeviceID and self.outputDeviceID)
+        assert self.inputDeviceTypeID or self.outputDeviceTypeID
+        assert  not (self.inputDeviceTypeID and self.outputDeviceTypeID)
         if self.dataSize:
             self.data = sys.stdin.read()
             dataSize = int(self.dataSize)
@@ -61,10 +61,10 @@ class Uploader:
                 self.output(False)
                 return
             testpath = os.path.join(BASEDIR, self.measurementTypeID, self.machineTypeID)
-            if self.inputDeviceID:
-                testpath = os.path.join(testpath, self.inputDeviceID)
-            elif self.outputDeviceID:
-                testpath = os.path.join(testpath, self.outputDeviceID)
+            if self.inputDeviceTypeID:
+                testpath = os.path.join(testpath, self.inputDeviceTypeID)
+            elif self.outputDeviceTypeID:
+                testpath = os.path.join(testpath, self.outputDeviceTypeID)
             if os.path.exists(os.path.join(testpath, self.uuid)):
                 self.output(False)
                 return
@@ -76,10 +76,10 @@ class Uploader:
         elif self.op == "upload":
             assert self.data
             dirpath = os.path.join(BASEDIR, self.measurementTypeID, self.machineTypeID)
-            if self.inputDeviceID:
-                dirpath = os.path.join(dirpath, self.inputDeviceID)
-            elif self.outputDeviceID:
-                dirpath = os.path.join(dirpath, self.outputDeviceID)
+            if self.inputDeviceTypeID:
+                dirpath = os.path.join(dirpath, self.inputDeviceTypeID)
+            elif self.outputDeviceTypeID:
+                dirpath = os.path.join(dirpath, self.outputDeviceTypeID)
             os.makedirs(dirpath)
             filepath = os.path.join(dirpath, self.uuid)
             fp = open(filepath, 'w')
