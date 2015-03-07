@@ -16,8 +16,8 @@
 	NSData *data;
     NSString *measurementTypeID;
     NSString *machineTypeID;
-    NSString *inputDeviceID;
-    NSString *outputDeviceID;
+    NSString *inputDeviceTypeID;
+    NSString *outputDeviceTypeID;
     NSString *uuid;
     id<UploadQueryDelegate> delegate;
 }
@@ -41,8 +41,8 @@
 	data = nil;
     measurementTypeID = dataStore.measurementType;
     machineTypeID = nil;
-    inputDeviceID = nil;
-    outputDeviceID = nil;
+    inputDeviceTypeID = nil;
+    outputDeviceTypeID = nil;
     uuid = nil;
     MeasurementType *myType = [MeasurementType forType: measurementTypeID];
     
@@ -71,7 +71,7 @@
             return nil;
         }
         machineTypeID = dataStore.input.machineTypeID;
-        inputDeviceID = dataStore.input.deviceID;
+        inputDeviceTypeID = dataStore.input.deviceID;
     }
     
     if (!myType.inputOnlyCalibration) {
@@ -80,7 +80,7 @@
             return nil;
         }
         machineTypeID = dataStore.output.machineTypeID;
-        outputDeviceID = dataStore.output.deviceID;
+        outputDeviceTypeID = dataStore.output.device;   // Note: the device name is the best we have, the device ID is unique
     }
     
     return self;
@@ -92,8 +92,8 @@
     if (measurementTypeID) query = [NSString stringWithFormat: @"%@&measurementTypeID=%@", query, [measurementTypeID stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     if (uuid) query = [NSString stringWithFormat: @"%@&uuid=%@", query, [uuid stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     if (machineTypeID) query = [NSString stringWithFormat: @"%@&machineTypeID=%@", query, [machineTypeID stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-    if (inputDeviceID) query = [NSString stringWithFormat: @"%@&inputDeviceID=%@", query, [inputDeviceID stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-    if (outputDeviceID) query = [NSString stringWithFormat: @"%@&outputDeviceID=%@", query, [outputDeviceID stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    if (inputDeviceTypeID) query = [NSString stringWithFormat: @"%@&inputDeviceTypeID=%@", query, [inputDeviceTypeID stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    if (outputDeviceTypeID) query = [NSString stringWithFormat: @"%@&outputDeviceTypeID=%@", query, [outputDeviceTypeID stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
 	if (data) query = [NSString stringWithFormat: @"%@&dataSize=%ld", query, (long)[data length]];
     url = [NSURL URLWithString: [NSString stringWithFormat: @"%@%@", [baseURL absoluteString], query]];
 }
