@@ -235,47 +235,53 @@
 - (void)shouldUpload:(BOOL)answer
 {
     if (answer) {
-        NSLog(@"Should upload this document");
-        NSWindow *win = [self windowForSheet];
-        Uploader *uploader = [Uploader sharedUploader];
-        NSAlert *alert = [NSAlert alertWithMessageText:@"Do you want to share this calibration with other videoLat users?"
-                                          defaultButton:@"Yes"
-                                        alternateButton:@"Never"
-                                            otherButton:@"Not now"
-                              informativeTextWithFormat:@"videoLat.org has no calibration for this hardware combination yet."
-                           "If you think your measurement is trustworthy you can share it with other people (anonymously)."
-                           ];
-        if (win) {
-            [alert beginSheetModalForWindow: win completionHandler:^(NSModalResponse returnCode) {
-                if (returnCode == NSAlertDefaultReturn) {
-                    [uploader uploadAsynchronously:self.dataStore];
-                } else if (returnCode == NSAlertAlternateReturn) {
-                    dontUpload = YES;
-                    [self changed];
-                }
-            }];
-        } else {
-            NSModalResponse answer = [alert runModal];
-            if (answer == NSAlertDefaultReturn) {
-                [uploader uploadAsynchronously:self.dataStore];
-            } else if (answer == NSAlertAlternateReturn) {
-                dontUpload = YES;
-                [self changed];
-            }
-        }
+        [self performSelectorOnMainThread:@selector(_doShouldUpload) withObject:nil waitUntilDone:NO];
     } else {
 		// A "No" answer from the server is different than no answer, it means that the
 		// server doesn't want this calibration.
 		dontUpload = YES;
-		[self changed];
+		[self performSelectorOnMainThread:@selector(changed) withObject:nil waitUntilDone:NO];
 	}
+}
+
+- (void)_doShouldUpload
+{
+    
+    NSLog(@"Should upload this document");
+    NSWindow *win = [self windowForSheet];
+    Uploader *uploader = [Uploader sharedUploader];
+    NSAlert *alert = [NSAlert alertWithMessageText:@"Do you want to share this calibration with other videoLat users?"
+                                     defaultButton:@"Yes"
+                                   alternateButton:@"Never"
+                                       otherButton:@"Not now"
+                         informativeTextWithFormat:@"videoLat.org has no calibration for this hardware combination yet."
+                      "If you think your measurement is trustworthy you can share it with other people (anonymously)."
+                      ];
+    if (win) {
+        [alert beginSheetModalForWindow: win completionHandler:^(NSModalResponse returnCode) {
+            if (returnCode == NSAlertDefaultReturn) {
+                [uploader uploadAsynchronously:self.dataStore];
+            } else if (returnCode == NSAlertAlternateReturn) {
+                dontUpload = YES;
+                [self performSelectorOnMainThread:@selector(changed) withObject:nil waitUntilDone:NO];
+            }
+        }];
+    } else {
+        NSModalResponse answer = [alert runModal];
+        if (answer == NSAlertDefaultReturn) {
+            [uploader uploadAsynchronously:self.dataStore];
+        } else if (answer == NSAlertAlternateReturn) {
+            dontUpload = YES;
+            [self performSelectorOnMainThread:@selector(changed) withObject:nil waitUntilDone:NO];
+        }
+    }
 }
 
 - (void)didUpload: (BOOL)answer
 {
     if (answer) {
         dontUpload = YES;
-        [self changed];
+        [self performSelectorOnMainThread:@selector(changed) withObject:nil waitUntilDone:NO];
     }
 }
 @end
