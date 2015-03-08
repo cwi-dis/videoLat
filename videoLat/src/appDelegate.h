@@ -30,6 +30,8 @@
 - (NSURL *)directoryForCalibrations;    //!< Returns directory where calibration run documents should be stored/loaded.
 - (void)_loadCalibrationsFrom: (NSURL *)directory;  //!< Internal helper for applicationWillFinishLaunching, loads all calibrations.
 - (BOOL)_loadCalibration: (NSURL *)url error: (NSError **)outError;   //!< Helper for loadCalibrationsFrom, loads a single calibration.
+- (BOOL)haveCalibration: (NSString *)uuid;
+
 /// CoreLocation callback routine, called whenever location information is available (or changes).
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation;
 - (IBAction)openWebsite:(id)sender; //!< Method to be called when the user wants to view the videoLat website.
