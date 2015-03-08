@@ -343,7 +343,7 @@
 /// Protocol that returns answers to "Which calibrations are available for download?" queries
 ///
 @protocol DownloadQueryDelegate
-- (void) availableCalibrations: (NSDictionary *)allCalibrations;
+- (void) availableCalibrations: (NSArray *)allCalibrations;
 @end
 
 #endif

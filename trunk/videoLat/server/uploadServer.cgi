@@ -3,6 +3,7 @@ import cgi
 import cgitb
 import os
 import sys
+import plistlib
 
 cgitb.enable()
 
@@ -71,6 +72,7 @@ class Uploader:
         assert len(self.measurementTypeIDs) <= 1
         assert len(self.machineTypeIDs) <= 1
         assert len(self.deviceTypeIDs) <= 1
+        assert self.data == None
 
         testpath = os.path.join(BASEDIR, 'blacklisted', self.uuid)
         if os.path.exists(testpath):
@@ -103,9 +105,9 @@ class Uploader:
         self.outputBool(True)
     
     def runList(self):
-        rv = {}
+        rv = []
         curPaths = [BASEDIR]
-        for nextPathChoices in [self.machineTypeIDs, self.self.deviceTypeIDs, self.measurementTypeIDs, []]:
+        for nextPathChoices in [self.machineTypeIDs, self.deviceTypeIDs, self.measurementTypeIDs, []]:
             if not nextPathChoices:
                 # No selection for this item, try everything
                 nextPathChoices = []
@@ -119,19 +121,29 @@ class Uploader:
                         nextPaths.append(candidate)
             curPaths = nextPaths
         for item in curPaths:
+            rest = item
             rest, uuid = os.path.split(item)
+            rest, measurementTypeID = os.path.split(rest)
             rest, deviceTypeID = os.path.split(rest)
             rest, machineTypeID = os.path.split(rest)
-            rest, measurementTypeID = os.path.split(rest)
             rv.append(dict(uuid=uuid, deviceTypeID=deviceTypeID, machineTypeID=machineTypeID, measurementTypeID=measurementTypeID))
-        print "Content-type: text/plain"
+        data = plistlib.writePlistToString(rv)
+        print "Content-type: application/xml"
         print
-        print dict
+        print data
                     
          
         
     def runGet(self):
-        pass
+        assert self.uuid
+        assert self.measurementTypeID
+        assert self.machineTypeID
+        assert self.deviceTypeID
+        filepath = os.path.join(BASEDIR, self.machineTypeID, self.deviceTypeID, self.measurementTypeID, self.uuid)
+        data = open(filepath, 'rb').read()
+        print "Content-type: application/x-plist"
+        print
+        print data
          
     def outputBool(self, yesno):
         print "Content-type: text/plain"

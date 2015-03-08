@@ -216,6 +216,11 @@
     }
 }
 
+- (BOOL)haveCalibration: (NSString *)uuid
+{
+    return [uuidToURL objectForKey: uuid] != nil;
+}
+
 - (void)openUntitledDocumentWithMeasurement: (MeasurementDataStore *)dataStore
 {
 	if (1 || VL_DEBUG) NSLog(@"openUntitledDocumentWithMeasurement: %@", dataStore);
