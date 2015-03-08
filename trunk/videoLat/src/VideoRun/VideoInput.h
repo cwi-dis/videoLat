@@ -52,6 +52,8 @@
 @property(weak) IBOutlet id <RunInputManagerProtocol> manager;
 @property(weak) IBOutlet VideoInputView *selfView;
 
++ (NSArray *) allDeviceTypeIDs;
+
 - (uint64_t)now;
 - (bool)available;
 - (AVCaptureDevice*)_deviceWithName: (NSString*)name;

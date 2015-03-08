@@ -10,12 +10,10 @@ cgitb.enable()
 # basedir/
 #         blacklisted/
 #                     247c5cd7-f4c1-4153-ba96-e86dc2088655 - Measurement that should not be uploaded (inspected, and faulty)
-#         measurementTypeID/
-#                           machineTypeID/
-#                                         inputDeviceTypeID/
-#                                                       247c5cd7-f4c1-4153-ba96-e86dc2088655
-#                                         outputDeviceTypeID/
-#                                                        247c5cd7-f4c1-4153-ba96-e86dc2088655
+#         machineTypeID/
+#                       deviceTypeID/
+#                                    measurementTypeID/
+#                                                      247c5cd7-f4c1-4153-ba96-e86dc2088655
 BASEDIR=os.path.join(os.path.dirname(os.path.dirname(__file__)), "measurements")
 
 class Uploader:
@@ -24,11 +22,13 @@ class Uploader:
         self.uuid = None
         self.measurementTypeID = None
         self.machineTypeID = None
-        self.inputDeviceTypeID = None
-        self.outputDeviceTypeID = None
+        self.deviceTypeID = None
         self.dataSize = None
         self.data = None
         self.pathname = None
+        self.measurementTypeIDs = []
+        self.machineTypeIDs = []
+        self.deviceTypeIDs = []
         assert os.path.exists(BASEDIR)
         
     def parseArguments(self):
@@ -39,15 +39,12 @@ class Uploader:
         self.uuid = args.getfirst('uuid', None)
         self.measurementTypeID = args.getfirst('measurementTypeID', None)
         self.machineTypeID = args.getfirst('machineTypeID', None)
-        self.inputDeviceTypeID = args.getfirst('inputDeviceTypeID', None)
-        self.outputDeviceTypeID = args.getfirst('outputDeviceTypeID', None)
+        self.deviceTypeID = args.getfirst('deviceTypeID', None)
+        self.measurementTypeIDs = args.getlist('measurementTypeID')
+        self.machineTypeIDs = args.getlist('machineTypeID')
+        self.deviceTypeIDs = args.getlist('deviceTypeID')
         self.dataSize = args.getfirst('dataSize', None)
         assert self.op
-        assert self.uuid
-        assert self.measurementTypeID
-        assert self.machineTypeID
-        assert self.inputDeviceTypeID or self.outputDeviceTypeID
-        assert  not (self.inputDeviceTypeID and self.outputDeviceTypeID)
         if self.dataSize:
             self.data = sys.stdin.read()
             dataSize = int(self.dataSize)
@@ -56,41 +53,87 @@ class Uploader:
     def run(self):
         self.parseArguments()
         if self.op == "check":
-            testpath = os.path.join(BASEDIR, 'blacklisted', self.uuid)
-            if os.path.exists(testpath):
-                self.output(False)
-                return
-            testpath = os.path.join(BASEDIR, self.measurementTypeID, self.machineTypeID)
-            if self.inputDeviceTypeID:
-                testpath = os.path.join(testpath, self.inputDeviceTypeID)
-            elif self.outputDeviceTypeID:
-                testpath = os.path.join(testpath, self.outputDeviceTypeID)
-            if os.path.exists(os.path.join(testpath, self.uuid)):
-                self.output(False)
-                return
-            if os.path.exists(testpath):
-                self.output(False)
-                return
-            self.output(True)
-            return
+            self.runCheck()
         elif self.op == "upload":
-            assert self.data
-            dirpath = os.path.join(BASEDIR, self.measurementTypeID, self.machineTypeID)
-            if self.inputDeviceTypeID:
-                dirpath = os.path.join(dirpath, self.inputDeviceTypeID)
-            elif self.outputDeviceTypeID:
-                dirpath = os.path.join(dirpath, self.outputDeviceTypeID)
-            os.makedirs(dirpath)
-            filepath = os.path.join(dirpath, self.uuid)
-            fp = open(filepath, 'w')
-            fp.write(self.data)
-            self.output(True)
-            return
+            self.runUpload()
+        elif self.op == "list":
+            self.runList()
+        elif self.op == "get":
+            self.runGet()
         else:
             assert 0, "Unknown operation %s" % self.op
-        self.output(True)
+
+    def runCheck(self):
+        assert self.uuid
+        assert self.measurementTypeID
+        assert self.machineTypeID
+        assert self.deviceTypeID
+        assert len(self.measurementTypeIDs) <= 1
+        assert len(self.machineTypeIDs) <= 1
+        assert len(self.deviceTypeIDs) <= 1
+
+        testpath = os.path.join(BASEDIR, 'blacklisted', self.uuid)
+        if os.path.exists(testpath):
+            self.outputBool(False)
+            return
+        testpath = os.path.join(BASEDIR, self.machineTypeID, self.deviceTypeID, self.measurementTypeID)
+        if os.path.exists(os.path.join(testpath, self.uuid)):
+            self.outputBool(False)
+            return
+        if os.path.exists(testpath):
+            self.outputBool(False)
+            return
+        self.outputBool(True)
+    
+    def runUpload(self):
+        assert self.uuid
+        assert self.measurementTypeID
+        assert self.machineTypeID
+        assert self.self.deviceTypeID
+        assert len(self.measurementTypeIDs) <= 1
+        assert len(self.machineTypeIDs) <= 1
+        assert len(self.self.deviceTypeIDs) <= 1
+        assert self.data
+
+        dirpath = os.path.join(BASEDIR, self.machineTypeID, self.deviceTypeID, self.measurementTypeID)
+        os.makedirs(dirpath)
+        filepath = os.path.join(dirpath, self.uuid)
+        fp = open(filepath, 'w')
+        fp.write(self.data)
+        self.outputBool(True)
+    
+    def runList(self):
+        rv = {}
+        curPaths = [BASEDIR]
+        for nextPathChoices in [self.machineTypeIDs, self.self.deviceTypeIDs, self.measurementTypeIDs, []]:
+            if not nextPathChoices:
+                # No selection for this item, try everything
+                nextPathChoices = []
+                for cp in curPaths:
+                    nextPathChoices += os.listdir(cp)
+            nextPaths = []
+            for cp in curPaths:
+                for np in nextPathChoices:
+                    candidate = os.path.join(cp, np)
+                    if os.path.exists(candidate) and not candidate in nextPaths:
+                        nextPaths.append(candidate)
+            curPaths = nextPaths
+        for item in curPaths:
+            rest, uuid = os.path.split(item)
+            rest, deviceTypeID = os.path.split(rest)
+            rest, machineTypeID = os.path.split(rest)
+            rest, measurementTypeID = os.path.split(rest)
+            rv.append(dict(uuid=uuid, deviceTypeID=deviceTypeID, machineTypeID=machineTypeID, measurementTypeID=measurementTypeID))
+        print "Content-type: text/plain"
+        print
+        print dict
+                    
+         
         
-    def output(self, yesno):
+    def runGet(self):
+        pass
+         
+    def outputBool(self, yesno):
         print "Content-type: text/plain"
         print
         print "YES" if yesno else "NO"
