@@ -16,6 +16,25 @@
 
 @synthesize mirrored;
 
++ (NSArray *) allDeviceTypeIDs
+{
+    NSScreen *d;
+    NSMutableArray *rv;
+    NSArray *devs = [NSScreen screens];
+    for(d in devs) {
+        NSDictionary *screenDescription = [d deviceDescription];
+        NSNumber *screenNumber = [screenDescription objectForKey:@"NSScreenNumber"];
+        CGDirectDisplayID aID = [screenNumber unsignedIntValue];
+        io_service_t displayPort = CGDisplayIOServicePort(aID);
+        NSDictionary *dict = (NSDictionary *)CFBridgingRelease(IODisplayCreateInfoDictionary(displayPort, 0));
+        NSDictionary *names = [dict objectForKey:[NSString stringWithUTF8String:kDisplayProductName]];
+        if (VL_DEBUG) NSLog(@"Names %@", names);
+        if([names count])
+            [rv addObject: [names objectForKey:[[names allKeys] objectAtIndex:0]]];
+    }
+    return rv;
+}
+
 - (id)initWithFrame:(NSRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
