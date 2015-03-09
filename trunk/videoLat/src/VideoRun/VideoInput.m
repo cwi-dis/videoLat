@@ -8,26 +8,6 @@
 @synthesize delegate;
 @synthesize visibleButton;
 
-+ (NSArray *) allDeviceTypeIDs
-{
-    NSMutableArray *rv;
-    AVCaptureDevice *d;
-    NSArray *devs = [AVCaptureDevice devicesWithMediaType: AVMediaTypeVideo];
-    for(d in devs) {
-        NSString *name = [d modelID];
-        if ([rv indexOfObject: name] == NSNotFound)
-            [rv addObject:name];
-    }
-    /* next, all muxed devices */
-    devs = [AVCaptureDevice devicesWithMediaType: AVMediaTypeMuxed];
-    for (d in devs) {
-        NSString *name = [d localizedName];
-        if ([rv indexOfObject: name] == NSNotFound)
-            [rv addObject:name];
-    }
-    return rv;
-}
-
 - (IBAction)visibleChanged: (id) sender
 {
     [self setHidden: ([sender state] == NSOffState)];
@@ -73,6 +53,26 @@
 @implementation VideoInput
 @synthesize deviceID;
 @synthesize deviceName;
+
++ (NSArray *) allDeviceTypeIDs
+{
+    NSMutableArray *rv = [NSMutableArray arrayWithCapacity:128];;
+    AVCaptureDevice *d;
+    NSArray *devs = [AVCaptureDevice devicesWithMediaType: AVMediaTypeVideo];
+    for(d in devs) {
+        NSString *name = [d modelID];
+        if ([rv indexOfObject: name] == NSNotFound)
+            [rv addObject:name];
+    }
+    /* next, all muxed devices */
+    devs = [AVCaptureDevice devicesWithMediaType: AVMediaTypeMuxed];
+    for (d in devs) {
+        NSString *name = [d localizedName];
+        if ([rv indexOfObject: name] == NSNotFound)
+            [rv addObject:name];
+    }
+    return rv;
+}
 
 - (VideoInput *)init
 {

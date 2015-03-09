@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import "RunManagerView.h"
 
-@interface NewMeasurementView : NSView<NSWindowDelegate> {
+@interface NewMeasurementView : NSView<NSWindowDelegate, DownloadQueryDelegate> {
     NSArray *runManagerNibObjects;	//!< internal: storage for toplevel object references from loaded nibfiles
 }
 
@@ -18,5 +18,6 @@
 @property(weak) IBOutlet RunManagerView *runManagerView;    //!< Set by measurement NIB (on file owner): its view
 
 - (IBAction)measurementTypeOK:(id)sender;
-- (IBAction)measurementTypeCancel:(id)sender;
+- (IBAction)measurementTypeDownload:(id)sender;
+- (void)didDownload: (MeasurementDataStore *)dataStore;
 @end

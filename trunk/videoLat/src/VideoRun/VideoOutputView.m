@@ -19,7 +19,7 @@
 + (NSArray *) allDeviceTypeIDs
 {
     NSScreen *d;
-    NSMutableArray *rv;
+    NSMutableArray *rv = [NSMutableArray arrayWithCapacity:128];
     NSArray *devs = [NSScreen screens];
     for(d in devs) {
         NSDictionary *screenDescription = [d deviceDescription];

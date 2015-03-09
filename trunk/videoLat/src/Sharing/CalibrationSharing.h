@@ -11,15 +11,17 @@
 #import "MeasurementDataStore.h"
 
 
-@interface Uploader : NSObject {
+@interface CalibrationSharing : NSObject {
     NSURL *baseURL;
 }
 
-+ (Uploader *)sharedUploader;
++ (CalibrationSharing *)sharedUploader;
 
 - initWithServer: (NSURL *)server;
 
 - (void)shouldUpload: (MeasurementDataStore *)dataStore delegate: (id<UploadQueryDelegate>) delegate;
 - (void)uploadAsynchronously: (MeasurementDataStore *)dataStore;
+- (void)listForMachine: (NSString *)machineTypeID andDevices: (NSArray *)deviceTypeIDs delegate: (id<DownloadQueryDelegate>) delegate;
+- (void)downloadAsynchronously: (NSDictionary *)calibration delegate: (id<DownloadDelegate>) delegate;
 
 @end
