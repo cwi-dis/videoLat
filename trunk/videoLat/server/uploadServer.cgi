@@ -100,7 +100,7 @@ class Uploader:
         dirpath = os.path.join(BASEDIR, self.machineTypeID, self.deviceTypeID, self.measurementTypeID)
         os.makedirs(dirpath)
         filepath = os.path.join(dirpath, self.uuid)
-        fp = open(filepath, 'w')
+        fp = open(filepath, 'wb')
         fp.write(self.data)
         self.outputBool(True)
     
@@ -143,7 +143,7 @@ class Uploader:
         data = open(filepath, 'rb').read()
         print "Content-type: application/x-plist"
         print
-        print data
+        sys.stdout.write(data)
          
     def outputBool(self, yesno):
         print "Content-type: text/plain"
