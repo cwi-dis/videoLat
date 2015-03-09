@@ -91,10 +91,10 @@ class Uploader:
         assert self.uuid
         assert self.measurementTypeID
         assert self.machineTypeID
-        assert self.self.deviceTypeID
+        assert self.deviceTypeID
         assert len(self.measurementTypeIDs) <= 1
         assert len(self.machineTypeIDs) <= 1
-        assert len(self.self.deviceTypeIDs) <= 1
+        assert len(self.deviceTypeIDs) <= 1
         assert self.data
 
         dirpath = os.path.join(BASEDIR, self.machineTypeID, self.deviceTypeID, self.measurementTypeID)

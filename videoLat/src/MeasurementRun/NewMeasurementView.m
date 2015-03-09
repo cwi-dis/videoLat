@@ -8,6 +8,11 @@
 
 #import "NewMeasurementView.h"
 #import "BaseRunManager.h"
+#import "MachineDescription.h"
+#import "VideoInput.h"
+#import "VideoOutputView.h"
+#import "CalibrationSharing.h"
+#import "appDelegate.h"
 
 @implementation NewMeasurementView
 
@@ -97,10 +102,21 @@
 	[self.window orderOut:self];
 }
 
-- (IBAction)measurementTypeCancel:(id)sender
+- (IBAction)measurementTypeDownload:(id)sender
 {
-    NSLog(@"User pressed Cancel");
-	[self.window close];
+    NSLog(@"User pressed Download");
+	NSString *machineTypeID = [[MachineDescription thisMachine] machineTypeID];
+	NSArray *deviceTypeIDs = [VideoInput allDeviceTypeIDs];
+	deviceTypeIDs = [deviceTypeIDs arrayByAddingObjectsFromArray:[VideoOutputView allDeviceTypeIDs]];
+	NSLog(@"Should get calibrations for %@ and %@", machineTypeID, deviceTypeIDs);
+	[[CalibrationSharing sharedUploader] listForMachine: machineTypeID andDevices:deviceTypeIDs delegate:self];
+	// XXXX Show progress indicator
+}
+
+- (void)availableCalibrations: (NSArray *)calibrations
+{
+	NSLog(@"calibrations: %@", calibrations);
+	// XXXX Hide progress indicator
 }
 
 - (void) windowWillClose: (NSNotification *)notification

@@ -30,6 +30,8 @@
 /// Used to update deviceID and deviceName when the user moves our window to a different screen.
 @property(weak) NSScreen *oldScreen;
 
++ (NSArray *) allDeviceTypeIDs;
+
 - (void) showNewData;
 
 - (void)drawRect:(NSRect)dirtyRect; //!< redraw callback

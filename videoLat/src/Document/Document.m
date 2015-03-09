@@ -9,7 +9,7 @@
 #import "Document.h"
 #import "DocumentView.h"
 #import "appDelegate.h"
-#import "Uploader.h"
+#import "CalibrationSharing.h"
 
 @implementation Document
 @synthesize dataStore;
@@ -43,7 +43,7 @@
 	// Add any code here that needs to be executed once the windowController has loaded the document's window.
     // Finally see whether this document is worth uploading
     if (!dontUpload) {
-        Uploader *uploader = [Uploader sharedUploader];
+        CalibrationSharing *uploader = [CalibrationSharing sharedUploader];
         [uploader shouldUpload:self.dataStore delegate:self];
     }
 }
@@ -70,7 +70,7 @@
     [self showWindows];
     [(DocumentView *)self.myView updateView];
     // Finally see whether this document is worth uploading
-    Uploader *uploader = [Uploader sharedUploader];
+    CalibrationSharing *uploader = [CalibrationSharing sharedUploader];
     [uploader shouldUpload:self.dataStore delegate:self];
 }
 
@@ -255,7 +255,7 @@
     
     NSLog(@"Should upload this document");
     NSWindow *win = [self windowForSheet];
-    Uploader *uploader = [Uploader sharedUploader];
+    CalibrationSharing *uploader = [CalibrationSharing sharedUploader];
     NSAlert *alert = [NSAlert alertWithMessageText:@"Do you want to share this calibration with other videoLat users?"
                                      defaultButton:@"Yes"
                                    alternateButton:@"Never"

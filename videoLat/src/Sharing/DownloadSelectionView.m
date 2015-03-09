@@ -58,7 +58,7 @@
     }
 }
 
-- (void)downloadCalibration: (NSDictionary *)calibration
+- (void)_downloadCalibration: (NSDictionary *)calibration
 {
 }
 

@@ -11,6 +11,8 @@
 #define videoLat_protocols_h
 #import <Cocoa/Cocoa.h>
 
+@class MeasurementDataStore;
+
 /// Version of our document files (not program version).
 #define VIDEOLAT_FILE_VERSION @"1.2"
 
@@ -345,5 +347,14 @@
 @protocol DownloadQueryDelegate
 - (void) availableCalibrations: (NSArray *)allCalibrations;
 @end
+
+///
+/// Protocol that returns answers to "Download this calibration" queries
+///
+@protocol DownloadDelegate
+- (void) didDownload: (MeasurementDataStore *)dataStore;
+@end
+
+
 
 #endif
