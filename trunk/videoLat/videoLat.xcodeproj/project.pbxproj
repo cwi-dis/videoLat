@@ -82,8 +82,7 @@
 		04EEC1D719DC8E2E0056899C /* NetworkInput.m in Sources */ = {isa = PBXBuildFile; fileRef = 04EEC1D219DC8E2E0056899C /* NetworkInput.m */; };
 		04EEC1D919DC8E2E0056899C /* NetworkSelectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04EEC1D619DC8E2E0056899C /* NetworkSelectionView.m */; };
 		04EEC1DC19DC93A70056899C /* NetworkRunManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 04EEC1DB19DC93A70056899C /* NetworkRunManager.m */; };
-		04F9AA9B1AACF95D00AE5413 /* DownloadSelectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F9AA991AACF95D00AE5413 /* DownloadSelectionView.m */; };
-		04F9AA9C1AACF95D00AE5413 /* DownloadSelectionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04F9AA9A1AACF95D00AE5413 /* DownloadSelectionView.xib */; };
+		04F9AA9B1AACF95D00AE5413 /* DownloadCalibrationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F9AA991AACF95D00AE5413 /* DownloadCalibrationViewController.m */; };
 		04FFDF94185A6FAE00B1CCCC /* videoLat.help in Resources */ = {isa = PBXBuildFile; fileRef = 04FFDF93185A6FAE00B1CCCC /* videoLat.help */; };
 /* End PBXBuildFile section */
 
@@ -211,9 +210,8 @@
 		04EEC1D619DC8E2E0056899C /* NetworkSelectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NetworkSelectionView.m; path = Networking/NetworkSelectionView.m; sourceTree = "<group>"; };
 		04EEC1DA19DC93A70056899C /* NetworkRunManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NetworkRunManager.h; path = Networking/NetworkRunManager.h; sourceTree = "<group>"; };
 		04EEC1DB19DC93A70056899C /* NetworkRunManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NetworkRunManager.m; path = Networking/NetworkRunManager.m; sourceTree = "<group>"; };
-		04F9AA981AACF95D00AE5413 /* DownloadSelectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DownloadSelectionView.h; path = Sharing/DownloadSelectionView.h; sourceTree = "<group>"; };
-		04F9AA991AACF95D00AE5413 /* DownloadSelectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DownloadSelectionView.m; path = Sharing/DownloadSelectionView.m; sourceTree = "<group>"; };
-		04F9AA9A1AACF95D00AE5413 /* DownloadSelectionView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DownloadSelectionView.xib; path = Sharing/DownloadSelectionView.xib; sourceTree = "<group>"; };
+		04F9AA981AACF95D00AE5413 /* DownloadCalibrationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DownloadCalibrationViewController.h; path = Sharing/DownloadCalibrationViewController.h; sourceTree = "<group>"; };
+		04F9AA991AACF95D00AE5413 /* DownloadCalibrationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DownloadCalibrationViewController.m; path = Sharing/DownloadCalibrationViewController.m; sourceTree = "<group>"; };
 		04FFDF93185A6FAE00B1CCCC /* videoLat.help */ = {isa = PBXFileReference; lastKnownFileType = folder; path = videoLat.help; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
@@ -266,9 +264,6 @@
 			children = (
 				049725D418FD563E00625326 /* BaseRunManager.h */,
 				049725D518FD563E00625326 /* BaseRunManager.m */,
-				04ED2A161A9D23E2001FA0AC /* NewMeasurementView.h */,
-				04ED2A171A9D23E2001FA0AC /* NewMeasurementView.m */,
-				049725D618FD563E00625326 /* NewMeasurementView.xib */,
 				041E097E1A9DDAAC006A241C /* TemplateRunManager.xib */,
 				049725D718FD563E00625326 /* RunCollector.h */,
 				049725D818FD563E00625326 /* RunCollector.m */,
@@ -324,9 +319,6 @@
 			children = (
 				042574901AA8F28800CFD180 /* CalibrationSharing.h */,
 				042574911AA8F28800CFD180 /* CalibrationSharing.m */,
-				04F9AA981AACF95D00AE5413 /* DownloadSelectionView.h */,
-				04F9AA991AACF95D00AE5413 /* DownloadSelectionView.m */,
-				04F9AA9A1AACF95D00AE5413 /* DownloadSelectionView.xib */,
 			);
 			name = Sharing;
 			sourceTree = "<group>";
@@ -390,6 +382,7 @@
 				04DCC18818664C8E00592A1F /* PythonLoader.m */,
 				040CF9D5183E4B4B0094C0D8 /* MeasurementRun */,
 				040CF9D4183E4B1F0094C0D8 /* Document */,
+				04BCE78D1AADDAD40048F4EB /* NewDocument */,
 				0425748F1AA8F1B000CFD180 /* Sharing */,
 				047DD1C8183A3B4D00A04F83 /* Supporting Files */,
 			);
@@ -479,6 +472,18 @@
 				04B58F38183A3D5300360A61 /* libzint.dylib */,
 			);
 			name = thirdParty;
+			sourceTree = "<group>";
+		};
+		04BCE78D1AADDAD40048F4EB /* NewDocument */ = {
+			isa = PBXGroup;
+			children = (
+				04ED2A161A9D23E2001FA0AC /* NewMeasurementView.h */,
+				04ED2A171A9D23E2001FA0AC /* NewMeasurementView.m */,
+				049725D618FD563E00625326 /* NewMeasurementView.xib */,
+				04F9AA981AACF95D00AE5413 /* DownloadCalibrationViewController.h */,
+				04F9AA991AACF95D00AE5413 /* DownloadCalibrationViewController.m */,
+			);
+			name = NewDocument;
 			sourceTree = "<group>";
 		};
 		04DCC18C1867913800592A1F /* HardwareRun */ = {
@@ -616,7 +621,6 @@
 				047DD1CC183A3B4D00A04F83 /* InfoPlist.strings in Resources */,
 				047DD1D2183A3B4D00A04F83 /* Credits.rtf in Resources */,
 				04EEC1CC19DC4C5E0056899C /* SlaveReceiverCameraCalibrationRun.xib in Resources */,
-				04F9AA9C1AACF95D00AE5413 /* DownloadSelectionView.xib in Resources */,
 				0497264418FD5E5F00625326 /* sounds in Resources */,
 				049725DE18FD563E00625326 /* NewMeasurementView.xib in Resources */,
 				045AA71619E71BA400E28AED /* MasterSenderRun.xib in Resources */,
@@ -679,7 +683,7 @@
 				0497260A18FD580300625326 /* genQRcodes.m in Sources */,
 				04EEC1D019DC4D9E0056899C /* NetworkOutputView.m in Sources */,
 				04B58F2A183A3D3000360A61 /* appDelegate.m in Sources */,
-				04F9AA9B1AACF95D00AE5413 /* DownloadSelectionView.m in Sources */,
+				04F9AA9B1AACF95D00AE5413 /* DownloadCalibrationViewController.m in Sources */,
 				049725E818FD568A00625326 /* HardwareRunManager.m in Sources */,
 				0497260918FD580300625326 /* findQRcodes.mm in Sources */,
 				049725DD18FD563E00625326 /* BaseRunManager.m in Sources */,

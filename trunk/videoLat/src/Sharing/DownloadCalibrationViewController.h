@@ -7,17 +7,18 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "protocols.h"
 
-@interface DownloadSelectionView : NSViewController {
+@interface DownloadCalibrationViewController : NSViewController<DownloadQueryDelegate> {
     NSArray *calibrations;
 }
 
 @property(weak) IBOutlet NSPopUpButton *bCalibrations;
-@property NSArray* availableCalibrations;
 
-- (IBAction) cancelDownload: (id)sender;
 - (IBAction) doDownload: (id)sender;
+- (void)availableCalibrations: (NSArray *)allCalibrations;
+
 - (void)_updateCalibrations;
 - (void)_downloadCalibration: (NSDictionary *)calibration;
-
+- (void)_listCalibrations;
 @end
