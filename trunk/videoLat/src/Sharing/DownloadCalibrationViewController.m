@@ -46,15 +46,15 @@
     appDelegate *ad = (appDelegate *)[[NSApplication sharedApplication] delegate];
 	for (cal in calibrations) {
 		NSString *uuid = [cal objectForKey: @"uuid"];
-		if ([ad haveCalibration: uuid])
-			continue;
 		NSString *calName = [NSString stringWithFormat:@"%@-%@-%@-%@",
 							 [cal objectForKey:@"measurementTypeID"],
 							 [cal objectForKey:@"machineTypeID"],
-							 [cal objectForKey:@"deviceID"],
+							 [cal objectForKey:@"deviceTypeID"],
 							 [cal objectForKey:@"uuid"]
 							 ];
 		[bCalibrations addItemWithTitle:calName];
+        if ([ad haveCalibration: uuid])
+            [[bCalibrations itemWithTitle:calName] setEnabled: NO];
 	}
 	if([bCalibrations numberOfItems] == 0) {
 		[bCalibrations addItemWithTitle:@"No new calibrations available"];
@@ -77,7 +77,7 @@
 	NSLog(@"DidDownload: %@", dataStore);
 	if (dataStore) {
 		appDelegate *ad = (appDelegate *)[[NSApplication sharedApplication] delegate];
-		[ad openUntitledDocumentWithMeasurement: dataStore];
+		[ad performSelectorOnMainThread:@selector(openUntitledDocumentWithMeasurement:) withObject:dataStore waitUntilDone:NO];
 	}
 }
 
