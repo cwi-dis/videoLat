@@ -117,6 +117,8 @@
 {
 	NSLog(@"calibrations: %@", calibrations);
 	// XXXX Hide progress indicator
+	if (calibrations && [calibrations count] > 0) {
+		// xxx load NIB file
 }
 
 - (void) windowWillClose: (NSNotification *)notification

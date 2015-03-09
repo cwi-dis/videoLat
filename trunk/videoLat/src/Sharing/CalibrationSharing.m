@@ -218,7 +218,20 @@
 
 - (void)_done: (NSData *)result
 {
-	NSLog(@"ListHelper: result data is %s", (char *)[result bytes]);
+	NSError *error;
+	NSObject *plist = [NSPropertyListSerialization propertyListWithData: result
+                                            options: NSPropertyListImmutable
+                                            format: nil
+                                            error: &error];
+	if (plist == nil) {
+		NSLog(@"ListHelper: result cannot be parsed as property list: %@", error);
+		return;
+	}
+	if (![plist isKindOfClass: [NSArray class]]) {
+		NSLog(@"ListHelper: result is not an NSArray but %@", plist);
+		return;
+	}
+	[delegate availableCalibrations: (NSArray *)plist];
 }
 
 - (void)list: (id<DownloadQueryDelegate>)_delegate
