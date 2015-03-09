@@ -31,17 +31,10 @@
 	NSView *view = [item view];
 	assert(view);
 	[self.downloadCalibrationViewController setView: view];
+	[self _updateMeasurementTypes];
 }
 
-- (void)viewDidAppear
-{
-}
-
-- (void)viewDidLoad
-{
-}
-
-- (void)viewWillAppear
+- (void)_updateMeasurementTypes
 {
     // Enable only the menu entries for which we have the required calibration
     for (NSString *itemTitle in [bType itemTitles]) {
@@ -120,11 +113,6 @@
 	[[[self view] window] orderOut:self];
 }
 
-
-- (void)didDownload: (MeasurementDataStore *)dataStore
-{
-	NSLog(@"DidDownload: %@", dataStore);
-}
 
 - (void) windowWillClose: (NSNotification *)notification
 {
