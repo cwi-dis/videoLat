@@ -143,6 +143,7 @@
     [coder encodeObject:measurementType forKey: @"scenario"];
     [coder encodeObject:date forKey: @"date"];
     [coder encodeObject:description forKey: @"description"];
+    [coder encodeObject:uuid forKey: @"uuid"];
     
     [coder encodeObject:input forKey: @"input"];
     [coder encodeObject:output forKey: @"output"];
