@@ -10,7 +10,7 @@
 #import "RunManagerView.h"
 #import "DownloadCalibrationViewController.h"
 
-@interface NewMeasurementViewController : NSViewController<DownloadDelegate, NSWindowDelegate> {
+@interface NewMeasurementViewController : NSViewController<NSWindowDelegate> {
     NSArray *runManagerNibObjects;	//!< internal: storage for toplevel object references from loaded nibfiles
 }
 
@@ -21,5 +21,5 @@
 @property(weak) IBOutlet NSTabView *tabView;
 
 - (IBAction)doMeasurement:(id)sender;
-- (void)didDownload: (MeasurementDataStore *)dataStore;
+- (void)_updateMeasurementTypes;
 @end

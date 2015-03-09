@@ -72,8 +72,19 @@
     }
 }
 
+- (void)didDownload: (MeasurementDataStore *)dataStore
+{
+	NSLog(@"DidDownload: %@", dataStore);
+	if (dataStore) {
+		appDelegate *ad = (appDelegate *)[[NSApplication sharedApplication] delegate];
+		[ad openUntitledDocumentWithMeasurement: dataStore];
+	}
+}
+
+
 - (void)_downloadCalibration: (NSDictionary *)calibration
 {
+	[[CalibrationSharing sharedUploader] downloadAsynchronously:calibration delegate:self];
 }
 
 @end

@@ -9,13 +9,14 @@
 #import <Cocoa/Cocoa.h>
 #import "protocols.h"
 
-@interface DownloadCalibrationViewController : NSViewController<DownloadQueryDelegate> {
+@interface DownloadCalibrationViewController : NSViewController<DownloadDelegate, DownloadQueryDelegate> {
     NSArray *calibrations;
 }
 
 @property(weak) IBOutlet NSPopUpButton *bCalibrations;
 
 - (IBAction) doDownload: (id)sender;
+- (void)didDownload: (MeasurementDataStore *)dataStore;
 - (void)availableCalibrations: (NSArray *)allCalibrations;
 
 - (void)_updateCalibrations;
