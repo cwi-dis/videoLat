@@ -14,7 +14,7 @@
 #import "CalibrationSharing.h"
 #import "appDelegate.h"
 
-@implementation NewMeasurementView
+@implementation NewMeasurementViewController
 
 @synthesize bType;
 
@@ -24,6 +24,24 @@
 
 
 - (void)awakeFromNib
+{
+	[super awakeFromNib];
+	NSTabViewItem *item = [self.tabView tabViewItemAtIndex: 1];
+	assert(item);
+	NSView *view = [item view];
+	assert(view);
+	[self.downloadCalibrationViewController setView: view];
+}
+
+- (void)viewDidAppear
+{
+}
+
+- (void)viewDidLoad
+{
+}
+
+- (void)viewWillAppear
 {
     // Enable only the menu entries for which we have the required calibration
     for (NSString *itemTitle in [bType itemTitles]) {
@@ -55,7 +73,7 @@
     }
 }
 
-- (IBAction)measurementTypeOK:(id)sender
+- (IBAction)doMeasurement:(id)sender
 {
     NSLog(@"User pressed OK");
     NSString *typeName = [bType titleOfSelectedItem];
@@ -99,26 +117,13 @@
     [self.runManagerView.runManager selectMeasurementType: typeName];
     NSLog(@"Should hide NewMeasurementView window....");
     [[self.runManagerView window] setDelegate: self];
-	[self.window orderOut:self];
+	[[[self view] window] orderOut:self];
 }
 
-- (IBAction)measurementTypeDownload:(id)sender
-{
-    NSLog(@"User pressed Download");
-	NSString *machineTypeID = [[MachineDescription thisMachine] machineTypeID];
-	NSArray *deviceTypeIDs = [VideoInput allDeviceTypeIDs];
-	deviceTypeIDs = [deviceTypeIDs arrayByAddingObjectsFromArray:[VideoOutputView allDeviceTypeIDs]];
-	NSLog(@"Should get calibrations for %@ and %@", machineTypeID, deviceTypeIDs);
-	[[CalibrationSharing sharedUploader] listForMachine: machineTypeID andDevices:deviceTypeIDs delegate:self];
-	// XXXX Show progress indicator
-}
 
-- (void)availableCalibrations: (NSArray *)calibrations
+- (void)didDownload: (MeasurementDataStore *)dataStore
 {
-	NSLog(@"calibrations: %@", calibrations);
-	// XXXX Hide progress indicator
-	if (calibrations && [calibrations count] > 0) {
-		// xxx load NIB file
+	NSLog(@"DidDownload: %@", dataStore);
 }
 
 - (void) windowWillClose: (NSNotification *)notification
@@ -127,7 +132,6 @@
     if (obj == [self.runManagerView window]) {
         self.runManagerView = nil;
         runManagerNibObjects = nil;
-        [self.window close];
     }
 }
 

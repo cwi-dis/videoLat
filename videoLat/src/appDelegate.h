@@ -22,7 +22,7 @@
 @property(strong) MeasurementType *measurementTypes;    //!< Object that stores all measurement type implementations
 @property(strong) CLLocationManager *locationManager;   //!< CoreLocation object that sends us GPS position updates.
 @property(strong) NSString *location;   //!< Textual description of current GPS location
-@property(weak) IBOutlet NewMeasurementView *measurementNewView;
+@property(weak) IBOutlet NSWindow *newdocWindow;
 
 - (void)applicationWillFinishLaunching:(NSNotification *)aNotification; //!< Standard method called to signal application start.
 - (BOOL) applicationShouldOpenUntitledFile: (id)sender;

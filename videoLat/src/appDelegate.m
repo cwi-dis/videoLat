@@ -182,7 +182,7 @@
 
 - (IBAction)newMeasurement:(id)sender
 {
-	if (self.measurementNewView == nil) {
+	if (self.newdocWindow == nil) {
 		BOOL ok;
 	#if __MAC_OS_X_VERSION_MAX_ALLOWED >= 1080
 		if ([[NSBundle mainBundle] respondsToSelector:@selector(loadNibNamed:owner:topLevelObjects:)]) {
@@ -201,17 +201,17 @@
 		}
 	}
 
-    if (self.measurementNewView) {
-        [[self.measurementNewView window] setDelegate: self];
-        [[self.measurementNewView window] makeKeyAndOrderFront:self];
+    if (self.newdocWindow) {
+        [self.newdocWindow setDelegate: self];
+        [self.newdocWindow makeKeyAndOrderFront:self];
     }
 }
 
 - (void) windowWillClose: (NSNotification *)notification
 {
     NSObject *obj = [notification object];
-    if (obj == [self.measurementNewView window]) {
-		self.measurementNewView = nil;
+    if (obj == self.newdocWindow) {
+		self.newdocWindow = nil;
         objectsForNewDocument = nil;
     }
 }
