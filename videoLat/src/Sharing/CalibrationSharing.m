@@ -264,7 +264,15 @@
 
 - (void)_done: (NSData *)result
 {
-	MeasurementDataStore *_dataStore = [NSKeyedUnarchiver unarchiveObjectWithData: result];
+    MeasurementDataStore *_dataStore;
+    @try {
+        _dataStore = [NSKeyedUnarchiver unarchiveObjectWithData: result];
+    } @catch(NSException *ex) {
+        NSLog(@"DownloadHelper: could not unarchive result");
+        if (1 || VL_DEBUG) NSLog(@"Data=%s", (char *)[result bytes]);
+        [delegate didDownload: nil];
+        return;
+    }
 	if (result == nil) {
 		NSLog(@"DownloadHelper: could not unarchive result");
 		[delegate didDownload: nil];
