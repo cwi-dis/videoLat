@@ -169,7 +169,7 @@
 		NSLog(@"Upload rejected");
 	} else {
 		NSLog(@"UploadHelper: Unexpected reply, starting with %40.40s", s_result);
-		if (1 || VL_DEBUG) NSLog(@"\n%s", s_result);
+		if (VL_DEBUG) NSLog(@"\n%s", s_result);
 	}
 }
 
@@ -194,7 +194,7 @@
 		if (delegate) [delegate shouldUpload: NO];
 	} else {
 		NSLog(@"UploadQueryHelper: Unexpected reply, starting with %40.40s", s_result);
-		if (1 || VL_DEBUG) NSLog(@"\n%s", s_result);
+		if (VL_DEBUG) NSLog(@"\n%s", s_result);
 	}
 }
 
@@ -269,7 +269,7 @@
         _dataStore = [NSKeyedUnarchiver unarchiveObjectWithData: result];
     } @catch(NSException *ex) {
         NSLog(@"DownloadHelper: could not unarchive result");
-        if (1 || VL_DEBUG) NSLog(@"Data=%s", (char *)[result bytes]);
+        if (VL_DEBUG) NSLog(@"Data=%s", (char *)[result bytes]);
         [delegate didDownload: nil];
         return;
     }
@@ -298,7 +298,12 @@
 {
     static CalibrationSharing *shared = nil;
     if (shared == nil) {
-        shared = [[CalibrationSharing alloc] initWithServer: [NSURL URLWithString: @"http://localhost/~jack/cgi-bin/uploadServer.cgi"]];
+		NSString *server = [[NSUserDefaults standardUserDefaults] stringForKey:@"calibrationServer"];
+		if (server == nil) {
+			server = @"http://localhost/~jack/cgi-bin/videoLatCalibrationSharing.cgi";
+			[[NSUserDefaults standardUserDefaults] setObject: server forKey: @"calibrationServer"];
+		}
+        shared = [[CalibrationSharing alloc] initWithServer: [NSURL URLWithString: server]];
     }
     return shared;
 }

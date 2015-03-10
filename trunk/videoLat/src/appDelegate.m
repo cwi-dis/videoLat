@@ -223,14 +223,14 @@
 
 - (void)openUntitledDocumentWithMeasurement: (MeasurementDataStore *)dataStore
 {
-	if (1 || VL_DEBUG) NSLog(@"openUntitledDocumentWithMeasurement: %@", dataStore);
+	if (VL_DEBUG) NSLog(@"openUntitledDocumentWithMeasurement: %@", dataStore);
     
     // If the document is a calibration we already know of (because we have it's uuid)
     // we open the calibration itself, in stead of an untitled document.
     NSString *uuid = dataStore.uuid;
     NSURL *calibrationURL = [uuidToURL objectForKey: uuid];
     if (calibrationURL) {
-        if (1 || VL_DEBUG) NSLog(@"Open existing document for %@", calibrationURL);
+        if (VL_DEBUG) NSLog(@"Open existing document for %@", calibrationURL);
         [[NSDocumentController sharedDocumentController]
                     openDocumentWithContentsOfURL:calibrationURL
                     display:YES

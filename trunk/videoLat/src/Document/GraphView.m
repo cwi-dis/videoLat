@@ -138,7 +138,7 @@ static double normFunc(double x, double average, double stddev)
 	tmp = [NSString stringWithFormat:self.yLabelFormat, maxYaxis * [self.yLabelScaleFactor floatValue]];
 	if (self.bMaxY) self.bMaxY.stringValue = tmp;
 
-    if (1||VL_DEBUG) NSLog(@"%f < x < %f (scale=%f, axis=%f..%f) %f < y < %f (scale=%f, axis=%f..%f)\n", minX, maxX, xPixelPerUnit, minXaxis, maxXaxis, minY, maxY, yPixelPerUnit, minYaxis, maxYaxis);
+    if (VL_DEBUG) NSLog(@"%f < x < %f (scale=%f, axis=%f..%f) %f < y < %f (scale=%f, axis=%f..%f)\n", minX, maxX, xPixelPerUnit, minXaxis, maxXaxis, minY, maxY, yPixelPerUnit, minYaxis, maxYaxis);
 
 	NSBezierPath *path;
 	// Draw the x=0 and y=0 lines, if visible
