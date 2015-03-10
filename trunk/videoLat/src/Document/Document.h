@@ -31,7 +31,6 @@
 
 - (IBAction)newDocumentComplete: (id)sender;        //!< Callback used by NewMeasurement to signal it has finished.
 - (IBAction)export: (id)sender; //!< Ask user for three filenames and export CSV files for data, distribution and metadata
-- (IBAction)askToUpload: (id)sender;    //!< Response to
 - (BOOL)_exportCSV: (NSString *)csvData forType: (NSString *)descr title: (NSString *)title; //!< Internal helper for export: ask for filename and export one CSV file
 - (NSString *) asCSVString; //!< Helper for _exportCSV: return metadata as CSV string
 - (void)changed;    //!< Increment document change count because user made a change, also clears dontUpload flag

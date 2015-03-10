@@ -28,7 +28,7 @@
 
 @property(weak) IBOutlet AudioOutputView *outputView;           //!< Assigned in NIB: visual feedback view of output for the user
 @property(weak) IBOutlet AudioSelectionView *selectionView;     //!< Assigned in NIB: view that allows selection of input device
-@property(weak) IBOutlet id <InputCaptureProtocol> capturer;    //!< Assigned in NIB: audio input capturer
+@property(weak) IBOutlet NSObject<InputCaptureProtocol> *capturer;    //!< Assigned in NIB: audio input capturer
 @property(weak) IBOutlet id <ClockProtocol> clock;              //!< Assigned in NIB: clock source, usually same as capturer
 @property(weak) IBOutlet NSButton *bDetection;                  //!< Assigned in NIb: UI element that signals detection to the user
 @property(weak) IBOutlet AudioProcess *processor;               //!< Assigned in NIB: audio sample comparator

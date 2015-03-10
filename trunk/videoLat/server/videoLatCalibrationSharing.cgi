@@ -98,7 +98,8 @@ class Uploader:
         assert self.data
 
         dirpath = os.path.join(BASEDIR, self.machineTypeID, self.deviceTypeID, self.measurementTypeID)
-        os.makedirs(dirpath)
+        if not os.path.exists(dirpath):
+            os.makedirs(dirpath)
         filepath = os.path.join(dirpath, self.uuid)
         fp = open(filepath, 'wb')
         fp.write(self.data)
