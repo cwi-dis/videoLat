@@ -300,7 +300,7 @@
     if (shared == nil) {
 		NSString *server = [[NSUserDefaults standardUserDefaults] stringForKey:@"calibrationServer"];
 		if (server == nil) {
-			server = @"http://localhost/~jack/cgi-bin/videoLatCalibrationSharing.cgi";
+			server = @"http://videolat.org/cgi-bin/videoLatCalibrationSharing.cgi";
 			[[NSUserDefaults standardUserDefaults] setObject: server forKey: @"calibrationServer"];
 		}
         shared = [[CalibrationSharing alloc] initWithServer: [NSURL URLWithString: server]];
