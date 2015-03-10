@@ -285,7 +285,7 @@
 		}
         if (handlesInput) {
             // Check for detections
-            if (1 || VL_DEBUG) NSLog(@" input %@ (%f  range %f..%f) output %@", inputCode, inputLevel, minInputLevel, maxInputLevel, self.outputCode);
+            if (VL_DEBUG) NSLog(@" input %@ (%f  range %f..%f) output %@", inputCode, inputLevel, minInputLevel, maxInputLevel, self.outputCode);
             if ([inputCode isEqualToString: self.outputCompanion.outputCode]) {
                 if (self.running) {
                     [self.collector recordReception:inputCode at:inputTimestamp];

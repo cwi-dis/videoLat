@@ -224,7 +224,7 @@
 - (void) _prerunRecordReception: (NSString *)code
 {
 #if 1
-    if (1 || VL_DEBUG) NSLog(@"prerun reception %@\n", code);
+    if (VL_DEBUG) NSLog(@"prerun reception %@\n", code);
     assert(self.preRunning);
     if (self.preRunning) {
         prerunMoreNeeded -= 1;
