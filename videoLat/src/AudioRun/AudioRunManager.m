@@ -210,7 +210,7 @@
 {
     @synchronized(self) {
 		// See whether we detect the pattern we are looking for, and report to user.
-		BOOL foundSample = [self.processor feedData:buffer size:size channels:channels at:timestamp];
+        BOOL foundSample = [self.processor feedData:buffer size:size channels:channels bitsPerChannel: 16 at:timestamp];
 		[self.bDetection setState: (foundSample? NSOnState : NSOffState)];
 
 		// If we're not running or prerunning we're done.

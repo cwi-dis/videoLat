@@ -16,10 +16,13 @@
 ///
 @interface AudioProcess : NSObject {
 	BOOL wasNoisy;				//!< true if the previous buffer ended noisily
-	float prevEnergy;			//!< amount of energy in previous buffer
+	double prevEnergy;			//!< amount of energy in previous buffer
 	uint64_t matchTimestamp;	//!< timestamp of most recent match
 }
 
+@property(retain) NSArray *originalSignature;
+
+- (AudioProcess *)clone;
 ///
 /// Primes the audio processor to detect copies of this sample.
 /// @param fileURL File containing original audio sample
@@ -36,7 +39,7 @@
 /// Once this method returns true you can use @see lastMatchTimestamp to obtain the timestamp of the
 /// match.
 ///
-- (BOOL)feedData: (void *)buffer size: (size_t)size channels: (int)channels at: (uint64_t)now;
+- (BOOL)feedData: (void *)buffer size: (size_t)size channels: (int)channels bitsPerChannel: (int)nBits at: (uint64_t)now;
 ///
 /// Timestamp (in @see feedData terms) of match that corresponds to the beginning of
 /// the sample fed to @see processOriginal.
