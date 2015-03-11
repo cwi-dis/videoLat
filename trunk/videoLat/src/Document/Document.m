@@ -8,7 +8,7 @@
 
 #import "Document.h"
 #import "DocumentView.h"
-#import "appDelegate.h"
+#import "AppDelegate.h"
 #import "CalibrationSharing.h"
 
 @implementation Document
@@ -77,7 +77,7 @@
 - (void)_setCalibrationFileName
 {
     NSString *fileName = [NSString stringWithFormat: @"%@-%@-%@-%@.vlCalibration", self.dataStore.measurementType, self.dataStore.output.machineTypeID, self.dataStore.output.device, self.dataStore.input.device];
-    NSURL *dirUrl = [(appDelegate *)[[NSApplication sharedApplication] delegate] directoryForCalibrations];
+    NSURL *dirUrl = [(AppDelegate *)[[NSApplication sharedApplication] delegate] directoryForCalibrations];
     NSURL *fileUrl = [NSURL URLWithString:[fileName stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] relativeToURL:dirUrl];
     [self setFileURL: fileUrl];
     [self setFileType: [self fileType]];
@@ -87,7 +87,7 @@
 - (BOOL)prepareSavePanel:(NSSavePanel*)panel
 {
     if (myType.isCalibration) {
-        NSURL *dirUrl = [(appDelegate *)[[NSApplication sharedApplication] delegate] directoryForCalibrations];
+        NSURL *dirUrl = [(AppDelegate *)[[NSApplication sharedApplication] delegate] directoryForCalibrations];
         if (VL_DEBUG) NSLog(@"prepareSavePanel, directory was %@", [panel directoryURL]);
         [panel setDirectoryURL:dirUrl];
         if (VL_DEBUG) NSLog(@"prepareSavePanel, directory is now %@", [panel directoryURL]);

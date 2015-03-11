@@ -7,13 +7,13 @@
 //
 
 #import "HardwareSelectionView.h"
-#import "appDelegate.h"
+#import "AppDelegate.h"
 
 @implementation HardwareSelectionView
 
 - (void)awakeFromNib
 {
-    NSArray *names = ((appDelegate *)[[NSApplication sharedApplication] delegate]).hardwareNames;
+    NSArray *names = ((AppDelegate *)[[NSApplication sharedApplication] delegate]).hardwareNames;
     
     if ([names count]) {
         [self.bDevices removeAllItems];

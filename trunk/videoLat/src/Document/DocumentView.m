@@ -7,7 +7,7 @@
 //
 
 #import "DocumentView.h"
-#import "appDelegate.h"
+#import "AppDelegate.h"
 
 @implementation DocumentView
 @synthesize status;
@@ -99,7 +99,7 @@
 
 - (IBAction)openInputCalibration:(id)sender
 {
-    appDelegate *d = (appDelegate *)[[NSApplication sharedApplication] delegate];
+    AppDelegate *d = (AppDelegate *)[[NSApplication sharedApplication] delegate];
     MeasurementDataStore *s = self.document.dataStore.inputCalibration;
     if (d && s) {
         [d openUntitledDocumentWithMeasurement:s];
@@ -108,7 +108,7 @@
 
 - (IBAction)openOutputCalibration:(id)sender
 {
-    appDelegate *d = (appDelegate *)[[NSApplication sharedApplication] delegate];
+    AppDelegate *d = (AppDelegate *)[[NSApplication sharedApplication] delegate];
     MeasurementDataStore *s = self.document.dataStore.outputCalibration;
     if (d && s) {
         [d openUntitledDocumentWithMeasurement:s];

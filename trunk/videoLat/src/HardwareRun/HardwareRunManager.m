@@ -8,7 +8,7 @@
 
 #import "HardwareRunManager.h"
 #import "PythonLoader.h"
-#import "appDelegate.h"
+#import "AppDelegate.h"
 #import <mach/mach.h>
 #import <mach/mach_time.h>
 #import <mach/clock.h>

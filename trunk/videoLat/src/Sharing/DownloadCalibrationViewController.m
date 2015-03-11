@@ -7,7 +7,7 @@
 //
 
 #import "DownloadCalibrationViewController.h"
-#import "appDelegate.h"
+#import "AppDelegate.h"
 #import "MachineDescription.h"
 #import "VideoInput.h"
 #import "VideoOutputView.h"
@@ -43,7 +43,7 @@
 {
     [bCalibrations removeAllItems];
     NSDictionary *cal;
-    appDelegate *ad = (appDelegate *)[[NSApplication sharedApplication] delegate];
+    AppDelegate *ad = (AppDelegate *)[[NSApplication sharedApplication] delegate];
 	for (cal in calibrations) {
 		NSString *uuid = [cal objectForKey: @"uuid"];
 		NSString *calName = [NSString stringWithFormat:@"%@-%@-%@-%@",
@@ -76,7 +76,7 @@
 {
 	NSLog(@"DidDownload: %@", dataStore);
 	if (dataStore) {
-		appDelegate *ad = (appDelegate *)[[NSApplication sharedApplication] delegate];
+		AppDelegate *ad = (AppDelegate *)[[NSApplication sharedApplication] delegate];
 		[ad performSelectorOnMainThread:@selector(openUntitledDocumentWithMeasurement:) withObject:dataStore waitUntilDone:NO];
 	}
 }

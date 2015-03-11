@@ -12,7 +12,7 @@
 #import "VideoInput.h"
 #import "VideoOutputView.h"
 #import "CalibrationSharing.h"
-#import "appDelegate.h"
+#import "AppDelegate.h"
 
 @implementation NewMeasurementViewController
 
