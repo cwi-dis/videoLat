@@ -66,7 +66,9 @@
     player.meteringEnabled = YES;
 
     // Initialize the processor with it
-    signature = [self.processor processOriginal:url];
+    AudioProcess *orinigalProcessor = [self.processor clone];
+    signature = [orinigalProcessor processOriginal:url];
+    self.processor.originalSignature = signature;
 }
 
 - (void) showNewData
