@@ -6,7 +6,7 @@
 //  Copyright 2010-2014 Centrum voor Wiskunde en Informatica. Licensed under GPL3.
 //
 
-#import "appDelegate.h"
+#import "AppDelegate.h"
 #import "VideoRunManager.h"
 #import "VideoCalibrationRunManager.h"
 #import "VideoMonoRunManager.h"
@@ -15,12 +15,12 @@
 #import "AudioCalibrationRunManager.h"
 #import "NetworkRunManager.h"
 
-@implementation appDelegate
+@implementation AppDelegate
 @synthesize measurementTypes;
 @synthesize locationManager;
 @synthesize location;
 
-- (appDelegate *)init
+- (AppDelegate *)init
 {
     self = [super init];
     if (self) {

@@ -15,7 +15,7 @@
 ///
 /// Application delegate. Stores application-global items, and implements application-global actions.
 ///
-@interface appDelegate : NSObject <CLLocationManagerDelegate, NSApplicationDelegate, NSWindowDelegate>{
+@interface AppDelegate : NSObject <CLLocationManagerDelegate, NSApplicationDelegate, NSWindowDelegate>{
     NSArray *objectsForNewDocument;     //!< Internal: stores NIB-created objects for new measurement window so these are refcounted correctly
     NSMutableDictionary *uuidToURL;     //!< All known calibrations, by UUID
 }

@@ -7,7 +7,7 @@
 //
 
 #import "NetworkRunManager.h"
-#import "appDelegate.h"
+#import "AppDelegate.h"
 #import "MachineDescription.h"
 #import "NetworkInput.h"
 
@@ -540,7 +540,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
             // Override description with our description
             //
             mr.measurementType = self.measurementType.name;
-            appDelegate *ad = (appDelegate *)[[NSApplication sharedApplication] delegate];
+            AppDelegate *ad = (AppDelegate *)[[NSApplication sharedApplication] delegate];
             [ad performSelectorOnMainThread: @selector(openUntitledDocumentWithMeasurement:) withObject: mr waitUntilDone: YES];
             [self.selectionView.window close];
             return;

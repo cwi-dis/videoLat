@@ -8,7 +8,7 @@
 
 #import "PythonLoader.h"
 #import <Python.h>
-#import "appDelegate.h"
+#import "AppDelegate.h"
 
 @implementation PythonLoader
 
@@ -133,7 +133,7 @@ bad:
 
 - (BOOL)loadPackageNamed: (NSString *)name
 {
-    NSURL *url = [(appDelegate *)[[NSApplication sharedApplication] delegate] hardwareFolder];
+    NSURL *url = [(AppDelegate *)[[NSApplication sharedApplication] delegate] hardwareFolder];
     
     if (url == nil) {
         NSLog(@"PythonLoader: cannot find package %@ in resources", name);
