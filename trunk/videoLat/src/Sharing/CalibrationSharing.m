@@ -237,7 +237,7 @@
 - (void)list: (id<DownloadQueryDelegate>)_delegate
 {
     delegate = _delegate;
-    [self _fillURLWithOp:@"list"];
+    // url has been filled by init already
     NSLog(@"list: URL=%@", url);
 	[self start];
 }
