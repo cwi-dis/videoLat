@@ -66,7 +66,7 @@
 		04A9C14819216EB70016E6C0 /* AudioCalibrationRunManager.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04A9C14719216EB70016E6C0 /* AudioCalibrationRunManager.xib */; };
 		04A9C14B19216F320016E6C0 /* AudioCalibrationRunManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A9C14A19216F320016E6C0 /* AudioCalibrationRunManager.m */; };
 		04B1915119D2ECBC001ABA66 /* Doxyfile in Resources */ = {isa = PBXBuildFile; fileRef = 04B1915019D2ECBC001ABA66 /* Doxyfile */; };
-		04B58F2A183A3D3000360A61 /* appDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B58F1E183A3D3000360A61 /* appDelegate.m */; };
+		04B458861AB03F0000BD3B33 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B458851AB03F0000BD3B33 /* AppDelegate.m */; };
 		04B58F39183A3D5300360A61 /* libzbar.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 04B58F37183A3D5300360A61 /* libzbar.0.dylib */; };
 		04B58F3A183A3D5300360A61 /* libzint.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 04B58F38183A3D5300360A61 /* libzint.dylib */; };
 		04B6A69E19ED63C300E1E3B6 /* ScreenToHardwareRunManager.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04B6A69D19ED63C300E1E3B6 /* ScreenToHardwareRunManager.xib */; };
@@ -184,9 +184,9 @@
 		04A9C14A19216F320016E6C0 /* AudioCalibrationRunManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AudioCalibrationRunManager.m; path = AudioCalibrationRun/AudioCalibrationRunManager.m; sourceTree = "<group>"; };
 		04AD00EF19D3097200DDFDE6 /* xibfiles.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xibfiles.h; sourceTree = "<group>"; };
 		04B1915019D2ECBC001ABA66 /* Doxyfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Doxyfile; sourceTree = "<group>"; };
-		04B58F0D183A3CF000360A61 /* appDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = appDelegate.h; sourceTree = "<group>"; };
+		04B458841AB03F0000BD3B33 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = SOURCE_ROOT; };
+		04B458851AB03F0000BD3B33 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = SOURCE_ROOT; };
 		04B58F18183A3CF000360A61 /* protocols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = protocols.h; sourceTree = "<group>"; };
-		04B58F1E183A3D3000360A61 /* appDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = appDelegate.m; sourceTree = "<group>"; };
 		04B58F37183A3D5300360A61 /* libzbar.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libzbar.0.dylib; path = thirdParty/installed/lib/libzbar.0.dylib; sourceTree = "<group>"; };
 		04B58F38183A3D5300360A61 /* libzint.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libzint.dylib; path = thirdParty/installed/lib/libzint.dylib; sourceTree = "<group>"; };
 		04B6A69D19ED63C300E1E3B6 /* ScreenToHardwareRunManager.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ScreenToHardwareRunManager.xib; path = MixedRun/ScreenToHardwareRunManager.xib; sourceTree = "<group>"; };
@@ -374,8 +374,8 @@
 			children = (
 				04AD00EF19D3097200DDFDE6 /* xibfiles.h */,
 				04B58F18183A3CF000360A61 /* protocols.h */,
-				04B58F0D183A3CF000360A61 /* appDelegate.h */,
-				04B58F1E183A3D3000360A61 /* appDelegate.m */,
+				04B458841AB03F0000BD3B33 /* AppDelegate.h */,
+				04B458851AB03F0000BD3B33 /* AppDelegate.m */,
 				0497263C18FD596F00625326 /* MeasurementType.h */,
 				0497263D18FD596F00625326 /* MeasurementType.m */,
 				04DCC18718664C8E00592A1F /* PythonLoader.h */,
@@ -682,7 +682,6 @@
 				049725E018FD563E00625326 /* RunStatusView.m in Sources */,
 				0497260A18FD580300625326 /* genQRcodes.m in Sources */,
 				04EEC1D019DC4D9E0056899C /* NetworkOutputView.m in Sources */,
-				04B58F2A183A3D3000360A61 /* appDelegate.m in Sources */,
 				04F9AA9B1AACF95D00AE5413 /* DownloadCalibrationViewController.m in Sources */,
 				049725E818FD568A00625326 /* HardwareRunManager.m in Sources */,
 				0497260918FD580300625326 /* findQRcodes.mm in Sources */,
@@ -712,6 +711,7 @@
 				0497262618FD589300625326 /* AudioOutputView.m in Sources */,
 				04E4586B18FEB39C005712F6 /* AudioProcess.m in Sources */,
 				04A9C14B19216F320016E6C0 /* AudioCalibrationRunManager.m in Sources */,
+				04B458861AB03F0000BD3B33 /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

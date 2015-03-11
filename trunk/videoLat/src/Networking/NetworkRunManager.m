@@ -77,6 +77,10 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 
 - (void)remote: (uint64_t)remote between: (uint64_t)start and: (uint64_t) finish
 {
+    if (finish < start) {
+        NSLog(@"SimpleRemoteClock: local timeinterval start %lld < end %lld, assuming local NTP re-sync", start, finish);
+        return;
+    }
     rtt = finish-start;
 	uint64_t mid = (finish+start)/2;
 	localTimeToRemoteTime = (int64_t)remote - (int64_t)mid;
@@ -314,7 +318,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
     if (self.running) {
         if (VL_DEBUG) NSLog(@"Running, received code %@", code);
         if (self.outputCompanion.outputCode == nil) {
-            if (VL_DEBUG) NSLog(@"newInputDone called, but no output code yet\n");
+            NSLog(@"newInputDone called with code %@, but no output code yet\n", code);
             return;
         }
     
@@ -322,13 +326,13 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
         if (count > 1) {
             if (VL_DEBUG) NSLog(@"Received old output code again: %@, %d times", code, count);
             return;
-        if ((count % 128) == 0) {
-                NSAlert *alert = [NSAlert alertWithMessageText:@"Warning: no new QR code generated."
+            if ((count % 128) == 0) {
+                NSAlert *alert = [NSAlert alertWithMessageText:@"Warning: current QR code not detected."
                                                  defaultButton:@"OK"
                                                alternateButton:nil
                                                    otherButton:nil
-                                     informativeTextWithFormat:@"QR-code %@ detected %d times. Generating new one.",
-                                  prevInputCode, prevInputCodeDetectionCount];
+                                     informativeTextWithFormat:@"QR-code %@ generated but %@ detected, %d times. Generating new one.",
+                                  self.outputCompanion.outputCode, code, count];
                 [alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
                 [self.outputCompanion triggerNewOutputValue];
             }
@@ -602,6 +606,10 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 		}
 
         if (rtt) {
+            if (rtt > 10000000) {
+                // RTT bigger than 10 seconds is preposterous
+                NSLog(@"NetworkRunManager: preposterous RTT of %ld ms",(int)(rtt/1000));
+            }
             self.selectionView.bRTT.intValue = (int)(rtt/1000);
         }
         
@@ -609,6 +617,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 			uint64_t count = getTimestamp(data, @"count");
             [self newInputDone: code count: (int)count at: masterTimestamp];
         } else {
+            if (1 || VL_DEBUG) NSLog(@"NetworkRunManager: received no qr-code at %lld", masterTimestamp);
             [self newInputDone];
         }
     }
