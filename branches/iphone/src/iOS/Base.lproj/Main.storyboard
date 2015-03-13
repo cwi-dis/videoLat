@@ -196,16 +196,16 @@
             </objects>
             <point key="canvasLocation" x="1322" y="2631"/>
         </scene>
-        <!--Calibrations Available Online:-->
+        <!--Download Calibrations-->
         <scene sceneID="0bi-Xo-JFS">
             <objects>
-                <tableViewController id="LkR-r4-fbA" sceneMemberID="viewController">
+                <tableViewController id="LkR-r4-fbA" customClass="DownloadCalibrationTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="V1F-y1-c8n">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="dtY-Q1-MEU">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="ListPrototypeCell" id="dtY-Q1-MEU">
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="dtY-Q1-MEU" id="pUX-en-t2H">
                                     <autoresizingMask key="autoresizingMask"/>
@@ -217,7 +217,7 @@
                             <outlet property="delegate" destination="LkR-r4-fbA" id="q8Q-ia-Mlq"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Calibrations Available Online:" id="Rs5-T3-hjz"/>
+                    <navigationItem key="navigationItem" title="Download Calibrations" id="Rs5-T3-hjz"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eZ3-Ml-jvY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

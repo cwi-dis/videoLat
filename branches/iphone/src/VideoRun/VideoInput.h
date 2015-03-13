@@ -1,6 +1,8 @@
-#import <Cocoa/Cocoa.h>
 #import <AVFoundation/AVFoundation.h>
+#import "protocols.h"
+#if !TARGET_OS_IPHONE
 #import "genQRcodes.h"
+#endif
 
 #define WITH_STATISTICS
 
@@ -8,16 +10,20 @@
 /// Subclass of NSView that shows preview of what the camera has captured, helper class
 /// for VideoInput class.
 ///
-@interface VideoInputView : NSView
+@interface VideoInputView : NSorUIView
 {
+#if !TARGET_OS_IPHONE
 	NSPoint downPoint;      //!< Internal: position of mouse down event
+#endif
 }
 @property (weak) IBOutlet id delegate;  //!< Set by NIB: corresponding VideoInput object
-@property (weak) IBOutlet NSButton *visibleButton;  //!< UI element, allows user to toggle video preview
+@property (weak) IBOutlet NSorUIButton *visibleButton;  //!< UI element, allows user to toggle video preview
 
+#if !TARGET_OS_IPHONE
 - (IBAction)visibleChanged:(id)sender;  //!< Called when user toggles visibleButton
 - (void)mouseDown: (NSEvent *)theEvent; //!< Mouse event handler, to allow selecting a rectangular area
 - (void)mouseUp: (NSEvent *)theEvent;   //!< Mouse event handler, to allow selecting a rectangular area
+#endif
 
 @end
 
@@ -73,7 +79,7 @@
 #endif
 
 // Private delegate method for same:
-- (void)focusRectSelected: (NSRect)theRect;
+- (void)focusRectSelected: (NSorUIRect)theRect;
 
 // Delegate methods for QTCaptureVideoPreviewOutput:
 - (void)captureOutput:(AVCaptureOutput *)captureOutput

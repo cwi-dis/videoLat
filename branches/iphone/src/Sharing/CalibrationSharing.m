@@ -223,6 +223,7 @@
                                             options: NSPropertyListImmutable
                                             format: nil
                                             error: &error];
+	NSLog(@"plist=%@", plist);
 	if (plist == nil) {
 		NSLog(@"ListHelper: result cannot be parsed as property list: %@", error);
 		return;

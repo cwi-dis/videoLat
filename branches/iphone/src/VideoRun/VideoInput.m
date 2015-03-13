@@ -4,10 +4,38 @@
 #import <mach/mach_time.h>
 #import <mach/clock.h>
 
+static void showErrorAlert(NSError *error) {
+#if TARGET_OS_IPHONE
+	[[[UIAlertView alloc] initWithTitle:error.localizedDescription
+                            message:error.localizedRecoverySuggestion
+                           delegate:nil
+                  cancelButtonTitle:NSLocalizedString(@"OK", nil)
+                  otherButtonTitles:nil, nil] show];
+#else
+	NSAlert *alert = [NSAlert alertWithError:error];
+	[alert runModal];
+#endif
+}
+static void showWarningAlert(NSString *warning) {
+#if TARGET_OS_IPHONE
+	[[[UIAlertView alloc] initWithTitle:@"Warning"
+                            message:warning
+                           delegate:nil
+                  cancelButtonTitle:NSLocalizedString(@"OK", nil)
+                  otherButtonTitles:nil, nil] show];
+#else
+	NSAlert *alert = [NSAlert alertWithError:error];
+	[alert runModal];
+#endif
+}
+
+
 @implementation VideoInputView
 @synthesize delegate;
 @synthesize visibleButton;
 
+
+#if !TARGET_OS_IPHONE
 - (IBAction)visibleChanged: (id) sender
 {
     [self setHidden: ([sender state] == NSOffState)];
@@ -47,7 +75,7 @@
 	NSRect r = {{left, top}, {width, height}};
 	[[self delegate] focusRectSelected: r];
 }
-
+#endif
 @end
 
 @implementation VideoInput
@@ -183,10 +211,7 @@
 			[rv addObject:name];
 	}
 	if ([rv count] == 0) {
-		NSRunAlertPanel(
-                        @"Warning",
-                        @"No suitable video input device found, reception disabled.",
-                        nil, nil, nil);
+		showWarningAlert(@"No suitable video input device found, reception disabled.");
 	}
 	return rv;
 }
@@ -243,8 +268,7 @@
     NSError *error;
 	AVCaptureDeviceInput *myInput = [AVCaptureDeviceInput deviceInputWithDevice:dev error:&error];
 	if (error) {
-        NSAlert *alert = [NSAlert alertWithError: error];
-        [alert runModal];
+        showErrorAlert(error);
         return;
     }
     
@@ -299,8 +323,12 @@
 
     if(self.selfView) {
         selfLayer = [AVCaptureVideoPreviewLayer layerWithSession:session];
+#if TARGET_OS_IPHONE
+		selfLayer.frame = self.selfView.bounds;
+#else
         selfLayer.frame = NSRectToCGRect(self.selfView.bounds);
         [self.selfView setWantsLayer: YES];
+#endif
         [self.selfView.layer addSublayer: selfLayer];
         [self.selfView setHidden: NO];
     }
@@ -373,7 +401,7 @@
     return nil;
 }
 #endif
-- (void)focusRectSelected: (NSRect)theRect
+- (void)focusRectSelected: (NSorUIRect)theRect
 {
 	theRect.origin.x *= xFactor;
 	theRect.origin.y *= yFactor;

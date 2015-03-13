@@ -14,6 +14,8 @@
 		04138C7F1AB31E9F003D8167 /* MeasurementDistribution.m in Sources */ = {isa = PBXBuildFile; fileRef = 04138C7D1AB31E9F003D8167 /* MeasurementDistribution.m */; };
 		04138C821AB329CB003D8167 /* DeviceDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = 04138C811AB329CB003D8167 /* DeviceDescription.m */; };
 		04138C851AB32A23003D8167 /* MachineDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = 04138C841AB32A23003D8167 /* MachineDescription.m */; };
+		04138C881AB32DBB003D8167 /* DownloadCalibrationTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04138C871AB32DBB003D8167 /* DownloadCalibrationTableViewController.m */; };
+		04138C8C1AB330DB003D8167 /* VideoInput.m in Sources */ = {isa = PBXBuildFile; fileRef = 04138C8B1AB330DB003D8167 /* VideoInput.m */; };
 		04FFFC7A1AB2FA8E0023ED13 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FFFC771AB2FA8E0023ED13 /* AppDelegate.m */; };
 		04FFFC801AB2FABE0023ED13 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04FFFC7C1AB2FABE0023ED13 /* LaunchScreen.xib */; };
 		04FFFC811AB2FABE0023ED13 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04FFFC7E1AB2FABE0023ED13 /* Main.storyboard */; };
@@ -49,6 +51,10 @@
 		04138C811AB329CB003D8167 /* DeviceDescription.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DeviceDescription.m; path = src/Document/DeviceDescription.m; sourceTree = SOURCE_ROOT; };
 		04138C831AB32A23003D8167 /* MachineDescription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MachineDescription.h; path = src/Document/MachineDescription.h; sourceTree = SOURCE_ROOT; };
 		04138C841AB32A23003D8167 /* MachineDescription.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MachineDescription.m; path = src/Document/MachineDescription.m; sourceTree = SOURCE_ROOT; };
+		04138C861AB32DBB003D8167 /* DownloadCalibrationTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DownloadCalibrationTableViewController.h; path = src/iOS/DownloadCalibrationTableViewController.h; sourceTree = SOURCE_ROOT; };
+		04138C871AB32DBB003D8167 /* DownloadCalibrationTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DownloadCalibrationTableViewController.m; path = src/iOS/DownloadCalibrationTableViewController.m; sourceTree = SOURCE_ROOT; };
+		04138C8A1AB330DB003D8167 /* VideoInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VideoInput.h; path = src/VideoRun/VideoInput.h; sourceTree = SOURCE_ROOT; };
+		04138C8B1AB330DB003D8167 /* VideoInput.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VideoInput.m; path = src/VideoRun/VideoInput.m; sourceTree = SOURCE_ROOT; };
 		048BFCCA1AB2EE2C0026D104 /* videoLat-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "videoLat-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		048BFCE31AB2EE2C0026D104 /* videoLat-iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "videoLat-iOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		04FFFC761AB2FA8E0023ED13 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = src/iOS/AppDelegate.h; sourceTree = SOURCE_ROOT; };
@@ -105,6 +111,8 @@
 		04138C6F1AB319F2003D8167 /* NewDocument */ = {
 			isa = PBXGroup;
 			children = (
+				04138C861AB32DBB003D8167 /* DownloadCalibrationTableViewController.h */,
+				04138C871AB32DBB003D8167 /* DownloadCalibrationTableViewController.m */,
 			);
 			name = NewDocument;
 			sourceTree = "<group>";
@@ -112,8 +120,18 @@
 		04138C701AB31A03003D8167 /* MeasurementRun */ = {
 			isa = PBXGroup;
 			children = (
+				04138C891AB330C4003D8167 /* VideoRun */,
 			);
 			name = MeasurementRun;
+			sourceTree = "<group>";
+		};
+		04138C891AB330C4003D8167 /* VideoRun */ = {
+			isa = PBXGroup;
+			children = (
+				04138C8A1AB330DB003D8167 /* VideoInput.h */,
+				04138C8B1AB330DB003D8167 /* VideoInput.m */,
+			);
+			name = VideoRun;
 			sourceTree = "<group>";
 		};
 		048BFCC11AB2EE2B0026D104 = {
@@ -270,12 +288,14 @@
 			files = (
 				04FFFC7A1AB2FA8E0023ED13 /* AppDelegate.m in Sources */,
 				04FFFC871AB2FAD90023ED13 /* main.m in Sources */,
+				04138C8C1AB330DB003D8167 /* VideoInput.m in Sources */,
 				04138C821AB329CB003D8167 /* DeviceDescription.m in Sources */,
 				04138C851AB32A23003D8167 /* MachineDescription.m in Sources */,
 				04138C7E1AB31E9F003D8167 /* MeasurementDataStore.m in Sources */,
 				04138C6C1AB319B9003D8167 /* MeasurementType.m in Sources */,
 				04138C7F1AB31E9F003D8167 /* MeasurementDistribution.m in Sources */,
 				04138C731AB31A2C003D8167 /* CalibrationSharing.m in Sources */,
+				04138C881AB32DBB003D8167 /* DownloadCalibrationTableViewController.m in Sources */,
 				04138C791AB31E1B003D8167 /* CommonAppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
