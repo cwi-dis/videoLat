@@ -9,7 +9,22 @@
 
 #ifndef videoLat_protocols_h
 #define videoLat_protocols_h
-#import <Cocoa/Cocoa.h>
+
+#if TARGET_OS_IPHONE
+#import <CoreGraphics/CoreGraphics.h>
+#import <UIKit/UIKit.h>
+#define NSorUIApplication UIApplication
+#define NSorUIRect CGRect
+#define NSorUIPopUpButton UIPickerView
+#define NSorUIButton UIButton
+#define NSorUIView UIView
+#else
+#define NSorUIApplication NSApplication
+#define NSorUIRect NSRect
+#define NSorUIPopUpButton NSPopUpButton
+#define NSorUIButton NSButton
+#define NSorUIView NSView
+#endif
 
 @class MeasurementDataStore;
 
@@ -67,7 +82,7 @@
 /// Protocol for an object that finds patterns in an image input buffer
 ///
 @protocol InputVideoFindProtocol
-@property(readonly) NSRect rect;	/*!< Location of most recent pattern found */
+@property(readonly) NSorUIRect rect;	/*!< Location of most recent pattern found */
 
 /**
  Scan a grabbed image for a pattern this finder supports
@@ -115,10 +130,10 @@
 /// and starting of preruns and runs.
 ///
 @protocol SelectionView
-@property(weak) IBOutlet NSPopUpButton *bDevices;   //!< UI element: all available cameras
-@property(weak) IBOutlet NSPopUpButton *bBase;      //!< UI element: available calibration runs
-@property(weak) IBOutlet NSButton *bPreRun;         //!< UI element: start preparing a measurement run
-@property(weak) IBOutlet NSButton *bRun;            //!< UI element: start a measurement run
+@property(weak) IBOutlet NSorUIPopUpButton *bDevices;   //!< UI element: all available cameras
+@property(weak) IBOutlet NSorUIPopUpButton *bBase;      //!< UI element: available calibration runs
+@property(weak) IBOutlet NSorUIButton *bPreRun;         //!< UI element: start preparing a measurement run
+@property(weak) IBOutlet NSorUIButton *bRun;            //!< UI element: start a measurement run
 @property(weak) IBOutlet NSObject <RunInputManagerProtocol> *manager;
 @end
 
@@ -203,7 +218,7 @@
 @property(strong) NSString *outputCode;           // Current code on the display
 //@property(weak) IBOutlet NSObject<RunInputManagerProtocol> *inputCompanion; //!< Our companion object that handles input
 @property(weak) IBOutlet NSObject *inputCompanion; //!< Our companion object that handles input
-@property(weak) IBOutlet NSView <OutputViewProtocol> *outputView; //!< Assigned in NIB: Displays current output QR code
+@property(weak) IBOutlet NSorUIView <OutputViewProtocol> *outputView; //!< Assigned in NIB: Displays current output QR code
 
 ///
 /// Called to prepare the output device, if needed, when restarting.
@@ -277,7 +292,7 @@
 ///
 /// Not yet used.
 ///
-- (void)setFinderRect: (NSRect)theRect;
+- (void)setFinderRect: (NSorUIRect)theRect;
 
 ///
 /// Signals that a capture cycle has started at the given time.

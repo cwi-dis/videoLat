@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		04068ECE1AA476E3004EF502 /* MachineDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = 04068ECD1AA476E3004EF502 /* MachineDescription.m */; };
 		04068ED11AA47CD5004EF502 /* DeviceDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = 04068ED01AA47CD5004EF502 /* DeviceDescription.m */; };
+		04138C761AB31ABA003D8167 /* CommonAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 04138C751AB31ABA003D8167 /* CommonAppDelegate.m */; };
 		041714DD19DDEF340019FA45 /* NetworkProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 041714DC19DDEF340019FA45 /* NetworkProtocol.m */; };
 		041E097F1A9DDAAC006A241C /* TemplateRunManager.xib in Resources */ = {isa = PBXBuildFile; fileRef = 041E097E1A9DDAAC006A241C /* TemplateRunManager.xib */; };
 		042574921AA8F28800CFD180 /* CalibrationSharing.m in Sources */ = {isa = PBXBuildFile; fileRef = 042574911AA8F28800CFD180 /* CalibrationSharing.m */; };
@@ -85,7 +86,7 @@
 		04FFFC6D1AB2F0F20023ED13 /* Document.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04FFFC661AB2F0F20023ED13 /* Document.xib */; };
 		04FFFC6E1AB2F0F20023ED13 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 04FFFC681AB2F0F20023ED13 /* InfoPlist.strings */; };
 		04FFFC6F1AB2F0F20023ED13 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04FFFC6A1AB2F0F20023ED13 /* MainMenu.xib */; };
-		04FFFC751AB2F2840023ED13 /* videoLat-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 04FFFC741AB2F2840023ED13 /* videoLat-Info.plist */; };
+		04FFFC751AB2F2840023ED13 /* mac/videoLat-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 04FFFC741AB2F2840023ED13 /* mac/videoLat-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -93,6 +94,8 @@
 		04068ECD1AA476E3004EF502 /* MachineDescription.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MachineDescription.m; path = Document/MachineDescription.m; sourceTree = "<group>"; };
 		04068ECF1AA47CD5004EF502 /* DeviceDescription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeviceDescription.h; path = Document/DeviceDescription.h; sourceTree = "<group>"; };
 		04068ED01AA47CD5004EF502 /* DeviceDescription.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DeviceDescription.m; path = Document/DeviceDescription.m; sourceTree = "<group>"; };
+		04138C741AB31ABA003D8167 /* CommonAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.h; name = CommonAppDelegate.h; path = mac/CommonAppDelegate.h; sourceTree = "<group>"; tabWidth = 4; usesTabs = 1; wrapsLines = 0; };
+		04138C751AB31ABA003D8167 /* CommonAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; name = CommonAppDelegate.m; path = mac/CommonAppDelegate.m; sourceTree = "<group>"; tabWidth = 4; usesTabs = 1; wrapsLines = 0; };
 		041714DB19DDECBE0019FA45 /* NetworkProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NetworkProtocol.h; path = Networking/NetworkProtocol.h; sourceTree = "<group>"; };
 		041714DC19DDEF340019FA45 /* NetworkProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NetworkProtocol.m; path = Networking/NetworkProtocol.m; sourceTree = "<group>"; };
 		041E097E1A9DDAAC006A241C /* TemplateRunManager.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = TemplateRunManager.xib; path = MeasurementRun/TemplateRunManager.xib; sourceTree = "<group>"; };
@@ -213,8 +216,8 @@
 		04FFFC671AB2F0F20023ED13 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = mac/en.lproj/Document.xib; sourceTree = "<group>"; };
 		04FFFC691AB2F0F20023ED13 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = mac/en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		04FFFC6B1AB2F0F20023ED13 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = mac/en.lproj/MainMenu.xib; sourceTree = "<group>"; };
-		04FFFC731AB2F1FE0023ED13 /* videoLat-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "mac/videoLat-Prefix.pch"; sourceTree = "<group>"; };
-		04FFFC741AB2F2840023ED13 /* videoLat-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "mac/videoLat-Info.plist"; sourceTree = "<group>"; };
+		04FFFC731AB2F1FE0023ED13 /* mac/videoLat-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "mac/videoLat-Prefix.pch"; sourceTree = "<group>"; };
+		04FFFC741AB2F2840023ED13 /* mac/videoLat-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "mac/videoLat-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -376,6 +379,8 @@
 			children = (
 				04AD00EF19D3097200DDFDE6 /* xibfiles.h */,
 				04B58F18183A3CF000360A61 /* protocols.h */,
+				04138C741AB31ABA003D8167 /* CommonAppDelegate.h */,
+				04138C751AB31ABA003D8167 /* CommonAppDelegate.m */,
 				04FFFC581AB2F0150023ED13 /* AppDelegate.h */,
 				04FFFC591AB2F0150023ED13 /* AppDelegate.m */,
 				0497263C18FD596F00625326 /* MeasurementType.h */,
@@ -397,8 +402,8 @@
 				04FFFC601AB2F0770023ED13 /* main.m */,
 				04FFFC6A1AB2F0F20023ED13 /* MainMenu.xib */,
 				04FFFC661AB2F0F20023ED13 /* Document.xib */,
-				04FFFC741AB2F2840023ED13 /* videoLat-Info.plist */,
-				04FFFC731AB2F1FE0023ED13 /* videoLat-Prefix.pch */,
+				04FFFC741AB2F2840023ED13 /* mac/videoLat-Info.plist */,
+				04FFFC731AB2F1FE0023ED13 /* mac/videoLat-Prefix.pch */,
 				04FFFC681AB2F0F20023ED13 /* InfoPlist.strings */,
 				04FFFC641AB2F0F20023ED13 /* Credits.rtf */,
 				0497264018FD5BDA00625326 /* icon.icns */,
@@ -637,7 +642,7 @@
 				04B1915119D2ECBC001ABA66 /* Doxyfile in Resources */,
 				04FFFC6E1AB2F0F20023ED13 /* InfoPlist.strings in Resources */,
 				0497261918FD582600625326 /* VideoCalibrationRunManager.xib in Resources */,
-				04FFFC751AB2F2840023ED13 /* videoLat-Info.plist in Resources */,
+				04FFFC751AB2F2840023ED13 /* mac/videoLat-Info.plist in Resources */,
 				04D411131A02CABC009AFEED /* CalibrateCameraFromScreenRunManager.xib in Resources */,
 				04FFFC6F1AB2F0F20023ED13 /* MainMenu.xib in Resources */,
 				041E097F1A9DDAAC006A241C /* TemplateRunManager.xib in Resources */,
@@ -716,6 +721,7 @@
 				04E4586B18FEB39C005712F6 /* AudioProcess.m in Sources */,
 				04FFFC611AB2F0770023ED13 /* main.m in Sources */,
 				04A9C14B19216F320016E6C0 /* AudioCalibrationRunManager.m in Sources */,
+				04138C761AB31ABA003D8167 /* CommonAppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

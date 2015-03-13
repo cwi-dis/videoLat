@@ -7,8 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CommonAppDelegate.h"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+// XXXJACK original baseclass was UIResponder
+
+@interface AppDelegate : CommonAppDelegate <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 

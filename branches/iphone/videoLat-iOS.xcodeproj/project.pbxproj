@@ -7,8 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		04138C6C1AB319B9003D8167 /* MeasurementType.m in Sources */ = {isa = PBXBuildFile; fileRef = 04138C6B1AB319B9003D8167 /* MeasurementType.m */; };
+		04138C731AB31A2C003D8167 /* CalibrationSharing.m in Sources */ = {isa = PBXBuildFile; fileRef = 04138C721AB31A2C003D8167 /* CalibrationSharing.m */; };
+		04138C791AB31E1B003D8167 /* CommonAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 04138C781AB31E1B003D8167 /* CommonAppDelegate.m */; };
+		04138C7E1AB31E9F003D8167 /* MeasurementDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 04138C7B1AB31E9F003D8167 /* MeasurementDataStore.m */; };
+		04138C7F1AB31E9F003D8167 /* MeasurementDistribution.m in Sources */ = {isa = PBXBuildFile; fileRef = 04138C7D1AB31E9F003D8167 /* MeasurementDistribution.m */; };
+		04138C821AB329CB003D8167 /* DeviceDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = 04138C811AB329CB003D8167 /* DeviceDescription.m */; };
+		04138C851AB32A23003D8167 /* MachineDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = 04138C841AB32A23003D8167 /* MachineDescription.m */; };
 		04FFFC7A1AB2FA8E0023ED13 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FFFC771AB2FA8E0023ED13 /* AppDelegate.m */; };
-		04FFFC7B1AB2FA8E0023ED13 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FFFC791AB2FA8E0023ED13 /* ViewController.m */; };
 		04FFFC801AB2FABE0023ED13 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04FFFC7C1AB2FABE0023ED13 /* LaunchScreen.xib */; };
 		04FFFC811AB2FABE0023ED13 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04FFFC7E1AB2FABE0023ED13 /* Main.storyboard */; };
 		04FFFC831AB2FACB0023ED13 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04FFFC821AB2FACB0023ED13 /* Images.xcassets */; };
@@ -27,12 +33,26 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		04138C681AB31980003D8167 /* xibfiles.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = xibfiles.h; path = src/xibfiles.h; sourceTree = SOURCE_ROOT; };
+		04138C691AB31980003D8167 /* protocols.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = protocols.h; path = src/protocols.h; sourceTree = SOURCE_ROOT; };
+		04138C6A1AB319B9003D8167 /* MeasurementType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MeasurementType.h; path = src/MeasurementType.h; sourceTree = SOURCE_ROOT; };
+		04138C6B1AB319B9003D8167 /* MeasurementType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MeasurementType.m; path = src/MeasurementType.m; sourceTree = SOURCE_ROOT; };
+		04138C711AB31A2C003D8167 /* CalibrationSharing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CalibrationSharing.h; path = src/Sharing/CalibrationSharing.h; sourceTree = SOURCE_ROOT; };
+		04138C721AB31A2C003D8167 /* CalibrationSharing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CalibrationSharing.m; path = src/Sharing/CalibrationSharing.m; sourceTree = SOURCE_ROOT; };
+		04138C771AB31E1B003D8167 /* CommonAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CommonAppDelegate.h; path = src/mac/CommonAppDelegate.h; sourceTree = SOURCE_ROOT; };
+		04138C781AB31E1B003D8167 /* CommonAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CommonAppDelegate.m; path = src/mac/CommonAppDelegate.m; sourceTree = SOURCE_ROOT; };
+		04138C7A1AB31E9F003D8167 /* MeasurementDataStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MeasurementDataStore.h; path = src/Document/MeasurementDataStore.h; sourceTree = SOURCE_ROOT; };
+		04138C7B1AB31E9F003D8167 /* MeasurementDataStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MeasurementDataStore.m; path = src/Document/MeasurementDataStore.m; sourceTree = SOURCE_ROOT; };
+		04138C7C1AB31E9F003D8167 /* MeasurementDistribution.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MeasurementDistribution.h; path = src/Document/MeasurementDistribution.h; sourceTree = SOURCE_ROOT; };
+		04138C7D1AB31E9F003D8167 /* MeasurementDistribution.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MeasurementDistribution.m; path = src/Document/MeasurementDistribution.m; sourceTree = SOURCE_ROOT; };
+		04138C801AB329CB003D8167 /* DeviceDescription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeviceDescription.h; path = src/Document/DeviceDescription.h; sourceTree = SOURCE_ROOT; };
+		04138C811AB329CB003D8167 /* DeviceDescription.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DeviceDescription.m; path = src/Document/DeviceDescription.m; sourceTree = SOURCE_ROOT; };
+		04138C831AB32A23003D8167 /* MachineDescription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MachineDescription.h; path = src/Document/MachineDescription.h; sourceTree = SOURCE_ROOT; };
+		04138C841AB32A23003D8167 /* MachineDescription.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MachineDescription.m; path = src/Document/MachineDescription.m; sourceTree = SOURCE_ROOT; };
 		048BFCCA1AB2EE2C0026D104 /* videoLat-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "videoLat-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		048BFCE31AB2EE2C0026D104 /* videoLat-iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "videoLat-iOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		04FFFC761AB2FA8E0023ED13 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = src/iOS/AppDelegate.h; sourceTree = SOURCE_ROOT; };
 		04FFFC771AB2FA8E0023ED13 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = src/iOS/AppDelegate.m; sourceTree = SOURCE_ROOT; };
-		04FFFC781AB2FA8E0023ED13 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ViewController.h; path = src/iOS/ViewController.h; sourceTree = SOURCE_ROOT; };
-		04FFFC791AB2FA8E0023ED13 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ViewController.m; path = src/iOS/ViewController.m; sourceTree = SOURCE_ROOT; };
 		04FFFC7D1AB2FABE0023ED13 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = src/iOS/Base.lproj/LaunchScreen.xib; sourceTree = SOURCE_ROOT; };
 		04FFFC7F1AB2FABE0023ED13 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = src/iOS/Base.lproj/Main.storyboard; sourceTree = SOURCE_ROOT; };
 		04FFFC821AB2FACB0023ED13 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = src/iOS/Images.xcassets; sourceTree = SOURCE_ROOT; };
@@ -58,10 +78,48 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		04138C6D1AB319CB003D8167 /* Document */ = {
+			isa = PBXGroup;
+			children = (
+				04138C801AB329CB003D8167 /* DeviceDescription.h */,
+				04138C811AB329CB003D8167 /* DeviceDescription.m */,
+				04138C831AB32A23003D8167 /* MachineDescription.h */,
+				04138C841AB32A23003D8167 /* MachineDescription.m */,
+				04138C7A1AB31E9F003D8167 /* MeasurementDataStore.h */,
+				04138C7B1AB31E9F003D8167 /* MeasurementDataStore.m */,
+				04138C7C1AB31E9F003D8167 /* MeasurementDistribution.h */,
+				04138C7D1AB31E9F003D8167 /* MeasurementDistribution.m */,
+			);
+			name = Document;
+			sourceTree = "<group>";
+		};
+		04138C6E1AB319E0003D8167 /* Sharing */ = {
+			isa = PBXGroup;
+			children = (
+				04138C711AB31A2C003D8167 /* CalibrationSharing.h */,
+				04138C721AB31A2C003D8167 /* CalibrationSharing.m */,
+			);
+			name = Sharing;
+			sourceTree = "<group>";
+		};
+		04138C6F1AB319F2003D8167 /* NewDocument */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = NewDocument;
+			sourceTree = "<group>";
+		};
+		04138C701AB31A03003D8167 /* MeasurementRun */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = MeasurementRun;
+			sourceTree = "<group>";
+		};
 		048BFCC11AB2EE2B0026D104 = {
 			isa = PBXGroup;
 			children = (
-				048BFCCC1AB2EE2C0026D104 /* videoLat-iOS */,
+				048BFCCC1AB2EE2C0026D104 /* src */,
 				048BFCCB1AB2EE2C0026D104 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -75,24 +133,33 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		048BFCCC1AB2EE2C0026D104 /* videoLat-iOS */ = {
+		048BFCCC1AB2EE2C0026D104 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				04138C681AB31980003D8167 /* xibfiles.h */,
+				04138C691AB31980003D8167 /* protocols.h */,
+				04138C771AB31E1B003D8167 /* CommonAppDelegate.h */,
+				04138C781AB31E1B003D8167 /* CommonAppDelegate.m */,
 				04FFFC761AB2FA8E0023ED13 /* AppDelegate.h */,
 				04FFFC771AB2FA8E0023ED13 /* AppDelegate.m */,
-				04FFFC781AB2FA8E0023ED13 /* ViewController.h */,
-				04FFFC791AB2FA8E0023ED13 /* ViewController.m */,
-				04FFFC7C1AB2FABE0023ED13 /* LaunchScreen.xib */,
-				04FFFC7E1AB2FABE0023ED13 /* Main.storyboard */,
-				04FFFC821AB2FACB0023ED13 /* Images.xcassets */,
+				04138C6A1AB319B9003D8167 /* MeasurementType.h */,
+				04138C6B1AB319B9003D8167 /* MeasurementType.m */,
+				04138C701AB31A03003D8167 /* MeasurementRun */,
+				04138C6D1AB319CB003D8167 /* Document */,
+				04138C6F1AB319F2003D8167 /* NewDocument */,
+				04138C6E1AB319E0003D8167 /* Sharing */,
 				048BFCCD1AB2EE2C0026D104 /* Supporting Files */,
 			);
+			name = src;
 			path = "videoLat-iOS";
 			sourceTree = "<group>";
 		};
 		048BFCCD1AB2EE2C0026D104 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				04FFFC7C1AB2FABE0023ED13 /* LaunchScreen.xib */,
+				04FFFC7E1AB2FABE0023ED13 /* Main.storyboard */,
+				04FFFC821AB2FACB0023ED13 /* Images.xcassets */,
 				04FFFC841AB2FAD90023ED13 /* Info.plist */,
 				04FFFC851AB2FAD90023ED13 /* main.m */,
 			);
@@ -203,7 +270,13 @@
 			files = (
 				04FFFC7A1AB2FA8E0023ED13 /* AppDelegate.m in Sources */,
 				04FFFC871AB2FAD90023ED13 /* main.m in Sources */,
-				04FFFC7B1AB2FA8E0023ED13 /* ViewController.m in Sources */,
+				04138C821AB329CB003D8167 /* DeviceDescription.m in Sources */,
+				04138C851AB32A23003D8167 /* MachineDescription.m in Sources */,
+				04138C7E1AB31E9F003D8167 /* MeasurementDataStore.m in Sources */,
+				04138C6C1AB319B9003D8167 /* MeasurementType.m in Sources */,
+				04138C7F1AB31E9F003D8167 /* MeasurementDistribution.m in Sources */,
+				04138C731AB31A2C003D8167 /* CalibrationSharing.m in Sources */,
+				04138C791AB31E1B003D8167 /* CommonAppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
