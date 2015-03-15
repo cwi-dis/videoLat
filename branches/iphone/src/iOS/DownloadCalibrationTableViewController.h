@@ -11,6 +11,7 @@
 
 @interface DownloadCalibrationTableViewController : UITableViewController<DownloadDelegate, DownloadQueryDelegate> {
     NSArray *calibrations;
+    BOOL searching;
 }
 
 - (IBAction) doDownload: (id)sender;

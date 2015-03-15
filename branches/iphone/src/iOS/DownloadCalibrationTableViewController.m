@@ -43,12 +43,27 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
-	if (calibrations) return [calibrations count];
-    return 0;
+    if (calibrations) {
+        int count = [calibrations count];
+        if (count) return count;
+    }
+    return 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ListPrototypeCell" forIndexPath:indexPath];
+
+    if (calibrations == nil || [calibrations count] == 0) {
+        // No results, or no results yet.
+        if (searching) {
+            cell.textLabel.text = @"Searching...";
+        } else {
+            cell.textLabel.text = @"No calibrations available for this device";
+        }
+        cell.userInteractionEnabled = cell.textLabel.enabled = cell.detailTextLabel.enabled = NO;
+        return cell;
+    }
+    
     NSDictionary *cal = [calibrations objectAtIndex:indexPath.row];
     // Configure the cell...
 	NSString *uuid = [cal objectForKey: @"uuid"];
@@ -113,6 +128,7 @@
 */
 - (void)_listCalibrations
 {
+    searching = YES;
 	NSString *machineTypeID = [[MachineDescription thisMachine] machineTypeID];
 	NSArray *deviceTypeIDs = [VideoInput allDeviceTypeIDs];
 //	deviceTypeIDs = [deviceTypeIDs arrayByAddingObjectsFromArray:[VideoOutputView allDeviceTypeIDs]];
@@ -123,6 +139,7 @@
 
 - (void)availableCalibrations: (NSArray *)_calibrations
 {
+    searching = NO;
     calibrations = _calibrations;
     [self _updateCalibrations];
 }
