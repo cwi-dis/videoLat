@@ -15,6 +15,9 @@
     NSBundle *bundle = [NSBundle mainBundle];
     samples = [bundle pathsForResourcesOfType:@"aif" inDirectory:@"sounds"];
     if (VL_DEBUG) NSLog(@"Sounds: %@\n", samples);
+#if TARGET_OS_IPHONE
+    NSLog(@"Should fill picker view with samples");
+#else
     [self.bSample removeAllItems];
     NSString *filename;
     for (filename in samples) {
@@ -22,6 +25,7 @@
         NSString *title = [comps objectAtIndex: [comps count] - 2];
         [self.bSample addItemWithTitle:title];
     }
+#endif
 	[self sampleChanged: self.bSample];
 }
 
@@ -50,7 +54,12 @@
 - (IBAction)sampleChanged: (id) sender
 {
     // Get the URL of the sample selected
+#if TARGET_OS_IPHONE
+    int idx = [sender selectedRowInComponent: 0];
+    NSString *sample = [samples objectAtIndex:idx];
+#else
     NSString *sample = [sender titleOfSelectedItem];
+#endif
     NSURL * url = [[NSURL alloc] initFileURLWithPath:
                    [[NSBundle mainBundle] pathForResource:sample ofType:@"aif" inDirectory: @"sounds"]];
     if (VL_DEBUG) NSLog(@"sample URL %@\n", url);
@@ -101,7 +110,11 @@
     if (player) {
         [player updateMeters];
         float level = [player averagePowerForChannel: 0];
+#if TARGET_OS_IPHONE
+        [self.bOutputValue setProgress: level];
+#else
         [self.bOutputValue setFloatValue:level*100];
+#endif
     }
 }
 

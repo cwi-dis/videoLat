@@ -14,6 +14,7 @@
 #import "AudioRunManager.h"
 #import "AudioCalibrationRunManager.h"
 #import "NetworkRunManager.h"
+#import "Document.h"
 
 @implementation AppDelegate
 @synthesize locationManager;

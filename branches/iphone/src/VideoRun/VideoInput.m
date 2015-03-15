@@ -16,6 +16,7 @@ static void showErrorAlert(NSError *error) {
 	[alert runModal];
 #endif
 }
+
 static void showWarningAlert(NSString *warning) {
 #if TARGET_OS_IPHONE
 	[[[UIAlertView alloc] initWithTitle:@"Warning"
@@ -24,8 +25,8 @@ static void showWarningAlert(NSString *warning) {
                   cancelButtonTitle:NSLocalizedString(@"OK", nil)
                   otherButtonTitles:nil, nil] show];
 #else
-	NSAlert *alert = [NSAlert alertWithError:error];
-	[alert runModal];
+    NSAlert *alert = [NSAlert alertWithMessageText:@"Warning" defaultButton:@"OK" alternateButton:nil otherButton:nil informativeTextWithFormat:@"%@", warning];
+    [alert runModal];
 #endif
 }
 

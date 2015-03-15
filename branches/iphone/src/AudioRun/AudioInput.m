@@ -1,5 +1,5 @@
 //
-//  HardwareRunManager.m
+//  AudioInput.m
 //  videoLat
 //
 //  Created by Jack Jansen on 22/12/13.
@@ -8,6 +8,32 @@
 
 #import "AudioInput.h"
 #import <mach/clock.h>
+
+static void showErrorAlert(NSError *error) {
+#if TARGET_OS_IPHONE
+    [[[UIAlertView alloc] initWithTitle:error.localizedDescription
+                                message:error.localizedRecoverySuggestion
+                               delegate:nil
+                      cancelButtonTitle:NSLocalizedString(@"OK", nil)
+                      otherButtonTitles:nil, nil] show];
+#else
+    NSAlert *alert = [NSAlert alertWithError:error];
+    [alert runModal];
+#endif
+}
+
+static void showWarningAlert(NSString *warning) {
+#if TARGET_OS_IPHONE
+    [[[UIAlertView alloc] initWithTitle:@"Warning"
+                                message:warning
+                               delegate:nil
+                      cancelButtonTitle:NSLocalizedString(@"OK", nil)
+                      otherButtonTitles:nil, nil] show];
+#else
+    NSAlert *alert = [NSAlert alertWithMessageText:@"Warning" defaultButton:@"OK" alternateButton:nil otherButton:nil informativeTextWithFormat:@"%@", warning];
+    [alert runModal];
+#endif
+}
 
 @implementation AudioInput
 
@@ -22,7 +48,7 @@
         outputCapturer = nil;
         deviceID = nil;
         sampleBufferQueue = dispatch_queue_create("Audio Sample Queue", DISPATCH_QUEUE_SERIAL);
-#if __MAC_OS_X_VERSION_MAX_ALLOWED >= 1080
+#if TARGET_OS_IPHONE || (__MAC_OS_X_VERSION_MAX_ALLOWED >= 1080)
 		if (CMClockGetHostTimeClock != NULL) {
 			clock = CMClockGetHostTimeClock();
 		}
@@ -40,7 +66,7 @@
 - (uint64_t)now
 {
     UInt64 timestamp;
-#if 0 && __MAC_OS_X_VERSION_MAX_ALLOWED >= 1080
+#if TARGET_OS_IPHONE || (0 && __MAC_OS_X_VERSION_MAX_ALLOWED >= 1080)
     if (clock) {
         CMTime timestampCMT = CMClockGetTime(clock);
         timestampCMT = CMTimeConvertScale(timestampCMT, 1000000, kCMTimeRoundingMethod_Default);
@@ -48,6 +74,9 @@
     } else
 #endif
 	{
+#if TARGET_OS_IPHONE
+        assert(0);
+#else
 		clock_serv_t cclock;
 		mach_timespec_t mts;
         
@@ -55,6 +84,7 @@
 		clock_get_time(cclock, &mts);
 		mach_port_deallocate(mach_task_self(), cclock);
 		timestamp = ((UInt64)mts.tv_sec*1000000LL) + mts.tv_nsec/1000LL;
+#endif
     }
     return timestamp - epoch;
 }
@@ -102,10 +132,7 @@
 			[rv addObject:name];
 	}
 	if ([rv count] == 0) {
-		NSRunAlertPanel(
-                        @"Warning",
-                        @"No suitable audio input device found, reception disabled.",
-                        nil, nil, nil);
+        showWarningAlert(@"No suitable audio input device found, reception disabled.");
 	}
 	return rv;
 }
@@ -145,8 +172,7 @@
     NSError *error;
 	AVCaptureDeviceInput *myInput = [AVCaptureDeviceInput deviceInputWithDevice:dev error:&error];
 	if (error) {
-        NSAlert *alert = [NSAlert alertWithError: error];
-        [alert runModal];
+        showErrorAlert(error);
         return;
     }
     
@@ -182,20 +208,25 @@
     outputCapturer = [[AVCaptureAudioDataOutput alloc] init];
     [outputCapturer setSampleBufferDelegate: self queue:sampleBufferQueue];
     [session addOutput: outputCapturer];
-	// XXXJACK Should catch AVCaptureSessionRuntimeErrorNotification
-    // Set the parameters so that we get the samples in a format we understand.
-	// Unfortunately, setting to 'mono' doesn't seem to work, at least not consistently...
-    NSDictionary *settings = [NSDictionary dictionaryWithObjectsAndKeys:
-		[NSNumber numberWithUnsignedInt:kAudioFormatLinearPCM], AVFormatIDKey,
-		[NSNumber numberWithFloat:44100], AVSampleRateKey,
-//		[NSNumber numberWithUnsignedInteger:1], AVNumberOfChannelsKey,
-		[NSNumber numberWithInt:16], AVLinearPCMBitDepthKey,
-		[NSNumber numberWithBool:NO], AVLinearPCMIsFloatKey,
-		[NSNumber numberWithBool:NO], AVLinearPCMIsNonInterleaved,
-//		[NSNumber numberWithBool:NO], AVLinearPCMIsBigEndianKey,
-		nil];
-	outputCapturer.audioSettings = settings;
-	/* Let the madness begin */
+#if !TARGET_OS_IPHONE
+    if ([outputCapturer respondsToSelector:@selector(audioSettings)]) {
+        // Not available on iOS. We chance it.
+        // XXXJACK Should catch AVCaptureSessionRuntimeErrorNotification
+        // Set the parameters so that we get the samples in a format we understand.
+        // Unfortunately, setting to 'mono' doesn't seem to work, at least not consistently...
+        NSDictionary *settings = [NSDictionary dictionaryWithObjectsAndKeys:
+            [NSNumber numberWithUnsignedInt:kAudioFormatLinearPCM], AVFormatIDKey,
+            [NSNumber numberWithFloat:44100], AVSampleRateKey,
+    //		[NSNumber numberWithUnsignedInteger:1], AVNumberOfChannelsKey,
+            [NSNumber numberWithInt:16], AVLinearPCMBitDepthKey,
+            [NSNumber numberWithBool:NO], AVLinearPCMIsFloatKey,
+            [NSNumber numberWithBool:NO], AVLinearPCMIsNonInterleaved,
+    //		[NSNumber numberWithBool:NO], AVLinearPCMIsBigEndianKey,
+            nil];
+        [outputCapturer setAudioSettings: settings];
+    }
+#endif
+    /* Let the madness begin */
 	capturing = NO;
 	epoch = 0;
 	[self.manager restart];
@@ -245,7 +276,11 @@
     }
     db /= [connection.audioChannels count];
     float level = (pow(10.f, 0.05f * db) * 20.0f);
+#if TARGET_OS_IPHONE
+    [self.bInputValue setProgress: level];
+#else
     [self.bInputValue setFloatValue:level*100];
+#endif
 
 	// Get the audio data and timestamp
 	
@@ -291,7 +326,7 @@
 		// Pass to the manager
 		[self.manager newInputDone: bufferList[0].mBuffers[0].mData size: bufferList[0].mBuffers[0].mDataByteSize channels: bufferList[0].mBuffers[0].mNumberChannels at: [self now]];
 	} else {
-		NSLog(@"AudioInput: CMSampleBufferGetAudioBufferListWithRetainedBlockBuffer returned err=%d, mNumberBuffers=%d", err, bufferList?bufferList[0].mNumberBuffers:-1);
+		NSLog(@"AudioInput: CMSampleBufferGetAudioBufferListWithRetainedBlockBuffer returned err=%d, mNumberBuffers=%d", (int)err, (unsigned int)(bufferList?bufferList[0].mNumberBuffers:-1));
 	}
 	if (bufferOut) CFRelease(bufferOut);
     if (bufferList) free(bufferList);

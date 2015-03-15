@@ -126,6 +126,13 @@
     // Pass the selected object to the new view controller.
 }
 */
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSDictionary *cal = [calibrations objectAtIndex:indexPath.row];
+    [self _downloadCalibration: cal];
+}
+
 - (void)_listCalibrations
 {
     searching = YES;

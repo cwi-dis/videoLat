@@ -40,7 +40,7 @@
 
 @property(weak) IBOutlet id<SelectionView> selectionView;         //!< Assigned in NIB: view that allows selection of input device
 @property(weak) IBOutlet NSObject<InputCaptureProtocol> *capturer;    //!< Assigned in NIB: input capturer
-@property(weak) IBOutlet NSView <OutputViewProtocol> *outputView; //!< Assigned in NIB: Displays current output QR code
+@property(weak) IBOutlet NSorUIView <OutputViewProtocol> *outputView; //!< Assigned in NIB: Displays current output QR code
 
 + (void)initialize;	//!< Class initializer.
 

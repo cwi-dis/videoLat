@@ -6,7 +6,6 @@
 //  Copyright 2010-2014 Centrum voor Wiskunde en Informatica. Licensed under GPL3.
 //
 
-#import <Cocoa/Cocoa.h>
 #import <AVFoundation/AVFoundation.h>
 #import "protocols.h"
 #import "AudioProcess.h"
@@ -16,7 +15,7 @@
 /// some visual feedback on the audio level transmitted and allows the user to select the
 /// audio sample to use and the output device.
 ///
-@interface AudioOutputView : NSView <OutputViewProtocol, AVAudioPlayerDelegate> {
+@interface AudioOutputView : NSorUIView <OutputViewProtocol, AVAudioPlayerDelegate> {
     NSArray *samples;       //!< list of available sample filenames
     AVAudioPlayer *player;  //!< AVFoundatio audio player object
     NSArray *signature;     //!< AudioProcess signature of current sample
@@ -27,9 +26,9 @@
 @property(readonly) NSString *deviceName;	//!< Human-readable string that identifies the output device
 @property(weak) IBOutlet id <RunOutputManagerProtocol> manager; //!< Set by NIB: our run manager
 @property(weak) IBOutlet AudioProcess *processor;   //!< Set by NIB: our audio processor
-@property(weak) IBOutlet NSPopUpButton *bSample;    //!< UI element: popup to select audio sample to play
-@property(weak) IBOutlet NSSlider *bVolume;         //!< UI element: slider to adjust output volume
-@property(weak) IBOutlet NSLevelIndicator *bOutputValue;    //!< UI element: output VU meter
+@property(weak) IBOutlet NSorUIPopUpButton *bSample;    //!< UI element: popup to select audio sample to play
+@property(weak) IBOutlet NSorUISlider *bVolume;         //!< UI element: slider to adjust output volume
+@property(weak) IBOutlet NSorUILevelIndicator *bOutputValue;    //!< UI element: output VU meter
 
 - (void)stop;                           //!< Called by manager when user stops the measurement run
 - (IBAction)sampleChanged: (id) sender; //!< Called from UI when a new item has been selected in bSample

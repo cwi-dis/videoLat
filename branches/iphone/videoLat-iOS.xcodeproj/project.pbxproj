@@ -16,6 +16,13 @@
 		04138C851AB32A23003D8167 /* MachineDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = 04138C841AB32A23003D8167 /* MachineDescription.m */; };
 		04138C881AB32DBB003D8167 /* DownloadCalibrationTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04138C871AB32DBB003D8167 /* DownloadCalibrationTableViewController.m */; };
 		04138C8C1AB330DB003D8167 /* VideoInput.m in Sources */ = {isa = PBXBuildFile; fileRef = 04138C8B1AB330DB003D8167 /* VideoInput.m */; };
+		04155E971AB6251900DD53D9 /* NewCalibrationTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04155E961AB6251900DD53D9 /* NewCalibrationTableViewController.m */; };
+		04155E9A1AB6311C00DD53D9 /* sounds in Resources */ = {isa = PBXBuildFile; fileRef = 04155E991AB6311C00DD53D9 /* sounds */; };
+		04155E9D1AB6312900DD53D9 /* AudioInput.m in Sources */ = {isa = PBXBuildFile; fileRef = 04155E9C1AB6312900DD53D9 /* AudioInput.m */; };
+		04155EA01AB6448900DD53D9 /* AudioOutputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04155E9F1AB6448900DD53D9 /* AudioOutputView.m */; };
+		04155EA31AB6471900DD53D9 /* AudioProcess.m in Sources */ = {isa = PBXBuildFile; fileRef = 04155EA21AB6471900DD53D9 /* AudioProcess.m */; };
+		04155EA61AB647C500DD53D9 /* AudioRunManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 04155EA51AB647C500DD53D9 /* AudioRunManager.m */; };
+		04155EA91AB6481000DD53D9 /* BaseRunManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 04155EA81AB6481000DD53D9 /* BaseRunManager.m */; };
 		04FFFC7A1AB2FA8E0023ED13 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FFFC771AB2FA8E0023ED13 /* AppDelegate.m */; };
 		04FFFC801AB2FABE0023ED13 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04FFFC7C1AB2FABE0023ED13 /* LaunchScreen.xib */; };
 		04FFFC811AB2FABE0023ED13 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04FFFC7E1AB2FABE0023ED13 /* Main.storyboard */; };
@@ -55,6 +62,19 @@
 		04138C871AB32DBB003D8167 /* DownloadCalibrationTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DownloadCalibrationTableViewController.m; path = src/iOS/DownloadCalibrationTableViewController.m; sourceTree = SOURCE_ROOT; };
 		04138C8A1AB330DB003D8167 /* VideoInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VideoInput.h; path = src/VideoRun/VideoInput.h; sourceTree = SOURCE_ROOT; };
 		04138C8B1AB330DB003D8167 /* VideoInput.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VideoInput.m; path = src/VideoRun/VideoInput.m; sourceTree = SOURCE_ROOT; };
+		04155E951AB6251900DD53D9 /* NewCalibrationTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NewCalibrationTableViewController.h; path = src/iOS/NewCalibrationTableViewController.h; sourceTree = SOURCE_ROOT; };
+		04155E961AB6251900DD53D9 /* NewCalibrationTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NewCalibrationTableViewController.m; path = src/iOS/NewCalibrationTableViewController.m; sourceTree = SOURCE_ROOT; };
+		04155E991AB6311C00DD53D9 /* sounds */ = {isa = PBXFileReference; lastKnownFileType = folder; path = sounds; sourceTree = SOURCE_ROOT; };
+		04155E9B1AB6312900DD53D9 /* AudioInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioInput.h; path = src/AudioRun/AudioInput.h; sourceTree = SOURCE_ROOT; };
+		04155E9C1AB6312900DD53D9 /* AudioInput.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AudioInput.m; path = src/AudioRun/AudioInput.m; sourceTree = SOURCE_ROOT; };
+		04155E9E1AB6448900DD53D9 /* AudioOutputView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioOutputView.h; path = src/AudioRun/AudioOutputView.h; sourceTree = SOURCE_ROOT; };
+		04155E9F1AB6448900DD53D9 /* AudioOutputView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AudioOutputView.m; path = src/AudioRun/AudioOutputView.m; sourceTree = SOURCE_ROOT; };
+		04155EA11AB6471900DD53D9 /* AudioProcess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioProcess.h; path = src/AudioRun/AudioProcess.h; sourceTree = SOURCE_ROOT; };
+		04155EA21AB6471900DD53D9 /* AudioProcess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AudioProcess.m; path = src/AudioRun/AudioProcess.m; sourceTree = SOURCE_ROOT; };
+		04155EA41AB647C500DD53D9 /* AudioRunManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioRunManager.h; path = src/AudioRun/AudioRunManager.h; sourceTree = SOURCE_ROOT; };
+		04155EA51AB647C500DD53D9 /* AudioRunManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AudioRunManager.m; path = src/AudioRun/AudioRunManager.m; sourceTree = SOURCE_ROOT; };
+		04155EA71AB6481000DD53D9 /* BaseRunManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BaseRunManager.h; path = src/MeasurementRun/BaseRunManager.h; sourceTree = SOURCE_ROOT; };
+		04155EA81AB6481000DD53D9 /* BaseRunManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BaseRunManager.m; path = src/MeasurementRun/BaseRunManager.m; sourceTree = SOURCE_ROOT; };
 		048BFCCA1AB2EE2C0026D104 /* videoLat-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "videoLat-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		048BFCE31AB2EE2C0026D104 /* videoLat-iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "videoLat-iOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		04FFFC761AB2FA8E0023ED13 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = src/iOS/AppDelegate.h; sourceTree = SOURCE_ROOT; };
@@ -113,6 +133,8 @@
 			children = (
 				04138C861AB32DBB003D8167 /* DownloadCalibrationTableViewController.h */,
 				04138C871AB32DBB003D8167 /* DownloadCalibrationTableViewController.m */,
+				04155E951AB6251900DD53D9 /* NewCalibrationTableViewController.h */,
+				04155E961AB6251900DD53D9 /* NewCalibrationTableViewController.m */,
 			);
 			name = NewDocument;
 			sourceTree = "<group>";
@@ -120,6 +142,9 @@
 		04138C701AB31A03003D8167 /* MeasurementRun */ = {
 			isa = PBXGroup;
 			children = (
+				04155EA71AB6481000DD53D9 /* BaseRunManager.h */,
+				04155EA81AB6481000DD53D9 /* BaseRunManager.m */,
+				04155E981AB6310C00DD53D9 /* AudioRun */,
 				04138C891AB330C4003D8167 /* VideoRun */,
 			);
 			name = MeasurementRun;
@@ -132,6 +157,22 @@
 				04138C8B1AB330DB003D8167 /* VideoInput.m */,
 			);
 			name = VideoRun;
+			sourceTree = "<group>";
+		};
+		04155E981AB6310C00DD53D9 /* AudioRun */ = {
+			isa = PBXGroup;
+			children = (
+				04155E991AB6311C00DD53D9 /* sounds */,
+				04155E9B1AB6312900DD53D9 /* AudioInput.h */,
+				04155E9C1AB6312900DD53D9 /* AudioInput.m */,
+				04155E9E1AB6448900DD53D9 /* AudioOutputView.h */,
+				04155E9F1AB6448900DD53D9 /* AudioOutputView.m */,
+				04155EA41AB647C500DD53D9 /* AudioRunManager.h */,
+				04155EA51AB647C500DD53D9 /* AudioRunManager.m */,
+				04155EA11AB6471900DD53D9 /* AudioProcess.h */,
+				04155EA21AB6471900DD53D9 /* AudioProcess.m */,
+			);
+			name = AudioRun;
 			sourceTree = "<group>";
 		};
 		048BFCC11AB2EE2B0026D104 = {
@@ -265,6 +306,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04155E9A1AB6311C00DD53D9 /* sounds in Resources */,
 				04FFFC861AB2FAD90023ED13 /* Info.plist in Resources */,
 				04FFFC831AB2FACB0023ED13 /* Images.xcassets in Resources */,
 				04FFFC811AB2FABE0023ED13 /* Main.storyboard in Resources */,
@@ -286,6 +328,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04155E9D1AB6312900DD53D9 /* AudioInput.m in Sources */,
+				04155EA91AB6481000DD53D9 /* BaseRunManager.m in Sources */,
+				04155EA31AB6471900DD53D9 /* AudioProcess.m in Sources */,
 				04FFFC7A1AB2FA8E0023ED13 /* AppDelegate.m in Sources */,
 				04FFFC871AB2FAD90023ED13 /* main.m in Sources */,
 				04138C8C1AB330DB003D8167 /* VideoInput.m in Sources */,
@@ -297,6 +342,9 @@
 				04138C731AB31A2C003D8167 /* CalibrationSharing.m in Sources */,
 				04138C881AB32DBB003D8167 /* DownloadCalibrationTableViewController.m in Sources */,
 				04138C791AB31E1B003D8167 /* CommonAppDelegate.m in Sources */,
+				04155EA01AB6448900DD53D9 /* AudioOutputView.m in Sources */,
+				04155EA61AB647C500DD53D9 /* AudioRunManager.m in Sources */,
+				04155E971AB6251900DD53D9 /* NewCalibrationTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -419,9 +467,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = src/iOS/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -429,9 +480,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = src/iOS/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};

@@ -6,6 +6,7 @@
 //  Copyright 2010-2014 Centrum voor Wiskunde en Informatica. Licensed under GPL3.
 //
 
+#import <Foundation/Foundation.h>
 #import "protocols.h"
 #import "AudioProcess.h"
 #import <AVFoundation/AVFoundation.h>
@@ -104,7 +105,7 @@
                 timestamp += (UInt64)((Float64)(nSampleToFeed / sampleRate) * 1000000.0); // May overshoot, but only at end-of-buffer
             } while (chunkRemaining > 0);
         } else {
-            NSLog(@"AudioInput: CMSampleBufferGetAudioBufferListWithRetainedBlockBuffer returned err=%d, mNumberBuffers=%d", err, bufferList?bufferList[0].mNumberBuffers:-1);
+            NSLog(@"AudioInput: CMSampleBufferGetAudioBufferListWithRetainedBlockBuffer returned err=%d, mNumberBuffers=%d", (int)err, bufferList?bufferList[0].mNumberBuffers:-1);
             rv = nil;
         }
         if (bufferOut) CFRelease(bufferOut);
