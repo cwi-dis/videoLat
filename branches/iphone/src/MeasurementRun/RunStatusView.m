@@ -26,8 +26,9 @@
 
 - (IBAction)update: (id)sender
 {
-#ifdef WITH_UIKIT_TEMP
-	assert(0);
+#ifdef WITH_UIKIT
+    self.bCount.text = self.detectCount;
+    self.bAverage.text = self.detectAverage;
 #else
     self.bCount.stringValue = self.detectCount;
     self.bAverage.stringValue = self.detectAverage;

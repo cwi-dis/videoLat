@@ -72,15 +72,19 @@
 
 - (IBAction)startPreMeasuring: (id)sender
 {
-#ifndef WITH_UIKIT_TEMP
 	@synchronized(self) {
         assert(handlesInput);
 		// First check that everything is OK with base measurement and such
 		if (self.measurementType.requires != nil) {
 			// First check that a base measurement has been selected.
 			NSString *errorMessage;
+#ifdef WITH_UIKIT_TEMP
+			NSObject *baseItem = nil;
+			NSString *baseName = nil;
+#else
 			NSMenuItem *baseItem = [self.selectionView.bBase selectedItem];
 			NSString *baseName = [baseItem title];
+#endif
 			MeasurementType *baseType = self.measurementType.requires;
 			MeasurementDataStore *baseStore = [baseType measurementNamed: baseName];
 			if (baseType == nil) {
@@ -105,6 +109,9 @@
 				}
 			}
 			if (errorMessage) {
+#ifdef WITH_UIKIT
+				showWarningAlert(errorMessage);
+#else
 				NSAlert *alert = [NSAlert alertWithMessageText: @"Base calibration mismatch, are you sure you want to continue?"
                                                  defaultButton:@"Cancel"
                                                alternateButton:@"Continue"
@@ -113,6 +120,7 @@
 				NSInteger button = [alert runModal];
 				if (button == NSAlertDefaultReturn)
 					return;
+#endif
 			}
 			[self.collector.dataStore useCalibration:baseStore];
             
@@ -132,12 +140,10 @@
 		self.preRunning = YES;
 		[self.capturer startCapturing: YES];
 	}
-#endif
 }
 
 - (IBAction)stopPreMeasuring: (id)sender
 {
-#ifndef WITH_UIKIT_TEMP
 	@synchronized(self) {
 		self.preRunning = NO;
         if (!handlesOutput)
@@ -153,12 +159,10 @@
 		}
 		[self.statusView.bStop setEnabled: NO];
 	}
-#endif
 }
 
 - (IBAction)startMeasuring: (id)sender
 {
-#ifndef WITH_UIKIT_TEMP
     @synchronized(self) {
         assert(handlesInput);
 		[self.selectionView.bPreRun setEnabled: NO];
@@ -174,7 +178,6 @@
         [self.collector startCollecting: self.measurementType.name input: self.capturer.deviceID name: self.capturer.deviceName output: self.outputView.deviceID name: self.outputView.deviceName];
         [self.outputCompanion triggerNewOutputValue];
     }
-#endif
 }
 
 - (void)triggerNewOutputValue

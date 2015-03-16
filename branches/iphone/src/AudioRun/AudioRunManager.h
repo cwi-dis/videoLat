@@ -9,11 +9,7 @@
 #import "BaseRunManager.h"
 #import "AudioOutputView.h"
 #import "AudioProcess.h"
-#ifdef WITH_UIKIT
-@class AudioSelectionView;
-#else
 #import "AudioSelectionView.h"
-#endif
 
 ///
 /// Subclass of BaseRunManager that handles audio delay measurements.

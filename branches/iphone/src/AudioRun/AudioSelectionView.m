@@ -33,12 +33,11 @@
 
 - (void)_updateDeviceNames: (NSNotification*) notification
 {
-#ifdef WITH_UIKIT_TEMP
-	//assert(0);
-#else
     if (VL_DEBUG) NSLog(@"Audio devices changed\n");
     // Remember the old selection (if any)
     NSString *oldInput = nil;
+#ifdef WITH_UIKIT_TEMP
+#else
 	NSMenuItem *oldItem = [self.bDevices selectedItem];
     if (oldItem) {
         oldInput = [oldItem title];
@@ -46,8 +45,14 @@
         // If no camera was selected we take the one from the preferences
         oldInput = [[NSUserDefaults standardUserDefaults] stringForKey:@"AudioInput"];
     }
+#endif
     // Add all input devices
     NSArray *newList = [self.inputHandler deviceNames];
+#ifdef WITH_UIKIT_TEMP
+	assert(newList);
+	assert([newList count]);
+	NSString *newInput = [newList objectAtIndex:0];
+#else
     [self.bDevices removeAllItems];
     [self.bDevices addItemsWithTitles: newList];
     // Re-select old selection, if possible
@@ -55,10 +60,10 @@
     // Tell the input handler if the device has changed
     NSMenuItem *newItem = [self.bDevices selectedItem];
     NSString *newInput = [newItem title];
+#endif
     if (![newInput isEqualToString:oldInput] || notification == nil)
         [self.inputHandler switchToDeviceWithName:newInput];
     // Repeat for output devices...
-#endif
 }
 
 - (IBAction)deviceChanged: (id) sender

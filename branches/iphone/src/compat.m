@@ -34,5 +34,3 @@ void showWarningAlert(NSString *warning) {
     [alert runModal];
 #endif
 }
-
-
