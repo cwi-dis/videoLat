@@ -301,7 +301,7 @@ static NSMutableDictionary *runManagerNibs;
 - (void)restart
 {
 #ifdef WITH_UIKIT_TEMP
-	assert(0);
+	//assert(0);
 #else
 	@synchronized(self) {
 		if (self.measurementType == nil) return;

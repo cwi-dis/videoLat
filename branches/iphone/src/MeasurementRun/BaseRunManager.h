@@ -12,8 +12,12 @@
 #import "RunCollector.h"
 #import "RunManagerView.h"
 #import "RunStatusView.h"
-
-@class RunManagerView;
+#ifdef WITH_UIKIT
+#import "MeasurementContainerViewController.h"
+#endif
+#ifdef WITH_APPKIT
+#import "RunManagerView.h"
+#endif
 
 ///
 /// Base class for objects that control a delay measurement run, i.e. a sequence of
@@ -111,7 +115,7 @@
 
 @property(weak) IBOutlet RunCollector *collector;			//!< Initialized in the NIB, RunCollector for this measurement run.
 @property(weak) IBOutlet RunStatusView *statusView;			//!< Initialized in the NIB, RunStatusView for this measurement run.
-@property(weak) IBOutlet RunManagerView *measurementMaster;	//!< Initialized in the NIB, our parent object.
+@property(weak) IBOutlet MeasurementContainerViewController *measurementMaster;	//!< Initialized in the NIB, our parent object.
 
 //@{
 /// The inputCompanion and outputCompanion properties need a bit of explanation.

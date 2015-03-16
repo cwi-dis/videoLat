@@ -33,6 +33,9 @@
 
 - (void)_updateDeviceNames: (NSNotification*) notification
 {
+#ifdef WITH_UIKIT_TEMP
+	//assert(0);
+#else
     if (VL_DEBUG) NSLog(@"Audio devices changed\n");
     // Remember the old selection (if any)
     NSString *oldInput = nil;
@@ -55,34 +58,47 @@
     if (![newInput isEqualToString:oldInput] || notification == nil)
         [self.inputHandler switchToDeviceWithName:newInput];
     // Repeat for output devices...
+#endif
 }
 
 - (IBAction)deviceChanged: (id) sender
 {
+#ifdef WITH_UIKIT_TEMP
+	assert(0);
+#else
 	NSMenuItem *item = [sender selectedItem];
 	NSString *cam = [item title];
 	if (VL_DEBUG) NSLog(@"Switch audioInput to %@\n", cam);
 	[self.inputHandler switchToDeviceWithName: cam];
 	assert(self.manager);
 	[self.manager deviceChanged: self];
+#endif
 }
 
 - (void)_reselectInput: (NSString *)name
 {
+#ifdef WITH_UIKIT_TEMP
+	assert(0);
+#else
     if (name)
         [self.bDevices selectItemWithTitle:name];
     // Select first item, if nothing has been selected
     NSMenuItem *newItem = [self.bDevices selectedItem];
     if (newItem == nil)
         [self.bDevices selectItemAtIndex: 0];
+#endif
 }
 
 - (IBAction)outputChanged: (id) sender
 {
+#ifdef WITH_UIKIT_TEMP
+	assert(0);
+#else
 	NSMenuItem *item = [sender selectedItem];
 	NSString *cam = [item title];
 	if (VL_DEBUG) NSLog(@"Switch audioOutput to %@\n", cam);
 //	[self.outputHandler switchToDeviceWithName: cam];
+#endif
 }
 
 @end

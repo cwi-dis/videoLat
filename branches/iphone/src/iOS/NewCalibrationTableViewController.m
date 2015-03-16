@@ -8,6 +8,7 @@
 
 #import "NewCalibrationTableViewController.h"
 #import "MeasurementType.h"
+#import "MeasurementContainerViewController.h"
 
 @interface NewCalibrationTableViewController ()
 
@@ -73,8 +74,12 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSString *measurementName = [measurementNames objectAtIndex: indexPath.row];
-    [self performSegueWithIdentifier:measurementName sender:self];
+    selectedMeasurement = [measurementNames objectAtIndex: indexPath.row];
+	if (selectedMeasurement) {
+		[self performSegueWithIdentifier:@"newMeasurement" sender:self];
+	} else {
+		showWarningAlert(@"Selected unknown measurement??");
+	}
 }
 /*
 // Override to support conditional editing of the table view.
@@ -116,6 +121,8 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+	MeasurementContainerViewController *mcv = segue.destinationViewController;
+	mcv.measurementTypeName = selectedMeasurement;
 }
 
 @end

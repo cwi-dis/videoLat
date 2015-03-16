@@ -15,7 +15,7 @@
     NSBundle *bundle = [NSBundle mainBundle];
     samples = [bundle pathsForResourcesOfType:@"aif" inDirectory:@"sounds"];
     if (VL_DEBUG) NSLog(@"Sounds: %@\n", samples);
-#ifdef WITH_UIKIT
+#ifdef WITH_UIKIT_TEMP
     NSLog(@"Should fill picker view with samples");
 #else
     [self.bSample removeAllItems];
@@ -60,8 +60,11 @@
 #else
     NSString *sample = [sender titleOfSelectedItem];
 #endif
-    NSURL * url = [[NSURL alloc] initFileURLWithPath:
-                   [[NSBundle mainBundle] pathForResource:sample ofType:@"aif" inDirectory: @"sounds"]];
+#ifdef WITH_UIKIT_TEMP
+	sample = @"beep40ms";
+#endif
+	NSString *pathName = [[NSBundle mainBundle] pathForResource:sample ofType:@"aif" inDirectory: @"sounds"];
+    NSURL * url = [[NSURL alloc] initFileURLWithPath:pathName];
     if (VL_DEBUG) NSLog(@"sample URL %@\n", url);
     
     // Create the player for it

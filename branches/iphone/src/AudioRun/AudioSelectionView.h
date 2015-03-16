@@ -7,16 +7,17 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "compat.h"
 #import "AudioInput.h"
 
 ///
 /// Subclass of NSView, allows the user to select the audio input device.
 ///
-@interface AudioSelectionView : NSView<SelectionView>
-@property(weak) IBOutlet NSPopUpButton *bDevices;  //!< UI element: all available audio input sources
-@property(weak) IBOutlet NSPopUpButton *bBase;          //!< UI element: available calibration runs
-@property(weak) IBOutlet NSButton *bPreRun;             //!< UI element: start a measurement run
-@property(weak) IBOutlet NSButton *bRun;                //!< UI element: start preparing a measurement run
+@interface AudioSelectionView : NSorUIView<SelectionView>
+@property(weak) IBOutlet NSorUIPopUpButton *bDevices;  //!< UI element: all available audio input sources
+@property(weak) IBOutlet NSorUIPopUpButton *bBase;          //!< UI element: available calibration runs
+@property(weak) IBOutlet NSorUIButton *bPreRun;             //!< UI element: start a measurement run
+@property(weak) IBOutlet NSorUIButton *bRun;                //!< UI element: start preparing a measurement run
 @property(weak) IBOutlet AudioInput *inputHandler;      //!< Input handler, will be told about camera changes
 @property(weak) IBOutlet NSObject<RunInputManagerProtocol> *manager;         //!< Manager, will be told about hardware changes
 

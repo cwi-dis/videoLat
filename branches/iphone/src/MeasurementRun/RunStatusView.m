@@ -10,7 +10,7 @@
 
 @implementation RunStatusView
 
-- (id)initWithFrame:(NSRect)frame
+- (id)initWithFrame:(NSorUIRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
@@ -26,11 +26,15 @@
 
 - (IBAction)update: (id)sender
 {
+#ifdef WITH_UIKIT_TEMP
+	assert(0);
+#else
     self.bCount.stringValue = self.detectCount;
     self.bAverage.stringValue = self.detectAverage;
+#endif
 }
 
-- (void)drawRect:(NSRect)dirtyRect
+- (void)drawRect:(NSorUIRect)dirtyRect
 {
 	[super drawRect:dirtyRect];
 	

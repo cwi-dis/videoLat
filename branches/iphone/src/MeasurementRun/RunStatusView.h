@@ -6,6 +6,7 @@
 //
 //
 
+#import <Foundation/Foundation.h>
 #import "protocols.h"
 
 ///
@@ -17,8 +18,8 @@
 @interface RunStatusView : NSorUIView
 @property(weak) IBOutlet NSorUIButton *bStop;		//!< Initialized in the NIB: reference to the stop button.
 
-@property(weak) IBOutlet NSorUITextField *bCount;	//!< Initialized in the NIB: reference to the count text field.
-@property(weak) IBOutlet NSorUITextField *bAverage;	//!< Initialized in the NIB: reference to the average delay text field.
+@property(weak) IBOutlet NSorUILabel *bCount;	//!< Initialized in the NIB: reference to the count text field.
+@property(weak) IBOutlet NSorUILabel *bAverage;	//!< Initialized in the NIB: reference to the average delay text field.
 
 @property(strong) NSString *detectCount;		//!< Run Manager stores count value here
 @property(strong) NSString *detectAverage;		//!< Run manager stores average value here

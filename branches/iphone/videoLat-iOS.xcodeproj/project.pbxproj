@@ -8,6 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		040E77181AB6DBBC001A7918 /* compat.m in Sources */ = {isa = PBXBuildFile; fileRef = 040E77171AB6DBBC001A7918 /* compat.m */; };
+		040E771F1AB6ED25001A7918 /* MeasurementContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 040E771E1AB6ED25001A7918 /* MeasurementContainerViewController.m */; };
+		040E77231AB6F314001A7918 /* AudioCalibrationRunManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 040E77221AB6F314001A7918 /* AudioCalibrationRunManager.m */; };
+		040E77251AB6F42B001A7918 /* AudioCalibrationRunManager.xib in Resources */ = {isa = PBXBuildFile; fileRef = 040E77241AB6F42B001A7918 /* AudioCalibrationRunManager.xib */; };
+		040E77281AB6F5B1001A7918 /* RunCollector.m in Sources */ = {isa = PBXBuildFile; fileRef = 040E77271AB6F5B1001A7918 /* RunCollector.m */; };
+		040E772B1AB707B2001A7918 /* AudioSelectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 040E772A1AB707B2001A7918 /* AudioSelectionView.m */; };
+		040E772E1AB70A12001A7918 /* RunStatusView.m in Sources */ = {isa = PBXBuildFile; fileRef = 040E772D1AB70A12001A7918 /* RunStatusView.m */; };
 		04138C6C1AB319B9003D8167 /* MeasurementType.m in Sources */ = {isa = PBXBuildFile; fileRef = 04138C6B1AB319B9003D8167 /* MeasurementType.m */; };
 		04138C731AB31A2C003D8167 /* CalibrationSharing.m in Sources */ = {isa = PBXBuildFile; fileRef = 04138C721AB31A2C003D8167 /* CalibrationSharing.m */; };
 		04138C791AB31E1B003D8167 /* CommonAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 04138C781AB31E1B003D8167 /* CommonAppDelegate.m */; };
@@ -45,6 +51,17 @@
 /* Begin PBXFileReference section */
 		040E77171AB6DBBC001A7918 /* compat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = compat.m; path = src/compat.m; sourceTree = SOURCE_ROOT; };
 		040E77191AB6DBE9001A7918 /* compat.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = compat.h; sourceTree = SOURCE_ROOT; };
+		040E771D1AB6ED25001A7918 /* MeasurementContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MeasurementContainerViewController.h; path = src/iOS/MeasurementContainerViewController.h; sourceTree = SOURCE_ROOT; };
+		040E771E1AB6ED25001A7918 /* MeasurementContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MeasurementContainerViewController.m; path = src/iOS/MeasurementContainerViewController.m; sourceTree = SOURCE_ROOT; };
+		040E77211AB6F314001A7918 /* AudioCalibrationRunManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioCalibrationRunManager.h; path = src/AudioCalibrationRun/AudioCalibrationRunManager.h; sourceTree = SOURCE_ROOT; };
+		040E77221AB6F314001A7918 /* AudioCalibrationRunManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AudioCalibrationRunManager.m; path = src/AudioCalibrationRun/AudioCalibrationRunManager.m; sourceTree = SOURCE_ROOT; };
+		040E77241AB6F42B001A7918 /* AudioCalibrationRunManager.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AudioCalibrationRunManager.xib; path = src/iOS/AudioCalibrationRunManager.xib; sourceTree = SOURCE_ROOT; };
+		040E77261AB6F5B1001A7918 /* RunCollector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RunCollector.h; path = src/MeasurementRun/RunCollector.h; sourceTree = SOURCE_ROOT; };
+		040E77271AB6F5B1001A7918 /* RunCollector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RunCollector.m; path = src/MeasurementRun/RunCollector.m; sourceTree = SOURCE_ROOT; };
+		040E77291AB707B2001A7918 /* AudioSelectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioSelectionView.h; path = src/AudioRun/AudioSelectionView.h; sourceTree = SOURCE_ROOT; };
+		040E772A1AB707B2001A7918 /* AudioSelectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AudioSelectionView.m; path = src/AudioRun/AudioSelectionView.m; sourceTree = SOURCE_ROOT; };
+		040E772C1AB70A12001A7918 /* RunStatusView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RunStatusView.h; path = src/MeasurementRun/RunStatusView.h; sourceTree = SOURCE_ROOT; };
+		040E772D1AB70A12001A7918 /* RunStatusView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RunStatusView.m; path = src/MeasurementRun/RunStatusView.m; sourceTree = SOURCE_ROOT; };
 		04138C681AB31980003D8167 /* xibfiles.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = xibfiles.h; path = src/xibfiles.h; sourceTree = SOURCE_ROOT; };
 		04138C691AB31980003D8167 /* protocols.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = protocols.h; path = src/protocols.h; sourceTree = SOURCE_ROOT; };
 		04138C6A1AB319B9003D8167 /* MeasurementType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MeasurementType.h; path = src/MeasurementType.h; sourceTree = SOURCE_ROOT; };
@@ -107,6 +124,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		040E77201AB6F2F7001A7918 /* AudioCalibrationRun */ = {
+			isa = PBXGroup;
+			children = (
+				040E77211AB6F314001A7918 /* AudioCalibrationRunManager.h */,
+				040E77221AB6F314001A7918 /* AudioCalibrationRunManager.m */,
+				040E77241AB6F42B001A7918 /* AudioCalibrationRunManager.xib */,
+			);
+			name = AudioCalibrationRun;
+			sourceTree = "<group>";
+		};
 		04138C6D1AB319CB003D8167 /* Document */ = {
 			isa = PBXGroup;
 			children = (
@@ -147,8 +174,15 @@
 			children = (
 				04155EA71AB6481000DD53D9 /* BaseRunManager.h */,
 				04155EA81AB6481000DD53D9 /* BaseRunManager.m */,
+				040E77261AB6F5B1001A7918 /* RunCollector.h */,
+				040E77271AB6F5B1001A7918 /* RunCollector.m */,
+				040E772C1AB70A12001A7918 /* RunStatusView.h */,
+				040E772D1AB70A12001A7918 /* RunStatusView.m */,
 				04155E981AB6310C00DD53D9 /* AudioRun */,
+				040E77201AB6F2F7001A7918 /* AudioCalibrationRun */,
 				04138C891AB330C4003D8167 /* VideoRun */,
+				040E771D1AB6ED25001A7918 /* MeasurementContainerViewController.h */,
+				040E771E1AB6ED25001A7918 /* MeasurementContainerViewController.m */,
 			);
 			name = MeasurementRun;
 			sourceTree = "<group>";
@@ -172,6 +206,8 @@
 				04155E9F1AB6448900DD53D9 /* AudioOutputView.m */,
 				04155EA41AB647C500DD53D9 /* AudioRunManager.h */,
 				04155EA51AB647C500DD53D9 /* AudioRunManager.m */,
+				040E77291AB707B2001A7918 /* AudioSelectionView.h */,
+				040E772A1AB707B2001A7918 /* AudioSelectionView.m */,
 				04155EA11AB6471900DD53D9 /* AudioProcess.h */,
 				04155EA21AB6471900DD53D9 /* AudioProcess.m */,
 			);
@@ -315,6 +351,7 @@
 				04FFFC861AB2FAD90023ED13 /* Info.plist in Resources */,
 				04FFFC831AB2FACB0023ED13 /* Images.xcassets in Resources */,
 				04FFFC811AB2FABE0023ED13 /* Main.storyboard in Resources */,
+				040E77251AB6F42B001A7918 /* AudioCalibrationRunManager.xib in Resources */,
 				04FFFC801AB2FABE0023ED13 /* LaunchScreen.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -336,15 +373,20 @@
 				04155E9D1AB6312900DD53D9 /* AudioInput.m in Sources */,
 				04155EA91AB6481000DD53D9 /* BaseRunManager.m in Sources */,
 				04155EA31AB6471900DD53D9 /* AudioProcess.m in Sources */,
+				040E77281AB6F5B1001A7918 /* RunCollector.m in Sources */,
+				040E772B1AB707B2001A7918 /* AudioSelectionView.m in Sources */,
 				04FFFC7A1AB2FA8E0023ED13 /* AppDelegate.m in Sources */,
 				04FFFC871AB2FAD90023ED13 /* main.m in Sources */,
 				04138C8C1AB330DB003D8167 /* VideoInput.m in Sources */,
 				04138C821AB329CB003D8167 /* DeviceDescription.m in Sources */,
 				04138C851AB32A23003D8167 /* MachineDescription.m in Sources */,
 				04138C7E1AB31E9F003D8167 /* MeasurementDataStore.m in Sources */,
+				040E77231AB6F314001A7918 /* AudioCalibrationRunManager.m in Sources */,
 				040E77181AB6DBBC001A7918 /* compat.m in Sources */,
 				04138C6C1AB319B9003D8167 /* MeasurementType.m in Sources */,
 				04138C7F1AB31E9F003D8167 /* MeasurementDistribution.m in Sources */,
+				040E772E1AB70A12001A7918 /* RunStatusView.m in Sources */,
+				040E771F1AB6ED25001A7918 /* MeasurementContainerViewController.m in Sources */,
 				04138C731AB31A2C003D8167 /* CalibrationSharing.m in Sources */,
 				04138C881AB32DBB003D8167 /* DownloadCalibrationTableViewController.m in Sources */,
 				04138C791AB31E1B003D8167 /* CommonAppDelegate.m in Sources */,

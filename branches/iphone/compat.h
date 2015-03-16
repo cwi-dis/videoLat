@@ -20,9 +20,11 @@
 #define NSorUIButton UIButton
 #define NSorUISwitch UISwitch
 #define NSorUITextField UITextField
+#define NSorUILabel UILabel
 #define NSorUIView UIView
 #define NSorUILevelIndicator UIProgressView
 #define NSorUISlider UISlider
+#define MeasurementMasterType MeasurementContainerViewController
 #else
 #define WITH_APPKIT
 #define NSorUIApplication NSApplication
@@ -31,9 +33,11 @@
 #define NSorUIButton NSButton
 #define NSorUISwitch NSButton
 #define NSorUITextField NSTextField
+#define NSorUILabel NSTextField
 #define NSorUIView NSView
 #define NSorUILevelIndicator NSLevelIndicator
 #define NSorUISlider NSSlider
+#define MeasurementMasterType RunManagerView
 #endif
 
 void showErrorAlert(NSError *error);

@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface NewCalibrationTableViewController : UITableViewController
+@interface NewCalibrationTableViewController : UITableViewController {
+	NSString *selectedMeasurement;
+}
+
 @property(readonly) NSArray *measurementNames;
 @end
