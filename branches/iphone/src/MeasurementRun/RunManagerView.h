@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "RunStatusView.h"
 #import "RunCollector.h"
-#import "BaseRunManager.h"
 
 @class BaseRunManager;
 ///
