@@ -50,6 +50,11 @@
 @synthesize detectMinDelay;
 @synthesize detectMaxDelay;
 
+#ifdef WITH_UIKIT
+// This is rather gross....
+#define stringValue text
+#endif
+
 - (void)awakeFromNib
 {
 }

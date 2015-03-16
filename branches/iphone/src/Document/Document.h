@@ -6,7 +6,8 @@
 //
 //
 
-#import <Cocoa/Cocoa.h>
+#import <Foundation/Foundation.h>
+#import "compat.h"
 #import "MeasurementDataStore.h"
 #import "MeasurementDistribution.h"
 #import "MeasurementType.h"
@@ -20,7 +21,13 @@
 /// and a window from NewMeasurement.xib is shown. This controls the measurement process.
 /// When the measurement run has completed that window disappears and the document window is shown.
 ///
-@interface Document : NSDocument <NSWindowDelegate, UploadQueryDelegate, UploadDelegate> {
+@interface Document :
+#ifdef WITH_UIKIT
+	UIDocument <UploadQueryDelegate, UploadDelegate>
+#else
+	NSDocument <NSWindowDelegate, UploadQueryDelegate, UploadDelegate>
+#endif
+{
 	MeasurementType *myType;    //!< Internal: type of dataStore measurement
     BOOL dontUpload;            //!< Internal: don't attempt uploading this document
 }

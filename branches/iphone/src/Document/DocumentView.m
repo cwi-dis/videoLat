@@ -15,7 +15,10 @@
 @synthesize distribution;
 @synthesize document;
 
-- (DocumentView *)initWithFrame:(NSRect)frameRect
+#ifdef WITH_UIKIT_TEMP
+#else
+
+- (DocumentView *)initWithFrame:(NSorUIRect)frameRect
 {
     self = [super initWithFrame:frameRect];
 	if (self) {
@@ -31,6 +34,7 @@
     }
     [super viewWillDraw];
 }
+#endif
 
 - (void)updateView
 {
@@ -92,26 +96,38 @@
 - (void)controlTextDidChange:(NSNotification *)aNotification
 {
     // This is not very clean.....
+#ifdef WITH_UIKIT
+    self.status.description = self.status.bDescription.text;
+#else
     self.status.description = self.status.bDescription.stringValue;
+#endif
     self.document.dataStore.description = self.status.description;
     [self.document changed];
 }
 
 - (IBAction)openInputCalibration:(id)sender
 {
-    AppDelegate *d = (AppDelegate *)[[NSApplication sharedApplication] delegate];
+    AppDelegate *d = (AppDelegate *)[[NSorUIApplication sharedApplication] delegate];
     MeasurementDataStore *s = self.document.dataStore.inputCalibration;
     if (d && s) {
+#ifdef WITH_UIKIT_TEMP
+		assert(0);
+#else
         [d openUntitledDocumentWithMeasurement:s];
+#endif
     }
 }
 
 - (IBAction)openOutputCalibration:(id)sender
 {
-    AppDelegate *d = (AppDelegate *)[[NSApplication sharedApplication] delegate];
+    AppDelegate *d = (AppDelegate *)[[NSorUIApplication sharedApplication] delegate];
     MeasurementDataStore *s = self.document.dataStore.outputCalibration;
     if (d && s) {
+#ifdef WITH_UIKIT_TEMP
+		assert(0);
+#else
         [d openUntitledDocumentWithMeasurement:s];
+#endif
     }
 }
 @end

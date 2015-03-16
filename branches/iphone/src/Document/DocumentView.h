@@ -6,7 +6,6 @@
 //
 //
 
-#import <Cocoa/Cocoa.h>
 #import "Protocols.h"
 #import "DocumentDescriptionView.h"
 #import "GraphView.h"
@@ -16,7 +15,7 @@
 /// Subclass of NSView, main view of the document. Contains the two graph views for distribution and samples
 /// and the description view.
 ///
-@interface DocumentView : NSView {
+@interface DocumentView : NSorUIView {
     BOOL initialValues; //!< Internal: helper variable to initialize subview values at the right time
 };
 

@@ -14,6 +14,11 @@
 		040E77281AB6F5B1001A7918 /* RunCollector.m in Sources */ = {isa = PBXBuildFile; fileRef = 040E77271AB6F5B1001A7918 /* RunCollector.m */; };
 		040E772B1AB707B2001A7918 /* AudioSelectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 040E772A1AB707B2001A7918 /* AudioSelectionView.m */; };
 		040E772E1AB70A12001A7918 /* RunStatusView.m in Sources */ = {isa = PBXBuildFile; fileRef = 040E772D1AB70A12001A7918 /* RunStatusView.m */; };
+		040E77311AB71F8D001A7918 /* DocumentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 040E77301AB71F8D001A7918 /* DocumentViewController.m */; };
+		040E77341AB71FF2001A7918 /* DocumentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 040E77331AB71FF2001A7918 /* DocumentView.m */; };
+		040E77371AB72002001A7918 /* DocumentDescriptionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 040E77361AB72002001A7918 /* DocumentDescriptionView.m */; };
+		040E773A1AB7200F001A7918 /* GraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = 040E77391AB7200F001A7918 /* GraphView.m */; };
+		040E77431AB73634001A7918 /* Document.m in Sources */ = {isa = PBXBuildFile; fileRef = 040E77421AB73634001A7918 /* Document.m */; };
 		04138C6C1AB319B9003D8167 /* MeasurementType.m in Sources */ = {isa = PBXBuildFile; fileRef = 04138C6B1AB319B9003D8167 /* MeasurementType.m */; };
 		04138C731AB31A2C003D8167 /* CalibrationSharing.m in Sources */ = {isa = PBXBuildFile; fileRef = 04138C721AB31A2C003D8167 /* CalibrationSharing.m */; };
 		04138C791AB31E1B003D8167 /* CommonAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 04138C781AB31E1B003D8167 /* CommonAppDelegate.m */; };
@@ -62,6 +67,16 @@
 		040E772A1AB707B2001A7918 /* AudioSelectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AudioSelectionView.m; path = src/AudioRun/AudioSelectionView.m; sourceTree = SOURCE_ROOT; };
 		040E772C1AB70A12001A7918 /* RunStatusView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RunStatusView.h; path = src/MeasurementRun/RunStatusView.h; sourceTree = SOURCE_ROOT; };
 		040E772D1AB70A12001A7918 /* RunStatusView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RunStatusView.m; path = src/MeasurementRun/RunStatusView.m; sourceTree = SOURCE_ROOT; };
+		040E772F1AB71F8D001A7918 /* DocumentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocumentViewController.h; sourceTree = SOURCE_ROOT; };
+		040E77301AB71F8D001A7918 /* DocumentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocumentViewController.m; sourceTree = SOURCE_ROOT; };
+		040E77321AB71FF2001A7918 /* DocumentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DocumentView.h; path = src/Document/DocumentView.h; sourceTree = SOURCE_ROOT; };
+		040E77331AB71FF2001A7918 /* DocumentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DocumentView.m; path = src/Document/DocumentView.m; sourceTree = SOURCE_ROOT; };
+		040E77351AB72002001A7918 /* DocumentDescriptionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DocumentDescriptionView.h; path = src/Document/DocumentDescriptionView.h; sourceTree = SOURCE_ROOT; };
+		040E77361AB72002001A7918 /* DocumentDescriptionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DocumentDescriptionView.m; path = src/Document/DocumentDescriptionView.m; sourceTree = SOURCE_ROOT; };
+		040E77381AB7200F001A7918 /* GraphView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GraphView.h; path = src/Document/GraphView.h; sourceTree = SOURCE_ROOT; };
+		040E77391AB7200F001A7918 /* GraphView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GraphView.m; path = src/Document/GraphView.m; sourceTree = SOURCE_ROOT; };
+		040E77411AB73634001A7918 /* Document.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Document.h; path = src/Document/Document.h; sourceTree = SOURCE_ROOT; };
+		040E77421AB73634001A7918 /* Document.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Document.m; path = src/Document/Document.m; sourceTree = SOURCE_ROOT; };
 		04138C681AB31980003D8167 /* xibfiles.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = xibfiles.h; path = src/xibfiles.h; sourceTree = SOURCE_ROOT; };
 		04138C691AB31980003D8167 /* protocols.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = protocols.h; path = src/protocols.h; sourceTree = SOURCE_ROOT; };
 		04138C6A1AB319B9003D8167 /* MeasurementType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MeasurementType.h; path = src/MeasurementType.h; sourceTree = SOURCE_ROOT; };
@@ -139,6 +154,16 @@
 			children = (
 				04138C801AB329CB003D8167 /* DeviceDescription.h */,
 				04138C811AB329CB003D8167 /* DeviceDescription.m */,
+				040E77411AB73634001A7918 /* Document.h */,
+				040E77421AB73634001A7918 /* Document.m */,
+				040E77351AB72002001A7918 /* DocumentDescriptionView.h */,
+				040E77361AB72002001A7918 /* DocumentDescriptionView.m */,
+				040E77321AB71FF2001A7918 /* DocumentView.h */,
+				040E77331AB71FF2001A7918 /* DocumentView.m */,
+				040E772F1AB71F8D001A7918 /* DocumentViewController.h */,
+				040E77301AB71F8D001A7918 /* DocumentViewController.m */,
+				040E77381AB7200F001A7918 /* GraphView.h */,
+				040E77391AB7200F001A7918 /* GraphView.m */,
 				04138C831AB32A23003D8167 /* MachineDescription.h */,
 				04138C841AB32A23003D8167 /* MachineDescription.m */,
 				04138C7A1AB31E9F003D8167 /* MeasurementDataStore.h */,
@@ -371,8 +396,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				04155E9D1AB6312900DD53D9 /* AudioInput.m in Sources */,
+				040E77311AB71F8D001A7918 /* DocumentViewController.m in Sources */,
 				04155EA91AB6481000DD53D9 /* BaseRunManager.m in Sources */,
 				04155EA31AB6471900DD53D9 /* AudioProcess.m in Sources */,
+				040E77371AB72002001A7918 /* DocumentDescriptionView.m in Sources */,
 				040E77281AB6F5B1001A7918 /* RunCollector.m in Sources */,
 				040E772B1AB707B2001A7918 /* AudioSelectionView.m in Sources */,
 				04FFFC7A1AB2FA8E0023ED13 /* AppDelegate.m in Sources */,
@@ -389,10 +416,13 @@
 				040E771F1AB6ED25001A7918 /* MeasurementContainerViewController.m in Sources */,
 				04138C731AB31A2C003D8167 /* CalibrationSharing.m in Sources */,
 				04138C881AB32DBB003D8167 /* DownloadCalibrationTableViewController.m in Sources */,
+				040E773A1AB7200F001A7918 /* GraphView.m in Sources */,
 				04138C791AB31E1B003D8167 /* CommonAppDelegate.m in Sources */,
 				04155EA01AB6448900DD53D9 /* AudioOutputView.m in Sources */,
+				040E77431AB73634001A7918 /* Document.m in Sources */,
 				04155EA61AB647C500DD53D9 /* AudioRunManager.m in Sources */,
 				04155E971AB6251900DD53D9 /* NewCalibrationTableViewController.m in Sources */,
+				040E77341AB71FF2001A7918 /* DocumentView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

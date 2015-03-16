@@ -9,6 +9,8 @@
 #ifndef videoLat_iOS_compat_h
 #define videoLat_iOS_compat_h
 
+#import <Foundation/Foundation.h>
+
 #if TARGET_OS_IPHONE
 #define WITH_UIKIT
 #define WITH_UIKIT_TEMP
@@ -25,6 +27,12 @@
 #define NSorUILevelIndicator UIProgressView
 #define NSorUISlider UISlider
 #define MeasurementMasterType MeasurementContainerViewController
+#define NSorUIColor UIColor
+#define NSorUIBezierPath UIBezierPath
+#define NSorUIMakePoint CGPointMake
+#define NSorUIWidth CGRectGetWidth
+#define NSorUIHeight CGRectGetHeight
+#define NSorUIRectFill UIRectFill
 #else
 #define WITH_APPKIT
 #define NSorUIApplication NSApplication
@@ -38,6 +46,12 @@
 #define NSorUILevelIndicator NSLevelIndicator
 #define NSorUISlider NSSlider
 #define MeasurementMasterType RunManagerView
+#define NSorUIColor NSColor
+#define NSorUIBezierPath NSBezierPath
+#define NSorUIMakePoint NSMakePoint
+#define NSorUIWidth NSWidth
+#define NSorUIHeight NSHeight
+#define NSorUIRectFill NSRectFill
 #endif
 
 void showErrorAlert(NSError *error);
