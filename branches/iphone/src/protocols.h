@@ -10,27 +10,7 @@
 #ifndef videoLat_protocols_h
 #define videoLat_protocols_h
 
-#if TARGET_OS_IPHONE
-#import <CoreGraphics/CoreGraphics.h>
-#import <UIKit/UIKit.h>
-#define NSorUIApplication UIApplication
-#define NSorUIRect CGRect
-#define NSorUIPopUpButton UIPickerView
-#define NSorUIButton UIButton
-#define NSorUITextField UITextField
-#define NSorUIView UIView
-#define NSorUILevelIndicator UIProgressView
-#define NSorUISlider UISlider
-#else
-#define NSorUIApplication NSApplication
-#define NSorUIRect NSRect
-#define NSorUIPopUpButton NSPopUpButton
-#define NSorUIButton NSButton
-#define NSorUITextField NSTextField
-#define NSorUIView NSView
-#define NSorUILevelIndicator NSLevelIndicator
-#define NSorUISlider NSSlider
-#endif
+#import "compat.h"
 
 @class MeasurementDataStore;
 

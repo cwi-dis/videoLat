@@ -1,6 +1,6 @@
 #import <AVFoundation/AVFoundation.h>
 #import "protocols.h"
-#if !TARGET_OS_IPHONE
+#ifndef WITH_UIKIT_TEMP
 #import "genQRcodes.h"
 #endif
 
@@ -12,14 +12,14 @@
 ///
 @interface VideoInputView : NSorUIView
 {
-#if !TARGET_OS_IPHONE
+#ifdef WITH_APPKIT
 	NSPoint downPoint;      //!< Internal: position of mouse down event
 #endif
 }
 @property (weak) IBOutlet id delegate;  //!< Set by NIB: corresponding VideoInput object
 @property (weak) IBOutlet NSorUIButton *visibleButton;  //!< UI element, allows user to toggle video preview
 
-#if !TARGET_OS_IPHONE
+#ifdef WITH_APPKIT
 - (IBAction)visibleChanged:(id)sender;  //!< Called when user toggles visibleButton
 - (void)mouseDown: (NSEvent *)theEvent; //!< Mouse event handler, to allow selecting a rectangular area
 - (void)mouseUp: (NSEvent *)theEvent;   //!< Mouse event handler, to allow selecting a rectangular area

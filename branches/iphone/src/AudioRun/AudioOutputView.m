@@ -15,7 +15,7 @@
     NSBundle *bundle = [NSBundle mainBundle];
     samples = [bundle pathsForResourcesOfType:@"aif" inDirectory:@"sounds"];
     if (VL_DEBUG) NSLog(@"Sounds: %@\n", samples);
-#if TARGET_OS_IPHONE
+#ifdef WITH_UIKIT
     NSLog(@"Should fill picker view with samples");
 #else
     [self.bSample removeAllItems];
@@ -54,7 +54,7 @@
 - (IBAction)sampleChanged: (id) sender
 {
     // Get the URL of the sample selected
-#if TARGET_OS_IPHONE
+#ifdef WITH_UIKIT
     int idx = [sender selectedRowInComponent: 0];
     NSString *sample = [samples objectAtIndex:idx];
 #else
@@ -110,7 +110,7 @@
     if (player) {
         [player updateMeters];
         float level = [player averagePowerForChannel: 0];
-#if TARGET_OS_IPHONE
+#ifdef WITH_UIKIT
         [self.bOutputValue setProgress: level];
 #else
         [self.bOutputValue setFloatValue:level*100];

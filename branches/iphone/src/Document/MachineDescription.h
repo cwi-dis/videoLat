@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "compat.h"
 
 @interface MachineDescription : NSObject
 

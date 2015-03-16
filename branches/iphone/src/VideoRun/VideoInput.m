@@ -4,39 +4,12 @@
 #import <mach/mach_time.h>
 #import <mach/clock.h>
 
-static void showErrorAlert(NSError *error) {
-#if TARGET_OS_IPHONE
-	[[[UIAlertView alloc] initWithTitle:error.localizedDescription
-                            message:error.localizedRecoverySuggestion
-                           delegate:nil
-                  cancelButtonTitle:NSLocalizedString(@"OK", nil)
-                  otherButtonTitles:nil, nil] show];
-#else
-	NSAlert *alert = [NSAlert alertWithError:error];
-	[alert runModal];
-#endif
-}
-
-static void showWarningAlert(NSString *warning) {
-#if TARGET_OS_IPHONE
-	[[[UIAlertView alloc] initWithTitle:@"Warning"
-                            message:warning
-                           delegate:nil
-                  cancelButtonTitle:NSLocalizedString(@"OK", nil)
-                  otherButtonTitles:nil, nil] show];
-#else
-    NSAlert *alert = [NSAlert alertWithMessageText:@"Warning" defaultButton:@"OK" alternateButton:nil otherButton:nil informativeTextWithFormat:@"%@", warning];
-    [alert runModal];
-#endif
-}
-
-
 @implementation VideoInputView
 @synthesize delegate;
 @synthesize visibleButton;
 
 
-#if !TARGET_OS_IPHONE
+#ifdef WITH_APPKIT
 - (IBAction)visibleChanged: (id) sender
 {
     [self setHidden: ([sender state] == NSOffState)];
@@ -324,7 +297,7 @@ static void showWarningAlert(NSString *warning) {
 
     if(self.selfView) {
         selfLayer = [AVCaptureVideoPreviewLayer layerWithSession:session];
-#if TARGET_OS_IPHONE
+#ifdef WITH_UIKIT
 		selfLayer.frame = self.selfView.bounds;
 #else
         selfLayer.frame = NSRectToCGRect(self.selfView.bounds);

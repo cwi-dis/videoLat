@@ -8,9 +8,7 @@
 
 #import "MachineDescription.h"
 #import <sys/sysctl.h>
-#if TARGET_OS_IPHONE
-#import <UIKit/UIKit.h>
-#else
+#if !TARGET_OS_IPHONE
 #import <SystemConfiguration/SystemConfiguration.h>
 #endif
 

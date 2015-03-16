@@ -72,6 +72,7 @@
 
 - (IBAction)startPreMeasuring: (id)sender
 {
+#ifndef WITH_UIKIT_TEMP
 	@synchronized(self) {
         assert(handlesInput);
 		// First check that everything is OK with base measurement and such
@@ -131,10 +132,12 @@
 		self.preRunning = YES;
 		[self.capturer startCapturing: YES];
 	}
+#endif
 }
 
 - (IBAction)stopPreMeasuring: (id)sender
 {
+#ifndef WITH_UIKIT_TEMP
 	@synchronized(self) {
 		self.preRunning = NO;
         if (!handlesOutput)
@@ -150,10 +153,12 @@
 		}
 		[self.statusView.bStop setEnabled: NO];
 	}
+#endif
 }
 
 - (IBAction)startMeasuring: (id)sender
 {
+#ifndef WITH_UIKIT_TEMP
     @synchronized(self) {
         assert(handlesInput);
 		[self.selectionView.bPreRun setEnabled: NO];
@@ -169,6 +174,7 @@
         [self.collector startCollecting: self.measurementType.name input: self.capturer.deviceID name: self.capturer.deviceName output: self.outputView.deviceID name: self.outputView.deviceName];
         [self.outputCompanion triggerNewOutputValue];
     }
+#endif
 }
 
 - (void)triggerNewOutputValue
@@ -212,7 +218,11 @@
     @synchronized(self) {
 		// See whether we detect the pattern we are looking for, and report to user.
         BOOL foundSample = [self.processor feedData:buffer size:size channels:channels bitsPerChannel: 16 at:timestamp];
+#ifdef WITH_UIKIT
+		self.bDetection.on = foundSample;
+#else
 		[self.bDetection setState: (foundSample? NSOnState : NSOffState)];
+#endif
 
 		// If we're not running or prerunning we're done.
 		if (!self.running && !self.preRunning)

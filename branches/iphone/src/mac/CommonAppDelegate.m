@@ -11,18 +11,6 @@
 @implementation CommonAppDelegate
 
 @synthesize measurementTypes;
-static void showErrorAlert(NSError *error) {
-#if TARGET_OS_IPHONE
-	[[[UIAlertView alloc] initWithTitle:error.localizedDescription
-                            message:error.localizedRecoverySuggestion
-                           delegate:nil
-                  cancelButtonTitle:NSLocalizedString(@"OK", nil)
-                  otherButtonTitles:nil, nil] show];
-#else
-	NSAlert *alert = [NSAlert alertWithError:error];
-	[alert runModal];
-#endif
-}
 
 - (CommonAppDelegate *)init
 {
@@ -127,7 +115,7 @@ static void showErrorAlert(NSError *error) {
 
 - (IBAction)openWebsite:(id)sender
 {
-#if TARGET_OS_IPHONE
+#ifdef WITH_UIKIT
 	[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.videoLat.org"]];
 #else
 	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://www.videoLat.org"]];

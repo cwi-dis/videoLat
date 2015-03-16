@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		04068ECE1AA476E3004EF502 /* MachineDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = 04068ECD1AA476E3004EF502 /* MachineDescription.m */; };
 		04068ED11AA47CD5004EF502 /* DeviceDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = 04068ED01AA47CD5004EF502 /* DeviceDescription.m */; };
+		040E771C1AB6E0D6001A7918 /* compat.m in Sources */ = {isa = PBXBuildFile; fileRef = 040E771B1AB6E0D6001A7918 /* compat.m */; };
 		04138C761AB31ABA003D8167 /* CommonAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 04138C751AB31ABA003D8167 /* CommonAppDelegate.m */; };
 		041714DD19DDEF340019FA45 /* NetworkProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 041714DC19DDEF340019FA45 /* NetworkProtocol.m */; };
 		041E097F1A9DDAAC006A241C /* TemplateRunManager.xib in Resources */ = {isa = PBXBuildFile; fileRef = 041E097E1A9DDAAC006A241C /* TemplateRunManager.xib */; };
@@ -94,6 +95,8 @@
 		04068ECD1AA476E3004EF502 /* MachineDescription.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MachineDescription.m; path = Document/MachineDescription.m; sourceTree = "<group>"; };
 		04068ECF1AA47CD5004EF502 /* DeviceDescription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeviceDescription.h; path = Document/DeviceDescription.h; sourceTree = "<group>"; };
 		04068ED01AA47CD5004EF502 /* DeviceDescription.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DeviceDescription.m; path = Document/DeviceDescription.m; sourceTree = "<group>"; };
+		040E771A1AB6E0D6001A7918 /* compat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = compat.h; sourceTree = SOURCE_ROOT; };
+		040E771B1AB6E0D6001A7918 /* compat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = compat.m; sourceTree = "<group>"; };
 		04138C741AB31ABA003D8167 /* CommonAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.h; name = CommonAppDelegate.h; path = mac/CommonAppDelegate.h; sourceTree = "<group>"; tabWidth = 4; usesTabs = 1; wrapsLines = 0; };
 		04138C751AB31ABA003D8167 /* CommonAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; name = CommonAppDelegate.m; path = mac/CommonAppDelegate.m; sourceTree = "<group>"; tabWidth = 4; usesTabs = 1; wrapsLines = 0; };
 		041714DB19DDECBE0019FA45 /* NetworkProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NetworkProtocol.h; path = Networking/NetworkProtocol.h; sourceTree = "<group>"; };
@@ -379,6 +382,8 @@
 			children = (
 				04AD00EF19D3097200DDFDE6 /* xibfiles.h */,
 				04B58F18183A3CF000360A61 /* protocols.h */,
+				040E771A1AB6E0D6001A7918 /* compat.h */,
+				040E771B1AB6E0D6001A7918 /* compat.m */,
 				04138C741AB31ABA003D8167 /* CommonAppDelegate.h */,
 				04138C751AB31ABA003D8167 /* CommonAppDelegate.m */,
 				04FFFC581AB2F0150023ED13 /* AppDelegate.h */,
@@ -704,6 +709,7 @@
 				0497263918FD592C00625326 /* GraphView.m in Sources */,
 				0497263E18FD596F00625326 /* MeasurementType.m in Sources */,
 				04EEC1DC19DC93A70056899C /* NetworkRunManager.m in Sources */,
+				040E771C1AB6E0D6001A7918 /* compat.m in Sources */,
 				04ED2A181A9D23E2001FA0AC /* NewMeasurementView.m in Sources */,
 				04068ECE1AA476E3004EF502 /* MachineDescription.m in Sources */,
 				04068ED11AA47CD5004EF502 /* DeviceDescription.m in Sources */,

@@ -127,8 +127,7 @@ static NSMutableDictionary *runManagerNibs;
     }
     
     if (errorMessage) {
-        NSAlert *alert = [NSAlert alertWithMessageText: @"Internal error" defaultButton:@"OK" alternateButton:nil otherButton:nil informativeTextWithFormat:@"%@", errorMessage];
-        [alert runModal];
+        showWarningAlert(errorMessage);
     }
 }
 
@@ -149,6 +148,8 @@ static NSMutableDictionary *runManagerNibs;
 
 - (IBAction)startPreMeasuring: (id)sender
 {
+#ifndef WITH_UIKIT_TEMP
+	assert(0);
 	@synchronized(self) {
         assert(handlesInput);
 		// First check that everything is OK with base measurement and such
@@ -214,6 +215,7 @@ static NSMutableDictionary *runManagerNibs;
 		[self.capturer startCapturing: YES];
 		[self.outputCompanion triggerNewOutputValue];
 	}
+#endif
 }
 
 - (IBAction)stopPreMeasuring: (id)sender
@@ -242,7 +244,7 @@ static NSMutableDictionary *runManagerNibs;
 		assert(self.measurementType.name);
 		assert(self.capturer.deviceID);
 		assert(self.capturer.deviceName);
-		NSView <OutputViewProtocol> *outputView;
+		NSorUIView <OutputViewProtocol> *outputView;
 		if (handlesOutput)
 			outputView = self.outputView;
 		else
@@ -298,6 +300,9 @@ static NSMutableDictionary *runManagerNibs;
 
 - (void)restart
 {
+#ifdef WITH_UIKIT_TEMP
+	assert(0);
+#else
 	@synchronized(self) {
 		if (self.measurementType == nil) return;
         assert(handlesInput);
@@ -341,6 +346,7 @@ static NSMutableDictionary *runManagerNibs;
 			[self.selectionView.bPreRun setEnabled: NO];
 		}
 	}
+#endif
 }
 
 - (void) companionRestart
@@ -369,7 +375,7 @@ static NSMutableDictionary *runManagerNibs;
 	[NSException raise:@"BaseRunManager" format:@"Must override newOutputDone in subclass %@", [self class]];
 }
 
-- (void)setFinderRect: (NSRect)theRect
+- (void)setFinderRect: (NSorUIRect)theRect
 {
 	[NSException raise:@"BaseRunManager" format:@"Must override setFinderRect in subclass %@", [self class]];
 }

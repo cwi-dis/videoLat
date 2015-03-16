@@ -9,31 +9,6 @@
 #import "AudioInput.h"
 #import <mach/clock.h>
 
-static void showErrorAlert(NSError *error) {
-#if TARGET_OS_IPHONE
-    [[[UIAlertView alloc] initWithTitle:error.localizedDescription
-                                message:error.localizedRecoverySuggestion
-                               delegate:nil
-                      cancelButtonTitle:NSLocalizedString(@"OK", nil)
-                      otherButtonTitles:nil, nil] show];
-#else
-    NSAlert *alert = [NSAlert alertWithError:error];
-    [alert runModal];
-#endif
-}
-
-static void showWarningAlert(NSString *warning) {
-#if TARGET_OS_IPHONE
-    [[[UIAlertView alloc] initWithTitle:@"Warning"
-                                message:warning
-                               delegate:nil
-                      cancelButtonTitle:NSLocalizedString(@"OK", nil)
-                      otherButtonTitles:nil, nil] show];
-#else
-    NSAlert *alert = [NSAlert alertWithMessageText:@"Warning" defaultButton:@"OK" alternateButton:nil otherButton:nil informativeTextWithFormat:@"%@", warning];
-    [alert runModal];
-#endif
-}
 
 @implementation AudioInput
 
@@ -276,7 +251,7 @@ static void showWarningAlert(NSString *warning) {
     }
     db /= [connection.audioChannels count];
     float level = (pow(10.f, 0.05f * db) * 20.0f);
-#if TARGET_OS_IPHONE
+#ifdef WITH_UIKIT
     [self.bInputValue setProgress: level];
 #else
     [self.bInputValue setFloatValue:level*100];
