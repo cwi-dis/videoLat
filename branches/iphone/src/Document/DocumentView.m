@@ -34,6 +34,10 @@
     return self;
 }
 
+- (void) awakeFromNib
+{
+}
+
 - (void)viewWillDraw
 {
     if (!initialValues) {
@@ -45,7 +49,7 @@
 
 - (void)_updateView
 {
-	if (self.modelObject ) {
+	if (self.modelObject && self.status && self.status.vInput && self.status.vOutput) {
         initialValues = YES;
 		NSString *measurementType = self.modelObject.dataStore.measurementType;
         NSString *inputBaseMeasurementID = self.modelObject.dataStore.inputBaseMeasurementID;

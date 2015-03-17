@@ -1339,22 +1339,6 @@
 					<int key="connectionID">17</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">status</string>
-						<reference key="source" ref="568628114"/>
-						<reference key="destination" ref="496184539"/>
-					</object>
-					<int key="connectionID">100370</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">distribution</string>
-						<reference key="source" ref="568628114"/>
-						<reference key="destination" ref="323014193"/>
-					</object>
-					<int key="connectionID">100702</int>
-				</object>
-				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
 						<string key="label">openOutputCalibration:</string>
 						<reference key="source" ref="568628114"/>
@@ -1380,11 +1364,27 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
+						<string key="label">status</string>
+						<reference key="source" ref="568628114"/>
+						<reference key="destination" ref="496184539"/>
+					</object>
+					<int key="connectionID">101047</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
 						<string key="label">values</string>
 						<reference key="source" ref="568628114"/>
 						<reference key="destination" ref="1000167373"/>
 					</object>
-					<int key="connectionID">101046</int>
+					<int key="connectionID">101048</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">distribution</string>
+						<reference key="source" ref="568628114"/>
+						<reference key="destination" ref="323014193"/>
+					</object>
+					<int key="connectionID">101049</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -1392,47 +1392,7 @@
 						<reference key="source" ref="496184539"/>
 						<reference key="destination" ref="385455654"/>
 					</object>
-					<int key="connectionID">100349</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">bDetectAverage</string>
-						<reference key="source" ref="496184539"/>
-						<reference key="destination" ref="511592760"/>
-					</object>
-					<int key="connectionID">100351</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">bDetectCount</string>
-						<reference key="source" ref="496184539"/>
-						<reference key="destination" ref="64051455"/>
-					</object>
-					<int key="connectionID">100352</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">bDetectMaxDelay</string>
-						<reference key="source" ref="496184539"/>
-						<reference key="destination" ref="779714540"/>
-					</object>
-					<int key="connectionID">100353</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">bDetectMinDelay</string>
-						<reference key="source" ref="496184539"/>
-						<reference key="destination" ref="478366770"/>
-					</object>
-					<int key="connectionID">100354</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">bMeasurementType</string>
-						<reference key="source" ref="496184539"/>
-						<reference key="destination" ref="1036651513"/>
-					</object>
-					<int key="connectionID">100357</int>
+					<int key="connectionID">101050</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -1440,7 +1400,47 @@
 						<reference key="source" ref="496184539"/>
 						<reference key="destination" ref="908042894"/>
 					</object>
-					<int key="connectionID">100391</int>
+					<int key="connectionID">101051</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">bDetectAverage</string>
+						<reference key="source" ref="496184539"/>
+						<reference key="destination" ref="511592760"/>
+					</object>
+					<int key="connectionID">101052</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">bDetectCount</string>
+						<reference key="source" ref="496184539"/>
+						<reference key="destination" ref="64051455"/>
+					</object>
+					<int key="connectionID">101053</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">bDetectMaxDelay</string>
+						<reference key="source" ref="496184539"/>
+						<reference key="destination" ref="779714540"/>
+					</object>
+					<int key="connectionID">101054</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">bDetectMinDelay</string>
+						<reference key="source" ref="496184539"/>
+						<reference key="destination" ref="478366770"/>
+					</object>
+					<int key="connectionID">101055</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">bMeasurementType</string>
+						<reference key="source" ref="496184539"/>
+						<reference key="destination" ref="1036651513"/>
+					</object>
+					<int key="connectionID">101056</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -1448,7 +1448,7 @@
 						<reference key="source" ref="496184539"/>
 						<reference key="destination" ref="78302584"/>
 					</object>
-					<int key="connectionID">100468</int>
+					<int key="connectionID">101057</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -1456,7 +1456,7 @@
 						<reference key="source" ref="496184539"/>
 						<reference key="destination" ref="413244729"/>
 					</object>
-					<int key="connectionID">101044</int>
+					<int key="connectionID">101058</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -1464,7 +1464,7 @@
 						<reference key="source" ref="496184539"/>
 						<reference key="destination" ref="645641743"/>
 					</object>
-					<int key="connectionID">101045</int>
+					<int key="connectionID">101059</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -6416,7 +6416,6 @@
 				<string key="100046.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="100047.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="100048.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="100051.CustomClassName">NSorUITextField</string>
 				<object class="NSMutableDictionary" key="100051.IBAttributePlaceholdersKey">
 					<string key="NS.key.0">ToolTip</string>
 					<object class="IBToolTipAttribute" key="NS.object.0">
@@ -6432,7 +6431,6 @@
 				<reference key="100055.IBNSViewMetadataConstraints" ref="0"/>
 				<boolean value="NO" key="100055.IBNSViewMetadataTranslatesAutoresizingMaskIntoConstraints"/>
 				<string key="100055.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="100056.CustomClassName">NSorUITextField</string>
 				<object class="NSMutableDictionary" key="100056.IBAttributePlaceholdersKey">
 					<string key="NS.key.0">ToolTip</string>
 					<object class="IBToolTipAttribute" key="NS.object.0">
@@ -6448,7 +6446,6 @@
 				<string key="100059.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<boolean value="NO" key="100081.IBNSViewMetadataTranslatesAutoresizingMaskIntoConstraints"/>
 				<string key="100081.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="100082.CustomClassName">NSorUITextField</string>
 				<object class="NSMutableDictionary" key="100082.IBAttributePlaceholdersKey">
 					<string key="NS.key.0">ToolTip</string>
 					<object class="IBToolTipAttribute" key="NS.object.0">
@@ -6470,7 +6467,6 @@
 				</array>
 				<boolean value="NO" key="100094.IBNSViewMetadataTranslatesAutoresizingMaskIntoConstraints"/>
 				<string key="100094.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="100095.CustomClassName">NSorUITextField</string>
 				<object class="NSMutableDictionary" key="100095.IBAttributePlaceholdersKey">
 					<string key="NS.key.0">ToolTip</string>
 					<object class="IBToolTipAttribute" key="NS.object.0">
@@ -6494,7 +6490,6 @@
 				<boolean value="NO" key="100219.IBNSViewMetadataTranslatesAutoresizingMaskIntoConstraints"/>
 				<string key="100219.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="100220.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="100224.CustomClassName">NSorUITextField</string>
 				<object class="NSMutableDictionary" key="100224.IBAttributePlaceholdersKey">
 					<string key="NS.key.0">ToolTip</string>
 					<object class="IBToolTipAttribute" key="NS.object.0">
@@ -6514,7 +6509,6 @@
 				<string key="100230.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<boolean value="NO" key="100231.IBNSViewMetadataTranslatesAutoresizingMaskIntoConstraints"/>
 				<string key="100231.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="100232.CustomClassName">NSorUITextField</string>
 				<object class="NSMutableDictionary" key="100232.IBAttributePlaceholdersKey">
 					<string key="NS.key.0">ToolTip</string>
 					<object class="IBToolTipAttribute" key="NS.object.0">
@@ -6533,7 +6527,6 @@
 				<string key="100242.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<boolean value="NO" key="100252.IBNSViewMetadataTranslatesAutoresizingMaskIntoConstraints"/>
 				<string key="100252.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="100253.CustomClassName">NSorUITextField</string>
 				<object class="NSMutableDictionary" key="100253.IBAttributePlaceholdersKey">
 					<string key="NS.key.0">ToolTip</string>
 					<object class="IBToolTipAttribute" key="NS.object.0">
@@ -6549,7 +6542,6 @@
 				<string key="100253.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<boolean value="NO" key="100254.IBNSViewMetadataTranslatesAutoresizingMaskIntoConstraints"/>
 				<string key="100254.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="100255.CustomClassName">NSorUITextField</string>
 				<object class="NSMutableDictionary" key="100255.IBAttributePlaceholdersKey">
 					<string key="NS.key.0">ToolTip</string>
 					<object class="IBToolTipAttribute" key="NS.object.0">
@@ -6601,7 +6593,6 @@
 				<string key="100420.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="100421.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="100440.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="100441.CustomClassName">NSorUITextField</string>
 				<object class="NSMutableDictionary" key="100441.IBAttributePlaceholdersKey">
 					<string key="NS.key.0">ToolTip</string>
 					<object class="IBToolTipAttribute" key="NS.object.0">
@@ -6616,7 +6607,6 @@
 				<string key="100442.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<boolean value="NO" key="100453.IBNSViewMetadataTranslatesAutoresizingMaskIntoConstraints"/>
 				<string key="100453.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="100454.CustomClassName">NSorUITextField</string>
 				<object class="NSMutableDictionary" key="100454.IBAttributePlaceholdersKey">
 					<string key="NS.key.0">ToolTip</string>
 					<object class="IBToolTipAttribute" key="NS.object.0">
@@ -6709,7 +6699,6 @@
 				<reference key="100561.IBNSViewMetadataConstraints" ref="0"/>
 				<boolean value="NO" key="100561.IBNSViewMetadataTranslatesAutoresizingMaskIntoConstraints"/>
 				<string key="100561.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="100562.CustomClassName">NSorUITextField</string>
 				<object class="NSMutableDictionary" key="100562.IBAttributePlaceholdersKey">
 					<string key="NS.key.0">ToolTip</string>
 					<object class="IBToolTipAttribute" key="NS.object.0">
@@ -6746,7 +6735,6 @@
 				</array>
 				<boolean value="NO" key="100647.IBNSViewMetadataTranslatesAutoresizingMaskIntoConstraints"/>
 				<string key="100647.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="100648.CustomClassName">NSorUITextField</string>
 				<object class="NSMutableDictionary" key="100648.IBAttributePlaceholdersKey">
 					<string key="NS.key.0">ToolTip</string>
 					<object class="IBToolTipAttribute" key="NS.object.0">
@@ -6758,7 +6746,6 @@
 				<reference key="100648.IBNSViewMetadataConstraints" ref="0"/>
 				<boolean value="NO" key="100648.IBNSViewMetadataTranslatesAutoresizingMaskIntoConstraints"/>
 				<string key="100648.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="100649.CustomClassName">NSorUITextField</string>
 				<object class="NSMutableDictionary" key="100649.IBAttributePlaceholdersKey">
 					<string key="NS.key.0">ToolTip</string>
 					<object class="IBToolTipAttribute" key="NS.object.0">
@@ -6773,7 +6760,6 @@
 				<reference key="100650.IBNSViewMetadataConstraints" ref="0"/>
 				<boolean value="NO" key="100650.IBNSViewMetadataTranslatesAutoresizingMaskIntoConstraints"/>
 				<string key="100650.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="100651.CustomClassName">NSorUITextField</string>
 				<object class="NSMutableDictionary" key="100651.IBAttributePlaceholdersKey">
 					<string key="NS.key.0">ToolTip</string>
 					<object class="IBToolTipAttribute" key="NS.object.0">
@@ -6788,7 +6774,6 @@
 				<reference key="100652.IBNSViewMetadataConstraints" ref="0"/>
 				<boolean value="NO" key="100652.IBNSViewMetadataTranslatesAutoresizingMaskIntoConstraints"/>
 				<string key="100652.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="100653.CustomClassName">NSorUITextField</string>
 				<object class="NSMutableDictionary" key="100653.IBAttributePlaceholdersKey">
 					<string key="NS.key.0">ToolTip</string>
 					<object class="IBToolTipAttribute" key="NS.object.0">
@@ -6963,7 +6948,6 @@
 				<reference key="100923.IBNSViewMetadataConstraints" ref="0"/>
 				<boolean value="NO" key="100923.IBNSViewMetadataTranslatesAutoresizingMaskIntoConstraints"/>
 				<string key="100923.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="100924.CustomClassName">NSorUITextField</string>
 				<object class="NSMutableDictionary" key="100924.IBAttributePlaceholdersKey">
 					<string key="NS.key.0">ToolTip</string>
 					<object class="IBToolTipAttribute" key="NS.object.0">
@@ -6985,7 +6969,6 @@
 				<string key="100935.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="100937.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="100938.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="100940.CustomClassName">NSorUIButton</string>
 				<boolean value="NO" key="100940.IBNSViewMetadataTranslatesAutoresizingMaskIntoConstraints"/>
 				<string key="100940.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="100941.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -6998,7 +6981,6 @@
 				</array>
 				<boolean value="NO" key="100946.IBNSViewMetadataTranslatesAutoresizingMaskIntoConstraints"/>
 				<string key="100946.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="100947.CustomClassName">NSorUITextField</string>
 				<object class="NSMutableDictionary" key="100947.IBAttributePlaceholdersKey">
 					<string key="NS.key.0">ToolTip</string>
 					<object class="IBToolTipAttribute" key="NS.object.0">
@@ -7012,7 +6994,6 @@
 				</array>
 				<boolean value="NO" key="100947.IBNSViewMetadataTranslatesAutoresizingMaskIntoConstraints"/>
 				<string key="100947.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="100948.CustomClassName">NSorUIButton</string>
 				<boolean value="NO" key="100948.IBNSViewMetadataTranslatesAutoresizingMaskIntoConstraints"/>
 				<string key="100948.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="100949.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -7120,7 +7101,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">101046</int>
+			<int key="maxID">101059</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -7139,37 +7120,37 @@
 						</object>
 					</object>
 					<dictionary class="NSMutableDictionary" key="outlets">
-						<string key="bCalibration">NSorUITextField</string>
-						<string key="bDevice">NSorUITextField</string>
-						<string key="bLocation">NSorUITextField</string>
-						<string key="bMachine">NSorUITextField</string>
-						<string key="bMachineTypeID">NSorUITextField</string>
-						<string key="bOpenCalibration">NSorUIButton</string>
+						<string key="bCalibration">NSTextField</string>
+						<string key="bDevice">NSTextField</string>
+						<string key="bLocation">NSTextField</string>
+						<string key="bMachine">NSTextField</string>
+						<string key="bMachineTypeID">NSTextField</string>
+						<string key="bOpenCalibration">NSButton</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
 						<object class="IBToOneOutletInfo" key="bCalibration">
 							<string key="name">bCalibration</string>
-							<string key="candidateClassName">NSorUITextField</string>
+							<string key="candidateClassName">NSTextField</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="bDevice">
 							<string key="name">bDevice</string>
-							<string key="candidateClassName">NSorUITextField</string>
+							<string key="candidateClassName">NSTextField</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="bLocation">
 							<string key="name">bLocation</string>
-							<string key="candidateClassName">NSorUITextField</string>
+							<string key="candidateClassName">NSTextField</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="bMachine">
 							<string key="name">bMachine</string>
-							<string key="candidateClassName">NSorUITextField</string>
+							<string key="candidateClassName">NSTextField</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="bMachineTypeID">
 							<string key="name">bMachineTypeID</string>
-							<string key="candidateClassName">NSorUITextField</string>
+							<string key="candidateClassName">NSTextField</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="bOpenCalibration">
 							<string key="name">bOpenCalibration</string>
-							<string key="candidateClassName">NSorUIButton</string>
+							<string key="candidateClassName">NSButton</string>
 						</object>
 					</dictionary>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
@@ -7236,51 +7217,51 @@
 				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">DocumentDescriptionView</string>
-					<string key="superclassName">NSorUIView</string>
+					<string key="superclassName">UIView</string>
 					<dictionary class="NSMutableDictionary" key="outlets">
-						<string key="bDate">NSorUITextField</string>
-						<string key="bDescription">NSorUITextField</string>
-						<string key="bDetectAverage">NSorUITextField</string>
-						<string key="bDetectCount">NSorUITextField</string>
-						<string key="bDetectMaxDelay">NSorUITextField</string>
-						<string key="bDetectMinDelay">NSorUITextField</string>
-						<string key="bMeasurementType">NSorUITextField</string>
-						<string key="bMissCount">NSorUITextField</string>
+						<string key="bDate">NSTextField</string>
+						<string key="bDescription">NSTextField</string>
+						<string key="bDetectAverage">NSTextField</string>
+						<string key="bDetectCount">NSTextField</string>
+						<string key="bDetectMaxDelay">NSTextField</string>
+						<string key="bDetectMinDelay">NSTextField</string>
+						<string key="bMeasurementType">NSTextField</string>
+						<string key="bMissCount">NSTextField</string>
 						<string key="vInput">DeviceDescriptionView</string>
 						<string key="vOutput">DeviceDescriptionView</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
 						<object class="IBToOneOutletInfo" key="bDate">
 							<string key="name">bDate</string>
-							<string key="candidateClassName">NSorUITextField</string>
+							<string key="candidateClassName">NSTextField</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="bDescription">
 							<string key="name">bDescription</string>
-							<string key="candidateClassName">NSorUITextField</string>
+							<string key="candidateClassName">NSTextField</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="bDetectAverage">
 							<string key="name">bDetectAverage</string>
-							<string key="candidateClassName">NSorUITextField</string>
+							<string key="candidateClassName">NSTextField</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="bDetectCount">
 							<string key="name">bDetectCount</string>
-							<string key="candidateClassName">NSorUITextField</string>
+							<string key="candidateClassName">NSTextField</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="bDetectMaxDelay">
 							<string key="name">bDetectMaxDelay</string>
-							<string key="candidateClassName">NSorUITextField</string>
+							<string key="candidateClassName">NSTextField</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="bDetectMinDelay">
 							<string key="name">bDetectMinDelay</string>
-							<string key="candidateClassName">NSorUITextField</string>
+							<string key="candidateClassName">NSTextField</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="bMeasurementType">
 							<string key="name">bMeasurementType</string>
-							<string key="candidateClassName">NSorUITextField</string>
+							<string key="candidateClassName">NSTextField</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="bMissCount">
 							<string key="name">bMissCount</string>
-							<string key="candidateClassName">NSorUITextField</string>
+							<string key="candidateClassName">NSTextField</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="vInput">
 							<string key="name">vInput</string>
@@ -7443,6 +7424,14 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBFrameworkSource</string>
 						<string key="minorKey">AppKit.framework/Headers/NSBox.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">NSButton</string>
+					<string key="superclassName">NSControl</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBFrameworkSource</string>
+						<string key="minorKey">AppKit.framework/Headers/NSButton.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">

@@ -14,18 +14,37 @@
 /// Subclass of NSView that displays all metadata of a measurement run, and allows
 /// changing of some of it.
 ///
-@interface DocumentDescriptionView : NSorUIView {
+@interface DocumentDescriptionView
+#ifdef WITH_UIKIT
+	: UIView
+#else
+	: NSView
+#endif
+{
 }
-@property(weak) IBOutlet NSorUITextField *bMeasurementType; //!< Reference to UI element
+#ifdef WITH_UIKIT
+@property(weak) IBOutlet UITextField *bMeasurementType; //!< Reference to UI element
 @property(weak) IBOutlet DeviceDescriptionView *vInput;
 @property(weak) IBOutlet DeviceDescriptionView *vOutput;
-@property(weak) IBOutlet NSorUITextField *bDate; //!< Reference to UI element
-@property(weak) IBOutlet NSorUITextField *bDescription; //!< Reference to UI element
-@property(weak) IBOutlet NSorUITextField *bDetectCount; //!< Reference to UI element
-@property(weak) IBOutlet NSorUITextField *bMissCount; //!< Reference to UI element
-@property(weak) IBOutlet NSorUITextField *bDetectAverage; //!< Reference to UI element
-@property(weak) IBOutlet NSorUITextField *bDetectMinDelay; //!< Reference to UI element
-@property(weak) IBOutlet NSorUITextField *bDetectMaxDelay; //!< Reference to UI element
+@property(weak) IBOutlet UITextField *bDate; //!< Reference to UI element
+@property(weak) IBOutlet UITextField *bDescription; //!< Reference to UI element
+@property(weak) IBOutlet UITextField *bDetectCount; //!< Reference to UI element
+@property(weak) IBOutlet UITextField *bMissCount; //!< Reference to UI element
+@property(weak) IBOutlet UITextField *bDetectAverage; //!< Reference to UI element
+@property(weak) IBOutlet UITextField *bDetectMinDelay; //!< Reference to UI element
+@property(weak) IBOutlet UITextField *bDetectMaxDelay; //!< Reference to UI element
+#else
+@property(weak) IBOutlet NSTextField *bMeasurementType; //!< Reference to UI element
+@property(weak) IBOutlet DeviceDescriptionView *vInput;
+@property(weak) IBOutlet DeviceDescriptionView *vOutput;
+@property(weak) IBOutlet NSTextField *bDate; //!< Reference to UI element
+@property(weak) IBOutlet NSTextField *bDescription; //!< Reference to UI element
+@property(weak) IBOutlet NSTextField *bDetectCount; //!< Reference to UI element
+@property(weak) IBOutlet NSTextField *bMissCount; //!< Reference to UI element
+@property(weak) IBOutlet NSTextField *bDetectAverage; //!< Reference to UI element
+@property(weak) IBOutlet NSTextField *bDetectMinDelay; //!< Reference to UI element
+@property(weak) IBOutlet NSTextField *bDetectMaxDelay; //!< Reference to UI element
+#endif
 
 @property(strong) NSString *measurementType;    //!< Current value of metadata item
 @property(strong) NSString *date;    //!< Current value of metadata item
