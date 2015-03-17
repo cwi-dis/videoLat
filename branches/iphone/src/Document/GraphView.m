@@ -88,7 +88,7 @@ static double normFunc(double x, double average, double stddev)
 
 
 - (void)drawRect:(NSorUIRect)dirtyRect {
-    if (self.source == nil || [self.source count] == 0) {
+    if (self.modelObject == nil || [self.modelObject count] == 0) {
         NSLog(@"Empty document for graph\n");
         return;
     }
@@ -108,8 +108,8 @@ static double normFunc(double x, double average, double stddev)
 
     // Determine X scale. Start at zero, unless we get less than a pixel per value,
     // then we discard the oldest data (lowest X indices)
-    CGFloat minX = self.source.minXaxis;
-    CGFloat maxX = self.source.maxXaxis;
+    CGFloat minX = self.modelObject.minXaxis;
+    CGFloat maxX = self.modelObject.maxXaxis;
 	CGFloat minXaxis = (CGFloat)_RoundUpTo125(minX);
     CGFloat maxXaxis = (CGFloat)_RoundUpTo125(maxX);
     CGFloat xPixelPerUnit = width / (CGFloat)(maxXaxis-minXaxis);
@@ -127,9 +127,9 @@ static double normFunc(double x, double average, double stddev)
 #endif
 
     // Determine Y scale. Go from at least 0 to at least max, but round up to 1/2/5 first digit.
-    CGFloat minY = self.source.min;
+    CGFloat minY = self.modelObject.min;
 	if (minY > 0) minY = 0;
-    CGFloat maxY = self.source.max;
+    CGFloat maxY = self.modelObject.max;
     CGFloat minYaxis = (CGFloat)_RoundUpTo125(minY);
     CGFloat maxYaxis = (CGFloat)_RoundUpTo125(maxY);
 
@@ -191,11 +191,11 @@ static double normFunc(double x, double average, double stddev)
     int i;
 	int minXindex = 0;
 	assert(minXindex >= 0);
-	int maxXindex = (int)((maxX-minX) / [self.source binSize]);
+	int maxXindex = (int)((maxX-minX) / [self.modelObject binSize]);
     for (i=minXindex; i<=maxXindex; i++) {
-        newX = oldX + xPixelPerUnit*[self.source binSize];
+        newX = oldX + xPixelPerUnit*[self.modelObject binSize];
 		CGFloat value = 0;
-		if (i > minXindex && i < maxXindex) value = [[self.source valueForIndex:i] doubleValue];
+		if (i > minXindex && i < maxXindex) value = [[self.modelObject valueForIndex:i] doubleValue];
         newY = (value - minYaxis) * yPixelPerUnit;
         [path lineToPoint: NSorUIMakePoint(oldX, newY)];
         [path lineToPoint: NSorUIMakePoint(newX, newY)];
@@ -210,7 +210,7 @@ static double normFunc(double x, double average, double stddev)
     [path stroke];
     // Draw the average, if wanted
     if (self.showAverage) {
-        double average = self.source.average;
+        double average = self.modelObject.average;
 #ifdef WITH_UIKIT
 		CGFloat h, s, v, alfa;
 		[self.color getHue:&h saturation:&s brightness:&v alpha:&alfa];
@@ -241,9 +241,9 @@ static double normFunc(double x, double average, double stddev)
 		[cumulativePath moveToPoint: NSorUIMakePoint(oldX, oldCumulativeY)];
 		int i;
 		for (i=minXindex; i<=maxXindex; i++) {
-			newX = oldX + xPixelPerUnit*[self.source binSize];
+			newX = oldX + xPixelPerUnit*[self.modelObject binSize];
 			CGFloat value = 0;
-			if (i < maxXindex) value = [[self.source valueForIndex:i] doubleValue];
+			if (i < maxXindex) value = [[self.modelObject valueForIndex:i] doubleValue];
 			newCumulativeY = oldCumulativeY + value;
 			[cumulativePath lineToPoint: NSorUIMakePoint(oldX, newCumulativeY*height)];
 			[cumulativePath lineToPoint: NSorUIMakePoint(newX, newCumulativeY*height)];
@@ -255,8 +255,8 @@ static double normFunc(double x, double average, double stddev)
         [cumulativePath stroke];
 
 		// Draw the cumulative normal distribution for the given average and stddev
-        double average = self.source.average;
-        double stddev = self.source.stddev;
+        double average = self.modelObject.average;
+        double stddev = self.modelObject.stddev;
         double step = (maxXaxis - minXaxis) / dstRect.size.width;
 		double cumvalue = 0;
 #ifdef WITH_UIKIT

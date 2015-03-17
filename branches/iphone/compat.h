@@ -10,44 +10,46 @@
 #define videoLat_iOS_compat_h
 
 #import <Foundation/Foundation.h>
+@class RunManagerView;
 
 #if TARGET_OS_IPHONE
 #define WITH_UIKIT
 #define WITH_UIKIT_TEMP
 #import <CoreGraphics/CoreGraphics.h>
 #import <UIKit/UIKit.h>
-#define NSorUIApplication UIApplication
-#define NSorUIRect CGRect
-#define NSorUIPopUpButton UIPickerView
-#define NSorUIButton UIButton
-#define NSorUISwitch UISwitch
-#define NSorUITextField UITextField
-#define NSorUILabel UILabel
-#define NSorUIView UIView
-#define NSorUILevelIndicator UIProgressView
-#define NSorUISlider UISlider
-#define MeasurementMasterType MeasurementContainerViewController
-#define NSorUIColor UIColor
-#define NSorUIBezierPath UIBezierPath
+typedef UIApplication NSorUIApplication;
+typedef CGRect NSorUIRect;
+typedef UIPickerView NSorUIPopUpButton;
+typedef UIButton NSorUIButton;
+typedef UISwitch NSorUISwitch;
+typedef UITextField NSorUITextField;
+typedef UILabel NSorUILabel;
+typedef UIView NSorUIView;
+typedef UIProgressView NSorUILevelIndicator;
+typedef UISlider NSorUISlider;
+typedef MeasurementContainerViewController MeasurementMasterType;
+typedef UIColor NSorUIColor;
+typedef UIBezierPath NSorUIBezierPath;
 #define NSorUIMakePoint CGPointMake
 #define NSorUIWidth CGRectGetWidth
 #define NSorUIHeight CGRectGetHeight
 #define NSorUIRectFill UIRectFill
 #else
 #define WITH_APPKIT
-#define NSorUIApplication NSApplication
-#define NSorUIRect NSRect
-#define NSorUIPopUpButton NSPopUpButton
-#define NSorUIButton NSButton
-#define NSorUISwitch NSButton
-#define NSorUITextField NSTextField
-#define NSorUILabel NSTextField
-#define NSorUIView NSView
-#define NSorUILevelIndicator NSLevelIndicator
-#define NSorUISlider NSSlider
-#define MeasurementMasterType RunManagerView
-#define NSorUIColor NSColor
-#define NSorUIBezierPath NSBezierPath
+typedef NSApplication NSorUIApplication;
+typedef NSRect NSorUIRect;
+typedef NSPopUpButton NSorUIPopUpButton;
+typedef NSButton NSorUIButton;
+typedef NSButton NSorUISwitch;
+typedef NSTextField NSorUITextField;
+typedef NSTextField NSorUILabel;
+typedef NSView NSorUIView;
+typedef NSLevelIndicator NSorUILevelIndicator;
+typedef NSSlider NSorUISlider;
+typedef RunManagerView MeasurementMasterType;
+typedef NSColor NSorUIColor;
+typedef NSBezierPath NSorUIBezierPath;
+
 #define NSorUIMakePoint NSMakePoint
 #define NSorUIWidth NSWidth
 #define NSorUIHeight NSHeight

@@ -34,6 +34,11 @@
     return c;
 }
 
+- (NSString *)descriptiveName {
+    return [NSString stringWithFormat:@"%@ (%@ to %@)", self.measurementType, self.output.device, self.input.device];
+}
+
+
 - (NSString *)outputBaseMeasurementID {
     MeasurementDataStore *c = self.outputCalibration;
     if (c == nil) return nil;

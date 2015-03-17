@@ -60,6 +60,7 @@
 		0497264118FD5BDA00625326 /* docicon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 0497263F18FD5BDA00625326 /* docicon.icns */; };
 		0497264218FD5BDA00625326 /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 0497264018FD5BDA00625326 /* icon.icns */; };
 		0497264418FD5E5F00625326 /* sounds in Resources */ = {isa = PBXBuildFile; fileRef = 0497264318FD5E5F00625326 /* sounds */; };
+		04A6D93B1AB7820A0065FEA5 /* DeviceDescriptionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A6D93A1AB7820A0065FEA5 /* DeviceDescriptionView.m */; };
 		04A9C14819216EB70016E6C0 /* AudioCalibrationRunManager.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04A9C14719216EB70016E6C0 /* AudioCalibrationRunManager.xib */; };
 		04A9C14B19216F320016E6C0 /* AudioCalibrationRunManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A9C14A19216F320016E6C0 /* AudioCalibrationRunManager.m */; };
 		04B1915119D2ECBC001ABA66 /* Doxyfile in Resources */ = {isa = PBXBuildFile; fileRef = 04B1915019D2ECBC001ABA66 /* Doxyfile */; };
@@ -179,6 +180,8 @@
 		0497263F18FD5BDA00625326 /* docicon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = docicon.icns; path = icons/docicon.icns; sourceTree = SOURCE_ROOT; };
 		0497264018FD5BDA00625326 /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = icon.icns; path = icons/icon.icns; sourceTree = SOURCE_ROOT; };
 		0497264318FD5E5F00625326 /* sounds */ = {isa = PBXFileReference; lastKnownFileType = folder; path = sounds; sourceTree = SOURCE_ROOT; };
+		04A6D9391AB7820A0065FEA5 /* DeviceDescriptionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeviceDescriptionView.h; path = Document/DeviceDescriptionView.h; sourceTree = "<group>"; };
+		04A6D93A1AB7820A0065FEA5 /* DeviceDescriptionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DeviceDescriptionView.m; path = Document/DeviceDescriptionView.m; sourceTree = "<group>"; };
 		04A9C14719216EB70016E6C0 /* AudioCalibrationRunManager.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AudioCalibrationRunManager.xib; path = AudioCalibrationRun/AudioCalibrationRunManager.xib; sourceTree = "<group>"; };
 		04A9C14919216F320016E6C0 /* AudioCalibrationRunManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioCalibrationRunManager.h; path = AudioCalibrationRun/AudioCalibrationRunManager.h; sourceTree = "<group>"; };
 		04A9C14A19216F320016E6C0 /* AudioCalibrationRunManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AudioCalibrationRunManager.m; path = AudioCalibrationRun/AudioCalibrationRunManager.m; sourceTree = "<group>"; };
@@ -263,6 +266,8 @@
 				0497263318FD592C00625326 /* MeasurementDataStore.m */,
 				0497263418FD592C00625326 /* MeasurementDistribution.h */,
 				0497263518FD592C00625326 /* MeasurementDistribution.m */,
+				04A6D9391AB7820A0065FEA5 /* DeviceDescriptionView.h */,
+				04A6D93A1AB7820A0065FEA5 /* DeviceDescriptionView.m */,
 			);
 			name = Document;
 			sourceTree = "<group>";
@@ -706,6 +711,7 @@
 				0497263718FD592C00625326 /* DocumentDescriptionView.m in Sources */,
 				04FFFC5A1AB2F0150023ED13 /* AppDelegate.m in Sources */,
 				0497260C18FD580300625326 /* VideoOutputView.m in Sources */,
+				04A6D93B1AB7820A0065FEA5 /* DeviceDescriptionView.m in Sources */,
 				0497263918FD592C00625326 /* GraphView.m in Sources */,
 				0497263E18FD596F00625326 /* MeasurementType.m in Sources */,
 				04EEC1DC19DC93A70056899C /* NetworkRunManager.m in Sources */,

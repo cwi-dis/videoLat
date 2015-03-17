@@ -66,7 +66,7 @@
     [super makeWindowControllers];
     [self showWindows];
 #endif
-    [(DocumentView *)self.myView updateView];
+// XXXJACK no longer needed?    [(DocumentView *)self.myView updateView];
     // Finally see whether this document is worth uploading
     CalibrationSharing *uploader = [CalibrationSharing sharedUploader];
     [uploader shouldUpload:self.dataStore delegate:self];
@@ -144,7 +144,7 @@
     self.dataStore = [dict objectForKey: @"dataStore"];
 //    self.dataDistribution = [dict objectForKey: @"dataDistribution"];
     self.dataDistribution = [[MeasurementDistribution alloc] initWithSource:self.dataStore];
-    [self.myView updateView];
+// XXXJACK no longer needed?    [self.myView updateView];
 
     NSNumber *du = [dict objectForKey: @"dontUpload"];
     if (du && [du boolValue])
