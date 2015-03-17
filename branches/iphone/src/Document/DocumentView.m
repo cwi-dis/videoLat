@@ -22,9 +22,6 @@
 }
 
 
-#ifdef WITH_UIKIT_TEMP
-#else
-
 - (DocumentView *)initWithFrame:(NSorUIRect)frameRect
 {
     self = [super initWithFrame:frameRect];
@@ -38,6 +35,7 @@
 {
 }
 
+#ifdef WITH_APPKIT
 - (void)viewWillDraw
 {
     if (!initialValues) {
@@ -133,4 +131,11 @@
 #endif
     }
 }
+
+#ifdef WITH_UIKIT
+- (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item
+{
+    NSLog(@"Selected tabbar item %@", item.badgeValue);
+}
+#endif
 @end

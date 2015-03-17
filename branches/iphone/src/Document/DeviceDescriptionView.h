@@ -13,9 +13,9 @@
 
 @interface DeviceDescriptionView
 #ifdef WITH_UIKIT
-: NSorUIView
+: UIView
 #else
-: NSorUIView
+: NSView
 #endif
 #ifdef WITH_UIKIT
 @property(weak) IBOutlet UITextField *bMachineTypeID; //!< Reference to UI element

@@ -15,6 +15,7 @@
 	MeasurementDataStore *_dataStore;
 }
 @property(nonatomic,retain) IBOutlet DocumentView *view;
+@property(nonatomic,retain) IBOutlet id auxObject;
 @property(strong) IBOutlet MeasurementDataStore *dataStore; //!< data for this document
 @property(strong) IBOutlet MeasurementDistribution *dataDistribution;   //!< distribution of dataStore
 
