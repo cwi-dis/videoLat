@@ -27,12 +27,26 @@
     self = [super initWithFrame:frameRect];
 	if (self) {
 		initialValues = NO;
-	}
+#ifdef WITH_UIKIT
+        self.showsVerticalScrollIndicator = NO;
+        self.showsHorizontalScrollIndicator = NO;
+        self.bouncesZoom = YES;
+        self.decelerationRate = UIScrollViewDecelerationRateFast;
+        self.maximumZoomScale = 2;
+        self.minimumZoomScale = 0.5;
+        self.delegate = self;
+#endif
+    }
     return self;
 }
 
 - (void) awakeFromNib
 {
+#ifdef WITH_UIKIT
+    self.bouncesZoom = YES;
+    self.decelerationRate = UIScrollViewDecelerationRateFast;
+    self.delegate = self;
+#endif
 }
 
 #ifdef WITH_APPKIT
@@ -133,9 +147,9 @@
 }
 
 #ifdef WITH_UIKIT
-- (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item
+- (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView
 {
-    NSLog(@"Selected tabbar item %@", item.badgeValue);
+    return self.scrolledView;
 }
 #endif
 @end
