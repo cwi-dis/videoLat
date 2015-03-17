@@ -10,7 +10,8 @@
 #import "compat.h"
 #import "DeviceDescription.h"
 
-@interface DeviceDescriptionView : NSView
+
+@interface DeviceDescriptionView : NSorUIView
 @property(weak) IBOutlet NSorUITextField *bMachineTypeID; //!< Reference to UI element
 @property(weak) IBOutlet NSorUITextField *bMachine; //!< Reference to UI element
 @property(weak) IBOutlet NSorUITextField *bLocation; //!< Reference to UI element

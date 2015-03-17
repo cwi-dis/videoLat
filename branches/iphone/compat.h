@@ -58,5 +58,6 @@ typedef NSBezierPath NSorUIBezierPath;
 
 void showErrorAlert(NSError *error);
 void showWarningAlert(NSString *warning);
+void keepClassesAliveHack();
 
 #endif
