@@ -10,7 +10,6 @@
 #define videoLat_iOS_compat_h
 
 #import <Foundation/Foundation.h>
-@class RunManagerView;
 
 #if TARGET_OS_IPHONE
 #define WITH_UIKIT
@@ -27,6 +26,7 @@ typedef UILabel NSorUILabel;
 typedef UIView NSorUIView;
 typedef UIProgressView NSorUILevelIndicator;
 typedef UISlider NSorUISlider;
+@class MeasurementContainerViewController;
 typedef MeasurementContainerViewController MeasurementMasterType;
 typedef UIColor NSorUIColor;
 typedef UIBezierPath NSorUIBezierPath;
@@ -46,6 +46,7 @@ typedef NSTextField NSorUILabel;
 typedef NSView NSorUIView;
 typedef NSLevelIndicator NSorUILevelIndicator;
 typedef NSSlider NSorUISlider;
+@class RunManagerView;
 typedef RunManagerView MeasurementMasterType;
 typedef NSColor NSorUIColor;
 typedef NSBezierPath NSorUIBezierPath;
@@ -58,6 +59,5 @@ typedef NSBezierPath NSorUIBezierPath;
 
 void showErrorAlert(NSError *error);
 void showWarningAlert(NSString *warning);
-void keepClassesAliveHack();
 
 #endif

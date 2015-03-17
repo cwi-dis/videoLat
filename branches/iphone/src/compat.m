@@ -8,10 +8,6 @@
 
 #import <Foundation/Foundation.h>
 #import "compat.h"
-#ifdef WITH_UIKIT
-#else
-#import "RunManagerView.h"
-#endif
 
 void showErrorAlert(NSError *error) {
 #ifdef WITH_UIKIT
@@ -37,20 +33,4 @@ void showWarningAlert(NSString *warning) {
     NSAlert *alert = [NSAlert alertWithMessageText:@"Warning" defaultButton:@"OK" alternateButton:nil otherButton:nil informativeTextWithFormat:@"%@", warning];
     [alert runModal];
 #endif
-}
-
-void keepClassesAliveHack()
-{
-	[NSorUIApplication class];
-	[NSorUIPopUpButton class];
-	[NSorUIButton class];
-	[NSorUISwitch class];
-	[NSorUITextField class];
-	[NSorUILabel class];
-	[NSorUIView class];
-	[NSorUILevelIndicator class];
-	[NSorUISlider class];
-	[MeasurementMasterType class];
-	[NSorUIColor class];
-	[NSorUIBezierPath class];
 }

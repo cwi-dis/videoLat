@@ -18,7 +18,12 @@
 @synthesize bOpenCalibration;
 @synthesize modelObject;
 
-- (void)drawRect:(NSRect)dirtyRect {
+#ifdef WITH_UIKIT
+// Gross....
+#define stringValue text
+#endif
+
+- (void)drawRect:(NSorUIRect)dirtyRect {
     [super drawRect:dirtyRect];
     
     // Drawing code here.

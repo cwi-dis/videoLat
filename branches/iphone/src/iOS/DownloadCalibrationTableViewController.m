@@ -12,6 +12,7 @@
 #import "CalibrationSharing.h"
 #import "VideoInput.h"
 #import "AppDelegate.h"
+#import "DocumentViewController.h"
 
 @interface DownloadCalibrationTableViewController ()
 
@@ -161,8 +162,13 @@
 {
 	NSLog(@"DidDownload: %@", dataStore);
 	if (dataStore) {
+		downloadedDataStore = dataStore;
+#if 0
 		AppDelegate *ad = (AppDelegate *)[[UIApplication sharedApplication] delegate];
 		[ad performSelectorOnMainThread:@selector(openUntitledDocumentWithMeasurement:) withObject:dataStore waitUntilDone:NO];
+#else
+		[self performSegueWithIdentifier:@"showDocument" sender:self];
+#endif
 	}
 }
 
@@ -170,6 +176,14 @@
 - (void)_downloadCalibration: (NSDictionary *)calibration
 {
 	[[CalibrationSharing sharedUploader] downloadAsynchronously:calibration delegate:self];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+	assert(downloadedDataStore);
+	DocumentViewController *dvc = segue.destinationViewController;
+	dvc.dataStore = downloadedDataStore;
 }
 
 @end

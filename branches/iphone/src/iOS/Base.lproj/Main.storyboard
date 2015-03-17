@@ -187,6 +187,14 @@
             </objects>
             <point key="canvasLocation" x="2021" y="2565"/>
         </scene>
+        <!--Document View Controller-->
+        <scene sceneID="Ba0-Hx-Sve">
+            <objects>
+                <viewController id="E2I-Mm-42s" customClass="DocumentViewController" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="L4A-mQ-GhI" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2088" y="3321"/>
+        </scene>
         <!--Select New Calibration Type-->
         <scene sceneID="yaK-Dr-21g">
             <objects>
@@ -239,6 +247,9 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Download Calibrations" id="Rs5-T3-hjz"/>
+                    <connections>
+                        <segue destination="E2I-Mm-42s" kind="show" identifier="showDocument" id="RXt-u3-m7s"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eZ3-Ml-jvY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

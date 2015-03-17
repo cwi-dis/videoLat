@@ -9,10 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "MeasurementDataStore.h"
 #import "MeasurementDistribution.h"
+#import "DocumentView.h"
 
 @interface DocumentViewController : UIViewController {
 	MeasurementDataStore *_dataStore;
 }
+@property(nonatomic,retain) IBOutlet DocumentView *view;
 @property(strong) IBOutlet MeasurementDataStore *dataStore; //!< data for this document
 @property(strong) IBOutlet MeasurementDistribution *dataDistribution;   //!< distribution of dataStore
 

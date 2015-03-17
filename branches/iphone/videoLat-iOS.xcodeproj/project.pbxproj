@@ -35,6 +35,8 @@
 		04155EA31AB6471900DD53D9 /* AudioProcess.m in Sources */ = {isa = PBXBuildFile; fileRef = 04155EA21AB6471900DD53D9 /* AudioProcess.m */; };
 		04155EA61AB647C500DD53D9 /* AudioRunManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 04155EA51AB647C500DD53D9 /* AudioRunManager.m */; };
 		04155EA91AB6481000DD53D9 /* BaseRunManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 04155EA81AB6481000DD53D9 /* BaseRunManager.m */; };
+		04C5FF1F1AB85EB800F4EC25 /* DeviceDescriptionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C5FF1E1AB85EB800F4EC25 /* DeviceDescriptionView.m */; };
+		04C5FF211AB8601400F4EC25 /* DocumentView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04C5FF201AB8601400F4EC25 /* DocumentView.xib */; };
 		04FFFC7A1AB2FA8E0023ED13 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FFFC771AB2FA8E0023ED13 /* AppDelegate.m */; };
 		04FFFC801AB2FABE0023ED13 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04FFFC7C1AB2FABE0023ED13 /* LaunchScreen.xib */; };
 		04FFFC811AB2FABE0023ED13 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04FFFC7E1AB2FABE0023ED13 /* Main.storyboard */; };
@@ -112,6 +114,9 @@
 		04155EA81AB6481000DD53D9 /* BaseRunManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BaseRunManager.m; path = src/MeasurementRun/BaseRunManager.m; sourceTree = SOURCE_ROOT; };
 		048BFCCA1AB2EE2C0026D104 /* videoLat-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "videoLat-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		048BFCE31AB2EE2C0026D104 /* videoLat-iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "videoLat-iOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		04C5FF1D1AB85EB800F4EC25 /* DeviceDescriptionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeviceDescriptionView.h; path = src/Document/DeviceDescriptionView.h; sourceTree = SOURCE_ROOT; };
+		04C5FF1E1AB85EB800F4EC25 /* DeviceDescriptionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DeviceDescriptionView.m; path = src/Document/DeviceDescriptionView.m; sourceTree = SOURCE_ROOT; };
+		04C5FF201AB8601400F4EC25 /* DocumentView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DocumentView.xib; sourceTree = SOURCE_ROOT; };
 		04FFFC761AB2FA8E0023ED13 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = src/iOS/AppDelegate.h; sourceTree = SOURCE_ROOT; };
 		04FFFC771AB2FA8E0023ED13 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = src/iOS/AppDelegate.m; sourceTree = SOURCE_ROOT; };
 		04FFFC7D1AB2FABE0023ED13 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = src/iOS/Base.lproj/LaunchScreen.xib; sourceTree = SOURCE_ROOT; };
@@ -154,8 +159,11 @@
 			children = (
 				04138C801AB329CB003D8167 /* DeviceDescription.h */,
 				04138C811AB329CB003D8167 /* DeviceDescription.m */,
+				04C5FF1D1AB85EB800F4EC25 /* DeviceDescriptionView.h */,
+				04C5FF1E1AB85EB800F4EC25 /* DeviceDescriptionView.m */,
 				040E77411AB73634001A7918 /* Document.h */,
 				040E77421AB73634001A7918 /* Document.m */,
+				04C5FF201AB8601400F4EC25 /* DocumentView.xib */,
 				040E77351AB72002001A7918 /* DocumentDescriptionView.h */,
 				040E77361AB72002001A7918 /* DocumentDescriptionView.m */,
 				040E77321AB71FF2001A7918 /* DocumentView.h */,
@@ -372,6 +380,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04C5FF211AB8601400F4EC25 /* DocumentView.xib in Resources */,
 				04155E9A1AB6311C00DD53D9 /* sounds in Resources */,
 				04FFFC861AB2FAD90023ED13 /* Info.plist in Resources */,
 				04FFFC831AB2FACB0023ED13 /* Images.xcassets in Resources */,
@@ -400,6 +409,7 @@
 				04155EA91AB6481000DD53D9 /* BaseRunManager.m in Sources */,
 				04155EA31AB6471900DD53D9 /* AudioProcess.m in Sources */,
 				040E77371AB72002001A7918 /* DocumentDescriptionView.m in Sources */,
+				04C5FF1F1AB85EB800F4EC25 /* DeviceDescriptionView.m in Sources */,
 				040E77281AB6F5B1001A7918 /* RunCollector.m in Sources */,
 				040E772B1AB707B2001A7918 /* AudioSelectionView.m in Sources */,
 				04FFFC7A1AB2FA8E0023ED13 /* AppDelegate.m in Sources */,
