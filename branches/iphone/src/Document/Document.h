@@ -36,6 +36,7 @@
 @property(strong) IBOutlet MeasurementDistribution *dataDistribution;   //!< distribution of dataStore
 @property(strong) IBOutlet id myView;   //!< xxx
 
++ (NSURL *)inventURLForDocument: (MeasurementDataStore *)dataStore;
 - (IBAction)newDocumentComplete: (id)sender;        //!< Callback used by NewMeasurement to signal it has finished.
 - (IBAction)export: (id)sender; //!< Ask user for three filenames and export CSV files for data, distribution and metadata
 - (BOOL)_exportCSV: (NSString *)csvData forType: (NSString *)descr title: (NSString *)title; //!< Internal helper for export: ask for filename and export one CSV file

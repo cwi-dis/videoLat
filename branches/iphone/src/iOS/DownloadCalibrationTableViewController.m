@@ -183,7 +183,13 @@
     // Pass the selected object to the new view controller.
 	assert(downloadedDataStore);
 	DocumentViewController *dvc = segue.destinationViewController;
-	dvc.dataStore = downloadedDataStore;
+    NSURL *newURL = [Document inventURLForDocument:downloadedDataStore];
+    NSLog(@"URL for measurement is %@", newURL);
+    assert(newURL);
+    Document *newDocument = [[Document alloc] initWithFileURL: newURL];
+    newDocument.dataStore = downloadedDataStore;
+    [newDocument newDocumentComplete: self];
+	dvc.document = newDocument;
 }
 
 @end

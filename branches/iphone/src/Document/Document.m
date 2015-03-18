@@ -39,6 +39,39 @@
 }
 #endif
 
+#ifdef WITH_UIKIT
++ (NSURL *)inventURLForDocument: (MeasurementDataStore *)dataStore
+{
+    NSURL *fileUrl = nil;
+    BOOL isCalibration = YES;
+    NSString *extension = @".videoLat";
+    if (isCalibration) extension = @".vlCalibration";
+    int uniqueNumber = 0;
+    do {
+        NSString *unique = @"";
+        if (uniqueNumber) {
+            unique = [NSString stringWithFormat:@" (%d)", uniqueNumber];
+        }
+        NSString *fileName = [NSString stringWithFormat: @"%@-%@-%@-%@%@.%@", dataStore.measurementType, dataStore.output.machineTypeID, dataStore.output.device, dataStore.input.device, unique, extension];
+        NSURL *dirUrl;
+        if (isCalibration) {
+            dirUrl = [(AppDelegate *)[[NSorUIApplication sharedApplication] delegate] directoryForCalibrations];
+        } else {
+            NSError *error;
+            dirUrl = [[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL: nil create:YES error:&error ];
+            if (dirUrl == nil) {
+                showErrorAlert(error);
+                return nil;
+            }
+        }
+        fileUrl = [NSURL URLWithString:[fileName stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] relativeToURL:dirUrl];
+        // If the file exists we will try with a new extension
+        uniqueNumber++;
+    } while ([[NSFileManager defaultManager] fileExistsAtPath: [fileUrl path]]);
+    return fileUrl;
+}
+#endif
+
 - (IBAction)newDocumentComplete: (id)sender
 {
     if (VL_DEBUG) NSLog(@"New document complete\n");

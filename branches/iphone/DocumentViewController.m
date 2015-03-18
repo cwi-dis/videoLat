@@ -14,19 +14,13 @@
 
 @implementation DocumentViewController
 
-@synthesize dataDistribution;
+@synthesize document;
 
-- (MeasurementDataStore *)dataStore { return _dataStore; }
-- (void)setDataStore:(MeasurementDataStore *)dataStore
-{
-	_dataStore = dataStore;
-	self.dataDistribution = [[MeasurementDistribution alloc] initWithSource:_dataStore];
-
-}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.view.modelObject = document;
 }
 
 - (void)didReceiveMemoryWarning {
