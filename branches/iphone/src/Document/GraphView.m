@@ -71,6 +71,13 @@ static double normFunc(double x, double average, double stddev)
 @synthesize showAverage;
 @synthesize showNormal;
 
+- (NSObject<GraphDataProviderProtocol> *)modelObject { return _modelObject; }
+- (void)setModelObject: (NSObject<GraphDataProviderProtocol> *) modelObject
+{
+    _modelObject = modelObject;
+    [self setNeedsDisplay];
+}
+
 - (GraphView *)initWithFrame:(NSorUIRect)frameRect
 {
     self = [super initWithFrame:frameRect];

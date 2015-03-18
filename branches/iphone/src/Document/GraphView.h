@@ -20,6 +20,7 @@
 : NSView
 #endif
 {
+    NSObject<GraphDataProviderProtocol> *_modelObject;
 }
 #ifdef WITH_UIKIT
 @property(weak) IBOutlet UILabel *bMinX;    //!< UI element assigned by NIB, shows minimum X value
