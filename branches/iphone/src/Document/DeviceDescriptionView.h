@@ -18,11 +18,11 @@
 : NSView
 #endif
 #ifdef WITH_UIKIT
-@property(weak) IBOutlet UITextField *bMachineTypeID; //!< Reference to UI element
-@property(weak) IBOutlet UITextField *bMachine; //!< Reference to UI element
-@property(weak) IBOutlet UITextField *bLocation; //!< Reference to UI element
-@property(weak) IBOutlet UITextField *bDevice; //!< Reference to UI element
-@property(weak) IBOutlet UITextField *bCalibration; //!< Reference to UI element
+@property(weak) IBOutlet UILabel *bMachineTypeID; //!< Reference to UI element
+@property(weak) IBOutlet UILabel *bMachine; //!< Reference to UI element
+@property(weak) IBOutlet UILabel *bLocation; //!< Reference to UI element
+@property(weak) IBOutlet UILabel *bDevice; //!< Reference to UI element
+@property(weak) IBOutlet UILabel *bCalibration; //!< Reference to UI element
 @property(weak) IBOutlet UIButton *bOpenCalibration;
 #else
 @property(weak) IBOutlet NSTextField *bMachineTypeID; //!< Reference to UI element
