@@ -89,13 +89,12 @@
 	myType = [MeasurementType forType: self.dataStore.measurementType];
 	[self updateChangeCount:NSChangeDone];
 
+#ifdef WITH_APPKIT
     // Set title/filename for calibration documents
     if (myType.isCalibration) {
         [self _setCalibrationFileName];
     }
-
-#ifdef WITH_UIKIT
-#else
+    
     [super makeWindowControllers];
     [self showWindows];
 #endif
@@ -105,20 +104,17 @@
     [uploader shouldUpload:self.dataStore delegate:self];
 }
 
+#ifdef WITH_APPKIT
 - (void)_setCalibrationFileName
 {
     NSString *fileName = [NSString stringWithFormat: @"%@-%@-%@-%@.vlCalibration", self.dataStore.measurementType, self.dataStore.output.machineTypeID, self.dataStore.output.device, self.dataStore.input.device];
     NSURL *dirUrl = [(AppDelegate *)[[NSorUIApplication sharedApplication] delegate] directoryForCalibrations];
     NSURL *fileUrl = [NSURL URLWithString:[fileName stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] relativeToURL:dirUrl];
-#ifdef WITH_UIKIT
-#else
     [self setFileURL: fileUrl];
     [self setFileType: [self fileType]];
     [self setDisplayName:fileName];
-#endif
 }
 
-#ifdef WITH_APPKIT
 - (BOOL)prepareSavePanel:(NSSavePanel*)panel
 {
     if (myType.isCalibration) {
@@ -138,7 +134,11 @@
     return YES;
 }
 
+#ifdef WITH_UIKIT
+- (id)contentsForType:(NSString *)typeName error:(NSError **)outError
+#else
 - (NSData *)dataOfType:(NSString *)typeName error:(NSError **)outError
+#endif
 {
     NSMutableDictionary *dict = [[NSMutableDictionary alloc] initWithCapacity:10];
     [dict setObject:@"videoLat" forKey:@"videoLat"];
@@ -149,7 +149,11 @@
     return [NSKeyedArchiver archivedDataWithRootObject: dict];
 }
 
+#ifdef WITH_UIKIT
+- (BOOL)loadFromContents:(id)data ofType:(NSString *)typeName error:(NSError **)outError
+#else
 - (BOOL)readFromData:(NSData *)data ofType:(NSString *)typeName error:(NSError **)outError
+#endif
 {
     NSMutableDictionary *dict = [NSKeyedUnarchiver unarchiveObjectWithData: data];
     NSString *str;
