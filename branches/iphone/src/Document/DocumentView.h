@@ -30,7 +30,9 @@
 @property(weak) IBOutlet GraphView *values;                 //!< Set by NIB: view showing the raw measurement values
 @property(weak) IBOutlet GraphView *distribution;           //!< Set by NIB: view showing the measurement distribution
 @property(weak) IBOutlet Document *modelObject;                //!< Set by NIB: pointer to our Document
+#ifdef WITH_UIKIT
 @property(weak) IBOutlet UIView *scrolledView;
+#endif
 
 
 #ifdef WITH_APPKIT

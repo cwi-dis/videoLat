@@ -75,7 +75,11 @@ static double normFunc(double x, double average, double stddev)
 - (void)setModelObject: (NSObject<GraphDataProviderProtocol> *) modelObject
 {
     _modelObject = modelObject;
+#ifdef WITH_UIKIT
     [self setNeedsDisplay];
+#else
+    [self setNeedsDisplay: YES];
+#endif
 }
 
 - (GraphView *)initWithFrame:(NSorUIRect)frameRect
