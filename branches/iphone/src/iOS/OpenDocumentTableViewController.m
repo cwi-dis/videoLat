@@ -8,6 +8,7 @@
 
 #import "OpenDocumentTableViewController.h"
 #import "AppDelegate.h"
+#import "DocumentViewController.h"
 
 @interface OpenDocumentTableViewController ()
 
@@ -147,9 +148,27 @@
 {
     NSDictionary *item = [self.documents objectAtIndex: indexPath.row];
     assert(item);
-    NSURL *url = [item objectForKey:@"url"];
-    NSLog(@"Should open %@", url);
+    selectedUrl = [item objectForKey:@"url"];
+    NSLog(@"Will open %@", selectedUrl);
+    [self performSegueWithIdentifier:@"showDocument" sender:self];
     
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+    assert(selectedUrl);
+    DocumentViewController *dvc = segue.destinationViewController;
+    NSLog(@"URL for measurement is %@", selectedUrl);
+    Document *newDocument = [[Document alloc] initWithFileURL: selectedUrl];
+    selectedUrl = nil;
+    [newDocument openWithCompletionHandler:^(BOOL success) {
+        if (success) {
+            dvc.document = newDocument;
+        } else {
+            showWarningAlert(@"Cannot open measurement");
+        }
+    }];
 }
 
 

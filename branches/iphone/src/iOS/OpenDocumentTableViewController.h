@@ -11,6 +11,7 @@
 @interface OpenDocumentTableViewController : UITableViewController
 {
     BOOL showCalibrations;
+    NSURL *selectedUrl;
 }
 
 @property (retain) NSArray *documents;

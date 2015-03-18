@@ -44,8 +44,8 @@
 {
     NSURL *fileUrl = nil;
     BOOL isCalibration = YES;
-    NSString *extension = @".videoLat";
-    if (isCalibration) extension = @".vlCalibration";
+    NSString *extension = @"videoLat";
+    if (isCalibration) extension = @"vlCalibration";
     int uniqueNumber = 0;
     do {
         NSString *unique = @"";

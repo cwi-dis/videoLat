@@ -154,6 +154,9 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Open Calibration" id="8uA-40-crF"/>
+                    <connections>
+                        <segue destination="px8-Oj-9qS" kind="show" identifier="showDocument" id="lgT-6e-gxZ"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kCF-m7-twn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -181,6 +184,9 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Open Measurement" id="57q-iD-qGm"/>
+                    <connections>
+                        <segue destination="3Fw-iW-Dma" kind="show" id="MGV-ou-OUg"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VCJ-wd-IzK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -298,6 +304,30 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eZ3-Ml-jvY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1330" y="3318"/>
+        </scene>
+        <!--Document View Controller-->
+        <scene sceneID="oFv-YE-cFZ">
+            <objects>
+                <viewController id="3Fw-iW-Dma" customClass="DocumentViewController" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Lhh-Xc-lt2" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2072" y="1203"/>
+        </scene>
+        <!--Document View Controller-->
+        <scene sceneID="8vL-h7-zga">
+            <objects>
+                <viewController id="8MV-Ql-FDh" customClass="DocumentViewController" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="8wQ-di-MXy" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2088" y="3321"/>
+        </scene>
+        <!--Document View Controller-->
+        <scene sceneID="oj1-bO-Qp0">
+            <objects>
+                <viewController id="px8-Oj-9qS" customClass="DocumentViewController" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="u12-Xe-nwC" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2072" y="489"/>
         </scene>
     </scenes>
 </document>

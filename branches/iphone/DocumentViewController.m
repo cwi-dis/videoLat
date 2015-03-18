@@ -14,13 +14,18 @@
 
 @implementation DocumentViewController
 
-@synthesize document;
+- (Document *)document { return _document; }
+- (void) setDocument: (Document *)document
+{
+    _document = document;
+    if (self.view) self.view.modelObject = document;
+}
 
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.view.modelObject = document;
+    self.view.modelObject = _document;
 }
 
 - (void)didReceiveMemoryWarning {

@@ -13,6 +13,7 @@
 #import "Document.h"
 
 @interface DocumentViewController : UIViewController {
+    Document *_document;
 }
 @property(nonatomic,retain) IBOutlet DocumentView *view;
 @property(nonatomic,retain) IBOutlet id auxObject;
