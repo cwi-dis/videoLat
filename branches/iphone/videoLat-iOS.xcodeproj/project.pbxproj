@@ -35,6 +35,7 @@
 		04155EA31AB6471900DD53D9 /* AudioProcess.m in Sources */ = {isa = PBXBuildFile; fileRef = 04155EA21AB6471900DD53D9 /* AudioProcess.m */; };
 		04155EA61AB647C500DD53D9 /* AudioRunManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 04155EA51AB647C500DD53D9 /* AudioRunManager.m */; };
 		04155EA91AB6481000DD53D9 /* BaseRunManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 04155EA81AB6481000DD53D9 /* BaseRunManager.m */; };
+		0478E1391AB9B7D80057548C /* OpenDocumentTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0478E1381AB9B7D80057548C /* OpenDocumentTableViewController.m */; };
 		04C5FF1F1AB85EB800F4EC25 /* DeviceDescriptionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C5FF1E1AB85EB800F4EC25 /* DeviceDescriptionView.m */; };
 		04C5FF211AB8601400F4EC25 /* DocumentView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04C5FF201AB8601400F4EC25 /* DocumentView.xib */; };
 		04FFFC7A1AB2FA8E0023ED13 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FFFC771AB2FA8E0023ED13 /* AppDelegate.m */; };
@@ -112,6 +113,8 @@
 		04155EA51AB647C500DD53D9 /* AudioRunManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AudioRunManager.m; path = src/AudioRun/AudioRunManager.m; sourceTree = SOURCE_ROOT; };
 		04155EA71AB6481000DD53D9 /* BaseRunManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BaseRunManager.h; path = src/MeasurementRun/BaseRunManager.h; sourceTree = SOURCE_ROOT; };
 		04155EA81AB6481000DD53D9 /* BaseRunManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BaseRunManager.m; path = src/MeasurementRun/BaseRunManager.m; sourceTree = SOURCE_ROOT; };
+		0478E1371AB9B7D80057548C /* OpenDocumentTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OpenDocumentTableViewController.h; path = src/iOS/OpenDocumentTableViewController.h; sourceTree = SOURCE_ROOT; };
+		0478E1381AB9B7D80057548C /* OpenDocumentTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OpenDocumentTableViewController.m; path = src/iOS/OpenDocumentTableViewController.m; sourceTree = SOURCE_ROOT; };
 		048BFCCA1AB2EE2C0026D104 /* videoLat-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "videoLat-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		048BFCE31AB2EE2C0026D104 /* videoLat-iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "videoLat-iOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		04C5FF1D1AB85EB800F4EC25 /* DeviceDescriptionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeviceDescriptionView.h; path = src/Document/DeviceDescriptionView.h; sourceTree = SOURCE_ROOT; };
@@ -247,6 +250,15 @@
 			name = AudioRun;
 			sourceTree = "<group>";
 		};
+		0478E1361AB9B7AC0057548C /* ExistingDocument */ = {
+			isa = PBXGroup;
+			children = (
+				0478E1371AB9B7D80057548C /* OpenDocumentTableViewController.h */,
+				0478E1381AB9B7D80057548C /* OpenDocumentTableViewController.m */,
+			);
+			name = ExistingDocument;
+			sourceTree = "<group>";
+		};
 		048BFCC11AB2EE2B0026D104 = {
 			isa = PBXGroup;
 			children = (
@@ -280,6 +292,7 @@
 				04138C701AB31A03003D8167 /* MeasurementRun */,
 				04138C6D1AB319CB003D8167 /* Document */,
 				04138C6F1AB319F2003D8167 /* NewDocument */,
+				0478E1361AB9B7AC0057548C /* ExistingDocument */,
 				04138C6E1AB319E0003D8167 /* Sharing */,
 				048BFCCD1AB2EE2C0026D104 /* Supporting Files */,
 			);
@@ -418,6 +431,7 @@
 				04138C821AB329CB003D8167 /* DeviceDescription.m in Sources */,
 				04138C851AB32A23003D8167 /* MachineDescription.m in Sources */,
 				04138C7E1AB31E9F003D8167 /* MeasurementDataStore.m in Sources */,
+				0478E1391AB9B7D80057548C /* OpenDocumentTableViewController.m in Sources */,
 				040E77231AB6F314001A7918 /* AudioCalibrationRunManager.m in Sources */,
 				040E77181AB6DBBC001A7918 /* compat.m in Sources */,
 				04138C6C1AB319B9003D8167 /* MeasurementType.m in Sources */,
