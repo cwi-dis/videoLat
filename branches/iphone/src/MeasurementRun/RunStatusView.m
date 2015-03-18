@@ -20,6 +20,16 @@
     return self;
 }
 
+- (id)initWithCoder: (NSCoder *)decoder
+{
+    self = [super initWithCoder: decoder];
+    if (self) {
+        self.detectCount = @"unknown";
+        self.detectAverage = @"unknown";
+    }
+    return self;
+}
+
 - (void) dealloc
 {
 }

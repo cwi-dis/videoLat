@@ -25,8 +25,26 @@
 - (DocumentView *)initWithFrame:(NSorUIRect)frameRect
 {
     self = [super initWithFrame:frameRect];
-	if (self) {
-		initialValues = NO;
+    if (self) {
+        initialValues = NO;
+#ifdef WITH_UIKIT
+        self.showsVerticalScrollIndicator = NO;
+        self.showsHorizontalScrollIndicator = NO;
+        self.bouncesZoom = YES;
+        self.decelerationRate = UIScrollViewDecelerationRateFast;
+        self.maximumZoomScale = 2;
+        self.minimumZoomScale = 0.5;
+        self.delegate = self;
+#endif
+    }
+    return self;
+}
+
+- (DocumentView *)initWithCoder:(NSCoder *)decoder
+{
+    self = [super initWithCoder: decoder];
+    if (self) {
+        initialValues = NO;
 #ifdef WITH_UIKIT
         self.showsVerticalScrollIndicator = NO;
         self.showsHorizontalScrollIndicator = NO;

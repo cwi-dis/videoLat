@@ -93,6 +93,20 @@ static double normFunc(double x, double average, double stddev)
     return self;
 }
 
+- (GraphView *)initWithCoder:(NSCoder *)decoder
+{
+    self = [super initWithCoder: decoder];
+    if (self) {
+        self.color = [NSorUIColor blueColor];
+        self.xLabelScaleFactor = [NSNumber numberWithInt:1];
+        self.yLabelScaleFactor = [NSNumber numberWithInt:1];
+        self.xLabelFormat = @"%f";
+        self.yLabelFormat = @"%f";
+        self.showAverage = NO;
+        self.showNormal = NO;
+    }
+    return self;
+}
 
 - (void)drawRect:(NSorUIRect)dirtyRect {
     if (self.modelObject == nil || [self.modelObject count] == 0) {
@@ -100,6 +114,12 @@ static double normFunc(double x, double average, double stddev)
         return;
     }
     NSorUIRect dstRect = [self bounds];
+#ifdef WITH_UIKIT
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSaveGState(context);
+    CGContextScaleCTM(context, 1, -1);
+    CGContextTranslateCTM(context, 0, -self.bounds.size.height);
+#endif
 	[[NSorUIColor whiteColor] set];
 	NSorUIRectFill(dstRect);
 
@@ -293,6 +313,10 @@ static double normFunc(double x, double average, double stddev)
         [path stroke];
 		path = nil;
     }
+#ifdef WITH_UIKIT
+    CGContextRestoreGState(context);
+#endif
+    
 }
 
 @end

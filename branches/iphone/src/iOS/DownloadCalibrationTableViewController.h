@@ -15,7 +15,6 @@
 	MeasurementDataStore *downloadedDataStore;
 }
 
-- (IBAction) doDownload: (id)sender;
 - (void)didDownload: (MeasurementDataStore *)dataStore;
 - (void)availableCalibrations: (NSArray *)allCalibrations;
 
