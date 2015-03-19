@@ -8,6 +8,8 @@
 
 #import "BaseRunManager.h"
 #import "MachineDescription.h"
+#import "AppDelegate.h"
+
 static NSMutableDictionary *runManagerClasses;
 static NSMutableDictionary *runManagerNibs;
 
@@ -357,6 +359,21 @@ static NSMutableDictionary *runManagerNibs;
 - (void)stop
 {
 	[NSException raise:@"BaseRunManager" format:@"Must override stop in subclass %@", [self class]];
+}
+
+    
+- (IBAction)stopMeasuring: (id)sender
+{
+    [self stop];
+    [self.collector stopCollecting];
+    [self.collector trim];
+    self.statusView.detectCount = [NSString stringWithFormat: @"%d (after trimming 5%%)", self.collector.count];
+    self.statusView.detectAverage = [NSString stringWithFormat: @"%.3f ms ± %.3f", self.collector.average / 1000.0, self.collector.stddev / 1000.0];
+    [self.statusView update: self];
+    NSLog(@"Should do something now with the collector data...");
+	AppDelegate *d = (AppDelegate *)[[NSApplication sharedApplication] delegate];
+	[d openUntitledDocumentWithMeasurement:self.collector.dataStore];
+	[self.statusView.window close];
 }
 
 - (void)triggerNewOutputValue

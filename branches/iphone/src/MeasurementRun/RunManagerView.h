@@ -29,6 +29,5 @@
 @property(weak) IBOutlet RunStatusView *statusView;	//!< Set by our NIB: reference to the runtime status view (average/count)
 
 - (void)terminate;						//!< Unused?
-- (IBAction)stopMeasuring: (id)sender;	//!< Called when user presses "stop" button
 
 @end

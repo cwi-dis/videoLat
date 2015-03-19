@@ -28,8 +28,8 @@
 @property(weak) IBOutlet UILabel *bAverage;	//!< Initialized in the NIB: reference to the average delay text field.
 #else
 @property(weak) IBOutlet NSButton *bStop;		//!< Initialized in the NIB: reference to the stop button.
-@property(weak) IBOutlet NSLabel *bCount;	//!< Initialized in the NIB: reference to the count text field.
-@property(weak) IBOutlet NSLabel *bAverage;	//!< Initialized in the NIB: reference to the average delay text field.
+@property(weak) IBOutlet NSTextField *bCount;	//!< Initialized in the NIB: reference to the count text field.
+@property(weak) IBOutlet NSTextField *bAverage;	//!< Initialized in the NIB: reference to the average delay text field.
 #endif
 
 @property(strong) NSString *detectCount;		//!< Run Manager stores count value here

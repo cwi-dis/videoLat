@@ -33,7 +33,7 @@
 #ifdef WITH_UIKIT
 @property(weak) IBOutlet UISwitch *bDetection;                  //!< Assigned in NIb: UI element that signals detection to the user
 #else
-@property(weak) IBOutlet NSSwitch *bDetection;                  //!< Assigned in NIb: UI element that signals detection to the user
+@property(weak) IBOutlet NSButton *bDetection;                  //!< Assigned in NIb: UI element that signals detection to the user
 #endif
 + (void)initialize;
 - (AudioRunManager *)init;  //!< Initializer

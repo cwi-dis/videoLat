@@ -17,7 +17,7 @@
 #ifdef WITH_UIKIT
 : UIView<SelectionView>
 #else
-: UIView<SelectionView>
+: NSView<SelectionView>
 #endif
 
 #ifdef WITH_UIKIT
