@@ -15,7 +15,13 @@
 /// some visual feedback on the audio level transmitted and allows the user to select the
 /// audio sample to use and the output device.
 ///
-@interface AudioOutputView : NSorUIView <OutputViewProtocol, AVAudioPlayerDelegate> {
+@interface AudioOutputView
+#ifdef WITH_UIKIT
+: UIView <OutputViewProtocol, AVAudioPlayerDelegate>
+#else
+: NSView <OutputViewProtocol, AVAudioPlayerDelegate>
+#endif
+{
     NSArray *samples;       //!< list of available sample filenames
     AVAudioPlayer *player;  //!< AVFoundatio audio player object
     NSArray *signature;     //!< AudioProcess signature of current sample
@@ -26,9 +32,15 @@
 @property(readonly) NSString *deviceName;	//!< Human-readable string that identifies the output device
 @property(weak) IBOutlet id <RunOutputManagerProtocol> manager; //!< Set by NIB: our run manager
 @property(weak) IBOutlet AudioProcess *processor;   //!< Set by NIB: our audio processor
-@property(weak) IBOutlet NSorUIPopUpButton *bSample;    //!< UI element: popup to select audio sample to play
-@property(weak) IBOutlet NSorUISlider *bVolume;         //!< UI element: slider to adjust output volume
-@property(weak) IBOutlet NSorUILevelIndicator *bOutputValue;    //!< UI element: output VU meter
+#ifdef WITH_UIKIT
+@property(weak) IBOutlet UIPickerView *bSample;    //!< UI element: popup to select audio sample to play
+@property(weak) IBOutlet UISlider *bVolume;         //!< UI element: slider to adjust output volume
+@property(weak) IBOutlet UIProgressView *bOutputValue;    //!< UI element: output VU meter
+#else
+@property(weak) IBOutlet NSPopUpButton *bSample;    //!< UI element: popup to select audio sample to play
+@property(weak) IBOutlet NSSlider *bVolume;         //!< UI element: slider to adjust output volume
+@property(weak) IBOutlet NSLevelIndicator *bOutputValue;    //!< UI element: output VU meter
+#endif
 
 - (void)stop;                           //!< Called by manager when user stops the measurement run
 - (IBAction)sampleChanged: (id) sender; //!< Called from UI when a new item has been selected in bSample

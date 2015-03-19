@@ -47,11 +47,16 @@
     }
 #endif
     // Add all input devices
+	assert(self.inputHandler);
     NSArray *newList = [self.inputHandler deviceNames];
 #ifdef WITH_UIKIT_TEMP
 	assert(newList);
-	assert([newList count]);
-	NSString *newInput = [newList objectAtIndex:0];
+	NSString *newInput;
+	if([newList count]) {
+		newInput = [newList objectAtIndex:0];
+	} else {
+		newInput = nil;
+	}
 #else
     [self.bDevices removeAllItems];
     [self.bDevices addItemsWithTitles: newList];

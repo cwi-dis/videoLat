@@ -15,11 +15,22 @@
 /// This view usually lives together with RunTypeView, and is instantiated from
 /// the NewMeasurement.xib NIB file.
 ///
-@interface RunStatusView : NSorUIView
-@property(weak) IBOutlet NSorUIButton *bStop;		//!< Initialized in the NIB: reference to the stop button.
+@interface RunStatusView
+#ifdef WITH_UIKIT
+: NSorUIView
+#else
+: NSorUIView
+#endif
 
-@property(weak) IBOutlet NSorUILabel *bCount;	//!< Initialized in the NIB: reference to the count text field.
-@property(weak) IBOutlet NSorUILabel *bAverage;	//!< Initialized in the NIB: reference to the average delay text field.
+#ifdef WITH_UIKIT
+@property(weak) IBOutlet UIButton *bStop;		//!< Initialized in the NIB: reference to the stop button.
+@property(weak) IBOutlet UILabel *bCount;	//!< Initialized in the NIB: reference to the count text field.
+@property(weak) IBOutlet UILabel *bAverage;	//!< Initialized in the NIB: reference to the average delay text field.
+#else
+@property(weak) IBOutlet NSButton *bStop;		//!< Initialized in the NIB: reference to the stop button.
+@property(weak) IBOutlet NSLabel *bCount;	//!< Initialized in the NIB: reference to the count text field.
+@property(weak) IBOutlet NSLabel *bAverage;	//!< Initialized in the NIB: reference to the average delay text field.
+#endif
 
 @property(strong) NSString *detectCount;		//!< Run Manager stores count value here
 @property(strong) NSString *detectAverage;		//!< Run manager stores average value here

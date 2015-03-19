@@ -15,8 +15,12 @@
 }
 @property (readonly) NSString *deviceID;
 @property (readonly) NSString *deviceName;
-@property(weak) IBOutlet NSorUILevelIndicator *bInputValue;
 @property(weak) IBOutlet id <RunInputManagerProtocol> manager;
+#ifdef WITH_UIKIT
+@property(weak) IBOutlet UIProgressView *bInputValue;
+#else
+@property(weak) IBOutlet NSLevelIndicator *bInputValue;
+#endif
 
 - (uint64_t)now;
 - (bool)available;

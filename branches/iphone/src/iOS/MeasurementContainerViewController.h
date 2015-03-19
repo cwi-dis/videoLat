@@ -14,6 +14,6 @@
 }
 
 @property(strong) NSString *measurementTypeName;
-@property(strong) NSorUIView *measurementView;
+@property(strong) UIView *measurementView;
 
 @end

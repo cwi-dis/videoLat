@@ -7,40 +7,40 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MeasurementContainerViewController">
             <connections>
-                <outlet property="view" destination="iN0-l3-epB" id="mCi-C1-eS2"/>
+                <outlet property="view" destination="iN0-l3-epB" id="gnU-Nk-Fro"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <customObject id="f5f-5e-83C" customClass="AudioInput">
             <connections>
-                <outlet property="bInputValue" destination="OTy-fC-EDj" id="Llm-Vi-fCe"/>
-                <outlet property="manager" destination="eDD-Kr-Cxl" id="was-mx-Knv"/>
+                <outlet property="bInputValue" destination="OTy-fC-EDj" id="eEo-7U-QzH"/>
+                <outlet property="manager" destination="eDD-Kr-Cxl" id="hx1-XP-FHv"/>
             </connections>
         </customObject>
         <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="AudioOutputView">
             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Output Volume:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="klW-w1-Rgs">
-                    <rect key="frame" x="8" y="107" width="120" height="21"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" misplaced="YES" text="Output Volume:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="klW-w1-Rgs">
+                    <rect key="frame" x="8" y="294" width="120" height="21"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Output Level:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wj8-zY-3x4">
-                    <rect key="frame" x="8" y="136" width="103" height="21"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Output Level:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wj8-zY-3x4">
+                    <rect key="frame" x="8" y="323" width="103" height="21"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progressViewStyle="bar" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="aMp-jV-aKa">
-                    <rect key="frame" x="136" y="146" width="456" height="3"/>
+                <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" misplaced="YES" progressViewStyle="bar" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="aMp-jV-aKa">
+                    <rect key="frame" x="136" y="333" width="456" height="3"/>
                 </progressView>
-                <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="9ye-6b-ebQ">
-                    <rect key="frame" x="134" y="103" width="460" height="31"/>
+                <slider opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="9ye-6b-ebQ">
+                    <rect key="frame" x="134" y="290" width="460" height="31"/>
                 </slider>
                 <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cCN-C2-czB" customClass="AudioSelectionView">
-                    <rect key="frame" x="8" y="177" width="584" height="116"/>
+                    <rect key="frame" x="8" y="352" width="584" height="116"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Input Level: " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HeW-cX-sbF">
                             <rect key="frame" x="8" y="8" width="94" height="21"/>
@@ -66,7 +66,7 @@
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
-                                <action selector="startPreMeasuring:" destination="eDD-Kr-Cxl" eventType="touchUpInside" id="V3j-99-urs"/>
+                                <action selector="startPreMeasuring:" destination="eDD-Kr-Cxl" eventType="touchUpInside" id="ou7-kg-2tn"/>
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VP5-JB-4S2">
@@ -75,7 +75,7 @@
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
-                                <action selector="startMeasuring:" destination="eDD-Kr-Cxl" eventType="touchUpInside" id="P0Z-os-JwZ"/>
+                                <action selector="startMeasuring:" destination="eDD-Kr-Cxl" eventType="touchUpInside" id="dg1-wr-eeP"/>
                             </connections>
                         </button>
                     </subviews>
@@ -99,24 +99,15 @@
                         <constraint firstItem="6ht-zg-LcY" firstAttribute="top" secondItem="7Ww-QT-IvP" secondAttribute="bottom" constant="8" symbolic="YES" id="zm8-2k-CAa"/>
                     </constraints>
                     <connections>
-                        <outlet property="bPreRun" destination="6ht-zg-LcY" id="sLv-pw-hcq"/>
-                        <outlet property="bRun" destination="VP5-JB-4S2" id="wuI-H7-PPr"/>
-                        <outlet property="inputHandler" destination="f5f-5e-83C" id="SGX-oX-UNI"/>
-                        <outlet property="manager" destination="eDD-Kr-Cxl" id="Peq-3c-pDF"/>
+                        <outlet property="bPreRun" destination="6ht-zg-LcY" id="tHR-Af-OFM"/>
+                        <outlet property="bRun" destination="VP5-JB-4S2" id="Tyr-xf-QQ8"/>
+                        <outlet property="inputHandler" destination="f5f-5e-83C" id="8hq-Ke-srK"/>
+                        <outlet property="manager" destination="eDD-Kr-Cxl" id="fZ5-NJ-YU4"/>
                     </connections>
                 </view>
                 <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Q8b-ME-ujW" customClass="RunStatusView">
-                    <rect key="frame" x="8" y="319" width="584" height="186"/>
+                    <rect key="frame" x="8" y="476" width="584" height="116"/>
                     <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mic-2S-D0j">
-                            <rect key="frame" x="518" y="148" width="33" height="30"/>
-                            <state key="normal" title="Stop">
-                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <connections>
-                                <action selector="stopPreMeasuring:" destination="eDD-Kr-Cxl" eventType="touchUpInside" id="XHC-gd-Lj8"/>
-                            </connections>
-                        </button>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Count:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NZy-EI-1n5">
                             <rect key="frame" x="8" y="8" width="52" height="21"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -141,6 +132,15 @@
                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                             <nil key="highlightedColor"/>
                         </label>
+                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mic-2S-D0j">
+                            <rect key="frame" x="543" y="66" width="33" height="30"/>
+                            <state key="normal" title="Stop">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="stopPreMeasuring:" destination="eDD-Kr-Cxl" eventType="touchUpInside" id="ibD-Ub-CiS"/>
+                            </connections>
+                        </button>
                     </subviews>
                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
@@ -158,11 +158,14 @@
                         <constraint firstItem="xmI-fo-Gs0" firstAttribute="leading" secondItem="NZy-EI-1n5" secondAttribute="trailing" constant="24" id="mgY-NC-jRS"/>
                     </constraints>
                     <connections>
-                        <outlet property="bAverage" destination="KzJ-yN-U6y" id="EXG-Ba-1ci"/>
-                        <outlet property="bCount" destination="xmI-fo-Gs0" id="zfa-gg-Gc6"/>
-                        <outlet property="bStop" destination="mic-2S-D0j" id="Eqv-KR-qhu"/>
+                        <outlet property="bAverage" destination="KzJ-yN-U6y" id="ngz-Li-gZG"/>
+                        <outlet property="bCount" destination="xmI-fo-Gs0" id="Ouc-fs-PSK"/>
+                        <outlet property="bStop" destination="mic-2S-D0j" id="S9N-mm-g3d"/>
                     </connections>
                 </view>
+                <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="h2t-tk-YTG">
+                    <rect key="frame" x="0.0" y="46" width="600" height="162"/>
+                </pickerView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
@@ -189,24 +192,24 @@
                 <constraint firstAttribute="bottom" secondItem="Q8b-ME-ujW" secondAttribute="bottom" constant="56" id="ytW-g0-fQQ"/>
             </constraints>
             <connections>
-                <outlet property="bOutputValue" destination="aMp-jV-aKa" id="5J3-SL-wcK"/>
-                <outlet property="bVolume" destination="9ye-6b-ebQ" id="g0q-YR-gI5"/>
-                <outlet property="manager" destination="eDD-Kr-Cxl" id="QuL-AB-vI6"/>
-                <outlet property="processor" destination="P2k-DF-a1V" id="hcX-zO-grc"/>
+                <outlet property="bOutputValue" destination="aMp-jV-aKa" id="msQ-MQ-BOZ"/>
+                <outlet property="bSample" destination="h2t-tk-YTG" id="qkz-1R-ZEl"/>
+                <outlet property="bVolume" destination="9ye-6b-ebQ" id="NwV-HA-oLc"/>
+                <outlet property="manager" destination="eDD-Kr-Cxl" id="Xgt-mg-0hk"/>
+                <outlet property="processor" destination="P2k-DF-a1V" id="zTa-Cc-SdQ"/>
             </connections>
             <point key="canvasLocation" x="401" y="58"/>
         </view>
         <customObject id="eDD-Kr-Cxl" customClass="AudioCalibrationRunManager">
             <connections>
-                <outlet property="bDetection" destination="VGR-AE-33l" id="eBb-hX-Lfp"/>
-                <outlet property="capturer" destination="f5f-5e-83C" id="hNV-bK-3hX"/>
-                <outlet property="clock" destination="f5f-5e-83C" id="RVE-fH-GK6"/>
-                <outlet property="collector" destination="a2X-BP-bgb" id="QES-zD-F1Q"/>
-                <outlet property="measurementMaster" destination="-1" id="b1a-Ml-s7K"/>
-                <outlet property="outputView" destination="iN0-l3-epB" id="8d2-pY-uqX"/>
-                <outlet property="processor" destination="P2k-DF-a1V" id="RkS-Bm-Zwt"/>
-                <outlet property="selectionView" destination="cCN-C2-czB" id="gUs-Vg-Epc"/>
-                <outlet property="statusView" destination="Q8b-ME-ujW" id="vzh-rm-DOX"/>
+                <outlet property="bDetection" destination="VGR-AE-33l" id="dsz-Oe-TKS"/>
+                <outlet property="capturer" destination="f5f-5e-83C" id="RvZ-E8-ykj"/>
+                <outlet property="clock" destination="f5f-5e-83C" id="gEC-Ts-kki"/>
+                <outlet property="collector" destination="a2X-BP-bgb" id="mnJ-cl-vi4"/>
+                <outlet property="outputView" destination="iN0-l3-epB" id="ba2-fK-8EE"/>
+                <outlet property="processor" destination="P2k-DF-a1V" id="ec4-YW-hfO"/>
+                <outlet property="selectionView" destination="cCN-C2-czB" id="Lv6-xf-sOM"/>
+                <outlet property="statusView" destination="Q8b-ME-ujW" id="lgA-HC-97D"/>
             </connections>
         </customObject>
         <customObject id="P2k-DF-a1V" customClass="AudioProcess"/>

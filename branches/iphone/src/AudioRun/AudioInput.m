@@ -115,6 +115,7 @@
 - (BOOL)switchToDeviceWithName: (NSString *)name
 {
     if (VL_DEBUG) NSLog(@"Switching to device %@\n", name);
+	if (name == nil) return NO;
 	AVCaptureDevice* dev = [self _deviceWithName:name];
     if (dev == nil)
         return NO;

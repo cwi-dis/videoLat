@@ -115,7 +115,11 @@
 
 @property(weak) IBOutlet RunCollector *collector;			//!< Initialized in the NIB, RunCollector for this measurement run.
 @property(weak) IBOutlet RunStatusView *statusView;			//!< Initialized in the NIB, RunStatusView for this measurement run.
+#ifdef WITH_UIKIT
+@property(weak) IBOutlet MeasurementContainerViewController *measurementMaster;	//!< Initialized in the NIB, our parent object.
+#else
 @property(weak) IBOutlet RunManagerView *measurementMaster;	//!< Initialized in the NIB, our parent object.
+#endif
 
 //@{
 /// The inputCompanion and outputCompanion properties need a bit of explanation.

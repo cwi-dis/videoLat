@@ -13,13 +13,27 @@
 ///
 /// Subclass of NSView, allows the user to select the audio input device.
 ///
-@interface AudioSelectionView : NSorUIView<SelectionView>
-@property(weak) IBOutlet NSorUIPopUpButton *bDevices;  //!< UI element: all available audio input sources
-@property(weak) IBOutlet NSorUIPopUpButton *bBase;          //!< UI element: available calibration runs
-@property(weak) IBOutlet NSorUIButton *bPreRun;             //!< UI element: start a measurement run
-@property(weak) IBOutlet NSorUIButton *bRun;                //!< UI element: start preparing a measurement run
+@interface AudioSelectionView
+#ifdef WITH_UIKIT
+: UIView<SelectionView>
+#else
+: UIView<SelectionView>
+#endif
+
+#ifdef WITH_UIKIT
+@property(weak) IBOutlet UIPickerView *bDevices;  //!< UI element: all available audio input sources
+@property(weak) IBOutlet UIPickerView *bBase;          //!< UI element: available calibration runs
+@property(weak) IBOutlet UIButton *bPreRun;             //!< UI element: start a measurement run
+@property(weak) IBOutlet UIButton *bRun;                //!< UI element: start preparing a measurement run
+#else
+@property(weak) IBOutlet NSPopUpButton *bDevices;  //!< UI element: all available audio input sources
+@property(weak) IBOutlet NSPopUpButton *bBase;          //!< UI element: available calibration runs
+@property(weak) IBOutlet NSButton *bPreRun;             //!< UI element: start a measurement run
+@property(weak) IBOutlet NSButton *bRun;                //!< UI element: start preparing a measurement run
+#endif
 @property(weak) IBOutlet AudioInput *inputHandler;      //!< Input handler, will be told about camera changes
 @property(weak) IBOutlet NSObject<RunInputManagerProtocol> *manager;         //!< Manager, will be told about hardware changes
+
 
 - (void)_updateDeviceNames: (NSNotification*) notification; //!< Called by notification manager when audio device configuration changes.
 - (IBAction)deviceChanged: (id) sender;                  //!< Called when the user makes a new selection in bInputDevices
