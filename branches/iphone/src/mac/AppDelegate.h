@@ -14,7 +14,7 @@
 ///
 /// Application delegate. Stores application-global items, and implements application-global actions.
 ///
-@interface AppDelegate : CommonAppDelegate <NSApplicationDelegate, NSWindowDelegate>{
+@interface AppDelegate : CommonAppDelegate <NSApplicationDelegate, NSWindowDelegate, NewMeasurementDelegate>{
     NSArray *objectsForNewDocument;     //!< Internal: stores NIB-created objects for new measurement window so these are refcounted correctly
          //!< All known calibrations, by UUID
 }

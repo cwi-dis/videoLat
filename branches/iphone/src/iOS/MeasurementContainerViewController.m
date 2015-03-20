@@ -8,6 +8,8 @@
 
 #import "MeasurementContainerViewController.h"
 #import "BaseRunManager.h"
+#import "Document.h"
+#import "DocumentViewController.h"
 
 @implementation MeasurementContainerViewController
 
@@ -27,7 +29,9 @@
 		showWarningAlert(@"Could not load NIB file?");
 		return;
 	}
+	self.measurementView.frame = self.view.bounds;
 	[self.view addSubview: self.measurementView];
+	[self.view setNeedsLayout];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -35,14 +39,32 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
+- (void)openUntitledDocumentWithMeasurement: (MeasurementDataStore *)dataStore
+{
+	NSLog(@"Finished measurement: %@", dataStore);
+	if (dataStore) {
+		finishedDataStore = dataStore;
+#ifdef WITH_UIKIT
+		[self performSegueWithIdentifier:@"showDocument" sender:self];
+#else
+		AppDelegate *ad = (AppDelegate *)[[NSApplication sharedApplication] delegate];
+		[ad performSelectorOnMainThread:@selector(openUntitledDocumentWithMeasurement:) withObject:dataStore waitUntilDone:NO];
+#endif
+	}
+}
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+	assert(finishedDataStore);
+	DocumentViewController *dvc = segue.destinationViewController;
+    NSURL *newURL = [Document inventURLForDocument:finishedDataStore];
+    NSLog(@"URL for measurement is %@", newURL);
+    assert(newURL);
+    Document *newDocument = [[Document alloc] initWithFileURL: newURL];
+    newDocument.dataStore = finishedDataStore;
+    [newDocument newDocumentComplete: self];
+	dvc.document = newDocument;
 }
-*/
 
 @end

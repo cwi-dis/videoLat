@@ -158,16 +158,16 @@
 }
 
 
-- (void)didDownload: (MeasurementDataStore *)dataStore
+- (void)openUntitledDocumentWithMeasurement: (MeasurementDataStore *)dataStore
 {
 	NSLog(@"DidDownload: %@", dataStore);
 	if (dataStore) {
 		downloadedDataStore = dataStore;
-#if 0
-		AppDelegate *ad = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-		[ad performSelectorOnMainThread:@selector(openUntitledDocumentWithMeasurement:) withObject:dataStore waitUntilDone:NO];
-#else
+#ifdef WITH_UIKIT
 		[self performSegueWithIdentifier:@"showDocument" sender:self];
+#else
+		AppDelegate *ad = (AppDelegate *)[[NSApplication sharedApplication] delegate];
+		[ad performSelectorOnMainThread:@selector(openUntitledDocumentWithMeasurement:) withObject:dataStore waitUntilDone:NO];
 #endif
 	}
 }

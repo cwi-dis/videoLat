@@ -9,13 +9,13 @@
 #import <UIKit/UIKit.h>
 #import "protocols.h"
 
-@interface DownloadCalibrationTableViewController : UITableViewController<DownloadDelegate, DownloadQueryDelegate> {
+@interface DownloadCalibrationTableViewController : UITableViewController<NewMeasurementDelegate, DownloadQueryDelegate> {
     NSArray *calibrations;
     BOOL searching;
 	MeasurementDataStore *downloadedDataStore;
 }
 
-- (void)didDownload: (MeasurementDataStore *)dataStore;
+- (void)openUntitledDocumentWithMeasurement: (MeasurementDataStore *)dataStore;
 - (void)availableCalibrations: (NSArray *)allCalibrations;
 
 - (void)_updateCalibrations;

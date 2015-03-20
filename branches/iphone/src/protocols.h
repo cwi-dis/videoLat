@@ -350,12 +350,12 @@
 @end
 
 ///
-/// Protocol that returns answers to "Download this calibration" queries
+/// Protocol to open a new document, either after a download or because a measurement
+/// has finished.
 ///
-@protocol DownloadDelegate
-- (void) didDownload: (MeasurementDataStore *)dataStore;
+@protocol NewMeasurementDelegate
+- (void)openUntitledDocumentWithMeasurement: (MeasurementDataStore *)dataStore;
 @end
-
 
 
 #endif

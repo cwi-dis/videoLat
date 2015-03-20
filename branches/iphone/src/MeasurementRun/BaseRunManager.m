@@ -370,10 +370,17 @@ static NSMutableDictionary *runManagerNibs;
     self.statusView.detectCount = [NSString stringWithFormat: @"%d (after trimming 5%%)", self.collector.count];
     self.statusView.detectAverage = [NSString stringWithFormat: @"%.3f ms ± %.3f", self.collector.average / 1000.0, self.collector.stddev / 1000.0];
     [self.statusView update: self];
-    NSLog(@"Should do something now with the collector data...");
-	AppDelegate *d = (AppDelegate *)[[NSApplication sharedApplication] delegate];
-	[d openUntitledDocumentWithMeasurement:self.collector.dataStore];
-	[self.statusView.window close];
+	if (self.completionHandler) {
+		[self.completionHandler openUntitledDocumentWithMeasurement: self.collector.dataStore];
+	} else {
+#ifdef WITH_APPKIT
+		AppDelegate *d = (AppDelegate *)[[NSApplication sharedApplication] delegate];
+		[d openUntitledDocumentWithMeasurement:self.collector.dataStore];
+		[self.statusView.window close];
+#else
+		assert(0);
+#endif
+	}
 }
 
 - (void)triggerNewOutputValue

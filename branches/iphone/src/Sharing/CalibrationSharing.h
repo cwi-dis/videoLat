@@ -22,6 +22,6 @@
 - (void)shouldUpload: (MeasurementDataStore *)dataStore delegate: (id<UploadQueryDelegate>) delegate;
 - (void)uploadAsynchronously: (MeasurementDataStore *)dataStore;
 - (void)listForMachine: (NSString *)machineTypeID andDevices: (NSArray *)deviceTypeIDs delegate: (id<DownloadQueryDelegate>) delegate;
-- (void)downloadAsynchronously: (NSDictionary *)calibration delegate: (id<DownloadDelegate>) delegate;
+- (void)downloadAsynchronously: (NSDictionary *)calibration delegate: (id<NewMeasurementDelegate>) delegate;
 
 @end

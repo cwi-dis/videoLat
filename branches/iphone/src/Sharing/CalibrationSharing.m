@@ -46,11 +46,11 @@
 @end
 
 @interface DownloadHelper : UploadHelper {
-	id<DownloadDelegate> delegate;
+	id<NewMeasurementDelegate> delegate;
 }
 - (UploadHelper *)initWithURL: (NSURL *)_baseURL dict: (NSDictionary *)calibrationData;
 - (void)_done: (NSData *)result;
-- (void)download: (id<DownloadDelegate>) _delegate;
+- (void)download: (id<NewMeasurementDelegate>) _delegate;
 @end
 
 @implementation UploadHelper
@@ -271,18 +271,18 @@
     } @catch(NSException *ex) {
         NSLog(@"DownloadHelper: could not unarchive result");
         if (VL_DEBUG) NSLog(@"Data=%s", (char *)[result bytes]);
-        [delegate didDownload: nil];
+        [delegate openUntitledDocumentWithMeasurement: nil];
         return;
     }
 	if (result == nil) {
 		NSLog(@"DownloadHelper: could not unarchive result");
-		[delegate didDownload: nil];
+		[delegate openUntitledDocumentWithMeasurement: nil];
 		return;
 	}
-	[delegate didDownload: _dataStore];
+	[delegate openUntitledDocumentWithMeasurement: _dataStore];
 }
 
-- (void)download: (id<DownloadDelegate>)_delegate
+- (void)download: (id<NewMeasurementDelegate>)_delegate
 {
     delegate = _delegate;
     [self _fillURLWithOp:@"get"];
@@ -343,7 +343,7 @@
     }
 }
 
-- (void)downloadAsynchronously: (NSDictionary *)calibration delegate: (id<DownloadDelegate>) delegate
+- (void)downloadAsynchronously: (NSDictionary *)calibration delegate: (id<NewMeasurementDelegate>) delegate
 {
     DownloadHelper *helper = [[DownloadHelper alloc] initWithURL: baseURL dict: calibration];
     if (helper) {

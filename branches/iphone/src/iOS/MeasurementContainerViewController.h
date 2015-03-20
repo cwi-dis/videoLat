@@ -7,13 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "compat.h"
+#import "protocols.h"
+#import "MeasurementDataStore.h"
 
-@interface MeasurementContainerViewController : UIViewController {
+@interface MeasurementContainerViewController : UIViewController<NewMeasurementDelegate> {
 	NSArray *measurementNibObjects;
+	MeasurementDataStore *finishedDataStore;
 }
 
 @property(strong) NSString *measurementTypeName;
-@property(strong) UIView *measurementView;
+@property(strong) IBOutlet UIView *measurementView;
+
+- (void)openUntitledDocumentWithMeasurement: (MeasurementDataStore *)dataStore;
 
 @end
