@@ -22,6 +22,7 @@
 		showWarningAlert(@"No measurementType when view became active...");
 		return;
 	}
+    Class runClass = [BaseRunManager classForMeasurementType: measurementTypeName];
 	NSString *runClassNib = [BaseRunManager nibForMeasurementType:measurementTypeName];
 	assert(runClassNib);
 	measurementNibObjects = [[NSBundle mainBundle] loadNibNamed: runClassNib owner: self options:nil];
@@ -29,6 +30,11 @@
 		showWarningAlert(@"Could not load NIB file?");
 		return;
 	}
+
+    assert(self.runManager);
+    assert([self.runManager class] == runClass);
+    [self.runManager selectMeasurementType: measurementTypeName];
+
 	self.measurementView.frame = self.view.bounds;
 	[self.view addSubview: self.measurementView];
 	[self.view setNeedsLayout];

@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "protocols.h"
 #import "MeasurementDataStore.h"
+#import "BaseRunManager.h"
 
 @interface MeasurementContainerViewController : UIViewController<NewMeasurementDelegate> {
 	NSArray *measurementNibObjects;
@@ -17,6 +18,7 @@
 
 @property(strong) NSString *measurementTypeName;
 @property(strong) IBOutlet UIView *measurementView;
+@property(strong) IBOutlet BaseRunManager *runManager;
 
 - (void)openUntitledDocumentWithMeasurement: (MeasurementDataStore *)dataStore;
 

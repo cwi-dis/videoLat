@@ -302,9 +302,6 @@ static NSMutableDictionary *runManagerNibs;
 
 - (void)restart
 {
-#ifdef WITH_UIKIT_TEMP
-	//assert(0);
-#else
 	@synchronized(self) {
 		if (self.measurementType == nil) return;
         assert(handlesInput);
@@ -313,10 +310,17 @@ static NSMutableDictionary *runManagerNibs;
 			assert(0);
 		}
 		if (self.measurementType.requires == nil) {
+#ifdef WITH_UIKIT
+			self.selectionView.bBase.userInteractionEnabled = NO;
+#else
 			[self.selectionView.bBase setEnabled: NO];
+#endif
 			[self.selectionView.bPreRun setEnabled: YES];
 		} else {
 			NSArray *calibrationNames = self.measurementType.requires.measurementNames;
+#ifdef WITH_UIKIT_TEMP
+			assert(0);
+#else
             [self.selectionView.bBase removeAllItems];
 			[self.selectionView.bBase addItemsWithTitles:calibrationNames];
             if ([self.selectionView.bBase numberOfItems])
@@ -337,6 +341,7 @@ static NSMutableDictionary *runManagerNibs;
 					];
 				[alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
 			}
+#endif
 		}
 		self.preRunning = NO;
 		self.running = NO;
@@ -348,7 +353,6 @@ static NSMutableDictionary *runManagerNibs;
 			[self.selectionView.bPreRun setEnabled: NO];
 		}
 	}
-#endif
 }
 
 - (void) companionRestart
