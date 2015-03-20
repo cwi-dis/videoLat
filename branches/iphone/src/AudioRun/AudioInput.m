@@ -252,8 +252,12 @@
     }
     db /= [connection.audioChannels count];
     float level = (pow(10.f, 0.05f * db) * 20.0f);
+	NSLog(@"Input level=%f", level);
 #ifdef WITH_UIKIT
-    [self.bInputValue setProgress: level];
+	dispatch_async(dispatch_get_main_queue(), ^{
+        [self.bInputValue setProgress: level];
+    });
+
 #else
     [self.bInputValue setFloatValue:level*100];
 #endif

@@ -114,7 +114,10 @@
         [player updateMeters];
         float level = [player averagePowerForChannel: 0];
 #ifdef WITH_UIKIT
-        [self.bOutputValue setProgress: level];
+		dispatch_async(dispatch_get_main_queue(), ^{
+			[self.bOutputValue setProgress: level];
+		});
+
 #else
         [self.bOutputValue setFloatValue:level*100];
 #endif

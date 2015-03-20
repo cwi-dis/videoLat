@@ -222,7 +222,9 @@
 		// See whether we detect the pattern we are looking for, and report to user.
         BOOL foundSample = [self.processor feedData:buffer size:size channels:channels bitsPerChannel: 16 at:timestamp];
 #ifdef WITH_UIKIT
-		self.bDetection.on = foundSample;
+		dispatch_async(dispatch_get_main_queue(), ^{
+			self.bDetection.on = foundSample;
+		});
 #else
 		[self.bDetection setState: (foundSample? NSOnState : NSOffState)];
 #endif
