@@ -298,7 +298,7 @@
 {
     
     NSLog(@"Should upload this document");
-#ifdef WITH_UIKIT
+#ifdef WITH_UIKIT_TEMP
 #else
     NSWindow *win = [self windowForSheet];
     CalibrationSharing *uploader = [CalibrationSharing sharedUploader];
