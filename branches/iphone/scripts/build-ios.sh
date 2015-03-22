@@ -49,7 +49,6 @@ fi
 (
 	cd thirdParty/zbar-0.10-src
 	./configure \
-			--host=armv7 \
 			--disable-dependency-tracking \
 			--disable-video \
 			--without-gtk \
