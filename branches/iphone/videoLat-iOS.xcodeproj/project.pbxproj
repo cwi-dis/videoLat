@@ -36,6 +36,16 @@
 		04155EA61AB647C500DD53D9 /* AudioRunManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 04155EA51AB647C500DD53D9 /* AudioRunManager.m */; };
 		04155EA91AB6481000DD53D9 /* BaseRunManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 04155EA81AB6481000DD53D9 /* BaseRunManager.m */; };
 		0478E1391AB9B7D80057548C /* OpenDocumentTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0478E1381AB9B7D80057548C /* OpenDocumentTableViewController.m */; };
+		0478E1451ABF6ABF0057548C /* findQRcodes.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0478E1421ABF6ABF0057548C /* findQRcodes.mm */; };
+		0478E1461ABF6ABF0057548C /* genQRcodes.m in Sources */ = {isa = PBXBuildFile; fileRef = 0478E1441ABF6ABF0057548C /* genQRcodes.m */; };
+		0478E16D1ABF7DFB0057548C /* libpng15.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0478E16A1ABF7DFB0057548C /* libpng15.a */; };
+		0478E16E1ABF7DFB0057548C /* libzbar.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0478E16B1ABF7DFB0057548C /* libzbar.a */; };
+		0478E16F1ABF7DFB0057548C /* libzint.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0478E16C1ABF7DFB0057548C /* libzint.a */; };
+		0478E1711ABF7E250057548C /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0478E1701ABF7E250057548C /* libz.dylib */; };
+		0478E1751ABF7FD20057548C /* libpng15.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0478E1721ABF7FD20057548C /* libpng15.a */; };
+		0478E1761ABF7FD20057548C /* libzbar.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0478E1731ABF7FD20057548C /* libzbar.a */; };
+		0478E1771ABF7FD20057548C /* libzint.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0478E1741ABF7FD20057548C /* libzint.a */; };
+		0478E1781ABF808C0057548C /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0478E1471ABF6F240057548C /* libiconv.dylib */; };
 		04C5FF1F1AB85EB800F4EC25 /* DeviceDescriptionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C5FF1E1AB85EB800F4EC25 /* DeviceDescriptionView.m */; };
 		04C5FF211AB8601400F4EC25 /* DocumentView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04C5FF201AB8601400F4EC25 /* DocumentView.xib */; };
 		04FFFC7A1AB2FA8E0023ED13 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FFFC771AB2FA8E0023ED13 /* AppDelegate.m */; };
@@ -115,6 +125,18 @@
 		04155EA81AB6481000DD53D9 /* BaseRunManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BaseRunManager.m; path = src/MeasurementRun/BaseRunManager.m; sourceTree = SOURCE_ROOT; };
 		0478E1371AB9B7D80057548C /* OpenDocumentTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OpenDocumentTableViewController.h; path = src/iOS/OpenDocumentTableViewController.h; sourceTree = SOURCE_ROOT; };
 		0478E1381AB9B7D80057548C /* OpenDocumentTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OpenDocumentTableViewController.m; path = src/iOS/OpenDocumentTableViewController.m; sourceTree = SOURCE_ROOT; };
+		0478E1411ABF6ABF0057548C /* findQRcodes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = findQRcodes.h; path = src/VideoRun/findQRcodes.h; sourceTree = SOURCE_ROOT; };
+		0478E1421ABF6ABF0057548C /* findQRcodes.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = findQRcodes.mm; path = src/VideoRun/findQRcodes.mm; sourceTree = SOURCE_ROOT; };
+		0478E1431ABF6ABF0057548C /* genQRcodes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = genQRcodes.h; path = src/VideoRun/genQRcodes.h; sourceTree = SOURCE_ROOT; };
+		0478E1441ABF6ABF0057548C /* genQRcodes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = genQRcodes.m; path = src/VideoRun/genQRcodes.m; sourceTree = SOURCE_ROOT; };
+		0478E1471ABF6F240057548C /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
+		0478E16A1ABF7DFB0057548C /* libpng15.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libpng15.a; path = "thirdParty/installed-iossim/lib/libpng15.a"; sourceTree = "<group>"; };
+		0478E16B1ABF7DFB0057548C /* libzbar.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libzbar.a; path = "thirdParty/installed-iossim/lib/libzbar.a"; sourceTree = "<group>"; };
+		0478E16C1ABF7DFB0057548C /* libzint.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libzint.a; path = "thirdParty/installed-iossim/lib/libzint.a"; sourceTree = "<group>"; };
+		0478E1701ABF7E250057548C /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		0478E1721ABF7FD20057548C /* libpng15.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libpng15.a; path = "thirdParty/installed-ios/lib/libpng15.a"; sourceTree = "<group>"; };
+		0478E1731ABF7FD20057548C /* libzbar.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libzbar.a; path = "thirdParty/installed-ios/lib/libzbar.a"; sourceTree = "<group>"; };
+		0478E1741ABF7FD20057548C /* libzint.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libzint.a; path = "thirdParty/installed-ios/lib/libzint.a"; sourceTree = "<group>"; };
 		048BFCCA1AB2EE2C0026D104 /* videoLat-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "videoLat-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		048BFCE31AB2EE2C0026D104 /* videoLat-iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "videoLat-iOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		04C5FF1D1AB85EB800F4EC25 /* DeviceDescriptionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeviceDescriptionView.h; path = src/Document/DeviceDescriptionView.h; sourceTree = SOURCE_ROOT; };
@@ -134,6 +156,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0478E1781ABF808C0057548C /* libiconv.dylib in Frameworks */,
+				0478E1751ABF7FD20057548C /* libpng15.a in Frameworks */,
+				0478E1761ABF7FD20057548C /* libzbar.a in Frameworks */,
+				0478E1771ABF7FD20057548C /* libzint.a in Frameworks */,
+				0478E1711ABF7E250057548C /* libz.dylib in Frameworks */,
+				0478E16D1ABF7DFB0057548C /* libpng15.a in Frameworks */,
+				0478E16E1ABF7DFB0057548C /* libzbar.a in Frameworks */,
+				0478E16F1ABF7DFB0057548C /* libzint.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -226,6 +256,10 @@
 		04138C891AB330C4003D8167 /* VideoRun */ = {
 			isa = PBXGroup;
 			children = (
+				0478E1411ABF6ABF0057548C /* findQRcodes.h */,
+				0478E1421ABF6ABF0057548C /* findQRcodes.mm */,
+				0478E1431ABF6ABF0057548C /* genQRcodes.h */,
+				0478E1441ABF6ABF0057548C /* genQRcodes.m */,
 				04138C8A1AB330DB003D8167 /* VideoInput.h */,
 				04138C8B1AB330DB003D8167 /* VideoInput.m */,
 			);
@@ -259,10 +293,42 @@
 			name = ExistingDocument;
 			sourceTree = "<group>";
 		};
+		0478E13A1ABF6A670057548C /* thirdParty-iOS */ = {
+			isa = PBXGroup;
+			children = (
+				0478E1721ABF7FD20057548C /* libpng15.a */,
+				0478E1731ABF7FD20057548C /* libzbar.a */,
+				0478E1741ABF7FD20057548C /* libzint.a */,
+			);
+			name = "thirdParty-iOS";
+			sourceTree = "<group>";
+		};
+		0478E1491ABF71720057548C /* Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				0478E1471ABF6F240057548C /* libiconv.dylib */,
+				0478E1701ABF7E250057548C /* libz.dylib */,
+				0478E13A1ABF6A670057548C /* thirdParty-iOS */,
+				0478E14A1ABF718C0057548C /* thirdParty-iOSsim */,
+			);
+			name = Libraries;
+			sourceTree = "<group>";
+		};
+		0478E14A1ABF718C0057548C /* thirdParty-iOSsim */ = {
+			isa = PBXGroup;
+			children = (
+				0478E16A1ABF7DFB0057548C /* libpng15.a */,
+				0478E16B1ABF7DFB0057548C /* libzbar.a */,
+				0478E16C1ABF7DFB0057548C /* libzint.a */,
+			);
+			name = "thirdParty-iOSsim";
+			sourceTree = "<group>";
+		};
 		048BFCC11AB2EE2B0026D104 = {
 			isa = PBXGroup;
 			children = (
 				048BFCCC1AB2EE2C0026D104 /* src */,
+				0478E1491ABF71720057548C /* Libraries */,
 				048BFCCB1AB2EE2C0026D104 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -435,6 +501,7 @@
 				040E77231AB6F314001A7918 /* AudioCalibrationRunManager.m in Sources */,
 				040E77181AB6DBBC001A7918 /* compat.m in Sources */,
 				04138C6C1AB319B9003D8167 /* MeasurementType.m in Sources */,
+				0478E1461ABF6ABF0057548C /* genQRcodes.m in Sources */,
 				04138C7F1AB31E9F003D8167 /* MeasurementDistribution.m in Sources */,
 				040E772E1AB70A12001A7918 /* RunStatusView.m in Sources */,
 				040E771F1AB6ED25001A7918 /* MeasurementContainerViewController.m in Sources */,
@@ -443,6 +510,7 @@
 				040E773A1AB7200F001A7918 /* GraphView.m in Sources */,
 				04138C791AB31E1B003D8167 /* CommonAppDelegate.m in Sources */,
 				04155EA01AB6448900DD53D9 /* AudioOutputView.m in Sources */,
+				0478E1451ABF6ABF0057548C /* findQRcodes.mm in Sources */,
 				040E77431AB73634001A7918 /* Document.m in Sources */,
 				04155EA61AB647C500DD53D9 /* AudioRunManager.m in Sources */,
 				04155E971AB6251900DD53D9 /* NewCalibrationTableViewController.m in Sources */,
@@ -526,6 +594,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				USER_HEADER_SEARCH_PATHS = "thirdParty/installed-iOSsim/include";
 			};
 			name = Debug;
 		};
@@ -561,6 +630,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				USER_HEADER_SEARCH_PATHS = "thirdParty/installed-iOSsim/include";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -573,8 +643,22 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = src/iOS/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/thirdParty/installed-iossim/lib",
+					"$(PROJECT_DIR)/thirdParty/installed-ios/lib",
+				);
+				"LIBRARY_SEARCH_PATHS[sdk=iphoneos*]" = (
+					"$(PROJECT_DIR)/thirdParty/installed-ios/lib",
+					"$(inherited)",
+				);
+				"LIBRARY_SEARCH_PATHS[sdk=iphonesimulator*]" = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/thirdParty/installed-iossim/lib",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				"USER_HEADER_SEARCH_PATHS[arch=*]" = "thirdParty/installed-iOSsim/include";
 			};
 			name = Debug;
 		};
@@ -586,6 +670,19 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = src/iOS/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/thirdParty/installed-iossim/lib",
+					"$(PROJECT_DIR)/thirdParty/installed-ios/lib",
+				);
+				"LIBRARY_SEARCH_PATHS[sdk=iphoneos*]" = (
+					"$(PROJECT_DIR)/thirdParty/installed-ios/lib",
+					"$(inherited)",
+				);
+				"LIBRARY_SEARCH_PATHS[sdk=iphonesimulator*]" = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/thirdParty/installed-iossim/lib",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};

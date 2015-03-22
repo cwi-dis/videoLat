@@ -49,11 +49,7 @@
 		assert(symbol->bitmap_height <= height);
 	}
 	if (err) {
-		NSRunAlertPanel(
-			@"Error",
-			@"measurements::generate_timestamp: ZBar_Encode error %d %s",
-			nil, nil, nil,
-			err, symbol->errtxt);
+		showWarningAlert(@"genQRcodes: ZBar_Encode error");
 	} else {
         // Sigh... pixelbuf is 3 byte pixels, we need 4.
 		for(int y=0; y < symbol->bitmap_height; y++) {

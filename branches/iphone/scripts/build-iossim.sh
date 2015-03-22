@@ -6,13 +6,13 @@ set -ex
 #
 # Setup directory
 #
-rm -rf thirdParty/installed-ios
-mkdir thirdParty/installed-ios
-INST=`(cd thirdParty/installed-ios ; pwd)`
+rm -rf thirdParty/installed-iossim
+mkdir thirdParty/installed-iossim
+INST=`(cd thirdParty/installed-iossim ; pwd)`
 XCODEDEV=/Applications/Xcode.app/Contents/Developer
 IOSVERSION=8.2
-PATH=$INST/bin:$XCODEDEV/Platforms/iPhoneOS.platform/Developer/usr/bin:$XCODEDEV/usr/bin:$PATH
-CFLAGS="-arch armv7 -arch arm64 -isysroot $XCODEDEV/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS$IOSVERSION.sdk"
+PATH=$INST/bin:$XCODEDEV/Platforms/iPhoneSimulator.platform/Developer/usr/bin:$XCODEDEV/usr/bin:$PATH
+CFLAGS="-arch x86_64 -arch i386 -isysroot $XCODEDEV/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator$IOSVERSION.sdk -miphoneos-version-min=7.0"
 PKG_CONFIG_LIBDIR=$INST/lib/pkgconfig
 
 #
@@ -23,7 +23,7 @@ if test -f thirdParty/libpng-1.5.18/configure; then
 	(
 		cd thirdParty/libpng-1.5.18
 		./configure \
-			--host=armv7 \
+			--host=x86_64 \
 			--prefix=$INST \
 			--disable-arm-neon \
 			CFLAGS="$CFLAGS" \
@@ -49,7 +49,6 @@ fi
 (
 	cd thirdParty/zbar-0.10-src
 	./configure \
-			--host=arm \
 			--disable-dependency-tracking \
 			--disable-video \
 			--without-gtk \

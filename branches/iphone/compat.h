@@ -34,6 +34,7 @@ typedef UIBezierPath NSorUIBezierPath;
 #define NSorUIWidth CGRectGetWidth
 #define NSorUIHeight CGRectGetHeight
 #define NSorUIRectFill UIRectFill
+#define NSorUIMakeRect CGRectMake
 #else
 #define WITH_APPKIT
 typedef NSApplication NSorUIApplication;
@@ -55,9 +56,18 @@ typedef NSBezierPath NSorUIBezierPath;
 #define NSorUIWidth NSWidth
 #define NSorUIHeight NSHeight
 #define NSorUIRectFill NSRectFill
+#define NSorUIMakeRect NSMakeRect
+#endif
+
+#ifdef __cplusplus
+extern "C" {
 #endif
 
 void showErrorAlert(NSError *error);
 void showWarningAlert(NSString *warning);
+
+#ifdef __cplusplus
+};
+#endif
 
 #endif
