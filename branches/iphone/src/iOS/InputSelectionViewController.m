@@ -18,12 +18,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-	if (!measurementTypeName) {
+	if (!self.measurementTypeName) {
 		showWarningAlert(@"No measurementType when view became active...");
 		return;
 	}
-    Class runClass = [BaseRunManager classForMeasurementType: measurementTypeName];
-	NSString *runClassNib = [BaseRunManager selectionNibForMeasurementType:measurementTypeName];
+	NSString *runClassNib = [BaseRunManager selectionNibForMeasurementType:self.measurementTypeName];
 	assert(runClassNib);
 	measurementNibObjects = [[NSBundle mainBundle] loadNibNamed: runClassNib owner: self options:nil];
 	if (!measurementNibObjects) {
@@ -31,12 +30,10 @@
 		return;
 	}
 
-    assert(self.runManager);
-    assert([self.runManager class] == runClass);
-    [self.runManager selectMeasurementType: measurementTypeName];
+    assert(self.selectionView);
 
-	self.measurementView.frame = self.view.bounds;
-	[self.view addSubview: self.measurementView];
+	self.selectionView.frame = self.view.bounds;
+	[self.view addSubview: self.selectionView];
 	[self.view setNeedsLayout];
 }
 

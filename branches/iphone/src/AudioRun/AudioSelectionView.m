@@ -114,33 +114,51 @@
 - (void)setBases: (NSArray *)baseNames
 {
 	assert(self.bBase);
+#ifdef WITH_UIKIT
+	assert(0);
+#else
     [self.bBase removeAllItems];
     [self.bBase addItemsWithTitles: baseNames];
 	[self.selectionDelegate selectionChanged:self];
+#endif
 }
 
 - (void)disableBases
 {
 	if (self.bBase) {
+#ifdef WITH_UIKIT
+		assert(0);
+#else
 		[self.bBase setEnabled: NO];
 		[self.bBase selectItem: nil];
+#endif
 	}
 }
 
 - (NSString *)baseName
 {
 	if (self.bBase == nil) return nil;
+#ifdef WITH_UIKIT
+	assert(0);
+	return nil;
+#else
 	NSMenuItem *item = [self.bBase selectedItem];
 	if (item == nil) return nil;
 	return [item title];
+#endif
 }
 
 - (NSString *)deviceName
 {
+#ifdef WITH_UIKIT
+	assert(0);
+	return nil;
+#else
 	assert(self.bDevices);
 	NSMenuItem *item = [self.bDevices selectedItem];
 	if (item == nil) return nil;
 	return [item title];
+#endif
 }
 
 @end

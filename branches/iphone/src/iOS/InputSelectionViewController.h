@@ -7,8 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "protocols.h"
 
-@interface InputSelectionViewController : UIViewController
+@interface InputSelectionViewController : UIViewController {
+	NSArray *measurementNibObjects;
+}
+@property(strong) IBOutlet UIView<SelectionView> *selectionView;
 @property(strong) NSString *measurementTypeName;
 
 @end

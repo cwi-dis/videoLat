@@ -207,6 +207,7 @@ static NSMutableDictionary *runManagerSelectionNibs;
 				}
 			}
 			if (errorMessage) {
+#ifdef WITH_APPKIT
 				NSAlert *alert = [NSAlert alertWithMessageText: @"Base calibration mismatch, are you sure you want to continue?"
 					defaultButton:@"Cancel"
 					alternateButton:@"Continue"
@@ -215,6 +216,9 @@ static NSMutableDictionary *runManagerSelectionNibs;
 				NSInteger button = [alert runModal];
 				if (button == NSAlertDefaultReturn)
 					return;
+#else
+				showWarningAlert(@"Base calibration does not match selected device(s)");
+#endif
 			}
 			[self.collector.dataStore useCalibration:baseStore];
 				
