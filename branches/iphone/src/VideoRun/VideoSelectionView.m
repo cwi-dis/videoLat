@@ -26,6 +26,9 @@
 
 - (void)_updateCameraNames: (NSNotification*) notification
 {
+#ifdef WITH_UIKIT_TEMP
+	assert(0);
+#else
     if (VL_DEBUG) NSLog(@"Cameras changed\n");
     // Remember the old selection (if any)
     NSString *oldCam = nil;
@@ -47,26 +50,35 @@
     NSString *newCam = [newItem title];
     if (![newCam isEqualToString:oldCam] || notification == nil)
         [self.inputHandler switchToDeviceWithName:newCam];
+#endif
 }
 
 - (void)_reselectCamera: (NSString *)oldCam
 {
+#ifdef WITH_UIKIT_TEMP
+	assert(0);
+#else
     if (oldCam)
         [self.bDevices selectItemWithTitle:oldCam];
     // Select first item, if nothing has been selected
     NSMenuItem *newItem = [self.bDevices selectedItem];
     if (newItem == nil)
         [self.bDevices selectItemAtIndex: 0];
+#endif
 }
 
 - (IBAction)deviceChanged: (id) sender
 {
+#ifdef WITH_UIKIT_TEMP
+	assert(0);
+#else
 	NSMenuItem *item = [sender selectedItem];
 	NSString *cam = [item title];
 	NSLog(@"Switch to %@\n", cam);
 	[self.inputHandler switchToDeviceWithName: cam];
 	assert(self.manager);
 	[self.manager deviceChanged: self];
+#endif
 }
 
 @end

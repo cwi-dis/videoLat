@@ -7,10 +7,15 @@
 //
 
 #import "VideoOutputView.h"
+#ifdef WITH_APPKIT
 #import <CoreServices/CoreServices.h>
 #import <ApplicationServices/ApplicationServices.h>
 #import <IOKit/graphics/IOGraphicsLib.h>
+#endif
 
+#ifdef WITH_UIKIT
+#define NSRectfromCGRect(x) (x)
+#endif
 
 @implementation VideoOutputView
 
@@ -18,6 +23,7 @@
 
 + (NSArray *) allDeviceTypeIDs
 {
+#ifdef WITH_APPKIT
     NSScreen *d;
     NSMutableArray *rv = [NSMutableArray arrayWithCapacity:128];
     NSArray *devs = [NSScreen screens];
@@ -33,9 +39,12 @@
             [rv addObject: [names objectForKey:[[names allKeys] objectAtIndex:0]]];
     }
     return rv;
+#else
+	return @[ @"screen"];
+#endif
 }
 
-- (id)initWithFrame:(NSRect)frame {
+- (id)initWithFrame:(NSorUIRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
     }
@@ -44,15 +53,20 @@
 
 - (NSString *)deviceID
 {
+#ifdef WITH_APPKIT
 	NSWindow *window = [self window];
 	NSScreen *screen = [window screen];
 	NSDictionary *screenDescription = [screen deviceDescription];
 	NSNumber *screenNumber = [screenDescription objectForKey:@"NSScreenNumber"];
 	return [screenNumber stringValue];
+#else
+	return @"screen";
+#endif
 }
 
 - (NSString *)deviceName
 {
+#ifdef WITH_APPKIT
 	NSString *rv = @"Unknown";
 	NSWindow *window = [self window];
 	NSScreen *screen = [window screen];
@@ -66,23 +80,32 @@
     if([names count])
 		rv = [names objectForKey:[[names allKeys] objectAtIndex:0]];
     return rv;
+#else
+	return @"screen";
+#endif
 }
 
 - (void)viewWillDraw
 {
+#ifdef WITH_APPKIT
 	NSScreen *curScreen = [[self window] screen];
 	if (curScreen != self.oldScreen) {
 		self.oldScreen = curScreen;
 		if (self.bOutputName)
 			[self.bOutputName setStringValue: self.deviceName];
 	}
+#endif
 }
 
 - (void)showNewData {
+#ifdef WITH_UIKIT
+	[self setNeedsDisplay];
+#else
 	[self setNeedsDisplay:YES];
+#endif
 }
 
-- (void)drawRect:(NSRect)dirtyRect {
+- (void)drawRect:(NSorUIRect)dirtyRect {
     CIImage *newImage = [self.manager newOutputStart];
     assert(newImage);
     if (mirrored) {
@@ -90,12 +113,17 @@
         newImage = mirror;
     }
     
-    NSRect dstRect = [self bounds];
-    CGFloat width = NSWidth(dstRect);
-    CGFloat height = NSHeight(dstRect);
+    NSorUIRect dstRect = [self bounds];
+    CGFloat width = NSorUIWidth(dstRect);
+    CGFloat height = NSorUIHeight(dstRect);
     width = height = ((width < height)? width : height);
-    dstRect = NSMakeRect(NSMidX(dstRect)-width/2, NSMidY(dstRect)-height/2, width, height);
+    dstRect = NSorUIMakeRect(NSorUIMidX(dstRect)-width/2, NSorUIMidY(dstRect)-height/2, width, height);
+#ifdef WITH_UIKIT
+    UIImage *drawImage = [UIImage imageWithCIImage: newImage];
+    [drawImage drawInRect:dstRect];
+#else
     [newImage drawInRect:dstRect fromRect:NSRectFromCGRect([newImage extent]) operation:NSCompositeCopy fraction:1];
+#endif
 
     // Report back that we have displayed it.
     [self.manager newOutputDone];

@@ -15,13 +15,26 @@
 /// This is a separate class because it is shared among the various video-based
 /// measurement runs.
 ///
-@interface VideoSelectionView : NSView<SelectionView>
+@interface VideoSelectionView
+#ifdef WITH_UIKIT
+ : UIView<SelectionView>
+#else
+ : NSView<SelectionView>
+#endif
+@property(weak) IBOutlet VideoInput *inputHandler;  //!< Input handler, will be told about camera changes
+@property(weak) IBOutlet NSObject<RunInputManagerProtocol> *manager;         //!< Manager, will be told about hardware changes
+
+#ifdef WITH_UIKIT
+@property(weak) IBOutlet UIPickerView *bDevices;   //!< UI element: all available cameras
+@property(weak) IBOutlet UIPickerView *bBase;      //!< UI element: available calibration runs
+@property(weak) IBOutlet UIButton *bPreRun;         //!< UI element: start preparing a measurement run
+@property(weak) IBOutlet UIButton *bRun;            //!< UI element: start a measurement run
+#else
 @property(weak) IBOutlet NSPopUpButton *bDevices;   //!< UI element: all available cameras
 @property(weak) IBOutlet NSPopUpButton *bBase;      //!< UI element: available calibration runs
 @property(weak) IBOutlet NSButton *bPreRun;         //!< UI element: start preparing a measurement run
 @property(weak) IBOutlet NSButton *bRun;            //!< UI element: start a measurement run
-@property(weak) IBOutlet VideoInput *inputHandler;  //!< Input handler, will be told about camera changes
-@property(weak) IBOutlet NSObject<RunInputManagerProtocol> *manager;         //!< Manager, will be told about hardware changes
+#endif
 
 - (IBAction)deviceChanged: (id) sender;     //!< Called when the user makes a new selection in bCameras
 - (void)_updateCameraNames: (NSNotification*) notification; //!< Called by notification manager when a camera is attached/removed.

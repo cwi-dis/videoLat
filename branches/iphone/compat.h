@@ -30,11 +30,15 @@ typedef UISlider NSorUISlider;
 typedef MeasurementContainerViewController MeasurementMasterType;
 typedef UIColor NSorUIColor;
 typedef UIBezierPath NSorUIBezierPath;
+
 #define NSorUIMakePoint CGPointMake
 #define NSorUIWidth CGRectGetWidth
 #define NSorUIHeight CGRectGetHeight
 #define NSorUIRectFill UIRectFill
 #define NSorUIMakeRect CGRectMake
+#define NSorUIMidX CGRectGetMidX
+#define NSorUIMidY CGRectGetMidY
+#define NSRectFromCGRect(x) (x)
 #else
 #define WITH_APPKIT
 typedef NSApplication NSorUIApplication;
@@ -57,6 +61,8 @@ typedef NSBezierPath NSorUIBezierPath;
 #define NSorUIHeight NSHeight
 #define NSorUIRectFill NSRectFill
 #define NSorUIMakeRect NSMakeRect
+#define NSorUIMidX NSMidX
+#define NSorUIMidY NSMidY
 #endif
 
 #ifdef __cplusplus
