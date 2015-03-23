@@ -126,7 +126,7 @@
             
 		}
 		[self.selectionView.bPreRun setEnabled: NO];
-		[self.selectionView.bRun setEnabled: NO];
+		[self.statusView.bRun setEnabled: NO];
 		if (self.statusView) {
 			[self.statusView.bStop setEnabled: NO];
 		}
@@ -153,7 +153,7 @@
 		// Assume that 4*maxDelay is a decent upper bound for detection.
 		maxDelay = maxDelay*4;
 		[self.selectionView.bPreRun setEnabled: NO];
-		[self.selectionView.bRun setEnabled: YES];
+		[self.statusView.bRun setEnabled: YES];
 		if (!self.statusView) {
 			// XXXJACK Make sure statusview is active/visible
 		}
@@ -166,7 +166,7 @@
     @synchronized(self) {
         assert(handlesInput);
 		[self.selectionView.bPreRun setEnabled: NO];
-		[self.selectionView.bRun setEnabled: NO];
+		[self.statusView.bRun setEnabled: NO];
 		if (!self.statusView) {
 			// XXXJACK Make sure statusview is active/visible
 		}

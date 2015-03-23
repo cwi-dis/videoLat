@@ -22,22 +22,27 @@
  : NSView<SelectionView>
 #endif
 @property(weak) IBOutlet VideoInput *inputHandler;  //!< Input handler, will be told about camera changes
-@property(weak) IBOutlet NSObject<RunInputManagerProtocol> *manager;         //!< Manager, will be told about hardware changes
+@property(weak) IBOutlet NSObject <SelectionViewDelegate> *selectionDelegate;
 
 #ifdef WITH_UIKIT
-@property(weak) IBOutlet UIPickerView *bDevices;   //!< UI element: all available cameras
+@property(weak) IBOutlet UIButton *bSwitchDevice;   //!< UI element: switch to next available cameras
+@property(weak) IBOutlet UILabel *bDeviceName;		//!< UI element: current selected camera
+@property(weak) IBOutlet UIView *cameraPreview;		//!< UI element: preview of current camera
 @property(weak) IBOutlet UIPickerView *bBase;      //!< UI element: available calibration runs
 @property(weak) IBOutlet UIButton *bPreRun;         //!< UI element: start preparing a measurement run
-@property(weak) IBOutlet UIButton *bRun;            //!< UI element: start a measurement run
 #else
 @property(weak) IBOutlet NSPopUpButton *bDevices;   //!< UI element: all available cameras
 @property(weak) IBOutlet NSPopUpButton *bBase;      //!< UI element: available calibration runs
 @property(weak) IBOutlet NSButton *bPreRun;         //!< UI element: start preparing a measurement run
-@property(weak) IBOutlet NSButton *bRun;            //!< UI element: start a measurement run
 #endif
 
 - (IBAction)deviceChanged: (id) sender;     //!< Called when the user makes a new selection in bCameras
 - (void)_updateCameraNames: (NSNotification*) notification; //!< Called by notification manager when a camera is attached/removed.
 - (void)_reselectCamera: (NSString *)name;  //!< Internal: try to re-select our camera on camera change
+
+- (void)setBases: (NSArray *)baseNames;
+- (void)disableBases;
+- (NSString *)baseName;				//!< Returns name of selected base measurement
+- (NSString *)deviceName;			//!< Returns name of selected input device
 
 @end

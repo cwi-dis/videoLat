@@ -23,10 +23,12 @@
 #endif
 
 #ifdef WITH_UIKIT
+@property(weak) IBOutlet UIButton *bRun;		//!< Initialized in the NIB: reference to the run button.
 @property(weak) IBOutlet UIButton *bStop;		//!< Initialized in the NIB: reference to the stop button.
 @property(weak) IBOutlet UILabel *bCount;	//!< Initialized in the NIB: reference to the count text field.
 @property(weak) IBOutlet UILabel *bAverage;	//!< Initialized in the NIB: reference to the average delay text field.
 #else
+@property(weak) IBOutlet NSButton *bRun;		//!< Initialized in the NIB: reference to the run button.
 @property(weak) IBOutlet NSButton *bStop;		//!< Initialized in the NIB: reference to the stop button.
 @property(weak) IBOutlet NSTextField *bCount;	//!< Initialized in the NIB: reference to the count text field.
 @property(weak) IBOutlet NSTextField *bAverage;	//!< Initialized in the NIB: reference to the average delay text field.

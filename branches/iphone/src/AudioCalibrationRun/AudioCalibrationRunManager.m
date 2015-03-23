@@ -15,6 +15,9 @@
 {
     [BaseRunManager registerClass: [self class] forMeasurementType: @"Audio Roundtrip Calibrate"];
     [BaseRunManager registerNib: @"AudioCalibrationRunManager" forMeasurementType: @"Audio Roundtrip Calibrate"];
+#ifdef WITH_UIKIT
+    [BaseRunManager registerSelectionNib: @"AudioInputSelectionView" forMeasurementType: @"Audio Roundtrip Calibrate"];
+#endif
 }
 
 - (AudioCalibrationRunManager*)init

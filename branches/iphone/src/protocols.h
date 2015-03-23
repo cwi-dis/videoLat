@@ -112,15 +112,25 @@
 @end
 
 ///
+/// Protocol used by selectionView to communicate changes
+///
+@protocol SelectionViewDelegate
+- (IBAction)selectionChanged: (id)sender;		//!< Called whenever input device or base measurement changes
+- (IBAction)startPreMeasuring: (id)sender;		//!< Called when premeasuring button has been pressed
+@end
+
+///
 /// Protocol for an object that allows selection of input device, base measurement (optional),
 /// and starting of preruns and runs.
 ///
 @protocol SelectionView
-@property(weak) IBOutlet NSorUIPopUpButton *bDevices;   //!< UI element: all available cameras
-@property(weak) IBOutlet NSorUIPopUpButton *bBase;      //!< UI element: available calibration runs
 @property(weak) IBOutlet NSorUIButton *bPreRun;         //!< UI element: start preparing a measurement run
-@property(weak) IBOutlet NSorUIButton *bRun;            //!< UI element: start a measurement run
-@property(weak) IBOutlet NSObject <RunInputManagerProtocol> *manager;
+@property(weak) IBOutlet NSObject <SelectionViewDelegate> *selectionDelegate;
+
+- (void)setBases: (NSArray *)baseNames;
+- (void)disableBases;
+- (NSString *)baseName;				//!< Returns name of selected base measurement
+- (NSString *)deviceName;			//!< Returns name of selected input device
 @end
 
 @protocol NetworkViewProtocol
@@ -249,7 +259,7 @@
 ///
 /// Called from the SelectionView whenever the (input) device changes.
 ///
-- (IBAction)deviceChanged: (id) sender;
+- (IBAction)selectionChanged: (id) sender;
 
 ///
 /// Called to prepare the input device, if needed, when restarting.

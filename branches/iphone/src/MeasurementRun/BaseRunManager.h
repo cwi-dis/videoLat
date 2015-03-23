@@ -76,6 +76,23 @@
 ///
 + (NSString *)nibForMeasurementType: (NSString *)name;
 
+#ifdef WITH_UIKIT
+///
+/// Register a NIB file that implements selecting the inputs for a specific measurement type.
+/// @param nibName the name of the nibfile
+/// @param name the (human readable) name of the measurement type
+///
++ (void)registerSelectionNib: (NSString*)nibName forMeasurementType: (NSString *)name;
+
+///
+/// Return the NIB filename implementing a measurement type.
+/// @param name the name of the measurement type
+/// @return the NIB name implementing the measurement type
+///
++ (NSString *)selectionNibForMeasurementType: (NSString *)name;
+
+#endif
+
 @property(strong) MeasurementType *measurementType;
 ///
 /// Textual representation of the current output code, for example @"white", or

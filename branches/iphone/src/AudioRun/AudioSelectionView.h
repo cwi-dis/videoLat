@@ -24,15 +24,13 @@
 @property(weak) IBOutlet UIPickerView *bDevices;  //!< UI element: all available audio input sources
 @property(weak) IBOutlet UIPickerView *bBase;          //!< UI element: available calibration runs
 @property(weak) IBOutlet UIButton *bPreRun;             //!< UI element: start a measurement run
-@property(weak) IBOutlet UIButton *bRun;                //!< UI element: start preparing a measurement run
 #else
 @property(weak) IBOutlet NSPopUpButton *bDevices;  //!< UI element: all available audio input sources
 @property(weak) IBOutlet NSPopUpButton *bBase;          //!< UI element: available calibration runs
 @property(weak) IBOutlet NSButton *bPreRun;             //!< UI element: start a measurement run
-@property(weak) IBOutlet NSButton *bRun;                //!< UI element: start preparing a measurement run
 #endif
 @property(weak) IBOutlet AudioInput *inputHandler;      //!< Input handler, will be told about camera changes
-@property(weak) IBOutlet NSObject<RunInputManagerProtocol> *manager;         //!< Manager, will be told about hardware changes
+@property(weak) IBOutlet NSObject <SelectionViewDelegate> *selectionDelegate;
 
 
 - (void)_updateDeviceNames: (NSNotification*) notification; //!< Called by notification manager when audio device configuration changes.

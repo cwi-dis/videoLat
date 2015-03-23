@@ -12,7 +12,9 @@
 
 static NSMutableDictionary *runManagerClasses;
 static NSMutableDictionary *runManagerNibs;
-
+#ifdef WITH_UIKIT
+static NSMutableDictionary *runManagerSelectionNibs;
+#endif
 @implementation BaseRunManager
 
 @synthesize running;
@@ -70,6 +72,23 @@ static NSMutableDictionary *runManagerNibs;
     return [runManagerNibs objectForKey:name];
 }
 
+#ifdef WITH_UIKIT
++ (void)registerSelectionNib: (NSString*)nibName forMeasurementType: (NSString *)name
+{
+    NSString *oldNib = [runManagerSelectionNibs objectForKey:name];
+    if (oldNib != nil && oldNib != nibName) {
+        NSLog(@"BaseRunManager: attempt to set Nib for %@ to %@ but it was already set to %@\n", name, nibName, oldNib);
+        abort();
+    }
+    if (VL_DEBUG) NSLog(@"BaseRunManager: Register selection nib%@ for %@\n", nibName, name);
+    [runManagerSelectionNibs setObject:nibName forKey:name];
+}
+
++ (NSString *)selectionNibForMeasurementType: (NSString *)name
+{
+    return [runManagerSelectionNibs objectForKey:name];
+}
+#endif
 @synthesize measurementType;
 
 - (BaseRunManager *) init
@@ -143,23 +162,23 @@ static NSMutableDictionary *runManagerNibs;
     }
 }
 
-- (IBAction)deviceChanged: (id) sender
+- (IBAction)selectionChanged: (id) sender
 {
 	NSLog(@"BaseRunManager: device changed");
+	assert(0);
 }
 
 - (IBAction)startPreMeasuring: (id)sender
 {
-#ifndef WITH_UIKIT_TEMP
-	assert(0);
 	@synchronized(self) {
-        assert(handlesInput);
+ 		assert(!self.preRunning);
+		assert(!self.running);
+       assert(handlesInput);
 		// First check that everything is OK with base measurement and such
 		if (self.measurementType.requires != nil) {
 			// First check that a base measurement has been selected.
 			NSString *errorMessage;
-			NSMenuItem *baseItem = [self.selectionView.bBase selectedItem];
-			NSString *baseName = [baseItem title];
+			NSString *baseName = [self.selectionView baseName];
 			MeasurementType *baseType = self.measurementType.requires;
 			MeasurementDataStore *baseStore = [baseType measurementNamed: baseName];
 			if (baseType == nil) {
@@ -201,8 +220,8 @@ static NSMutableDictionary *runManagerNibs;
 				
 		}
 		[self.selectionView.bPreRun setEnabled: NO];
-		[self.selectionView.bRun setEnabled: NO];
 		if (self.statusView) {
+			[self.statusView.bRun setEnabled: NO];
 			[self.statusView.bStop setEnabled: NO];
 		}
 		// Do actual prerunning
@@ -217,12 +236,13 @@ static NSMutableDictionary *runManagerNibs;
 		[self.capturer startCapturing: YES];
 		[self.outputCompanion triggerNewOutputValue];
 	}
-#endif
 }
 
 - (IBAction)stopPreMeasuring: (id)sender
 {
 	@synchronized(self) {
+		assert(self.preRunning);
+		assert(!self.running);
 		self.preRunning = NO;
 		// We now have a ballpark figure for the maximum delay. Use 4 times that as the highest
 		// we are willing to wait for.
@@ -231,10 +251,8 @@ static NSMutableDictionary *runManagerNibs;
             [self.outputCompanion companionStopPreMeasuring];
 		[self.capturer stopCapturing];
 		[self.selectionView.bPreRun setEnabled: NO];
-		[self.selectionView.bRun setEnabled: YES];
-		if (!self.statusView) {
-			// XXXJACK Make sure statusview is active/visible
-		}
+		assert (self.statusView);
+		[self.statusView.bRun setEnabled: YES];
 		[self.statusView.bStop setEnabled: NO];
 	}
 }
@@ -242,6 +260,8 @@ static NSMutableDictionary *runManagerNibs;
 - (IBAction)startMeasuring: (id)sender
 {
     @synchronized(self) {
+		assert(!self.preRunning);
+		assert(!self.running);
         assert(handlesInput);
 		assert(self.measurementType.name);
 		assert(self.capturer.deviceID);
@@ -254,10 +274,8 @@ static NSMutableDictionary *runManagerNibs;
 		assert(outputView.deviceID);
 		assert(outputView.deviceName);
 		[self.selectionView.bPreRun setEnabled: NO];
-		[self.selectionView.bRun setEnabled: NO];
-		if (!self.statusView) {
-			// XXXJACK Make sure statusview is active/visible
-		}
+		assert(self.statusView);
+		[self.statusView.bRun setEnabled: NO];
 		[self.statusView.bStop setEnabled: YES];
         self.running = YES;
         if (!handlesOutput)
@@ -310,17 +328,22 @@ static NSMutableDictionary *runManagerNibs;
 			assert(0);
 		}
 		if (self.measurementType.requires == nil) {
+#if 0
 #ifdef WITH_UIKIT
 			self.selectionView.bBase.userInteractionEnabled = NO;
 #else
 			[self.selectionView.bBase setEnabled: NO];
 #endif
 			[self.selectionView.bPreRun setEnabled: YES];
+#else
+			[self.selectionView disableBases];
+#endif
 		} else {
 			NSArray *calibrationNames = self.measurementType.requires.measurementNames;
 #ifdef WITH_UIKIT_TEMP
 			assert(0);
 #else
+#if 0
             [self.selectionView.bBase removeAllItems];
 			[self.selectionView.bBase addItemsWithTitles:calibrationNames];
             if ([self.selectionView.bBase numberOfItems])
@@ -328,6 +351,10 @@ static NSMutableDictionary *runManagerNibs;
 			[self.selectionView.bBase setEnabled:YES];
 
 			if ([self.selectionView.bBase selectedItem]) {
+#else
+			[self.selectionView setBases:calibrationNames];
+			if ([self.selectionView baseName]) {
+#endif
 				[self.selectionView.bPreRun setEnabled: YES];
 			} else {
 				[self.selectionView.bPreRun setEnabled: NO];
@@ -345,13 +372,12 @@ static NSMutableDictionary *runManagerNibs;
 		}
 		self.preRunning = NO;
 		self.running = NO;
-		[self.selectionView.bRun setEnabled: NO];
 		if (self.statusView) {
+			[self.statusView.bRun setEnabled: NO];
 			[self.statusView.bStop setEnabled: NO];
 		}
-		if (![self prepareInputDevice] || ![self.outputCompanion prepareOutputDevice]) {
-			[self.selectionView.bPreRun setEnabled: NO];
-		}
+		BOOL devicesOK = ([self prepareInputDevice] && [self.outputCompanion prepareOutputDevice]);
+		[self.selectionView.bPreRun setEnabled: devicesOK];
 	}
 }
 

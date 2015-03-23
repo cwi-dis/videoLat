@@ -8,7 +8,7 @@
 
 #import "NewCalibrationTableViewController.h"
 #import "MeasurementType.h"
-#import "MeasurementContainerViewController.h"
+#import "InputSelectionViewController.h"
 
 @interface NewCalibrationTableViewController ()
 
@@ -76,7 +76,7 @@
 {
     selectedMeasurement = [measurementNames objectAtIndex: indexPath.row];
 	if (selectedMeasurement) {
-		[self performSegueWithIdentifier:@"newMeasurement" sender:self];
+		[self performSegueWithIdentifier:@"inputSelection" sender:self];
 	} else {
 		showWarningAlert(@"Selected unknown measurement??");
 	}
@@ -121,7 +121,7 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
-	MeasurementContainerViewController *mcv = segue.destinationViewController;
+	InputSelectionViewController *mcv = segue.destinationViewController;
 	mcv.measurementTypeName = selectedMeasurement;
 }
 

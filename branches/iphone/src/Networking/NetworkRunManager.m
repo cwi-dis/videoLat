@@ -170,7 +170,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 	}
 }
 
-- (IBAction)deviceChanged:(id)sender
+- (IBAction)selectionChanged:(id)sender
 {
 	assert(handlesInput);
 }
@@ -649,7 +649,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 		statusToPeer = @"Determining RTT";
         assert(handlesInput);
         [self.selectionView.bPreRun setEnabled: NO];
-        [self.selectionView.bRun setEnabled: NO];
+        [self.statusView.bRun setEnabled: NO];
         if (self.statusView) {
             [self.statusView.bStop setEnabled: NO];
         }
@@ -674,7 +674,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 //        outputLevel = 0.5;
 //        newOutputValueWanted = NO;
         [self.selectionView.bPreRun setEnabled: NO];
-        [self.selectionView.bRun setEnabled: NO];
+        [self.statusView.bRun setEnabled: NO];
         //
         // We should now have the correct output device (locally) and input device (received from remote)
         NSString *errorMessage = nil;
@@ -729,7 +729,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 		[self _updateStatus: @"Ready to run"];
 		statusToPeer = @"Ready to run";
 
-        [self.selectionView.bRun setEnabled: YES];
+        [self.statusView.bRun setEnabled: YES];
         if (!self.statusView) {
             // XXXJACK Make sure statusview is active/visible
         }
@@ -744,7 +744,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 		[self _updateStatus: @"Running measurements"];
 		statusToPeer = @"Running measurements";
         [self.selectionView.bPreRun setEnabled: NO];
-        [self.selectionView.bRun setEnabled: NO];
+        [self.statusView.bRun setEnabled: NO];
         if (!self.statusView) {
             // XXXJACK Make sure statusview is active/visible
         }

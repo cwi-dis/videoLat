@@ -76,9 +76,41 @@
 	NSString *cam = [item title];
 	NSLog(@"Switch to %@\n", cam);
 	[self.inputHandler switchToDeviceWithName: cam];
-	assert(self.manager);
-	[self.manager deviceChanged: self];
+	assert(self.selectionDelegate);
+	[self.selectionDelegate selectionChanged: self];
 #endif
+}
+
+- (void)setBases: (NSArray *)baseNames
+{
+	assert(self.bBase);
+    [self.bBase removeAllItems];
+    [self.bBase addItemsWithTitles: baseNames];
+	[self.selectionDelegate selectionChanged:self];
+}
+
+- (void)disableBases
+{
+	if (self.bBase) {
+		[self.bBase setEnabled: NO];
+		[self.bBase selectItem: nil];
+	}
+}
+
+- (NSString *)baseName
+{
+	if (self.bBase == nil) return nil;
+	NSMenuItem *item = [self.bBase selectedItem];
+	if (item == nil) return nil;
+	return [item title];
+}
+
+- (NSString *)deviceName
+{
+	assert(self.bDevices);
+	NSMenuItem *item = [self.bDevices selectedItem];
+	if (item == nil) return nil;
+	return [item title];
 }
 
 @end
