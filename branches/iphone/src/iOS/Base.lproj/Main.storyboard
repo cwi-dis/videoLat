@@ -155,7 +155,7 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Open Calibration" id="8uA-40-crF"/>
                     <connections>
-                        <segue destination="px8-Oj-9qS" kind="show" identifier="showDocument" id="lgT-6e-gxZ"/>
+                        <segue destination="E2I-Mm-42s" kind="show" identifier="showDocument" id="RvX-RX-rXs"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kCF-m7-twn" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -185,7 +185,7 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Open Measurement" id="57q-iD-qGm"/>
                     <connections>
-                        <segue destination="3Fw-iW-Dma" kind="show" identifier="showDocument" id="MGV-ou-OUg"/>
+                        <segue destination="E2I-Mm-42s" kind="show" identifier="showDocument" id="bq2-jY-50g"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VCJ-wd-IzK" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -233,12 +233,12 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <connections>
-                        <segue destination="8MV-Ql-FDh" kind="show" identifier="showDocument" id="YRM-qD-edf"/>
+                        <segue destination="E2I-Mm-42s" kind="show" identifier="showDocument" id="awh-mQ-h7M"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NcG-eK-Z91" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2088" y="2631"/>
+            <point key="canvasLocation" x="2256" y="-545"/>
         </scene>
         <!--Document View Controller-->
         <scene sceneID="Ba0-Hx-Sve">
@@ -246,7 +246,7 @@
                 <viewController id="E2I-Mm-42s" customClass="DocumentViewController" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="L4A-mQ-GhI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2088" y="3318"/>
+            <point key="canvasLocation" x="3938" y="1234"/>
         </scene>
         <!--Select New Calibration Type-->
         <scene sceneID="yaK-Dr-21g">
@@ -276,7 +276,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZlD-0n-SOm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1322" y="2631"/>
+            <point key="canvasLocation" x="1346" y="-545"/>
         </scene>
         <!--Download Calibrations-->
         <scene sceneID="0bi-Xo-JFS">
@@ -306,39 +306,10 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eZ3-Ml-jvY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1330" y="3318"/>
-        </scene>
-        <!--Document View Controller-->
-        <scene sceneID="oFv-YE-cFZ">
-            <objects>
-                <viewController id="3Fw-iW-Dma" customClass="DocumentViewController" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Lhh-Xc-lt2" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2072" y="1203"/>
-        </scene>
-        <!--Document View Controller-->
-        <scene sceneID="8vL-h7-zga">
-            <objects>
-                <viewController id="8MV-Ql-FDh" customClass="DocumentViewController" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="8wQ-di-MXy" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2902" y="2631"/>
-        </scene>
-        <!--Document View Controller-->
-        <scene sceneID="oj1-bO-Qp0">
-            <objects>
-                <viewController id="px8-Oj-9qS" customClass="DocumentViewController" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="u12-Xe-nwC" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2072" y="489"/>
-        </scene>
-        <!--Document View Controller-->
-        <scene sceneID="vfs-xU-jIg">
-            <objects>
-                <viewController id="tzW-A4-bX3" customClass="DocumentViewController" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="zCV-He-qiM" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2072" y="489"/>
+            <point key="canvasLocation" x="1346" y="2742"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="RXt-u3-m7s"/>
+    </inferredMetricsTieBreakers>
 </document>
