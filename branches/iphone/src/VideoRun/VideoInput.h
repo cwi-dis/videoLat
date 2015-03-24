@@ -10,7 +10,12 @@
 /// Subclass of NSView that shows preview of what the camera has captured, helper class
 /// for VideoInput class.
 ///
-@interface VideoInputView : NSorUIView
+@interface VideoInputView
+#ifdef WITH_UIKIT
+: UIView
+#else
+: NSView
+#endif
 {
 #ifdef WITH_APPKIT
 	NSPoint downPoint;      //!< Internal: position of mouse down event

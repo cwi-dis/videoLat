@@ -9,7 +9,23 @@
 @synthesize visibleButton;
 
 
-#ifdef WITH_APPKIT
+#ifdef WITH_UIKIT
+- (void)layoutSubviews
+{
+	CALayer *selfLayer = self.layer;
+	assert(self.layer.sublayers);
+	assert([self.layer.sublayers count] == 1);
+	CALayer *videoLayer = [self.layer.sublayers objectAtIndex:0];
+	CGRect sFrame, sBounds, vFrame, vBounds;
+	videoLayer.frame = selfLayer.bounds;
+	sFrame = selfLayer.frame;
+	sBounds = selfLayer.bounds;
+	vFrame = videoLayer.frame;
+	vBounds = videoLayer.bounds;
+	NSLog(@"self: ");
+
+}
+#else
 - (IBAction)visibleChanged: (id) sender
 {
     [self setHidden: ([sender state] == NSOffState)];
@@ -298,7 +314,8 @@
     if(self.selfView) {
         selfLayer = [AVCaptureVideoPreviewLayer layerWithSession:session];
 #ifdef WITH_UIKIT
-		selfLayer.frame = self.selfView.bounds;
+		CGRect bounds = self.selfView.bounds;
+		selfLayer.frame = bounds;
 #else
         selfLayer.frame = NSRectToCGRect(self.selfView.bounds);
         [self.selfView setWantsLayer: YES];

@@ -21,8 +21,7 @@
 #else
  : NSView<SelectionView>
 #endif
-@property(weak) IBOutlet VideoInput *inputHandler;  //!< Input handler, will be told about camera changes
-@property(weak) IBOutlet NSObject <SelectionViewDelegate> *selectionDelegate;
+
 
 #ifdef WITH_UIKIT
 @property(weak) IBOutlet UIButton *bSwitchDevice;   //!< UI element: switch to next available cameras
@@ -35,6 +34,8 @@
 @property(weak) IBOutlet NSPopUpButton *bBase;      //!< UI element: available calibration runs
 @property(weak) IBOutlet NSButton *bPreRun;         //!< UI element: start preparing a measurement run
 #endif
+@property(weak) IBOutlet VideoInput *inputHandler;  //!< Input handler, will be told about camera changes
+@property(weak) IBOutlet NSObject <SelectionViewDelegate> *selectionDelegate;
 
 - (IBAction)deviceChanged: (id) sender;     //!< Called when the user makes a new selection in bCameras
 - (void)_updateCameraNames: (NSNotification*) notification; //!< Called by notification manager when a camera is attached/removed.
@@ -44,5 +45,7 @@
 - (void)disableBases;
 - (NSString *)baseName;				//!< Returns name of selected base measurement
 - (NSString *)deviceName;			//!< Returns name of selected input device
-
+#ifdef WITH_UIKIT
+- (IBAction)selectNextCamera: (id)sender;
+#endif
 @end

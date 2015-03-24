@@ -40,7 +40,6 @@
 		NSArray *calibrationNames = myType.requires.measurementNames;
 		[self.selectionView setBases: calibrationNames];
 	}
-
 	self.selectionView.frame = self.view.bounds;
 	[self.view addSubview: self.selectionView];
 	[self.view setNeedsLayout];

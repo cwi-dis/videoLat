@@ -26,10 +26,17 @@
 
 - (void)_updateCameraNames: (NSNotification*) notification
 {
-#ifdef WITH_APPKIT
+    NSArray *newList = [self.inputHandler deviceNames];
+    NSString *oldCam = nil;
+	NSString *newCam = nil;
+#ifdef WITH_UIKIT
+	if (newList && [newList count]) {
+		newCam = [newList objectAtIndex:0];
+	}
+	self.bDeviceName.text = newCam;
+#else
     if (VL_DEBUG) NSLog(@"Cameras changed\n");
     // Remember the old selection (if any)
-    NSString *oldCam = nil;
 	NSMenuItem *oldItem = [self.bDevices selectedItem];
     if (oldItem) {
         oldCam = [oldItem title];
@@ -38,18 +45,32 @@
         oldCam = [[NSUserDefaults standardUserDefaults] stringForKey:@"Camera"];
     }
     // Add all cameras
-    NSArray *newList = [self.inputHandler deviceNames];
     [self.bDevices removeAllItems];
     [self.bDevices addItemsWithTitles: newList];
     // Re-select old selection, if possible
     [self _reselectCamera:oldCam];
     // Tell the input handler if the device has changed
     NSMenuItem *newItem = [self.bDevices selectedItem];
-    NSString *newCam = [newItem title];
+    newCam = [newItem title];
+#endif
     if (![newCam isEqualToString:oldCam] || notification == nil)
         [self.inputHandler switchToDeviceWithName:newCam];
-#endif
 }
+
+#ifdef WITH_UIKIT
+- (IBAction)selectNextCamera: (id)sender
+{
+    NSArray *newList = [self.inputHandler deviceNames];
+	NSUInteger index = [newList indexOfObject: self.bDeviceName.text];
+	if (index == NSNotFound)
+		index = -1;
+	index++;
+	if (index >= [newList count]) index = 0;
+	NSString *newCam = [newList objectAtIndex:index];
+	self.bDeviceName.text = newCam;
+	[self.inputHandler switchToDeviceWithName:newCam];
+}
+#endif
 
 - (void)_reselectCamera: (NSString *)oldCam
 {

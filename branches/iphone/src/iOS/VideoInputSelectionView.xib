@@ -30,14 +30,20 @@
                             <state key="normal" title="Switch">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
+                            <connections>
+                                <action selector="selectNextCamera:" destination="W5a-7z-0e9" eventType="touchUpInside" id="Enp-Rh-1hR"/>
+                            </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="r6R-Nb-tSw">
                             <rect key="frame" x="546" y="497" width="46" height="30"/>
                             <state key="normal" title="Prerun">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
+                            <connections>
+                                <action selector="selectionDone:" destination="-1" eventType="touchUpInside" id="SUz-7D-otb"/>
+                            </connections>
                         </button>
-                        <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ai4-a8-Avx">
+                        <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ai4-a8-Avx" customClass="VideoInputView">
                             <rect key="frame" x="8" y="37" width="584" height="452"/>
                             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             <rect key="contentStretch" x="0.0" y="0.0" width="1" height="0.74999999999999978"/>
@@ -83,6 +89,7 @@
                         <outlet property="bPreRun" destination="r6R-Nb-tSw" id="K8M-Ch-Gb7"/>
                         <outlet property="bSwitchDevice" destination="PiE-Jp-Nbe" id="YnP-0P-JXl"/>
                         <outlet property="cameraPreview" destination="Ai4-a8-Avx" id="3ml-fj-rCI"/>
+                        <outlet property="inputHandler" destination="qBS-3s-FTw" id="RuR-Iz-gDV"/>
                         <outlet property="selectionDelegate" destination="-1" id="V6s-85-4Ok"/>
                     </connections>
                 </view>
@@ -95,5 +102,10 @@
                 <constraint firstAttribute="bottom" secondItem="W5a-7z-0e9" secondAttribute="bottom" id="jb8-qX-wQF"/>
             </constraints>
         </view>
+        <customObject id="qBS-3s-FTw" customClass="VideoInput">
+            <connections>
+                <outlet property="selfView" destination="Ai4-a8-Avx" id="0ix-HT-9px"/>
+            </connections>
+        </customObject>
     </objects>
 </document>
