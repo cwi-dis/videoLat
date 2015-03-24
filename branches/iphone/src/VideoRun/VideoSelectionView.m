@@ -140,8 +140,7 @@
 - (NSString *)deviceName
 {
 #ifdef WITH_UIKIT
-	assert(0);
-	return nil;
+	return self.bDeviceName.text;
 #else
 	assert(self.bDevices);
 	NSMenuItem *item = [self.bDevices selectedItem];
