@@ -15,6 +15,9 @@
 {
     [BaseRunManager registerClass: [self class] forMeasurementType: @"Video Roundtrip Calibrate"];
     [BaseRunManager registerNib: @"VideoCalibrationRunManager" forMeasurementType: @"Video Roundtrip Calibrate"];
+#ifdef WITH_UIKIT
+    [BaseRunManager registerSelectionNib: @"VideoInputSelectionView" forMeasurementType: @"Video Roundtrip Calibrate"];
+#endif
 }
 
 - (VideoCalibrationRunManager*)init

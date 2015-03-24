@@ -30,7 +30,16 @@
 		return;
 	}
 
+	// Setup base-measurement selector, if applicable, otherwsie
     assert(self.selectionView);
+	MeasurementType *myType = [MeasurementType forType:self.measurementTypeName];
+	BOOL isCalibration = (myType.requires == nil);
+	if (isCalibration) {
+		[self.selectionView disableBases];
+	} else {
+		NSArray *calibrationNames = myType.requires.measurementNames;
+		[self.selectionView setBases: calibrationNames];
+	}
 
 	self.selectionView.frame = self.view.bounds;
 	[self.view addSubview: self.selectionView];
@@ -43,6 +52,12 @@
 }
 
 #pragma mark - Navigation
+- (IBAction)selectionDone:(id)sender
+{
+	inputDeviceName = self.selectionView.deviceName;
+	baseMeasurementName = self.selectionView.baseName;
+	[self performSegueWithIdentifier:@"runMeasurement" sender:self];
+}
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -50,6 +65,8 @@
     // Pass the selected object to the new view controller.
 	MeasurementContainerViewController *mcv = segue.destinationViewController;
 	mcv.measurementTypeName = self.measurementTypeName;
+	mcv.baseMeasurementName = baseMeasurementName;
+	mcv.inputDeviceName = inputDeviceName;
 	NSLog(@"InputSelectionViewController: should communicate input device and base measurement");
 }
 

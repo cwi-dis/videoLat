@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "VideoRunManager.h"
+#import "compat.h"
 
 ///
 /// Subclass of VideoRunManager that uses 100% black/white pictures to measure delay.
@@ -18,13 +19,20 @@
     // Black/white detection
     int minInputLevel;             //!< Internal: darkest color seen during prerun
     int maxInputLevel;             //!< Internal: lightest color seen during prerun
-    NSRect sensitiveArea;       //!< Internal: where we look for black/white in the input signal.
+    NSorUIRect sensitiveArea;       //!< Internal: where we look for black/white in the input signal.
 }
 
+#ifdef WITH_UIKIT
+@property(weak) IBOutlet UISwitch *bInputValue;             //!< UI element: feedback on light/no light detected
+@property(weak) IBOutlet UILabel *bInputNumericValue;   //!< UI element: feedback on analog input received
+@property(weak) IBOutlet UILabel *bInputNumericMinValue;   //!< UI element: feedback on analog input received
+@property(weak) IBOutlet UILabel *bInputNumericMaxValue;   //!< UI element: feedback on analog input received
+#else
 @property(weak) IBOutlet NSButton *bInputValue;             //!< UI element: feedback on light/no light detected
 @property(weak) IBOutlet NSTextField *bInputNumericValue;   //!< UI element: feedback on analog input received
 @property(weak) IBOutlet NSTextField *bInputNumericMinValue;   //!< UI element: feedback on analog input received
 @property(weak) IBOutlet NSTextField *bInputNumericMaxValue;   //!< UI element: feedback on analog input received
+#endif
 
 + (void)initialize;
 - (VideoMonoRunManager *)init;

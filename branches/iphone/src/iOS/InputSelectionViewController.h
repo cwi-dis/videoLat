@@ -10,9 +10,12 @@
 #import "protocols.h"
 
 @interface InputSelectionViewController : UIViewController {
-	NSArray *measurementNibObjects;
+	NSArray *measurementNibObjects;		//!< Storage for selectionview nib toplevel objects
+	NSString *inputDeviceName;		//!< Remember selectionview parameter during segue
+	NSString *baseMeasurementName;		//!< Remember selectionview parameter during segue
 }
-@property(strong) IBOutlet UIView<SelectionView> *selectionView;
-@property(strong) NSString *measurementTypeName;
+@property(strong) IBOutlet UIView<SelectionView> *selectionView;	//!< Set by selectionview NIB
+@property(strong) NSString *measurementTypeName;	//!< Set by our initiator
 
+- (IBAction)selectionDone:(id)sender;
 @end

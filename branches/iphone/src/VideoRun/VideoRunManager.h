@@ -5,7 +5,6 @@
 //  Copyright 2010-2014 Centrum voor Wiskunde en Informatica. Licensed under GPL3.
 //
 
-#import <Cocoa/Cocoa.h>
 #import "VideoSelectionView.h"
 #import "protocols.h"
 #import "BaseRunManager.h"
@@ -46,7 +45,7 @@
 - (void)newOutputDone;
 
 // MeasurementInputManagerProtocol
-- (void)setFinderRect: (NSRect)theRect;
+- (void)setFinderRect: (NSorUIRect)theRect;
 - (void)newInputStart:(uint64_t)timestamp;
 - (void)newInputStart;
 - (void)newInputDone;

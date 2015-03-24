@@ -8,6 +8,9 @@
 
 #import "AppDelegate.h"
 #import "AudioRunManager.h"
+#import "VideoRunManager.h"
+#import "VideoCalibrationRunManager.h"
+#import "VideoMonoRunManager.h"
 #import "AudioCalibrationRunManager.h"
 
 @interface AppDelegate ()
@@ -20,9 +23,9 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 	// Override point for customization after application launch.
     // Initialize run manager classes. Should be done differently.
-//    [VideoRunManager class];
-//    [VideoCalibrationRunManager class];
-//	[VideoMonoRunManager class];
+    [VideoRunManager class];
+    [VideoCalibrationRunManager class];
+	[VideoMonoRunManager class];
 //    [HardwareRunManager class];
     [AudioRunManager class];
     [AudioCalibrationRunManager class];

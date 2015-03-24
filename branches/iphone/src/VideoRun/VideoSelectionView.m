@@ -26,9 +26,7 @@
 
 - (void)_updateCameraNames: (NSNotification*) notification
 {
-#ifdef WITH_UIKIT_TEMP
-	assert(0);
-#else
+#ifdef WITH_APPKIT
     if (VL_DEBUG) NSLog(@"Cameras changed\n");
     // Remember the old selection (if any)
     NSString *oldCam = nil;

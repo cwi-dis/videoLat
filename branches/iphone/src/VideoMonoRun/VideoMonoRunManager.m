@@ -29,6 +29,10 @@
     [BaseRunManager registerNib: @"CalibrateCameraFromScreenRunManager" forMeasurementType: @"Camera Calibrate using Calibrated Screen"];
     [BaseRunManager registerClass: [self class] forMeasurementType: @"Screen Calibrate using Calibrated Camera"];
     [BaseRunManager registerNib: @"CalibrateScreenFromCameraRunManager" forMeasurementType: @"Screen Calibrate using Calibrated Camera"];
+
+#ifdef WITH_UIKIT
+    [BaseRunManager registerSelectionNib: @"VideoInputSelectionView" forMeasurementType: @"Video Mono Roundtrip"];
+#endif
 }
 
 - (VideoMonoRunManager*)init
@@ -44,7 +48,7 @@
 - (void) awakeFromNib
 {
     if ([super respondsToSelector:@selector(awakeFromNib)]) [super awakeFromNib];
-    sensitiveArea = NSMakeRect(160, 120, 320, 240);
+    sensitiveArea = NSorUIMakeRect(160, 120, 320, 240);
 }
 
 - (void)restart
@@ -112,6 +116,12 @@
                 inputCode = @"white";
         }
         if (VL_DEBUG) NSLog(@" level %d (black %d white %d) found code %@", average, minInputLevel, maxInputLevel, inputCode);
+#ifdef WITH_UIKIT
+		self.bInputNumericValue.text = [NSString stringWithFormat:@"%d", average];
+		self.bInputNumericMinValue.text = [NSString stringWithFormat:@"%d", minInputLevel];
+		self.bInputNumericMaxValue.text = [NSString stringWithFormat:@"%d", maxInputLevel];
+		self.bInputValue.on = [inputCode isEqualToString:@"white"];
+#else
         [self.bInputNumericValue setIntValue: average];
         [self.bInputNumericMinValue setIntValue: minInputLevel];
         [self.bInputNumericMaxValue setIntValue: maxInputLevel];
@@ -122,6 +132,7 @@
             iVal = NSOnState;
         }
         [self.bInputValue setState: iVal];
+#endif
 
 		if (![self.outputCompanion.outputCode isEqualToString:@"mixed"]) {
 			if ([inputCode isEqualToString: self.outputCompanion.outputCode]) {

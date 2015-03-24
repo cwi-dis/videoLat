@@ -84,31 +84,25 @@
 #endif
 }
 
+#ifdef WITH_APPKIT
 - (void)_reselectInput: (NSString *)name
 {
-#ifdef WITH_UIKIT_TEMP
-	assert(0);
-#else
     if (name)
         [self.bDevices selectItemWithTitle:name];
     // Select first item, if nothing has been selected
     NSMenuItem *newItem = [self.bDevices selectedItem];
     if (newItem == nil)
         [self.bDevices selectItemAtIndex: 0];
-#endif
 }
 
 - (IBAction)outputChanged: (id) sender
 {
-#ifdef WITH_UIKIT_TEMP
-	assert(0);
-#else
 	NSMenuItem *item = [sender selectedItem];
 	NSString *cam = [item title];
 	if (VL_DEBUG) NSLog(@"Switch audioOutput to %@\n", cam);
 //	[self.outputHandler switchToDeviceWithName: cam];
-#endif
 }
+#endif
 
 - (void)setBases: (NSArray *)baseNames
 {
@@ -126,7 +120,10 @@
 {
 	if (self.bBase) {
 #ifdef WITH_UIKIT
-		assert(0);
+		[self.bBase removeFromSuperview];
+		if (self.bBaseLabel) [self.bBaseLabel removeFromSuperview];
+		self.bBase = nil;
+		self.bBaseLabel = nil;
 #else
 		[self.bBase setEnabled: NO];
 		[self.bBase selectItem: nil];
@@ -150,8 +147,8 @@
 - (NSString *)deviceName
 {
 #ifdef WITH_UIKIT
-	assert(0);
-	return nil;
+	NSString *deviceName = self.bInputDeviceName.text;
+	return deviceName;
 #else
 	assert(self.bDevices);
 	NSMenuItem *item = [self.bDevices selectedItem];

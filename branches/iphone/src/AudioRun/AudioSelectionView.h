@@ -21,8 +21,8 @@
 #endif
 
 #ifdef WITH_UIKIT
-@property(weak) IBOutlet UIPickerView *bDevices;  //!< UI element: all available audio input sources
 @property(weak) IBOutlet UIPickerView *bBase;          //!< UI element: available calibration runs
+@property(weak) IBOutlet UILabel *bBaseLabel;
 @property(weak) IBOutlet UIButton *bPreRun;             //!< UI element: start a measurement run
 @property(weak) IBOutlet UILabel *bInputDeviceName;
 @property(weak) IBOutlet UILabel *bOutputDeviceName;
@@ -36,7 +36,9 @@
 
 
 - (void)_updateDeviceNames: (NSNotification*) notification; //!< Called by notification manager when audio device configuration changes.
+#ifdef WITH_APPKIT
 - (IBAction)deviceChanged: (id) sender;                  //!< Called when the user makes a new selection in bInputDevices
 - (void)_reselectInput: (NSString *)name;               //!< Internal: try to re-select our input on device change
+#endif
 
 @end

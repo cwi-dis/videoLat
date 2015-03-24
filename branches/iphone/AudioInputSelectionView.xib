@@ -24,6 +24,9 @@
                             <state key="normal" title="Prepare Measurement">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
+                            <connections>
+                                <action selector="selectionDone:" destination="-1" eventType="touchUpInside" id="6kZ-27-OpA"/>
+                            </connections>
                         </button>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Input Device:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1E6-Gs-ncN">
                             <rect key="frame" x="8" y="35" width="101" height="21"/>
@@ -104,6 +107,7 @@
                     </variation>
                     <connections>
                         <outlet property="bBase" destination="QJo-g3-EMP" id="SI6-HU-VfW"/>
+                        <outlet property="bBaseLabel" destination="Wfc-Zs-VBX" id="wKl-Wr-bMd"/>
                         <outlet property="bInputDeviceName" destination="7d5-xx-HrS" id="pqJ-mm-wiM"/>
                         <outlet property="bOutputDeviceName" destination="k1C-0g-XFD" id="RWO-aG-sKj"/>
                         <outlet property="bPreRun" destination="Jv3-wc-YKd" id="Xd1-hS-EzR"/>
