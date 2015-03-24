@@ -52,6 +52,7 @@
 		04F7B8401AC02F4C00BEFDD5 /* VideoSelectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F7B83F1AC02F4C00BEFDD5 /* VideoSelectionView.m */; };
 		04F7B8431AC0407700BEFDD5 /* InputSelectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F7B8421AC0407700BEFDD5 /* InputSelectionViewController.m */; };
 		04F7B8451AC040AE00BEFDD5 /* VideoInputSelectionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04F7B8441AC040AE00BEFDD5 /* VideoInputSelectionView.xib */; };
+		04F7B8471AC16E4900BEFDD5 /* AudioInputSelectionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04F7B8461AC16E4900BEFDD5 /* AudioInputSelectionView.xib */; };
 		04FFFC7A1AB2FA8E0023ED13 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FFFC771AB2FA8E0023ED13 /* AppDelegate.m */; };
 		04FFFC801AB2FABE0023ED13 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04FFFC7C1AB2FABE0023ED13 /* LaunchScreen.xib */; };
 		04FFFC811AB2FABE0023ED13 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04FFFC7E1AB2FABE0023ED13 /* Main.storyboard */; };
@@ -153,6 +154,7 @@
 		04F7B8411AC0407700BEFDD5 /* InputSelectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InputSelectionViewController.h; path = src/iOS/InputSelectionViewController.h; sourceTree = SOURCE_ROOT; };
 		04F7B8421AC0407700BEFDD5 /* InputSelectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InputSelectionViewController.m; path = src/iOS/InputSelectionViewController.m; sourceTree = SOURCE_ROOT; };
 		04F7B8441AC040AE00BEFDD5 /* VideoInputSelectionView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = VideoInputSelectionView.xib; path = src/iOS/VideoInputSelectionView.xib; sourceTree = SOURCE_ROOT; };
+		04F7B8461AC16E4900BEFDD5 /* AudioInputSelectionView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AudioInputSelectionView.xib; sourceTree = SOURCE_ROOT; };
 		04FFFC761AB2FA8E0023ED13 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = src/iOS/AppDelegate.h; sourceTree = SOURCE_ROOT; };
 		04FFFC771AB2FA8E0023ED13 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = src/iOS/AppDelegate.m; sourceTree = SOURCE_ROOT; };
 		04FFFC7D1AB2FABE0023ED13 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = src/iOS/Base.lproj/LaunchScreen.xib; sourceTree = SOURCE_ROOT; };
@@ -298,6 +300,7 @@
 				040E772A1AB707B2001A7918 /* AudioSelectionView.m */,
 				04155EA11AB6471900DD53D9 /* AudioProcess.h */,
 				04155EA21AB6471900DD53D9 /* AudioProcess.m */,
+				04F7B8461AC16E4900BEFDD5 /* AudioInputSelectionView.xib */,
 			);
 			name = AudioRun;
 			sourceTree = "<group>";
@@ -477,6 +480,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04F7B8471AC16E4900BEFDD5 /* AudioInputSelectionView.xib in Resources */,
 				04C5FF211AB8601400F4EC25 /* DocumentView.xib in Resources */,
 				04155E9A1AB6311C00DD53D9 /* sounds in Resources */,
 				04FFFC861AB2FAD90023ED13 /* Info.plist in Resources */,

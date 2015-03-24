@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="InputSelectionViewController">
+            <connections>
+                <outlet property="selectionView" destination="Jq6-xb-SVM" id="smV-4n-wfz"/>
+                <outlet property="view" destination="iN0-l3-epB" id="gZK-Qa-9x2"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jq6-xb-SVM" customClass="AudioSelectionView">
+                    <rect key="frame" x="0.0" y="61" width="600" height="539"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jv3-wc-YKd">
+                            <rect key="frame" x="438" y="499" width="151" height="30"/>
+                            <state key="normal" title="Prepare Measurement">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                        </button>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Input Device:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1E6-Gs-ncN">
+                            <rect key="frame" x="8" y="35" width="101" height="21"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Input Level:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w9Q-WD-Sg3">
+                            <rect key="frame" x="8" y="64" width="89" height="21"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Output Device:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pUW-Sy-BQY">
+                            <rect key="frame" x="8" y="6" width="115" height="21"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="unknown, probably default" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7d5-xx-HrS">
+                            <rect key="frame" x="140" y="35" width="204" height="21"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="unknown, probably default" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k1C-0g-XFD">
+                            <rect key="frame" x="140" y="6" width="204" height="21"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progressViewStyle="bar" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="MPT-x4-Iac">
+                            <rect key="frame" x="140" y="74" width="456" height="3"/>
+                        </progressView>
+                        <pickerView contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QJo-g3-EMP">
+                            <rect key="frame" x="-8" y="122" width="600" height="162"/>
+                        </pickerView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Select calibration:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wfc-Zs-VBX">
+                            <rect key="frame" x="223" y="93" width="138" height="21"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="QJo-g3-EMP" secondAttribute="trailing" id="4Fx-eg-JVr"/>
+                        <constraint firstItem="QJo-g3-EMP" firstAttribute="centerX" secondItem="Wfc-Zs-VBX" secondAttribute="centerX" id="9RB-S0-mQu"/>
+                        <constraint firstItem="QJo-g3-EMP" firstAttribute="leading" secondItem="Jq6-xb-SVM" secondAttribute="leading" id="C5h-zi-D98"/>
+                        <constraint firstItem="Wfc-Zs-VBX" firstAttribute="top" secondItem="Jq6-xb-SVM" secondAttribute="top" constant="205" id="D14-X8-PXv"/>
+                        <constraint firstItem="MPT-x4-Iac" firstAttribute="top" secondItem="7d5-xx-HrS" secondAttribute="bottom" constant="18" id="DsG-vG-uz3"/>
+                        <constraint firstItem="7d5-xx-HrS" firstAttribute="baseline" secondItem="1E6-Gs-ncN" secondAttribute="baseline" id="E8E-Lj-6ci"/>
+                        <constraint firstAttribute="trailing" secondItem="Jv3-wc-YKd" secondAttribute="trailing" constant="11" id="Fkw-r2-hMi"/>
+                        <constraint firstItem="k1C-0g-XFD" firstAttribute="baseline" secondItem="pUW-Sy-BQY" secondAttribute="baseline" id="IOQ-pm-UBp"/>
+                        <constraint firstItem="QJo-g3-EMP" firstAttribute="top" secondItem="Wfc-Zs-VBX" secondAttribute="bottom" constant="8" id="MYb-sb-dfh"/>
+                        <constraint firstAttribute="centerX" secondItem="QJo-g3-EMP" secondAttribute="centerX" id="NQX-Oz-EhA"/>
+                        <constraint firstItem="1E6-Gs-ncN" firstAttribute="leading" secondItem="pUW-Sy-BQY" secondAttribute="leading" id="W6J-G8-VyB"/>
+                        <constraint firstItem="7d5-xx-HrS" firstAttribute="leading" secondItem="k1C-0g-XFD" secondAttribute="leading" id="YmA-C4-KlS"/>
+                        <constraint firstAttribute="trailing" secondItem="MPT-x4-Iac" secondAttribute="trailing" constant="4" id="a2u-Sk-eRl"/>
+                        <constraint firstItem="w9Q-WD-Sg3" firstAttribute="leading" secondItem="1E6-Gs-ncN" secondAttribute="leading" id="aHV-py-x0y"/>
+                        <constraint firstItem="QJo-g3-EMP" firstAttribute="centerX" secondItem="Wfc-Zs-VBX" secondAttribute="centerX" id="bFq-2C-oAO"/>
+                        <constraint firstItem="Wfc-Zs-VBX" firstAttribute="top" secondItem="Jq6-xb-SVM" secondAttribute="top" constant="93" id="dFZ-El-otJ"/>
+                        <constraint firstItem="w9Q-WD-Sg3" firstAttribute="top" secondItem="1E6-Gs-ncN" secondAttribute="bottom" constant="8" symbolic="YES" id="fhy-KQ-tw1"/>
+                        <constraint firstItem="k1C-0g-XFD" firstAttribute="top" secondItem="Jq6-xb-SVM" secondAttribute="topMargin" constant="-2" id="gIG-8E-NPj"/>
+                        <constraint firstItem="Jv3-wc-YKd" firstAttribute="bottom" secondItem="Jq6-xb-SVM" secondAttribute="bottomMargin" constant="-2" id="hYW-2e-fWB"/>
+                        <constraint firstItem="1E6-Gs-ncN" firstAttribute="leading" secondItem="Jq6-xb-SVM" secondAttribute="leadingMargin" id="je1-dM-Ya7"/>
+                        <constraint firstItem="k1C-0g-XFD" firstAttribute="leading" secondItem="pUW-Sy-BQY" secondAttribute="trailing" constant="17" id="md7-GH-dWB"/>
+                        <constraint firstItem="1E6-Gs-ncN" firstAttribute="top" secondItem="pUW-Sy-BQY" secondAttribute="bottom" constant="8" symbolic="YES" id="mqg-Rm-oia"/>
+                        <constraint firstItem="MPT-x4-Iac" firstAttribute="leading" secondItem="7d5-xx-HrS" secondAttribute="leading" id="ocT-Se-pA9"/>
+                        <constraint firstAttribute="centerX" secondItem="Wfc-Zs-VBX" secondAttribute="centerX" id="xu1-xA-iVP"/>
+                    </constraints>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="9RB-S0-mQu"/>
+                            <exclude reference="bFq-2C-oAO"/>
+                            <exclude reference="D14-X8-PXv"/>
+                        </mask>
+                    </variation>
+                    <connections>
+                        <outlet property="bBase" destination="QJo-g3-EMP" id="SI6-HU-VfW"/>
+                        <outlet property="bInputDeviceName" destination="7d5-xx-HrS" id="pqJ-mm-wiM"/>
+                        <outlet property="bOutputDeviceName" destination="k1C-0g-XFD" id="RWO-aG-sKj"/>
+                        <outlet property="bPreRun" destination="Jv3-wc-YKd" id="Xd1-hS-EzR"/>
+                        <outlet property="inputHandler" destination="1mF-Lb-Fyu" id="U9Z-sX-eaS"/>
+                        <outlet property="selectionDelegate" destination="-1" id="ZTb-Mx-6Ui"/>
+                    </connections>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="0.51701632310000001" green="1" blue="0.68349118929999997" alpha="1" colorSpace="calibratedRGB"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="Jq6-xb-SVM" secondAttribute="bottom" id="Ld2-3s-hqz"/>
+                <constraint firstAttribute="trailing" secondItem="Jq6-xb-SVM" secondAttribute="trailing" id="TF1-Nu-C5B"/>
+                <constraint firstItem="Jq6-xb-SVM" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="61" id="pLp-Pg-1W3"/>
+                <constraint firstItem="Jq6-xb-SVM" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="uBO-NR-gJc"/>
+            </constraints>
+        </view>
+        <customObject id="1mF-Lb-Fyu" customClass="AudioInput">
+            <connections>
+                <outlet property="bInputValue" destination="MPT-x4-Iac" id="ONT-yb-UdI"/>
+            </connections>
+        </customObject>
+    </objects>
+</document>

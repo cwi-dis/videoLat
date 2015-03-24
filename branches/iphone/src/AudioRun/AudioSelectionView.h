@@ -24,6 +24,8 @@
 @property(weak) IBOutlet UIPickerView *bDevices;  //!< UI element: all available audio input sources
 @property(weak) IBOutlet UIPickerView *bBase;          //!< UI element: available calibration runs
 @property(weak) IBOutlet UIButton *bPreRun;             //!< UI element: start a measurement run
+@property(weak) IBOutlet UILabel *bInputDeviceName;
+@property(weak) IBOutlet UILabel *bOutputDeviceName;
 #else
 @property(weak) IBOutlet NSPopUpButton *bDevices;  //!< UI element: all available audio input sources
 @property(weak) IBOutlet NSPopUpButton *bBase;          //!< UI element: available calibration runs

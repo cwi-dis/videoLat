@@ -36,7 +36,19 @@
     if (VL_DEBUG) NSLog(@"Audio devices changed\n");
     // Remember the old selection (if any)
     NSString *oldInput = nil;
-#ifdef WITH_UIKIT_TEMP
+    // Get all input devices
+	assert(self.inputHandler);
+    NSArray *newList = [self.inputHandler deviceNames];
+	assert(newList);
+#ifdef WITH_UIKIT
+	NSString *newInput;
+	if([newList count]) {
+		newInput = [newList objectAtIndex:0];
+	} else {
+		newInput = nil;
+	}
+	
+	self.bInputDeviceName.text = newInput;
 #else
 	NSMenuItem *oldItem = [self.bDevices selectedItem];
     if (oldItem) {
@@ -45,19 +57,6 @@
         // If no camera was selected we take the one from the preferences
         oldInput = [[NSUserDefaults standardUserDefaults] stringForKey:@"AudioInput"];
     }
-#endif
-    // Add all input devices
-	assert(self.inputHandler);
-    NSArray *newList = [self.inputHandler deviceNames];
-#ifdef WITH_UIKIT_TEMP
-	assert(newList);
-	NSString *newInput;
-	if([newList count]) {
-		newInput = [newList objectAtIndex:0];
-	} else {
-		newInput = nil;
-	}
-#else
     [self.bDevices removeAllItems];
     [self.bDevices addItemsWithTitles: newList];
     // Re-select old selection, if possible

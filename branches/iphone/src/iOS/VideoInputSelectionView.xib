@@ -6,6 +6,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="InputSelectionViewController">
             <connections>
+                <outlet property="selectionView" destination="W5a-7z-0e9" id="7nH-UD-XW8"/>
                 <outlet property="view" destination="iN0-l3-epB" id="xQG-xa-8cV"/>
             </connections>
         </placeholder>
@@ -52,6 +53,7 @@
                         <outlet property="bPreRun" destination="r6R-Nb-tSw" id="K8M-Ch-Gb7"/>
                         <outlet property="bSwitchDevice" destination="PiE-Jp-Nbe" id="YnP-0P-JXl"/>
                         <outlet property="cameraPreview" destination="Ai4-a8-Avx" id="3ml-fj-rCI"/>
+                        <outlet property="selectionDelegate" destination="-1" id="V6s-85-4Ok"/>
                     </connections>
                 </view>
             </subviews>

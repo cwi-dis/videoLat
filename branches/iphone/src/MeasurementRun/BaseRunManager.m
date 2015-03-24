@@ -37,6 +37,9 @@ static NSMutableDictionary *runManagerSelectionNibs;
 {
     runManagerClasses = [[NSMutableDictionary alloc] initWithCapacity:10];
     runManagerNibs = [[NSMutableDictionary alloc] initWithCapacity:10];
+#ifdef WITH_UIKIT
+    runManagerSelectionNibs = [[NSMutableDictionary alloc] initWithCapacity:10];
+#endif
 }
 
 + (void)registerClass: (Class)managerClass forMeasurementType: (NSString *)name

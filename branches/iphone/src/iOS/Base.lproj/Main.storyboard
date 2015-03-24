@@ -219,6 +219,27 @@
             </objects>
             <point key="canvasLocation" x="1322" y="1916"/>
         </scene>
+        <!--Input Selection View Controller-->
+        <scene sceneID="QE3-HU-hQ0">
+            <objects>
+                <viewController id="RAN-yi-crw" customClass="InputSelectionViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Ejm-BV-6ef"/>
+                        <viewControllerLayoutGuide type="bottom" id="VAJ-XA-m7Q"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="RqV-0V-MXt">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <segue destination="vH5-0D-igI" kind="show" identifier="showDocument" id="pez-hp-bg8"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="yVd-BA-D3K" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2336" y="-545"/>
+        </scene>
         <!--Measurement Container View Controller-->
         <scene sceneID="te4-LS-l5F">
             <objects>
@@ -238,7 +259,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NcG-eK-Z91" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2256" y="-545"/>
+            <point key="canvasLocation" x="3224" y="-533"/>
         </scene>
         <!--Document View Controller-->
         <scene sceneID="Ba0-Hx-Sve">
@@ -271,7 +292,7 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Select New Calibration Type" id="K0o-sp-0TZ"/>
                     <connections>
-                        <segue destination="vH5-0D-igI" kind="show" identifier="newMeasurement" id="vLB-9X-vHS"/>
+                        <segue destination="RAN-yi-crw" kind="show" identifier="inputSelection" id="McN-pX-jJY"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZlD-0n-SOm" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -310,6 +331,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="RXt-u3-m7s"/>
+        <segue reference="awh-mQ-h7M"/>
     </inferredMetricsTieBreakers>
 </document>
