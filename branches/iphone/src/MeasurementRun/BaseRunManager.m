@@ -330,27 +330,16 @@ static NSMutableDictionary *runManagerSelectionNibs;
 	@synchronized(self) {
 		if (self.measurementType == nil) return;
         assert(handlesInput);
+#ifdef WITH_APPKIT
 		if (!self.selectionView) {
 			// XXXJACK Make sure selectionView is active/visible
 			assert(0);
 		}
 		if (self.measurementType.requires == nil) {
-#if 0
-#ifdef WITH_UIKIT
-			self.selectionView.bBase.userInteractionEnabled = NO;
-#else
 			[self.selectionView.bBase setEnabled: NO];
-#endif
 			[self.selectionView.bPreRun setEnabled: YES];
-#else
-			[self.selectionView disableBases];
-#endif
 		} else {
 			NSArray *calibrationNames = self.measurementType.requires.measurementNames;
-#ifdef WITH_UIKIT_TEMP
-			assert(0);
-#else
-#if 0
             [self.selectionView.bBase removeAllItems];
 			[self.selectionView.bBase addItemsWithTitles:calibrationNames];
             if ([self.selectionView.bBase numberOfItems])
@@ -358,10 +347,6 @@ static NSMutableDictionary *runManagerSelectionNibs;
 			[self.selectionView.bBase setEnabled:YES];
 
 			if ([self.selectionView.bBase selectedItem]) {
-#else
-			[self.selectionView setBases:calibrationNames];
-			if ([self.selectionView baseName]) {
-#endif
 				[self.selectionView.bPreRun setEnabled: YES];
 			} else {
 				[self.selectionView.bPreRun setEnabled: NO];
@@ -375,8 +360,8 @@ static NSMutableDictionary *runManagerSelectionNibs;
 					];
 				[alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
 			}
-#endif
 		}
+#endif
 		self.preRunning = NO;
 		self.running = NO;
 		if (self.statusView) {
@@ -386,6 +371,9 @@ static NSMutableDictionary *runManagerSelectionNibs;
 		BOOL devicesOK = ([self prepareInputDevice] && [self.outputCompanion prepareOutputDevice]);
 		[self.selectionView.bPreRun setEnabled: devicesOK];
 	}
+#ifdef WITH_UIKIT
+	[self startPreMeasuring:self];
+#endif
 }
 
 - (void) companionRestart
