@@ -449,11 +449,15 @@
     CMFormatDescriptionRef formatDescription = CMSampleBufferGetFormatDescription(sampleBuffer);
     OSType format = CMFormatDescriptionGetMediaSubType(formatDescription);
     CVImageBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
+	BOOL isPlanar = NO;
 	const char *formatStr;
 	if (format == kCVPixelFormatType_32ARGB) {
 		formatStr = "RGB4";
 	} else if (format == kCVPixelFormatType_8IndexedGray_WhiteIsZero) {
 		formatStr = "Y800";
+	} else if (format == kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange) {
+		formatStr = "Y800";
+		isPlanar = YES;
 	} else if (format == kCVPixelFormatType_422YpCbCr8) {
 		formatStr = "UYVY";
 	} else if (format == 'yuvs' || format == 'yuv2') {
@@ -462,9 +466,13 @@
 	} else {
 		// Unknown format??
 		formatStr = "unknown";
+		assert(0);
 	}
 	CVPixelBufferLockBaseAddress(pixelBuffer, 0);
 	void *buffer = CVPixelBufferGetBaseAddress(pixelBuffer);
+	if (isPlanar) {
+		buffer = CVPixelBufferGetBaseAddressOfPlane(pixelBuffer, 0);
+	}
 	size_t w = CVPixelBufferGetWidth(pixelBuffer);
 	size_t h = CVPixelBufferGetHeight(pixelBuffer);
 	size_t size = CVPixelBufferGetDataSize(pixelBuffer);
