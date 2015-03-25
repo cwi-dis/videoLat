@@ -81,13 +81,7 @@
 		if (self.measurementType.requires != nil) {
 			// First check that a base measurement has been selected.
 			NSString *errorMessage;
-#ifdef WITH_UIKIT_TEMP
-			NSObject *baseItem = nil;
-			NSString *baseName = nil;
-#else
-			NSMenuItem *baseItem = [self.selectionView.bBase selectedItem];
-			NSString *baseName = [baseItem title];
-#endif
+			if (self.selectionView) baseName = [self.selectionView baseName];
 			MeasurementType *baseType = self.measurementType.requires;
 			MeasurementDataStore *baseStore = [baseType measurementNamed: baseName];
 			if (baseType == nil) {

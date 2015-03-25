@@ -130,10 +130,13 @@
 @property(weak) IBOutlet NSorUIButton *bPreRun;         //!< UI element: start preparing a measurement run
 @property(weak) IBOutlet NSObject <SelectionViewDelegate> *selectionDelegate;
 
+#ifdef WITH_UIKIT
 - (void)setBases: (NSArray *)baseNames;
 - (void)disableBases;
+#endif
 - (NSString *)baseName;				//!< Returns name of selected base measurement
 - (NSString *)deviceName;			//!< Returns name of selected input device
+
 @end
 
 @protocol NetworkViewProtocol

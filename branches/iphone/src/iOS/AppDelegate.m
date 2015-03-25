@@ -7,35 +7,13 @@
 //
 
 #import "AppDelegate.h"
-#import "AudioRunManager.h"
-#import "VideoRunManager.h"
-#import "VideoCalibrationRunManager.h"
-#import "AudioCalibrationRunManager.h"
-
-#if !TARGET_OS_IPHONE
-#import "VideoMonoRunManager.h"
-#import "HardwareRunManager.h"
-#endif
-@interface AppDelegate ()
-
-@end
 
 @implementation AppDelegate
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-	// Override point for customization after application launch.
-    // Initialize run manager classes. Should be done differently.
-    [VideoRunManager class];
-    [VideoCalibrationRunManager class];
-    [AudioRunManager class];
-    [AudioCalibrationRunManager class];
-//    [NetworkRunManager class];
-#if !TARGET_OS_IPHONE
-	[VideoMonoRunManager class];
-    [HardwareRunManager class];
-#endif
-	return YES;
+    [self initVideolat];
+    return YES;
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

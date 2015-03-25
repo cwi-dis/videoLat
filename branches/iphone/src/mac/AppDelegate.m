@@ -7,13 +7,6 @@
 //
 
 #import "AppDelegate.h"
-#import "VideoRunManager.h"
-#import "VideoCalibrationRunManager.h"
-#import "VideoMonoRunManager.h"
-#import "HardwareRunManager.h"
-#import "AudioRunManager.h"
-#import "AudioCalibrationRunManager.h"
-#import "NetworkRunManager.h"
 #import "Document.h"
 
 @implementation AppDelegate
@@ -23,26 +16,7 @@
 
 - (void)applicationWillFinishLaunching:(NSNotification *)aNotification
 {
-	// Fill measurementTypes
-	NSURL *url = [self directoryForCalibrations];
-	if (url == nil) return;
-	[self _loadCalibrationsFrom:url];
-    
-    // Initialize run manager classes. Should be done differently.
-    [VideoRunManager class];
-    [VideoCalibrationRunManager class];
-	[VideoMonoRunManager class];
-    [HardwareRunManager class];
-    [AudioRunManager class];
-    [AudioCalibrationRunManager class];
-    [NetworkRunManager class];
-
-    // Initialize location manager stuff
-	self.location = @"Unknown location";
-	self.locationManager = [[CLLocationManager alloc] init];
-	self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
-	self.locationManager.delegate = self;
-	[self.locationManager startUpdatingLocation];	
+    [self initVideolat];
 }
 
 - (BOOL) applicationShouldOpenUntitledFile: (id)sender

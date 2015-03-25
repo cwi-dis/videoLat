@@ -195,9 +195,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 			assert(self.capturer);
 			deviceDescriptorToSend = [[DeviceDescription alloc] initFromInputDevice: self.capturer];
         } else {
-            assert(self.selectionView.bBase != nil);
-            NSMenuItem *baseItem = [self.selectionView.bBase selectedItem];
-            NSString *baseName = [baseItem title];
+            if (self.selectionView) baseName = [self.selectionView baseName];
             if (baseName == nil) {
                 NSLog(@"NetworkRunManager: baseName == nil");
                 return NO;
@@ -608,7 +606,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
         if (rtt) {
             if (rtt > 10000000) {
                 // RTT bigger than 10 seconds is preposterous
-                NSLog(@"NetworkRunManager: preposterous RTT of %ld ms",(int)(rtt/1000));
+                NSLog(@"NetworkRunManager: preposterous RTT of %lld ms",(rtt/1000));
             }
             self.selectionView.bRTT.intValue = (int)(rtt/1000);
         }
@@ -681,8 +679,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
         MeasurementDataStore *baseStore = nil;
         if (!self.measurementType.isCalibration) {
             // If this is not a calibration we should check our base type
-            NSMenuItem *baseItem = [self.selectionView.bBase selectedItem];
-            NSString *baseName = [baseItem title];
+            if (self.selectionView) baseName = [self.selectionView baseName];
             MeasurementType *baseType = self.measurementType.requires;
             baseStore = [baseType measurementNamed: baseName];
             if (baseType == nil) {

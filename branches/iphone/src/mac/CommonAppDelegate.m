@@ -7,7 +7,16 @@
 //
 
 #import "CommonAppDelegate.h"
+#import "VideoRunManager.h"
+#import "VideoCalibrationRunManager.h"
+#import "AudioRunManager.h"
+#import "AudioCalibrationRunManager.h"
 
+#if !TARGET_OS_IPHONE
+#import "NetworkRunManager.h"
+#import "HardwareRunManager.h"
+#import "VideoMonoRunManager.h"
+#endif
 @implementation CommonAppDelegate
 
 @synthesize measurementTypes;
@@ -19,6 +28,33 @@
         uuidToURL = [[NSMutableDictionary alloc] init];
     }
     return self;
+}
+
+- (void)initVideolat
+{
+    // Fill measurementTypes
+    NSURL *url = [self directoryForCalibrations];
+    if (url == nil) return;
+    [self _loadCalibrationsFrom:url];
+    
+    // Initialize run manager classes. Should be done differently.
+    [VideoRunManager class];
+    [VideoCalibrationRunManager class];
+    [AudioRunManager class];
+    [AudioCalibrationRunManager class];
+#if !TARGET_OS_IPHONE
+    [NetworkRunManager class];
+    [VideoMonoRunManager class];
+    [HardwareRunManager class];
+#endif
+    
+    // Initialize location manager stuff
+    self.location = @"Unknown location";
+    self.locationManager = [[CLLocationManager alloc] init];
+    self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+    self.locationManager.delegate = self;
+    [self.locationManager startUpdatingLocation];
+
 }
 
 - (NSURL *)directoryForCalibrations

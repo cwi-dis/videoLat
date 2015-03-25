@@ -33,7 +33,7 @@
 	if (newList && [newList count]) {
 		newCam = [newList objectAtIndex:0];
 	}
-	self.bDeviceName.text = newCam;
+	self.bInputDeviceName.text = newCam;
 #else
     if (VL_DEBUG) NSLog(@"Cameras changed\n");
     // Remember the old selection (if any)
@@ -61,92 +61,53 @@
 - (IBAction)selectNextCamera: (id)sender
 {
     NSArray *newList = [self.inputHandler deviceNames];
-	NSUInteger index = [newList indexOfObject: self.bDeviceName.text];
+	NSUInteger index = [newList indexOfObject: self.bInputDeviceName.text];
 	if (index == NSNotFound)
 		index = -1;
 	index++;
 	if (index >= [newList count]) index = 0;
 	NSString *newCam = [newList objectAtIndex:index];
-	self.bDeviceName.text = newCam;
+	self.bInputDeviceName.text = newCam;
 	[self.inputHandler switchToDeviceWithName:newCam];
 }
 #endif
 
+#ifdef WITH_APPKIT
 - (void)_reselectCamera: (NSString *)oldCam
 {
-#ifdef WITH_UIKIT_TEMP
-	assert(0);
-#else
     if (oldCam)
         [self.bDevices selectItemWithTitle:oldCam];
     // Select first item, if nothing has been selected
     NSMenuItem *newItem = [self.bDevices selectedItem];
     if (newItem == nil)
         [self.bDevices selectItemAtIndex: 0];
-#endif
 }
 
 - (IBAction)deviceChanged: (id) sender
 {
-#ifdef WITH_UIKIT_TEMP
-	assert(0);
-#else
 	NSMenuItem *item = [sender selectedItem];
 	NSString *cam = [item title];
 	NSLog(@"Switch to %@\n", cam);
 	[self.inputHandler switchToDeviceWithName: cam];
 	assert(self.selectionDelegate);
 	[self.selectionDelegate selectionChanged: self];
-#endif
-}
-
-- (void)setBases: (NSArray *)baseNames
-{
-	assert(self.bBase);
-#ifdef WITH_UIKIT
-	assert(0);
-#else
-    [self.bBase removeAllItems];
-    [self.bBase addItemsWithTitles: baseNames];
-#endif
-	[self.selectionDelegate selectionChanged:self];
-}
-
-- (void)disableBases
-{
-	if (self.bBase) {
-#ifdef WITH_UIKIT
-		assert(0);
-#else
-		[self.bBase setEnabled: NO];
-		[self.bBase selectItem: nil];
-#endif
-	}
 }
 
 - (NSString *)baseName
 {
-	if (self.bBase == nil) return nil;
-#ifdef WITH_UIKIT
-	assert(0);
-	return nil;
-#else
-	NSMenuItem *item = [self.bBase selectedItem];
-	if (item == nil) return nil;
-	return [item title];
-#endif
+    if (self.bBase == nil) return nil;
+    NSMenuItem *item = [self.bBase selectedItem];
+    if (item == nil) return nil;
+    return [item title];
 }
 
 - (NSString *)deviceName
 {
-#ifdef WITH_UIKIT
-	return self.bDeviceName.text;
-#else
-	assert(self.bDevices);
-	NSMenuItem *item = [self.bDevices selectedItem];
-	if (item == nil) return nil;
-	return [item title];
-#endif
+    assert(self.bDevices);
+    NSMenuItem *item = [self.bDevices selectedItem];
+    if (item == nil) return nil;
+    return [item title];
 }
+#endif
 
 @end

@@ -70,21 +70,17 @@
     // Repeat for output devices...
 }
 
+#ifdef WITH_APPKIT
 - (IBAction)deviceChanged: (id) sender
 {
-#ifdef WITH_UIKIT_TEMP
-	assert(0);
-#else
 	NSMenuItem *item = [sender selectedItem];
 	NSString *cam = [item title];
 	if (VL_DEBUG) NSLog(@"Switch audioInput to %@\n", cam);
 	[self.inputHandler switchToDeviceWithName: cam];
 	assert(self.selectionDelegate);
 	[self.selectionDelegate selectionChanged: self];
-#endif
 }
 
-#ifdef WITH_APPKIT
 - (void)_reselectInput: (NSString *)name
 {
     if (name)
@@ -102,59 +98,23 @@
 	if (VL_DEBUG) NSLog(@"Switch audioOutput to %@\n", cam);
 //	[self.outputHandler switchToDeviceWithName: cam];
 }
-#endif
-
-- (void)setBases: (NSArray *)baseNames
-{
-	assert(self.bBase);
-#ifdef WITH_UIKIT
-	assert(0);
-#else
-    [self.bBase removeAllItems];
-    [self.bBase addItemsWithTitles: baseNames];
-	[self.selectionDelegate selectionChanged:self];
-#endif
-}
-
-- (void)disableBases
-{
-	if (self.bBase) {
-#ifdef WITH_UIKIT
-		[self.bBase removeFromSuperview];
-		if (self.bBaseLabel) [self.bBaseLabel removeFromSuperview];
-		self.bBase = nil;
-		self.bBaseLabel = nil;
-#else
-		[self.bBase setEnabled: NO];
-		[self.bBase selectItem: nil];
-#endif
-	}
-}
 
 - (NSString *)baseName
 {
-	if (self.bBase == nil) return nil;
-#ifdef WITH_UIKIT
-	assert(0);
-	return nil;
-#else
-	NSMenuItem *item = [self.bBase selectedItem];
-	if (item == nil) return nil;
-	return [item title];
-#endif
+    if (self.bBase == nil) return nil;
+    NSMenuItem *item = [self.bBase selectedItem];
+    if (item == nil) return nil;
+    return [item title];
 }
 
 - (NSString *)deviceName
 {
-#ifdef WITH_UIKIT
-	NSString *deviceName = self.bInputDeviceName.text;
-	return deviceName;
-#else
-	assert(self.bDevices);
-	NSMenuItem *item = [self.bDevices selectedItem];
-	if (item == nil) return nil;
-	return [item title];
-#endif
+    assert(self.bDevices);
+    NSMenuItem *item = [self.bDevices selectedItem];
+    if (item == nil) return nil;
+    return [item title];
 }
+#endif
+
 
 @end

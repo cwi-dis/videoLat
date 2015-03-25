@@ -20,19 +20,14 @@
 
 @property(strong) NSString *location;
 
-- (NSURL *)directoryForCalibrations;
-
-    //!< Returns directory where calibration run documents should be stored/loaded.
-- (void)_loadCalibrationsFrom: (NSURL *)directory;
-
-  //!< Internal helper for applicationWillFinishLaunching, loads all calibrations.
-- (BOOL)_loadCalibration: (NSURL *)url error: (NSError **)outError;
-
-   //!< Helper for loadCalibrationsFrom, loads a single calibration.
+- (void)initVideolat;   //!< Initialize the app, common to OSX and iOS.
+- (NSURL *)directoryForCalibrations;    //!< Returns directory where calibration run documents should be stored/loaded.
+- (void)_loadCalibrationsFrom: (NSURL *)directory;  //!< Internal helper for applicationWillFinishLaunching, loads all calibrations.
+- (BOOL)_loadCalibration: (NSURL *)url error: (NSError **)outError;   //!< Helper for loadCalibrationsFrom, loads a single calibration.
 - (BOOL)haveCalibration: (NSString *)uuid;
-
-
-- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation;
 - (IBAction)openWebsite:(id)sender; //!< Method to be called when the user wants to view the videoLat website.
+
+// Location manager delegate method:
+- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation;
 
 @end

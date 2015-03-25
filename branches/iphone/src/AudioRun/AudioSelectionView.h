@@ -9,22 +9,21 @@
 #import <Foundation/Foundation.h>
 #import "compat.h"
 #import "AudioInput.h"
+#ifdef WITH_UIKIT
+#import "InputSelectionView.h"
+#endif
 
 ///
 /// Subclass of NSView, allows the user to select the audio input device.
 ///
 @interface AudioSelectionView
 #ifdef WITH_UIKIT
-: UIView<SelectionView>
+: InputSelectionView
 #else
 : NSView<SelectionView>
 #endif
 
 #ifdef WITH_UIKIT
-@property(weak) IBOutlet UIPickerView *bBase;          //!< UI element: available calibration runs
-@property(weak) IBOutlet UILabel *bBaseLabel;
-@property(weak) IBOutlet UIButton *bPreRun;             //!< UI element: start a measurement run
-@property(weak) IBOutlet UILabel *bInputDeviceName;
 @property(weak) IBOutlet UILabel *bOutputDeviceName;
 #else
 @property(weak) IBOutlet NSPopUpButton *bDevices;  //!< UI element: all available audio input sources
