@@ -22,25 +22,22 @@
             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="h2t-tk-YTG">
-                    <rect key="frame" x="0.0" y="83" width="600" height="162"/>
-                </pickerView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Output Volume:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="klW-w1-Rgs">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" ambiguous="YES" misplaced="YES" text="Output Volume:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="klW-w1-Rgs">
                     <rect key="frame" x="8" y="257" width="120" height="21"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Output Level:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wj8-zY-3x4">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Output Level:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wj8-zY-3x4">
                     <rect key="frame" x="8" y="291" width="103" height="21"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progressViewStyle="bar" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="aMp-jV-aKa">
+                <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" progressViewStyle="bar" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="aMp-jV-aKa">
                     <rect key="frame" x="136" y="301" width="456" height="3"/>
                 </progressView>
-                <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="9ye-6b-ebQ">
+                <slider opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="9ye-6b-ebQ">
                     <rect key="frame" x="134" y="253" width="460" height="31"/>
                 </slider>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Q8b-ME-ujW" customClass="RunStatusView">
@@ -118,38 +115,30 @@
                         <outlet property="bStop" destination="mic-2S-D0j" id="S9N-mm-g3d"/>
                     </connections>
                 </view>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Input Level: " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H9Z-y2-dYf">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Input Level: " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H9Z-y2-dYf">
                     <rect key="frame" x="8" y="320" width="94" height="21"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Input Onset: " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OaG-lx-KdJ">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Input Onset: " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OaG-lx-KdJ">
                     <rect key="frame" x="8" y="349" width="100" height="21"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FZp-Si-u6Q">
+                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FZp-Si-u6Q">
                     <rect key="frame" x="136" y="344" width="51" height="31"/>
                 </switch>
-                <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progressViewStyle="bar" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="RdB-Lu-k6S">
+                <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" progressViewStyle="bar" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="RdB-Lu-k6S">
                     <rect key="frame" x="136" y="330" width="456" height="3"/>
                 </progressView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Select Audio Sample:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SDk-qX-qTf">
-                    <rect key="frame" x="218" y="54" width="165" height="21"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                    <nil key="highlightedColor"/>
-                </label>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="9ye-6b-ebQ" firstAttribute="leading" secondItem="klW-w1-Rgs" secondAttribute="trailing" constant="8" id="38s-0h-404"/>
-                <constraint firstItem="h2t-tk-YTG" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="83" id="4v7-Qd-IXc"/>
                 <constraint firstItem="9ye-6b-ebQ" firstAttribute="leading" secondItem="klW-w1-Rgs" secondAttribute="trailing" constant="8" id="99R-hU-6DR"/>
                 <constraint firstItem="wj8-zY-3x4" firstAttribute="top" secondItem="klW-w1-Rgs" secondAttribute="bottom" constant="13" id="9XB-6F-sxk"/>
-                <constraint firstItem="klW-w1-Rgs" firstAttribute="top" secondItem="h2t-tk-YTG" secondAttribute="bottom" constant="12" id="9hH-h2-44f"/>
                 <constraint firstItem="H9Z-y2-dYf" firstAttribute="top" secondItem="wj8-zY-3x4" secondAttribute="bottom" constant="8" symbolic="YES" id="DFj-34-kxb"/>
                 <constraint firstItem="OaG-lx-KdJ" firstAttribute="top" secondItem="H9Z-y2-dYf" secondAttribute="bottom" constant="8" id="Eg4-cL-NL8"/>
                 <constraint firstItem="RdB-Lu-k6S" firstAttribute="leading" secondItem="aMp-jV-aKa" secondAttribute="leading" id="IPe-Vf-dHG"/>
@@ -163,18 +152,14 @@
                 <constraint firstItem="RdB-Lu-k6S" firstAttribute="leading" secondItem="FZp-Si-u6Q" secondAttribute="leading" id="iY5-cc-pS7"/>
                 <constraint firstAttribute="trailing" secondItem="aMp-jV-aKa" secondAttribute="trailing" constant="8" id="j9o-bj-cCm"/>
                 <constraint firstItem="FZp-Si-u6Q" firstAttribute="leading" secondItem="OaG-lx-KdJ" secondAttribute="trailing" constant="28" id="mCn-Cg-nz9"/>
-                <constraint firstItem="9ye-6b-ebQ" firstAttribute="top" secondItem="h2t-tk-YTG" secondAttribute="bottom" constant="8" id="p8j-dl-s7u"/>
                 <constraint firstItem="H9Z-y2-dYf" firstAttribute="leading" secondItem="wj8-zY-3x4" secondAttribute="leading" id="r4e-gm-5Aj"/>
                 <constraint firstItem="aMp-jV-aKa" firstAttribute="top" secondItem="9ye-6b-ebQ" secondAttribute="bottom" constant="18" id="r7q-ps-QBl"/>
-                <constraint firstItem="h2t-tk-YTG" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="s8J-OH-9EO"/>
                 <constraint firstItem="RdB-Lu-k6S" firstAttribute="top" secondItem="aMp-jV-aKa" secondAttribute="bottom" constant="27" id="tnc-r6-f1m"/>
                 <constraint firstItem="FZp-Si-u6Q" firstAttribute="top" secondItem="RdB-Lu-k6S" secondAttribute="bottom" constant="12" id="vb7-Kd-C5f"/>
                 <constraint firstItem="klW-w1-Rgs" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="xag-dY-ZHp"/>
-                <constraint firstAttribute="trailing" secondItem="h2t-tk-YTG" secondAttribute="trailing" id="zbK-Tu-eRz"/>
             </constraints>
             <connections>
                 <outlet property="bOutputValue" destination="aMp-jV-aKa" id="msQ-MQ-BOZ"/>
-                <outlet property="bSample" destination="h2t-tk-YTG" id="qkz-1R-ZEl"/>
                 <outlet property="bVolume" destination="9ye-6b-ebQ" id="NwV-HA-oLc"/>
                 <outlet property="manager" destination="eDD-Kr-Cxl" id="Xgt-mg-0hk"/>
                 <outlet property="processor" destination="P2k-DF-a1V" id="zTa-Cc-SdQ"/>
@@ -183,6 +168,7 @@
         </view>
         <customObject id="eDD-Kr-Cxl" customClass="AudioCalibrationRunManager">
             <connections>
+                <outlet property="bDetection" destination="FZp-Si-u6Q" id="KH4-xY-aL2"/>
                 <outlet property="capturer" destination="f5f-5e-83C" id="RvZ-E8-ykj"/>
                 <outlet property="clock" destination="f5f-5e-83C" id="gEC-Ts-kki"/>
                 <outlet property="collector" destination="a2X-BP-bgb" id="mnJ-cl-vi4"/>

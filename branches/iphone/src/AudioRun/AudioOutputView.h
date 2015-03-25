@@ -33,7 +33,6 @@
 @property(weak) IBOutlet id <RunOutputManagerProtocol> manager; //!< Set by NIB: our run manager
 @property(weak) IBOutlet AudioProcess *processor;   //!< Set by NIB: our audio processor
 #ifdef WITH_UIKIT
-@property(weak) IBOutlet UIPickerView *bSample;    //!< UI element: popup to select audio sample to play
 @property(weak) IBOutlet UISlider *bVolume;         //!< UI element: slider to adjust output volume
 @property(weak) IBOutlet UIProgressView *bOutputValue;    //!< UI element: output VU meter
 #else
@@ -43,8 +42,12 @@
 #endif
 
 - (void)stop;                           //!< Called by manager when user stops the measurement run
-- (IBAction)sampleChanged: (id) sender; //!< Called from UI when a new item has been selected in bSample
 - (void) showNewData;                   //!< Called by manager when a new sample should be played
-
 - (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag;    //!< AVAudioPlayer callback routine
+- (BOOL)switchToSample: (NSString *)sampleName;
+
+#ifdef WITH_APPKIT
+- (IBAction)sampleChanged: (id) sender; //!< Called from UI when a new item has been selected in bSample
+#endif
+
 @end

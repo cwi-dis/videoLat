@@ -15,8 +15,8 @@
     NSBundle *bundle = [NSBundle mainBundle];
     samples = [bundle pathsForResourcesOfType:@"aif" inDirectory:@"sounds"];
     if (VL_DEBUG) NSLog(@"Sounds: %@\n", samples);
-#ifdef WITH_UIKIT_TEMP
-    NSLog(@"Should fill picker view with samples");
+#ifdef WITH_UIKIT
+	[self switchToSample:@"beep40ms"];
 #else
     [self.bSample removeAllItems];
     NSString *filename;
@@ -25,8 +25,8 @@
         NSString *title = [comps objectAtIndex: [comps count] - 2];
         [self.bSample addItemWithTitle:title];
     }
-#endif
 	[self sampleChanged: self.bSample];
+#endif
 }
 
 - (void)dealloc
@@ -51,28 +51,29 @@
 	player = nil;
 }
 
+#ifdef WITH_APPKIT
 - (IBAction)sampleChanged: (id) sender
 {
     // Get the URL of the sample selected
-#ifdef WITH_UIKIT
-    int idx = [sender selectedRowInComponent: 0];
-    NSString *sample = [samples objectAtIndex:idx];
-#else
     NSString *sample = [sender titleOfSelectedItem];
+	[self switchToSample: sample];
+}
 #endif
-#ifdef WITH_UIKIT_TEMP
-	sample = @"beep40ms";
-#endif
+
+- (BOOL) switchToSample: (NSString *)sample
+{
 	NSString *pathName = [[NSBundle mainBundle] pathForResource:sample ofType:@"aif" inDirectory: @"sounds"];
+	assert(pathName);
     NSURL * url = [[NSURL alloc] initFileURLWithPath:pathName];
     if (VL_DEBUG) NSLog(@"sample URL %@\n", url);
-    
+	assert(url);
+
     // Create the player for it
     NSError *error;
     player = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:&error];
     if (player == nil) {
-        NSLog(@"AVAudioPlayer error: %@", error);
-        return;
+        showErrorAlert(error);
+        return NO;
     }
     player.delegate = self;
     player.meteringEnabled = YES;
@@ -81,6 +82,7 @@
     AudioProcess *orinigalProcessor = [self.processor clone];
     signature = [orinigalProcessor processOriginal:url];
     self.processor.originalSignature = signature;
+	return YES;
 }
 
 - (void) showNewData
@@ -90,7 +92,7 @@
 			NSLog(@"AudioOutputView.showNewData: already playing");
 			return;
 		}
-        // player.volume = self.bVolume.floatValue;
+        //player.volume = self.bVolume.floatValue;
         [player prepareToPlay];
         [self.manager newOutputStart]; // XXXJACK should have a newOutputStartAt: timestamp and use playAtTime
         [player play];
