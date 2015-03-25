@@ -165,6 +165,15 @@ static NSMutableDictionary *runManagerSelectionNibs;
     }
 }
 
+#ifdef WITH_UIKIT
+- (void)runForType: (NSString *)measurementTypeName withBase: (NSString *)baseMeasurementName
+{
+	[self selectMeasurementType:measurementTypeName];
+	baseName = baseMeasurementName;
+	[self startPreMeasuring:self];
+}
+#endif
+
 - (IBAction)selectionChanged: (id) sender
 {
 	NSLog(@"BaseRunManager: device changed");
@@ -181,7 +190,7 @@ static NSMutableDictionary *runManagerSelectionNibs;
 		if (self.measurementType.requires != nil) {
 			// First check that a base measurement has been selected.
 			NSString *errorMessage;
-			NSString *baseName = [self.selectionView baseName];
+			if (self.selectionView) baseName = [self.selectionView baseName];
 			MeasurementType *baseType = self.measurementType.requires;
 			MeasurementDataStore *baseStore = [baseType measurementNamed: baseName];
 			if (baseType == nil) {
@@ -371,12 +380,6 @@ static NSMutableDictionary *runManagerSelectionNibs;
 		BOOL devicesOK = ([self prepareInputDevice] && [self.outputCompanion prepareOutputDevice]);
 		[self.selectionView.bPreRun setEnabled: devicesOK];
 	}
-#ifdef WITH_UIKIT
-	// On the iPhone, by the time we get here, our input device name and base measurement
-	// and possibly an extra parameter (such as sample for audio) have been selected by the user.
-	// We start prerunning straight away.
-	[self startPreMeasuring:self];
-#endif
 }
 
 - (void) companionRestart

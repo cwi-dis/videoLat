@@ -66,22 +66,19 @@
 + (NSArray *) allDeviceTypeIDs;
 
 - (uint64_t)now;
+
 - (bool)available;
-- (AVCaptureDevice*)_deviceWithName: (NSString*)name;
 - (NSArray*) deviceNames;
-- (void)_switchToDevice: (AVCaptureDevice*)dev;
 - (BOOL)switchToDeviceWithName: (NSString *)name;
 - (void) startCapturing: (BOOL) showPreview;
+- (void) pauseCapturing: (BOOL) pause;
 - (void) stopCapturing;
+
 - (void) stop;
 
+- (AVCaptureDevice*)_deviceWithName: (NSString*)name;
+- (void)_switchToDevice: (AVCaptureDevice*)dev;
 
-
-
-#ifdef NOTYETFORAVFOUNDATION
-// Delegate method for QTCaptureView:
-- (CIImage *)view:(QTCaptureView *)view willDisplayImage:(CIImage *)image;
-#endif
 
 // Private delegate method for same:
 - (void)focusRectSelected: (NSorUIRect)theRect;

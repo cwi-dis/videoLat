@@ -145,11 +145,27 @@
 @protocol InputCaptureProtocol
 @property (readonly) NSString* deviceID;	/*!< Unique string that identifies the input device */
 @property (readonly) NSString* deviceName;	/*!< Human-readable string that identifies the input device */
+
+/**
+ Returns list of available input devices.
+ */
+- (NSArray*) deviceNames;
+/*
+ Switch to a different input device.
+ @param Name of the device (as returned by deviceNames)
+ @returns True if succesful
+ */
+- (BOOL)switchToDeviceWithName: (NSString *)name;
 /**
  Start capturing, each captured frame will be forwarded to the InputRunManager.
  @param showPreview Set to true if the capturer should show its preview window
  */
 - (void) startCapturing: (BOOL)showPreview;
+/**
+ Pause or resume capturer.
+ @param pause True for pausing, false for resuming
+ */
+- (void) pauseCapturing: (BOOL)pause;
 /**
  Pause capturing, don't forward frames to the InputRunManager any longer.
  */
@@ -158,11 +174,6 @@
  Stop capturing altogether and release resources.
  */
 - (void) stop;
-/**
- Pause or resume capturer.
- @param pause True for pausing, false for resuming
- */
-- (void) pauseCapturing: (BOOL)pause;
 @end
 
 ///

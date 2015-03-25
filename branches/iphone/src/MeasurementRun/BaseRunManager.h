@@ -40,6 +40,7 @@
     BOOL slaveHandler;      //!< true if this is a slave, i.e. it has no collector.
     uint64_t maxDelay;   //!< Internal: How log to wait for prerun code finding
     int prerunMoreNeeded;   //!< Internal: How many more prerun correct catches we need
+	NSString *baseName;		//<! Name of our base (calibration) measurement
 }
 
 @property(weak) IBOutlet id<SelectionView> selectionView;         //!< Assigned in NIB: view that allows selection of input device
@@ -112,6 +113,14 @@
 /// share an awful lot of code.
 ///
 - (void)selectMeasurementType: (NSString *)typeName;
+
+#ifdef WITH_UIKIT
+///
+/// Select the measurement type and base, and start prerunning.
+///
+- (void)runForType: (NSString *)measurementTypeName withBase: (NSString *)baseMeasurementName;
+#endif
+
 - (void)restart;
 
 ///
