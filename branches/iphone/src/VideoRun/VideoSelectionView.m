@@ -11,6 +11,7 @@
 @implementation VideoSelectionView
 - (void)awakeFromNib
 {
+    [super awakeFromNib];
     [self _updateCameraNames: nil];
     [[NSNotificationCenter defaultCenter]
      addObserver:self

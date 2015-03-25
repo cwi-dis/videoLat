@@ -11,39 +11,37 @@
 @implementation InputSelectionView
 @synthesize selectionDelegate;
 
+- (void)awakeFromNib
+{
+    [super awakeFromNib];
+    if (self.bBase) {
+        self.bBase.dataSource = self;
+        self.bBase.delegate = self;
+    }
+}
+
 - (void)setBases: (NSArray *)baseNames
 {
     assert(self.bBase);
-#ifdef WITH_UIKIT
-    assert(0);
-#else
-    [self.bBase removeAllItems];
-    [self.bBase addItemsWithTitles: baseNames];
-    [self.selectionDelegate selectionChanged:self];
-#endif
+    _baseNames = baseNames;
+    [self.bBase reloadAllComponents];
 }
 
 - (void)disableBases
 {
     if (self.bBase) {
-#ifdef WITH_UIKIT
         [self.bBase removeFromSuperview];
         if (self.bBaseLabel) [self.bBaseLabel removeFromSuperview];
         self.bBase = nil;
         self.bBaseLabel = nil;
-#else
-        [self.bBase setEnabled: NO];
-        [self.bBase selectItem: nil];
-#endif
     }
 }
 
 - (NSString *)baseName
 {
     if (self.bBase == nil) return nil;
-
-    assert(0);
-    return nil;
+    NSInteger idx = [self.bBase selectedRowInComponent:0];
+    return [_baseNames objectAtIndex:idx];
 }
 
 - (NSString *)deviceName
@@ -51,5 +49,25 @@
     NSString *deviceName = self.bInputDeviceName.text;
     return deviceName;
 }
+
+// datasource methods
+// The number of columns of data
+- (int)numberOfComponentsInPickerView:(UIPickerView *)pickerView
+{
+    return 1;
+}
+
+// The number of rows of data
+- (int)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
+{
+    return _baseNames.count;
+}
+
+// The data to return for the row and component (column) that's being passed in
+- (NSString*)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
+{
+    return _baseNames[row];
+}
+
 
 @end

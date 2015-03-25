@@ -39,9 +39,9 @@
 
 #ifdef WITH_APPKIT
 - (IBAction)deviceChanged: (id) sender;     //!< Called when the user makes a new selection in bCameras
+- (void)_reselectCamera: (NSString *)name;  //!< Internal: try to re-select our camera on camera change
 #endif
 - (void)_updateCameraNames: (NSNotification*) notification; //!< Called by notification manager when a camera is attached/removed.
-- (void)_reselectCamera: (NSString *)name;  //!< Internal: try to re-select our camera on camera change
 
 #ifdef WITH_UIKIT
 - (IBAction)selectNextCamera: (id)sender;

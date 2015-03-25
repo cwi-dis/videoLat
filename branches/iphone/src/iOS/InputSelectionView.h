@@ -9,7 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "protocols.h"
 
-@interface InputSelectionView : UIView<SelectionView>
+@interface InputSelectionView : UIView<SelectionView,UIPickerViewDataSource, UIPickerViewDelegate> {
+    NSArray *_baseNames;
+}
 
 @property(weak) IBOutlet UIPickerView *bBase;          //!< UI element: available calibration runs
 @property(weak) IBOutlet UILabel *bBaseLabel;

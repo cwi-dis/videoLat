@@ -12,6 +12,7 @@
 
 - (void)awakeFromNib
 {
+    [super awakeFromNib];
     [self _updateDeviceNames: nil];
     [[NSNotificationCenter defaultCenter]
      addObserver:self
