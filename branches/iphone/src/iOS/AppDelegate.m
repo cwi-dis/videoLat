@@ -10,9 +10,12 @@
 #import "AudioRunManager.h"
 #import "VideoRunManager.h"
 #import "VideoCalibrationRunManager.h"
-#import "VideoMonoRunManager.h"
 #import "AudioCalibrationRunManager.h"
 
+#if !TARGET_OS_IPHONE
+#import "VideoMonoRunManager.h"
+#import "HardwareRunManager.h"
+#endif
 @interface AppDelegate ()
 
 @end
@@ -25,11 +28,13 @@
     // Initialize run manager classes. Should be done differently.
     [VideoRunManager class];
     [VideoCalibrationRunManager class];
-	[VideoMonoRunManager class];
-//    [HardwareRunManager class];
     [AudioRunManager class];
     [AudioCalibrationRunManager class];
 //    [NetworkRunManager class];
+#if !TARGET_OS_IPHONE
+	[VideoMonoRunManager class];
+    [HardwareRunManager class];
+#endif
 	return YES;
 }
 

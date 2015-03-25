@@ -27,13 +27,15 @@
 		04138C821AB329CB003D8167 /* DeviceDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = 04138C811AB329CB003D8167 /* DeviceDescription.m */; };
 		04138C851AB32A23003D8167 /* MachineDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = 04138C841AB32A23003D8167 /* MachineDescription.m */; };
 		04138C881AB32DBB003D8167 /* DownloadCalibrationTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04138C871AB32DBB003D8167 /* DownloadCalibrationTableViewController.m */; };
-		04155E971AB6251900DD53D9 /* NewCalibrationTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04155E961AB6251900DD53D9 /* NewCalibrationTableViewController.m */; };
+		04155E971AB6251900DD53D9 /* NewMeasurementTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04155E961AB6251900DD53D9 /* NewMeasurementTableViewController.m */; };
 		04155E9A1AB6311C00DD53D9 /* sounds in Resources */ = {isa = PBXBuildFile; fileRef = 04155E991AB6311C00DD53D9 /* sounds */; };
 		04155E9D1AB6312900DD53D9 /* AudioInput.m in Sources */ = {isa = PBXBuildFile; fileRef = 04155E9C1AB6312900DD53D9 /* AudioInput.m */; };
 		04155EA01AB6448900DD53D9 /* AudioOutputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04155E9F1AB6448900DD53D9 /* AudioOutputView.m */; };
 		04155EA31AB6471900DD53D9 /* AudioProcess.m in Sources */ = {isa = PBXBuildFile; fileRef = 04155EA21AB6471900DD53D9 /* AudioProcess.m */; };
 		04155EA61AB647C500DD53D9 /* AudioRunManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 04155EA51AB647C500DD53D9 /* AudioRunManager.m */; };
 		04155EA91AB6481000DD53D9 /* BaseRunManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 04155EA81AB6481000DD53D9 /* BaseRunManager.m */; };
+		042E0F2E1AC30DFD003D6267 /* VideoRunManager.xib in Resources */ = {isa = PBXBuildFile; fileRef = 042E0F2D1AC30DFD003D6267 /* VideoRunManager.xib */; };
+		042E0F341AC310BD003D6267 /* NewCalibrationTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 042E0F331AC310BD003D6267 /* NewCalibrationTableViewController.m */; };
 		0462CC171AC2F0E00077383B /* VideoCalibrationRunManager.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0462CC161AC2F0E00077383B /* VideoCalibrationRunManager.xib */; };
 		0478E1391AB9B7D80057548C /* OpenDocumentTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0478E1381AB9B7D80057548C /* OpenDocumentTableViewController.m */; };
 		0478E1451ABF6ABF0057548C /* findQRcodes.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0478E1421ABF6ABF0057548C /* findQRcodes.mm */; };
@@ -55,7 +57,6 @@
 		04F7B8451AC040AE00BEFDD5 /* VideoInputSelectionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04F7B8441AC040AE00BEFDD5 /* VideoInputSelectionView.xib */; };
 		04F7B8471AC16E4900BEFDD5 /* AudioInputSelectionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04F7B8461AC16E4900BEFDD5 /* AudioInputSelectionView.xib */; };
 		04F7B84A1AC18EB600BEFDD5 /* VideoRunManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F7B8491AC18EB600BEFDD5 /* VideoRunManager.m */; };
-		04F7B84F1AC18EFB00BEFDD5 /* VideoMonoRunManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F7B84E1AC18EFB00BEFDD5 /* VideoMonoRunManager.m */; };
 		04F7B8521AC18F0500BEFDD5 /* VideoCalibrationRunManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F7B8511AC18F0500BEFDD5 /* VideoCalibrationRunManager.m */; };
 		04FFFC7A1AB2FA8E0023ED13 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FFFC771AB2FA8E0023ED13 /* AppDelegate.m */; };
 		04FFFC801AB2FABE0023ED13 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04FFFC7C1AB2FABE0023ED13 /* LaunchScreen.xib */; };
@@ -117,8 +118,8 @@
 		04138C841AB32A23003D8167 /* MachineDescription.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MachineDescription.m; path = src/Document/MachineDescription.m; sourceTree = SOURCE_ROOT; };
 		04138C861AB32DBB003D8167 /* DownloadCalibrationTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DownloadCalibrationTableViewController.h; path = src/iOS/DownloadCalibrationTableViewController.h; sourceTree = SOURCE_ROOT; };
 		04138C871AB32DBB003D8167 /* DownloadCalibrationTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DownloadCalibrationTableViewController.m; path = src/iOS/DownloadCalibrationTableViewController.m; sourceTree = SOURCE_ROOT; };
-		04155E951AB6251900DD53D9 /* NewCalibrationTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NewCalibrationTableViewController.h; path = src/iOS/NewCalibrationTableViewController.h; sourceTree = SOURCE_ROOT; };
-		04155E961AB6251900DD53D9 /* NewCalibrationTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NewCalibrationTableViewController.m; path = src/iOS/NewCalibrationTableViewController.m; sourceTree = SOURCE_ROOT; };
+		04155E951AB6251900DD53D9 /* NewMeasurementTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NewMeasurementTableViewController.h; path = src/iOS/NewMeasurementTableViewController.h; sourceTree = SOURCE_ROOT; };
+		04155E961AB6251900DD53D9 /* NewMeasurementTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NewMeasurementTableViewController.m; path = src/iOS/NewMeasurementTableViewController.m; sourceTree = SOURCE_ROOT; };
 		04155E991AB6311C00DD53D9 /* sounds */ = {isa = PBXFileReference; lastKnownFileType = folder; path = sounds; sourceTree = SOURCE_ROOT; };
 		04155E9B1AB6312900DD53D9 /* AudioInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioInput.h; path = src/AudioRun/AudioInput.h; sourceTree = SOURCE_ROOT; };
 		04155E9C1AB6312900DD53D9 /* AudioInput.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AudioInput.m; path = src/AudioRun/AudioInput.m; sourceTree = SOURCE_ROOT; };
@@ -130,7 +131,10 @@
 		04155EA51AB647C500DD53D9 /* AudioRunManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AudioRunManager.m; path = src/AudioRun/AudioRunManager.m; sourceTree = SOURCE_ROOT; };
 		04155EA71AB6481000DD53D9 /* BaseRunManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BaseRunManager.h; path = src/MeasurementRun/BaseRunManager.h; sourceTree = SOURCE_ROOT; };
 		04155EA81AB6481000DD53D9 /* BaseRunManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BaseRunManager.m; path = src/MeasurementRun/BaseRunManager.m; sourceTree = SOURCE_ROOT; };
-		0462CC161AC2F0E00077383B /* VideoCalibrationRunManager.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VideoCalibrationRunManager.xib; sourceTree = SOURCE_ROOT; };
+		042E0F2D1AC30DFD003D6267 /* VideoRunManager.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = VideoRunManager.xib; path = src/iOS/VideoRunManager.xib; sourceTree = SOURCE_ROOT; };
+		042E0F321AC310BD003D6267 /* NewCalibrationTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NewCalibrationTableViewController.h; path = src/iOS/NewCalibrationTableViewController.h; sourceTree = SOURCE_ROOT; };
+		042E0F331AC310BD003D6267 /* NewCalibrationTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NewCalibrationTableViewController.m; path = src/iOS/NewCalibrationTableViewController.m; sourceTree = SOURCE_ROOT; };
+		0462CC161AC2F0E00077383B /* VideoCalibrationRunManager.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = VideoCalibrationRunManager.xib; path = src/iOS/VideoCalibrationRunManager.xib; sourceTree = SOURCE_ROOT; };
 		0478E1371AB9B7D80057548C /* OpenDocumentTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OpenDocumentTableViewController.h; path = src/iOS/OpenDocumentTableViewController.h; sourceTree = SOURCE_ROOT; };
 		0478E1381AB9B7D80057548C /* OpenDocumentTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OpenDocumentTableViewController.m; path = src/iOS/OpenDocumentTableViewController.m; sourceTree = SOURCE_ROOT; };
 		0478E1411ABF6ABF0057548C /* findQRcodes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = findQRcodes.h; path = src/VideoRun/findQRcodes.h; sourceTree = SOURCE_ROOT; };
@@ -162,8 +166,6 @@
 		04F7B8461AC16E4900BEFDD5 /* AudioInputSelectionView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AudioInputSelectionView.xib; sourceTree = SOURCE_ROOT; };
 		04F7B8481AC18EB600BEFDD5 /* VideoRunManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VideoRunManager.h; path = src/VideoRun/VideoRunManager.h; sourceTree = SOURCE_ROOT; };
 		04F7B8491AC18EB600BEFDD5 /* VideoRunManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VideoRunManager.m; path = src/VideoRun/VideoRunManager.m; sourceTree = SOURCE_ROOT; };
-		04F7B84D1AC18EFB00BEFDD5 /* VideoMonoRunManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VideoMonoRunManager.h; path = src/VideoMonoRun/VideoMonoRunManager.h; sourceTree = SOURCE_ROOT; };
-		04F7B84E1AC18EFB00BEFDD5 /* VideoMonoRunManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VideoMonoRunManager.m; path = src/VideoMonoRun/VideoMonoRunManager.m; sourceTree = SOURCE_ROOT; };
 		04F7B8501AC18F0500BEFDD5 /* VideoCalibrationRunManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VideoCalibrationRunManager.h; path = src/VideoCalibrationRun/VideoCalibrationRunManager.h; sourceTree = SOURCE_ROOT; };
 		04F7B8511AC18F0500BEFDD5 /* VideoCalibrationRunManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VideoCalibrationRunManager.m; path = src/VideoCalibrationRun/VideoCalibrationRunManager.m; sourceTree = SOURCE_ROOT; };
 		04FFFC761AB2FA8E0023ED13 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = src/iOS/AppDelegate.h; sourceTree = SOURCE_ROOT; };
@@ -253,10 +255,12 @@
 			children = (
 				04138C861AB32DBB003D8167 /* DownloadCalibrationTableViewController.h */,
 				04138C871AB32DBB003D8167 /* DownloadCalibrationTableViewController.m */,
-				04155E951AB6251900DD53D9 /* NewCalibrationTableViewController.h */,
-				04155E961AB6251900DD53D9 /* NewCalibrationTableViewController.m */,
+				04155E951AB6251900DD53D9 /* NewMeasurementTableViewController.h */,
+				04155E961AB6251900DD53D9 /* NewMeasurementTableViewController.m */,
 				04F7B8411AC0407700BEFDD5 /* InputSelectionViewController.h */,
 				04F7B8421AC0407700BEFDD5 /* InputSelectionViewController.m */,
+				042E0F321AC310BD003D6267 /* NewCalibrationTableViewController.h */,
+				042E0F331AC310BD003D6267 /* NewCalibrationTableViewController.m */,
 			);
 			name = NewDocument;
 			sourceTree = "<group>";
@@ -276,7 +280,6 @@
 				040E77201AB6F2F7001A7918 /* AudioCalibrationRun */,
 				04138C891AB330C4003D8167 /* VideoRun */,
 				04F7B84B1AC18EC000BEFDD5 /* VideoCalibrationRun */,
-				04F7B84C1AC18ECC00BEFDD5 /* VideoMonoRun */,
 			);
 			name = MeasurementRun;
 			sourceTree = "<group>";
@@ -297,6 +300,7 @@
 				04F7B83E1AC02F4C00BEFDD5 /* VideoSelectionView.h */,
 				04F7B83F1AC02F4C00BEFDD5 /* VideoSelectionView.m */,
 				04F7B8441AC040AE00BEFDD5 /* VideoInputSelectionView.xib */,
+				042E0F2D1AC30DFD003D6267 /* VideoRunManager.xib */,
 			);
 			name = VideoRun;
 			sourceTree = "<group>";
@@ -424,15 +428,6 @@
 			name = VideoCalibrationRun;
 			sourceTree = "<group>";
 		};
-		04F7B84C1AC18ECC00BEFDD5 /* VideoMonoRun */ = {
-			isa = PBXGroup;
-			children = (
-				04F7B84D1AC18EFB00BEFDD5 /* VideoMonoRunManager.h */,
-				04F7B84E1AC18EFB00BEFDD5 /* VideoMonoRunManager.m */,
-			);
-			name = VideoMonoRun;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -522,6 +517,7 @@
 				04FFFC831AB2FACB0023ED13 /* Images.xcassets in Resources */,
 				04F7B8451AC040AE00BEFDD5 /* VideoInputSelectionView.xib in Resources */,
 				04FFFC811AB2FABE0023ED13 /* Main.storyboard in Resources */,
+				042E0F2E1AC30DFD003D6267 /* VideoRunManager.xib in Resources */,
 				040E77251AB6F42B001A7918 /* AudioCalibrationRunManager.xib in Resources */,
 				04FFFC801AB2FABE0023ED13 /* LaunchScreen.xib in Resources */,
 			);
@@ -552,6 +548,7 @@
 				040E772B1AB707B2001A7918 /* AudioSelectionView.m in Sources */,
 				04FFFC7A1AB2FA8E0023ED13 /* AppDelegate.m in Sources */,
 				04FFFC871AB2FAD90023ED13 /* main.m in Sources */,
+				042E0F341AC310BD003D6267 /* NewCalibrationTableViewController.m in Sources */,
 				04F7B84A1AC18EB600BEFDD5 /* VideoRunManager.m in Sources */,
 				04138C821AB329CB003D8167 /* DeviceDescription.m in Sources */,
 				04138C851AB32A23003D8167 /* MachineDescription.m in Sources */,
@@ -569,14 +566,13 @@
 				04F7B8431AC0407700BEFDD5 /* InputSelectionViewController.m in Sources */,
 				04138C731AB31A2C003D8167 /* CalibrationSharing.m in Sources */,
 				04138C881AB32DBB003D8167 /* DownloadCalibrationTableViewController.m in Sources */,
-				04F7B84F1AC18EFB00BEFDD5 /* VideoMonoRunManager.m in Sources */,
 				040E773A1AB7200F001A7918 /* GraphView.m in Sources */,
 				04138C791AB31E1B003D8167 /* CommonAppDelegate.m in Sources */,
 				04155EA01AB6448900DD53D9 /* AudioOutputView.m in Sources */,
 				0478E1451ABF6ABF0057548C /* findQRcodes.mm in Sources */,
 				040E77431AB73634001A7918 /* Document.m in Sources */,
 				04155EA61AB647C500DD53D9 /* AudioRunManager.m in Sources */,
-				04155E971AB6251900DD53D9 /* NewCalibrationTableViewController.m in Sources */,
+				04155E971AB6251900DD53D9 /* NewMeasurementTableViewController.m in Sources */,
 				040E77341AB71FF2001A7918 /* DocumentView.m in Sources */,
 				04F7B83D1AC02F4400BEFDD5 /* VideoOutputView.m in Sources */,
 			);

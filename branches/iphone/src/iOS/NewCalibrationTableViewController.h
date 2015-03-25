@@ -2,15 +2,13 @@
 //  NewCalibrationTableViewController.h
 //  videoLat-iOS
 //
-//  Created by Jack Jansen on 15/03/15.
+//  Created by Jack Jansen on 25/03/15.
 //  Copyright (c) 2015 CWI. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "NewMeasurementTableViewController.h"
 
-@interface NewCalibrationTableViewController : UITableViewController {
-	NSString *selectedMeasurement;
-}
+@interface NewCalibrationTableViewController : NewMeasurementTableViewController
 
-@property(readonly) NSArray *measurementNames;
+- (NSArray *)measurementNames;
 @end
