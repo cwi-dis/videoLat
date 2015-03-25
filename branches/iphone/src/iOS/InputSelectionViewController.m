@@ -45,6 +45,11 @@
 	[self.view setNeedsLayout];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+	if (self.capturer) [self.capturer pauseCapturing:NO];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -62,11 +67,12 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+	assert([segue.identifier isEqualToString:@"runMeasurement"]);
 	MeasurementContainerViewController *mcv = segue.destinationViewController;
 	mcv.measurementTypeName = self.measurementTypeName;
 	mcv.baseMeasurementName = baseMeasurementName;
 	mcv.inputDeviceName = inputDeviceName;
-	NSLog(@"InputSelectionViewController: should communicate input device and base measurement");
+	if (self.capturer) [self.capturer pauseCapturing:YES];
 }
 
 @end

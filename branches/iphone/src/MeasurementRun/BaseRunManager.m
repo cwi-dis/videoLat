@@ -372,6 +372,9 @@ static NSMutableDictionary *runManagerSelectionNibs;
 		[self.selectionView.bPreRun setEnabled: devicesOK];
 	}
 #ifdef WITH_UIKIT
+	// On the iPhone, by the time we get here, our input device name and base measurement
+	// and possibly an extra parameter (such as sample for audio) have been selected by the user.
+	// We start prerunning straight away.
 	[self startPreMeasuring:self];
 #endif
 }

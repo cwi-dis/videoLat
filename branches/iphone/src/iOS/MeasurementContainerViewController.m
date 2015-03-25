@@ -33,11 +33,13 @@
 
     assert(self.runManager);
     assert([self.runManager class] == runClass);
-    [self.runManager selectMeasurementType: measurementTypeName];
 	if (self.baseMeasurementName) {
+		[self.runManager setBaseMeasurementXXXX: self.baseMeasurementName];
 	}
 	if (self.inputDeviceName) {
+		[self.runManager setInputDeviceXXXX: self.inputDeviceName];
 	}
+    [self.runManager selectMeasurementType: measurementTypeName];
 
 	self.measurementView.frame = self.view.bounds;
 	[self.view addSubview: self.measurementView];

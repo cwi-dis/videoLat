@@ -340,6 +340,18 @@
 	[session startRunning];
 }
 
+- (void)pauseCapturing: (BOOL) pause
+{
+	if (session == nil) return;
+	if (pause) {
+		if (session.running)
+			[session stopRunning];
+	} else {
+		if (!session.running)
+			[session startRunning];
+	}
+}
+
 - (AVCaptureDevice*)_deviceWithName: (NSString*)name
 {
 #if 1

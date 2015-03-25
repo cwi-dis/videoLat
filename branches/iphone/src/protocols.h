@@ -158,6 +158,11 @@
  Stop capturing altogether and release resources.
  */
 - (void) stop;
+/**
+ Pause or resume capturer.
+ @param pause True for pausing, false for resuming
+ */
+- (void) pauseCapturing: (BOOL)pause;
 @end
 
 ///

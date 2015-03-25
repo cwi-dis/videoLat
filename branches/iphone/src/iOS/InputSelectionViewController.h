@@ -15,6 +15,7 @@
 	NSString *baseMeasurementName;		//!< Remember selectionview parameter during segue
 }
 @property(strong) IBOutlet UIView<SelectionView> *selectionView;	//!< Set by selectionview NIB
+@property(weak) IBOutlet NSObject<InputCaptureProtocol> *capturer;	//!< Set by selectionview NIB
 @property(strong) NSString *measurementTypeName;	//!< Set by our initiator
 
 - (IBAction)selectionDone:(id)sender;

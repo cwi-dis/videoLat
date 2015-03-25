@@ -121,6 +121,7 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+	assert([segue.identifier isEqualToString:@"inputSelection"]);
 	InputSelectionViewController *mcv = segue.destinationViewController;
 	mcv.measurementTypeName = selectedMeasurement;
 }
