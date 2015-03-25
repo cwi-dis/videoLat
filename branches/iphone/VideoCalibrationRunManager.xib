@@ -17,8 +17,8 @@
             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nmd-1e-LLb" customClass="RunStatusView">
-                    <rect key="frame" x="8" y="476" width="584" height="104"/>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nmd-1e-LLb" customClass="RunStatusView">
+                    <rect key="frame" x="8" y="473" width="584" height="107"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Count:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sc9-tV-zDv">
                             <rect key="frame" x="8" y="8" width="52" height="21"/>
@@ -44,8 +44,8 @@
                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0N8-3d-UTL">
-                            <rect key="frame" x="543" y="66" width="33" height="30"/>
+                        <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0N8-3d-UTL">
+                            <rect key="frame" x="543" y="69" width="33" height="30"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="30" id="kAz-na-ITy"/>
                             </constraints>
@@ -92,8 +92,8 @@
                         <outlet property="bStop" destination="0N8-3d-UTL" id="VWB-G4-H0Q"/>
                     </connections>
                 </view>
-                <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="f7H-lc-MNp" customClass="VideoOutputView">
-                    <rect key="frame" x="93" y="53" width="415" height="415"/>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="f7H-lc-MNp" customClass="VideoOutputView">
+                    <rect key="frame" x="95" y="53" width="412" height="412"/>
                     <color key="backgroundColor" red="0.045329090209999999" green="0.92391306159999997" blue="0.90212601420000005" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="width" secondItem="f7H-lc-MNp" secondAttribute="height" multiplier="1:1" id="ZgZ-B9-aRL"/>
@@ -107,7 +107,7 @@
             <constraints>
                 <constraint firstItem="nmd-1e-LLb" firstAttribute="top" secondItem="f7H-lc-MNp" secondAttribute="bottom" constant="8" symbolic="YES" id="14F-Y7-siq"/>
                 <constraint firstAttribute="bottom" secondItem="nmd-1e-LLb" secondAttribute="bottom" constant="20" symbolic="YES" id="9cW-Ev-9rA"/>
-                <constraint firstAttribute="centerX" secondItem="f7H-lc-MNp" secondAttribute="centerX" constant="21.5" id="BUl-al-Gat"/>
+                <constraint firstAttribute="centerX" secondItem="f7H-lc-MNp" secondAttribute="centerX" constant="-1" id="BUl-al-Gat"/>
                 <constraint firstItem="f7H-lc-MNp" firstAttribute="top" relation="greaterThanOrEqual" secondItem="iN0-l3-epB" secondAttribute="top" constant="53" id="GiC-qp-frL"/>
                 <constraint firstItem="nmd-1e-LLb" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leadingMargin" id="HEM-zL-Got"/>
                 <constraint firstAttribute="trailing" secondItem="f7H-lc-MNp" secondAttribute="trailing" priority="250" constant="20" symbolic="YES" id="aQm-If-MT9"/>
