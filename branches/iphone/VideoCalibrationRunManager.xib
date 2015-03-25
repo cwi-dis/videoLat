@@ -2,6 +2,8 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MeasurementContainerViewController">
@@ -15,35 +17,35 @@
             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nmd-1e-LLb" customClass="RunStatusView">
-                    <rect key="frame" x="8" y="476" width="584" height="116"/>
+                <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nmd-1e-LLb" customClass="RunStatusView">
+                    <rect key="frame" x="8" y="476" width="584" height="104"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Count:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sc9-tV-zDv">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Count:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sc9-tV-zDv">
                             <rect key="frame" x="8" y="8" width="52" height="21"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Average:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PMn-4R-jWl">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Average:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PMn-4R-jWl">
                             <rect key="frame" x="8" y="37" width="68" height="21"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="unknown average" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Si-QI-Ham">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="unknown average" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Si-QI-Ham">
                             <rect key="frame" x="84" y="37" width="492" height="21"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="unknown count" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s2i-RX-zcO">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="unknown count" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s2i-RX-zcO">
                             <rect key="frame" x="84" y="8" width="492" height="21"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0N8-3d-UTL">
-                            <rect key="frame" x="543" y="78" width="33" height="30"/>
+                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0N8-3d-UTL">
+                            <rect key="frame" x="543" y="66" width="33" height="30"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="30" id="kAz-na-ITy"/>
                             </constraints>
@@ -54,7 +56,7 @@
                                 <action selector="stopMeasuring:" destination="JO0-Cs-Ava" eventType="touchUpInside" id="Vnr-LU-4B9"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KNi-81-wqc">
+                        <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KNi-81-wqc">
                             <rect key="frame" x="13" y="78" width="30" height="30"/>
                             <state key="normal" title="Run">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -90,21 +92,36 @@
                         <outlet property="bStop" destination="0N8-3d-UTL" id="VWB-G4-H0Q"/>
                     </connections>
                 </view>
-                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="f7H-lc-MNp" customClass="VideoOutputView">
-                    <rect key="frame" x="71" y="21" width="447" height="447"/>
+                <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="f7H-lc-MNp" customClass="VideoOutputView">
+                    <rect key="frame" x="93" y="53" width="415" height="415"/>
                     <color key="backgroundColor" red="0.045329090209999999" green="0.92391306159999997" blue="0.90212601420000005" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="f7H-lc-MNp" secondAttribute="height" multiplier="1:1" id="ZgZ-B9-aRL"/>
+                    </constraints>
                     <connections>
                         <outlet property="manager" destination="JO0-Cs-Ava" id="wpH-RA-MS2"/>
                     </connections>
                 </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="nmd-1e-LLb" firstAttribute="top" secondItem="f7H-lc-MNp" secondAttribute="bottom" constant="8" symbolic="YES" id="14F-Y7-siq"/>
+                <constraint firstAttribute="bottom" secondItem="nmd-1e-LLb" secondAttribute="bottom" constant="20" symbolic="YES" id="9cW-Ev-9rA"/>
+                <constraint firstAttribute="centerX" secondItem="f7H-lc-MNp" secondAttribute="centerX" constant="21.5" id="BUl-al-Gat"/>
+                <constraint firstItem="f7H-lc-MNp" firstAttribute="top" relation="greaterThanOrEqual" secondItem="iN0-l3-epB" secondAttribute="top" constant="53" id="GiC-qp-frL"/>
+                <constraint firstItem="nmd-1e-LLb" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leadingMargin" id="HEM-zL-Got"/>
+                <constraint firstAttribute="trailing" secondItem="f7H-lc-MNp" secondAttribute="trailing" priority="250" constant="20" symbolic="YES" id="aQm-If-MT9"/>
+                <constraint firstItem="nmd-1e-LLb" firstAttribute="trailing" secondItem="iN0-l3-epB" secondAttribute="trailingMargin" id="kEi-HM-4tz"/>
+                <constraint firstItem="f7H-lc-MNp" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" priority="250" constant="20" symbolic="YES" id="qGo-Z8-d5C"/>
+            </constraints>
+            <point key="canvasLocation" x="156" y="154"/>
         </view>
         <customObject id="JO0-Cs-Ava" customClass="VideoCalibrationRunManager">
             <connections>
                 <outlet property="capturer" destination="nzC-i2-ksz" id="rXs-SS-uWO"/>
                 <outlet property="clock" destination="nzC-i2-ksz" id="aBs-GT-fK9"/>
                 <outlet property="collector" destination="2yL-bh-gyB" id="lsZ-VV-H6T"/>
+                <outlet property="completionHandler" destination="-1" id="99Y-U0-kQn"/>
                 <outlet property="finder" destination="yK6-eC-GXL" id="xC3-7L-2KL"/>
                 <outlet property="genner" destination="Grd-1C-2Vo" id="C1W-tM-ZO8"/>
                 <outlet property="outputView" destination="f7H-lc-MNp" id="zx4-jX-Pxn"/>
