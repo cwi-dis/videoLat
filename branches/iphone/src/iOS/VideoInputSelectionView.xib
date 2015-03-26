@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="13F1066" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -35,7 +35,7 @@
                             </connections>
                         </button>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ai4-a8-Avx" customClass="VideoInputView">
-                            <rect key="frame" x="20" y="76" width="572" height="240"/>
+                            <rect key="frame" x="0.0" y="38" width="592" height="278"/>
                             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             <rect key="contentStretch" x="0.0" y="0.0" width="1" height="0.74999999999999978"/>
                         </view>
@@ -51,22 +51,14 @@
                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="r6R-Nb-tSw">
-                            <rect key="frame" x="189" y="38" width="207" height="30"/>
-                            <state key="normal" title="Continue to Pre-measurement">
-                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <connections>
-                                <action selector="selectionDone:" destination="-1" eventType="touchUpInside" id="SUz-7D-otb"/>
-                            </connections>
-                        </button>
                         <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="diI-Yu-DDC">
                             <rect key="frame" x="0.0" y="353" width="600" height="162"/>
                         </pickerView>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstItem="diI-Yu-DDC" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="W5a-7z-0e9" secondAttribute="leading" id="6YP-42-Xoq"/>
+                        <constraint firstItem="diI-Yu-DDC" firstAttribute="top" secondItem="NQN-Cy-2s6" secondAttribute="bottom" constant="8" symbolic="YES" id="1a1-L7-PdU"/>
+                        <constraint firstItem="diI-Yu-DDC" firstAttribute="leading" secondItem="W5a-7z-0e9" secondAttribute="leading" id="6YP-42-Xoq"/>
                         <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="diI-Yu-DDC" secondAttribute="bottom" constant="20" symbolic="YES" id="6qv-Tb-0Cc"/>
                         <constraint firstAttribute="centerX" secondItem="Ai4-a8-Avx" secondAttribute="centerX" id="8Hw-FC-1dG"/>
                         <constraint firstItem="utO-rF-Ktd" firstAttribute="baseline" secondItem="A4s-Zu-VVM" secondAttribute="baseline" id="8fZ-bE-9JE"/>
@@ -79,6 +71,7 @@
                         <constraint firstItem="NQN-Cy-2s6" firstAttribute="centerX" secondItem="Ai4-a8-Avx" secondAttribute="centerX" id="TiU-TL-eU0"/>
                         <constraint firstAttribute="trailing" secondItem="Ai4-a8-Avx" secondAttribute="trailing" constant="20" symbolic="YES" id="XdF-Lw-a1s"/>
                         <constraint firstItem="diI-Yu-DDC" firstAttribute="top" secondItem="NQN-Cy-2s6" secondAttribute="bottom" constant="8" symbolic="YES" id="Xtq-Ei-ug4"/>
+                        <constraint firstAttribute="bottom" secondItem="Ai4-a8-Avx" secondAttribute="bottom" priority="250" constant="20" symbolic="YES" id="YhG-OU-uM7"/>
                         <constraint firstItem="utO-rF-Ktd" firstAttribute="top" secondItem="W5a-7z-0e9" secondAttribute="top" constant="9" id="ZEG-9F-f2h"/>
                         <constraint firstItem="A4s-Zu-VVM" firstAttribute="leading" secondItem="utO-rF-Ktd" secondAttribute="trailing" constant="8" symbolic="YES" id="b5Z-Al-3fK"/>
                         <constraint firstAttribute="bottom" secondItem="diI-Yu-DDC" secondAttribute="bottom" constant="20" symbolic="YES" id="cxH-0d-U0L"/>
@@ -87,22 +80,26 @@
                         <constraint firstItem="utO-rF-Ktd" firstAttribute="baseline" secondItem="PiE-Jp-Nbe" secondAttribute="baseline" constant="1" id="fb2-PN-Bdp"/>
                         <constraint firstItem="Ai4-a8-Avx" firstAttribute="trailing" secondItem="W5a-7z-0e9" secondAttribute="trailingMargin" id="hiu-Ng-Lzm"/>
                         <constraint firstAttribute="trailing" secondItem="PiE-Jp-Nbe" secondAttribute="trailing" constant="20" symbolic="YES" id="ive-ig-fBb"/>
-                        <constraint firstItem="Ai4-a8-Avx" firstAttribute="leading" secondItem="W5a-7z-0e9" secondAttribute="leading" constant="20" symbolic="YES" id="lH4-jt-T1e"/>
+                        <constraint firstItem="Ai4-a8-Avx" firstAttribute="leading" secondItem="W5a-7z-0e9" secondAttribute="leading" id="lH4-jt-T1e"/>
                         <constraint firstItem="utO-rF-Ktd" firstAttribute="leading" secondItem="W5a-7z-0e9" secondAttribute="leading" constant="20" symbolic="YES" id="mNY-yA-tn4"/>
-                        <constraint firstItem="Ai4-a8-Avx" firstAttribute="top" secondItem="r6R-Nb-tSw" secondAttribute="bottom" constant="8" symbolic="YES" id="mch-wU-wnt"/>
                         <constraint firstAttribute="bottom" secondItem="Ai4-a8-Avx" secondAttribute="bottom" constant="115" id="njI-mS-8lh"/>
+                        <constraint firstItem="Ai4-a8-Avx" firstAttribute="top" secondItem="A4s-Zu-VVM" secondAttribute="bottom" constant="8" id="qKr-cH-Hr1"/>
                         <constraint firstItem="utO-rF-Ktd" firstAttribute="top" secondItem="W5a-7z-0e9" secondAttribute="topMargin" constant="1" id="uaR-LE-xfk"/>
                         <constraint firstItem="NQN-Cy-2s6" firstAttribute="top" secondItem="Ai4-a8-Avx" secondAttribute="bottom" constant="8" id="wWu-XB-Y5F"/>
-                        <constraint firstItem="r6R-Nb-tSw" firstAttribute="top" secondItem="A4s-Zu-VVM" secondAttribute="bottom" constant="8" id="x1x-0D-PY0"/>
-                        <constraint firstAttribute="centerX" secondItem="r6R-Nb-tSw" secondAttribute="centerX" constant="7.5" id="zZj-6W-5gQ"/>
+                        <constraint firstItem="Ai4-a8-Avx" firstAttribute="top" secondItem="A4s-Zu-VVM" secondAttribute="bottom" constant="8" symbolic="YES" id="xVh-CE-hPg"/>
                     </constraints>
                     <variation key="default">
                         <mask key="constraints">
+                            <exclude reference="8Hw-FC-1dG"/>
                             <exclude reference="K9b-Fz-PfW"/>
                             <exclude reference="XdF-Lw-a1s"/>
                             <exclude reference="eNF-WJ-MD4"/>
                             <exclude reference="njI-mS-8lh"/>
+                            <exclude reference="xVh-CE-hPg"/>
+                            <exclude reference="6qv-Tb-0Cc"/>
                             <exclude reference="NsY-Rn-xLc"/>
+                            <exclude reference="The-1r-Gqe"/>
+                            <exclude reference="Xtq-Ei-ug4"/>
                             <exclude reference="TiU-TL-eU0"/>
                             <exclude reference="wWu-XB-Y5F"/>
                         </mask>
@@ -111,7 +108,6 @@
                         <outlet property="bBase" destination="diI-Yu-DDC" id="JNr-hq-XsJ"/>
                         <outlet property="bBaseLabel" destination="NQN-Cy-2s6" id="Gwt-Ra-eUb"/>
                         <outlet property="bInputDeviceName" destination="A4s-Zu-VVM" id="AKe-kj-dSR"/>
-                        <outlet property="bPreRun" destination="r6R-Nb-tSw" id="K8M-Ch-Gb7"/>
                         <outlet property="bSwitchDevice" destination="PiE-Jp-Nbe" id="YnP-0P-JXl"/>
                         <outlet property="cameraPreview" destination="Ai4-a8-Avx" id="3ml-fj-rCI"/>
                         <outlet property="inputHandler" destination="qBS-3s-FTw" id="RuR-Iz-gDV"/>
