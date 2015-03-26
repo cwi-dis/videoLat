@@ -590,7 +590,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
         // Let's first check whether this message has the results, in that case we display them and are done.
         NSString *mrString = [data objectForKey: @"measurementResults"];
         if (mrString) {
-            NSData *mrData = [[NSData alloc] initWithBase64EncodedString:mrString options:0];
+            NSData *mrData = [[NSData alloc] initWithBase64EncodedString:mrString options:NSDataBase64DecodingIgnoreUnknownCharacters];
             assert(mrData);
             MeasurementDataStore *mr = [NSKeyedUnarchiver unarchiveObjectWithData:mrData];
             assert(mr);
@@ -599,11 +599,14 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
             //
             mr.measurementType = self.measurementType.name;
 			if (self.completionHandler) {
-				[self.completionHandler openUntitledDocumentWithMeasurement: self.collector.dataStore];
+				[self.completionHandler openUntitledDocumentWithMeasurement: mr];
+				[self.protocol close];
+				self.protocol = nil;
+				[self _updateStatus:@"Complete"];
 			} else {
 #ifdef WITH_APPKIT
 				AppDelegate *d = (AppDelegate *)[[NSApplication sharedApplication] delegate];
-				[d openUntitledDocumentWithMeasurement:self.collector.dataStore];
+				[d openUntitledDocumentWithMeasurement:mr];
 				[self.statusView.window close];
 #else
 				assert(0);

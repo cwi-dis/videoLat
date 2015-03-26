@@ -486,6 +486,6 @@ didDropSampleBuffer:(CMSampleBufferRef)sampleBuffer
        fromConnection:(AVCaptureConnection *)connection;
 {
     // Should adjust maximal frame rate (minFrameDuration)
-    NSLog(@"camera capturer dropped frame...\n");
+    if (VL_DEBUG) NSLog(@"camera capturer dropped frame...\n");
 }
 @end
