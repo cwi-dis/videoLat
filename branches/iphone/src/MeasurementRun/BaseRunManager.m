@@ -170,7 +170,8 @@ static NSMutableDictionary *runManagerSelectionNibs;
 {
 	[self selectMeasurementType:measurementTypeName];
 	baseName = baseMeasurementName;
-	[self startPreMeasuring:self];
+	if (!slaveHandler)
+		[self startPreMeasuring:self];
 }
 #endif
 

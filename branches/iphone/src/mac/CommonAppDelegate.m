@@ -11,9 +11,9 @@
 #import "VideoCalibrationRunManager.h"
 #import "AudioRunManager.h"
 #import "AudioCalibrationRunManager.h"
+#import "NetworkRunManager.h"
 
 #if !TARGET_OS_IPHONE
-#import "NetworkRunManager.h"
 #import "HardwareRunManager.h"
 #import "VideoMonoRunManager.h"
 #endif
@@ -42,8 +42,8 @@
     [VideoCalibrationRunManager class];
     [AudioRunManager class];
     [AudioCalibrationRunManager class];
-#if !TARGET_OS_IPHONE
     [NetworkRunManager class];
+#if !TARGET_OS_IPHONE
     [VideoMonoRunManager class];
     [HardwareRunManager class];
 #endif

@@ -34,6 +34,12 @@
 		04155EA31AB6471900DD53D9 /* AudioProcess.m in Sources */ = {isa = PBXBuildFile; fileRef = 04155EA21AB6471900DD53D9 /* AudioProcess.m */; };
 		04155EA61AB647C500DD53D9 /* AudioRunManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 04155EA51AB647C500DD53D9 /* AudioRunManager.m */; };
 		04155EA91AB6481000DD53D9 /* BaseRunManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 04155EA81AB6481000DD53D9 /* BaseRunManager.m */; };
+		041C8FFE1AC41B2300539C68 /* NetworkInput.m in Sources */ = {isa = PBXBuildFile; fileRef = 041C8FF51AC41B2300539C68 /* NetworkInput.m */; };
+		041C8FFF1AC41B2300539C68 /* NetworkOutputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 041C8FF71AC41B2300539C68 /* NetworkOutputView.m */; };
+		041C90001AC41B2300539C68 /* NetworkProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 041C8FF91AC41B2300539C68 /* NetworkProtocol.m */; };
+		041C90011AC41B2300539C68 /* NetworkRunManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 041C8FFB1AC41B2300539C68 /* NetworkRunManager.m */; };
+		041C90021AC41B2300539C68 /* NetworkSelectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 041C8FFD1AC41B2300539C68 /* NetworkSelectionView.m */; };
+		041C90061AC4219900539C68 /* SlaveReceiverCameraCalibrationRun.xib in Resources */ = {isa = PBXBuildFile; fileRef = 041C90051AC4219900539C68 /* SlaveReceiverCameraCalibrationRun.xib */; };
 		042E0F2E1AC30DFD003D6267 /* VideoRunManager.xib in Resources */ = {isa = PBXBuildFile; fileRef = 042E0F2D1AC30DFD003D6267 /* VideoRunManager.xib */; };
 		042E0F341AC310BD003D6267 /* NewCalibrationTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 042E0F331AC310BD003D6267 /* NewCalibrationTableViewController.m */; };
 		0462CC171AC2F0E00077383B /* VideoCalibrationRunManager.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0462CC161AC2F0E00077383B /* VideoCalibrationRunManager.xib */; };
@@ -132,6 +138,17 @@
 		04155EA51AB647C500DD53D9 /* AudioRunManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AudioRunManager.m; path = src/AudioRun/AudioRunManager.m; sourceTree = SOURCE_ROOT; };
 		04155EA71AB6481000DD53D9 /* BaseRunManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BaseRunManager.h; path = src/MeasurementRun/BaseRunManager.h; sourceTree = SOURCE_ROOT; };
 		04155EA81AB6481000DD53D9 /* BaseRunManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BaseRunManager.m; path = src/MeasurementRun/BaseRunManager.m; sourceTree = SOURCE_ROOT; };
+		041C8FF41AC41B2300539C68 /* NetworkInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NetworkInput.h; path = src/Networking/NetworkInput.h; sourceTree = SOURCE_ROOT; };
+		041C8FF51AC41B2300539C68 /* NetworkInput.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NetworkInput.m; path = src/Networking/NetworkInput.m; sourceTree = SOURCE_ROOT; };
+		041C8FF61AC41B2300539C68 /* NetworkOutputView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NetworkOutputView.h; path = src/Networking/NetworkOutputView.h; sourceTree = SOURCE_ROOT; };
+		041C8FF71AC41B2300539C68 /* NetworkOutputView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NetworkOutputView.m; path = src/Networking/NetworkOutputView.m; sourceTree = SOURCE_ROOT; };
+		041C8FF81AC41B2300539C68 /* NetworkProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NetworkProtocol.h; path = src/Networking/NetworkProtocol.h; sourceTree = SOURCE_ROOT; };
+		041C8FF91AC41B2300539C68 /* NetworkProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NetworkProtocol.m; path = src/Networking/NetworkProtocol.m; sourceTree = SOURCE_ROOT; };
+		041C8FFA1AC41B2300539C68 /* NetworkRunManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NetworkRunManager.h; path = src/Networking/NetworkRunManager.h; sourceTree = SOURCE_ROOT; };
+		041C8FFB1AC41B2300539C68 /* NetworkRunManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NetworkRunManager.m; path = src/Networking/NetworkRunManager.m; sourceTree = SOURCE_ROOT; };
+		041C8FFC1AC41B2300539C68 /* NetworkSelectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NetworkSelectionView.h; path = src/Networking/NetworkSelectionView.h; sourceTree = SOURCE_ROOT; };
+		041C8FFD1AC41B2300539C68 /* NetworkSelectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NetworkSelectionView.m; path = src/Networking/NetworkSelectionView.m; sourceTree = SOURCE_ROOT; };
+		041C90051AC4219900539C68 /* SlaveReceiverCameraCalibrationRun.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SlaveReceiverCameraCalibrationRun.xib; path = src/iOS/SlaveReceiverCameraCalibrationRun.xib; sourceTree = SOURCE_ROOT; };
 		042E0F2D1AC30DFD003D6267 /* VideoRunManager.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = VideoRunManager.xib; path = src/iOS/VideoRunManager.xib; sourceTree = SOURCE_ROOT; };
 		042E0F321AC310BD003D6267 /* NewCalibrationTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NewCalibrationTableViewController.h; path = src/iOS/NewCalibrationTableViewController.h; sourceTree = SOURCE_ROOT; };
 		042E0F331AC310BD003D6267 /* NewCalibrationTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NewCalibrationTableViewController.m; path = src/iOS/NewCalibrationTableViewController.m; sourceTree = SOURCE_ROOT; };
@@ -285,6 +302,9 @@
 				040E77201AB6F2F7001A7918 /* AudioCalibrationRun */,
 				04138C891AB330C4003D8167 /* VideoRun */,
 				04F7B84B1AC18EC000BEFDD5 /* VideoCalibrationRun */,
+				041C90041AC4216700539C68 /* SlaveReceiverRun */,
+				041C90031AC4215C00539C68 /* MasterSenderRun */,
+				041C8FF31AC41B0400539C68 /* Networking */,
 			);
 			name = MeasurementRun;
 			sourceTree = "<group>";
@@ -327,6 +347,38 @@
 				04F7B8461AC16E4900BEFDD5 /* AudioInputSelectionView.xib */,
 			);
 			name = AudioRun;
+			sourceTree = "<group>";
+		};
+		041C8FF31AC41B0400539C68 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				041C8FF41AC41B2300539C68 /* NetworkInput.h */,
+				041C8FF51AC41B2300539C68 /* NetworkInput.m */,
+				041C8FF61AC41B2300539C68 /* NetworkOutputView.h */,
+				041C8FF71AC41B2300539C68 /* NetworkOutputView.m */,
+				041C8FF81AC41B2300539C68 /* NetworkProtocol.h */,
+				041C8FF91AC41B2300539C68 /* NetworkProtocol.m */,
+				041C8FFA1AC41B2300539C68 /* NetworkRunManager.h */,
+				041C8FFB1AC41B2300539C68 /* NetworkRunManager.m */,
+				041C8FFC1AC41B2300539C68 /* NetworkSelectionView.h */,
+				041C8FFD1AC41B2300539C68 /* NetworkSelectionView.m */,
+			);
+			name = Networking;
+			sourceTree = "<group>";
+		};
+		041C90031AC4215C00539C68 /* MasterSenderRun */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = MasterSenderRun;
+			sourceTree = "<group>";
+		};
+		041C90041AC4216700539C68 /* SlaveReceiverRun */ = {
+			isa = PBXGroup;
+			children = (
+				041C90051AC4219900539C68 /* SlaveReceiverCameraCalibrationRun.xib */,
+			);
+			name = SlaveReceiverRun;
 			sourceTree = "<group>";
 		};
 		0478E1361AB9B7AC0057548C /* ExistingDocument */ = {
@@ -520,6 +572,7 @@
 				04FFFC861AB2FAD90023ED13 /* Info.plist in Resources */,
 				0462CC171AC2F0E00077383B /* VideoCalibrationRunManager.xib in Resources */,
 				04FFFC831AB2FACB0023ED13 /* Images.xcassets in Resources */,
+				041C90061AC4219900539C68 /* SlaveReceiverCameraCalibrationRun.xib in Resources */,
 				04F7B8451AC040AE00BEFDD5 /* VideoInputSelectionView.xib in Resources */,
 				04FFFC811AB2FABE0023ED13 /* Main.storyboard in Resources */,
 				042E0F2E1AC30DFD003D6267 /* VideoRunManager.xib in Resources */,
@@ -545,8 +598,10 @@
 				04155E9D1AB6312900DD53D9 /* AudioInput.m in Sources */,
 				040E77311AB71F8D001A7918 /* DocumentViewController.m in Sources */,
 				04155EA91AB6481000DD53D9 /* BaseRunManager.m in Sources */,
+				041C8FFF1AC41B2300539C68 /* NetworkOutputView.m in Sources */,
 				04155EA31AB6471900DD53D9 /* AudioProcess.m in Sources */,
 				040E77371AB72002001A7918 /* DocumentDescriptionView.m in Sources */,
+				041C90011AC41B2300539C68 /* NetworkRunManager.m in Sources */,
 				04C5FF1F1AB85EB800F4EC25 /* DeviceDescriptionView.m in Sources */,
 				040E77281AB6F5B1001A7918 /* RunCollector.m in Sources */,
 				04F7B8401AC02F4C00BEFDD5 /* VideoSelectionView.m in Sources */,
@@ -569,7 +624,10 @@
 				040E772E1AB70A12001A7918 /* RunStatusView.m in Sources */,
 				040E771F1AB6ED25001A7918 /* MeasurementContainerViewController.m in Sources */,
 				04F7B8431AC0407700BEFDD5 /* InputSelectionViewController.m in Sources */,
+				041C90001AC41B2300539C68 /* NetworkProtocol.m in Sources */,
+				041C8FFE1AC41B2300539C68 /* NetworkInput.m in Sources */,
 				04FC55B11AC3681E00D17C58 /* InputSelectionView.m in Sources */,
+				041C90021AC41B2300539C68 /* NetworkSelectionView.m in Sources */,
 				04138C731AB31A2C003D8167 /* CalibrationSharing.m in Sources */,
 				04138C881AB32DBB003D8167 /* DownloadCalibrationTableViewController.m in Sources */,
 				040E773A1AB7200F001A7918 /* GraphView.m in Sources */,

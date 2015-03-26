@@ -127,6 +127,7 @@
 #ifdef WITH_APPKIT
 @property(weak)IBOutlet NSPopUpButton *bBase;
 #endif
+
 @property(weak) IBOutlet NSorUIButton *bPreRun;         //!< UI element: start preparing a measurement run
 @property(weak) IBOutlet NSObject <SelectionViewDelegate> *selectionDelegate;
 

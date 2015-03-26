@@ -113,6 +113,13 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
     [BaseRunManager registerNib: @"SlaveReceiverCameraCalibrationRun" forMeasurementType: @"Camera Calibrate using Remote Calibrated Screen (Slave,Client)"];
     [BaseRunManager registerClass: [self class] forMeasurementType: @"Screen Calibrate using Remote Calibrated Camera (Master,Server)"];
     [BaseRunManager registerNib: @"MasterSenderScreenCalibrationRun" forMeasurementType: @"Screen Calibrate using Remote Calibrated Camera (Master,Server)"];
+
+#ifdef WITH_UIKIT
+    [BaseRunManager registerSelectionNib: @"VideoInputSelectionView" forMeasurementType: @"Video Reception (Slave,Client)"];
+    [BaseRunManager registerSelectionNib: @"VideoInputSelectionView" forMeasurementType: @"Camera Calibrate using Remote Calibrated Screen (Slave,Client)"];
+    [BaseRunManager registerSelectionNib: @"NetworkSelectionView" forMeasurementType: @"Video Transmission (Master,Server)"];
+    [BaseRunManager registerSelectionNib: @"NetworkSelectionView" forMeasurementType: @"Screen Calibrate using Remote Calibrated Camera (Master,Server)"];
+#endif
 }
 
 - (NetworkRunManager *) init
@@ -147,7 +154,11 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
         assert(self.protocol == nil);
         self.protocol = [[NetworkProtocolServer alloc] init];
         self.protocol.delegate = self;
+#ifdef WITH_UIKIT
+        self.selectionView.bOurPort.text = [NSString stringWithFormat:@"%d", self.protocol.port];
+#else
         self.selectionView.bOurPort.intValue = self.protocol.port;
+#endif
     }
     // If we handle output (i.e. we get video from the camera and report QR codes to the server)
     // we only allocate a clock, the client-side of the network connection will be created once we
@@ -162,12 +173,24 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 
 - (void) _updateStatus: (NSString *)status
 {
+#ifdef WITH_UIKIT
+	dispatch_async(dispatch_get_main_queue(), ^{
+		if (self.outputView) {
+			self.outputView.bPeerStatus.text = status;
+		}
+		if (self.selectionView) {
+			self.selectionView.bOurStatus.text = status;
+		}
+	});
+
+#else
 	if (self.outputView) {
 		self.outputView.bPeerStatus.stringValue = status;
 	}
 	if (self.selectionView) {
 		self.selectionView.bOurStatus.stringValue = status;
 	}
+#endif
 }
 
 - (IBAction)selectionChanged:(id)sender
@@ -188,10 +211,8 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 {
     if (handlesInput && ![self.capturer isKindOfClass: [NetworkInput class]]) {
 		deviceDescriptorToSend = nil;
-		assert(self.selectionView);
         if (self.measurementType.isCalibration) {
-            assert(self.selectionView.bBase == nil);
-            assert(self.selectionView.bDevices != nil);
+            if (self.selectionView) assert(self.selectionView.bBase == nil);
 			assert(self.capturer);
 			deviceDescriptorToSend = [[DeviceDescription alloc] initFromInputDevice: self.capturer];
         } else {
@@ -244,7 +265,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
     assert(handlesOutput);
 }
 
-- (void)setFinderRect: (NSRect)theRect
+- (void)setFinderRect: (NSorUIRect)theRect
 {
 	[NSException raise:@"NetworkRunManager" format:@"Must override setFinderRect in subclass"];
 }
@@ -263,6 +284,9 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
         
         // Sanity check: times should be monotonically increasing
         if (prevInputStartTime && prevInputStartTime >= inputStartTime) {
+#ifdef WITH_UIKIT
+			showWarningAlert(@"Input clock not monotonically increasing");
+#else
             NSAlert *alert = [NSAlert alertWithMessageText:@"Warning: input clock not monotonically increasing."
                                              defaultButton:@"OK"
                                            alternateButton:nil
@@ -271,6 +295,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
                               (long long)prevInputStartTime,
                               (long long)inputStartTime];
             [alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
+#endif
         }
     }
 }
@@ -325,6 +350,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
             if (VL_DEBUG) NSLog(@"Received old output code again: %@, %d times", code, count);
             return;
             if ((count % 128) == 0) {
+#ifdef WITH_APPKIT
                 NSAlert *alert = [NSAlert alertWithMessageText:@"Warning: current QR code not detected."
                                                  defaultButton:@"OK"
                                                alternateButton:nil
@@ -332,6 +358,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
                                      informativeTextWithFormat:@"QR-code %@ generated but %@ detected, %d times. Generating new one.",
                                   self.outputCompanion.outputCode, code, count];
                 [alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
+#endif
                 [self.outputCompanion triggerNewOutputValue];
             }
         } else if ([code isEqualToString: self.outputCompanion.outputCode]) {
@@ -341,6 +368,9 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
             BOOL ok = [self.collector recordReception: self.outputCompanion.outputCode at: timestamp];
 			if (VL_DEBUG) NSLog(@"Reported %@ at %lld, ok=%d", code, timestamp, ok);
             if (!ok) {
+#ifdef WITH_UIKIT
+				showWarningAlert(@"Received QR-code that has not been transmitted yet");
+#else
                 NSAlert *alert = [NSAlert alertWithMessageText:@"Reception before transmission."
                                                  defaultButton:@"OK"
                                                alternateButton:nil
@@ -349,10 +379,14 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
                                   self.outputCompanion.outputCode,
                                   (long long)timestamp];
                 [alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
+#endif
             }
 
             // Now do a sanity check that it is greater than the previous detected code
             if (prevInputCode && [prevInputCode length] >= [self.outputCompanion.outputCode length] && [prevInputCode compare:self.outputCompanion.outputCode] >= 0) {
+#ifdef WITH_UIKIT
+				showWarningAlert(@"Received QR-code that is not monotonically increasing");
+#else
                 NSAlert *alert = [NSAlert alertWithMessageText:@"Warning: input QR-code not monotonically increasing."
                                                  defaultButton:@"OK"
                                                alternateButton:nil
@@ -360,6 +394,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
                                      informativeTextWithFormat:@"Previous value was %@, current value is %@.\nConsult Helpfile if this error persists.",
                                   prevInputCode, self.outputCompanion.outputCode];
                 [alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
+#endif
             }
             // Now let's remember it so we don't generate "bad code" messages
             // if we detect it a second time.
@@ -371,6 +406,9 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
         } else {
             // We have transmitted a code, but received a different one??
             NSLog(@"Bad data: expected %@, got %@", self.outputCompanion.outputCode, code);
+#ifdef WITH_UIKIT
+			showWarningAlert(@"Received unexpected QR-code");
+#else
             NSAlert *alert = [NSAlert alertWithMessageText:@"Warning: received unexpected QR-code."
                                              defaultButton:@"OK"
                                            alternateButton:nil
@@ -378,6 +416,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
                                  informativeTextWithFormat:@"Expected value was %@, received %@.\nConsult Helpfile if this error persists.",
                               self.outputCompanion.outputCode, code];
             [alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
+#endif
             [self.outputCompanion triggerNewOutputValue];
         }
         self.statusView.detectCount = [NSString stringWithFormat: @"%d", self.collector.count];
@@ -438,17 +477,34 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
                             [self _updateStatus: [NSString stringWithFormat: @"Unexcepted URL: %@", code] ];
                         } else {
                             NSString *ipAddress = [NSString stringWithUTF8String:ipBuffer];
+#ifdef WITH_UIKIT
+							dispatch_async(dispatch_get_main_queue(), ^{
+								self.outputView.bPeerIPAddress.text = ipAddress;
+								self.outputView.bPeerPort.text = [NSString stringWithFormat:@"%d", port];
+								self.outputView.bPeerStatus.text = @"Connecting...";
+							});
+
+#else
                             self.outputView.bPeerIPAddress.stringValue = ipAddress;
                             self.outputView.bPeerPort.intValue = port;
                             self.outputView.bPeerStatus.stringValue = @"Connecting...";
-                            
+#endif
+
                             self.protocol = [[NetworkProtocolClient alloc] initWithPort:port host: ipAddress];
+							NSString *status;
                             if (self.protocol == nil) {
-                                self.outputView.bPeerStatus.stringValue = @"Failed to connect";
+                                status = @"Failed to connect";
                             } else {
                                 self.protocol.delegate = self;
-                                self.outputView.bPeerStatus.stringValue = @"Connection established";
+                                status = @"Connection established";
                             }
+#ifdef WITH_UIKIT
+							dispatch_async(dispatch_get_main_queue(), ^{
+								self.outputView.bPeerStatus.text = status;
+							});
+#else
+                                self.outputView.bPeerStatus.stringValue = status;
+#endif
                         }
 					}
 				}
@@ -542,10 +598,14 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
             // Override description with our description
             //
             mr.measurementType = self.measurementType.name;
+#ifdef WITH_UIKIT_TEMP
+			assert(0);
+#else
             AppDelegate *ad = (AppDelegate *)[[NSApplication sharedApplication] delegate];
             [ad performSelectorOnMainThread: @selector(openUntitledDocumentWithMeasurement:) withObject: mr waitUntilDone: YES];
             [self.selectionView.window close];
-            return;
+#endif
+			return;
         }
         //NSLog(@"received %@ from %@ (our protocol %@)", data, connection, self.protocol);
         uint64_t slaveTimestamp = getTimestamp(data, @"lastSlaveTime");
@@ -553,7 +613,11 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
         if (slaveTimestamp && masterTimestamp) {
             uint64_t now = [self.clock now];
             [self.remoteClock remote:masterTimestamp between:slaveTimestamp and:now];
+#ifdef WITH_UIKIT
+            self.outputView.bPeerRTT.text = [NSString stringWithFormat:@"%lld", [self.remoteClock rtt]/1000];
+#else
             self.outputView.bPeerRTT.intValue = (int)([self.remoteClock rtt]/1000);
+#endif
             //NSLog(@"master %lld in %lld..%lld (delta=%lld)", masterTimestamp, slaveTimestamp, now, [self.remoteClock rtt]);
         } else {
             NSLog(@"unexpected data from master: %@", data);
@@ -608,7 +672,11 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
                 // RTT bigger than 10 seconds is preposterous
                 NSLog(@"NetworkRunManager: preposterous RTT of %lld ms",(rtt/1000));
             }
+#ifdef WITH_UIKIT
+            self.selectionView.bRTT.text = [NSString stringWithFormat:@"%lld", rtt/1000];
+#else
             self.selectionView.bRTT.intValue = (int)(rtt/1000);
+#endif
         }
         
         if(code && masterTimestamp) {
@@ -706,6 +774,9 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
         if (errorMessage) {
 			[self _updateStatus: @"Missing calibration"];
 			statusToPeer = @"Missing calibration";
+#ifdef WITH_UIKIT
+			showWarningAlert(@"Base calibration mismatch");
+#else
             NSAlert *alert = [NSAlert alertWithMessageText: @"Base calibration mismatch, are you sure you want to continue?"
                                              defaultButton:@"Cancel"
                                            alternateButton:@"Continue"
@@ -714,7 +785,8 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
             NSInteger button = [alert runModal];
             if (button == NSAlertDefaultReturn)
                 return;
-        }
+#endif
+	   }
         // Remember the input and output device in the collector
         if (baseStore) {
             [self.collector.dataStore useOutputCalibration:baseStore];

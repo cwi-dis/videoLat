@@ -1,4 +1,4 @@
-#import <Cocoa/Cocoa.h>
+#import "protocols.h"
 #import "genQRcodes.h"
 
 
