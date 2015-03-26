@@ -37,8 +37,10 @@
 - (IBAction)update: (id)sender
 {
 #ifdef WITH_UIKIT
-    self.bCount.text = self.detectCount;
-    self.bAverage.text = self.detectAverage;
+	dispatch_async(dispatch_get_main_queue(), ^{
+		self.bCount.text = self.detectCount;
+		self.bAverage.text = self.detectAverage;
+		});
 #else
     self.bCount.stringValue = self.detectCount;
     self.bAverage.stringValue = self.detectAverage;

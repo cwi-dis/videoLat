@@ -78,7 +78,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 - (void)remote: (uint64_t)remote between: (uint64_t)start and: (uint64_t) finish
 {
     if (finish < start) {
-        NSLog(@"SimpleRemoteClock: local timeinterval start %lld < end %lld, assuming local NTP re-sync", start, finish);
+        NSLog(@"SimpleRemoteClock: local timeinterval start %lld > end %lld, assuming local NTP re-sync", start, finish);
         return;
     }
     rtt = finish-start;
@@ -598,13 +598,17 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
             // Override description with our description
             //
             mr.measurementType = self.measurementType.name;
-#ifdef WITH_UIKIT_TEMP
-			assert(0);
+			if (self.completionHandler) {
+				[self.completionHandler openUntitledDocumentWithMeasurement: self.collector.dataStore];
+			} else {
+#ifdef WITH_APPKIT
+				AppDelegate *d = (AppDelegate *)[[NSApplication sharedApplication] delegate];
+				[d openUntitledDocumentWithMeasurement:self.collector.dataStore];
+				[self.statusView.window close];
 #else
-            AppDelegate *ad = (AppDelegate *)[[NSApplication sharedApplication] delegate];
-            [ad performSelectorOnMainThread: @selector(openUntitledDocumentWithMeasurement:) withObject: mr waitUntilDone: YES];
-            [self.selectionView.window close];
+				assert(0);
 #endif
+			}
 			return;
         }
         //NSLog(@"received %@ from %@ (our protocol %@)", data, connection, self.protocol);
@@ -614,7 +618,9 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
             uint64_t now = [self.clock now];
             [self.remoteClock remote:masterTimestamp between:slaveTimestamp and:now];
 #ifdef WITH_UIKIT
-            self.outputView.bPeerRTT.text = [NSString stringWithFormat:@"%lld", [self.remoteClock rtt]/1000];
+			dispatch_async(dispatch_get_main_queue(), ^{
+				self.outputView.bPeerRTT.text = [NSString stringWithFormat:@"%lld", [self.remoteClock rtt]/1000];
+				});
 #else
             self.outputView.bPeerRTT.intValue = (int)([self.remoteClock rtt]/1000);
 #endif
@@ -673,7 +679,9 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
                 NSLog(@"NetworkRunManager: preposterous RTT of %lld ms",(rtt/1000));
             }
 #ifdef WITH_UIKIT
-            self.selectionView.bRTT.text = [NSString stringWithFormat:@"%lld", rtt/1000];
+			dispatch_async(dispatch_get_main_queue(), ^{
+				self.selectionView.bRTT.text = [NSString stringWithFormat:@"%lld", rtt/1000];
+				});
 #else
             self.selectionView.bRTT.intValue = (int)(rtt/1000);
 #endif
