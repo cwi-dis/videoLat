@@ -346,6 +346,7 @@
 	if (pause) {
 		if (session.running)
 			[session stopRunning];
+		session = nil;
 	} else {
 		if (!session.running)
 			[session startRunning];
