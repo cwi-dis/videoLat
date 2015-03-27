@@ -346,7 +346,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
         }
     
         // Compare the code to what was expected.
-        if (count > 1) {
+        if (count > 1 && [code isEqualToString:prevInputCode]) {
             if (VL_DEBUG) NSLog(@"Received old output code again: %@, %d times", code, count);
             return;
             if ((count % 128) == 0) {
@@ -447,7 +447,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
             if (prevInputCode && [code isEqualToString: prevInputCode]) {
                 // We have seen this code before. Only increment the detection count.
                 prevInputCodeDetectionCount++;
-				//NSLog(@"Found %d copies since %lld (%lld) of %@", prevInputCodeDetectionCount, prevInputStartTime, prevInputStartTimeRemote, prevInputCode);
+				NSLog(@"Found %d copies since %lld (%lld) of %@", prevInputCodeDetectionCount, prevInputStartTime, prevInputStartTimeRemote, prevInputCode);
             } else {
                 // We found a new QR code (at least, different from the last detection).
                 // Remember when we first detected it, and then see what we should do with it.
