@@ -52,6 +52,7 @@
 - (void)openUntitledDocumentWithMeasurement: (MeasurementDataStore *)dataStore
 {
 	NSLog(@"Finished measurement: %@", dataStore);
+    if (self.runManager.capturer) [self.runManager.capturer pauseCapturing:YES];
 	if (dataStore) {
 		finishedDataStore = dataStore;
 #ifdef WITH_UIKIT

@@ -15,7 +15,7 @@
 /// How many times do we want to get a message that the prerun code has been detected?
 /// This define is used on the master side, and stops the prerun sequence. It should be high enough that we
 /// have a reasonable measurement of the RTT and the clock difference.
-#define PRERUN_COUNT 128
+#define PRERUN_COUNT 32
 
 ///
 /// How often do we send a message if we have not received a QR-code (in microseconds)?

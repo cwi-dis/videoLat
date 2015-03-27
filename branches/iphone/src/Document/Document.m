@@ -43,18 +43,22 @@
 + (NSURL *)inventURLForDocument: (MeasurementDataStore *)dataStore
 {
     NSURL *fileUrl = nil;
-    BOOL isCalibration = YES;
+    MeasurementType *theType = [MeasurementType forType: dataStore.measurementType];
+
     NSString *extension = @"videoLat";
-    if (isCalibration) extension = @"vlCalibration";
+    if (theType.isCalibration) extension = @"vlCalibration";
     int uniqueNumber = 0;
     do {
+        NSString *machineID = dataStore.output.machineTypeID;
+        if (theType.inputOnlyCalibration)
+            machineID = dataStore.input.machineTypeID;
         NSString *unique = @"";
         if (uniqueNumber) {
             unique = [NSString stringWithFormat:@" (%d)", uniqueNumber];
         }
-        NSString *fileName = [NSString stringWithFormat: @"%@-%@-%@-%@%@.%@", dataStore.measurementType, dataStore.output.machineTypeID, dataStore.output.device, dataStore.input.device, unique, extension];
+        NSString *fileName = [NSString stringWithFormat: @"%@-%@-%@-%@%@.%@", dataStore.measurementType, machineID, dataStore.output.device, dataStore.input.device, unique, extension];
         NSURL *dirUrl;
-        if (isCalibration) {
+        if (theType.isCalibration) {
             dirUrl = [(AppDelegate *)[[NSorUIApplication sharedApplication] delegate] directoryForCalibrations];
         } else {
             NSError *error;
@@ -87,7 +91,7 @@
 
     // Do the NSDocument things
 	myType = [MeasurementType forType: self.dataStore.measurementType];
-	[self updateChangeCount:NSChangeDone];
+	[self performSelectorOnMainThread:@selector(_changed) withObject:nil waitUntilDone:NO];
 
 #ifdef WITH_APPKIT
     // Set title/filename for calibration documents
@@ -298,7 +302,8 @@
 {
     
     NSLog(@"Should upload this document");
-#ifdef WITH_UIKIT_TEMP
+#ifdef WITH_UIKIT
+    showWarningAlert(@"This calibration is not yet available on videolat.org for this device. You should consider uploading it.");
 #else
     NSWindow *win = [self windowForSheet];
     CalibrationSharing *uploader = [CalibrationSharing sharedUploader];
