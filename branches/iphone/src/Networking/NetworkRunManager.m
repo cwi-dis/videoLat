@@ -635,6 +635,13 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 		if (peerStatus) {
 			[self _updateStatus: peerStatus];
 		}
+		NSString *statusCount = [data objectForKey:@"statusCount"];
+		NSString *statusAverage = [data objectForKey: @"statusAverage"];
+		if (self.statusView && (statusCount || statusAverage)) {
+			self.statusView.detectCount = statusCount;
+			self.statusView.detectAverage = statusAverage;
+			[self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
+		}
     } else {
         // This code runs in the master (video sender, network receiver)
         assert(self.selectionView);
@@ -653,6 +660,10 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 			if (statusToPeer) {
 				[msg setObject: statusToPeer forKey: @"peerStatus"];
 				statusToPeer = nil;
+			}
+			if (self.collector && self.collector.count) {
+				[msg setObject: [NSString stringWithFormat: @"%d", self.collector.count] forKey: @"statusCount"];
+				[msg setObject: [NSString stringWithFormat: @"%.3f ms ± %.3f", self.collector.average / 1000.0, self.collector.stddev / 1000.0] forKey: @"statusAverage"];
 			}
             [self.protocol send: msg];
         }
