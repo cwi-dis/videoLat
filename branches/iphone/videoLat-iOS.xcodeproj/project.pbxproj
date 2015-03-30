@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		040728B11AC9ED8B00191022 /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = 040728B01AC9ED8B00191022 /* iTunesArtwork */; };
 		040E77181AB6DBBC001A7918 /* compat.m in Sources */ = {isa = PBXBuildFile; fileRef = 040E77171AB6DBBC001A7918 /* compat.m */; };
 		040E771F1AB6ED25001A7918 /* MeasurementContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 040E771E1AB6ED25001A7918 /* MeasurementContainerViewController.m */; };
 		040E77231AB6F314001A7918 /* AudioCalibrationRunManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 040E77221AB6F314001A7918 /* AudioCalibrationRunManager.m */; };
@@ -84,6 +85,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		040728B01AC9ED8B00191022 /* iTunesArtwork */ = {isa = PBXFileReference; lastKnownFileType = file; name = iTunesArtwork; path = icons/iTunesArtwork; sourceTree = SOURCE_ROOT; };
 		040E77171AB6DBBC001A7918 /* compat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = compat.m; path = src/compat.m; sourceTree = SOURCE_ROOT; };
 		040E77191AB6DBE9001A7918 /* compat.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = compat.h; sourceTree = SOURCE_ROOT; };
 		040E771D1AB6ED25001A7918 /* MeasurementContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MeasurementContainerViewController.h; path = src/iOS/MeasurementContainerViewController.h; sourceTree = SOURCE_ROOT; };
@@ -466,6 +468,7 @@
 		048BFCCD1AB2EE2C0026D104 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				040728B01AC9ED8B00191022 /* iTunesArtwork */,
 				04FFFC7C1AB2FABE0023ED13 /* LaunchScreen.xib */,
 				04FFFC7E1AB2FABE0023ED13 /* Main.storyboard */,
 				04FFFC821AB2FACB0023ED13 /* Images.xcassets */,
@@ -567,6 +570,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				04F7B8471AC16E4900BEFDD5 /* AudioInputSelectionView.xib in Resources */,
+				040728B11AC9ED8B00191022 /* iTunesArtwork in Resources */,
 				04C5FF211AB8601400F4EC25 /* DocumentView.xib in Resources */,
 				04155E9A1AB6311C00DD53D9 /* sounds in Resources */,
 				04FFFC861AB2FAD90023ED13 /* Info.plist in Resources */,
@@ -781,7 +785,7 @@
 					"$(PROJECT_DIR)/thirdParty/installed-iossim/lib",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "0e8d728a-1c6d-4b51-bf82-cabf3fc4327b";
 				"USER_HEADER_SEARCH_PATHS[arch=*]" = "thirdParty/installed-iOSsim/include";
 			};
 			name = Debug;
@@ -808,7 +812,7 @@
 					"$(PROJECT_DIR)/thirdParty/installed-iossim/lib",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "0e8d728a-1c6d-4b51-bf82-cabf3fc4327b";
 			};
 			name = Release;
 		};
