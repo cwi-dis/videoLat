@@ -66,7 +66,6 @@
                             </connections>
                         </button>
                     </subviews>
-                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="trailing" secondItem="s2i-RX-zcO" secondAttribute="trailing" constant="8" id="4oP-ne-o1q"/>
                         <constraint firstAttribute="bottom" secondItem="0N8-3d-UTL" secondAttribute="bottom" constant="8" id="8T3-qT-b8f"/>
@@ -116,7 +115,7 @@
             </constraints>
             <point key="canvasLocation" x="156" y="154"/>
         </view>
-        <customObject id="JO0-Cs-Ava" customClass="VideoCalibrationRunManager">
+        <customObject id="JO0-Cs-Ava" customClass="VideoRunManager">
             <connections>
                 <outlet property="capturer" destination="nzC-i2-ksz" id="rXs-SS-uWO"/>
                 <outlet property="clock" destination="nzC-i2-ksz" id="aBs-GT-fK9"/>
