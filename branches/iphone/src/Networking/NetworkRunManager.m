@@ -117,8 +117,8 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 #ifdef WITH_UIKIT
     [BaseRunManager registerSelectionNib: @"VideoInputSelectionView" forMeasurementType: @"Video Reception (Slave,Client)"];
     [BaseRunManager registerSelectionNib: @"VideoInputSelectionView" forMeasurementType: @"Camera Calibrate using Remote Calibrated Screen (Slave,Client)"];
-    [BaseRunManager registerSelectionNib: @"NetworkSelectionView" forMeasurementType: @"Video Transmission (Master,Server)"];
-    [BaseRunManager registerSelectionNib: @"NetworkSelectionView" forMeasurementType: @"Screen Calibrate using Remote Calibrated Camera (Master,Server)"];
+    [BaseRunManager registerSelectionNib: @"NetworkInputSelectionView" forMeasurementType: @"Video Transmission (Master,Server)"];
+    [BaseRunManager registerSelectionNib: @"NetworkInputSelectionView" forMeasurementType: @"Screen Calibrate using Remote Calibrated Camera (Master,Server)"];
 #endif
 }
 
@@ -143,7 +143,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 
 - (void) awakeFromNib
 {
-    if (self.capturer) {
+    if (self.capturer && ![self.capturer isKindOfClass: [NetworkInput class]]) {
         slaveHandler = YES;
     }
     if ([super respondsToSelector:@selector(awakeFromNib)]) [super awakeFromNib];
