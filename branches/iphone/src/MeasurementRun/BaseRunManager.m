@@ -168,8 +168,8 @@ static NSMutableDictionary *runManagerSelectionNibs;
 #ifdef WITH_UIKIT
 - (void)runForType: (NSString *)measurementTypeName withBase: (NSString *)baseMeasurementName
 {
-	[self selectMeasurementType:measurementTypeName];
 	baseName = baseMeasurementName;
+	[self selectMeasurementType:measurementTypeName];
 	if (!slaveHandler)
 		[self startPreMeasuring:self];
 }
