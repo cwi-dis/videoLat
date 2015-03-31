@@ -22,7 +22,7 @@
 + (void) initialize
 {
     [BaseRunManager registerClass: [self class] forMeasurementType: @"Video Roundtrip"];
-    [BaseRunManager registerNib: @"VideoRunManager" forMeasurementType: @"Video Roundtrip"];
+    [BaseRunManager registerNib: @"VideoRun" forMeasurementType: @"Video Roundtrip"];
 #ifdef WITH_UIKIT
     [BaseRunManager registerSelectionNib: @"VideoInputSelectionView" forMeasurementType: @"Video Roundtrip"];
 #endif
