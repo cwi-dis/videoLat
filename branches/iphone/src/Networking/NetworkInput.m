@@ -73,4 +73,9 @@
 {
 //	capturing = NO;
 }
+
+- (void) pauseCapturing:(BOOL)pause
+{
+}
+
 @end

@@ -143,6 +143,8 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 
 - (void) awakeFromNib
 {
+	if (self.selectionViewForStatusOnly == nil)
+		self.selectionViewForStatusOnly = self.selectionView;
     if (self.capturer && ![self.capturer isKindOfClass: [NetworkInput class]]) {
         slaveHandler = YES;
     }
@@ -155,9 +157,9 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
         self.protocol = [[NetworkProtocolServer alloc] init];
         self.protocol.delegate = self;
 #ifdef WITH_UIKIT
-        self.selectionView.bOurPort.text = [NSString stringWithFormat:@"%d", self.protocol.port];
+        self.selectionViewForStatusOnly.bOurPort.text = [NSString stringWithFormat:@"%d", self.protocol.port];
 #else
-        self.selectionView.bOurPort.intValue = self.protocol.port;
+        self.selectionViewForStatusOnly.bOurPort.intValue = self.protocol.port;
 #endif
     }
     // If we handle output (i.e. we get video from the camera and report QR codes to the server)
@@ -178,8 +180,8 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 		if (self.outputView) {
 			self.outputView.bPeerStatus.text = status;
 		}
-		if (self.selectionView) {
-			self.selectionView.bOurStatus.text = status;
+		if (self.selectionViewForStatusOnly) {
+			self.selectionViewForStatusOnly.bOurStatus.text = status;
 		}
 	});
 
@@ -187,8 +189,8 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 	if (self.outputView) {
 		self.outputView.bPeerStatus.stringValue = status;
 	}
-	if (self.selectionView) {
-		self.selectionView.bOurStatus.stringValue = status;
+	if (self.selectionViewForStatusOnly) {
+		self.selectionViewForStatusOnly.bOurStatus.stringValue = status;
 	}
 #endif
 }
@@ -644,7 +646,9 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 		}
     } else {
         // This code runs in the master (video sender, network receiver)
+#ifdef WITH_APPKIT
         assert(self.selectionView);
+#endif
 
         uint64_t slaveTimestamp = getTimestamp(data, @"slaveTime");
         uint64_t masterTimestamp = getTimestamp(data, @"masterTime");
@@ -694,10 +698,10 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
             }
 #ifdef WITH_UIKIT
 			dispatch_async(dispatch_get_main_queue(), ^{
-				self.selectionView.bRTT.text = [NSString stringWithFormat:@"%lld", rtt/1000];
+				self.selectionViewForStatusOnly.bRTT.text = [NSString stringWithFormat:@"%lld", rtt/1000];
 				});
 #else
-            self.selectionView.bRTT.intValue = (int)(rtt/1000);
+            self.selectionViewForStatusOnly.bRTT.intValue = (int)(rtt/1000);
 #endif
         }
         
