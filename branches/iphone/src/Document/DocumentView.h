@@ -24,6 +24,10 @@
 {
     BOOL initialValues; //!< Internal: helper variable to initialize subview values at the right time
     __weak Document *_modelObject;
+#ifdef WITH_UIKIT
+	CGPoint _pointToCenterAfterResize;
+	CGFloat _scaleToRestoreAfterResize;
+#endif
 };
 
 @property(weak) IBOutlet DocumentDescriptionView *status;   //!< Set by NIB: view containing our metadata
