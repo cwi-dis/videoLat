@@ -127,6 +127,27 @@
 - (void) _doEmailAsPDF: (id) dummy
 {
     NSLog(@"doEmailAsPDF");
+#if 0
+    NSError *error;
+    NSData *docData = [self.document getPDFData];
+    if (error) {
+        showErrorAlert(error);
+        return;
+    }
+    MFMailComposeViewController *picker = [[MFMailComposeViewController alloc] init];
+    picker.mailComposeDelegate = self;
+    
+    [picker setSubject:@"videoLat measurement result"];
+    
+    // Set up recipients
+    
+    // Attach the data to the email
+    [picker addAttachmentData:docData mimeType:@"application/octet-stream" fileName: [self.document.fileURL lastPathComponent]];
+    
+    // Fill out the email body text
+    
+    [self presentViewController:picker animated:YES completion:NULL];
+#endif
 }
 
 - (IBAction)documentEmailAsCSV:(UIStoryboardSegue *)sender
@@ -138,6 +159,28 @@
 - (void) _doEmailAsCSV: (id) dummy
 {
     NSLog(@"doEmailAsCSV");
+    assert(self.document);
+    MFMailComposeViewController *picker = [[MFMailComposeViewController alloc] init];
+    picker.mailComposeDelegate = self;
+    
+    [picker setSubject:@"videoLat measurement result as CSV files"];
+    
+    // Set up attachments
+    NSString *baseName = [[self.document.fileURL lastPathComponent] stringByDeletingPathExtension];    // Attach the data to the email
+    [picker addAttachmentData:[[self.document asCSVString] dataUsingEncoding:NSUTF8StringEncoding]
+                     mimeType:@"text/csv"
+                     fileName: [baseName stringByAppendingString:@"-description.csv"]];
+    [picker addAttachmentData:[[self.document.dataStore asCSVString] dataUsingEncoding:NSUTF8StringEncoding]
+                     mimeType:@"text/csv"
+                     fileName: [baseName stringByAppendingString:@"-measurements.csv"]];
+    [picker addAttachmentData:[[self.document.dataDistribution asCSVString] dataUsingEncoding:NSUTF8StringEncoding]
+                     mimeType:@"text/csv"
+                     fileName: [baseName stringByAppendingString:@"-distribution.csv"]];
+    
+    // Fill out the email body text
+    
+    [self presentViewController:picker animated:YES completion:NULL];
+    
 }
 
 - (void)mailComposeController:(MFMailComposeViewController*)controller
