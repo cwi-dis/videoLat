@@ -83,6 +83,19 @@
 - (void) _doPrint: (id) dummy
 {
     NSLog(@"doPrint");
+    void (^completionHandler)(UIPrintInteractionController *, BOOL, NSError *) =
+        ^(UIPrintInteractionController *printController, BOOL completed, NSError *error) {
+            if(!completed && error){
+                showErrorAlert(error);
+            }
+        };
+    
+    UIViewPrintFormatter *formatter = self.view.scrolledView.viewPrintFormatter;
+    assert(formatter);
+    UIPrintInteractionController *controller = [UIPrintInteractionController sharedPrintController];
+    controller.printFormatter = formatter;
+
+    [controller presentAnimated:YES completionHandler:completionHandler];
 }
 
 - (IBAction)documentEmail:(UIStoryboardSegue *)sender
