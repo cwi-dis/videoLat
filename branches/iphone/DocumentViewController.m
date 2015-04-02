@@ -33,9 +33,9 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (IBAction)documentDoNothing: (UIStoryboardSegue *)sender
+- (IBAction)documentCancel: (UIStoryboardSegue *)sender
 {
-	NSLog(@"documentDelete");
+	NSLog(@"documentCancel");
 }
 
 - (IBAction)documentDelete: (UIStoryboardSegue *)sender
