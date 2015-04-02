@@ -19,4 +19,10 @@
 @property(nonatomic,retain) IBOutlet id auxObject;
 @property(strong) Document *document; //!< data for this document
 
+- (IBAction)documentDelete: (UIStoryboardSegue *)sender;
+- (IBAction)documentUpload:(UIStoryboardSegue *)sender;
+- (IBAction)documentPrint:(UIStoryboardSegue *)sender;
+- (IBAction)documentEmail:(UIStoryboardSegue *)sender;
+- (IBAction)documentEmailAsPDF:(UIStoryboardSegue *)sender;
+- (IBAction)documentEmailAsCSV:(UIStoryboardSegue *)sender;
 @end

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="13F1066" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="1YQ-6H-tpu">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="1YQ-6H-tpu">
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
     </dependencies>
     <scenes>
@@ -276,22 +277,124 @@
             <objects>
                 <viewController id="E2I-Mm-42s" customClass="DocumentViewController" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" title="Document" id="ijK-mu-pKR">
-                        <barButtonItem key="rightBarButtonItem" style="plain" id="2xl-sS-Nso">
-                            <segmentedControl key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" momentary="YES" id="Nvt-fp-kiH">
-                                <rect key="frame" x="-61" y="-14" width="133" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <segments>
-                                    <segment title="Delete"/>
-                                    <segment title="Send"/>
-                                    <segment title="Share"/>
-                                </segments>
-                            </segmentedControl>
-                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Item" id="ccF-QV-nP9"/>
                     </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="L4A-mQ-GhI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3938" y="1234"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="JlC-kH-5Mu">
+            <objects>
+                <viewController id="HhS-Cy-6SN" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="SUs-PH-MNB"/>
+                        <viewControllerLayoutGuide type="bottom" id="uRU-DV-mHa"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="VSz-yS-pM3">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pfc-27-fhz">
+                                <rect key="frame" x="284" y="118" width="32" height="30"/>
+                                <state key="normal" title="Print">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="TC9-DD-hLm" kind="unwind" unwindAction="documentPrint:" id="cr1-f0-n7y"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lmi-Ud-l0v">
+                                <rect key="frame" x="186" y="156" width="229" height="30"/>
+                                <state key="normal" title="Send videoLat document in email">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="TC9-DD-hLm" kind="unwind" unwindAction="documentEmail:" id="As3-pg-dxA"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MU2-DO-09p">
+                                <rect key="frame" x="196" y="194" width="209" height="30"/>
+                                <state key="normal" title="Send CSV documents in email">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="TC9-DD-hLm" kind="unwind" unwindAction="documentEmailAsCSV:" id="XKQ-uP-jeg"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hSM-H2-jRW">
+                                <rect key="frame" x="237" y="232" width="127" height="30"/>
+                                <state key="normal" title="Send PDF in email">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="TC9-DD-hLm" kind="unwind" unwindAction="documentEmailAsPDF:" id="9gb-Gw-CVX"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="csr-Lv-lDe">
+                                <rect key="frame" x="182" y="270" width="236" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <state key="normal" title="Upload Calibration to videoLat.org">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="TC9-DD-hLm" kind="unwind" unwindAction="documentUpload:" id="Pvt-Ba-J0X"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HpD-xH-z0x">
+                                <rect key="frame" x="257" y="550" width="87" height="30"/>
+                                <color key="backgroundColor" red="1" green="0.072758138180000001" blue="0.1199374795" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="15"/>
+                                <state key="normal" title="Delete">
+                                    <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vb0-wB-ztb">
+                                <rect key="frame" x="284" y="28" width="48" height="30"/>
+                                <state key="normal" title="Cancel">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="centerX" secondItem="hSM-H2-jRW" secondAttribute="centerX" id="0cp-a6-wLX"/>
+                            <constraint firstAttribute="centerY" secondItem="MU2-DO-09p" secondAttribute="centerY" id="4d4-41-fGv"/>
+                            <constraint firstItem="Pfc-27-fhz" firstAttribute="top" secondItem="SUs-PH-MNB" secondAttribute="bottom" constant="8" id="4eH-bp-UG1"/>
+                            <constraint firstItem="hSM-H2-jRW" firstAttribute="top" secondItem="MU2-DO-09p" secondAttribute="bottom" constant="8" id="5bi-vr-0cd"/>
+                            <constraint firstItem="MU2-DO-09p" firstAttribute="top" secondItem="Lmi-Ud-l0v" secondAttribute="bottom" constant="8" id="8UO-CW-g7A"/>
+                            <constraint firstAttribute="centerY" secondItem="hSM-H2-jRW" secondAttribute="centerY" id="Aks-aq-otq"/>
+                            <constraint firstItem="Pfc-27-fhz" firstAttribute="top" secondItem="csr-Lv-lDe" secondAttribute="bottom" constant="8" id="O2z-hE-r44"/>
+                            <constraint firstAttribute="centerX" secondItem="Lmi-Ud-l0v" secondAttribute="centerX" id="Osh-ld-1oQ"/>
+                            <constraint firstAttribute="centerX" secondItem="Pfc-27-fhz" secondAttribute="centerX" id="PBM-MD-wdx"/>
+                            <constraint firstAttribute="centerY" secondItem="Lmi-Ud-l0v" secondAttribute="centerY" id="PGe-29-0Vg"/>
+                            <constraint firstItem="csr-Lv-lDe" firstAttribute="top" secondItem="SUs-PH-MNB" secondAttribute="bottom" id="TZu-hv-dYh"/>
+                            <constraint firstItem="Lmi-Ud-l0v" firstAttribute="top" secondItem="Pfc-27-fhz" secondAttribute="bottom" constant="8" id="Txb-Nn-d7F"/>
+                            <constraint firstAttribute="centerY" secondItem="csr-Lv-lDe" secondAttribute="centerY" id="U1H-E0-TBw"/>
+                            <constraint firstAttribute="centerX" secondItem="MU2-DO-09p" secondAttribute="centerX" id="joa-za-aRz"/>
+                            <constraint firstAttribute="centerX" secondItem="csr-Lv-lDe" secondAttribute="centerX" id="la8-AY-AaB"/>
+                            <constraint firstItem="csr-Lv-lDe" firstAttribute="top" secondItem="hSM-H2-jRW" secondAttribute="bottom" constant="8" id="r5U-Xe-fgY"/>
+                            <constraint firstAttribute="centerY" secondItem="Pfc-27-fhz" secondAttribute="centerY" id="whP-IW-O5P"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="PGe-29-0Vg"/>
+                                <exclude reference="4d4-41-fGv"/>
+                                <exclude reference="TZu-hv-dYh"/>
+                                <exclude reference="U1H-E0-TBw"/>
+                                <exclude reference="Aks-aq-otq"/>
+                                <exclude reference="O2z-hE-r44"/>
+                                <exclude reference="whP-IW-O5P"/>
+                            </mask>
+                        </variation>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="KQB-AD-YC9" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="TC9-DD-hLm" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="4853" y="1234"/>
         </scene>
         <!--Select New Calibration Type-->
         <scene sceneID="yaK-Dr-21g">
