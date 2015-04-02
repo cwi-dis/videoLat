@@ -7,6 +7,7 @@
 //
 
 #import "DocumentViewController.h"
+#import "CalibrationSharing.h"
 
 @interface DocumentViewController ()
 
@@ -33,6 +34,8 @@
     // Dispose of any resources that can be recreated.
 }
 
+// Actions, and handling when to display them
+
 - (IBAction)documentCancel: (UIStoryboardSegue *)sender
 {
 	NSLog(@"documentCancel");
@@ -46,6 +49,9 @@
 - (IBAction)documentUpload:(UIStoryboardSegue *)sender
 {
 	NSLog(@"documentUpload");
+    CalibrationSharing *uploader = [CalibrationSharing sharedUploader];
+    assert(uploader);
+    [uploader uploadAsynchronously:self.document.dataStore];
 }
 
 - (IBAction)documentPrint:(UIStoryboardSegue *)sender
