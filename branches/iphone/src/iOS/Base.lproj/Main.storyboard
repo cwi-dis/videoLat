@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="1YQ-6H-tpu">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="13F1066" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="1YQ-6H-tpu">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
@@ -277,7 +277,13 @@
             <objects>
                 <viewController id="E2I-Mm-42s" customClass="DocumentViewController" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" title="Document" id="ijK-mu-pKR">
-                        <barButtonItem key="rightBarButtonItem" title="Item" id="ccF-QV-nP9"/>
+                        <barButtonItem key="rightBarButtonItem" image="action" id="ccF-QV-nP9">
+                            <connections>
+                                <segue destination="HhS-Cy-6SN" kind="popoverPresentation" popoverAnchorBarButtonItem="ccF-QV-nP9" id="lKw-bj-NsR">
+                                    <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                </segue>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="L4A-mQ-GhI" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -296,8 +302,29 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pfc-27-fhz">
-                                <rect key="frame" x="284" y="118" width="32" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HpD-xH-z0x">
+                                <rect key="frame" x="276" y="562" width="50" height="30"/>
+                                <color key="backgroundColor" red="1" green="0.072758138180000001" blue="0.1199374795" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="15"/>
+                                <state key="normal" title="Delete">
+                                    <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="TC9-DD-hLm" kind="unwind" unwindAction="documentDelete:" id="WGt-bz-Ai4"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vb0-wB-ztb">
+                                <rect key="frame" x="276" y="28" width="48" height="30"/>
+                                <state key="normal" title="Cancel">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="TC9-DD-hLm" kind="unwind" unwindAction="documentCancel:" id="zrb-t7-Deh"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pfc-27-fhz">
+                                <rect key="frame" x="284" y="66" width="32" height="30"/>
                                 <state key="normal" title="Print">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -305,8 +332,8 @@
                                     <segue destination="TC9-DD-hLm" kind="unwind" unwindAction="documentPrint:" id="cr1-f0-n7y"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lmi-Ud-l0v">
-                                <rect key="frame" x="186" y="156" width="229" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lmi-Ud-l0v">
+                                <rect key="frame" x="186" y="104" width="229" height="30"/>
                                 <state key="normal" title="Send videoLat document in email">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -314,8 +341,8 @@
                                     <segue destination="TC9-DD-hLm" kind="unwind" unwindAction="documentEmail:" id="As3-pg-dxA"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MU2-DO-09p">
-                                <rect key="frame" x="196" y="194" width="209" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MU2-DO-09p">
+                                <rect key="frame" x="196" y="142" width="209" height="30"/>
                                 <state key="normal" title="Send CSV documents in email">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -323,8 +350,8 @@
                                     <segue destination="TC9-DD-hLm" kind="unwind" unwindAction="documentEmailAsCSV:" id="XKQ-uP-jeg"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hSM-H2-jRW">
-                                <rect key="frame" x="237" y="232" width="127" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hSM-H2-jRW">
+                                <rect key="frame" x="237" y="180" width="127" height="30"/>
                                 <state key="normal" title="Send PDF in email">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -332,8 +359,8 @@
                                     <segue destination="TC9-DD-hLm" kind="unwind" unwindAction="documentEmailAsPDF:" id="9gb-Gw-CVX"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="csr-Lv-lDe">
-                                <rect key="frame" x="182" y="270" width="236" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="csr-Lv-lDe">
+                                <rect key="frame" x="182" y="218" width="236" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <state key="normal" title="Upload Calibration to videoLat.org">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -342,30 +369,17 @@
                                     <segue destination="TC9-DD-hLm" kind="unwind" unwindAction="documentUpload:" id="Pvt-Ba-J0X"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HpD-xH-z0x">
-                                <rect key="frame" x="257" y="550" width="87" height="30"/>
-                                <color key="backgroundColor" red="1" green="0.072758138180000001" blue="0.1199374795" alpha="1" colorSpace="calibratedRGB"/>
-                                <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="15"/>
-                                <state key="normal" title="Delete">
-                                    <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vb0-wB-ztb">
-                                <rect key="frame" x="284" y="28" width="48" height="30"/>
-                                <state key="normal" title="Cancel">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="centerX" secondItem="hSM-H2-jRW" secondAttribute="centerX" id="0cp-a6-wLX"/>
+                            <constraint firstItem="Pfc-27-fhz" firstAttribute="top" secondItem="vb0-wB-ztb" secondAttribute="bottom" constant="8" id="3Yy-fa-xbJ"/>
                             <constraint firstAttribute="centerY" secondItem="MU2-DO-09p" secondAttribute="centerY" id="4d4-41-fGv"/>
                             <constraint firstItem="Pfc-27-fhz" firstAttribute="top" secondItem="SUs-PH-MNB" secondAttribute="bottom" constant="8" id="4eH-bp-UG1"/>
                             <constraint firstItem="hSM-H2-jRW" firstAttribute="top" secondItem="MU2-DO-09p" secondAttribute="bottom" constant="8" id="5bi-vr-0cd"/>
                             <constraint firstItem="MU2-DO-09p" firstAttribute="top" secondItem="Lmi-Ud-l0v" secondAttribute="bottom" constant="8" id="8UO-CW-g7A"/>
                             <constraint firstAttribute="centerY" secondItem="hSM-H2-jRW" secondAttribute="centerY" id="Aks-aq-otq"/>
+                            <constraint firstItem="uRU-DV-mHa" firstAttribute="top" secondItem="HpD-xH-z0x" secondAttribute="bottom" constant="8" symbolic="YES" id="I3x-by-eGk"/>
                             <constraint firstItem="Pfc-27-fhz" firstAttribute="top" secondItem="csr-Lv-lDe" secondAttribute="bottom" constant="8" id="O2z-hE-r44"/>
                             <constraint firstAttribute="centerX" secondItem="Lmi-Ud-l0v" secondAttribute="centerX" id="Osh-ld-1oQ"/>
                             <constraint firstAttribute="centerX" secondItem="Pfc-27-fhz" secondAttribute="centerX" id="PBM-MD-wdx"/>
@@ -373,9 +387,12 @@
                             <constraint firstItem="csr-Lv-lDe" firstAttribute="top" secondItem="SUs-PH-MNB" secondAttribute="bottom" id="TZu-hv-dYh"/>
                             <constraint firstItem="Lmi-Ud-l0v" firstAttribute="top" secondItem="Pfc-27-fhz" secondAttribute="bottom" constant="8" id="Txb-Nn-d7F"/>
                             <constraint firstAttribute="centerY" secondItem="csr-Lv-lDe" secondAttribute="centerY" id="U1H-E0-TBw"/>
+                            <constraint firstAttribute="centerX" secondItem="vb0-wB-ztb" secondAttribute="centerX" id="fPQ-iH-zNU"/>
                             <constraint firstAttribute="centerX" secondItem="MU2-DO-09p" secondAttribute="centerX" id="joa-za-aRz"/>
                             <constraint firstAttribute="centerX" secondItem="csr-Lv-lDe" secondAttribute="centerX" id="la8-AY-AaB"/>
+                            <constraint firstAttribute="centerX" secondItem="HpD-xH-z0x" secondAttribute="centerX" id="mZX-NT-mQ7"/>
                             <constraint firstItem="csr-Lv-lDe" firstAttribute="top" secondItem="hSM-H2-jRW" secondAttribute="bottom" constant="8" id="r5U-Xe-fgY"/>
+                            <constraint firstItem="vb0-wB-ztb" firstAttribute="top" secondItem="SUs-PH-MNB" secondAttribute="bottom" constant="8" id="ump-FB-7er"/>
                             <constraint firstAttribute="centerY" secondItem="Pfc-27-fhz" secondAttribute="centerY" id="whP-IW-O5P"/>
                         </constraints>
                         <variation key="default">
@@ -384,9 +401,10 @@
                                 <exclude reference="4d4-41-fGv"/>
                                 <exclude reference="TZu-hv-dYh"/>
                                 <exclude reference="U1H-E0-TBw"/>
-                                <exclude reference="Aks-aq-otq"/>
+                                <exclude reference="4eH-bp-UG1"/>
                                 <exclude reference="O2z-hE-r44"/>
                                 <exclude reference="whP-IW-O5P"/>
+                                <exclude reference="Aks-aq-otq"/>
                             </mask>
                         </variation>
                     </view>
@@ -457,6 +475,9 @@
             <point key="canvasLocation" x="1346" y="2742"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="action" width="42" height="42"/>
+    </resources>
     <inferredMetricsTieBreakers>
         <segue reference="McN-pX-jJY"/>
         <segue reference="RXt-u3-m7s"/>
