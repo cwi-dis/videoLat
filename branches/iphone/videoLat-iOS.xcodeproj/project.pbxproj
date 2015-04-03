@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		040728B11AC9ED8B00191022 /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = 040728B01AC9ED8B00191022 /* iTunesArtwork */; };
 		040728B31AC9F86B00191022 /* MasterSenderScreenCalibrationRun.xib in Resources */ = {isa = PBXBuildFile; fileRef = 040728B21AC9F86B00191022 /* MasterSenderScreenCalibrationRun.xib */; };
+		0409FDCD1ACE977C00851D80 /* DocumentActionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0409FDCC1ACE977C00851D80 /* DocumentActionViewController.m */; };
 		040E77181AB6DBBC001A7918 /* compat.m in Sources */ = {isa = PBXBuildFile; fileRef = 040E77171AB6DBBC001A7918 /* compat.m */; };
 		040E771F1AB6ED25001A7918 /* MeasurementContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 040E771E1AB6ED25001A7918 /* MeasurementContainerViewController.m */; };
 		040E77231AB6F314001A7918 /* AudioCalibrationRunManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 040E77221AB6F314001A7918 /* AudioCalibrationRunManager.m */; };
@@ -92,6 +93,8 @@
 /* Begin PBXFileReference section */
 		040728B01AC9ED8B00191022 /* iTunesArtwork */ = {isa = PBXFileReference; lastKnownFileType = file; name = iTunesArtwork; path = icons/iTunesArtwork; sourceTree = SOURCE_ROOT; };
 		040728B21AC9F86B00191022 /* MasterSenderScreenCalibrationRun.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MasterSenderScreenCalibrationRun.xib; path = src/iOS/MasterSenderScreenCalibrationRun.xib; sourceTree = SOURCE_ROOT; };
+		0409FDCB1ACE977C00851D80 /* DocumentActionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DocumentActionViewController.h; path = src/iOS/DocumentActionViewController.h; sourceTree = SOURCE_ROOT; };
+		0409FDCC1ACE977C00851D80 /* DocumentActionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DocumentActionViewController.m; path = src/iOS/DocumentActionViewController.m; sourceTree = SOURCE_ROOT; };
 		040E77171AB6DBBC001A7918 /* compat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = compat.m; path = src/compat.m; sourceTree = SOURCE_ROOT; };
 		040E77191AB6DBE9001A7918 /* compat.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = compat.h; sourceTree = SOURCE_ROOT; };
 		040E771D1AB6ED25001A7918 /* MeasurementContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MeasurementContainerViewController.h; path = src/iOS/MeasurementContainerViewController.h; sourceTree = SOURCE_ROOT; };
@@ -254,6 +257,8 @@
 				04C5FF1E1AB85EB800F4EC25 /* DeviceDescriptionView.m */,
 				040E77411AB73634001A7918 /* Document.h */,
 				040E77421AB73634001A7918 /* Document.m */,
+				0409FDCB1ACE977C00851D80 /* DocumentActionViewController.h */,
+				0409FDCC1ACE977C00851D80 /* DocumentActionViewController.m */,
 				040E77351AB72002001A7918 /* DocumentDescriptionView.h */,
 				040E77361AB72002001A7918 /* DocumentDescriptionView.m */,
 				040E77321AB71FF2001A7918 /* DocumentView.h */,
@@ -657,6 +662,7 @@
 				040E773A1AB7200F001A7918 /* GraphView.m in Sources */,
 				04138C791AB31E1B003D8167 /* CommonAppDelegate.m in Sources */,
 				04155EA01AB6448900DD53D9 /* AudioOutputView.m in Sources */,
+				0409FDCD1ACE977C00851D80 /* DocumentActionViewController.m in Sources */,
 				0478E1451ABF6ABF0057548C /* findQRcodes.mm in Sources */,
 				040E77431AB73634001A7918 /* Document.m in Sources */,
 				04155EA61AB647C500DD53D9 /* AudioRunManager.m in Sources */,

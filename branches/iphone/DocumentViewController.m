@@ -7,6 +7,7 @@
 //
 
 #import "DocumentViewController.h"
+#import "DocumentActionViewController.h"
 #import "CalibrationSharing.h"
 
 @interface DocumentViewController ()
@@ -35,6 +36,13 @@
 }
 
 // Actions, and handling when to display them
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+	if ([segue.identifier isEqualToString: @"documentAction"]) {
+		DocumentActionViewController *davc = [segue destinationViewController];
+		davc.document = self.document;
+	}
+}
+
 - (void) viewDidAppear:(BOOL)animated
 {
     NSLog(@"viewDidAppear nextAction=%p", nextAction);

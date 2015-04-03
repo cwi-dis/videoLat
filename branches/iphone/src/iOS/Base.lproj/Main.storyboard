@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="13F1066" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="1YQ-6H-tpu">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="1YQ-6H-tpu">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
@@ -279,7 +279,7 @@
                     <navigationItem key="navigationItem" title="Document" id="ijK-mu-pKR">
                         <barButtonItem key="rightBarButtonItem" image="action" id="ccF-QV-nP9">
                             <connections>
-                                <segue destination="HhS-Cy-6SN" kind="popoverPresentation" popoverAnchorBarButtonItem="ccF-QV-nP9" id="lKw-bj-NsR">
+                                <segue destination="HhS-Cy-6SN" kind="popoverPresentation" identifier="documentAction" popoverAnchorBarButtonItem="ccF-QV-nP9" id="lKw-bj-NsR">
                                     <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
                                 </segue>
                             </connections>
@@ -290,10 +290,10 @@
             </objects>
             <point key="canvasLocation" x="3938" y="1234"/>
         </scene>
-        <!--View Controller-->
+        <!--Document Action View Controller-->
         <scene sceneID="JlC-kH-5Mu">
             <objects>
-                <viewController id="HhS-Cy-6SN" sceneMemberID="viewController">
+                <viewController id="HhS-Cy-6SN" customClass="DocumentActionViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="SUs-PH-MNB"/>
                         <viewControllerLayoutGuide type="bottom" id="uRU-DV-mHa"/>
@@ -408,6 +408,10 @@
                             </mask>
                         </variation>
                     </view>
+                    <connections>
+                        <outlet property="bPrint" destination="Pfc-27-fhz" id="LVP-Sm-1dh"/>
+                        <outlet property="bUpload" destination="csr-Lv-lDe" id="bEk-yu-wnd"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KQB-AD-YC9" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="TC9-DD-hLm" userLabel="Exit" sceneMemberID="exit"/>

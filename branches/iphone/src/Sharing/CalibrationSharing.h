@@ -16,6 +16,7 @@
 }
 
 + (CalibrationSharing *)sharedUploader;
++ (BOOL)isUploadable:(MeasurementDataStore *)dataStore;
 
 - initWithServer: (NSURL *)server;
 
