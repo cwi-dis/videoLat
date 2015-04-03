@@ -8,7 +8,7 @@
         <!--videoLat Activities-->
         <scene sceneID="Iqp-oT-VWa">
             <objects>
-                <tableViewController id="7XF-jy-iH3" sceneMemberID="viewController">
+                <tableViewController id="7XF-jy-iH3" customClass="MainMenuTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="WpR-D9-ELj">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -110,10 +110,13 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="videoLat Activities" id="nJc-SJ-2z4"/>
+                    <connections>
+                        <segue destination="E2I-Mm-42s" kind="show" identifier="showDocument" id="x21-Iw-NV5"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QK5-5k-Vcx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="140" y="1897"/>
+            <point key="canvasLocation" x="140" y="1705"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="vtl-AM-pmU">
@@ -131,7 +134,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="us7-FD-VaM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="140" y="1151"/>
+            <point key="canvasLocation" x="140" y="981"/>
         </scene>
         <!--Open Calibration-->
         <scene sceneID="efP-F1-hfA">
@@ -191,7 +194,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VCJ-wd-IzK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1346" y="1897"/>
+            <point key="canvasLocation" x="1346" y="2283"/>
         </scene>
         <!--Select New Measurement Type-->
         <scene sceneID="pqU-ix-jf7">
@@ -249,7 +252,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yVd-BA-D3K" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2336" y="-545"/>
+            <point key="canvasLocation" x="2482" y="-121"/>
         </scene>
         <!--Measurement Container View Controller-->
         <scene sceneID="te4-LS-l5F">
@@ -265,12 +268,13 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <connections>
-                        <segue destination="E2I-Mm-42s" kind="show" identifier="showDocument" id="awh-mQ-h7M"/>
+                        <segue destination="iqJ-Zy-UEh" kind="unwind" identifier="unwindAndShowDocument" unwindAction="unwindAndOpenDocument:" id="Dsc-xY-xST"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NcG-eK-Z91" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="iqJ-Zy-UEh" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="3224" y="-533"/>
+            <point key="canvasLocation" x="3220" y="-121"/>
         </scene>
         <!--Document-->
         <scene sceneID="Ba0-Hx-Sve">
@@ -288,7 +292,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="L4A-mQ-GhI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3938" y="1234"/>
+            <point key="canvasLocation" x="2482" y="1705"/>
         </scene>
         <!--Document Action View Controller-->
         <scene sceneID="JlC-kH-5Mu">
@@ -416,7 +420,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KQB-AD-YC9" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="TC9-DD-hLm" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="4853" y="1234"/>
+            <point key="canvasLocation" x="3319" y="1705"/>
         </scene>
         <!--Select New Calibration Type-->
         <scene sceneID="yaK-Dr-21g">
@@ -471,19 +475,20 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Download Calibrations" id="Rs5-T3-hjz"/>
                     <connections>
-                        <segue destination="E2I-Mm-42s" kind="show" identifier="showDocument" id="RXt-u3-m7s"/>
+                        <segue destination="lJu-hM-TVo" kind="unwind" identifier="unwindAndShowDocument" unwindAction="unwindAndOpenDocument:" id="OY1-zj-Xaj"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eZ3-Ml-jvY" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="lJu-hM-TVo" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1346" y="2742"/>
+            <point key="canvasLocation" x="1360" y="3260"/>
         </scene>
     </scenes>
     <resources>
         <image name="action" width="42" height="42"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="x21-Iw-NV5"/>
         <segue reference="McN-pX-jJY"/>
-        <segue reference="RXt-u3-m7s"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -10,6 +10,7 @@
 #import "BaseRunManager.h"
 #import "Document.h"
 #import "DocumentViewController.h"
+#import "MainMenuTableViewController.h"
 
 @implementation MeasurementContainerViewController
 
@@ -55,27 +56,21 @@
     if (self.runManager.capturer) [self.runManager.capturer pauseCapturing:YES];
 	if (dataStore) {
 		finishedDataStore = dataStore;
-#ifdef WITH_UIKIT
-		[self performSegueWithIdentifier:@"showDocument" sender:self];
-#else
-		AppDelegate *ad = (AppDelegate *)[[NSApplication sharedApplication] delegate];
-		[ad performSelectorOnMainThread:@selector(openUntitledDocumentWithMeasurement:) withObject:dataStore waitUntilDone:NO];
-#endif
+		[self performSegueWithIdentifier:@"unwindAndShowDocument" sender:self];
 	}
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
-	assert(finishedDataStore);
-	DocumentViewController *dvc = segue.destinationViewController;
-    NSURL *newURL = [Document inventURLForDocument:finishedDataStore];
-    NSLog(@"URL for measurement is %@", newURL);
-    assert(newURL);
-    Document *newDocument = [[Document alloc] initWithFileURL: newURL];
-    newDocument.dataStore = finishedDataStore;
-    [newDocument newDocumentComplete: self];
-	dvc.document = newDocument;
+	if ([segue.identifier isEqualToString:@"unwindAndShowDocument"]) {
+		assert(finishedDataStore);
+		assert([segue.identifier isEqualToString:@"unwindAndShowDocument"]);
+		MainMenuTableViewController *mmvc = segue.destinationViewController;
+		mmvc.dataStoreToOpen = finishedDataStore;
+		finishedDataStore = nil;
+
+	}
 }
 
 @end

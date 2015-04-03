@@ -12,7 +12,7 @@
 #import "CalibrationSharing.h"
 #import "VideoInput.h"
 #import "AppDelegate.h"
-#import "DocumentViewController.h"
+#import "MainMenuTableViewController.h"
 
 @interface DownloadCalibrationTableViewController ()
 
@@ -163,12 +163,7 @@
 	NSLog(@"DidDownload: %@", dataStore);
 	if (dataStore) {
 		downloadedDataStore = dataStore;
-#ifdef WITH_UIKIT
-		[self performSegueWithIdentifier:@"showDocument" sender:self];
-#else
-		AppDelegate *ad = (AppDelegate *)[[NSApplication sharedApplication] delegate];
-		[ad performSelectorOnMainThread:@selector(openUntitledDocumentWithMeasurement:) withObject:dataStore waitUntilDone:NO];
-#endif
+		[self performSegueWithIdentifier:@"unwindAndShowDocument" sender:self];
 	}
 }
 
@@ -182,15 +177,10 @@
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
 	assert(downloadedDataStore);
-	assert([segue.identifier isEqualToString:@"showDocument"]);
-	DocumentViewController *dvc = segue.destinationViewController;
-    NSURL *newURL = [Document inventURLForDocument:downloadedDataStore];
-    NSLog(@"URL for measurement is %@", newURL);
-    assert(newURL);
-    Document *newDocument = [[Document alloc] initWithFileURL: newURL];
-    newDocument.dataStore = downloadedDataStore;
-    [newDocument newDocumentComplete: self];
-	dvc.document = newDocument;
+	assert([segue.identifier isEqualToString:@"unwindAndShowDocument"]);
+	MainMenuTableViewController *mmvc = segue.destinationViewController;
+	mmvc.dataStoreToOpen = downloadedDataStore;
+	downloadedDataStore = nil;
 }
 
 @end

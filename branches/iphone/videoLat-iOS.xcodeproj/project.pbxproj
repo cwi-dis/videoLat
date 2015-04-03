@@ -10,6 +10,7 @@
 		040728B11AC9ED8B00191022 /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = 040728B01AC9ED8B00191022 /* iTunesArtwork */; };
 		040728B31AC9F86B00191022 /* MasterSenderScreenCalibrationRun.xib in Resources */ = {isa = PBXBuildFile; fileRef = 040728B21AC9F86B00191022 /* MasterSenderScreenCalibrationRun.xib */; };
 		0409FDCD1ACE977C00851D80 /* DocumentActionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0409FDCC1ACE977C00851D80 /* DocumentActionViewController.m */; };
+		0409FDD01ACE9E2C00851D80 /* MainMenuTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0409FDCF1ACE9E2C00851D80 /* MainMenuTableViewController.m */; };
 		040E77181AB6DBBC001A7918 /* compat.m in Sources */ = {isa = PBXBuildFile; fileRef = 040E77171AB6DBBC001A7918 /* compat.m */; };
 		040E771F1AB6ED25001A7918 /* MeasurementContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 040E771E1AB6ED25001A7918 /* MeasurementContainerViewController.m */; };
 		040E77231AB6F314001A7918 /* AudioCalibrationRunManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 040E77221AB6F314001A7918 /* AudioCalibrationRunManager.m */; };
@@ -95,6 +96,8 @@
 		040728B21AC9F86B00191022 /* MasterSenderScreenCalibrationRun.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MasterSenderScreenCalibrationRun.xib; path = src/iOS/MasterSenderScreenCalibrationRun.xib; sourceTree = SOURCE_ROOT; };
 		0409FDCB1ACE977C00851D80 /* DocumentActionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DocumentActionViewController.h; path = src/iOS/DocumentActionViewController.h; sourceTree = SOURCE_ROOT; };
 		0409FDCC1ACE977C00851D80 /* DocumentActionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DocumentActionViewController.m; path = src/iOS/DocumentActionViewController.m; sourceTree = SOURCE_ROOT; };
+		0409FDCE1ACE9E2C00851D80 /* MainMenuTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MainMenuTableViewController.h; path = src/iOS/MainMenuTableViewController.h; sourceTree = SOURCE_ROOT; };
+		0409FDCF1ACE9E2C00851D80 /* MainMenuTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MainMenuTableViewController.m; path = src/iOS/MainMenuTableViewController.m; sourceTree = SOURCE_ROOT; };
 		040E77171AB6DBBC001A7918 /* compat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = compat.m; path = src/compat.m; sourceTree = SOURCE_ROOT; };
 		040E77191AB6DBE9001A7918 /* compat.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = compat.h; sourceTree = SOURCE_ROOT; };
 		040E771D1AB6ED25001A7918 /* MeasurementContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MeasurementContainerViewController.h; path = src/iOS/MeasurementContainerViewController.h; sourceTree = SOURCE_ROOT; };
@@ -472,6 +475,8 @@
 				04138C781AB31E1B003D8167 /* CommonAppDelegate.m */,
 				04FFFC761AB2FA8E0023ED13 /* AppDelegate.h */,
 				04FFFC771AB2FA8E0023ED13 /* AppDelegate.m */,
+				0409FDCE1ACE9E2C00851D80 /* MainMenuTableViewController.h */,
+				0409FDCF1ACE9E2C00851D80 /* MainMenuTableViewController.m */,
 				04138C6A1AB319B9003D8167 /* MeasurementType.h */,
 				04138C6B1AB319B9003D8167 /* MeasurementType.m */,
 				04138C701AB31A03003D8167 /* MeasurementRun */,
@@ -665,6 +670,7 @@
 				0409FDCD1ACE977C00851D80 /* DocumentActionViewController.m in Sources */,
 				0478E1451ABF6ABF0057548C /* findQRcodes.mm in Sources */,
 				040E77431AB73634001A7918 /* Document.m in Sources */,
+				0409FDD01ACE9E2C00851D80 /* MainMenuTableViewController.m in Sources */,
 				04155EA61AB647C500DD53D9 /* AudioRunManager.m in Sources */,
 				04155E971AB6251900DD53D9 /* NewMeasurementTableViewController.m in Sources */,
 				040E77341AB71FF2001A7918 /* DocumentView.m in Sources */,
