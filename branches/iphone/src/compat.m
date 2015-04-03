@@ -24,11 +24,13 @@ void showErrorAlert(NSError *error) {
 
 void showWarningAlert(NSString *warning) {
 #ifdef WITH_UIKIT
-	[[[UIAlertView alloc] initWithTitle:@"Warning"
+
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Warning"
                             message:warning
                            delegate:nil
                   cancelButtonTitle:NSLocalizedString(@"OK", nil)
-                  otherButtonTitles:nil, nil] show];
+                  otherButtonTitles:nil, nil];
+	[alert performSelectorOnMainThread:@selector(show) withObject:nil waitUntilDone:YES];
 #else
     NSAlert *alert = [NSAlert alertWithMessageText:@"Warning" defaultButton:@"OK" alternateButton:nil otherButton:nil informativeTextWithFormat:@"%@", warning];
     [alert runModal];

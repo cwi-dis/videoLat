@@ -13,6 +13,7 @@
 #import "VideoInput.h"
 #import "AppDelegate.h"
 #import "MainMenuTableViewController.h"
+#import "VideoOutputView.h"
 
 @interface DownloadCalibrationTableViewController ()
 
@@ -136,7 +137,7 @@
     searching = YES;
 	NSString *machineTypeID = [[MachineDescription thisMachine] machineTypeID];
 	NSArray *deviceTypeIDs = [VideoInput allDeviceTypeIDs];
-//	deviceTypeIDs = [deviceTypeIDs arrayByAddingObjectsFromArray:[VideoOutputView allDeviceTypeIDs]];
+	deviceTypeIDs = [deviceTypeIDs arrayByAddingObjectsFromArray:[VideoOutputView allDeviceTypeIDs]];
 	NSLog(@"Getting calibrations for %@ and %@", machineTypeID, deviceTypeIDs);
 	[[CalibrationSharing sharedUploader] listForMachine: machineTypeID andDevices:deviceTypeIDs delegate:self];
 	// XXXX Show progress indicator
