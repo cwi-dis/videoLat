@@ -15,21 +15,11 @@
 @synthesize dataStore;
 @synthesize dataDistribution;
 
-- (id)init
-{
-    self = [super init];
-    if (self) {
-		// Add your subclass-specific initialization here.
-        if (VL_DEBUG) NSLog(@"Document init\n");
-    }
-    return self;
-}
+#ifdef WITH_UIKIT
+#define NSChangeDone UIDocumentChangeDone
+#endif
 
-- (void) dealloc
-{
-}
-
-
+#ifdef WITH_APPKIT
 - (NSString *)windowNibName
 {
 	// Override returning the nib file name of the document
@@ -47,6 +37,44 @@
         [uploader shouldUpload:self.dataStore delegate:self];
     }
 }
+#endif
+
+#ifdef WITH_UIKIT
++ (NSURL *)inventURLForDocument: (MeasurementDataStore *)dataStore
+{
+    NSURL *fileUrl = nil;
+    MeasurementType *theType = [MeasurementType forType: dataStore.measurementType];
+
+    NSString *extension = @"videoLat";
+    if (theType.isCalibration) extension = @"vlCalibration";
+    int uniqueNumber = 0;
+    do {
+        NSString *machineID = dataStore.output.machineTypeID;
+        if (theType.inputOnlyCalibration)
+            machineID = dataStore.input.machineTypeID;
+        NSString *unique = @"";
+        if (uniqueNumber) {
+            unique = [NSString stringWithFormat:@" (%d)", uniqueNumber];
+        }
+        NSString *fileName = [NSString stringWithFormat: @"%@-%@-%@-%@%@.%@", dataStore.measurementType, machineID, dataStore.output.device, dataStore.input.device, unique, extension];
+        NSURL *dirUrl;
+        if (theType.isCalibration) {
+            dirUrl = [(AppDelegate *)[[NSorUIApplication sharedApplication] delegate] directoryForCalibrations];
+        } else {
+            NSError *error;
+            dirUrl = [[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL: nil create:YES error:&error ];
+            if (dirUrl == nil) {
+                showErrorAlert(error);
+                return nil;
+            }
+        }
+        fileUrl = [NSURL URLWithString:[fileName stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] relativeToURL:dirUrl];
+        // If the file exists we will try with a new extension
+        uniqueNumber++;
+    } while ([[NSFileManager defaultManager] fileExistsAtPath: [fileUrl path]]);
+    return fileUrl;
+}
+#endif
 
 - (IBAction)newDocumentComplete: (id)sender
 {
@@ -55,12 +83,17 @@
 	self.dataDistribution = [[MeasurementDistribution alloc] initWithSource:self.dataStore];
 	// Set location, etc
 	self.dataStore.description = @"";
+#ifdef WITH_UIKIT
+	self.dataStore.date = [[NSDate date] description];
+#else
 	self.dataStore.date = [[NSDate date] descriptionWithCalendarFormat:nil timeZone:nil locale:nil];
+#endif
 
     // Do the NSDocument things
 	myType = [MeasurementType forType: self.dataStore.measurementType];
-	[self updateChangeCount:NSChangeDone];
+	[self performSelectorOnMainThread:@selector(_changed) withObject:nil waitUntilDone:NO];
 
+#ifdef WITH_APPKIT
     // Set title/filename for calibration documents
     if (myType.isCalibration) {
         [self _setCalibrationFileName];
@@ -68,16 +101,18 @@
     
     [super makeWindowControllers];
     [self showWindows];
-    [(DocumentView *)self.myView updateView];
+#endif
+// XXXJACK no longer needed?    [(DocumentView *)self.myView updateView];
     // Finally see whether this document is worth uploading
     CalibrationSharing *uploader = [CalibrationSharing sharedUploader];
     [uploader shouldUpload:self.dataStore delegate:self];
 }
 
+#ifdef WITH_APPKIT
 - (void)_setCalibrationFileName
 {
     NSString *fileName = [NSString stringWithFormat: @"%@-%@-%@-%@.vlCalibration", self.dataStore.measurementType, self.dataStore.output.machineTypeID, self.dataStore.output.device, self.dataStore.input.device];
-    NSURL *dirUrl = [(AppDelegate *)[[NSApplication sharedApplication] delegate] directoryForCalibrations];
+    NSURL *dirUrl = [(AppDelegate *)[[NSorUIApplication sharedApplication] delegate] directoryForCalibrations];
     NSURL *fileUrl = [NSURL URLWithString:[fileName stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] relativeToURL:dirUrl];
     [self setFileURL: fileUrl];
     [self setFileType: [self fileType]];
@@ -96,13 +131,18 @@
     // XXXX Otherwise we should set it back to the original value (or do this after calibration save finishes?)
     return YES;
 }
+#endif
 
 + (BOOL)autosavesInPlace
 {
     return YES;
 }
 
+#ifdef WITH_UIKIT
+- (id)contentsForType:(NSString *)typeName error:(NSError **)outError
+#else
 - (NSData *)dataOfType:(NSString *)typeName error:(NSError **)outError
+#endif
 {
     NSMutableDictionary *dict = [[NSMutableDictionary alloc] initWithCapacity:10];
     [dict setObject:@"videoLat" forKey:@"videoLat"];
@@ -113,7 +153,11 @@
     return [NSKeyedArchiver archivedDataWithRootObject: dict];
 }
 
+#ifdef WITH_UIKIT
+- (BOOL)loadFromContents:(id)data ofType:(NSString *)typeName error:(NSError **)outError
+#else
 - (BOOL)readFromData:(NSData *)data ofType:(NSString *)typeName error:(NSError **)outError
+#endif
 {
     NSMutableDictionary *dict = [NSKeyedUnarchiver unarchiveObjectWithData: data];
     NSString *str;
@@ -141,7 +185,7 @@
     self.dataStore = [dict objectForKey: @"dataStore"];
 //    self.dataDistribution = [dict objectForKey: @"dataDistribution"];
     self.dataDistribution = [[MeasurementDistribution alloc] initWithSource:self.dataStore];
-    [self.myView updateView];
+// XXXJACK no longer needed?    [self.myView updateView];
 
     NSNumber *du = [dict objectForKey: @"dontUpload"];
     if (du && [du boolValue])
@@ -174,6 +218,9 @@
 
 - (BOOL)_exportCSV: (NSString *)csvData forType: (NSString *)descr title: (NSString *)title
 {
+#ifdef WITH_UIKIT
+	assert(0);
+#else
 	NSError *error;
     NSString *baseName = [self displayName];
 	NSSavePanel *savePanel = [NSSavePanel savePanel];
@@ -192,6 +239,7 @@
 		}
 	}
 	return YES;
+#endif
 }
 
 - (NSString *) asCSVString
@@ -254,6 +302,9 @@
 {
     
     NSLog(@"Should upload this document");
+#ifdef WITH_UIKIT
+    showWarningAlert(@"This calibration is not yet available on videolat.org for this device. You should consider uploading it.");
+#else
     NSWindow *win = [self windowForSheet];
     CalibrationSharing *uploader = [CalibrationSharing sharedUploader];
     NSAlert *alert = [NSAlert alertWithMessageText:@"Do you want to share this calibration with other videoLat users?"
@@ -281,6 +332,7 @@
             [self performSelectorOnMainThread:@selector(_changed) withObject:nil waitUntilDone:NO];
         }
     }
+#endif
 }
 
 - (void)didUpload: (BOOL)answer

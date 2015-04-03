@@ -8,6 +8,24 @@
 @synthesize delegate;
 @synthesize visibleButton;
 
+
+#ifdef WITH_UIKIT
+- (void)layoutSubviews
+{
+	CALayer *selfLayer = self.layer;
+	assert(self.layer.sublayers);
+	assert([self.layer.sublayers count] == 1);
+	CALayer *videoLayer = [self.layer.sublayers objectAtIndex:0];
+	CGRect sFrame, sBounds, vFrame, vBounds;
+	videoLayer.frame = selfLayer.bounds;
+	sFrame = selfLayer.frame;
+	sBounds = selfLayer.bounds;
+	vFrame = videoLayer.frame;
+	vBounds = videoLayer.bounds;
+	NSLog(@"self: ");
+
+}
+#else
 - (IBAction)visibleChanged: (id) sender
 {
     [self setHidden: ([sender state] == NSOffState)];
@@ -47,7 +65,7 @@
 	NSRect r = {{left, top}, {width, height}};
 	[[self delegate] focusRectSelected: r];
 }
-
+#endif
 @end
 
 @implementation VideoInput
@@ -183,10 +201,7 @@
 			[rv addObject:name];
 	}
 	if ([rv count] == 0) {
-		NSRunAlertPanel(
-                        @"Warning",
-                        @"No suitable video input device found, reception disabled.",
-                        nil, nil, nil);
+		showWarningAlert(@"No suitable video input device found, reception disabled.");
 	}
 	return rv;
 }
@@ -243,8 +258,7 @@
     NSError *error;
 	AVCaptureDeviceInput *myInput = [AVCaptureDeviceInput deviceInputWithDevice:dev error:&error];
 	if (error) {
-        NSAlert *alert = [NSAlert alertWithError: error];
-        [alert runModal];
+        showErrorAlert(error);
         return;
     }
     
@@ -299,8 +313,13 @@
 
     if(self.selfView) {
         selfLayer = [AVCaptureVideoPreviewLayer layerWithSession:session];
+#ifdef WITH_UIKIT
+		CGRect bounds = self.selfView.bounds;
+		selfLayer.frame = bounds;
+#else
         selfLayer.frame = NSRectToCGRect(self.selfView.bounds);
         [self.selfView setWantsLayer: YES];
+#endif
         [self.selfView.layer addSublayer: selfLayer];
         [self.selfView setHidden: NO];
     }
@@ -319,6 +338,19 @@
 #endif
 	[self.manager restart];
 	[session startRunning];
+}
+
+- (void)pauseCapturing: (BOOL) pause
+{
+	if (session == nil) return;
+	if (pause) {
+		if (session.running)
+			[session stopRunning];
+		session = nil;
+	} else {
+		if (!session.running)
+			[session startRunning];
+	}
 }
 
 - (AVCaptureDevice*)_deviceWithName: (NSString*)name
@@ -359,21 +391,7 @@
 	capturing = NO;
 }
 
-
-#ifdef NOTYETFORAVFOUNDATION
-
-- (CIImage *)view:(QTCaptureView *)view willDisplayImage:(CIImage *)image
-{
-	NSRect wbounds = [view previewBounds];
-	CGRect ibounds = [image extent];
-	xFactor = ibounds.size.width / wbounds.size.width;
-	yFactor = ibounds.size.height / wbounds.size.height;
-
-    // Noneed to process, show original image.
-    return nil;
-}
-#endif
-- (void)focusRectSelected: (NSRect)theRect
+- (void)focusRectSelected: (NSorUIRect)theRect
 {
 	theRect.origin.x *= xFactor;
 	theRect.origin.y *= yFactor;
@@ -418,11 +436,15 @@
     CMFormatDescriptionRef formatDescription = CMSampleBufferGetFormatDescription(sampleBuffer);
     OSType format = CMFormatDescriptionGetMediaSubType(formatDescription);
     CVImageBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
+	BOOL isPlanar = NO;
 	const char *formatStr;
 	if (format == kCVPixelFormatType_32ARGB) {
 		formatStr = "RGB4";
 	} else if (format == kCVPixelFormatType_8IndexedGray_WhiteIsZero) {
 		formatStr = "Y800";
+	} else if (format == kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange) {
+		formatStr = "Y800";
+		isPlanar = YES;
 	} else if (format == kCVPixelFormatType_422YpCbCr8) {
 		formatStr = "UYVY";
 	} else if (format == 'yuvs' || format == 'yuv2') {
@@ -431,9 +453,13 @@
 	} else {
 		// Unknown format??
 		formatStr = "unknown";
+		assert(0);
 	}
 	CVPixelBufferLockBaseAddress(pixelBuffer, 0);
 	void *buffer = CVPixelBufferGetBaseAddress(pixelBuffer);
+	if (isPlanar) {
+		buffer = CVPixelBufferGetBaseAddressOfPlane(pixelBuffer, 0);
+	}
 	size_t w = CVPixelBufferGetWidth(pixelBuffer);
 	size_t h = CVPixelBufferGetHeight(pixelBuffer);
 	size_t size = CVPixelBufferGetDataSize(pixelBuffer);
@@ -447,6 +473,6 @@ didDropSampleBuffer:(CMSampleBufferRef)sampleBuffer
        fromConnection:(AVCaptureConnection *)connection;
 {
     // Should adjust maximal frame rate (minFrameDuration)
-    NSLog(@"camera capturer dropped frame...\n");
+    if (VL_DEBUG) NSLog(@"camera capturer dropped frame...\n");
 }
 @end

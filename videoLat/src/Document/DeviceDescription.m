@@ -22,7 +22,7 @@
 - (DeviceDescription *)init
 {
 	self = [super init];
-	self.location = ((AppDelegate *)[[NSApplication sharedApplication] delegate]).location;
+	self.location = ((AppDelegate *)[[NSorUIApplication sharedApplication] delegate]).location;
 	return self;
 }
 
@@ -30,7 +30,7 @@
 {
 	self = [super init];
 	if (self == nil) return nil;
-	self.location = ((AppDelegate *)[[NSApplication sharedApplication] delegate]).location;
+	self.location = ((AppDelegate *)[[NSorUIApplication sharedApplication] delegate]).location;
 	self.machineTypeID = _calibration.input.machineTypeID;
 	self.machineID = _calibration.input.machineID;
 	self.machine = _calibration.input.machine;
@@ -46,7 +46,7 @@
     if (self == nil) return nil;
     
     MachineDescription *md = [MachineDescription thisMachine];
-    self.location = ((AppDelegate *)[[NSApplication sharedApplication] delegate]).location;
+    self.location = ((AppDelegate *)[[NSorUIApplication sharedApplication] delegate]).location;
     self.machineID = md.machineID;
     self.machine = md.machineName;
     self.machineTypeID = md.machineTypeID;
@@ -62,7 +62,7 @@
     if (self == nil) return nil;
     
     MachineDescription *md = [MachineDescription thisMachine];
-    self.location = ((AppDelegate *)[[NSApplication sharedApplication] delegate]).location;
+    self.location = ((AppDelegate *)[[NSorUIApplication sharedApplication] delegate]).location;
     self.machineID = md.machineID;
     self.machine = md.machineName;
     self.machineTypeID = md.machineTypeID;

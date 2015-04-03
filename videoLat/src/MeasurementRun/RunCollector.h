@@ -6,9 +6,9 @@
 //
 //
 
-#import <Cocoa/Cocoa.h>
+#import <Foundation/Foundation.h>
 #import <stdio.h>
-#import "Document.h"
+//XXXJACK#import "Document.h"
 #import "protocols.h"
 #import "MeasurementDataStore.h"
 

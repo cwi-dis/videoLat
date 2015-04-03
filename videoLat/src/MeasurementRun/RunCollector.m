@@ -6,13 +6,10 @@
 //  Copyright 2010-2014 Centrum voor Wiskunde en Informatica. Licensed under GPL3.
 //
 
-#import <AppKit/AppKit.h>
-#import <AppKit/NSNibLoading.h>
 #import "RunCollector.h"
 #import "MachineDescription.h"
 #import <mach/mach.h>
 #import <mach/mach_time.h>
-#import <CoreServices/CoreServices.h>
 #import <QuartzCore/QuartzCore.h>
 #import <sys/time.h>
 

@@ -6,25 +6,37 @@
 //
 //
 
-#import <Cocoa/Cocoa.h>
+#import <Foundation/Foundation.h>
+#import "compat.h"
+#import "DeviceDescriptionView.h"
 
 ///
 /// Subclass of NSView that displays all metadata of a measurement run, and allows
 /// changing of some of it.
 ///
-@interface DocumentDescriptionView : NSView {
+@interface DocumentDescriptionView
+#ifdef WITH_UIKIT
+	: UIView
+#else
+	: NSView
+#endif
+{
 }
+#ifdef WITH_UIKIT
+@property(weak) IBOutlet UILabel *bMeasurementType; //!< Reference to UI element
+@property(weak) IBOutlet DeviceDescriptionView *vInput;
+@property(weak) IBOutlet DeviceDescriptionView *vOutput;
+@property(weak) IBOutlet UILabel *bDate; //!< Reference to UI element
+@property(weak) IBOutlet UITextField *bDescription; //!< Reference to UI element
+@property(weak) IBOutlet UILabel *bDetectCount; //!< Reference to UI element
+@property(weak) IBOutlet UILabel *bMissCount; //!< Reference to UI element
+@property(weak) IBOutlet UILabel *bDetectAverage; //!< Reference to UI element
+@property(weak) IBOutlet UILabel *bDetectMinDelay; //!< Reference to UI element
+@property(weak) IBOutlet UILabel *bDetectMaxDelay; //!< Reference to UI element
+#else
 @property(weak) IBOutlet NSTextField *bMeasurementType; //!< Reference to UI element
-@property(weak) IBOutlet NSTextField *bInputMachineTypeID; //!< Reference to UI element
-@property(weak) IBOutlet NSTextField *bInputMachine; //!< Reference to UI element
-@property(weak) IBOutlet NSTextField *bInputLocation; //!< Reference to UI element
-@property(weak) IBOutlet NSTextField *bInputDevice; //!< Reference to UI element
-@property(weak) IBOutlet NSTextField *bInputCalibration; //!< Reference to UI element
-@property(weak) IBOutlet NSTextField *bOutputMachineTypeID; //!< Reference to UI element
-@property(weak) IBOutlet NSTextField *bOutputMachine; //!< Reference to UI element
-@property(weak) IBOutlet NSTextField *bOutputLocation; //!< Reference to UI element
-@property(weak) IBOutlet NSTextField *bOutputDevice; //!< Reference to UI element
-@property(weak) IBOutlet NSTextField *bOutputCalibration; //!< Reference to UI element
+@property(weak) IBOutlet DeviceDescriptionView *vInput;
+@property(weak) IBOutlet DeviceDescriptionView *vOutput;
 @property(weak) IBOutlet NSTextField *bDate; //!< Reference to UI element
 @property(weak) IBOutlet NSTextField *bDescription; //!< Reference to UI element
 @property(weak) IBOutlet NSTextField *bDetectCount; //!< Reference to UI element
@@ -32,21 +44,9 @@
 @property(weak) IBOutlet NSTextField *bDetectAverage; //!< Reference to UI element
 @property(weak) IBOutlet NSTextField *bDetectMinDelay; //!< Reference to UI element
 @property(weak) IBOutlet NSTextField *bDetectMaxDelay; //!< Reference to UI element
-
-@property(weak) IBOutlet NSButton *bOpenInputCalibration;
-@property(weak) IBOutlet NSButton *bOpenOutputCalibration;
+#endif
 
 @property(strong) NSString *measurementType;    //!< Current value of metadata item
-@property(strong) NSString *inputMachineTypeID;    //!< Current value of metadata item
-@property(strong) NSString *inputMachine;    //!< Current value of metadata item
-@property(strong) NSString *inputLocation;    //!< Current value of metadata item
-@property(strong) NSString *inputDevice;    //!< Current value of metadata item
-@property(strong) NSString *inputCalibration;    //!< Current value of metadata item
-@property(strong) NSString *outputMachineTypeID;    //!< Current value of metadata item
-@property(strong) NSString *outputMachine;    //!< Current value of metadata item
-@property(strong) NSString *outputLocation;    //!< Current value of metadata item
-@property(strong) NSString *outputDevice;    //!< Current value of metadata item
-@property(strong) NSString *outputCalibration;    //!< Current value of metadata item
 @property(strong) NSString *date;    //!< Current value of metadata item
 @property(strong) NSString *description;    //!< Current value of metadata item
 @property(strong) NSString *detectCount;    //!< Current value of metadata item
@@ -55,5 +55,6 @@
 @property(strong) NSString *detectMinDelay;    //!< Current value of metadata item
 @property(strong) NSString *detectMaxDelay;    //!< Current value of metadata item
 /// Update UI elements to reflect values in metadata items
+
 - (void) update: (id)sender;
 @end

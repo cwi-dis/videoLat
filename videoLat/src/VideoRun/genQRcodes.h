@@ -6,7 +6,6 @@
 //  Copyright 2010-2014 Centrum voor Wiskunde en Informatica. Licensed under GPL3.
 //
 
-#import <Cocoa/Cocoa.h>
 #import "protocols.h"
 #include "zint.h"
 

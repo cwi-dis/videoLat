@@ -8,9 +8,13 @@
 
 #import "BaseRunManager.h"
 #import "MachineDescription.h"
+#import "AppDelegate.h"
+
 static NSMutableDictionary *runManagerClasses;
 static NSMutableDictionary *runManagerNibs;
-
+#ifdef WITH_UIKIT
+static NSMutableDictionary *runManagerSelectionNibs;
+#endif
 @implementation BaseRunManager
 
 @synthesize running;
@@ -33,6 +37,9 @@ static NSMutableDictionary *runManagerNibs;
 {
     runManagerClasses = [[NSMutableDictionary alloc] initWithCapacity:10];
     runManagerNibs = [[NSMutableDictionary alloc] initWithCapacity:10];
+#ifdef WITH_UIKIT
+    runManagerSelectionNibs = [[NSMutableDictionary alloc] initWithCapacity:10];
+#endif
 }
 
 + (void)registerClass: (Class)managerClass forMeasurementType: (NSString *)name
@@ -40,7 +47,7 @@ static NSMutableDictionary *runManagerNibs;
     // XXXJACK assert it is a subclass of BaseRunManager
     Class oldClass = [runManagerClasses objectForKey:name];
     if (oldClass != nil && oldClass != managerClass) {
-        NSLog(@"BaseRunManager: attempt to set class for %@ to %@ but ist was already set to %@\n", name, managerClass, oldClass);
+        NSLog(@"BaseRunManager: attempt to set class for %@ to %@ but it was already set to %@\n", name, managerClass, oldClass);
         abort();
     }
     if (VL_DEBUG) NSLog(@"BaseRunManager: Register %@ for %@\n", managerClass, name);
@@ -67,6 +74,24 @@ static NSMutableDictionary *runManagerNibs;
 {
     return [runManagerNibs objectForKey:name];
 }
+
+#ifdef WITH_UIKIT
++ (void)registerSelectionNib: (NSString*)nibName forMeasurementType: (NSString *)name
+{
+    NSString *oldNib = [runManagerSelectionNibs objectForKey:name];
+    if (oldNib != nil && oldNib != nibName) {
+        NSLog(@"BaseRunManager: attempt to set Nib for %@ to %@ but it was already set to %@\n", name, nibName, oldNib);
+        abort();
+    }
+    if (VL_DEBUG) NSLog(@"BaseRunManager: Register selection nib%@ for %@\n", nibName, name);
+    [runManagerSelectionNibs setObject:nibName forKey:name];
+}
+
++ (NSString *)selectionNibForMeasurementType: (NSString *)name
+{
+    return [runManagerSelectionNibs objectForKey:name];
+}
+#endif
 
 @synthesize measurementType;
 
@@ -127,8 +152,7 @@ static NSMutableDictionary *runManagerNibs;
     }
     
     if (errorMessage) {
-        NSAlert *alert = [NSAlert alertWithMessageText: @"Internal error" defaultButton:@"OK" alternateButton:nil otherButton:nil informativeTextWithFormat:@"%@", errorMessage];
-        [alert runModal];
+        showWarningAlert(errorMessage);
     }
 }
 
@@ -142,21 +166,33 @@ static NSMutableDictionary *runManagerNibs;
     }
 }
 
-- (IBAction)deviceChanged: (id) sender
+#ifdef WITH_UIKIT
+- (void)runForType: (NSString *)measurementTypeName withBase: (NSString *)baseMeasurementName
+{
+	baseName = baseMeasurementName;
+	[self selectMeasurementType:measurementTypeName];
+	if (!slaveHandler)
+		[self startPreMeasuring:self];
+}
+#endif
+
+- (IBAction)selectionChanged: (id) sender
 {
 	NSLog(@"BaseRunManager: device changed");
+	assert(0);
 }
 
 - (IBAction)startPreMeasuring: (id)sender
 {
 	@synchronized(self) {
-        assert(handlesInput);
+ 		assert(!self.preRunning);
+		assert(!self.running);
+       assert(handlesInput);
 		// First check that everything is OK with base measurement and such
 		if (self.measurementType.requires != nil) {
 			// First check that a base measurement has been selected.
 			NSString *errorMessage;
-			NSMenuItem *baseItem = [self.selectionView.bBase selectedItem];
-			NSString *baseName = [baseItem title];
+			if (self.selectionView) baseName = [self.selectionView baseName];
 			MeasurementType *baseType = self.measurementType.requires;
 			MeasurementDataStore *baseStore = [baseType measurementNamed: baseName];
 			if (baseType == nil) {
@@ -185,6 +221,7 @@ static NSMutableDictionary *runManagerNibs;
 				}
 			}
 			if (errorMessage) {
+#ifdef WITH_APPKIT
 				NSAlert *alert = [NSAlert alertWithMessageText: @"Base calibration mismatch, are you sure you want to continue?"
 					defaultButton:@"Cancel"
 					alternateButton:@"Continue"
@@ -193,13 +230,18 @@ static NSMutableDictionary *runManagerNibs;
 				NSInteger button = [alert runModal];
 				if (button == NSAlertDefaultReturn)
 					return;
+#else
+				showWarningAlert(@"Base calibration does not match selected device(s)");
+#endif
 			}
 			[self.collector.dataStore useCalibration:baseStore];
 				
 		}
+#ifdef WITH_APKIT
 		[self.selectionView.bPreRun setEnabled: NO];
-		[self.selectionView.bRun setEnabled: NO];
+#endif
 		if (self.statusView) {
+			[self.statusView.bRun setEnabled: NO];
 			[self.statusView.bStop setEnabled: NO];
 		}
 		// Do actual prerunning
@@ -219,6 +261,8 @@ static NSMutableDictionary *runManagerNibs;
 - (IBAction)stopPreMeasuring: (id)sender
 {
 	@synchronized(self) {
+		assert(self.preRunning);
+		assert(!self.running);
 		self.preRunning = NO;
 		// We now have a ballpark figure for the maximum delay. Use 4 times that as the highest
 		// we are willing to wait for.
@@ -226,11 +270,11 @@ static NSMutableDictionary *runManagerNibs;
         if (!handlesOutput)
             [self.outputCompanion companionStopPreMeasuring];
 		[self.capturer stopCapturing];
+#ifdef WITH_APPKIT
 		[self.selectionView.bPreRun setEnabled: NO];
-		[self.selectionView.bRun setEnabled: YES];
-		if (!self.statusView) {
-			// XXXJACK Make sure statusview is active/visible
-		}
+#endif
+		assert (self.statusView);
+		[self.statusView.bRun setEnabled: YES];
 		[self.statusView.bStop setEnabled: NO];
 	}
 }
@@ -238,22 +282,24 @@ static NSMutableDictionary *runManagerNibs;
 - (IBAction)startMeasuring: (id)sender
 {
     @synchronized(self) {
+		assert(!self.preRunning);
+		assert(!self.running);
         assert(handlesInput);
 		assert(self.measurementType.name);
 		assert(self.capturer.deviceID);
 		assert(self.capturer.deviceName);
-		NSView <OutputViewProtocol> *outputView;
+		NSorUIView <OutputViewProtocol> *outputView;
 		if (handlesOutput)
 			outputView = self.outputView;
 		else
 			outputView = self.outputCompanion.outputView;
 		assert(outputView.deviceID);
 		assert(outputView.deviceName);
+#ifdef WITH_APPKIT
 		[self.selectionView.bPreRun setEnabled: NO];
-		[self.selectionView.bRun setEnabled: NO];
-		if (!self.statusView) {
-			// XXXJACK Make sure statusview is active/visible
-		}
+#endif
+		assert(self.statusView);
+		[self.statusView.bRun setEnabled: NO];
 		[self.statusView.bStop setEnabled: YES];
         self.running = YES;
         if (!handlesOutput)
@@ -301,6 +347,7 @@ static NSMutableDictionary *runManagerNibs;
 	@synchronized(self) {
 		if (self.measurementType == nil) return;
         assert(handlesInput);
+#ifdef WITH_APPKIT
 		if (!self.selectionView) {
 			// XXXJACK Make sure selectionView is active/visible
 			assert(0);
@@ -331,15 +378,17 @@ static NSMutableDictionary *runManagerNibs;
 				[alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
 			}
 		}
+#endif
 		self.preRunning = NO;
 		self.running = NO;
-		[self.selectionView.bRun setEnabled: NO];
 		if (self.statusView) {
+			[self.statusView.bRun setEnabled: NO];
 			[self.statusView.bStop setEnabled: NO];
 		}
-		if (![self prepareInputDevice] || ![self.outputCompanion prepareOutputDevice]) {
-			[self.selectionView.bPreRun setEnabled: NO];
-		}
+#ifdef WITH_APPKIT
+		BOOL devicesOK = ([self prepareInputDevice] && [self.outputCompanion prepareOutputDevice]);
+		[self.selectionView.bPreRun setEnabled: devicesOK];
+#endif
 	}
 }
 
@@ -351,6 +400,28 @@ static NSMutableDictionary *runManagerNibs;
 - (void)stop
 {
 	[NSException raise:@"BaseRunManager" format:@"Must override stop in subclass %@", [self class]];
+}
+
+    
+- (IBAction)stopMeasuring: (id)sender
+{
+    [self stop];
+    [self.collector stopCollecting];
+    [self.collector trim];
+    self.statusView.detectCount = [NSString stringWithFormat: @"%d (after trimming 5%%)", self.collector.count];
+    self.statusView.detectAverage = [NSString stringWithFormat: @"%.3f ms ± %.3f", self.collector.average / 1000.0, self.collector.stddev / 1000.0];
+    [self.statusView update: self];
+	if (self.completionHandler) {
+		[self.completionHandler openUntitledDocumentWithMeasurement: self.collector.dataStore];
+	} else {
+#ifdef WITH_APPKIT
+		AppDelegate *d = (AppDelegate *)[[NSApplication sharedApplication] delegate];
+		[d openUntitledDocumentWithMeasurement:self.collector.dataStore];
+		[self.statusView.window close];
+#else
+		assert(0);
+#endif
+	}
 }
 
 - (void)triggerNewOutputValue
@@ -369,7 +440,7 @@ static NSMutableDictionary *runManagerNibs;
 	[NSException raise:@"BaseRunManager" format:@"Must override newOutputDone in subclass %@", [self class]];
 }
 
-- (void)setFinderRect: (NSRect)theRect
+- (void)setFinderRect: (NSorUIRect)theRect
 {
 	[NSException raise:@"BaseRunManager" format:@"Must override setFinderRect in subclass %@", [self class]];
 }

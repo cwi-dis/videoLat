@@ -8,7 +8,9 @@
 
 #import "MachineDescription.h"
 #import <sys/sysctl.h>
+#if !TARGET_OS_IPHONE
 #import <SystemConfiguration/SystemConfiguration.h>
+#endif
 
 @implementation MachineDescription
 
@@ -27,7 +29,11 @@
 
 - (NSString *)machineName
 {
+#if TARGET_OS_IPHONE
+	return [[UIDevice currentDevice] name];
+#else
     return (__bridge_transfer NSString *)SCDynamicStoreCopyComputerName(nil, nil);
+#endif
 }
 
 - (NSString *)machineTypeID

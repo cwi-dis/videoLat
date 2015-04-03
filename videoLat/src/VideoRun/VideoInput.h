@@ -1,5 +1,5 @@
-#import <Cocoa/Cocoa.h>
 #import <AVFoundation/AVFoundation.h>
+#import "protocols.h"
 #import "genQRcodes.h"
 
 #define WITH_STATISTICS
@@ -8,16 +8,25 @@
 /// Subclass of NSView that shows preview of what the camera has captured, helper class
 /// for VideoInput class.
 ///
-@interface VideoInputView : NSView
+@interface VideoInputView
+#ifdef WITH_UIKIT
+: UIView
+#else
+: NSView
+#endif
 {
+#ifdef WITH_APPKIT
 	NSPoint downPoint;      //!< Internal: position of mouse down event
+#endif
 }
 @property (weak) IBOutlet id delegate;  //!< Set by NIB: corresponding VideoInput object
-@property (weak) IBOutlet NSButton *visibleButton;  //!< UI element, allows user to toggle video preview
+@property (weak) IBOutlet NSorUIButton *visibleButton;  //!< UI element, allows user to toggle video preview
 
+#ifdef WITH_APPKIT
 - (IBAction)visibleChanged:(id)sender;  //!< Called when user toggles visibleButton
 - (void)mouseDown: (NSEvent *)theEvent; //!< Mouse event handler, to allow selecting a rectangular area
 - (void)mouseUp: (NSEvent *)theEvent;   //!< Mouse event handler, to allow selecting a rectangular area
+#endif
 
 @end
 
@@ -55,25 +64,22 @@
 + (NSArray *) allDeviceTypeIDs;
 
 - (uint64_t)now;
+
 - (bool)available;
-- (AVCaptureDevice*)_deviceWithName: (NSString*)name;
 - (NSArray*) deviceNames;
-- (void)_switchToDevice: (AVCaptureDevice*)dev;
 - (BOOL)switchToDeviceWithName: (NSString *)name;
 - (void) startCapturing: (BOOL) showPreview;
+- (void) pauseCapturing: (BOOL) pause;
 - (void) stopCapturing;
+
 - (void) stop;
 
+- (AVCaptureDevice*)_deviceWithName: (NSString*)name;
+- (void)_switchToDevice: (AVCaptureDevice*)dev;
 
-
-
-#ifdef NOTYETFORAVFOUNDATION
-// Delegate method for QTCaptureView:
-- (CIImage *)view:(QTCaptureView *)view willDisplayImage:(CIImage *)image;
-#endif
 
 // Private delegate method for same:
-- (void)focusRectSelected: (NSRect)theRect;
+- (void)focusRectSelected: (NSorUIRect)theRect;
 
 // Delegate methods for QTCaptureVideoPreviewOutput:
 - (void)captureOutput:(AVCaptureOutput *)captureOutput

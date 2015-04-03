@@ -11,6 +11,7 @@
 @implementation VideoSelectionView
 - (void)awakeFromNib
 {
+    [super awakeFromNib];
     [self _updateCameraNames: nil];
     [[NSNotificationCenter defaultCenter]
      addObserver:self
@@ -26,9 +27,17 @@
 
 - (void)_updateCameraNames: (NSNotification*) notification
 {
+    NSArray *newList = [self.inputHandler deviceNames];
+    NSString *oldCam = nil;
+	NSString *newCam = nil;
+#ifdef WITH_UIKIT
+	if (newList && [newList count]) {
+		newCam = [newList objectAtIndex:0];
+	}
+	self.bInputDeviceName.text = newCam;
+#else
     if (VL_DEBUG) NSLog(@"Cameras changed\n");
     // Remember the old selection (if any)
-    NSString *oldCam = nil;
 	NSMenuItem *oldItem = [self.bDevices selectedItem];
     if (oldItem) {
         oldCam = [oldItem title];
@@ -37,18 +46,34 @@
         oldCam = [[NSUserDefaults standardUserDefaults] stringForKey:@"Camera"];
     }
     // Add all cameras
-    NSArray *newList = [self.inputHandler deviceNames];
     [self.bDevices removeAllItems];
     [self.bDevices addItemsWithTitles: newList];
     // Re-select old selection, if possible
     [self _reselectCamera:oldCam];
     // Tell the input handler if the device has changed
     NSMenuItem *newItem = [self.bDevices selectedItem];
-    NSString *newCam = [newItem title];
+    newCam = [newItem title];
+#endif
     if (![newCam isEqualToString:oldCam] || notification == nil)
         [self.inputHandler switchToDeviceWithName:newCam];
 }
 
+#ifdef WITH_UIKIT
+- (IBAction)selectNextCamera: (id)sender
+{
+    NSArray *newList = [self.inputHandler deviceNames];
+	NSUInteger index = [newList indexOfObject: self.bInputDeviceName.text];
+	if (index == NSNotFound)
+		index = -1;
+	index++;
+	if (index >= [newList count]) index = 0;
+	NSString *newCam = [newList objectAtIndex:index];
+	self.bInputDeviceName.text = newCam;
+	[self.inputHandler switchToDeviceWithName:newCam];
+}
+#endif
+
+#ifdef WITH_APPKIT
 - (void)_reselectCamera: (NSString *)oldCam
 {
     if (oldCam)
@@ -65,8 +90,25 @@
 	NSString *cam = [item title];
 	NSLog(@"Switch to %@\n", cam);
 	[self.inputHandler switchToDeviceWithName: cam];
-	assert(self.manager);
-	[self.manager deviceChanged: self];
+	assert(self.selectionDelegate);
+	[self.selectionDelegate selectionChanged: self];
 }
+
+- (NSString *)baseName
+{
+    if (self.bBase == nil) return nil;
+    NSMenuItem *item = [self.bBase selectedItem];
+    if (item == nil) return nil;
+    return [item title];
+}
+
+- (NSString *)deviceName
+{
+    assert(self.bDevices);
+    NSMenuItem *item = [self.bDevices selectedItem];
+    if (item == nil) return nil;
+    return [item title];
+}
+#endif
 
 @end

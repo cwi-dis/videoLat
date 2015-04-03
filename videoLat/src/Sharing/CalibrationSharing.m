@@ -46,11 +46,11 @@
 @end
 
 @interface DownloadHelper : UploadHelper {
-	id<DownloadDelegate> delegate;
+	id<NewMeasurementDelegate> delegate;
 }
 - (UploadHelper *)initWithURL: (NSURL *)_baseURL dict: (NSDictionary *)calibrationData;
 - (void)_done: (NSData *)result;
-- (void)download: (id<DownloadDelegate>) _delegate;
+- (void)download: (id<NewMeasurementDelegate>) _delegate;
 @end
 
 @implementation UploadHelper
@@ -67,42 +67,20 @@
     deviceTypeID = nil;
     uuid = nil;
 	if (dataStore) {
-		measurementTypeID = dataStore.measurementType;
-		MeasurementType *myType = [MeasurementType forType: measurementTypeID];
-		
-		// First check: we only want to upload calibrations, and we want them to be consistent.
-		
-		if (!myType.isCalibration) return nil;
-	#if 1
-		// Axctually, we only want to upload single-ended measurements
-		if (!myType.outputOnlyCalibration && !myType.inputOnlyCalibration) {
+		if (![CalibrationSharing isUploadable: dataStore]) {
 			return nil;
 		}
-	#else
-		if (!myType.outputOnlyCalibration && !myType.inputOnlyCalibration) {
-			if (![dataStore.input.machineTypeID isEqualToString: dataStore.output.machineTypeID]) {
-				NSLog(@"UploadHelper: inconsistent machineTypeID input=%@ output=%@", dataStore.input.machineTypeID, dataStore.output.machineTypeID);
-				return nil;
-			}
-		}
-	#endif
+		measurementTypeID = dataStore.measurementType;
+		MeasurementType *myType = [MeasurementType forType: measurementTypeID];
 		// Get relevant parameters
 		uuid = dataStore.uuid;
 		
 		if (!myType.outputOnlyCalibration) {
-			if (dataStore.input == nil) {
-				NSLog(@"UploadHelper: not output-only calibration but missing input device");
-				return nil;
-			}
 			machineTypeID = dataStore.input.machineTypeID;
 			deviceTypeID = dataStore.input.deviceID;
 		}
 		
 		if (!myType.inputOnlyCalibration) {
-			if (dataStore.input == nil) {
-				NSLog(@"UploadHelper: not output-only calibration but missing input device");
-				return nil;
-			}
 			machineTypeID = dataStore.output.machineTypeID;
 			deviceTypeID = dataStore.output.device;   // Note: the device name is the best we have, the device ID is unique
 		}
@@ -223,6 +201,7 @@
                                             options: NSPropertyListImmutable
                                             format: nil
                                             error: &error];
+	NSLog(@"plist=%@", plist);
 	if (plist == nil) {
 		NSLog(@"ListHelper: result cannot be parsed as property list: %@", error);
 		return;
@@ -270,18 +249,18 @@
     } @catch(NSException *ex) {
         NSLog(@"DownloadHelper: could not unarchive result");
         if (VL_DEBUG) NSLog(@"Data=%s", (char *)[result bytes]);
-        [delegate didDownload: nil];
+        [delegate openUntitledDocumentWithMeasurement: nil];
         return;
     }
 	if (result == nil) {
 		NSLog(@"DownloadHelper: could not unarchive result");
-		[delegate didDownload: nil];
+		[delegate openUntitledDocumentWithMeasurement: nil];
 		return;
 	}
-	[delegate didDownload: _dataStore];
+	[delegate openUntitledDocumentWithMeasurement: _dataStore];
 }
 
-- (void)download: (id<DownloadDelegate>)_delegate
+- (void)download: (id<NewMeasurementDelegate>)_delegate
 {
     delegate = _delegate;
     [self _fillURLWithOp:@"get"];
@@ -306,6 +285,36 @@
         shared = [[CalibrationSharing alloc] initWithServer: [NSURL URLWithString: server]];
     }
     return shared;
+}
+
++ (BOOL)isUploadable:(MeasurementDataStore *)dataStore
+{
+	NSString *measurementTypeID = dataStore.measurementType;
+	MeasurementType *myType = [MeasurementType forType: measurementTypeID];
+	
+	// First check: we only want to upload calibrations, and we want them to be consistent.
+	
+	if (!myType.isCalibration) return NO;
+
+	// Axctually, we only want to upload single-ended measurements
+	if (!myType.outputOnlyCalibration && !myType.inputOnlyCalibration) {
+		return NO;
+	}
+
+	if (!myType.outputOnlyCalibration) {
+		if (dataStore.input == nil) {
+			NSLog(@"UploadHelper: not output-only calibration but missing input device");
+			return NO;
+		}
+	}
+	
+	if (!myType.inputOnlyCalibration) {
+		if (dataStore.input == nil) {
+			NSLog(@"UploadHelper: not output-only calibration but missing input device");
+			return NO;
+		}
+	}
+	return YES;
 }
 
 - initWithServer: (NSURL *)server
@@ -342,7 +351,7 @@
     }
 }
 
-- (void)downloadAsynchronously: (NSDictionary *)calibration delegate: (id<DownloadDelegate>) delegate
+- (void)downloadAsynchronously: (NSDictionary *)calibration delegate: (id<NewMeasurementDelegate>) delegate
 {
     DownloadHelper *helper = [[DownloadHelper alloc] initWithURL: baseURL dict: calibration];
     if (helper) {

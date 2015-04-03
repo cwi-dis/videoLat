@@ -6,7 +6,6 @@
 //
 //
 
-#import <Cocoa/Cocoa.h>
 #import "MeasurementDataStore.h"
 #import "protocols.h"
 

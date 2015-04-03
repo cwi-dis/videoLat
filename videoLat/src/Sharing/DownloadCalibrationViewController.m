@@ -72,9 +72,9 @@
     }
 }
 
-- (void)didDownload: (MeasurementDataStore *)dataStore
+- (void)openUntitledDocumentWithMeasurement: (MeasurementDataStore *)dataStore
 {
-	NSLog(@"DidDownload: %@", dataStore);
+	NSLog(@"openUntitledDocumentWithMeasurement: %@", dataStore);
 	if (dataStore) {
 		AppDelegate *ad = (AppDelegate *)[[NSApplication sharedApplication] delegate];
 		[ad performSelectorOnMainThread:@selector(openUntitledDocumentWithMeasurement:) withObject:dataStore waitUntilDone:NO];
