@@ -9,10 +9,6 @@
 #import "MainMenuTableViewController.h"
 #import "DocumentViewController.h"
 
-@interface MainMenuTableViewController ()
-
-@end
-
 @implementation MainMenuTableViewController
 
 - (void)viewDidLoad {

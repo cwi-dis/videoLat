@@ -59,7 +59,7 @@
     int rv = getsockname(sock, (struct sockaddr *)&myAddr, &myAddrLen);
     if (rv < 0) {
         NSLog(@"getsockname failed: %s", strerror(errno));
-        return nil;
+        return -1;
     }
     
     return ntohs(myAddr.sin_port);

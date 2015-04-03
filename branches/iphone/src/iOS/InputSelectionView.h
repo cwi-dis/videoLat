@@ -13,8 +13,8 @@
     NSArray *_baseNames;
 }
 
-@property(weak) IBOutlet UIPickerView *bBase;          //!< UI element: available calibration runs
-@property(weak) IBOutlet UILabel *bBaseLabel;
-@property(weak) IBOutlet UILabel *bInputDeviceName;
+@property(weak) IBOutlet UIPickerView *bBase;			//!< UI element: available calibration runs
+@property(weak) IBOutlet UILabel *bBaseLabel;			//!< UI element: label for the calibration picker
+@property(weak) IBOutlet UILabel *bInputDeviceName;		//!< UI element: name of selected input device
 
 @end

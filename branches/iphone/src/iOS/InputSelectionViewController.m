@@ -9,10 +9,6 @@
 #import "InputSelectionViewController.h"
 #import "MeasurementContainerViewController.h"
 
-@interface InputSelectionViewController ()
-
-@end
-
 @implementation InputSelectionViewController
 
 - (void)viewDidLoad {

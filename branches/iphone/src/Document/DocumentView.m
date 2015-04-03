@@ -135,16 +135,13 @@
     [self.modelObject changed];
 }
 
+#ifdef WITH_APPKIT
 - (IBAction)openInputCalibration:(id)sender
 {
     AppDelegate *d = (AppDelegate *)[[NSorUIApplication sharedApplication] delegate];
     MeasurementDataStore *s = self.modelObject.dataStore.inputCalibration;
     if (d && s) {
-#ifdef WITH_UIKIT_TEMP
-		assert(0);
-#else
         [d openUntitledDocumentWithMeasurement:s];
-#endif
     }
 }
 
@@ -153,13 +150,10 @@
     AppDelegate *d = (AppDelegate *)[[NSorUIApplication sharedApplication] delegate];
     MeasurementDataStore *s = self.modelObject.dataStore.outputCalibration;
     if (d && s) {
-#ifdef WITH_UIKIT_TEMP
-		assert(0);
-#else
         [d openUntitledDocumentWithMeasurement:s];
-#endif
     }
 }
+#endif
 
 #ifdef WITH_UIKIT
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView

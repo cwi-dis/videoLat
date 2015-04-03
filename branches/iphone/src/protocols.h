@@ -126,9 +126,9 @@
 @protocol SelectionView
 #ifdef WITH_APPKIT
 @property(weak)IBOutlet NSPopUpButton *bBase;
+@property(weak) IBOutlet NSButton *bPreRun;         //!< UI element: start preparing a measurement run
 #endif
 
-@property(weak) IBOutlet NSorUIButton *bPreRun;         //!< UI element: start preparing a measurement run
 @property(weak) IBOutlet NSObject <SelectionViewDelegate> *selectionDelegate;
 
 #ifdef WITH_UIKIT

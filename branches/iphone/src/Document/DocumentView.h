@@ -38,14 +38,15 @@
 @property(weak) IBOutlet UIView *scrolledView;
 #endif
 
+- (void)_updateView;     //!< Updates variables in status view so they reflect the document values
+- (void)controlTextDidChange:(NSNotification *)aNotification;   //!< Called when description in status view has changed, updates the document
 
 #ifdef WITH_APPKIT
 - (void)viewWillDraw;   //!< Called by window manager just before viewing, calls updateView if needed
-#endif
-- (void)_updateView;     //!< Updates variables in status view so they reflect the document values
-- (void)controlTextDidChange:(NSNotification *)aNotification;   //!< Called when description in status view has changed, updates the document
 - (IBAction)openInputCalibration:(id)sender;
 - (IBAction)openOutputCalibration:(id)sender;
+#endif
+
 #ifdef WITH_UIKIT
 - (NSData *)generatePDF;
 #endif

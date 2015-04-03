@@ -1,8 +1,6 @@
 #import <AVFoundation/AVFoundation.h>
 #import "protocols.h"
-#ifndef WITH_UIKIT_TEMP
 #import "genQRcodes.h"
-#endif
 
 #define WITH_STATISTICS
 

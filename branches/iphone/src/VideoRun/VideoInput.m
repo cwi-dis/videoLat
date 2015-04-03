@@ -391,20 +391,6 @@
 	capturing = NO;
 }
 
-
-#ifdef NOTYETFORAVFOUNDATION
-
-- (CIImage *)view:(QTCaptureView *)view willDisplayImage:(CIImage *)image
-{
-	NSRect wbounds = [view previewBounds];
-	CGRect ibounds = [image extent];
-	xFactor = ibounds.size.width / wbounds.size.width;
-	yFactor = ibounds.size.height / wbounds.size.height;
-
-    // Noneed to process, show original image.
-    return nil;
-}
-#endif
 - (void)focusRectSelected: (NSorUIRect)theRect
 {
 	theRect.origin.x *= xFactor;

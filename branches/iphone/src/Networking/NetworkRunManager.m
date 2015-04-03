@@ -740,7 +740,9 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 		[self _updateStatus: @"Determining RTT"];
 		statusToPeer = @"Determining RTT";
         assert(handlesInput);
+#ifdef WITH_APPKIT
         [self.selectionView.bPreRun setEnabled: NO];
+#endif
         [self.statusView.bRun setEnabled: NO];
         if (self.statusView) {
             [self.statusView.bStop setEnabled: NO];
@@ -765,7 +767,9 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
             [self.outputCompanion companionStopPreMeasuring];
 //        outputLevel = 0.5;
 //        newOutputValueWanted = NO;
+#ifdef WITH_APPKIT
         [self.selectionView.bPreRun setEnabled: NO];
+#endif
         [self.statusView.bRun setEnabled: NO];
         //
         // We should now have the correct output device (locally) and input device (received from remote)
@@ -838,7 +842,9 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
     @synchronized(self) {
 		[self _updateStatus: @"Running measurements"];
 		statusToPeer = @"Running measurements";
+#ifdef WITH_APPKIT
         [self.selectionView.bPreRun setEnabled: NO];
+#endif
         [self.statusView.bRun setEnabled: NO];
         if (!self.statusView) {
             // XXXJACK Make sure statusview is active/visible

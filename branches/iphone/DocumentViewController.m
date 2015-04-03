@@ -10,10 +10,6 @@
 #import "DocumentActionViewController.h"
 #import "CalibrationSharing.h"
 
-@interface DocumentViewController ()
-
-@end
-
 @implementation DocumentViewController
 
 - (Document *)document { return _document; }

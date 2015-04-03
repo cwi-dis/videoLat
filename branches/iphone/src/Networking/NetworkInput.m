@@ -5,6 +5,12 @@
 #import <mach/clock.h>
 
 @implementation NetworkInput
+
+- (NSArray *)deviceNames
+{
+	return @[];
+}
+
 - (NSString *)deviceID
 {
     return @"NetworkInput";
@@ -13,6 +19,11 @@
 - (NSString *)deviceName
 {
     return @"NetworkInput";
+}
+
+- (BOOL)switchToDeviceWithName:(NSString *)name
+{
+	assert(0);
 }
 
 - (NetworkInput *)init

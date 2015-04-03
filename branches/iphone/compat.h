@@ -13,7 +13,6 @@
 
 #if TARGET_OS_IPHONE
 #define WITH_UIKIT
-#define WITH_UIKIT_TEMP
 #import <CoreGraphics/CoreGraphics.h>
 #import <UIKit/UIKit.h>
 typedef UIApplication NSorUIApplication;

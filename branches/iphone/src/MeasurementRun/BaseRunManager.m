@@ -47,7 +47,7 @@ static NSMutableDictionary *runManagerSelectionNibs;
     // XXXJACK assert it is a subclass of BaseRunManager
     Class oldClass = [runManagerClasses objectForKey:name];
     if (oldClass != nil && oldClass != managerClass) {
-        NSLog(@"BaseRunManager: attempt to set class for %@ to %@ but ist was already set to %@\n", name, managerClass, oldClass);
+        NSLog(@"BaseRunManager: attempt to set class for %@ to %@ but it was already set to %@\n", name, managerClass, oldClass);
         abort();
     }
     if (VL_DEBUG) NSLog(@"BaseRunManager: Register %@ for %@\n", managerClass, name);
@@ -92,6 +92,7 @@ static NSMutableDictionary *runManagerSelectionNibs;
     return [runManagerSelectionNibs objectForKey:name];
 }
 #endif
+
 @synthesize measurementType;
 
 - (BaseRunManager *) init
@@ -236,7 +237,9 @@ static NSMutableDictionary *runManagerSelectionNibs;
 			[self.collector.dataStore useCalibration:baseStore];
 				
 		}
+#ifdef WITH_APKIT
 		[self.selectionView.bPreRun setEnabled: NO];
+#endif
 		if (self.statusView) {
 			[self.statusView.bRun setEnabled: NO];
 			[self.statusView.bStop setEnabled: NO];
@@ -267,7 +270,9 @@ static NSMutableDictionary *runManagerSelectionNibs;
         if (!handlesOutput)
             [self.outputCompanion companionStopPreMeasuring];
 		[self.capturer stopCapturing];
+#ifdef WITH_APPKIT
 		[self.selectionView.bPreRun setEnabled: NO];
+#endif
 		assert (self.statusView);
 		[self.statusView.bRun setEnabled: YES];
 		[self.statusView.bStop setEnabled: NO];
@@ -290,7 +295,9 @@ static NSMutableDictionary *runManagerSelectionNibs;
 			outputView = self.outputCompanion.outputView;
 		assert(outputView.deviceID);
 		assert(outputView.deviceName);
+#ifdef WITH_APPKIT
 		[self.selectionView.bPreRun setEnabled: NO];
+#endif
 		assert(self.statusView);
 		[self.statusView.bRun setEnabled: NO];
 		[self.statusView.bStop setEnabled: YES];
@@ -378,8 +385,10 @@ static NSMutableDictionary *runManagerSelectionNibs;
 			[self.statusView.bRun setEnabled: NO];
 			[self.statusView.bStop setEnabled: NO];
 		}
+#ifdef WITH_APPKIT
 		BOOL devicesOK = ([self prepareInputDevice] && [self.outputCompanion prepareOutputDevice]);
 		[self.selectionView.bPreRun setEnabled: devicesOK];
+#endif
 	}
 }
 

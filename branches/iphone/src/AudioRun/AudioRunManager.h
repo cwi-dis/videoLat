@@ -39,10 +39,6 @@
 - (AudioRunManager *)init;  //!< Initializer
 - (void)stop;
 
-- (IBAction)startPreMeasuring: (id)sender;  //!< Called when user presses "prepare" button
-- (IBAction)stopPreMeasuring: (id)sender;   //!< Internal: stop pre-measuring because we have heard enough
-- (IBAction)startMeasuring: (id)sender;     //!< Called when user presses "start" button
-
 - (void)triggerNewOutputValue;
 //- (void) _prerunRecordNoReception;
 //- (void) _prerunRecordReception: (NSString *)code;
