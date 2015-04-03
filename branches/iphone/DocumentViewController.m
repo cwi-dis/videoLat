@@ -83,6 +83,9 @@
 - (void) _doPrint: (id) dummy
 {
     NSLog(@"doPrint");
+    NSData *docData = [self.view generatePDF];
+	assert([UIPrintInteractionController canPrintData: docData]);
+
     void (^completionHandler)(UIPrintInteractionController *, BOOL, NSError *) =
         ^(UIPrintInteractionController *printController, BOOL completed, NSError *error) {
             if(!completed && error){
@@ -90,10 +93,14 @@
             }
         };
     
-    UIViewPrintFormatter *formatter = self.view.scrolledView.viewPrintFormatter;
-    assert(formatter);
     UIPrintInteractionController *controller = [UIPrintInteractionController sharedPrintController];
-    controller.printFormatter = formatter;
+	UIPrintInfo *printInfo = [UIPrintInfo printInfo];
+	printInfo.outputType = UIPrintInfoOutputGeneral;
+	printInfo.jobName = [self.document.fileURL lastPathComponent];
+	printInfo.duplex = UIPrintInfoDuplexLongEdge;
+	controller.printInfo = printInfo;
+	controller.showsPageRange = NO;
+	controller.printingItem = docData;
 
     [controller presentAnimated:YES completionHandler:completionHandler];
 }
