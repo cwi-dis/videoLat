@@ -46,4 +46,7 @@
 - (void)controlTextDidChange:(NSNotification *)aNotification;   //!< Called when description in status view has changed, updates the document
 - (IBAction)openInputCalibration:(id)sender;
 - (IBAction)openOutputCalibration:(id)sender;
+#ifdef WITH_UIKIT
+- (NSData *)generatePDF;
+#endif
 @end

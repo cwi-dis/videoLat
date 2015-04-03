@@ -234,5 +234,35 @@
     self.contentSize = contentSize;
 }
 
+- (NSData *)generatePDF
+{
+   NSMutableData * pdfData=[NSMutableData data];
+
+   // by default, the UIKit will create a 612x792 page size (8.5 x 11 inches)
+   // if you pass in CGRectZero for the size
+   CGRect pageSize = self.scrolledView.bounds; // CGRectZero
+   UIGraphicsBeginPDFContextToData(pdfData, pageSize,nil);
+   CGContextRef pdfContext=UIGraphicsGetCurrentContext();
+ 
+   // repeat the code between the lines for each pdf page you want to output
+   // ======================================================================
+   UIGraphicsBeginPDFPage();
+ 
+   // add code to update the UI elements in the first page here
+     
+   // use the currently being outputed view's layer here   
+   [self.scrolledView.layer renderInContext:pdfContext];
+ 
+   // end repeat code
+   // ======================================================================
+ 
+   // finally end the PDF context.
+   UIGraphicsEndPDFContext();
+ 
+   // and return the PDF data.
+   return pdfData;
+
+}
+
 #endif
 @end

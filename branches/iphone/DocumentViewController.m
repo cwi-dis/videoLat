@@ -140,27 +140,21 @@
 - (void) _doEmailAsPDF: (id) dummy
 {
     NSLog(@"doEmailAsPDF");
-#if 0
-    NSError *error;
-    NSData *docData = [self.document getPDFData];
-    if (error) {
-        showErrorAlert(error);
-        return;
-    }
+    NSData *docData = [self.view generatePDF];
     MFMailComposeViewController *picker = [[MFMailComposeViewController alloc] init];
     picker.mailComposeDelegate = self;
     
-    [picker setSubject:@"videoLat measurement result"];
+    [picker setSubject:@"PDF of videoLat measurement result"];
     
     // Set up recipients
     
     // Attach the data to the email
-    [picker addAttachmentData:docData mimeType:@"application/octet-stream" fileName: [self.document.fileURL lastPathComponent]];
+    NSString *baseName = [[self.document.fileURL lastPathComponent] stringByDeletingPathExtension];    // Attach the data to the email
+    [picker addAttachmentData:docData mimeType:@"application/pdf" fileName: [baseName stringByAppendingPathExtension:@"pdf"]];
     
     // Fill out the email body text
     
     [self presentViewController:picker animated:YES completion:NULL];
-#endif
 }
 
 - (IBAction)documentEmailAsCSV:(UIStoryboardSegue *)sender
