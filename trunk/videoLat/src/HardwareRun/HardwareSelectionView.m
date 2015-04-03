@@ -31,8 +31,40 @@
 	NSMenuItem *item = [sender selectedItem];
 	NSString *device = [item title];
 	NSLog(@"Switch to %@\n", device);
-	assert(self.manager);
-	[self.manager deviceChanged: self];
+	assert(self.selectionDelegate);
+	[self.selectionDelegate selectionChanged: self];
+}
+
+- (void)setBases: (NSArray *)baseNames
+{
+	assert(self.bBase);
+    [self.bBase removeAllItems];
+    [self.bBase addItemsWithTitles: baseNames];
+	[self.selectionDelegate selectionChanged:self];
+}
+
+- (void)disableBases
+{
+	if (self.bBase) {
+		[self.bBase setEnabled: NO];
+		[self.bBase selectItem: nil];
+	}
+}
+
+- (NSString *)baseName
+{
+	if (self.bBase == nil) return nil;
+	NSMenuItem *item = [self.bBase selectedItem];
+	if (item == nil) return nil;
+	return [item title];
+}
+
+- (NSString *)deviceName
+{
+	assert(self.bDevices);
+	NSMenuItem *item = [self.bDevices selectedItem];
+	if (item == nil) return nil;
+	return [item title];
 }
 
 @end

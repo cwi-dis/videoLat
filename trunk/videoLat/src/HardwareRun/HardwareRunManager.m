@@ -62,15 +62,11 @@
     [self restart];
 }
 
-- (IBAction) deviceChanged: (id)sender
+- (IBAction) selectionChanged: (id)sender
 {
     if (!handlesInput) return;
     lastError = nil;
-    if (self.selectionView.bDevices == nil)
-        return;
-    if ([self.selectionView.bDevices indexOfSelectedItem] == 0)
-        return;
-    NSString *selectedDevice = [self.selectionView.bDevices titleOfSelectedItem];
+    NSString *selectedDevice = [self.selectionView deviceName];
     NSString *oldDevice = nil;
     if (self.device)
         oldDevice = [self.device deviceName];
@@ -111,7 +107,7 @@
     connected = [self.device available];
     [self.bConnected setState: (int)connected];
     [self.selectionView.bPreRun setEnabled: connected];
-    [self.selectionView.bRun setEnabled: NO];
+    [self.statusView.bRun setEnabled: NO];
     self.preRunning = NO;
     self.running = NO;
     minInputLevel = 1.0;
@@ -127,12 +123,7 @@
 - (IBAction)selectBase: (id) sender
 {
 	assert(self.selectionView);
-    if (self.selectionView.bBase == nil) {
-        NSLog(@"HardwareRunManager: bBase == nil");
-        return;
-    }
-    NSMenuItem *baseItem = [self.selectionView.bBase selectedItem];
-    NSString *baseName = [baseItem title];
+    NSString *baseName = [self.selectionView baseName];
     if (baseName == nil) {
         NSLog(@"HardwareRunManager: baseName == nil");
         return;
@@ -364,29 +355,6 @@
     if (VL_DEBUG) NSLog(@"triggerNewOutputValue called");
 }
 
-#if 0
-- (IBAction)startPreMeasuring: (id)sender
-{
-	@synchronized(self) {
-        assert(handlesInput);
-        // XXXX No need to check base measuremen??
-        [self.bPreRun setEnabled: NO];
-        [self.bRun setEnabled: NO];
-        if (self.statusView) {
-            [self.statusView.bStop setEnabled: NO];
-        }
-        // Do actual prerunning
-        prerunMoreNeeded = self.initialPrerunCount;
-        if (!handlesOutput) {
-            BOOL ok = [self.outputCompanion companionStartPreMeasuring];
-            if (!ok) return;
-        }
-        self.preRunning = YES;
-        [self.outputCompanion triggerNewOutputValue];
-    }
-}
-#endif
-
 - (IBAction)stopPreMeasuring: (id)sender
 {
 #if 1
@@ -430,11 +398,11 @@
 
 - (BOOL) _prepareDevice
 {
-	if (self.selectionView.bDevices == nil && self.selectionView.bBase == nil) {
+	if (self.selectionView == nil) {
 		// Not fully initialized yet
 		return NO;
 	}
-	[self deviceChanged: self];
+	[self selectionChanged: self];
 	[self selectBase: self];
 
 	if (self.device == nil) {

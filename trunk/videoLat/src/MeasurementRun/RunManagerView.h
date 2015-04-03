@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "RunStatusView.h"
 #import "RunCollector.h"
-#import "BaseRunManager.h"
 
 @class BaseRunManager;
 ///
@@ -22,14 +21,13 @@
 /// then populate the IBOutlets of this view with the various views and objects that
 /// allow the measurement run to proceed.
 ///
-@interface RunManagerView : NSView {
+@interface RunManagerView : NSorUIView {
 }
 @property(strong) IBOutlet BaseRunManager *runManager;			//!< Set by  measurement type NIB: reference to corresponding BaseRunManager subclass
-@property(strong) IBOutlet NSView *selectionView;	//!< Set by  measurement type NIB: reference to the view where user can select input source.
-@property(strong) IBOutlet NSView *outputView;		//!< Set by  measurement type NIB: reference to the view where output is shown
+@property(strong) IBOutlet NSorUIView *selectionView;	//!< Set by  measurement type NIB: reference to the view where user can select input source.
+@property(strong) IBOutlet NSorUIView *outputView;		//!< Set by  measurement type NIB: reference to the view where output is shown
 @property(weak) IBOutlet RunStatusView *statusView;	//!< Set by our NIB: reference to the runtime status view (average/count)
 
 - (void)terminate;						//!< Unused?
-- (IBAction)stopMeasuring: (id)sender;	//!< Called when user presses "stop" button
 
 @end

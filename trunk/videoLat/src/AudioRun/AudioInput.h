@@ -1,6 +1,5 @@
-#import <Cocoa/Cocoa.h>
 #import <AVFoundation/AVFoundation.h>
-#import "genQRcodes.h"
+#import "protocols.h"
 
 @interface AudioInput : NSObject <ClockProtocol, InputCaptureProtocol, AVCaptureAudioDataOutputSampleBufferDelegate> {
     AVCaptureAudioDataOutput *outputCapturer;
@@ -8,7 +7,7 @@
     dispatch_queue_t sampleBufferQueue;
 	NSString *deviceID;
 	NSString *deviceName;
-#if __MAC_OS_X_VERSION_MAX_ALLOWED >= 1080
+#if TARGET_OS_IPHONE || (__MAC_OS_X_VERSION_MAX_ALLOWED >= 1080)
     CMClockRef clock;
 #endif
     uint64_t epoch;
@@ -16,16 +15,24 @@
 }
 @property (readonly) NSString *deviceID;
 @property (readonly) NSString *deviceName;
-@property(weak) IBOutlet NSLevelIndicator *bInputValue;
 @property(weak) IBOutlet id <RunInputManagerProtocol> manager;
+#ifdef WITH_UIKIT
+@property(weak) IBOutlet UIProgressView *bInputValue;
+#else
+@property(weak) IBOutlet NSLevelIndicator *bInputValue;
+#endif
 
 - (uint64_t)now;
+
 - (bool)available;
-- (AVCaptureDevice*)_deviceWithName: (NSString*)name;
 - (NSArray*) deviceNames;
-- (void)_switchToDevice: (AVCaptureDevice*)dev;
 - (BOOL)switchToDeviceWithName: (NSString *)name;
 - (void) startCapturing: (BOOL) showPreview;
+- (void) pauseCapturing: (BOOL) pause;
 - (void) stopCapturing;
+
 - (void) stop;
+
+- (AVCaptureDevice*)_deviceWithName: (NSString*)name;
+- (void)_switchToDevice: (AVCaptureDevice*)dev;
 @end

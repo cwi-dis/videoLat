@@ -39,6 +39,7 @@
 @property(weak) IBOutlet NetworkSelectionView *selectionView;   //!< UI element: all available cameras
 @property(weak) IBOutlet id <InputVideoFindProtocol> finder;    //!< Assigned in NIB: matches incoming QR codes
 @property(weak) IBOutlet NetworkOutputView *outputView;         //!< Assigned in NIB: visual feedback view of output for the user
+@property(weak) IBOutlet NetworkSelectionView *selectionViewForStatusOnly;         //!< Assigned in NIB: view that allows viewing network status
 @property NetworkProtocolCommon *protocol;
 
 + (void)initialize;	//!< Class initializer.

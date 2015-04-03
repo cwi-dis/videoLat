@@ -9,7 +9,7 @@
 #import "findQRcodes.h"
 #import <mach/mach.h>
 #import <mach/mach_time.h>
-#import <CoreServices/CoreServices.h>
+//#import <CoreServices/CoreServices.h>
 
 #define fourcc(a, b, c, d)                      \
     ((uint32_t)(a) | ((uint32_t)(b) << 8) |     \
@@ -23,7 +23,7 @@
 {
     self = [super init];
     lastCode = NULL;
-    rect = NSMakeRect(0, 0, -1, -1);
+    rect = NSorUIMakeRect(0, 0, -1, -1);
     zbar::ImageScanner *scanner = new zbar::ImageScanner;
     scanner_hidden = (void*)scanner;
 
@@ -31,19 +31,11 @@
 	int rv;
 	rv = scanner->set_config(zbar::ZBAR_NONE, zbar::ZBAR_CFG_ENABLE, 0);
 	if (rv) {
-		NSRunAlertPanel(
-			@"Error",
-			@"findQRcodes: set_config(0) returned %d.", 
-			nil, nil, nil,
-			rv);
+        showWarningAlert(@"findQRcodes: set_config(0) returned error");
 	}
 	rv = scanner->set_config(zbar::ZBAR_QRCODE, zbar::ZBAR_CFG_ENABLE, 1);
 	if (rv) {
-		NSRunAlertPanel(
-			@"Error",
-			@"findQRcodes: set_config(QRCODE) returned %d.", 
-			nil, nil, nil,
-			rv);
+        showWarningAlert(@"findQRcodes: set_config(ZBAR_QRCODE) returned error");
 	}
 
     return self;
@@ -88,20 +80,16 @@
                 i++;
             } while (x>=0 && y>=0);
             if (i >= 3) 
-                rect = NSMakeRect(minx, miny, (maxx-minx), (maxy-miny));
+                rect = NSorUIMakeRect(minx, miny, (maxx-minx), (maxy-miny));
             if (lastCode) free(lastCode);
             lastCode = strdup(decoded.c_str());
 			return lastCode;
 		}
-		NSRunAlertPanel(
-			@"Error",
-			@"QRCode detection: was promised %d symbols but found none??", 
-			nil, nil, nil,
-			n);
+		showWarningAlert(@"QRCode detection: was promised %d symbols but found none??");
         assert(0);
         return NULL;
 	} else {
-        rect = NSMakeRect(-1, -1, -1, -1);
+        rect = NSorUIMakeRect(-1, -1, -1, -1);
         return NULL;
 	}
 }

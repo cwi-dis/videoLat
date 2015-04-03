@@ -23,6 +23,7 @@ if test -f thirdParty/libpng-1.5.18/configure; then
 			CFLAGS="-arch i386 -arch x86_64" \
 			CXXFLAGS="-arch i386 -arch x86_64" \
 			LDFLAGS="-arch i386 -arch x86_64"
+		make clean
 		make
 		make install
 	)
@@ -57,6 +58,7 @@ fi
 			CFLAGS="-arch i386 -arch x86_64" \
 			CXXFLAGS="-arch i386 -arch x86_64" \
 			LDFLAGS="-arch i386 -arch x86_64"
+	make clean
 	make
 	make install
 )
@@ -65,6 +67,7 @@ fi
 #
 (
 	cd thirdParty/zint-2.4.3
+	make clean
 	make prefix=$INST
 	make install prefix=$INST
 )

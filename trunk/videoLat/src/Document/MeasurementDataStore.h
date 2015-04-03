@@ -48,7 +48,7 @@
 @property(readonly) double baseMeasurementAverage;  //!< Records average of base measurement, for convenience
 @property(readonly) double baseMeasurementStddev;  //!< Records stddev of base measurement, for convenience
 
-
+@property(readonly) NSString *descriptiveName;
 ///
 /// Adds a single measurement.
 /// @param data the data transmitted and received

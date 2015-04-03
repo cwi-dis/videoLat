@@ -9,6 +9,12 @@
 #import "GraphView.h"
 #import "math.h"
 
+#ifdef WITH_UIKIT
+// This is gross, I know...
+#define stringValue text
+#define lineToPoint addLineToPoint
+#endif
+
 static double _RoundUpTo125(double value)
 {
     if (value == 0)
@@ -65,11 +71,22 @@ static double normFunc(double x, double average, double stddev)
 @synthesize showAverage;
 @synthesize showNormal;
 
-- (GraphView *)initWithFrame:(NSRect)frameRect
+- (NSObject<GraphDataProviderProtocol> *)modelObject { return _modelObject; }
+- (void)setModelObject: (NSObject<GraphDataProviderProtocol> *) modelObject
+{
+    _modelObject = modelObject;
+#ifdef WITH_UIKIT
+    [self setNeedsDisplay];
+#else
+    [self setNeedsDisplay: YES];
+#endif
+}
+
+- (GraphView *)initWithFrame:(NSorUIRect)frameRect
 {
     self = [super initWithFrame:frameRect];
 	if (self) {
-		self.color = [NSColor blueColor];
+		self.color = [NSorUIColor blueColor];
 		self.xLabelScaleFactor = [NSNumber numberWithInt:1];
 		self.yLabelScaleFactor = [NSNumber numberWithInt:1];
 		self.xLabelFormat = @"%f";
@@ -80,30 +97,50 @@ static double normFunc(double x, double average, double stddev)
     return self;
 }
 
+- (GraphView *)initWithCoder:(NSCoder *)decoder
+{
+    self = [super initWithCoder: decoder];
+    if (self) {
+        self.color = [NSorUIColor blueColor];
+        self.xLabelScaleFactor = [NSNumber numberWithInt:1];
+        self.yLabelScaleFactor = [NSNumber numberWithInt:1];
+        self.xLabelFormat = @"%f";
+        self.yLabelFormat = @"%f";
+        self.showAverage = NO;
+        self.showNormal = NO;
+    }
+    return self;
+}
 
-- (void)drawRect:(NSRect)dirtyRect {
-    if (self.source == nil || [self.source count] == 0) {
+- (void)drawRect:(NSorUIRect)dirtyRect {
+    if (self.modelObject == nil || [self.modelObject count] == 0) {
         NSLog(@"Empty document for graph\n");
         return;
     }
-    NSRect dstRect = [self bounds];
-	[[NSColor whiteColor] set];
-	NSRectFill(dstRect);
+    NSorUIRect dstRect = [self bounds];
+#ifdef WITH_UIKIT
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSaveGState(context);
+    CGContextScaleCTM(context, 1, -1);
+    CGContextTranslateCTM(context, 0, -self.bounds.size.height);
+#endif
+	[[NSorUIColor whiteColor] set];
+	NSorUIRectFill(dstRect);
 
-	[[NSColor blackColor] set];
-    NSBezierPath *axis = [NSBezierPath bezierPath];
-	[axis moveToPoint: NSMakePoint(dstRect.origin.x, dstRect.origin.y + dstRect.size.height)];
+	[[NSorUIColor blackColor] set];
+    NSorUIBezierPath *axis = [NSorUIBezierPath bezierPath];
+	[axis moveToPoint: NSorUIMakePoint(dstRect.origin.x, dstRect.origin.y + dstRect.size.height)];
 	[axis lineToPoint: dstRect.origin];
-	[axis lineToPoint: NSMakePoint(dstRect.origin.x+ dstRect.size.width, dstRect.origin.y)];
+	[axis lineToPoint: NSorUIMakePoint(dstRect.origin.x+ dstRect.size.width, dstRect.origin.y)];
 	[axis stroke];
 	
-    CGFloat width = NSWidth(dstRect);
-    CGFloat height = NSHeight(dstRect);
-    
+    CGFloat width = NSorUIWidth(dstRect);
+    CGFloat height = NSorUIHeight(dstRect);
+
     // Determine X scale. Start at zero, unless we get less than a pixel per value,
     // then we discard the oldest data (lowest X indices)
-    CGFloat minX = self.source.minXaxis;
-    CGFloat maxX = self.source.maxXaxis;
+    CGFloat minX = self.modelObject.minXaxis;
+    CGFloat maxX = self.modelObject.maxXaxis;
 	CGFloat minXaxis = (CGFloat)_RoundUpTo125(minX);
     CGFloat maxXaxis = (CGFloat)_RoundUpTo125(maxX);
     CGFloat xPixelPerUnit = width / (CGFloat)(maxXaxis-minXaxis);
@@ -121,9 +158,9 @@ static double normFunc(double x, double average, double stddev)
 #endif
 
     // Determine Y scale. Go from at least 0 to at least max, but round up to 1/2/5 first digit.
-    CGFloat minY = self.source.min;
+    CGFloat minY = self.modelObject.min;
 	if (minY > 0) minY = 0;
-    CGFloat maxY = self.source.max;
+    CGFloat maxY = self.modelObject.max;
     CGFloat minYaxis = (CGFloat)_RoundUpTo125(minY);
     CGFloat maxYaxis = (CGFloat)_RoundUpTo125(maxY);
 
@@ -140,18 +177,22 @@ static double normFunc(double x, double average, double stddev)
 
     if (VL_DEBUG) NSLog(@"%f < x < %f (scale=%f, axis=%f..%f) %f < y < %f (scale=%f, axis=%f..%f)\n", minX, maxX, xPixelPerUnit, minXaxis, maxXaxis, minY, maxY, yPixelPerUnit, minYaxis, maxYaxis);
 
-	NSBezierPath *path;
+	NSorUIBezierPath *path;
 	// Draw the x=0 and y=0 lines, if visible
-	NSColor *axisColor = [[NSColor whiteColor] shadowWithLevel: 0.3];
+#ifdef WITH_UIKIT
+	NSorUIColor *axisColor = [NSorUIColor colorWithRed:0.7 green:0.7 blue:0.7 alpha:1];
+#else
+	NSorUIColor *axisColor = [[NSorUIColor whiteColor] shadowWithLevel: 0.3];
+#endif
 	double gridlineSpacer = _dividerSteps(minYaxis, maxYaxis);
 	double gridLinePosition = 0;
 	while (gridLinePosition > minYaxis) gridLinePosition -= gridlineSpacer;
 	gridLinePosition += gridlineSpacer;
 	while (gridLinePosition <= maxYaxis) {
-		path = [NSBezierPath bezierPath];
+		path = [NSorUIBezierPath bezierPath];
 		double value = (gridLinePosition-minYaxis)*yPixelPerUnit;
-		[path moveToPoint: NSMakePoint(dstRect.origin.x, value)];
-        [path lineToPoint: NSMakePoint(dstRect.origin.x+dstRect.size.width, value)];
+		[path moveToPoint: NSorUIMakePoint(dstRect.origin.x, value)];
+        [path lineToPoint: NSorUIMakePoint(dstRect.origin.x+dstRect.size.width, value)];
         [axisColor set];
         [path stroke];
 		path = nil;
@@ -162,10 +203,10 @@ static double normFunc(double x, double average, double stddev)
 	while (gridLinePosition > minXaxis) gridLinePosition -= gridlineSpacer;
 	gridLinePosition += gridlineSpacer;
 	while (gridLinePosition <= maxXaxis) {
-		path = [NSBezierPath bezierPath];
+		path = [NSorUIBezierPath bezierPath];
 		double value = (gridLinePosition-minXaxis)*xPixelPerUnit;
-		[path moveToPoint: NSMakePoint(value, dstRect.origin.y)];
-        [path lineToPoint: NSMakePoint(value, dstRect.origin.y+dstRect.size.height) ];
+		[path moveToPoint: NSorUIMakePoint(value, dstRect.origin.y)];
+        [path lineToPoint: NSorUIMakePoint(value, dstRect.origin.y+dstRect.size.height) ];
         [axisColor set];
         [path stroke];
 		path = nil;
@@ -173,26 +214,26 @@ static double normFunc(double x, double average, double stddev)
 	}
 
     // Compute the closed path
-    path = [NSBezierPath bezierPath];
+    path = [NSorUIBezierPath bezierPath];
     CGFloat oldX = (minX-minXaxis)*xPixelPerUnit, oldY = -minYaxis*yPixelPerUnit;
     CGFloat newX = oldX, newY;
 
-    [path moveToPoint: NSMakePoint(oldX, oldY)];
+    [path moveToPoint: NSorUIMakePoint(oldX, oldY)];
     int i;
 	int minXindex = 0;
 	assert(minXindex >= 0);
-	int maxXindex = (int)((maxX-minX) / [self.source binSize]);
+	int maxXindex = (int)((maxX-minX) / [self.modelObject binSize]);
     for (i=minXindex; i<=maxXindex; i++) {
-        newX = oldX + xPixelPerUnit*[self.source binSize];
+        newX = oldX + xPixelPerUnit*[self.modelObject binSize];
 		CGFloat value = 0;
-		if (i > minXindex && i < maxXindex) value = [[self.source valueForIndex:i] doubleValue];
+		if (i > minXindex && i < maxXindex) value = [[self.modelObject valueForIndex:i] doubleValue];
         newY = (value - minYaxis) * yPixelPerUnit;
-        [path lineToPoint: NSMakePoint(oldX, newY)];
-        [path lineToPoint: NSMakePoint(newX, newY)];
+        [path lineToPoint: NSorUIMakePoint(oldX, newY)];
+        [path lineToPoint: NSorUIMakePoint(newX, newY)];
         if (VL_DEBUG) NSLog(@"point %f, %f", newX, newY);
         oldX = newX;
     }
-    [path lineToPoint: NSMakePoint(newX, -minYaxis*yPixelPerUnit)];
+    [path lineToPoint: NSorUIMakePoint(newX, -minYaxis*yPixelPerUnit)];
     [path closePath];
     
     [self.color set];
@@ -200,65 +241,86 @@ static double normFunc(double x, double average, double stddev)
     [path stroke];
     // Draw the average, if wanted
     if (self.showAverage) {
-        double average = self.source.average;
-        NSColor *averageColor = [self.color shadowWithLevel:0.5];
-        path = [NSBezierPath bezierPath];
-        [path moveToPoint: NSMakePoint(dstRect.origin.x, (average-minYaxis) * yPixelPerUnit)];
-        [path lineToPoint: NSMakePoint(dstRect.origin.x+dstRect.size.width, (average-minYaxis) * yPixelPerUnit)];
+        double average = self.modelObject.average;
+#ifdef WITH_UIKIT
+		CGFloat h, s, v, alfa;
+		[self.color getHue:&h saturation:&s brightness:&v alpha:&alfa];
+		NSorUIColor *averageColor = [NSorUIColor colorWithHue:h saturation:s brightness:v*0.5 alpha:alfa];
+#else
+        NSorUIColor *averageColor = [self.color shadowWithLevel:0.5];
+#endif
+        path = [NSorUIBezierPath bezierPath];
+        [path moveToPoint: NSorUIMakePoint(dstRect.origin.x, (average-minYaxis) * yPixelPerUnit)];
+        [path lineToPoint: NSorUIMakePoint(dstRect.origin.x+dstRect.size.width, (average-minYaxis) * yPixelPerUnit)];
         [averageColor set];
         [path stroke];
     }
     if (self.showNormal) {
 	   // Draw the cumulative distribution of the real data
-		NSColor *cumulativeColor = [self.color shadowWithLevel:0.5];
-		NSBezierPath *cumulativePath = [NSBezierPath bezierPath];
+#ifdef WITH_UIKIT
+		CGFloat h, s, v, alfa;
+		[self.color getHue:&h saturation:&s brightness:&v alpha:&alfa];
+		NSorUIColor *cumulativeColor = [NSorUIColor colorWithHue:h saturation:s brightness:v*0.5 alpha:alfa];
+#else
+        NSorUIColor *cumulativeColor = [self.color shadowWithLevel:0.5];
+#endif
+		NSorUIBezierPath *cumulativePath = [NSorUIBezierPath bezierPath];
 		oldX = (minX-minXaxis)*xPixelPerUnit;
 		CGFloat oldCumulativeY = 0;
 		newX = oldX;
 		CGFloat newCumulativeY;
-		[cumulativePath moveToPoint: NSMakePoint(oldX, oldCumulativeY)];
+		[cumulativePath moveToPoint: NSorUIMakePoint(oldX, oldCumulativeY)];
 		int i;
 		for (i=minXindex; i<=maxXindex; i++) {
-			newX = oldX + xPixelPerUnit*[self.source binSize];
+			newX = oldX + xPixelPerUnit*[self.modelObject binSize];
 			CGFloat value = 0;
-			if (i < maxXindex) value = [[self.source valueForIndex:i] doubleValue];
+			if (i < maxXindex) value = [[self.modelObject valueForIndex:i] doubleValue];
 			newCumulativeY = oldCumulativeY + value;
-			[cumulativePath lineToPoint: NSMakePoint(oldX, newCumulativeY*height)];
-			[cumulativePath lineToPoint: NSMakePoint(newX, newCumulativeY*height)];
+			[cumulativePath lineToPoint: NSorUIMakePoint(oldX, newCumulativeY*height)];
+			[cumulativePath lineToPoint: NSorUIMakePoint(newX, newCumulativeY*height)];
 			oldX = newX;
 			oldCumulativeY = newCumulativeY;
 		}
-		[cumulativePath lineToPoint: NSMakePoint(newX, height)];
+		[cumulativePath lineToPoint: NSorUIMakePoint(newX, height)];
         [cumulativeColor set];
         [cumulativePath stroke];
 
 		// Draw the cumulative normal distribution for the given average and stddev
-        double average = self.source.average;
-        double stddev = self.source.stddev;
+        double average = self.modelObject.average;
+        double stddev = self.modelObject.stddev;
         double step = (maxXaxis - minXaxis) / dstRect.size.width;
 		double cumvalue = 0;
-        NSColor *normalColor = [self.color highlightWithLevel:0.5];
-        path = [NSBezierPath bezierPath];
-        [path moveToPoint: NSMakePoint(dstRect.origin.x, cumvalue * height)];
+#ifdef WITH_UIKIT
+		[self.color getHue:&h saturation:&s brightness:&v alpha:&alfa];
+		NSorUIColor *normalColor = [NSorUIColor colorWithHue:h saturation:s brightness:v*1.5 alpha:alfa];
+#else
+        NSorUIColor *normalColor = [self.color highlightWithLevel:0.5];
+#endif
+        path = [NSorUIBezierPath bezierPath];
+        [path moveToPoint: NSorUIMakePoint(dstRect.origin.x, cumvalue * height)];
         for (int xindex=1; xindex <dstRect.size.width; xindex++) {
             double x = minXaxis + (xindex * step);
             //NSLog(@"%d normFunc(%f, %f, %f) = %f", xindex, x, average, stddev, normFunc(x, average, stddev));
             double value = normFunc(x+step/2, average, stddev);
 			cumvalue = cumvalue + (value*step);
             //NSLog(@"(%f, %f)", x, y);
-            [path lineToPoint: NSMakePoint(dstRect.origin.x+xindex, cumvalue*height)];
+            [path lineToPoint: NSorUIMakePoint(dstRect.origin.x+xindex, cumvalue*height)];
         }
         [normalColor set];
         [path stroke];
 		// And draw the average
-		path = [NSBezierPath bezierPath];
+		path = [NSorUIBezierPath bezierPath];
 		double value = (average-minXaxis)*xPixelPerUnit;
-		[path moveToPoint: NSMakePoint(value, dstRect.origin.y)];
-        [path lineToPoint: NSMakePoint(value, dstRect.origin.y+dstRect.size.height) ];
+		[path moveToPoint: NSorUIMakePoint(value, dstRect.origin.y)];
+        [path lineToPoint: NSorUIMakePoint(value, dstRect.origin.y+dstRect.size.height) ];
         [cumulativeColor set];
         [path stroke];
 		path = nil;
     }
+#ifdef WITH_UIKIT
+    CGContextRestoreGState(context);
+#endif
+    
 }
 
 @end

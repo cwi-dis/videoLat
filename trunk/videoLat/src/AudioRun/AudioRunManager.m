@@ -6,6 +6,7 @@
 //  Copyright 2010-2014 Centrum voor Wiskunde en Informatica. Licensed under GPL3.
 //
 
+#import <Foundation/Foundation.h>
 #import "AudioRunManager.h"
 #import "MachineDescription.h"
 
@@ -17,7 +18,10 @@
 + (void) initialize
 {
     [BaseRunManager registerClass: [self class] forMeasurementType: @"Audio Roundtrip"];
-    [BaseRunManager registerNib: @"AudioRunManager" forMeasurementType: @"Audio Roundtrip"];
+    [BaseRunManager registerNib: @"AudioRun" forMeasurementType: @"Audio Roundtrip"];
+#ifdef WITH_UIKIT
+    [BaseRunManager registerSelectionNib: @"AudioInputSelectionView" forMeasurementType: @"Audio Roundtrip"];
+#endif
 }
 
 
@@ -69,107 +73,6 @@
 	self.outputView = nil;
 }
 
-- (IBAction)startPreMeasuring: (id)sender
-{
-	@synchronized(self) {
-        assert(handlesInput);
-		// First check that everything is OK with base measurement and such
-		if (self.measurementType.requires != nil) {
-			// First check that a base measurement has been selected.
-			NSString *errorMessage;
-			NSMenuItem *baseItem = [self.selectionView.bBase selectedItem];
-			NSString *baseName = [baseItem title];
-			MeasurementType *baseType = self.measurementType.requires;
-			MeasurementDataStore *baseStore = [baseType measurementNamed: baseName];
-			if (baseType == nil) {
-				errorMessage = @"No base (calibration) measurement selected.";
-			} else {
-				// Check that the base measurement is compatible with this measurement,
-				NSString *hwName = [[MachineDescription thisMachine] machineTypeID];
-				// For all runs (calibration and non-calibration) the hardware platform should match the one in the calibration run
-                if (handlesOutput && ![baseStore.output.machineTypeID isEqualToString:hwName]) {
-                    errorMessage = [NSString stringWithFormat:@"Base measurement output done on %@, current hardware is %@", baseStore.output.machineTypeID, hwName];
-                }
-                if (handlesInput && ![baseStore.input.machineTypeID isEqualToString:hwName]) {
-                    errorMessage = [NSString stringWithFormat:@"Base measurement input done on %@, current hardware is %@", baseStore.input.machineTypeID, hwName];
-                }
-                // Check that input device matches (except for output-only calibrations)
-                if (!baseType.outputOnlyCalibration && ![baseStore.input.deviceID isEqualToString:self.capturer.deviceID]) {
-                    errorMessage = [NSString stringWithFormat:@"Base measurement uses input %@, current measurement uses %@", baseStore.input.device, self.capturer.deviceName];
-                }
-				// Check that output device matches (except for input-only calibrations)
-				if (!baseType.inputOnlyCalibration && ![baseStore.output.deviceID isEqualToString:self.outputView.deviceID]) {
-					errorMessage = [NSString stringWithFormat:@"Base measurement uses output %@, current measurement uses %@", baseStore.output.device, self.outputView.deviceName];
-				}
-			}
-			if (errorMessage) {
-				NSAlert *alert = [NSAlert alertWithMessageText: @"Base calibration mismatch, are you sure you want to continue?"
-                                                 defaultButton:@"Cancel"
-                                               alternateButton:@"Continue"
-                                                   otherButton:nil
-                                     informativeTextWithFormat:@"%@", errorMessage];
-				NSInteger button = [alert runModal];
-				if (button == NSAlertDefaultReturn)
-					return;
-			}
-			[self.collector.dataStore useCalibration:baseStore];
-            
-		}
-		[self.selectionView.bPreRun setEnabled: NO];
-		[self.selectionView.bRun setEnabled: NO];
-		if (self.statusView) {
-			[self.statusView.bStop setEnabled: NO];
-		}
-        if (!handlesOutput) {
-            BOOL ok = [self.outputCompanion companionStartPreMeasuring];
-            if (!ok) return;
-        }
-		// Do actual prerunning
-		maxDelay = self.initialPrerunDelay;
-		prerunMoreNeeded = self.initialPrerunCount;
-		self.preRunning = YES;
-		[self.capturer startCapturing: YES];
-	}
-}
-
-- (IBAction)stopPreMeasuring: (id)sender
-{
-	@synchronized(self) {
-		self.preRunning = NO;
-        if (!handlesOutput)
-            [self.outputCompanion companionStopPreMeasuring];
-		[self.capturer stopCapturing];
-		// We have now found enough matches in maxDelay time.
-		// Assume that 4*maxDelay is a decent upper bound for detection.
-		maxDelay = maxDelay*4;
-		[self.selectionView.bPreRun setEnabled: NO];
-		[self.selectionView.bRun setEnabled: YES];
-		if (!self.statusView) {
-			// XXXJACK Make sure statusview is active/visible
-		}
-		[self.statusView.bStop setEnabled: NO];
-	}
-}
-
-- (IBAction)startMeasuring: (id)sender
-{
-    @synchronized(self) {
-        assert(handlesInput);
-		[self.selectionView.bPreRun setEnabled: NO];
-		[self.selectionView.bRun setEnabled: NO];
-		if (!self.statusView) {
-			// XXXJACK Make sure statusview is active/visible
-		}
-		[self.statusView.bStop setEnabled: YES];
-        self.running = YES;
-        if (!handlesOutput)
-            [self.outputCompanion companionStartMeasuring];
-        [self.capturer startCapturing: NO];
-        [self.collector startCollecting: self.measurementType.name input: self.capturer.deviceID name: self.capturer.deviceName output: self.outputView.deviceID name: self.outputView.deviceName];
-        [self.outputCompanion triggerNewOutputValue];
-    }
-}
-
 - (void)triggerNewOutputValue
 {
 	if (outputActive) {
@@ -211,7 +114,13 @@
     @synchronized(self) {
 		// See whether we detect the pattern we are looking for, and report to user.
         BOOL foundSample = [self.processor feedData:buffer size:size channels:channels bitsPerChannel: 16 at:timestamp];
+#ifdef WITH_UIKIT
+		dispatch_async(dispatch_get_main_queue(), ^{
+			self.bDetection.on = foundSample;
+		});
+#else
 		[self.bDetection setState: (foundSample? NSOnState : NSOffState)];
+#endif
 
 		// If we're not running or prerunning we're done.
 		if (!self.running && !self.preRunning)

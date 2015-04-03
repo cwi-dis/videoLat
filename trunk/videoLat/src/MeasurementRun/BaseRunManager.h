@@ -12,8 +12,12 @@
 #import "RunCollector.h"
 #import "RunManagerView.h"
 #import "RunStatusView.h"
-
-@class RunManagerView;
+#ifdef WITH_UIKIT
+#import "MeasurementContainerViewController.h"
+#endif
+#ifdef WITH_APPKIT
+#import "RunManagerView.h"
+#endif
 
 ///
 /// Base class for objects that control a delay measurement run, i.e. a sequence of
@@ -36,12 +40,13 @@
     BOOL slaveHandler;      //!< true if this is a slave, i.e. it has no collector.
     uint64_t maxDelay;   //!< Internal: How log to wait for prerun code finding
     int prerunMoreNeeded;   //!< Internal: How many more prerun correct catches we need
+	NSString *baseName;		//<! Name of our base (calibration) measurement
 }
 
 @property(weak) IBOutlet id<SelectionView> selectionView;         //!< Assigned in NIB: view that allows selection of input device
 @property(weak) IBOutlet NSObject<InputCaptureProtocol> *capturer;    //!< Assigned in NIB: input capturer
-@property(weak) IBOutlet NSView <OutputViewProtocol> *outputView; //!< Assigned in NIB: Displays current output QR code
-
+@property(weak) IBOutlet NSorUIView <OutputViewProtocol> *outputView; //!< Assigned in NIB: Displays current output QR code
+@property(weak) IBOutlet NSObject<NewMeasurementDelegate> *completionHandler;	//!< Optionally assigned in NIB: handler to open completed measurement
 + (void)initialize;	//!< Class initializer.
 
 ///
@@ -72,6 +77,23 @@
 ///
 + (NSString *)nibForMeasurementType: (NSString *)name;
 
+#ifdef WITH_UIKIT
+///
+/// Register a NIB file that implements selecting the inputs for a specific measurement type.
+/// @param nibName the name of the nibfile
+/// @param name the (human readable) name of the measurement type
+///
++ (void)registerSelectionNib: (NSString*)nibName forMeasurementType: (NSString *)name;
+
+///
+/// Return the NIB filename implementing a measurement type.
+/// @param name the name of the measurement type
+/// @return the NIB name implementing the measurement type
+///
++ (NSString *)selectionNibForMeasurementType: (NSString *)name;
+
+#endif
+
 @property(strong) MeasurementType *measurementType;
 ///
 /// Textual representation of the current output code, for example @"white", or
@@ -82,6 +104,7 @@
 
 - (void)terminate;	//!< Prepare for deallocation. Severs links with companion and releases resources.
 - (void)stop;	//!< Called when the user stops a measurement run, via @see stopMeasuring from @see RunTypeView
+- (IBAction)stopMeasuring: (id)sender;	//!< Called when user presses "stop" button
 
 ///
 /// Select the actual measurement type this run will use.
@@ -90,6 +113,14 @@
 /// share an awful lot of code.
 ///
 - (void)selectMeasurementType: (NSString *)typeName;
+
+#ifdef WITH_UIKIT
+///
+/// Select the measurement type and base, and start prerunning.
+///
+- (void)runForType: (NSString *)measurementTypeName withBase: (NSString *)baseMeasurementName;
+#endif
+
 - (void)restart;
 
 ///
@@ -111,7 +142,11 @@
 
 @property(weak) IBOutlet RunCollector *collector;			//!< Initialized in the NIB, RunCollector for this measurement run.
 @property(weak) IBOutlet RunStatusView *statusView;			//!< Initialized in the NIB, RunStatusView for this measurement run.
+#ifdef WITH_UIKIT
+@property(weak) IBOutlet MeasurementContainerViewController *measurementMaster;	//!< Initialized in the NIB, our parent object.
+#else
 @property(weak) IBOutlet RunManagerView *measurementMaster;	//!< Initialized in the NIB, our parent object.
+#endif
 
 //@{
 /// The inputCompanion and outputCompanion properties need a bit of explanation.

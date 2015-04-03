@@ -22,7 +22,10 @@
 + (void) initialize
 {
     [BaseRunManager registerClass: [self class] forMeasurementType: @"Video Roundtrip"];
-    [BaseRunManager registerNib: @"VideoRunManager" forMeasurementType: @"Video Roundtrip"];
+    [BaseRunManager registerNib: @"VideoRun" forMeasurementType: @"Video Roundtrip"];
+#ifdef WITH_UIKIT
+    [BaseRunManager registerSelectionNib: @"VideoInputSelectionView" forMeasurementType: @"Video Roundtrip"];
+#endif
 }
 
 - (VideoRunManager*)init
@@ -101,6 +104,7 @@
 
         // Sanity check: times should be monotonically increasing
         if (prevOutputStartTime && prevOutputStartTime >= outputStartTime) {
+#ifdef WITH_APPKIT
             NSAlert *alert = [NSAlert alertWithMessageText:@"Warning: output clock not monotonically increasing."
                     defaultButton:@"OK"
                     alternateButton:nil
@@ -109,6 +113,9 @@
                               (long long)prevOutputStartTime,
                               (long long)outputStartTime];
             [alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
+#else
+			showWarningAlert(@"Output clock has gone back in time");
+#endif
         }
         
         // Generate the new output code. During preRunning, our input companion can
@@ -128,9 +135,11 @@
         memset(bitmapdata, 0xf0, size.width*size.height*bpp);
         assert(self.genner);
         [self.genner gen: bitmapdata width:size.width height:size.height code:[self.outputCode UTF8String]];
-        NSData *data = [NSData dataWithBytesNoCopy:bitmapdata length:sizeof(bitmapdata) freeWhenDone: YES];
-        outputCodeImage = [CIImage imageWithBitmapData:data bytesPerRow:bpp*size.width size:size format:kCIFormatARGB8 colorSpace:nil];
-        return outputCodeImage;
+        NSData *data = [NSData dataWithBytesNoCopy:bitmapdata length:(size.width*size.height*bpp) freeWhenDone: YES];
+		assert(data);
+		outputCodeImage = [CIImage imageWithBitmapData:data bytesPerRow:bpp*size.width size:size format:kCIFormatARGB8 colorSpace:nil];
+		assert(outputCodeImage);
+		return outputCodeImage;
     }
 }
 
@@ -154,7 +163,7 @@
 	self.outputView.mirrored = self.mirrored;
 }
 
-- (void)setFinderRect: (NSRect)theRect
+- (void)setFinderRect: (NSorUIRect)theRect
 {
 #if 0
 	[self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
@@ -172,6 +181,7 @@
 
             // Sanity check: times should be monotonically increasing
             if (prevInputStartTime && prevInputStartTime >= inputStartTime) {
+#ifdef WITH_APPKIT
                 NSAlert *alert = [NSAlert alertWithMessageText:@"Warning: input clock not monotonically increasing."
                                                  defaultButton:@"OK"
                                                alternateButton:nil
@@ -180,6 +190,9 @@
                                   (long long)prevInputStartTime,
                                   (long long)inputStartTime];
                 [alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
+#else
+				showWarningAlert(@"Input clock has gone back in time");
+#endif
             }
         }
     }
@@ -265,6 +278,7 @@
                 prevInputCodeDetectionCount++;
                 if (VL_DEBUG) NSLog(@"Received same code as last reception: %s, count=%d", code, prevInputCodeDetectionCount);
                 if ((prevInputCodeDetectionCount % 250) == 0) {
+#ifdef WITH_APPKIT
                     NSAlert *alert = [NSAlert alertWithMessageText:@"Warning: no new QR code generated."
                                                      defaultButton:@"OK"
                                                    alternateButton:nil
@@ -272,6 +286,7 @@
                                          informativeTextWithFormat:@"QR-code %@ detected %d times. Generating new one.",
                                       prevInputCode, prevInputCodeDetectionCount];
                     [alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
+#endif
                     [self.outputCompanion triggerNewOutputValue];
                 }
             } else if (strcmp(code, [self.outputCompanion.outputCode UTF8String]) == 0) {
@@ -281,6 +296,7 @@
 				if (self.running) {
 					BOOL ok = [self.collector recordReception: self.outputCompanion.outputCode at: inputStartTime];
                     if (!ok) {
+#ifdef WITH_APPKIT
                         NSAlert *alert = [NSAlert alertWithMessageText:@"Reception before transmission."
                                                          defaultButton:@"OK"
                                                        alternateButton:nil
@@ -290,19 +306,26 @@
                                           (long long)prerunOutputStartTime,
                                           (long long)inputStartTime];
                         [alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
+#else
+						showWarningAlert([NSString stringWithFormat:@"Received code %llu ms before it was transmitted", inputStartTime-prerunOutputStartTime]);
+#endif
                     }
                 } else if (self.preRunning) {
                     [self _prerunRecordReception: self.outputCompanion.outputCode];
                 }
                 // Now do a sanity check that it is greater than the previous detected code
                 if (prevInputCode && [prevInputCode length] >= [self.outputCompanion.outputCode length] && [prevInputCode compare:self.outputCompanion.outputCode] >= 0) {
-                    NSAlert *alert = [NSAlert alertWithMessageText:@"Warning: input QR-code not monotonically increasing."
+#ifdef WITH_APPKIT
+					NSAlert *alert = [NSAlert alertWithMessageText:@"Warning: input QR-code not monotonically increasing."
                                                      defaultButton:@"OK"
                                                    alternateButton:nil
                                                        otherButton:nil
                                          informativeTextWithFormat:@"Previous value was %@, current value is %@.\nConsult Helpfile if this error persists.",
                                             prevInputCode, self.outputCompanion.outputCode];
                     [alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
+#else
+					showWarningAlert(@"Warning: input QR-code not monotonically increasing.");
+#endif
                 }
                 // Now let's remember it so we don't generate "bad code" messages
                 // if we detect it a second time.
@@ -315,6 +338,7 @@
 				// We have transmitted a code, but received a different one??
                 if (self.running) {
                     NSLog(@"Bad data: expected %@, got %s", self.outputCompanion.outputCode, code);
+#ifdef WITH_APPKIT
                     NSAlert *alert = [NSAlert alertWithMessageText:@"Warning: received unexpected QR-code."
                                                      defaultButton:@"OK"
                                                    alternateButton:nil
@@ -322,6 +346,9 @@
                                          informativeTextWithFormat:@"Expected value was %@, received %s.\nConsult Helpfile if this error persists.",
                                       self.outputCompanion.outputCode, code];
                     [alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
+#else
+					showWarningAlert([NSString stringWithFormat:@"Received unexpected QR-code %s", code]);
+#endif
 					[self.outputCompanion triggerNewOutputValue];
                 } else if (self.preRunning) {
 					[self _prerunRecordNoReception];

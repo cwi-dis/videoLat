@@ -9,7 +9,8 @@
 
 #ifndef videoLat_protocols_h
 #define videoLat_protocols_h
-#import <Cocoa/Cocoa.h>
+
+#import "compat.h"
 
 @class MeasurementDataStore;
 
@@ -67,7 +68,7 @@
 /// Protocol for an object that finds patterns in an image input buffer
 ///
 @protocol InputVideoFindProtocol
-@property(readonly) NSRect rect;	/*!< Location of most recent pattern found */
+@property(readonly) NSorUIRect rect;	/*!< Location of most recent pattern found */
 
 /**
  Scan a grabbed image for a pattern this finder supports
@@ -111,15 +112,32 @@
 @end
 
 ///
+/// Protocol used by selectionView to communicate changes
+///
+@protocol SelectionViewDelegate
+- (IBAction)selectionChanged: (id)sender;		//!< Called whenever input device or base measurement changes
+- (IBAction)startPreMeasuring: (id)sender;		//!< Called when premeasuring button has been pressed
+@end
+
+///
 /// Protocol for an object that allows selection of input device, base measurement (optional),
 /// and starting of preruns and runs.
 ///
 @protocol SelectionView
-@property(weak) IBOutlet NSPopUpButton *bDevices;   //!< UI element: all available cameras
-@property(weak) IBOutlet NSPopUpButton *bBase;      //!< UI element: available calibration runs
+#ifdef WITH_APPKIT
+@property(weak)IBOutlet NSPopUpButton *bBase;
 @property(weak) IBOutlet NSButton *bPreRun;         //!< UI element: start preparing a measurement run
-@property(weak) IBOutlet NSButton *bRun;            //!< UI element: start a measurement run
-@property(weak) IBOutlet NSObject <RunInputManagerProtocol> *manager;
+#endif
+
+@property(weak) IBOutlet NSObject <SelectionViewDelegate> *selectionDelegate;
+
+#ifdef WITH_UIKIT
+- (void)setBases: (NSArray *)baseNames;
+- (void)disableBases;
+#endif
+- (NSString *)baseName;				//!< Returns name of selected base measurement
+- (NSString *)deviceName;			//!< Returns name of selected input device
+
 @end
 
 @protocol NetworkViewProtocol
@@ -134,11 +152,27 @@
 @protocol InputCaptureProtocol
 @property (readonly) NSString* deviceID;	/*!< Unique string that identifies the input device */
 @property (readonly) NSString* deviceName;	/*!< Human-readable string that identifies the input device */
+
+/**
+ Returns list of available input devices.
+ */
+- (NSArray*) deviceNames;
+/*
+ Switch to a different input device.
+ @param Name of the device (as returned by deviceNames)
+ @returns True if succesful
+ */
+- (BOOL)switchToDeviceWithName: (NSString *)name;
 /**
  Start capturing, each captured frame will be forwarded to the InputRunManager.
  @param showPreview Set to true if the capturer should show its preview window
  */
 - (void) startCapturing: (BOOL)showPreview;
+/**
+ Pause or resume capturer.
+ @param pause True for pausing, false for resuming
+ */
+- (void) pauseCapturing: (BOOL)pause;
 /**
  Pause capturing, don't forward frames to the InputRunManager any longer.
  */
@@ -203,7 +237,7 @@
 @property(strong) NSString *outputCode;           // Current code on the display
 //@property(weak) IBOutlet NSObject<RunInputManagerProtocol> *inputCompanion; //!< Our companion object that handles input
 @property(weak) IBOutlet NSObject *inputCompanion; //!< Our companion object that handles input
-@property(weak) IBOutlet NSView <OutputViewProtocol> *outputView; //!< Assigned in NIB: Displays current output QR code
+@property(weak) IBOutlet NSorUIView <OutputViewProtocol> *outputView; //!< Assigned in NIB: Displays current output QR code
 
 ///
 /// Called to prepare the output device, if needed, when restarting.
@@ -248,7 +282,7 @@
 ///
 /// Called from the SelectionView whenever the (input) device changes.
 ///
-- (IBAction)deviceChanged: (id) sender;
+- (IBAction)selectionChanged: (id) sender;
 
 ///
 /// Called to prepare the input device, if needed, when restarting.
@@ -277,7 +311,7 @@
 ///
 /// Not yet used.
 ///
-- (void)setFinderRect: (NSRect)theRect;
+- (void)setFinderRect: (NSorUIRect)theRect;
 
 ///
 /// Signals that a capture cycle has started at the given time.
@@ -349,12 +383,12 @@
 @end
 
 ///
-/// Protocol that returns answers to "Download this calibration" queries
+/// Protocol to open a new document, either after a download or because a measurement
+/// has finished.
 ///
-@protocol DownloadDelegate
-- (void) didDownload: (MeasurementDataStore *)dataStore;
+@protocol NewMeasurementDelegate
+- (void)openUntitledDocumentWithMeasurement: (MeasurementDataStore *)dataStore;
 @end
-
 
 
 #endif

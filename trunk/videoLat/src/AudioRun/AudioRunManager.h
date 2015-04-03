@@ -5,12 +5,11 @@
 //  Copyright 2010-2014 Centrum voor Wiskunde en Informatica. Licensed under GPL3.
 //
 
-#import <Cocoa/Cocoa.h>
 #import "protocols.h"
 #import "BaseRunManager.h"
-#import "AudioSelectionView.h"
 #import "AudioOutputView.h"
 #import "AudioProcess.h"
+#import "AudioSelectionView.h"
 
 ///
 /// Subclass of BaseRunManager that handles audio delay measurements.
@@ -30,16 +29,15 @@
 @property(weak) IBOutlet AudioSelectionView *selectionView;     //!< Assigned in NIB: view that allows selection of input device
 @property(weak) IBOutlet NSObject<InputCaptureProtocol> *capturer;    //!< Assigned in NIB: audio input capturer
 @property(weak) IBOutlet id <ClockProtocol> clock;              //!< Assigned in NIB: clock source, usually same as capturer
-@property(weak) IBOutlet NSButton *bDetection;                  //!< Assigned in NIb: UI element that signals detection to the user
 @property(weak) IBOutlet AudioProcess *processor;               //!< Assigned in NIB: audio sample comparator
-
+#ifdef WITH_UIKIT
+@property(weak) IBOutlet UISwitch *bDetection;                  //!< Assigned in NIb: UI element that signals detection to the user
+#else
+@property(weak) IBOutlet NSButton *bDetection;                  //!< Assigned in NIb: UI element that signals detection to the user
+#endif
 + (void)initialize;
 - (AudioRunManager *)init;  //!< Initializer
 - (void)stop;
-
-- (IBAction)startPreMeasuring: (id)sender;  //!< Called when user presses "prepare" button
-- (IBAction)stopPreMeasuring: (id)sender;   //!< Internal: stop pre-measuring because we have heard enough
-- (IBAction)startMeasuring: (id)sender;     //!< Called when user presses "start" button
 
 - (void)triggerNewOutputValue;
 //- (void) _prerunRecordNoReception;
