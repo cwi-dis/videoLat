@@ -42,7 +42,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
     if (calibrations) {
-        int count = [calibrations count];
+        NSInteger count = [calibrations count];
         if (count) return count;
     }
     return 1;

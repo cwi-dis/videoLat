@@ -20,7 +20,7 @@
             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IoA-hh-w9S" customClass="RunStatusView">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IoA-hh-w9S" customClass="RunStatusView">
                     <rect key="frame" x="0.0" y="484" width="600" height="116"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Average:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tni-uN-GsW">
@@ -78,7 +78,7 @@
                         <constraint firstItem="Uf5-jO-9tP" firstAttribute="top" secondItem="IoA-hh-w9S" secondAttribute="top" constant="8" id="JD6-7B-yC4"/>
                         <constraint firstItem="Tni-uN-GsW" firstAttribute="top" secondItem="Uf5-jO-9tP" secondAttribute="bottom" constant="8" id="LKQ-fO-DRD"/>
                         <constraint firstAttribute="trailing" secondItem="LsZ-P3-9pd" secondAttribute="trailing" constant="176" id="Q6H-1H-7U9"/>
-                        <constraint firstAttribute="bottom" secondItem="rzB-5t-5LB" secondAttribute="bottom" constant="20" symbolic="YES" id="Ql0-0d-wVr"/>
+                        <constraint firstAttribute="bottom" secondItem="rzB-5t-5LB" secondAttribute="bottom" constant="8" id="Ql0-0d-wVr"/>
                         <constraint firstItem="LsZ-P3-9pd" firstAttribute="leading" secondItem="Tni-uN-GsW" secondAttribute="trailing" constant="3" id="Tj8-l4-r2c"/>
                         <constraint firstAttribute="trailing" secondItem="bgE-9x-iLE" secondAttribute="trailing" constant="176" id="YoH-4n-jMh"/>
                         <constraint firstAttribute="trailing" secondItem="rzB-5t-5LB" secondAttribute="trailing" constant="20" symbolic="YES" id="biV-26-VNH"/>
@@ -100,7 +100,7 @@
                         <outlet property="bStop" destination="rzB-5t-5LB" id="VE5-wu-B0r"/>
                     </connections>
                 </view>
-                <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YgM-JI-wCV" customClass="NetworkSelectionView">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YgM-JI-wCV" customClass="NetworkSelectionView">
                     <rect key="frame" x="0.0" y="385" width="600" height="91"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Status:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u9e-0E-c4l">
@@ -173,7 +173,7 @@
                         <outlet property="bRTT" destination="vqN-gv-vKc" id="tk9-Yn-Mhl"/>
                     </connections>
                 </view>
-                <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xuL-9Z-d7r" customClass="VideoOutputView">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xuL-9Z-d7r" customClass="VideoOutputView">
                     <rect key="frame" x="130" y="36" width="341" height="341"/>
                     <color key="backgroundColor" red="0.045329090209999999" green="0.92391306159999997" blue="0.90212601420000005" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
