@@ -181,7 +181,7 @@
 		0478E1721ABF7FD20057548C /* libpng15.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libpng15.a; path = "thirdParty/installed-ios/lib/libpng15.a"; sourceTree = "<group>"; };
 		0478E1731ABF7FD20057548C /* libzbar.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libzbar.a; path = "thirdParty/installed-ios/lib/libzbar.a"; sourceTree = "<group>"; };
 		0478E1741ABF7FD20057548C /* libzint.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libzint.a; path = "thirdParty/installed-ios/lib/libzint.a"; sourceTree = "<group>"; };
-		048BFCCA1AB2EE2C0026D104 /* videoLat-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "videoLat-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		048BFCCA1AB2EE2C0026D104 /* videoLat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = videoLat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		048BFCE31AB2EE2C0026D104 /* videoLat-iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "videoLat-iOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		04C5FF1D1AB85EB800F4EC25 /* DeviceDescriptionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeviceDescriptionView.h; path = src/Document/DeviceDescriptionView.h; sourceTree = SOURCE_ROOT; };
 		04C5FF1E1AB85EB800F4EC25 /* DeviceDescriptionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DeviceDescriptionView.m; path = src/Document/DeviceDescriptionView.m; sourceTree = SOURCE_ROOT; };
@@ -458,7 +458,7 @@
 		048BFCCB1AB2EE2C0026D104 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				048BFCCA1AB2EE2C0026D104 /* videoLat-iOS.app */,
+				048BFCCA1AB2EE2C0026D104 /* videoLat.app */,
 				048BFCE31AB2EE2C0026D104 /* videoLat-iOSTests.xctest */,
 			);
 			name = Products;
@@ -530,7 +530,7 @@
 			);
 			name = videoLat;
 			productName = "videoLat-iOS";
-			productReference = 048BFCCA1AB2EE2C0026D104 /* videoLat-iOS.app */;
+			productReference = 048BFCCA1AB2EE2C0026D104 /* videoLat.app */;
 			productType = "com.apple.product-type.application";
 		};
 		048BFCE21AB2EE2C0026D104 /* videoLat-iOSTests */ = {
@@ -755,7 +755,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				USER_HEADER_SEARCH_PATHS = "thirdParty/installed-iOSsim/include";
+				USER_HEADER_SEARCH_PATHS = "thirdParty/installed-ios/include";
 			};
 			name = Debug;
 		};
@@ -792,7 +792,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				USER_HEADER_SEARCH_PATHS = "thirdParty/installed-iOSsim/include";
+				USER_HEADER_SEARCH_PATHS = "thirdParty/installed-ios/include";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;

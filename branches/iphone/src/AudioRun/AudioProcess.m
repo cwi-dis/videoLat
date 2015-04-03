@@ -107,6 +107,7 @@
         } else {
             NSLog(@"AudioInput: CMSampleBufferGetAudioBufferListWithRetainedBlockBuffer returned err=%d, mNumberBuffers=%d", (int)err, (unsigned int)(bufferList?bufferList[0].mNumberBuffers:-1));
             rv = nil;
+            rv = nil;
         }
         if (bufferOut) CFRelease(bufferOut);
         if (bufferList) free(bufferList);
