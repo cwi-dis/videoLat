@@ -13,7 +13,7 @@
 #import "DocumentView.h"
 #import "Document.h"
 
-@interface DocumentViewController : UIViewController<MFMailComposeViewControllerDelegate> {
+@interface DocumentViewController : UIViewController<MFMailComposeViewControllerDelegate,UIAlertViewDelegate> {
     Document *_document;
     SEL nextAction;
 }
