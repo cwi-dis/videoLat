@@ -18,6 +18,7 @@
 
 - (void) viewDidAppear:(BOOL)animated
 {
+    [super viewDidAppear: animated];
     if (self.dataStoreToOpen) {
 		// We have gotten here through an unwind sequence, and whoever initiated
 		// it wants us to open a new document

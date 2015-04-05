@@ -350,7 +350,6 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
         // Compare the code to what was expected.
         if (count > 1 && [code isEqualToString:prevInputCode]) {
             if (VL_DEBUG) NSLog(@"Received old output code again: %@, %d times", code, count);
-            return;
             if ((count % 128) == 0) {
 #ifdef WITH_APPKIT
                 NSAlert *alert = [NSAlert alertWithMessageText:@"Warning: current QR code not detected."
