@@ -16,13 +16,7 @@
 	assert(self.layer.sublayers);
 	assert([self.layer.sublayers count] == 1);
 	CALayer *videoLayer = [self.layer.sublayers objectAtIndex:0];
-	CGRect sFrame, sBounds, vFrame, vBounds;
 	videoLayer.frame = selfLayer.bounds;
-	sFrame = selfLayer.frame;
-	sBounds = selfLayer.bounds;
-	vFrame = videoLayer.frame;
-	vBounds = videoLayer.bounds;
-	NSLog(@"self: ");
 
 }
 #else

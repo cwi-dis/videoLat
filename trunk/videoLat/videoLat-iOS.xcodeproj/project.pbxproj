@@ -25,7 +25,6 @@
 		040E77431AB73634001A7918 /* Document.m in Sources */ = {isa = PBXBuildFile; fileRef = 040E77421AB73634001A7918 /* Document.m */; };
 		04138C6C1AB319B9003D8167 /* MeasurementType.m in Sources */ = {isa = PBXBuildFile; fileRef = 04138C6B1AB319B9003D8167 /* MeasurementType.m */; };
 		04138C731AB31A2C003D8167 /* CalibrationSharing.m in Sources */ = {isa = PBXBuildFile; fileRef = 04138C721AB31A2C003D8167 /* CalibrationSharing.m */; };
-		04138C791AB31E1B003D8167 /* CommonAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 04138C781AB31E1B003D8167 /* CommonAppDelegate.m */; };
 		04138C7E1AB31E9F003D8167 /* MeasurementDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 04138C7B1AB31E9F003D8167 /* MeasurementDataStore.m */; };
 		04138C7F1AB31E9F003D8167 /* MeasurementDistribution.m in Sources */ = {isa = PBXBuildFile; fileRef = 04138C7D1AB31E9F003D8167 /* MeasurementDistribution.m */; };
 		04138C821AB329CB003D8167 /* DeviceDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = 04138C811AB329CB003D8167 /* DeviceDescription.m */; };
@@ -44,6 +43,7 @@
 		041C90011AC41B2300539C68 /* NetworkRunManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 041C8FFB1AC41B2300539C68 /* NetworkRunManager.m */; };
 		041C90021AC41B2300539C68 /* NetworkSelectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 041C8FFD1AC41B2300539C68 /* NetworkSelectionView.m */; };
 		041C90061AC4219900539C68 /* SlaveReceiverCameraCalibrationRun.xib in Resources */ = {isa = PBXBuildFile; fileRef = 041C90051AC4219900539C68 /* SlaveReceiverCameraCalibrationRun.xib */; };
+		042ABE351AD1E4F900FB877A /* CommonAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 042ABE341AD1E4F900FB877A /* CommonAppDelegate.m */; };
 		042E0F2E1AC30DFD003D6267 /* VideoRun.xib in Resources */ = {isa = PBXBuildFile; fileRef = 042E0F2D1AC30DFD003D6267 /* VideoRun.xib */; };
 		042E0F341AC310BD003D6267 /* NewCalibrationTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 042E0F331AC310BD003D6267 /* NewCalibrationTableViewController.m */; };
 		0462CC171AC2F0E00077383B /* VideoCalibrationRun.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0462CC161AC2F0E00077383B /* VideoCalibrationRun.xib */; };
@@ -77,7 +77,6 @@
 		04FFFC801AB2FABE0023ED13 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04FFFC7C1AB2FABE0023ED13 /* LaunchScreen.xib */; };
 		04FFFC811AB2FABE0023ED13 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04FFFC7E1AB2FABE0023ED13 /* Main.storyboard */; };
 		04FFFC831AB2FACB0023ED13 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04FFFC821AB2FACB0023ED13 /* Images.xcassets */; };
-		04FFFC861AB2FAD90023ED13 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 04FFFC841AB2FAD90023ED13 /* Info.plist */; };
 		04FFFC871AB2FAD90023ED13 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FFFC851AB2FAD90023ED13 /* main.m */; };
 /* End PBXBuildFile section */
 
@@ -127,8 +126,6 @@
 		04138C6B1AB319B9003D8167 /* MeasurementType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MeasurementType.m; path = src/MeasurementType.m; sourceTree = SOURCE_ROOT; };
 		04138C711AB31A2C003D8167 /* CalibrationSharing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CalibrationSharing.h; path = src/Sharing/CalibrationSharing.h; sourceTree = SOURCE_ROOT; };
 		04138C721AB31A2C003D8167 /* CalibrationSharing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CalibrationSharing.m; path = src/Sharing/CalibrationSharing.m; sourceTree = SOURCE_ROOT; };
-		04138C771AB31E1B003D8167 /* CommonAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CommonAppDelegate.h; path = src/mac/CommonAppDelegate.h; sourceTree = SOURCE_ROOT; };
-		04138C781AB31E1B003D8167 /* CommonAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CommonAppDelegate.m; path = src/mac/CommonAppDelegate.m; sourceTree = SOURCE_ROOT; };
 		04138C7A1AB31E9F003D8167 /* MeasurementDataStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MeasurementDataStore.h; path = src/Document/MeasurementDataStore.h; sourceTree = SOURCE_ROOT; };
 		04138C7B1AB31E9F003D8167 /* MeasurementDataStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MeasurementDataStore.m; path = src/Document/MeasurementDataStore.m; sourceTree = SOURCE_ROOT; };
 		04138C7C1AB31E9F003D8167 /* MeasurementDistribution.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MeasurementDistribution.h; path = src/Document/MeasurementDistribution.h; sourceTree = SOURCE_ROOT; };
@@ -163,6 +160,8 @@
 		041C8FFC1AC41B2300539C68 /* NetworkSelectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NetworkSelectionView.h; path = src/Networking/NetworkSelectionView.h; sourceTree = SOURCE_ROOT; };
 		041C8FFD1AC41B2300539C68 /* NetworkSelectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NetworkSelectionView.m; path = src/Networking/NetworkSelectionView.m; sourceTree = SOURCE_ROOT; };
 		041C90051AC4219900539C68 /* SlaveReceiverCameraCalibrationRun.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SlaveReceiverCameraCalibrationRun.xib; path = src/iOS/SlaveReceiverCameraCalibrationRun.xib; sourceTree = SOURCE_ROOT; };
+		042ABE331AD1E4F900FB877A /* CommonAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CommonAppDelegate.h; path = src/CommonAppDelegate.h; sourceTree = SOURCE_ROOT; };
+		042ABE341AD1E4F900FB877A /* CommonAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CommonAppDelegate.m; path = src/CommonAppDelegate.m; sourceTree = SOURCE_ROOT; };
 		042E0F2D1AC30DFD003D6267 /* VideoRun.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = VideoRun.xib; path = src/iOS/VideoRun.xib; sourceTree = SOURCE_ROOT; };
 		042E0F321AC310BD003D6267 /* NewCalibrationTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NewCalibrationTableViewController.h; path = src/iOS/NewCalibrationTableViewController.h; sourceTree = SOURCE_ROOT; };
 		042E0F331AC310BD003D6267 /* NewCalibrationTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NewCalibrationTableViewController.m; path = src/iOS/NewCalibrationTableViewController.m; sourceTree = SOURCE_ROOT; };
@@ -471,8 +470,8 @@
 				04138C691AB31980003D8167 /* protocols.h */,
 				040E77191AB6DBE9001A7918 /* compat.h */,
 				040E77171AB6DBBC001A7918 /* compat.m */,
-				04138C771AB31E1B003D8167 /* CommonAppDelegate.h */,
-				04138C781AB31E1B003D8167 /* CommonAppDelegate.m */,
+				042ABE331AD1E4F900FB877A /* CommonAppDelegate.h */,
+				042ABE341AD1E4F900FB877A /* CommonAppDelegate.m */,
 				04FFFC761AB2FA8E0023ED13 /* AppDelegate.h */,
 				04FFFC771AB2FA8E0023ED13 /* AppDelegate.m */,
 				0409FDCE1ACE9E2C00851D80 /* MainMenuTableViewController.h */,
@@ -599,7 +598,6 @@
 				04C5FF211AB8601400F4EC25 /* DocumentView.xib in Resources */,
 				040728B31AC9F86B00191022 /* MasterSenderScreenCalibrationRun.xib in Resources */,
 				04155E9A1AB6311C00DD53D9 /* sounds in Resources */,
-				04FFFC861AB2FAD90023ED13 /* Info.plist in Resources */,
 				04FAAAAD1ACAD2DE0094A5E9 /* MasterSenderRun.xib in Resources */,
 				0462CC171AC2F0E00077383B /* VideoCalibrationRun.xib in Resources */,
 				04FFFC831AB2FACB0023ED13 /* Images.xcassets in Resources */,
@@ -665,7 +663,7 @@
 				04138C731AB31A2C003D8167 /* CalibrationSharing.m in Sources */,
 				04138C881AB32DBB003D8167 /* DownloadCalibrationTableViewController.m in Sources */,
 				040E773A1AB7200F001A7918 /* GraphView.m in Sources */,
-				04138C791AB31E1B003D8167 /* CommonAppDelegate.m in Sources */,
+				042ABE351AD1E4F900FB877A /* CommonAppDelegate.m in Sources */,
 				04155EA01AB6448900DD53D9 /* AudioOutputView.m in Sources */,
 				0409FDCD1ACE977C00851D80 /* DocumentActionViewController.m in Sources */,
 				0478E1451ABF6ABF0057548C /* findQRcodes.mm in Sources */,
