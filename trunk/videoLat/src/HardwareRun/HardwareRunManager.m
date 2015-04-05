@@ -32,6 +32,17 @@
 	return self.device.deviceName;
 }
 
+- (NSArray *)deviceNames
+{
+    assert(0);
+    return @[];
+}
+
+- (BOOL)switchToDeviceWithName: (NSString *)deviceName
+{
+    assert(0);
+}
+
 + (void) initialize
 {
     [BaseRunManager registerClass: [self class] forMeasurementType: @"Hardware Calibrate"];
@@ -123,7 +134,7 @@
 - (IBAction)selectBase: (id) sender
 {
 	assert(self.selectionView);
-    NSString *baseName = [self.selectionView baseName];
+    baseName = [self.selectionView baseName];
     if (baseName == nil) {
         NSLog(@"HardwareRunManager: baseName == nil");
         return;
@@ -497,6 +508,10 @@
 }
 
 - (void) startCapturing: (BOOL)showPreview
+{
+}
+
+- (void)pauseCapturing: (BOOL)onoff
 {
 }
 
