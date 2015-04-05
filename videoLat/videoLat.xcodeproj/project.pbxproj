@@ -88,7 +88,6 @@
 		04FFFC6D1AB2F0F20023ED13 /* Document.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04FFFC661AB2F0F20023ED13 /* Document.xib */; };
 		04FFFC6E1AB2F0F20023ED13 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 04FFFC681AB2F0F20023ED13 /* InfoPlist.strings */; };
 		04FFFC6F1AB2F0F20023ED13 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04FFFC6A1AB2F0F20023ED13 /* MainMenu.xib */; };
-		04FFFC751AB2F2840023ED13 /* mac/videoLat-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 04FFFC741AB2F2840023ED13 /* mac/videoLat-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -596,7 +595,7 @@
 		047DD1B4183A3B4C00A04F83 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0450;
+				LastUpgradeCheck = 0620;
 				ORGANIZATIONNAME = CWI;
 				TargetAttributes = {
 					047DD1BC183A3B4C00A04F83 = {
@@ -652,7 +651,6 @@
 				04B1915119D2ECBC001ABA66 /* Doxyfile in Resources */,
 				04FFFC6E1AB2F0F20023ED13 /* InfoPlist.strings in Resources */,
 				0497261918FD582600625326 /* VideoCalibrationRun.xib in Resources */,
-				04FFFC751AB2F2840023ED13 /* mac/videoLat-Info.plist in Resources */,
 				04D411131A02CABC009AFEED /* CalibrateCameraFromScreenRun.xib in Resources */,
 				04FFFC6F1AB2F0F20023ED13 /* MainMenu.xib in Resources */,
 				041E097F1A9DDAAC006A241C /* TemplateRun.xib in Resources */,
@@ -835,7 +833,7 @@
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_ENTITLEMENTS = src/mac/videoLat.entitlements;
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "Developer ID Application";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -853,7 +851,7 @@
 				HEADER_SEARCH_PATHS = /System/Library/Frameworks/Python.framework/Versions/2.7/include/python2.7;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_CODE_SIGN_FLAGS = "";
+				OTHER_CODE_SIGN_FLAGS = "--deep";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx;
 				USER_HEADER_SEARCH_PATHS = thirdParty/installed/include;
@@ -872,7 +870,7 @@
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_ENTITLEMENTS = src/mac/videoLat.entitlements;
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "Developer ID Application";
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -883,6 +881,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = /System/Library/Frameworks/Python.framework/Versions/2.7/include/python2.7;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				OTHER_CODE_SIGN_FLAGS = "--deep";
 				SDKROOT = macosx;
 				USER_HEADER_SEARCH_PATHS = thirdParty/installed/include;
 				VIDEOLAT_VERSION = 1.1.5;
