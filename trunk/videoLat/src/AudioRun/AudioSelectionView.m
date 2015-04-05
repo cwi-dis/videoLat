@@ -94,10 +94,12 @@
 
 - (IBAction)outputChanged: (id) sender
 {
+#if 0
 	NSMenuItem *item = [sender selectedItem];
 	NSString *cam = [item title];
 	if (VL_DEBUG) NSLog(@"Switch audioOutput to %@\n", cam);
 //	[self.outputHandler switchToDeviceWithName: cam];
+#endif
 }
 
 - (NSString *)baseName

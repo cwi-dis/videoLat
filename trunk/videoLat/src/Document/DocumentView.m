@@ -85,10 +85,8 @@
 			measurementType = [NSString stringWithFormat: @"%@ (based on %@ and %@)", measurementType, outputBaseMeasurementID, inputBaseMeasurementID];
         } else if (inputBaseMeasurementID) {
             measurementType = [NSString stringWithFormat: @"%@ (based on %@)", measurementType, inputBaseMeasurementID];
-            outputBaseMeasurementID = inputBaseMeasurementID;
         } else if (outputBaseMeasurementID) {
             measurementType = [NSString stringWithFormat: @"%@ (based on %@)", measurementType, outputBaseMeasurementID];
-            inputBaseMeasurementID = outputBaseMeasurementID;
         }
 		self.status.measurementType = measurementType;
         self.status.vInput.modelObject = self.modelObject.dataStore.input;
