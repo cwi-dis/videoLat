@@ -56,6 +56,7 @@
 	if (self.bBase == nil) return nil;
 	NSMenuItem *item = [self.bBase selectedItem];
 	if (item == nil) return nil;
+    if (!item.enabled) return nil;
 	return [item title];
 }
 
@@ -64,6 +65,7 @@
 	assert(self.bDevices);
 	NSMenuItem *item = [self.bDevices selectedItem];
 	if (item == nil) return nil;
+    if (!item.enabled) return nil;
 	return [item title];
 }
 
