@@ -448,7 +448,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
             if (prevInputCode && [code isEqualToString: prevInputCode]) {
                 // We have seen this code before. Only increment the detection count.
                 prevInputCodeDetectionCount++;
-				NSLog(@"Found %d copies since %lld (%lld) of %@", prevInputCodeDetectionCount, prevInputStartTime, prevInputStartTimeRemote, prevInputCode);
+				if (VL_DEBUG) NSLog(@"Found %d copies since %lld (%lld) of %@", prevInputCodeDetectionCount, prevInputStartTime, prevInputStartTimeRemote, prevInputCode);
             } else {
                 // We found a new QR code (at least, different from the last detection).
                 // Remember when we first detected it, and then see what we should do with it.
@@ -456,7 +456,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
                 prevInputCodeDetectionCount = 1;
                 prevInputStartTime = inputStartTime;
 				prevInputStartTimeRemote = [self.remoteClock remoteNow:prevInputStartTime];
-                NSLog(@"Found QR-code: %@", code);
+                if (VL_DEBUG) NSLog(@"Found QR-code: %@", code);
                 
                 // If it is a URL it is probably a prerun QR-code (which is a URL, so that if
                 // the receiver isn't running videoLat but an ordinary QR-code app they will be sent
