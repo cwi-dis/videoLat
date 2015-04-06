@@ -86,18 +86,33 @@
 
 - (CIImage *)newOutputStart
 {
-	assert(!outputActive);
-	outputActive = YES;
-	foundCurrentSample = NO;
+    assert(!outputActive);
+    outputActive = YES;
+    foundCurrentSample = NO;
     if ((self.running || self.preRunning)) {
         outputStartTime = [self.clock now];
-		if (VL_DEBUG) NSLog(@"AudioRun.newOutputStart at %lld", outputStartTime);
-		if (self.running) {
-			[self.collector recordTransmission: @"audio" at: outputStartTime];
+        if (1||VL_DEBUG) NSLog(@"AudioRun.newOutputStart at %lld", outputStartTime);
+        if (self.running) {
+            [self.collector recordTransmission: @"audio" at: outputStartTime];
         }
         
     }
     return nil;
+}
+
+- (void)newOutputStartAt: (uint64_t) startTime
+{
+    assert(!outputActive);
+    outputActive = YES;
+    foundCurrentSample = NO;
+    if ((self.running || self.preRunning)) {
+        outputStartTime = startTime;
+        if (1||VL_DEBUG) NSLog(@"AudioRun.newOutputStart at %lld clock=%lld", outputStartTime, [self.clock now]);
+        if (self.running) {
+            [self.collector recordTransmission: @"audio" at: outputStartTime];
+        }
+        
+    }
 }
 
 - (void)newOutputDone
@@ -142,7 +157,7 @@
             [self.outputCompanion triggerNewOutputValue];
         } else {
 			// Nothing found. See whether we are still expecting something
-			if ([self.clock now] - outputStartTime > maxDelay) {
+			if ([self.clock now] > outputStartTime + maxDelay) {
 				// No we are not. Admit failure, and do another sample.
 				if (self.preRunning) {
 					[self _prerunRecordNoReception];
@@ -165,7 +180,7 @@
 - (void) _prerunRecordNoReception
 {
 	assert(handlesInput);
-    if (VL_DEBUG) NSLog(@"Prerun no reception\n");
+    if (1||VL_DEBUG) NSLog(@"Prerun no reception\n");
     assert(self.preRunning);
 	// No data found within alotted time. Double the time, reset the count, change mirroring
 	if (1 || VL_DEBUG) NSLog(@"outputStartTime=%llu, maxDelay=%llu\n", outputStartTime, maxDelay);
