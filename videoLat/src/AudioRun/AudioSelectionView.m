@@ -25,11 +25,13 @@
      selector:@selector(_updateDeviceNames:)
      name:AVCaptureDeviceWasDisconnectedNotification
      object:nil];
+#ifdef AVAudioSessionRouteChangeNotification
     [[NSNotificationCenter defaultCenter]
      addObserver:self
      selector:@selector(_updateDeviceNames:)
      name:AVAudioSessionRouteChangeNotification
      object:nil];
+#endif
 }
 
 

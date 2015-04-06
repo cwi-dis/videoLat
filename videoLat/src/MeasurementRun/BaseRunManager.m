@@ -179,7 +179,6 @@ static NSMutableDictionary *runManagerSelectionNibs;
 - (IBAction)selectionChanged: (id) sender
 {
 	NSLog(@"BaseRunManager: device changed");
-	assert(0);
 }
 
 - (IBAction)startPreMeasuring: (id)sender
