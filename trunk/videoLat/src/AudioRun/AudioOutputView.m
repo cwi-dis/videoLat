@@ -12,14 +12,14 @@
 
 + (NSString *)defaultOutputDevice
 {
-#if 1
+#if TARGET_OS_IPHONE
     AVAudioSession *session = [AVAudioSession sharedInstance];
     NSArray *outputs = [[session currentRoute] outputs];
     AVAudioSessionPortDescription *descr = outputs[0];
     NSLog(@"Outputs: %@", outputs);
     return descr.portName;
 #else
-    return outputs[0];
+    return @"systemDefaultOutput";
 #endif
 }
 
@@ -106,7 +106,7 @@
 			NSLog(@"AudioOutputView.showNewData: already playing");
 			return;
 		}
-        //player.volume = self.bVolume.floatValue;
+        [self updateMeters];
         [player prepareToPlay];
         [self.manager newOutputStart]; // XXXJACK should have a newOutputStartAt: timestamp and use playAtTime
         [player play];
@@ -122,13 +122,18 @@
 {
     // Report back that we have displayed it.
     [self.manager newOutputDone];
+    [self updateMeters];
 }
 
 - (void)updateMeters
 {
     if (player) {
+        double oLevel = self.bVolume.floatValue / 100;
+        player.volume = oLevel;
         [player updateMeters];
         float level = [player averagePowerForChannel: 0];
+        level = (level + 160) / 1.6;
+        NSLog(@"updateMeters level=%f olevel=%f", level, oLevel);
 #ifdef WITH_UIKIT
 		dispatch_async(dispatch_get_main_queue(), ^{
 			[self.bOutputValue setProgress: level];
