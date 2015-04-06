@@ -384,8 +384,8 @@ static NSMutableDictionary *runManagerSelectionNibs;
 			[self.statusView.bRun setEnabled: NO];
 			[self.statusView.bStop setEnabled: NO];
 		}
-#ifdef WITH_APPKIT
 		BOOL devicesOK = ([self prepareInputDevice] && [self.outputCompanion prepareOutputDevice]);
+#ifdef WITH_APPKIT
 		[self.selectionView.bPreRun setEnabled: devicesOK];
 #endif
 	}

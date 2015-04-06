@@ -128,12 +128,14 @@
 - (void)updateMeters
 {
     if (player) {
+#ifdef WITH_APPKIT
         double oLevel = self.bVolume.floatValue / 100;
         player.volume = oLevel;
+#endif
         [player updateMeters];
         float level = [player averagePowerForChannel: 0];
         level = (level + 160) / 1.6;
-        NSLog(@"updateMeters level=%f olevel=%f", level, oLevel);
+        //NSLog(@"updateMeters level=%f olevel=%f", level, oLevel);
 #ifdef WITH_UIKIT
 		dispatch_async(dispatch_get_main_queue(), ^{
 			[self.bOutputValue setProgress: level];
