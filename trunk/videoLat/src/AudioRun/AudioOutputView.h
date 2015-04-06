@@ -41,6 +41,7 @@
 @property(weak) IBOutlet NSLevelIndicator *bOutputValue;    //!< UI element: output VU meter
 #endif
 
++ (NSString *)defaultOutputDevice;
 - (void)stop;                           //!< Called by manager when user stops the measurement run
 - (void) showNewData;                   //!< Called by manager when a new sample should be played
 - (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag;    //!< AVAudioPlayer callback routine

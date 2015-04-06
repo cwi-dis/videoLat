@@ -10,6 +10,19 @@
 
 @implementation AudioOutputView
 
++ (NSString *)defaultOutputDevice
+{
+#if 1
+    AVAudioSession *session = [AVAudioSession sharedInstance];
+    NSArray *outputs = [[session currentRoute] outputs];
+    AVAudioSessionPortDescription *descr = outputs[0];
+    NSLog(@"Outputs: %@", outputs);
+    return descr.portName;
+#else
+    return outputs[0];
+#endif
+}
+
 - (void)awakeFromNib
 {
     NSBundle *bundle = [NSBundle mainBundle];
@@ -37,12 +50,12 @@
 
 - (NSString *)deviceID
 {
-    return @"systemDefault";
+    return [[self class] defaultOutputDevice];
 }
 
 - (NSString *)deviceName
 {
-    return @"System Default Output";
+    return [[self class] defaultOutputDevice];
 }
 
 - (void)stop
@@ -71,6 +84,7 @@
     // Create the player for it
     NSError *error;
     player = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:&error];
+//    NSLog(@"Output dev=%@", player.audioOutputDeviceUniqueID);
     if (player == nil) {
         showErrorAlert(error);
         return NO;

@@ -7,6 +7,7 @@
 //
 
 #import "AudioSelectionView.h"
+#import "AudioOutputView.h"
 
 @implementation AudioSelectionView
 
@@ -24,6 +25,11 @@
      selector:@selector(_updateDeviceNames:)
      name:AVCaptureDeviceWasDisconnectedNotification
      object:nil];
+    [[NSNotificationCenter defaultCenter]
+     addObserver:self
+     selector:@selector(_updateDeviceNames:)
+     name:AVAudioSessionRouteChangeNotification
+     object:nil];
 }
 
 
@@ -34,7 +40,7 @@
 
 - (void)_updateDeviceNames: (NSNotification*) notification
 {
-    if (VL_DEBUG) NSLog(@"Audio devices changed\n");
+    if (1 || VL_DEBUG) NSLog(@"Audio devices changed, userInfo=%@\n", notification.userInfo);
     // Remember the old selection (if any)
     NSString *oldInput = nil;
     // Get all input devices
@@ -42,6 +48,7 @@
     NSArray *newList = [self.inputHandler deviceNames];
 	assert(newList);
 #ifdef WITH_UIKIT
+    oldInput = self.bInputDeviceName.text;
 	NSString *newInput;
 	if([newList count]) {
 		newInput = [newList objectAtIndex:0];
@@ -50,6 +57,8 @@
 	}
 	
 	self.bInputDeviceName.text = newInput;
+    if (1 || VL_DEBUG) NSLog(@"new audio input=%@", newInput);
+    self.bOutputDeviceName.text = [AudioOutputView defaultOutputDevice];
 #else
 	NSMenuItem *oldItem = [self.bDevices selectedItem];
     if (oldItem) {
