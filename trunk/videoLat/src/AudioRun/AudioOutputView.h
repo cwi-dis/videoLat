@@ -10,11 +10,14 @@
 #import "protocols.h"
 #import "AudioProcess.h"
 
+@class AudioRunManager;
+
 ///
 /// Subclass of NSView that allows the user to select the output device to use, gives
 /// some visual feedback on the audio level transmitted and allows the user to select the
 /// audio sample to use and the output device.
 ///
+
 @interface AudioOutputView
 #ifdef WITH_UIKIT
 : UIView <OutputViewProtocol, AVAudioPlayerDelegate>
@@ -30,7 +33,7 @@
 @property BOOL mirrored;    //!< Ignored, this is an audio device
 @property(readonly) NSString *deviceID;	//!< Unique string that identifies the output device
 @property(readonly) NSString *deviceName;	//!< Human-readable string that identifies the output device
-@property(weak) IBOutlet id <RunOutputManagerProtocol> manager; //!< Set by NIB: our run manager
+@property(weak) IBOutlet AudioRunManager *manager; //!< Set by NIB: our run manager
 @property(weak) IBOutlet AudioProcess *processor;   //!< Set by NIB: our audio processor
 #ifdef WITH_UIKIT
 @property(weak) IBOutlet UISlider *bVolume;         //!< UI element: slider to adjust output volume

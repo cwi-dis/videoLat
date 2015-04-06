@@ -45,6 +45,7 @@
 
 // MeasurementOutputManagerProtocol
 - (CIImage *)newOutputStart;
+- (void)newOutputStartAt: (uint64_t) startTime;
 - (void)newOutputDone;
 
 #if 0
