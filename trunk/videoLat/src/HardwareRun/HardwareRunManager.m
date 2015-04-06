@@ -46,12 +46,12 @@
 + (void) initialize
 {
     [BaseRunManager registerClass: [self class] forMeasurementType: @"Hardware Calibrate"];
-    [BaseRunManager registerNib: @"HardwareRunManager" forMeasurementType: @"Hardware Calibrate"];
+    [BaseRunManager registerNib: @"HardwareRun" forMeasurementType: @"Hardware Calibrate"];
 
     [BaseRunManager registerClass: [self class] forMeasurementType: @"Screen Calibrate"];
-    [BaseRunManager registerNib: @"ScreenToHardwareRunManager" forMeasurementType: @"Screen Calibrate"];
+    [BaseRunManager registerNib: @"ScreenToHardwareRun" forMeasurementType: @"Screen Calibrate"];
     // We should also ensure that the hardware protocol is actually part of the binary
-    if (VL_DEBUG) NSLog(@"HardwareLightProtocol = %@", @protocol(HardwareLightProtocol));
+    NSLog(@"HardwareLightProtocol = %@", @protocol(HardwareLightProtocol));
 }
 
 - (HardwareRunManager*)init
