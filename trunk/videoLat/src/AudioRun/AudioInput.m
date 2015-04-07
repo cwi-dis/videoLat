@@ -286,9 +286,15 @@
         NSLog( @"Cannot make data ready. Skipping sample" );
         return;
     }
+
+	CMTime durationCMT = CMSampleBufferGetDuration(sampleBuffer);
+    durationCMT = CMTimeConvertScale(durationCMT, 1000000, kCMTimeRoundingMethod_Default);
+    UInt64 duration = durationCMT.value;
+
     CMTime timestampCMT = CMSampleBufferGetPresentationTimeStamp(sampleBuffer);
     timestampCMT = CMTimeConvertScale(timestampCMT, 1000000, kCMTimeRoundingMethod_Default);
     UInt64 timestamp = timestampCMT.value;
+	
     UInt64 now_timestamp = [self now];
     SInt64 delta = now_timestamp - timestamp;
     if (1) {
@@ -316,7 +322,11 @@
     }
     if (err == 0 && bufferList[0].mNumberBuffers == 1) {
 		// Pass to the manager
-		[self.manager newInputDone: bufferList[0].mBuffers[0].mData size: bufferList[0].mBuffers[0].mDataByteSize channels: bufferList[0].mBuffers[0].mNumberChannels at: [self now]];
+		[self.manager newInputDone: bufferList[0].mBuffers[0].mData
+					  size: bufferList[0].mBuffers[0].mDataByteSize
+					  channels: bufferList[0].mBuffers[0].mNumberChannels
+					  at: [self now]
+					  duration: duration];
 	} else {
 		NSLog(@"AudioInput: CMSampleBufferGetAudioBufferListWithRetainedBlockBuffer returned err=%d, mNumberBuffers=%d", (int)err, (unsigned int)(bufferList?bufferList[0].mNumberBuffers:-1));
 	}

@@ -480,6 +480,7 @@ static NSMutableDictionary *runManagerSelectionNibs;
                 size: (int)size
             channels: (int)channels
                   at: (uint64_t)timestamp
+				  duration: (uint64_t)duration
 {
 	[NSException raise:@"BaseRunManager" format:@"Must override newInputDone:buffer:size:channels:at in subclass %@", [self class]];
 }
