@@ -11,6 +11,8 @@
 #import "AudioProcess.h"
 #import <AVFoundation/AVFoundation.h>
 
+#define MAX_FEED_DURATION 10000
+
 @implementation AudioProcess
 
 @synthesize originalSignature;
@@ -34,7 +36,7 @@
 - (void)_reset
 {
     wasNoisy = NO;
-	prevEnergy = 999999;
+	prevEnergy = 2.0; // Impossible value, will lead to initialization using the first measurement.
 	matchTimestamp = 0;
 }
 
@@ -67,9 +69,15 @@
         sampleBuffer = [fileOutput copyNextSampleBuffer];
         if (sampleBuffer == NULL) break;
         assert(CMSampleBufferDataIsReady(sampleBuffer));
+
+        CMTime durationCMT = CMSampleBufferGetDuration(sampleBuffer);
+        durationCMT = CMTimeConvertScale(durationCMT, 1000000, kCMTimeRoundingMethod_Default);
+        UInt64 duration = durationCMT.value;
+
         CMTime timestampCMT = CMSampleBufferGetPresentationTimeStamp(sampleBuffer);
         timestampCMT = CMTimeConvertScale(timestampCMT, 1000000, kCMTimeRoundingMethod_Default);
         UInt64 timestamp = timestampCMT.value;
+
         CMFormatDescriptionRef formatDescription = CMSampleBufferGetFormatDescription(sampleBuffer);
         assert(formatDescription);
         OSType format = CMFormatDescriptionGetMediaSubType(formatDescription);
@@ -92,14 +100,22 @@
             // Pass to the manager in chunks of 1K samples.
             // XXXJACK Note that the 1K is temporary, it happens to be what the input processor does
             void *chunkBuffer = bufferList[0].mBuffers[0].mData;
-            size_t chunkRemaining = bufferList[0].mBuffers[0].mDataByteSize;
+            size_t chunkTotalSize = bufferList[0].mBuffers[0].mDataByteSize;
+            size_t chunkRemaining = chunkTotalSize;
             int numChannels = bufferList[0].mBuffers[0].mNumberChannels;
             do {
                 size_t chunkSize = nSampleToFeed*sampleSize*numChannels;
                 if (chunkSize > chunkRemaining) chunkSize = chunkRemaining;
-                BOOL noisy = [self feedData: chunkBuffer size: chunkSize channels: numChannels bitsPerChannel: sampleSize*8 at: timestamp];
+				UInt64 chunkDuration = (chunkSize * duration) / chunkTotalSize;
+                BOOL noisy = [self feedData: chunkBuffer
+								   size: chunkSize
+								   channels: numChannels
+								   bitsPerChannel: sampleSize*8
+								   at: timestamp
+								   duration: chunkDuration];
                 if (VL_DEBUG) NSLog(@"timestamp %lld noisy %d", timestamp, noisy);
-                if (noisy) [rv addObject: [NSNumber numberWithLongLong:(long long)timestamp]];
+                if (noisy)
+					[rv addObject: [NSNumber numberWithLongLong:(long long)timestamp]];
                 chunkRemaining -= chunkSize;
                 chunkBuffer += chunkSize;
                 timestamp += (UInt64)((Float64)(nSampleToFeed / sampleRate) * 1000000.0); // May overshoot, but only at end-of-buffer
@@ -116,54 +132,77 @@
     [fileReader cancelReading];
     // Prepare for normal feedData input:
     [self _reset];
+	assert(rv);
+	assert([rv count]);
     return rv;
 }
 
-- (BOOL)feedData: (void *)buffer size: (size_t)size channels: (int)channels bitsPerChannel: (int)nBits at: (uint64_t)now
+- (BOOL)feedData: (void *)buffer size: (size_t)size channels: (int)channels bitsPerChannel: (int)nBits at: (uint64_t)now duration: (uint64_t)duration
 {
+	if (duration > MAX_FEED_DURATION) {
+		if (VL_DEBUG) NSLog(@"feedData recurse");
+		size_t halfSize = size/2;
+		halfSize -= (halfSize % (channels * nBits / 8));
+		uint64_t halfDuration = duration / 2;
+		BOOL rv1 = [self feedData:buffer size:halfSize channels:channels bitsPerChannel:nBits at:now duration:halfDuration];
+		BOOL rv2 = [self feedData:buffer+halfSize size:size-halfSize channels:channels bitsPerChannel:nBits at:now+halfDuration duration:halfDuration];
+		return rv1 || rv2;
+	}
+	if (VL_DEBUG) NSLog(@"feedData duration=%lld µS", duration);
 	double energy = 0;
     if (nBits == 16) {
         SInt16 *sBuffer = (SInt16 *)buffer;
         size_t n = size / sizeof(short);
+		assert(n*sizeof(short) == size);
         for (int i=0; i < n; i++) {
-            energy += sBuffer[i]*sBuffer[i];
+			SInt16 sval = sBuffer[i];
+            energy += (double)abs(sval) / 32768.0;
         }
         energy /= n;
     } else if (1 && nBits == 32) { // Hack: floating point numbers
         float *lBuffer = (float *)buffer;
-        size_t n = size / sizeof(long);
+        size_t n = size / sizeof(float);
+		assert(n*sizeof(float) == size);
         for (int i=0; i < n; i++) {
             float fval = lBuffer[i];
-            short sval = (short)(fval*32767);
-            energy += sval*sval;
+            energy += fabs(fval);
         }
         energy /= n;
     } else if (nBits == 32) {
         SInt32 *lBuffer = (SInt32 *)buffer;
         size_t n = size / sizeof(long);
+		assert(n*sizeof(long) == size);
         for (int i=0; i < n; i++) {
             long lval = lBuffer[i];
             short sval = (short)(lval >> 16);
-            energy += sval*sval;
+            energy += (double)abs(sval) / 32768.0;
         }
         energy /= n;
     } else {
         assert(0);
     }
     
-	//NSLog(@"energy=%f, prevEnergy=%f, bits=%d", energy, prevEnergy, nBits);
-	if (wasNoisy) {
+	if (VL_DEBUG) NSLog(@"energy=%f, prevEnergy=%f, bits=%d", energy, prevEnergy, nBits);
+	BOOL isNoisy;
+	if (prevEnergy > 1) {
+		isNoisy = NO;
+		wasNoisy = NO;
+		prevEnergy = energy;
+	} else if (wasNoisy) {
 		// If we were noisy before we'll still consider it noisy
 		// if we're over 75% of what we had
-		wasNoisy = (energy > 1 + 0.5 * prevEnergy);
+		isNoisy = (energy > 0.01 + 0.5 * prevEnergy);
 		prevEnergy = (3*energy + prevEnergy) / 4;
 	} else {
 		// If we were quiet we want at least twice the noise
-		wasNoisy = (energy > 1 + 4 * prevEnergy);
-		prevEnergy = energy;
+		isNoisy = (energy > 0.01 + 4 * prevEnergy);
+		prevEnergy = (3*energy + prevEnergy) / 4;
+	}
+	if (isNoisy && !wasNoisy) {
 		matchTimestamp = now;
 	}
-	return wasNoisy;
+	wasNoisy = isNoisy;
+	return isNoisy;
 }
 
 - (uint64_t) lastMatchTimestamp

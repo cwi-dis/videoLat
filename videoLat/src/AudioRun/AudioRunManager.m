@@ -91,7 +91,7 @@
     foundCurrentSample = NO;
     if ((self.running || self.preRunning)) {
         outputStartTime = [self.clock now];
-        if (1||VL_DEBUG) NSLog(@"AudioRun.newOutputStart at %lld", outputStartTime);
+        if (VL_DEBUG) NSLog(@"AudioRun.newOutputStart at %lld", outputStartTime);
         if (self.running) {
             [self.collector recordTransmission: @"audio" at: outputStartTime];
         }
@@ -107,7 +107,7 @@
     foundCurrentSample = NO;
     if ((self.running || self.preRunning)) {
         outputStartTime = startTime;
-        if (1||VL_DEBUG) NSLog(@"AudioRun.newOutputStart at %lld clock=%lld", outputStartTime, [self.clock now]);
+        if (VL_DEBUG) NSLog(@"AudioRun.newOutputStart at %lld clock=%lld", outputStartTime, [self.clock now]);
         if (self.running) {
             [self.collector recordTransmission: @"audio" at: outputStartTime];
         }
@@ -124,11 +124,12 @@
 		[self triggerNewOutputValue];
 }
 
-- (void) newInputDone: (void*)buffer size: (int)size channels: (int)channels at: (uint64_t)timestamp
+- (void) newInputDone: (void*)buffer size: (int)size channels: (int)channels at: (uint64_t)timestamp duration: (uint64_t)duration
 {
     @synchronized(self) {
 		// See whether we detect the pattern we are looking for, and report to user.
-        BOOL foundSample = [self.processor feedData:buffer size:size channels:channels bitsPerChannel: 16 at:timestamp];
+		if (VL_DEBUG) NSLog(@"Got %d samples %lldµS", size/(channels*2), duration);
+        BOOL foundSample = [self.processor feedData:buffer size:size channels:channels bitsPerChannel: 16 at:timestamp duration: duration];
 #ifdef WITH_UIKIT
 		dispatch_async(dispatch_get_main_queue(), ^{
 			self.bDetection.on = foundSample;
@@ -193,7 +194,7 @@
 
 - (void) _prerunRecordReception: (NSString *)code
 {
-    if (1 || VL_DEBUG) NSLog(@"prerun reception %@\n", code);
+    if (VL_DEBUG) NSLog(@"prerun reception %@\n", code);
     assert(self.preRunning);
     if (self.preRunning) {
 	
@@ -202,7 +203,7 @@
         self.statusView.detectCount = [NSString stringWithFormat: @"%d more", prerunMoreNeeded];
 		self.statusView.detectAverage = @"";
         [self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
-        if (1 || VL_DEBUG) NSLog(@"preRunMoreMeeded=%d\n", prerunMoreNeeded);
+        if (VL_DEBUG) NSLog(@"preRunMoreMeeded=%d\n", prerunMoreNeeded);
 		
         if (prerunMoreNeeded == 0) {
             self.statusView.detectCount = @"";

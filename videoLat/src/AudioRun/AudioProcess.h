@@ -39,7 +39,7 @@
 /// Once this method returns true you can use @see lastMatchTimestamp to obtain the timestamp of the
 /// match.
 ///
-- (BOOL)feedData: (void *)buffer size: (size_t)size channels: (int)channels bitsPerChannel: (int)nBits at: (uint64_t)now;
+- (BOOL)feedData: (void *)buffer size: (size_t)size channels: (int)channels bitsPerChannel: (int)nBits at: (uint64_t)now duration: (uint64_t)duration;
 ///
 /// Timestamp (in @see feedData terms) of match that corresponds to the beginning of
 /// the sample fed to @see processOriginal.

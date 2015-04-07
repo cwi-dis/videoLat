@@ -135,7 +135,7 @@
     }
     if ([lastTransmission isEqualToString:data]) {
         if (time < lastTransmissionTime) {
-            NSLog(@"Collector: received %@ at %lld, which is earlier than transmit time %lld", data, time, lastTransmissionTime);
+            NSLog(@"Collector: received %@ at %lld, which is %lldus earlier than transmit time %lld", data, time, lastTransmissionTime-time, lastTransmissionTime);
             return NO;
         }
         if (!lastTransmissionReceived) {
