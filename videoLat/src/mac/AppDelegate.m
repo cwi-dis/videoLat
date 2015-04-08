@@ -13,6 +13,11 @@
 @synthesize locationManager;
 @synthesize location;
 
+- (void)applicationWillTerminate:(NSNotification *)notification
+{
+	if (self.newdocWindow)
+		[self.newdocWindow setDelegate:nil];
+}
 
 - (void)applicationWillFinishLaunching:(NSNotification *)aNotification
 {
