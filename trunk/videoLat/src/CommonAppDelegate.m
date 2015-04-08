@@ -89,7 +89,7 @@
 		NSError *error;
 		BOOL ok = [self _loadCalibration: url error: &error];
 		if (!ok) {
-		showErrorAlert(error);
+			showErrorAlert(error);
 		}
 	}
 }
@@ -104,14 +104,15 @@
     if (![str isEqualToString:@"videoLat"]) {
 		if (outError)
 			*outError = [[NSError alloc] initWithDomain:NSCocoaErrorDomain code:NSFileReadCorruptFileError
-                                               userInfo:@{NSLocalizedDescriptionKey : @"This is not a videoLat file"}];
+                                               userInfo:@{NSLocalizedDescriptionKey : @"This is not a videoLat file."}];
         return NO;
     }
     str = [dict objectForKey:@"version"];
     if (![str isEqualToString:VIDEOLAT_FILE_VERSION]) {
         if (outError) {
+			NSString *messageString = [NSString stringWithFormat:@"Unsupported version (%@) videoLat file.", str];
             *outError = [[NSError alloc] initWithDomain:NSCocoaErrorDomain code:NSFileReadCorruptFileError
-                                               userInfo:@{NSLocalizedDescriptionKey : @"Unsupported version in videoLat file"}];
+                                               userInfo:@{NSLocalizedDescriptionKey : messageString}];
         }
         return NO;
     }
@@ -122,7 +123,7 @@
     if (!dataStore) {
         if (outError) {
             *outError = [[NSError alloc] initWithDomain:NSCocoaErrorDomain code:NSFileReadCorruptFileError
-                                               userInfo:@{NSLocalizedDescriptionKey : @"No dataStore in videolat file"}];
+                                               userInfo:@{NSLocalizedDescriptionKey : @"No dataStore in videolat file."}];
         }
         return NO;
     }

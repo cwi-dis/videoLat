@@ -7,6 +7,7 @@
 //
 
 #import "MeasurementDataStore.h"
+#import "MeasurementType.h"
 
 @implementation MeasurementDataStore
 @synthesize measurementType;
@@ -53,7 +54,30 @@
 
 - (double) baseMeasurementAverage {
     if (calibration) return calibration.average;
-	if(input.calibration || output.calibration) return input.calibration.average + output.calibration.average;
+	if(input.calibration || output.calibration) {
+		// If either input (or output) is a roundtrip measurement we must compensate.
+		// Our best guess is halving the number.
+		// NOTE: this is statistically unsafe, and should only be used if the numbers
+		// are small. This is generally the case for hardware base measurements (and
+		// possibly for audio measurements.
+		double inputAverage = input.calibration.average;
+#if 0
+		if (inputAverage) {
+			MeasurementType *inputType = [MeasurementType forType: input.calibration.measurementType];
+			if (!inputType.inputOnlyCalibration)
+				inputAverage = inputAverage / 2;
+		}
+#endif
+		double outputAverage = output.calibration.average;
+#if 0
+		if (outputAverage) {
+			MeasurementType *outputType = [MeasurementType forType: output.calibration.measurementType];
+			if (!outputType.outputOnlyCalibration)
+				outputAverage = outputAverage / 2;
+		}
+#endif
+		return inputAverage + outputAverage;
+	}
 	return 0;
 }
 
@@ -215,6 +239,10 @@
 
 - (void) addDataPoint: (NSString*) data sent: (uint64_t)sent received: (uint64_t) received
 {
+	if ([store count] == 0) {
+		// First datapoint added.
+		NSLog(@"MeasurementDataStore: will subtract base measurement average %f µS", self.baseMeasurementAverage);
+	}
 	int64_t delay = received - sent;
 	delay -= (int64_t)self.baseMeasurementAverage;
     sum += delay;
