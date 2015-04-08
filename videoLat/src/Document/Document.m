@@ -177,7 +177,7 @@
             *outError = [[NSError alloc] initWithDomain:NSCocoaErrorDomain code:NSFileReadCorruptFileError
                                                userInfo:@{
                                                           NSLocalizedRecoverySuggestionErrorKey :
-                                                              [NSString stringWithFormat: @"Unsupported version (%@) in videoLat file.", str],
+                                                              [NSString stringWithFormat: @"Unsupported version (%@) in videoLat file. Visit www.videoLat.org for older versions of the application.", str],
                                                           }];
         }
         return NO;

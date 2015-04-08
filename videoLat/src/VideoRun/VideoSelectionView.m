@@ -104,7 +104,7 @@
 
 - (NSString *)deviceName
 {
-    assert(self.bDevices);
+    if(!self.bDevices) return nil;
     NSMenuItem *item = [self.bDevices selectedItem];
     if (item == nil) return nil;
     return [item title];

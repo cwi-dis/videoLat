@@ -296,10 +296,12 @@
 	
 	if (!myType.isCalibration) return NO;
 
+#if 0
 	// Axctually, we only want to upload single-ended measurements
 	if (!myType.outputOnlyCalibration && !myType.inputOnlyCalibration) {
 		return NO;
 	}
+#endif
 
 	if (!myType.outputOnlyCalibration) {
 		if (dataStore.input == nil) {
