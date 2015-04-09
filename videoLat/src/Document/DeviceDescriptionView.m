@@ -16,6 +16,7 @@
 @synthesize bDevice;
 @synthesize bCalibration;
 @synthesize bOpenCalibration;
+@synthesize bCalibrationLabel;
 @synthesize modelObject;
 
 #ifdef WITH_UIKIT
@@ -36,15 +37,19 @@
     if (bLocation) bLocation.stringValue = modelObject.location;
     if (bDevice) bDevice.stringValue = modelObject.device;
     if (bCalibration) {
-        NSString *val = @"";
         if (modelObject.calibration) {
             [bOpenCalibration setEnabled:YES];
-            val = modelObject.calibration.descriptiveName;
+			bOpenCalibration.hidden = NO;
+			bCalibration.hidden = NO;
+			bCalibrationLabel.hidden = NO;
+            bCalibration.stringValue = modelObject.calibration.descriptiveName;
         } else {
             [bOpenCalibration setEnabled:NO];
-            val = @"";
+			bOpenCalibration.hidden = YES;
+			bCalibration.hidden = YES;
+			bCalibrationLabel.hidden = YES;
+            bCalibration.stringValue = @"";
         }
-        bCalibration.stringValue = val;
     }
 }
 
