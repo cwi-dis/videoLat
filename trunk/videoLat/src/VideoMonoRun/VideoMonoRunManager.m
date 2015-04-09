@@ -19,16 +19,16 @@
 + (void) initialize
 {
     [BaseRunManager registerClass: [self class] forMeasurementType: @"Video Mono Roundtrip"];
-    [BaseRunManager registerNib: @"VideoMonoRunManager" forMeasurementType: @"Video Mono Roundtrip"];
+    [BaseRunManager registerNib: @"VideoMonoRun" forMeasurementType: @"Video Mono Roundtrip"];
     // We also register ourselves for camera calibration. At the very least we must make
     // sure the nibfile is registered...
     [BaseRunManager registerClass: [self class] forMeasurementType: @"Camera Calibrate"];
-    [BaseRunManager registerNib: @"HardwareToCameraRunManager" forMeasurementType: @"Camera Calibrate"];
+    [BaseRunManager registerNib: @"HardwareToCameraRun" forMeasurementType: @"Camera Calibrate"];
     
     [BaseRunManager registerClass: [self class] forMeasurementType: @"Camera Calibrate using Calibrated Screen"];
-    [BaseRunManager registerNib: @"CalibrateCameraFromScreenRunManager" forMeasurementType: @"Camera Calibrate using Calibrated Screen"];
+    [BaseRunManager registerNib: @"CalibrateCameraFromScreenRun" forMeasurementType: @"Camera Calibrate using Calibrated Screen"];
     [BaseRunManager registerClass: [self class] forMeasurementType: @"Screen Calibrate using Calibrated Camera"];
-    [BaseRunManager registerNib: @"CalibrateScreenFromCameraRunManager" forMeasurementType: @"Screen Calibrate using Calibrated Camera"];
+    [BaseRunManager registerNib: @"CalibrateScreenFromCameraRun" forMeasurementType: @"Screen Calibrate using Calibrated Camera"];
 
 #ifdef WITH_UIKIT
     [BaseRunManager registerSelectionNib: @"VideoInputSelectionView" forMeasurementType: @"Video Mono Roundtrip"];
