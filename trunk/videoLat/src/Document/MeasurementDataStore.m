@@ -23,6 +23,11 @@
 @synthesize count;
 @synthesize missCount;
 
+- (BOOL) hasSeparateCalibrations
+{
+	return (calibration == nil);
+}
+
 - (MeasurementDataStore *)outputCalibration {
     MeasurementDataStore *c = output.calibration;
     if (c == nil) c = calibration;

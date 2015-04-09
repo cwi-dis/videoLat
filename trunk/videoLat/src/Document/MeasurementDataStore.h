@@ -43,8 +43,9 @@
 @property(readonly) int missCount;
 @property(readonly) NSString *outputBaseMeasurementID;
 @property(readonly) NSString *inputBaseMeasurementID;
-@property(readonly) MeasurementDataStore *inputCalibration;
-@property(readonly) MeasurementDataStore *outputCalibration;
+@property(readonly) BOOL hasSeparateCalibrations;	//!< True if we have distinct input and output calibrations
+@property(readonly) MeasurementDataStore *inputCalibration;	//!< Our input calibration (or shared calibration)
+@property(readonly) MeasurementDataStore *outputCalibration;	//!< Our output calibration (or shared calibration)
 @property(readonly) double baseMeasurementAverage;  //!< Records average of base measurement, for convenience
 @property(readonly) double baseMeasurementStddev;  //!< Records stddev of base measurement, for convenience
 
