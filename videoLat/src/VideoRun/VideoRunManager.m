@@ -8,6 +8,7 @@
 #import "VideoRunManager.h"
 #import "FindQRCodes.h"
 #import "GenQRCodes.h"
+#import "EventLogger.h"
 #import <sys/sysctl.h>
 
 //
@@ -150,6 +151,7 @@
 		uint64_t outputTime = [self.clock now];
 		if (self.running) {
 			[self.collector recordTransmission: self.outputCode at: outputTime];
+			VL_LOG_EVENT(@"transmission", outputTime, self.outputCode);
         }
         outputStartTime = 0;
     }
@@ -295,6 +297,7 @@
                 // Let's first report it.
 				if (self.running) {
 					BOOL ok = [self.collector recordReception: self.outputCompanion.outputCode at: inputStartTime];
+					VL_LOG_EVENT(@"reception", inputStartTime, self.outputCompanion.outputCode);
                     if (!ok) {
 #ifdef WITH_APPKIT
                         NSAlert *alert = [NSAlert alertWithMessageText:@"Reception before transmission."

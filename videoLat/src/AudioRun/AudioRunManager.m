@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "AudioRunManager.h"
 #import "MachineDescription.h"
+#import "EventLogger.h"
 
 @implementation AudioRunManager
 
@@ -94,6 +95,8 @@
         if (VL_DEBUG) NSLog(@"AudioRun.newOutputStart at %lld", outputStartTime);
         if (self.running) {
             [self.collector recordTransmission: @"audio" at: outputStartTime];
+			VL_LOG_EVENT(@"transmission", outputStartTime, @"audio");
+
         }
         
     }
@@ -110,6 +113,7 @@
         if (VL_DEBUG) NSLog(@"AudioRun.newOutputStart at %lld clock=%lld", outputStartTime, [self.clock now]);
         if (self.running) {
             [self.collector recordTransmission: @"audio" at: outputStartTime];
+			VL_LOG_EVENT(@"transmission", outputStartTime, @"audio");
         }
         
     }
@@ -152,6 +156,7 @@
 			foundCurrentSample = YES;
             if (self.running) {
                 [self.collector recordReception: @"audio" at: [self.processor lastMatchTimestamp]];
+				VL_LOG_EVENT(@"reception", [self.processor lastMatchTimestamp], @"audio");
             } else if (self.preRunning) {
                 [self _prerunRecordReception: self.outputCompanion.outputCode];
             }
@@ -164,6 +169,7 @@
 					[self _prerunRecordNoReception];
 				} else {
 					[self.collector recordReception: @"noaudio" at: [self.clock now]];
+					VL_LOG_EVENT(@"noReception", [self.clock now], @"noaudio");
 				}
 				[self.outputCompanion triggerNewOutputValue];
 			}

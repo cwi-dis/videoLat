@@ -9,6 +9,7 @@
 #import "BaseRunManager.h"
 #import "MachineDescription.h"
 #import "AppDelegate.h"
+#import "EventLogger.h"
 
 static NSMutableDictionary *runManagerClasses;
 static NSMutableDictionary *runManagerNibs;
@@ -252,6 +253,7 @@ static NSMutableDictionary *runManagerSelectionNibs;
         maxDelay = self.initialPrerunDelay; // Start with 1ms delay (ridiculously low)
         prerunMoreNeeded = self.initialPrerunCount;
         self.preRunning = YES;
+		VL_LOG_EVENT(@"startPremeasuring", 0LL, @"");
 		[self.capturer startCapturing: YES];
 		[self.outputCompanion triggerNewOutputValue];
 	}
@@ -275,6 +277,7 @@ static NSMutableDictionary *runManagerSelectionNibs;
 		assert (self.statusView);
 		[self.statusView.bRun setEnabled: YES];
 		[self.statusView.bStop setEnabled: NO];
+		VL_LOG_EVENT(@"stopPremeasuring", 0LL, @"");
 	}
 }
 
@@ -301,6 +304,7 @@ static NSMutableDictionary *runManagerSelectionNibs;
 		[self.statusView.bRun setEnabled: NO];
 		[self.statusView.bStop setEnabled: YES];
         self.running = YES;
+		VL_LOG_EVENT(@"startMeasuring", 0LL, @"");
         if (!handlesOutput)
             [self.outputCompanion companionStartMeasuring];
         [self.capturer startCapturing: NO];
@@ -380,6 +384,7 @@ static NSMutableDictionary *runManagerSelectionNibs;
 #endif
 		self.preRunning = NO;
 		self.running = NO;
+		VL_LOG_EVENT(@"restart", 0LL, self.measurementType.name);
 		if (self.statusView) {
 			[self.statusView.bRun setEnabled: NO];
 			[self.statusView.bStop setEnabled: NO];
@@ -404,6 +409,7 @@ static NSMutableDictionary *runManagerSelectionNibs;
     
 - (IBAction)stopMeasuring: (id)sender
 {
+	VL_LOG_EVENT(@"stop", 0LL, @"");
     [self stop];
     [self.collector stopCollecting];
     [self.collector trim];

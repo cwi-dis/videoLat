@@ -22,7 +22,8 @@
 @property(weak) IBOutlet NSWindow *newdocWindow;
 
 - (void)applicationWillFinishLaunching:(NSNotification *)aNotification; //!< Standard method called to signal application start.
-- (BOOL) applicationShouldOpenUntitledFile: (id)sender;
+- (void)applicationWillTerminate:(NSNotification *)notification;	//!< Standard method called to signal application termination
+- (BOOL) applicationShouldOpenUntitledFile: (id)sender;	//!< Standard method to ask whether an untilted document should be opened
 
 // methods for instance variable 'uuidToURL'
 - (void)openUntitledDocumentWithMeasurement: (MeasurementDataStore *)dataStore;
@@ -31,6 +32,7 @@
 
 - (IBAction)openHardwareFolder:(id)sender;      //!< Method to be called when the user wants to view the hardware drivers folder.
 - (IBAction)newMeasurement:(id)sender;          //!< Method to be called when the user wants to do a new measurement
+- (IBAction)saveLogFile: (id)sender;			//!< Method called when the user wants to save a detailed log file
 - (NSArray *)hardwareNames;                     //!< Names of all available hardware drivers
 - (NSURL *)hardwareFolder;                      //!< URL of folder containing hardware drivers
 
