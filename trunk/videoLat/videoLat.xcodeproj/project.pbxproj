@@ -21,6 +21,7 @@
 		045AA71619E71BA400E28AED /* MasterSenderRun.xib in Resources */ = {isa = PBXBuildFile; fileRef = 045AA71519E71BA300E28AED /* MasterSenderRun.xib */; };
 		0461ED201A9FCD1F00439749 /* MasterSenderScreenCalibrationRun.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0461ED1F1A9FCD1F00439749 /* MasterSenderScreenCalibrationRun.xib */; };
 		0461ED221A9FCD9600439749 /* SlaveReceiverRun.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0461ED211A9FCD9600439749 /* SlaveReceiverRun.xib */; };
+		0472F3AE1AD7D07700415BA9 /* EventLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 0472F3AD1AD7D07700415BA9 /* EventLogger.m */; };
 		047DD1C2183A3B4C00A04F83 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 047DD1C1183A3B4C00A04F83 /* Cocoa.framework */; };
 		047F65E01A9620B400D86391 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 047F65DF1A9620B400D86391 /* SystemConfiguration.framework */; };
 		048FB6F519FD21040023D29C /* HardwareDevices in Resources */ = {isa = PBXBuildFile; fileRef = 048FB6F419FD21040023D29C /* HardwareDevices */; };
@@ -111,6 +112,8 @@
 		045AA71519E71BA300E28AED /* MasterSenderRun.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MasterSenderRun.xib; path = MasterSenderRun/MasterSenderRun.xib; sourceTree = "<group>"; };
 		0461ED1F1A9FCD1F00439749 /* MasterSenderScreenCalibrationRun.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MasterSenderScreenCalibrationRun.xib; path = MasterSenderRun/MasterSenderScreenCalibrationRun.xib; sourceTree = "<group>"; };
 		0461ED211A9FCD9600439749 /* SlaveReceiverRun.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SlaveReceiverRun.xib; path = SlaveReceiverRun/SlaveReceiverRun.xib; sourceTree = "<group>"; };
+		0472F3AC1AD7D07700415BA9 /* EventLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventLogger.h; sourceTree = "<group>"; };
+		0472F3AD1AD7D07700415BA9 /* EventLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventLogger.m; sourceTree = "<group>"; };
 		047DD1BD183A3B4C00A04F83 /* videoLat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = videoLat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		047DD1C1183A3B4C00A04F83 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		047DD1C4183A3B4C00A04F83 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -392,6 +395,8 @@
 				04FFFC591AB2F0150023ED13 /* AppDelegate.m */,
 				042ABE301AD1E21A00FB877A /* CommonAppDelegate.h */,
 				042ABE311AD1E21A00FB877A /* CommonAppDelegate.m */,
+				0472F3AC1AD7D07700415BA9 /* EventLogger.h */,
+				0472F3AD1AD7D07700415BA9 /* EventLogger.m */,
 				0497263C18FD596F00625326 /* MeasurementType.h */,
 				0497263D18FD596F00625326 /* MeasurementType.m */,
 				04FFFC5B1AB2F02B0023ED13 /* PythonLoader.h */,
@@ -708,6 +713,7 @@
 				042574921AA8F28800CFD180 /* CalibrationSharing.m in Sources */,
 				049725E718FD568A00625326 /* HardwareOutputView.m in Sources */,
 				0497263718FD592C00625326 /* DocumentDescriptionView.m in Sources */,
+				0472F3AE1AD7D07700415BA9 /* EventLogger.m in Sources */,
 				04FFFC5A1AB2F0150023ED13 /* AppDelegate.m in Sources */,
 				0497260C18FD580300625326 /* VideoOutputView.m in Sources */,
 				04A6D93B1AB7820A0065FEA5 /* DeviceDescriptionView.m in Sources */,

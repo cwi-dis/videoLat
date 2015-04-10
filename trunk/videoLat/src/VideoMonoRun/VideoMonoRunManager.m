@@ -6,6 +6,7 @@
 //
 
 #import "VideoMonoRunManager.h"
+#import "EventLogger.h"
 
 // How long we keep a random light level before changing it, when not running or
 // prerunning. In microseconds.
@@ -138,6 +139,7 @@
 			if ([inputCode isEqualToString: self.outputCompanion.outputCode]) {
 				if (self.running) {
 					[self.collector recordReception: inputCode at: inputStartTime];
+					VL_LOG_EVENT(@"reception", inputStartTime, inputCode);
 					self.statusView.detectCount = [NSString stringWithFormat: @"%d", self.collector.count];
 					self.statusView.detectAverage = [NSString stringWithFormat: @"%.3f ms ± %.3f", self.collector.average / 1000.0, self.collector.stddev / 1000.0];
 					[self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];

@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "Document.h"
+#import "EventLogger.h"
 
 @implementation AppDelegate
 @synthesize locationManager;
@@ -15,6 +16,7 @@
 
 - (void)applicationWillTerminate:(NSNotification *)notification
 {
+	[[EventLogger sharedLogger] close];
 	if (self.newdocWindow)
 		[self.newdocWindow setDelegate:nil];
 }
@@ -40,6 +42,20 @@
 {
     [[NSWorkspace sharedWorkspace] openURL: [self hardwareFolder]];
 }
+
+- (IBAction)saveLogFile: (id)sender
+{
+	NSSavePanel *savePanel = [NSSavePanel savePanel];
+	savePanel.title = @"Save detailed logfile";
+	savePanel.nameFieldStringValue = @"videoLat.log";
+	savePanel.allowsOtherFileTypes = YES;
+	[savePanel setExtensionHidden: NO];
+	NSInteger rv = [savePanel runModal];
+	if (rv == NSFileHandlingPanelOKButton) {
+		[[EventLogger sharedLogger] save: savePanel.URL];
+	}
+}
+
 
 - (NSArray *)hardwareNames
 {

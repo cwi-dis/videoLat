@@ -1,4 +1,5 @@
 #import "VideoInput.h"
+#import "EventLogger.h"
 #import <QuartzCore/QuartzCore.h>
 #import <mach/mach.h>
 #import <mach/mach_time.h>
@@ -331,6 +332,7 @@
 	nLateDrops = 0;
 #endif
 	[self.manager restart];
+	VL_LOG_EVENT(@"startCamera", 0, deviceName);
 	[session startRunning];
 }
 
@@ -415,7 +417,10 @@
 	nFrames++;
 #endif
     SInt64 delta = now_timestamp - timestamp;
-    if (1) {
+	VL_LOG_EVENT(@"cameraCaptureVideoClock", timestamp, @"");
+	NSString *deltaStr = [NSString stringWithFormat:@"delta=%lld", delta];
+	VL_LOG_EVENT(@"cameraCaptureSelfClock", now_timestamp, deltaStr);
+    if (delta) {
         //
         // Suspect code ahead. On some combinations of camera and OS the video presentation
         // timestamp clock drifts. We compensate by slowly moving the epoch of our software
@@ -466,6 +471,7 @@
 didDropSampleBuffer:(CMSampleBufferRef)sampleBuffer
        fromConnection:(AVCaptureConnection *)connection;
 {
+	VL_LOG_EVENT(@"cameraCaptureDrop", 0, @"");
     // Should adjust maximal frame rate (minFrameDuration)
     if (VL_DEBUG) NSLog(@"camera capturer dropped frame...\n");
 }

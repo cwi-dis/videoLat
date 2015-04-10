@@ -10,6 +10,7 @@
 #import "AppDelegate.h"
 #import "MachineDescription.h"
 #import "NetworkInput.h"
+#import "EventLogger.h"
 
 ///
 /// How many times do we want to get a message that the prerun code has been detected?
@@ -314,6 +315,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
     
     // Nothing detected for a long time. Record this fact, and generate a new code.
     BOOL ok = [self.collector recordReception: @"nothing" at: now];
+	VL_LOG_EVENT(@"noReception", now, @"nothing");
     assert(!ok);
     [self.outputCompanion triggerNewOutputValue];
     // This isn't true, but works well:
@@ -366,7 +368,8 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
             // Correct code found.
             
             // Let's first report it.
-            BOOL ok = [self.collector recordReception: self.outputCompanion.outputCode at: timestamp];
+            BOOL ok = [self.collector recordReception: code at: timestamp];
+			VL_LOG_EVENT(@"reception", timestamp, code);
 			if (VL_DEBUG) NSLog(@"Reported %@ at %lld, ok=%d", code, timestamp, ok);
             if (!ok) {
 #ifdef WITH_UIKIT

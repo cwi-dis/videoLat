@@ -9,6 +9,7 @@
 #import "HardwareRunManager.h"
 #import "PythonLoader.h"
 #import "AppDelegate.h"
+#import "EventLogger.h"
 #import <mach/mach.h>
 #import <mach/mach_time.h>
 #import <mach/clock.h>
@@ -193,7 +194,11 @@
                 if (VL_DEBUG) NSLog(@"HardwareRunManager: outputLevel %f at %lld", outputLevel, outputTimestamp);
             }
         }
+		NSString *outputLevelStr = [NSString stringWithFormat:@"%f", outputLevel];
+		VL_LOG_EVENT(@"hardwareOutput", loopTimestamp, outputLevelStr);
         double nInputLevel = [self.device light: outputLevel];
+		NSString *inputLevelStr = [NSString stringWithFormat:@"%f", inputLevel];
+		VL_LOG_EVENT(@"hardwareInput", loopTimestamp, inputLevelStr);
         if (nInputLevel < 0) {
             [self performSelectorOnMainThread:@selector(_update:) withObject:self waitUntilDone:NO];
             continue;
@@ -281,6 +286,7 @@
 			if (self.running && self.outputCode && ![self.outputCode isEqualToString: oldOutputCode]) {
 				// We have generated a new output code. Remember it, if we are running
 				[self.collector recordTransmission: self.outputCode at:outputTimestamp];
+				VL_LOG_EVENT(@"transmission", outputTimestamp, self.outputCode);
 				oldOutputCode = self.outputCode;
 			}
 		}
@@ -290,6 +296,7 @@
             if ([inputCode isEqualToString: self.outputCompanion.outputCode]) {
                 if (self.running) {
                     [self.collector recordReception:inputCode at:inputTimestamp];
+					VL_LOG_EVENT(@"reception", inputTimestamp, inputCode);
                     self.statusView.detectCount = [NSString stringWithFormat: @"%d", self.collector.count];
                     self.statusView.detectAverage = [NSString stringWithFormat: @"%.3f ms ± %.3f", self.collector.average / 1000.0, self.collector.stddev / 1000.0];
                     [self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
