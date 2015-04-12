@@ -213,5 +213,18 @@
 
 }
 
+// Printing for Appkit
+- (BOOL)knowsPageRange:(NSRangePointer)aRange
+{
+    aRange->location = 1;
+    aRange->length = 1;
+    return YES;
+}
+
+- (NSRect)rectForPage:(int)page
+{
+    return self.bounds;
+}
+
 #endif
 @end
