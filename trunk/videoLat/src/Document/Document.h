@@ -34,7 +34,6 @@
 
 @property(strong) IBOutlet MeasurementDataStore *dataStore; //!< data for this document
 @property(strong) IBOutlet MeasurementDistribution *dataDistribution;   //!< distribution of dataStore
-@property(strong) IBOutlet id myView;   //!< xxx
 
 #ifdef WITH_UIKIT
 + (NSURL *)inventURLForDocument: (MeasurementDataStore *)dataStore;

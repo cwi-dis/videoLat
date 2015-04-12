@@ -102,7 +102,6 @@
     [super makeWindowControllers];
     [self showWindows];
 #endif
-// XXXJACK no longer needed?    [(DocumentView *)self.myView updateView];
     // Finally see whether this document is worth uploading
     CalibrationSharing *uploader = [CalibrationSharing sharedUploader];
     [uploader shouldUpload:self.dataStore delegate:self];
@@ -183,9 +182,7 @@
         return NO;
     }
     self.dataStore = [dict objectForKey: @"dataStore"];
-//    self.dataDistribution = [dict objectForKey: @"dataDistribution"];
     self.dataDistribution = [[MeasurementDistribution alloc] initWithSource:self.dataStore];
-// XXXJACK no longer needed?    [self.myView updateView];
 
     NSNumber *du = [dict objectForKey: @"dontUpload"];
     if (du && [du boolValue])
@@ -342,4 +339,19 @@
         [self performSelectorOnMainThread:@selector(_changed) withObject:nil waitUntilDone:NO];
     }
 }
+
+#ifdef WITH_APPKIT
+- (NSPrintOperation *)printOperationWithSettings:(NSDictionary *)printSettings error:(NSError **)outError
+{
+    if ([self.windowControllers count] == 0) return nil;
+    NSWindow *oneWindow = [self.windowControllers[0] window];
+    assert(oneWindow);
+    NSView *oneView = [oneWindow contentView];
+    assert(oneView);
+    NSPrintOperation *printOp = [NSPrintOperation printOperationWithView:oneView printInfo: self.printInfo];
+    [printOp.printInfo.dictionary addEntriesFromDictionary:printSettings];
+    return printOp;
+}
+#endif
+
 @end
