@@ -55,17 +55,6 @@
     [self restart];
 }
 
-#if 0
-- (uint64_t)now
-{
-    UInt64 machTimestamp = mach_absolute_time();
-    Nanoseconds nanoTimestamp = AbsoluteToNanoseconds(*(AbsoluteTime*)&machTimestamp);
-    uint64_t timestamp = *(UInt64 *)&nanoTimestamp;
-    timestamp = timestamp / 1000;
-    return timestamp;
-}
-#endif
-
 - (void)stop
 {
 	if (self.capturer) [self.capturer stop];

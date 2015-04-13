@@ -68,6 +68,7 @@ typedef NSBezierPath NSorUIBezierPath;
 extern "C" {
 #endif
 
+uint64_t monotonicMicroSecondClock();
 void showErrorAlert(NSError *error);
 void showWarningAlert(NSString *warning);
 

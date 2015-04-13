@@ -7,7 +7,7 @@
     dispatch_queue_t sampleBufferQueue;
 	NSString *deviceID;
 	NSString *deviceName;
-#if TARGET_OS_IPHONE || (__MAC_OS_X_VERSION_MAX_ALLOWED >= 1080)
+#ifdef WITH_DEVICE_CLOCK
     CMClockRef clock;
 #endif
     uint64_t epoch;

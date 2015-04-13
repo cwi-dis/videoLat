@@ -7,12 +7,6 @@
 /// AVCapture to capture a video stream from a camera.
 ///
 @interface NetworkInput : NSObject <ClockProtocol, InputCaptureProtocol> {
-//	float xFactor, yFactor;
-#if __MAC_OS_X_VERSION_MAX_ALLOWED >= 1080
-//    CMClockRef clock;
-#endif
-//    uint64_t epoch;
-//	BOOL capturing;
 }
 @property (readonly) NSString *deviceID;
 @property (readonly) NSString *deviceName;

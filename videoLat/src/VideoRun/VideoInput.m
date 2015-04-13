@@ -94,12 +94,12 @@
         outputCapturer = nil;
         deviceID = nil;
         sampleBufferQueue = dispatch_queue_create("Video Sample Queue", DISPATCH_QUEUE_SERIAL);
-#if __MAC_OS_X_VERSION_MAX_ALLOWED >= 1080
+#ifdef WITH_DEVICE_CLOCK
 		if (CMClockGetHostTimeClock != NULL) {
 			clock = CMClockGetHostTimeClock();
 		}
 #endif
-        epoch = 0;
+        epoch = [self now];
 #ifdef WITH_STATISTICS
 		firstTimeStamp = 0;
 		lastTimeStamp = 0;
@@ -127,7 +127,7 @@
 - (uint64_t)now
 {
     UInt64 timestamp;
-#if 0 && __MAC_OS_X_VERSION_MAX_ALLOWED >= 1080
+#ifdef WITH_DEVICE_CLOCK
     if (clock) {
         CMTime timestampCMT = CMClockGetTime(clock);
         timestampCMT = CMTimeConvertScale(timestampCMT, 1000000, kCMTimeRoundingMethod_Default);
@@ -135,13 +135,7 @@
     } else
 #endif
 	{
-		clock_serv_t cclock;
-		mach_timespec_t mts;
-
-		host_get_clock_service(mach_host_self(), SYSTEM_CLOCK, &cclock);
-		clock_get_time(cclock, &mts);
-		mach_port_deallocate(mach_task_self(), cclock);
-		timestamp = ((UInt64)mts.tv_sec*1000000LL) + mts.tv_nsec/1000LL;
+		timestamp = monotonicMicroSecondClock();
     }
     return timestamp - epoch;
 }
@@ -157,7 +151,7 @@
 	session = nil;
     //dispatch_release(sampleBufferQueue);
     sampleBufferQueue = nil;
-#if __MAC_OS_X_VERSION_MAX_ALLOWED >= 1080
+#ifdef WITH_DEVICE_CLOCK
 	clock = nil;
 #endif
 #ifdef WITH_STATISTICS
@@ -264,7 +258,7 @@
     } else {
         NSLog(@"Warning: Cannot set capture session to 640x480\n");
     }
-#if __MAC_OS_X_VERSION_MAX_ALLOWED >= 1090
+#ifdef WITH_DEVICE_CLOCK
     // Try and find the video input
     AVCaptureInputPort *videoPort = nil;
     for (AVCaptureInputPort *p in myInput.ports) {
@@ -285,7 +279,11 @@
             if (devClock) {
                 NSLog(@"Using device clock %@", devClock);
                 clock = devClock;
+                uint64_t oldNow = [self now];
+                clock = devClock;
                 epoch = 0;
+                uint64_t newNow = [self now];
+                epoch = newNow - oldNow;
             }
         }
     }
@@ -323,7 +321,6 @@
 
 	/* Let the video madness begin */
 	capturing = NO;
-	epoch = 0;
 #ifdef WITH_STATISTICS
 	firstTimeStamp = 0;
 	lastTimeStamp = 0;
@@ -420,7 +417,7 @@
 	VL_LOG_EVENT(@"cameraCaptureVideoClock", timestamp, @"");
 	NSString *deltaStr = [NSString stringWithFormat:@"delta=%lld", delta];
 	VL_LOG_EVENT(@"cameraCaptureSelfClock", now_timestamp, deltaStr);
-    if (delta) {
+    if (delta <= -10 || delta >= 10) {
         //
         // Suspect code ahead. On some combinations of camera and OS the video presentation
         // timestamp clock drifts. We compensate by slowly moving the epoch of our software
@@ -428,7 +425,7 @@
         // timestamp clock. We do so slowly, because our dispatch_queue seems to give us
         // callbacks in some time-slotted fashion.
         epoch += (delta/10);
-        //NSLog(@"VideoInput: clock: delta %lld us, epoch set to %lld uS", delta, epoch);
+        NSLog(@"VideoInput: clock: delta %lld us, epoch set to %lld uS", delta, epoch);
     }
 	[self.manager newInputStart: timestamp];
 

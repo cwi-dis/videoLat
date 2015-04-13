@@ -42,7 +42,7 @@
 	float xFactor, yFactor;
 	NSString *deviceID;
 	NSString *deviceName;
-#if __MAC_OS_X_VERSION_MAX_ALLOWED >= 1080
+#ifdef WITH_DEVICE_CLOCK
     CMClockRef clock;
 #endif
     uint64_t epoch;
