@@ -8,9 +8,6 @@
 
 #import "EventLogger.h"
 #import "compat.h"
-#import <mach/mach.h>
-#import <mach/mach_time.h>
-#import <mach/clock.h>
 
 #ifdef WITH_LOGGING
 @interface EventLogger ()
@@ -38,17 +35,7 @@
 
 - (uint64_t)now
 {
-    UInt64 machTimestamp = mach_absolute_time();
-#if 0
-    Nanoseconds nanoTimestamp = AbsoluteToNanoseconds(*(AbsoluteTime*)&machTimestamp);
-    uint64_t timestamp = *(UInt64 *)&nanoTimestamp;
-    timestamp = timestamp / 1000;
-#else
-	mach_timebase_info_data_t info;
-    mach_timebase_info(&info);
-	uint64_t timestamp = machTimestamp * info.numer / (info.denom * 1000);
-#endif
-    return timestamp;
+    return monotonicMicroSecondClock();
 }
 
 - (void)log: (NSString *)event from: (NSString *)module timestamp: (uint64_t)timestamp argument: (NSString *)argument

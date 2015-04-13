@@ -163,11 +163,7 @@
 
 - (uint64_t)now
 {
-    UInt64 machTimestamp = mach_absolute_time();
-    Nanoseconds nanoTimestamp = AbsoluteToNanoseconds(*(AbsoluteTime*)&machTimestamp);
-    uint64_t timestamp = *(UInt64 *)&nanoTimestamp;
-    timestamp = timestamp / 1000;
-    return timestamp;
+    return monotonicMicroSecondClock();
 }
 
 - (void)_periodic: (id)sender
