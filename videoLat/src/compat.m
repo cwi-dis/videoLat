@@ -7,13 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "protocols.h"
 #import "compat.h"
 #import <mach/mach.h>
 #import <mach/mach_time.h>
 #import <mach/clock.h>
-
-#undef WITH_HOST_GET_CLOCK_SERVICE
-#define WITH_MACH_ABSOLUTE_TIME
 
 uint64_t monotonicMicroSecondClock()
 {

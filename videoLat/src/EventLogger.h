@@ -7,11 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "protocols.h"
 
-#if !TARGET_OS_IPHONE
-// On OSX we enable detailed logging
-#define WITH_LOGGING
-#endif
 
 #ifdef WITH_LOGGING
 

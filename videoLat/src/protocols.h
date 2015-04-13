@@ -20,6 +20,26 @@
 /// Turn on global debugging, at compile time
 #define VL_DEBUG 0
 
+#if !TARGET_OS_IPHONE
+/// On OSX we enable detailed logging
+#define WITH_LOGGING
+#endif
+
+/// We need a monotonic system clock. Define this to use the Mach clock service
+// #define WITH_HOST_GET_CLOCK_SERVICE
+
+/// Alternatively, we can use the Mach absolute time routines.
+#define WITH_MACH_ABSOLUTE_TIME
+
+/// We can use per-device clocks, if available, which may be more precise.
+#define WITH_DEVICE_CLOCK
+
+/// If we don't use the device clock we can still resync our idea of the system clock
+/// if it drifts too much. The value of the define is the allowable range (in microseconds)
+/// before we start adjusting.
+#define WITH_ADJUST_CLOCK_DRIFT 30000
+#define WITH_ADJUST_CLOCK_DRIFT_FACTOR 2
+
 // Forward declarations
 @protocol RunInputManagerProtocol;
 

@@ -417,17 +417,21 @@
 	VL_LOG_EVENT(@"cameraCaptureVideoClock", timestamp, @"");
 	NSString *deltaStr = [NSString stringWithFormat:@"delta=%lld", delta];
 	VL_LOG_EVENT(@"cameraCaptureSelfClock", now_timestamp, deltaStr);
-    if (delta <= -10 || delta >= 10) {
+#ifdef WITH_ADJUST_CLOCK_DRIFT
+    if (delta <= -WITH_ADJUST_CLOCK_DRIFT || delta >= WITH_ADJUST_CLOCK_DRIFT) {
         //
         // Suspect code ahead. On some combinations of camera and OS the video presentation
         // timestamp clock drifts. We compensate by slowly moving the epoch of our software
         // clock (which is used for output timestamping) to move towards the video input
         // timestamp clock. We do so slowly, because our dispatch_queue seems to give us
         // callbacks in some time-slotted fashion.
-        epoch += (delta/10);
+        epoch += (delta/WITH_ADJUST_CLOCK_DRIFT_FACTOR);
         NSLog(@"VideoInput: clock: delta %lld us, epoch set to %lld uS", delta, epoch);
+        NSString *deltaStr = [NSString stringWithFormat:@"delta=%lld,adjust=%lld", delta, delta/WITH_ADJUST_CLOCK_DRIFT_FACTOR];
+        VL_LOG_EVENT(@"adjustedClock",[self now], deltaStr);
     }
-	[self.manager newInputStart: timestamp];
+#endif
+	[self.manager newInputStart: now_timestamp];
 
     CMFormatDescriptionRef formatDescription = CMSampleBufferGetFormatDescription(sampleBuffer);
     OSType format = CMFormatDescriptionGetMediaSubType(formatDescription);
