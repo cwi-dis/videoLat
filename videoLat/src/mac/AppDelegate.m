@@ -16,7 +16,9 @@
 
 - (void)applicationWillTerminate:(NSNotification *)notification
 {
+#ifdef WITH_LOGGING
 	[[EventLogger sharedLogger] close];
+#endif
 	if (self.newdocWindow)
 		[self.newdocWindow setDelegate:nil];
 }
@@ -43,6 +45,7 @@
     [[NSWorkspace sharedWorkspace] openURL: [self hardwareFolder]];
 }
 
+#ifdef WITH_LOGGING
 - (IBAction)saveLogFile: (id)sender
 {
 	NSSavePanel *savePanel = [NSSavePanel savePanel];
@@ -55,6 +58,7 @@
 		[[EventLogger sharedLogger] save: savePanel.URL];
 	}
 }
+#endif
 
 
 - (NSArray *)hardwareNames
