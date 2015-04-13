@@ -348,7 +348,17 @@
     assert(oneWindow);
     NSView *oneView = [oneWindow contentView];
     assert(oneView);
-    NSPrintOperation *printOp = [NSPrintOperation printOperationWithView:oneView printInfo: self.printInfo];
+
+	NSPrintInfo *pInfo = [NSPrintInfo sharedPrintInfo];
+    [pInfo setLeftMargin:32];
+    [pInfo setRightMargin:32];
+    [pInfo setTopMargin:32];
+    [pInfo setBottomMargin:32];
+    [pInfo setHorizontalPagination:NSFitPagination];
+    [pInfo setVerticallyCentered:NO];
+    [[pInfo dictionary] addEntriesFromDictionary:printSettings];
+
+	NSPrintOperation *printOp = [NSPrintOperation printOperationWithView:oneView printInfo: pInfo];
     [printOp.printInfo.dictionary addEntriesFromDictionary:printSettings];
     return printOp;
 }
