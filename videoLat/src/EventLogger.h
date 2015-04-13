@@ -7,6 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#define WITH_LOGGING
+
+#ifdef WITH_LOGGING
 
 @interface EventLogger : NSObject
 {
@@ -19,9 +22,6 @@
 - (void) save: (NSURL *)file;
 - (void) close;
 @end
-#define WITH_LOGGING
-
-#ifdef WITH_LOGGING
 #define VL_LOG_EVENT(_ev, _ts, _arg) [[EventLogger sharedLogger] log: (_ev) from: NSStringFromClass([self class]) timestamp: (_ts) argument: (_arg)]
 #else
 #define VL_LOG_EVENT(_ev, _ts, _arg)

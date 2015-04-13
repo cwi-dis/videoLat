@@ -48,6 +48,7 @@
 		042E0F2E1AC30DFD003D6267 /* VideoRun.xib in Resources */ = {isa = PBXBuildFile; fileRef = 042E0F2D1AC30DFD003D6267 /* VideoRun.xib */; };
 		042E0F341AC310BD003D6267 /* NewCalibrationTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 042E0F331AC310BD003D6267 /* NewCalibrationTableViewController.m */; };
 		0462CC171AC2F0E00077383B /* VideoCalibrationRun.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0462CC161AC2F0E00077383B /* VideoCalibrationRun.xib */; };
+		0472F3B11ADC08FB00415BA9 /* EventLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 0472F3B01ADC08FB00415BA9 /* EventLogger.m */; };
 		0478E1391AB9B7D80057548C /* OpenDocumentTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0478E1381AB9B7D80057548C /* OpenDocumentTableViewController.m */; };
 		0478E1451ABF6ABF0057548C /* findQRcodes.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0478E1421ABF6ABF0057548C /* findQRcodes.mm */; };
 		0478E1461ABF6ABF0057548C /* genQRcodes.m in Sources */ = {isa = PBXBuildFile; fileRef = 0478E1441ABF6ABF0057548C /* genQRcodes.m */; };
@@ -168,6 +169,8 @@
 		042E0F321AC310BD003D6267 /* NewCalibrationTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NewCalibrationTableViewController.h; path = src/iOS/NewCalibrationTableViewController.h; sourceTree = SOURCE_ROOT; };
 		042E0F331AC310BD003D6267 /* NewCalibrationTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NewCalibrationTableViewController.m; path = src/iOS/NewCalibrationTableViewController.m; sourceTree = SOURCE_ROOT; };
 		0462CC161AC2F0E00077383B /* VideoCalibrationRun.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = VideoCalibrationRun.xib; path = src/iOS/VideoCalibrationRun.xib; sourceTree = SOURCE_ROOT; };
+		0472F3AF1ADC08FB00415BA9 /* EventLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EventLogger.h; path = src/EventLogger.h; sourceTree = SOURCE_ROOT; };
+		0472F3B01ADC08FB00415BA9 /* EventLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EventLogger.m; path = src/EventLogger.m; sourceTree = SOURCE_ROOT; };
 		0478E1371AB9B7D80057548C /* OpenDocumentTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OpenDocumentTableViewController.h; path = src/iOS/OpenDocumentTableViewController.h; sourceTree = SOURCE_ROOT; };
 		0478E1381AB9B7D80057548C /* OpenDocumentTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OpenDocumentTableViewController.m; path = src/iOS/OpenDocumentTableViewController.m; sourceTree = SOURCE_ROOT; };
 		0478E1411ABF6ABF0057548C /* findQRcodes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = findQRcodes.h; path = src/VideoRun/findQRcodes.h; sourceTree = SOURCE_ROOT; };
@@ -471,10 +474,12 @@
 				04138C691AB31980003D8167 /* protocols.h */,
 				042422CC1ACEE2F3003A153C /* compat.h */,
 				040E77171AB6DBBC001A7918 /* compat.m */,
-				042422C41ACEE254003A153C /* CommonAppDelegate.h */,
-				042422C51ACEE254003A153C /* CommonAppDelegate.m */,
 				04FFFC761AB2FA8E0023ED13 /* AppDelegate.h */,
 				04FFFC771AB2FA8E0023ED13 /* AppDelegate.m */,
+				042422C41ACEE254003A153C /* CommonAppDelegate.h */,
+				042422C51ACEE254003A153C /* CommonAppDelegate.m */,
+				0472F3AF1ADC08FB00415BA9 /* EventLogger.h */,
+				0472F3B01ADC08FB00415BA9 /* EventLogger.m */,
 				0409FDCE1ACE9E2C00851D80 /* MainMenuTableViewController.h */,
 				0409FDCF1ACE9E2C00851D80 /* MainMenuTableViewController.m */,
 				04138C6A1AB319B9003D8167 /* MeasurementType.h */,
@@ -633,6 +638,7 @@
 				04155EA91AB6481000DD53D9 /* BaseRunManager.m in Sources */,
 				041C8FFF1AC41B2300539C68 /* NetworkOutputView.m in Sources */,
 				04155EA31AB6471900DD53D9 /* AudioProcess.m in Sources */,
+				0472F3B11ADC08FB00415BA9 /* EventLogger.m in Sources */,
 				040E77371AB72002001A7918 /* DocumentDescriptionView.m in Sources */,
 				041C90011AC41B2300539C68 /* NetworkRunManager.m in Sources */,
 				04C5FF1F1AB85EB800F4EC25 /* DeviceDescriptionView.m in Sources */,
