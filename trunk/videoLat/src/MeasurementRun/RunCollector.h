@@ -12,19 +12,6 @@
 #import "protocols.h"
 #import "MeasurementDataStore.h"
 
-#undef CLOCK_IN_COLLECTOR
-#ifdef CLOCK_IN_COLLECTOR
-@interface RunClock : NSObject <ClockProtocol> {
-    uint64_t epoch;
-}
-- (uint64_t) now;
-@end
-#define BASECLASS RunClock
-#else
-/// Because CLOCK_IN_COLLECTOR is not defined the RunCollector does not contain a clock.
-#define BASECLASS NSObject
-#endif
-
 ///
 /// Helper object for BaseRunManager. Records transmission and reception times and populates
 /// MeasurementDataStore.
@@ -32,7 +19,7 @@
 /// or use a clock defined externally and assigned in the NIB. The latter is better, and
 /// will normally use a clock provided by the input driver.
 ///
-@interface RunCollector : BASECLASS {
+@interface RunCollector : NSObject {
     NSString* lastTransmission;         //!< Internal: records most recently transmitted data
     uint64_t lastTransmissionTime;      //!< Internal: records timestamp of most recent transmission
     BOOL lastTransmissionReceived;      //!< Internal: true when lastTramsnission has already been received
