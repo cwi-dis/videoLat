@@ -52,13 +52,13 @@
     [BaseRunManager registerClass: [self class] forMeasurementType: @"Screen Calibrate"];
     [BaseRunManager registerNib: @"ScreenToHardwareRun" forMeasurementType: @"Screen Calibrate"];
     // We should also ensure that the hardware protocol is actually part of the binary
-    NSLog(@"HardwareLightProtocol = %@", @protocol(HardwareLightProtocol));
 }
 
 - (HardwareRunManager*)init
 {
     self = [super init];
 	if (self) {
+		NSLog(@"HardwareLightProtocol = %@", @protocol(HardwareLightProtocol));
         maxDelay = self.initialPrerunDelay;
 		self.samplePeriodMs = 1;
 	}
