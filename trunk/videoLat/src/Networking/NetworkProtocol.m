@@ -80,40 +80,46 @@
 
 - (void) send: (NSDictionary *)data
 {
-    NSError *myError;
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:data options:0 error:&myError];
-    if (myError) {
-        NSLog(@"dataWithJSONObject returned error %@", myError);
-        return;
-    }
-    if (jsonData == nil) {
-        NSLog(@"dataWithJSONObject returned nil but no error");
-        return;
-    }
-    NSString *stringData = [[NSString alloc] initWithBytes:[jsonData bytes] length:[jsonData length] encoding:NSUTF8StringEncoding];
-    if (stringData == nil) {
-        NSLog(@"send: could not get NSString for NSdata for %@", data);
-        return;
-    }
-    [self sendString: stringData];
+	@synchronized(self) {
+		NSError *myError;
+		NSData *jsonData = [NSJSONSerialization dataWithJSONObject:data options:0 error:&myError];
+		if (myError) {
+			NSLog(@"dataWithJSONObject returned error %@", myError);
+			return;
+		}
+		if (jsonData == nil) {
+			NSLog(@"dataWithJSONObject returned nil but no error");
+			return;
+		}
+		NSString *stringData = [[NSString alloc] initWithBytes:[jsonData bytes] length:[jsonData length] encoding:NSUTF8StringEncoding];
+		if (stringData == nil) {
+			NSLog(@"send: could not get NSString for NSdata for %@", data);
+			return;
+		}
+		[self sendString: stringData];
+	}
 }
 
 - (void) sendString: (NSString *)data
 {
-    const char *cData = [data UTF8String];
-    //NSLog(@"sendString: sending %ld bytes", strlen(cData));
-    ssize_t rv = send(sock, cData, strlen(cData), 0);
-    if (rv < 0) {
-        NSLog(@"send failed: %s", strerror(errno));
-        [self close];
-        [self.delegate disconnected: self];
-    }
+	@synchronized(self) {
+		const char *cData = [data UTF8String];
+		//NSLog(@"sendString: sending %ld bytes", strlen(cData));
+		ssize_t rv = send(sock, cData, strlen(cData), 0);
+		if (rv < 0) {
+			NSLog(@"send failed: %s", strerror(errno));
+			[self close];
+			[self.delegate disconnected: self];
+		}
+	}
 }
 
 - (void) close
 {
-    close(sock);
-    sock = -1;
+	@synchronized(self) {
+		close(sock);
+		sock = -1;
+	}
 }
 
 - (void) main
