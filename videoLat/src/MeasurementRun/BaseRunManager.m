@@ -421,7 +421,7 @@ static NSMutableDictionary *runManagerSelectionNibs;
 	} else {
 #ifdef WITH_APPKIT
 		AppDelegate *d = (AppDelegate *)[[NSApplication sharedApplication] delegate];
-		[d openUntitledDocumentWithMeasurement:self.collector.dataStore];
+        [d performSelectorOnMainThread:@selector(openUntitledDocumentWithMeasurement:) withObject:self.collector.dataStore waitUntilDone:NO];
 		[self.statusView.window close];
 #else
 		assert(0);
