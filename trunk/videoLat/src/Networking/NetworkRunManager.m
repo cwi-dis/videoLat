@@ -461,6 +461,8 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
                 prevInputCodeDetectionCount = 1;
                 prevInputStartTime = inputStartTime;
 				prevInputStartTimeRemote = [self.remoteClock remoteNow:prevInputStartTime];
+                VL_LOG_EVENT(@"slaveDetectionSlaveTime", prevInputStartTime, code);
+                VL_LOG_EVENT(@"slaveDetectionMasterTime", prevInputStartTimeRemote, code);
                 if (VL_DEBUG) NSLog(@"Found QR-code: %@", code);
                 
                 // If it is a URL it is probably a prerun QR-code (which is a URL, so that if
