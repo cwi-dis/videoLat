@@ -314,8 +314,9 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
     uint64_t now = [self.clock now];
     if (now - lastDetectionReceivedTime < MAX_DETECTION_INTERVAL)
         return;
-    
+
     // Nothing detected for a long time. Record this fact, and generate a new code.
+
     BOOL ok = [self.collector recordReception: @"nothing" at: now];
 	VL_LOG_EVENT(@"noReception", now, @"nothing");
     assert(!ok);
@@ -368,7 +369,6 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
             }
         } else if ([code isEqualToString: self.outputCompanion.outputCode]) {
             // Correct code found.
-            
             // Let's first report it.
             BOOL ok = [self.collector recordReception: code at: timestamp];
 			VL_LOG_EVENT(@"reception", timestamp, code);

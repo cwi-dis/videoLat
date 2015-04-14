@@ -117,6 +117,7 @@
 - (void)openUntitledDocumentWithMeasurement: (MeasurementDataStore *)dataStore
 {
 	if (VL_DEBUG) NSLog(@"openUntitledDocumentWithMeasurement: %@", dataStore);
+	assert(dataStore);
     
     // If the document is a calibration we already know of (because we have it's uuid)
     // we open the calibration itself, in stead of an untitled document.
