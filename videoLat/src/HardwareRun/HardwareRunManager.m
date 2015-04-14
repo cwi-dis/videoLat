@@ -60,6 +60,7 @@
     self = [super init];
 	if (self) {
         maxDelay = self.initialPrerunDelay;
+		self.samplePeriodMs = 1;
 	}
     return self;
 }
@@ -67,7 +68,8 @@
 - (void)awakeFromNib
 {
     if ([super respondsToSelector:@selector(awakeFromNib)]) [super awakeFromNib];
-
+	self.samplePeriodMs = 1;
+	[self _updatePeriod];
     if (self.clock == nil) self.clock = self;
 	if (self.capturer == nil) self.capturer = self;
     [self restart];
@@ -160,6 +162,17 @@
         assert(0);
     }
 }
+- (IBAction)periodChanged: (id) sender
+{
+	self.samplePeriodMs = [sender intValue];
+	[self _updatePeriod];
+}
+
+- (void)_updatePeriod
+{
+	self.bSamplePeriodStepper.intValue = self.samplePeriodMs;
+	self.bSamplePeriodValue.intValue = self.samplePeriodMs;
+}
 
 - (uint64_t)now
 {
@@ -240,7 +253,8 @@
 				newOutputValueWanted = YES;
         }
         outputLevelChanged = NO;
-        [NSThread sleepForTimeInterval:0.001];
+		double interval = (0.001 * (double)self.samplePeriodMs);
+        [NSThread sleepForTimeInterval:interval];
     }
 }
 
