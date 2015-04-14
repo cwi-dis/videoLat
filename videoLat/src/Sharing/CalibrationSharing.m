@@ -46,7 +46,7 @@
 @end
 
 @interface DownloadHelper : UploadHelper {
-	id<NewMeasurementDelegate> delegate;
+	NSObject<NewMeasurementDelegate> *delegate;
 }
 - (UploadHelper *)initWithURL: (NSURL *)_baseURL dict: (NSDictionary *)calibrationData;
 - (void)_done: (NSData *)result;
@@ -249,15 +249,15 @@
     } @catch(NSException *ex) {
         NSLog(@"DownloadHelper: could not unarchive result");
         if (VL_DEBUG) NSLog(@"Data=%s", (char *)[result bytes]);
-        [delegate openUntitledDocumentWithMeasurement: nil];
+        [delegate performSelectorOnMainThread: @selector(openUntitledDocumentWithMeasurement:) withObject: nil waitUntilDone: NO];
         return;
     }
 	if (result == nil) {
 		NSLog(@"DownloadHelper: could not unarchive result");
-		[delegate openUntitledDocumentWithMeasurement: nil];
+        [delegate performSelectorOnMainThread: @selector(openUntitledDocumentWithMeasurement:) withObject: nil waitUntilDone: NO];
 		return;
 	}
-	[delegate openUntitledDocumentWithMeasurement: _dataStore];
+    [delegate performSelectorOnMainThread: @selector(openUntitledDocumentWithMeasurement:) withObject: _dataStore waitUntilDone: NO];
 }
 
 - (void)download: (id<NewMeasurementDelegate>)_delegate

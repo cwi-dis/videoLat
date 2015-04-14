@@ -417,7 +417,7 @@ static NSMutableDictionary *runManagerSelectionNibs;
     self.statusView.detectAverage = [NSString stringWithFormat: @"%.3f ms ± %.3f", self.collector.average / 1000.0, self.collector.stddev / 1000.0];
     [self.statusView update: self];
 	if (self.completionHandler) {
-		[self.completionHandler openUntitledDocumentWithMeasurement: self.collector.dataStore];
+        [self.completionHandler performSelectorOnMainThread:@selector(openUntitledDocumentWithMeasurement:) withObject: self.collector.dataStore waitUntilDone: NO];
 	} else {
 #ifdef WITH_APPKIT
 		AppDelegate *d = (AppDelegate *)[[NSApplication sharedApplication] delegate];
