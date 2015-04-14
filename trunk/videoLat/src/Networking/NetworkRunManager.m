@@ -80,9 +80,11 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 {
     if (finish < start) {
         NSLog(@"SimpleRemoteClock: local timeinterval start %lld > end %lld, assuming local NTP re-sync", start, finish);
+        VL_LOG_EVENT(@"negativeRTT", start-finish, @"");
         return;
     }
     rtt = finish-start;
+    VL_LOG_EVENT(@"RTT", rtt, @"");
 	uint64_t mid = (finish+start)/2;
 	localTimeToRemoteTime = (int64_t)remote - (int64_t)mid;
     initialized = true;
