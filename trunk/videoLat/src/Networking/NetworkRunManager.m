@@ -605,14 +605,14 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
             //
             mr.measurementType = self.measurementType.name;
 			if (self.completionHandler) {
-				[self.completionHandler openUntitledDocumentWithMeasurement: mr];
+                [self.completionHandler performSelectorOnMainThread:@selector(openUntitledDocumentWithMeasurement:) withObject:mr waitUntilDone:NO];
 				[self.protocol close];
 				self.protocol = nil;
 				[self _updateStatus:@"Complete"];
 			} else {
 #ifdef WITH_APPKIT
 				AppDelegate *d = (AppDelegate *)[[NSApplication sharedApplication] delegate];
-				[d openUntitledDocumentWithMeasurement:mr];
+                [d performSelectorOnMainThread:@selector(openUntitledDocumentWithMeasurement:) withObject:mr waitUntilDone:NO];
 				[self.statusView.window close];
 #else
 				assert(0);
