@@ -76,7 +76,7 @@
 
 - (void)_updateView
 {
-	if (self.modelObject && self.status && self.status.vInput && self.status.vOutput) {
+	if (self.modelObject && self.modelObject.dataStore && self.status && self.status.vInput && self.status.vOutput) {
         initialValues = YES;
 		self.status.modelObject = self.modelObject.dataStore;
         self.status.vInput.modelObject = self.modelObject.dataStore.input;

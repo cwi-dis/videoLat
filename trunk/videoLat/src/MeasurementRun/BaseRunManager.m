@@ -410,6 +410,8 @@ static NSMutableDictionary *runManagerSelectionNibs;
 - (IBAction)stopMeasuring: (id)sender
 {
 	VL_LOG_EVENT(@"stop", 0LL, @"");
+	assert(self.running);
+	self.running = NO;
     [self stop];
     [self.collector stopCollecting];
     [self.collector trim];

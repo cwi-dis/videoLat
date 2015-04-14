@@ -8,6 +8,7 @@
 
 #import "MeasurementDataStore.h"
 #import "MeasurementType.h"
+#import "EventLogger.h"
 
 @implementation MeasurementDataStore
 @synthesize measurementType;
@@ -246,6 +247,7 @@
 {
 	if ([store count] == 0) {
 		// First datapoint added.
+		VL_LOG_EVENT(@"baseAverageToSubtract", self.baseMeasurementAverage, @"");
 		NSLog(@"MeasurementDataStore: will subtract base measurement average %f µS", self.baseMeasurementAverage);
 	}
 	int64_t delay = received - sent;
