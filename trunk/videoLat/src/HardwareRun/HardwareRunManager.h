@@ -45,9 +45,11 @@
 @property(weak) IBOutlet NSObject<SelectionView> *selectionView;  //!< Assigned in NIB: hardware device selector
 @property(weak) IBOutlet HardwareOutputView *outputView;    //!< Assigned in NIB: visual feedback view of output for the user
 @property(weak) IBOutlet NSObject <ClockProtocol> *clock;   //!< Assigned in NIB: clock source
-@property (readonly) NSString* deviceID;					//!< Unique string that identifies the input device
-@property (readonly) NSString* deviceName;					//!< Human-readable string that identifies the input device
-
+@property(readonly) NSString* deviceID;					//!< Unique string that identifies the input device
+@property(readonly) NSString* deviceName;					//!< Human-readable string that identifies the input device
+@property(nonatomic,readwrite) int samplePeriodMs;			//!< How often we sample the hardware
+@property(weak) IBOutlet NSStepper *bSamplePeriodStepper;	//!< UI element for samplePeriodMs
+@property(weak) IBOutlet NSTextField *bSamplePeriodValue;	//!< UI element for samplePeriodMs
 @property NSObject <HardwareLightProtocol> *device;         //!< Hardware device handler
 
 + (void)initialize;
@@ -56,6 +58,9 @@
 
 - (void)_switchToDevice: (NSString *)selectedDevice;
 - (IBAction)selectBase: (id)sender;     //!< Called when the user selects a different base measurement
+
+- (IBAction)periodChanged: (id) sender;
+- (void)_updatePeriod;
 ///
 /// The worker thread.
 /// Once every millisecond (at most) it calls the light method on the device to
