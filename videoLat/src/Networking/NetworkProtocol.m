@@ -159,7 +159,8 @@
                 if (data) {
                     [self.delegate received:data from:self];
                 } else {
-                    NSLog(@"NetworkProtocol: error json-decoding data: %@", error);
+                    NSLog(@"NetworkProtocol: error json-decoding %d bytes of data: %@", (int)(closePtr-buffer+1), error);
+                    NSLog(@"Oops.");
                 }
             } else {
                 NSLog(@"Received message not of form {.....}");
