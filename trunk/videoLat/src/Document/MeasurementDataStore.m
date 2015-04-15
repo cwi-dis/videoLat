@@ -245,6 +245,7 @@
 
 - (void) addDataPoint: (NSString*) data sent: (uint64_t)sent received: (uint64_t) received
 {
+	assert(!isTrimmed);
 	if ([store count] == 0) {
 		// First datapoint added.
 		VL_LOG_EVENT(@"baseAverageToSubtract", self.baseMeasurementAverage, @"");
@@ -269,12 +270,15 @@
 
 - (void) addMissingDataPoint: (NSString*) data sent: (uint64_t)sent
 {
+	assert(!isTrimmed);
     missCount++;	
 }
 
 - (void) trim
 {
     if (count == 0) return;
+	if (isTrimmed) return;
+	isTrimmed = YES;
 	// Sort by delay
 	NSArray *trimmed = [store sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
 		return [[obj1 objectForKey:@"delay"] compare: [obj2 objectForKey:@"delay"]];
