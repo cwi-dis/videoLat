@@ -201,6 +201,10 @@
  Stop capturing altogether and release resources.
  */
 - (void) stop;
+/**
+ Set the minimum interval between captures (callbacks to newInputDone:), if supported.
+ */
+- (void)setMinCaptureInterval: (uint64_t)interval;
 @end
 
 ///

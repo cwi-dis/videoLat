@@ -237,8 +237,9 @@
 		// XXXJACK set max frame duration
 		NSArray *supportedFrameRates = dev.activeFormat.videoSupportedFrameRateRanges;
 		AVFrameRateRange *activeRange = [supportedFrameRates objectAtIndex:0];
-		CMTime activeMinDuration = activeRange.minFrameDuration;
-		dev.activeVideoMinFrameDuration = activeMinDuration;
+        CMTime minDuration = activeRange.minFrameDuration;
+        CMTime maxDuration = activeRange.maxFrameDuration;
+		dev.activeVideoMinFrameDuration = minDuration;
 
 		[dev unlockForConfiguration];
     }
@@ -331,6 +332,33 @@
 	[self.manager restart];
 	VL_LOG_EVENT(@"startCamera", 0, deviceName);
 	[session startRunning];
+}
+
+- (void)setMinCaptureInterval: (uint64_t)interval
+{
+#ifdef WITH_SET_MIN_CAPTURE_DURATION
+    assert(session.inputs.count == 1);
+    AVCaptureDeviceInput *input = session.inputs[0];
+    assert(input);
+    AVCaptureDevice *device = input.device;
+    assert(device);
+    if ([device lockForConfiguration: nil]) {
+        // Set focus/exposure/flash, if device supports it
+        NSArray *supportedFrameRates = device.activeFormat.videoSupportedFrameRateRanges;
+        AVFrameRateRange *activeRange = [supportedFrameRates objectAtIndex:0];
+        CMTime minDuration = activeRange.minFrameDuration;
+        CMTime maxDuration = activeRange.maxFrameDuration;
+        
+        CMTime wantedDuration = CMTimeMake(interval, 1000000);
+        wantedDuration = CMTimeMinimum(wantedDuration, maxDuration);
+        wantedDuration = CMTimeMaximum(wantedDuration, minDuration);
+        device.activeVideoMinFrameDuration = wantedDuration;
+        
+        [device unlockForConfiguration];
+    } else {
+        NSLog(@"VideoInput: cannot lock video input device to set frame duration");
+    }
+#endif
 }
 
 - (void)pauseCapturing: (BOOL) pause

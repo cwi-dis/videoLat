@@ -23,6 +23,7 @@
     uint64_t prevInputStartTime;    //!< Internal: When last input was read
     NSString *prevInputCode;        //!< Internal: for checking monotonous increase
     int prevInputCodeDetectionCount;    //!<Internal: Number of times we re-detected a code.
+    uint64_t averageFinderDuration; //!< Running average of how much the patternfinder takes
 }
 
 @property bool mirrored;    //!< True if we need to mirror output. Initialized during prerun.
