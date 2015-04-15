@@ -345,6 +345,11 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
         }
         [self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
     }
+	// Unless we are prerunning we expect a timestamp
+	if (timestamp == 0) {
+		NSLog(@"Received code %@ without timestamp, ignoring", code);
+		return;
+	}
     if (self.running) {
         if (VL_DEBUG) NSLog(@"Running, received code %@", code);
         if (self.outputCompanion.outputCode == nil) {
@@ -658,6 +663,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 
         uint64_t slaveTimestamp = getTimestamp(data, @"slaveTime");
         uint64_t masterTimestamp = getTimestamp(data, @"masterTime");
+		uint64_t masterDetectionTimestamp = getTimestamp(data, @"masterDetectTime");
         uint64_t rtt = getTimestamp(data, @"rtt");
         NSString *code = [data objectForKey: @"code"];
         
@@ -711,11 +717,14 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 #endif
         }
         
-        if(code && masterTimestamp) {
+        if(code && masterDetectionTimestamp) {
 			uint64_t count = getTimestamp(data, @"count");
-            [self newInputDone: code count: (int)count at: masterTimestamp];
-        } else {
-            if (1 || VL_DEBUG) NSLog(@"NetworkRunManager: received no qr-code at %lld", masterTimestamp);
+            [self newInputDone: code count: (int)count at: masterDetectionTimestamp];
+        } else if (code && self.preRunning) {
+			uint64_t count = getTimestamp(data, @"count");
+            [self newInputDone: code count: (int)count at: 0];
+		} else {
+            if (VL_DEBUG) NSLog(@"NetworkRunManager: received no qr-code at %lld,code=%@,masterDetectionTimestamp=%lld", masterTimestamp,code, masterDetectionTimestamp);
             [self newInputDone];
         }
     }
