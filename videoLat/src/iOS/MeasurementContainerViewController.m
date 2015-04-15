@@ -45,6 +45,29 @@
 	[self.view setNeedsLayout];
 }
 
+- (BOOL)shouldAutorotate
+{
+    BOOL hasVideoPreviewView = YES;
+    if (!hasVideoPreviewView)
+        return YES;
+    
+    UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
+    
+    if (orientation == UIInterfaceOrientationPortrait || orientation == UIDeviceOrientationPortraitUpsideDown) {
+        return YES;
+    }
+    return NO;
+}
+
+- (NSUInteger)supportedInterfaceOrientations
+{
+    BOOL hasVideoPreviewView = YES;
+    if (!hasVideoPreviewView)
+        return UIInterfaceOrientationMaskAll;
+    return UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationPortraitUpsideDown;
+}
+
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
