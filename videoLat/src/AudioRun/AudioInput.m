@@ -236,6 +236,10 @@
 #endif
 }
 
+- (void)setMinCaptureInterval: (uint64_t)interval
+{
+}
+
 - (void) startCapturing: (BOOL) showPreview
 {
     capturing = YES;

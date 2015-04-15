@@ -238,7 +238,6 @@
 
 - (void) _prerunRecordReception: (NSString *)code
 {
-#if 1
     if (VL_DEBUG) NSLog(@"prerun reception %@\n", code);
     assert(self.preRunning);
     if (self.preRunning) {
@@ -248,13 +247,16 @@
         [self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
         if (VL_DEBUG) NSLog(@"preRunMoreMeeded=%d\n", prerunMoreNeeded);
         if (prerunMoreNeeded == 0) {
+            NSLog(@"average detection algorithm duration=%lld µS", averageFinderDuration);
+#ifdef WITH_SET_MIN_CAPTURE_DURATION
+            [self.capturer setMinCaptureInterval: averageFinderDuration*2];
+#endif
             self.statusView.detectCount = @"";
 			self.statusView.detectAverage = @"";
             [self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
             [self performSelectorOnMainThread: @selector(stopPreMeasuring:) withObject: self waitUntilDone: NO];
         }
     }
-#endif
 }
 
 - (void) newInputDone: (void*)buffer width: (int)w height: (int)h format: (const char*)formatStr size: (int)size
@@ -268,8 +270,10 @@
             NSLog(@"newInputDone called, but inputStartTime==0\n");
             return;
         }
-        
+        uint64_t finderStartTime = [self.clock now];
         char *code = [self.finder find: buffer width: w height: h format: formatStr size:size];
+        uint64_t finderStopTime = [self.clock now];
+        uint64_t finderDuration = finderStopTime - finderStartTime;
         BOOL foundQRcode = (code != NULL);
         if (foundQRcode) {
             
@@ -314,6 +318,12 @@
 #endif
                     }
                 } else if (self.preRunning) {
+                    // Compute average duration of our code detection algorithm
+                    if (averageFinderDuration == 0)
+                        averageFinderDuration = finderDuration;
+                    else
+                        averageFinderDuration = (averageFinderDuration+finderDuration)/2;
+                    // Notify the detection
                     [self _prerunRecordReception: self.outputCompanion.outputCode];
                 }
                 // Now do a sanity check that it is greater than the previous detected code
