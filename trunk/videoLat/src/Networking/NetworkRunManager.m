@@ -87,6 +87,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
     VL_LOG_EVENT(@"RTT", rtt, @"");
 	uint64_t mid = (finish+start)/2;
 	localTimeToRemoteTime = (int64_t)remote - (int64_t)mid;
+    VL_LOG_EVENT(@"NewMasterTime", [self remoteNow: finish], @"");
     initialized = true;
 }
 
