@@ -597,6 +597,10 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 		[self _updateStatus: @"Connected"];
 		didReceiveData = YES;
 	}
+    if (!self.protocol) {
+        NSLog(@"NetworkRunManager: discarding data received after connection close");
+        return;
+    }
     if (handlesOutput) {
         // This code runs in the slave (video receiver, network transmitter)
         assert(self.outputView);
@@ -612,11 +616,12 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
             // Override description with our description
             //
             mr.measurementType = self.measurementType.name;
+            [self.protocol close];
+            self.protocol = nil;
+            if (self.capturer) [self.capturer stop];
+            [self _updateStatus:@"Complete"];
 			if (self.completionHandler) {
                 [self.completionHandler performSelectorOnMainThread:@selector(openUntitledDocumentWithMeasurement:) withObject:mr waitUntilDone:NO];
-				[self.protocol close];
-				self.protocol = nil;
-				[self _updateStatus:@"Complete"];
 			} else {
 #ifdef WITH_APPKIT
 				AppDelegate *d = (AppDelegate *)[[NSApplication sharedApplication] delegate];
