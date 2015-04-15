@@ -47,6 +47,19 @@
 	if (self.capturer) [self.capturer pauseCapturing:NO];
 }
 
+- (BOOL)shouldAutorotate
+{
+    return YES;
+}
+
+- (NSUInteger)supportedInterfaceOrientations
+{
+    BOOL hasVideoPreviewView = YES;
+    if (!hasVideoPreviewView)
+        return UIInterfaceOrientationMaskAll;
+    return UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationPortraitUpsideDown;
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
