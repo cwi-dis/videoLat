@@ -243,6 +243,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 	[self _updateStatus: @"Measurements complete"];
 	statusToPeer = @"Measurements complete";
     MeasurementDataStore *ds = self.collector.dataStore;
+	[ds trim];
     if (self.protocol && ds) {
         NSData *dsData = [NSKeyedArchiver archivedDataWithRootObject: ds];
         assert(dsData);

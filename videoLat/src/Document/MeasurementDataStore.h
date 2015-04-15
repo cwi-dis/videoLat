@@ -23,6 +23,7 @@
     double max;         //!< maximum value
     int count;          //!< total number of values
 	int missCount;      //!< number of attempts that did not result in a valid measurement
+	BOOL isTrimmed;		//!< True after trim has been called at end-of-measurement
     MeasurementDataStore *calibration;  //!< calibration used, for single-machine measurements
 	NSMutableArray *store;  //!< Internal: the values themselves
 };
