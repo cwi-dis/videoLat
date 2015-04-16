@@ -262,7 +262,7 @@
 
 - (void)download: (id<NewMeasurementDelegate>)_delegate
 {
-    delegate = _delegate;
+    delegate = (NSObject<NewMeasurementDelegate> *)_delegate;
     [self _fillURLWithOp:@"get"];
     NSLog(@"download: URL=%@", url);
 	[self start];

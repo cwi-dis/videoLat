@@ -28,6 +28,6 @@
 - (IBAction)openWebsite:(id)sender; //!< Method to be called when the user wants to view the videoLat website.
 
 // Location manager delegate method:
-- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation;
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)newLocations;
 
 @end
