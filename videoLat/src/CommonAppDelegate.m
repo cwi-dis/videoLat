@@ -50,10 +50,18 @@
     
     // Initialize location manager stuff
     self.location = @"Unknown location";
+    if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusDenied) {
+        NSLog(@"No authorization for location services");
+        return;
+    }
     self.locationManager = [[CLLocationManager alloc] init];
+    if ([self.locationManager respondsToSelector:@selector(requestWhenInUseAuthorization)])
+        [self.locationManager requestWhenInUseAuthorization];
     self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+    if (self.locationManager.location)
+        self.location = self.locationManager.location.description;
     self.locationManager.delegate = self;
-    [self.locationManager startUpdatingLocation];
+    [self.locationManager startMonitoringSignificantLocationChanges];
 
 }
 
@@ -144,8 +152,10 @@
     return [uuidToURL objectForKey: uuid] != nil;
 }
 
-- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)newLocations
 {
+    assert(newLocations.count >= 1);
+    CLLocation *newLocation = newLocations[0];
 	if (VL_DEBUG) NSLog(@"Location Manager update: %@", newLocation);
 	self.location = newLocation.description;
 }
