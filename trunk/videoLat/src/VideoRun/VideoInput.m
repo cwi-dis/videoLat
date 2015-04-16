@@ -238,7 +238,6 @@
 		NSArray *supportedFrameRates = dev.activeFormat.videoSupportedFrameRateRanges;
 		AVFrameRateRange *activeRange = [supportedFrameRates objectAtIndex:0];
         CMTime minDuration = activeRange.minFrameDuration;
-        CMTime maxDuration = activeRange.maxFrameDuration;
 		dev.activeVideoMinFrameDuration = minDuration;
 
 		[dev unlockForConfiguration];

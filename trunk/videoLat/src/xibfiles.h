@@ -15,31 +15,59 @@
  This global structure is contained in the files MainMenu.xib, Document.xib and the inevitable main.m.
  The main classes and their helper classes are:
  
- - Document, plus MeasurementDataStore and MeasurementDistribution
- - DocumentView, plus GraphView and DocumentDescriptionView
- - appDelegate, plus MeasurementType and PythonLoader.
+ - Document, plus DeviceDescription, MachineDescription, MeasurementDataStore and MeasurementDistribution
+ - DocumentView, plus DeviceDescriptionView, DocumentDescriptionView and GraphView
+ - AppDelegate, plus CommonAppDelegate, MeasurementType, EventLogger and (for Mac only) PythonLoader.
  
- Finally, protocols.h is part of the global structure and defines various protocols implemented by multiple objects.
+ protocols.h is part of the global structure and defines various protocols implemented by multiple objects.
+ 
+ compat.h and compat.m handle part of the support for the two platforms, OSX and iOS.
  
  In the XCode project, these sources are contained in the toplevel "src" group and the "Document" and "Supporting Files"
  groups.
  
+ @section iOS global structure
+ 
+ The global structure for iPhone and iPad is based on the Main.storyboard. The first screen is controlled by
+ MainMenuTableViewController which allows the user to select the task. The next levels are controlled by
+ NewMeasurementTableViewController, NewClibrationTableViewController, OpenDocumentTableViewController and
+ DownloadCalibrationTableViewController. 
+ 
+ The first two are used to select a measurement type, after which we proceed to InputSelectionViewController to
+ select the input, and then to MeasurementContainerViewController to do the measurement, using the
+ 
+ When the document has been selected (or created) we do an unwind segue to the toplevel where we open the
+ document using DocumentViewController. If the user wants to do an action on the document (print, upload, etc)
+ we popup a DocumentActionViewController.
+ 
  @section Measurements New measurement control
  
- New measurements are done in a way that slightly deviates from the Document-based application standard. When a
- new document is opened, the Document window hides itself and in stead loads the NewMeasurement.xib window and views.
- These allow the user to select a new measurement type and do the measurement run. This run fills the measured data
- into the Document datastructures. When the run finished the NewMeasurement.xib window closes, and the Document window is
- shown again.
+ On OSX there is a NewMeasurementView (in group NewDocument) that handles selection of the measurement type,
+ as NewMeasurementTableViewController does on iOS.
  
- The global structure for a new measurement consists of the following classes and files:
+ After the user has selected the measurement or calibration type and pressed OK a XIB file is loaded (into
+ a new window on OSX, and as a subview of MeasurementContainerView on iOS) that is particular to the measurement
+ being done.
  
- - NewMeasurement.xib allocates, loads and connects the various objects,
- - RunTypeView is the owner object and load measurement implementations as the user selects them,
- - RunCollector collects the data points (individual delay measurements),
- - RunStatusView gives the user feedback on current delay average and such.
+ Note that the XIB files differ between iOS and OSX, but the names are the same. The sources for the iOS
+ XIB files are in an "iOS" subdirectory, whereas the OSX XIB file lives with the implementation classes in the
+ per-measurement-type subdirectory of "src".
  
- In the XCode project, these source files are contained in the "MeasurementRun" group.
+ These XIB files will generally contain a number of views and objects:
+ 
+ - a RunManagerView containing all the other bits.
+ - a RunStatusView gives the user feedback on current delay average and such.
+ - a runmanager, an instance of a subclass of BaseRunManager that controls the measurement run.
+ - for asymetric measurements a second BaseRunManager subclass instance to handle to output aspects of
+   the measurement run.
+ - An input capturer, adhering to InputCaptureProtocol, to grab images (or audio, or something else).
+ - A view adhering to OutputViewProtocol to show the output codes.
+ - a RunCollector to collect the data points (individual delay measurements).
+ 
+ In the XCode project, these source files are contained in the "MeasurementRun" group, and the individual
+ implementation in its subgroups.
+ 
+ xxxjack got to here.
  
  @section Implementations New measurement implementations
  
@@ -48,7 +76,7 @@
  The implemented measurement types are:
  
  - Video roundtrip, which does roundtrip delay measurements using QR code patterns.
-   Contained in VideoRunManager.xib and VideoRunManager. It has helper classes VideoInput, VideoOutputView,
+   Contained in VideoRun.xib and VideoRunManager. It has helper classes VideoInput, VideoOutputView,
    VideoSelectionView, FindQRcodes and GenQRcodes.
  - Video calibration roundtrip, which is a specialisation of video roundtrip for calibrating the videoLat machine.
    It uses VideoCalibrationRunManager.xib and VideoCalibrationRunManager.
