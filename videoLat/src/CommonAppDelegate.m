@@ -55,8 +55,10 @@
         return;
     }
     self.locationManager = [[CLLocationManager alloc] init];
+#if TARGET_OS_IPHONE
     if ([self.locationManager respondsToSelector:@selector(requestWhenInUseAuthorization)])
         [self.locationManager requestWhenInUseAuthorization];
+#endif
     self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
     if (self.locationManager.location)
         self.location = self.locationManager.location.description;
