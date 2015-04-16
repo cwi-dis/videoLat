@@ -283,9 +283,7 @@
                     <navigationItem key="navigationItem" title="Document" id="ijK-mu-pKR">
                         <barButtonItem key="rightBarButtonItem" image="action" id="ccF-QV-nP9">
                             <connections>
-                                <segue destination="HhS-Cy-6SN" kind="popoverPresentation" identifier="documentAction" popoverAnchorBarButtonItem="ccF-QV-nP9" id="lKw-bj-NsR">
-                                    <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
-                                </segue>
+                                <segue destination="HhS-Cy-6SN" kind="presentation" identifier="documentAction" id="lKw-bj-NsR"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
