@@ -13,6 +13,12 @@
 #import "DocumentView.h"
 #import "Document.h"
 
+///
+/// View controller that displays a document.
+///
+/// The action button on this view will bring up a popup that allos the user to
+/// print/upload/delete/email the document.
+///
 @interface DocumentViewController : UIViewController<MFMailComposeViewControllerDelegate,UIAlertViewDelegate> {
     Document *_document;
     SEL nextAction;

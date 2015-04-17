@@ -16,7 +16,6 @@
     struct zint_symbol *symbol;	//!< Internal: reference to the zint symbol generator.
 }
 
-- (GenQRcodes*)init; //!< Initialize the object.
-- (void) gen: (void*)buffer width: (int)width height: (int)height code: (const char *)code; //!< Generate a QR code.
-
+- (GenQRcodes*)init;
+- (void) gen: (void*)buffer width: (int)width height: (int)height code: (const char *)code;
 @end

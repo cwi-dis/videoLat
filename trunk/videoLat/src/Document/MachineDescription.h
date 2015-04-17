@@ -9,9 +9,12 @@
 #import <Foundation/Foundation.h>
 #import "compat.h"
 
+///
+/// Describes a computer (or iPhone or iPad).
+///
 @interface MachineDescription : NSObject
 
-+ (MachineDescription *)thisMachine;			//!< Return singleton object describing the current machine
++ (MachineDescription *)thisMachine;			//!< Return singleton object describing the current machine.
 
 @property(readonly) NSString *machineID;		//!< Unique identifier of this computer
 @property(readonly) NSString *machineName;		//!< Human-readable name of this computer

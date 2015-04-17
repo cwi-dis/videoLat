@@ -35,23 +35,23 @@
 /// AVCapture to capture a video stream from a camera.
 ///
 @interface VideoInput : NSObject <ClockProtocol, InputCaptureProtocol, AVCaptureVideoDataOutputSampleBufferDelegate> {
-    AVCaptureVideoPreviewLayer *selfLayer;
-    AVCaptureVideoDataOutput *outputCapturer;
-	AVCaptureSession *session;
-    dispatch_queue_t sampleBufferQueue;
+    AVCaptureVideoPreviewLayer *selfLayer;		//!< Our self-view in the UI
+    AVCaptureVideoDataOutput *outputCapturer;	//!< Object that forwards frames to use
+	AVCaptureSession *session;					//!< Currently running capture session
+    dispatch_queue_t sampleBufferQueue;			//!< Used by @see outputCapturer to communicate with us
 	float xFactor, yFactor;
 	NSString *deviceID;
 	NSString *deviceName;
 #ifdef WITH_DEVICE_CLOCK
-    CMClockRef clock;
+    CMClockRef clock;							//!< Clock of the current video input device.
 #endif
-    uint64_t epoch;
+    uint64_t epoch;								//!< Time zero of @see clock
 	BOOL capturing;
 #ifdef WITH_STATISTICS
 	// Statistics
-	uint64_t firstTimeStamp;
-	uint64_t lastTimeStamp;
-	int nFrames;
+	uint64_t firstTimeStamp;					//!< First frame timestamp
+	uint64_t lastTimeStamp;						//!< Latest frame timestamp
+	int nFrames;								//!< Number of frames received
 	int nEarlyDrops;
 	int nLateDrops;
 #endif
@@ -59,9 +59,9 @@
 @property (readonly) NSString *deviceID;
 @property (readonly) NSString *deviceName;
 @property(weak) IBOutlet id <RunInputManagerProtocol> manager;
-@property(weak) IBOutlet VideoInputView *selfView;
+@property(weak) IBOutlet VideoInputView *selfView;	//!< View showing what our camera sees
 
-+ (NSArray *) allDeviceTypeIDs;
++ (NSArray *) allDeviceTypeIDs;	//!< Returns a list of all known video devices.
 
 - (uint64_t)now;
 
@@ -81,10 +81,12 @@
 // Private delegate method for same:
 - (void)focusRectSelected: (NSorUIRect)theRect;
 
-// Delegate methods for QTCaptureVideoPreviewOutput:
+/// Delegate methods for QTCaptureVideoPreviewOutput.
 - (void)captureOutput:(AVCaptureOutput *)captureOutput
 didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
        fromConnection:(AVCaptureConnection *)connection;
+
+/// Delegate methods for QTCaptureVideoPreviewOutput.
 - (void)captureOutput:(AVCaptureOutput *)captureOutput
   didDropSampleBuffer:(CMSampleBufferRef)sampleBuffer
        fromConnection:(AVCaptureConnection *)connection;

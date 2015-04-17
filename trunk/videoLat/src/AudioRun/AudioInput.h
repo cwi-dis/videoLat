@@ -1,6 +1,11 @@
 #import <AVFoundation/AVFoundation.h>
 #import "protocols.h"
 
+///
+/// Class that implements InputCaptureProtocol (and ClockProtocol) for audio input, using
+/// AVCapture to capture an audio stream from a microphone or other audio input.
+///
+
 @interface AudioInput : NSObject <ClockProtocol, InputCaptureProtocol, AVCaptureAudioDataOutputSampleBufferDelegate> {
     AVCaptureAudioDataOutput *outputCapturer;
 	AVCaptureSession *session;

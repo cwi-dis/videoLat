@@ -11,6 +11,9 @@
 #import "MeasurementDataStore.h"
 #import "BaseRunManager.h"
 
+///
+/// View Controller for holding the XIB that does the measurement.
+///
 @interface MeasurementContainerViewController : UIViewController<NewMeasurementDelegate> {
 	NSArray *measurementNibObjects;				//!< Storage for view-nib toplevel objects
 	MeasurementDataStore *finishedDataStore;	//!< Internal, remembers datastore while segue is in progress

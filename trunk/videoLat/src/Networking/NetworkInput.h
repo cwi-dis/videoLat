@@ -3,8 +3,8 @@
 
 
 ///
-/// Class that implements InputCaptureProtocol (and ClockProtocol) for video input, using
-/// AVCapture to capture a video stream from a camera.
+/// Class that implements InputCaptureProtocol (and ClockProtocol) for data that
+/// is actually captured remotely, and for which the data is sent to us over the network.
 ///
 @interface NetworkInput : NSObject <ClockProtocol, InputCaptureProtocol> {
 }
@@ -13,10 +13,6 @@
 @property(weak) IBOutlet id <RunInputManagerProtocol> manager;
 
 - (uint64_t)now;
-//- (bool)available;
-//- (NSArray*) deviceNames;
-//- (void)_switchToDevice: (AVCaptureDevice*)dev;
-//- (BOOL)switchToDeviceWithName: (NSString *)name;
 - (void) startCapturing: (BOOL) showPreview;
 - (void) stopCapturing;
 - (void) stop;

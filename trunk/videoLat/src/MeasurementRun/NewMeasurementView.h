@@ -10,6 +10,9 @@
 #import "RunManagerView.h"
 #import "DownloadCalibrationViewController.h"
 
+///
+/// ViewController for window that allows selecting measurement type and starting it.
+///
 @interface NewMeasurementViewController : NSViewController<NSWindowDelegate> {
     NSArray *runManagerNibObjects;	//!< internal: storage for toplevel object references from loaded nibfiles
 }
@@ -20,6 +23,6 @@
 @property(weak) IBOutlet DownloadCalibrationViewController *downloadCalibrationViewController;
 @property(weak) IBOutlet NSTabView *tabView;
 
-- (IBAction)doMeasurement:(id)sender;
-- (void)_updateMeasurementTypes;
+- (IBAction)doMeasurement:(id)sender;	//!< Callback from run button.
+- (void)_updateMeasurementTypes;	//!< Internal: populate bType.
 @end

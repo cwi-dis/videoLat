@@ -10,15 +10,16 @@
 #import "MeasurementType.h"
 #import "protocols.h"
 
+///
+/// Per-application code common to iSO and OSX.
+///
 @interface CommonAppDelegate : NSObject <CLLocationManagerDelegate> {
-    NSMutableDictionary *uuidToURL;
+    NSMutableDictionary *uuidToURL;	//!< Map measurement UUIDs to the URL of the file.
 }
 
-@property(strong) MeasurementType *measurementTypes;
+@property(strong) CLLocationManager *locationManager;	//!< Object that gives us GPS position information
 
-@property(strong) CLLocationManager *locationManager;
-
-@property(strong) NSString *location;
+@property(strong) NSString *location;	//!< Textual representation of current GPS position.
 
 - (void)initVideolat;   //!< Initialize the app, common to OSX and iOS.
 - (NSURL *)directoryForCalibrations;    //!< Returns directory where calibration run documents should be stored/loaded.
@@ -27,7 +28,7 @@
 - (BOOL)haveCalibration: (NSString *)uuid;
 - (IBAction)openWebsite:(id)sender; //!< Method to be called when the user wants to view the videoLat website.
 
-// Location manager delegate method:
+/// Location manager delegate method.
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)newLocations;
 
 @end

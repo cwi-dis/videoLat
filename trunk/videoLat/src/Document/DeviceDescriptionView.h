@@ -10,7 +10,10 @@
 #import "compat.h"
 #import "DeviceDescription.h"
 
-
+///
+/// NSView or UIView subclass for presenting information in a @see DeviceDescription
+/// object.
+///
 @interface DeviceDescriptionView
 #ifdef WITH_UIKIT
 : UIView
@@ -35,7 +38,7 @@
 @property(weak) IBOutlet NSTextField *bCalibrationLabel; //!< Reference to UI element
 #endif
 
-@property(weak) DeviceDescription *modelObject;
+@property(weak) DeviceDescription *modelObject;	//!< The object for which we present the information.
 
-- (IBAction)update:(id)sender;
+- (IBAction)update:(id)sender;	//!< Called whenever the UI needs to be updated.
 @end

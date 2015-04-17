@@ -30,15 +30,14 @@
 @property(readonly) double binSize;		//!< width of each bin
 @property(weak) IBOutlet id <GraphDataProviderProtocol> source; //!< Source of our data points
 
-///
 /// Initializer.
 /// @param source the set of datapoints this object should compute the distribution of
 /// The current implementation expects the source to be static, i.e. it only recomputes the distribution initially
 /// and assumes the data in the source doesn't change.
-///
 - (MeasurementDistribution *)initWithSource: (MeasurementDataStore *)source;
+
 - (void)awakeFromNib;                   //!< Initializer
-- (void)_recompute;                     //!< Internal: recompute disitrbution
+- (void)_recompute;                     //!< Internal: recompute distribution
 - (NSNumber *)valueForIndex: (int) i;   //!< Used by GraphView: get one data point
 - (NSString *) asCSVString;             //!< Get distribution data as CSV string
 @end

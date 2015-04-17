@@ -34,8 +34,8 @@
 #ifdef WITH_APPKIT
 /// Internal: the screen our window was on during the last redraw.
 /// Used to update deviceID and deviceName when the user moves our window to a different screen.
-@property(weak) IBOutlet NSTextField *bOutputName;              //!< UI element: shows our device name
 @property(weak) NSScreen *oldScreen;
+@property(weak) IBOutlet NSTextField *bOutputName;              //!< UI element: shows our device name
 #endif
 
 + (NSArray *) allDeviceTypeIDs;

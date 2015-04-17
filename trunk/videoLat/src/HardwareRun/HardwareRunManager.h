@@ -57,10 +57,10 @@
 -(void)stop;
 
 - (void)_switchToDevice: (NSString *)selectedDevice;
-- (IBAction)selectBase: (id)sender;     //!< Called when the user selects a different base measurement
+- (IBAction)selectBase: (id)sender;
 
-- (IBAction)periodChanged: (id) sender;
-- (void)_updatePeriod;
+- (IBAction)periodChanged: (id) sender;	//!< Action message for samplePeriodMs UI elements
+- (void)_updatePeriod;	//!< Internal: update UI to show samplePeriodMs.
 ///
 /// The worker thread.
 /// Once every millisecond (at most) it calls the light method on the device to
@@ -74,7 +74,7 @@
 ///
 - (void)_update: (id)sender;
 
-- (IBAction)stopPreMeasuring: (id)sender;   //!< Internal: stop pre-measuring because we have heard enough
+- (IBAction)stopPreMeasuring: (id)sender;
 
 - (void)triggerNewOutputValue;
 

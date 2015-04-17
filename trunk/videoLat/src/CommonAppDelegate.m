@@ -19,8 +19,6 @@
 #endif
 @implementation CommonAppDelegate
 
-@synthesize measurementTypes;
-
 - (CommonAppDelegate *)init
 {
     self = [super init];

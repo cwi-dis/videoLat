@@ -12,20 +12,21 @@
 #import "CommonAppDelegate.h"
 
 ///
-/// Application delegate. Stores application-global items, and implements application-global actions.
+/// Application delegate.
+/// Stores application-global items, and implements application-global actions.
 ///
 @interface AppDelegate : CommonAppDelegate <NSApplicationDelegate, NSWindowDelegate, NewMeasurementDelegate>{
     NSArray *objectsForNewDocument;     //!< Internal: stores NIB-created objects for new measurement window so these are refcounted correctly
-         //!< All known calibrations, by UUID
 }
-   //!< Textual description of current GPS location
-@property(weak) IBOutlet NSWindow *newdocWindow;
+
+@property(weak) IBOutlet NSWindow *newdocWindow; //!< Reference to current "New Measurement" dialog, if any.
 
 - (void)applicationWillFinishLaunching:(NSNotification *)aNotification; //!< Standard method called to signal application start.
 - (void)applicationWillTerminate:(NSNotification *)notification;	//!< Standard method called to signal application termination
 - (BOOL) applicationShouldOpenUntitledFile: (id)sender;	//!< Standard method to ask whether an untilted document should be opened
 
-// methods for instance variable 'uuidToURL'
+/// Create and show a new document for a measurement.
+/// @param dataStore The measurement data.
 - (void)openUntitledDocumentWithMeasurement: (MeasurementDataStore *)dataStore;
 
 - (IBAction)openCalibrationFolder:(id)sender;   //!< Method to be called when the user wants to view the calibration folder.
@@ -36,5 +37,5 @@
 - (NSArray *)hardwareNames;                     //!< Names of all available hardware drivers
 - (NSURL *)hardwareFolder;                      //!< URL of folder containing hardware drivers
 
-- (void) windowWillClose: (NSNotification *)notification;
+- (void) windowWillClose: (NSNotification *)notification;	//!< Called when the New Document window closes
 @end

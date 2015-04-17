@@ -20,21 +20,20 @@
 /// specific type that have been done previously (initialized by the appDelegate).
 ///
 @interface MeasurementType : NSObject<MeasurementTypeProtocol> {
-	NSMutableDictionary *measurements;	//!< Internal: all measurements of this type, indexed by name.
-    MeasurementType *superType;         //!< Pointer to generalization of this measurement type (if there is one)
+	NSMutableDictionary *measurements;	//!< All measurements of this type, indexed by name.
+    MeasurementType *superType;         //!< Pointer to generalization of this measurement type (if there is one).
 }
 
-+ (MeasurementType *)forType: (NSString *)name; //!< Returns MeasurementType with the given name.
-+ (MeasurementType *)forTag: (NSUInteger)tag; //!< Returns MeasurementType with the given name.
++ (void)initialize; //!< Class initializer, populates class with implemented measurement types.
 
 + (MeasurementType *)addType: (NSString *)name tag: (NSUInteger) tag isCalibration: (BOOL)cal requires: (MeasurementType *)req; //!< Add a new  MeasurementType.
-+ (void)initialize; //!< Class initializer, populates class with implemented measurement types.
++ (MeasurementType *)forType: (NSString *)name; //!< Returns MeasurementType with the given name.
++ (MeasurementType *)forTag: (NSUInteger)tag; //!< Returns MeasurementType with the given name.
 
 - (MeasurementType *)initWithType: (NSString *)_name tag: (NSUInteger)_tag isCalibration: (BOOL)_isCalibration requires: (MeasurementType *)_requires; //!< Object initializer.
 - (void)addMeasurement: (MeasurementDataStore *)item;   //!< Add a measurement run of this type.
 - (MeasurementDataStore *)measurementNamed: (NSString *)name;   //!< Retrieve a measurement run by name.
 - (NSArray *)measurementNames;  //!< Return all names for measurements of this type, used for menu population.
-- (NSArray *)measurementNamesForType: (NSString *)typeName; //!< No longer used?
 
 @property(readonly) NSUInteger tag;     //!< Tag for this type, used to order measurement types logically in menus.
 @property(readonly) NSString *name;     //!< Human-readable type

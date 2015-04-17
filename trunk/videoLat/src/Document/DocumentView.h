@@ -23,19 +23,19 @@
 #endif
 {
     BOOL initialValues; //!< Internal: helper variable to initialize subview values at the right time
-    __weak Document *_modelObject;
+    __weak Document *_modelObject;	//!< Our document.
 #ifdef WITH_UIKIT
-	CGPoint _pointToCenterAfterResize;
-	CGFloat _scaleToRestoreAfterResize;
+	CGPoint _pointToCenterAfterResize;	//!< Helper variable to handle iOS device orientation changes.
+	CGFloat _scaleToRestoreAfterResize;	//!< Helper variable to handle iOS device orientation changes.
 #endif
 };
 
 @property(weak) IBOutlet DocumentDescriptionView *status;   //!< Set by NIB: view containing our metadata
 @property(weak) IBOutlet GraphView *values;                 //!< Set by NIB: view showing the raw measurement values
 @property(weak) IBOutlet GraphView *distribution;           //!< Set by NIB: view showing the measurement distribution
-@property(weak) IBOutlet Document *modelObject;                //!< Set by NIB: pointer to our Document
+@property(weak) IBOutlet Document *modelObject;             //!< Set by NIB: pointer to our Document
 #ifdef WITH_UIKIT
-@property(weak) IBOutlet UIView *scrolledView;
+@property(weak) IBOutlet UIView *scrolledView;	//!< Outer view that handles scrolling and scaling the DocumentView
 #endif
 
 - (void)_updateView;     //!< Updates variables in status view so they reflect the document values
@@ -43,11 +43,11 @@
 
 #ifdef WITH_APPKIT
 - (void)viewWillDraw;   //!< Called by window manager just before viewing, calls updateView if needed
-- (IBAction)openInputCalibration:(id)sender;
-- (IBAction)openOutputCalibration:(id)sender;
+- (IBAction)openInputCalibration:(id)sender;	//!< UI callback method that opens the calibration of the input device
+- (IBAction)openOutputCalibration:(id)sender;	//!< UI callback method that opens the calibration of the output device
 #endif
 
 #ifdef WITH_UIKIT
-- (NSData *)generatePDF;
+- (NSData *)generatePDF;	//!< Generate PDF for printing or emailing.
 #endif
 @end
