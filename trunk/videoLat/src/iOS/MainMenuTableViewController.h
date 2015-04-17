@@ -15,10 +15,10 @@
 /// and handles opening of new measurement documents through an unwind segue.
 ///
 /// The control structure is a bit convoluted: when the measurement is complete that
-/// view controller sets our @see dataStoreToOpen in its prepareForSegue: for the unwind
-/// segue. Then our @see unwindAndOpenDocument: is called, which does nothing, and finally
+/// view controller sets our dataStoreToOpen in its prepareForSegue: for the unwind
+/// segue. Then our unwindAndOpenDocument: is called, which does nothing, and finally
 /// our viewDidAppear: is called, which then starts the showDocument segue.
-/// Then we, in our prepareForSegue: method, communicate @see dataStoreToOpen to the new
+/// Then we, in our prepareForSegue: method, communicate dataStoreToOpen to the new
 /// new view controller.
 @interface MainMenuTableViewController : UITableViewController
 

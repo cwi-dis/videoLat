@@ -38,14 +38,14 @@
     AVCaptureVideoPreviewLayer *selfLayer;		//!< Our self-view in the UI
     AVCaptureVideoDataOutput *outputCapturer;	//!< Object that forwards frames to use
 	AVCaptureSession *session;					//!< Currently running capture session
-    dispatch_queue_t sampleBufferQueue;			//!< Used by @see outputCapturer to communicate with us
+    dispatch_queue_t sampleBufferQueue;			//!< Used by outputCapturer to communicate with us
 	float xFactor, yFactor;
 	NSString *deviceID;
 	NSString *deviceName;
 #ifdef WITH_DEVICE_CLOCK
     CMClockRef clock;							//!< Clock of the current video input device.
 #endif
-    uint64_t epoch;								//!< Time zero of @see clock
+    uint64_t epoch;								//!< Time zero of clock
 	BOOL capturing;
 #ifdef WITH_STATISTICS
 	// Statistics

@@ -11,7 +11,7 @@
 #import "DeviceDescription.h"
 
 ///
-/// NSView or UIView subclass for presenting information in a @see DeviceDescription
+/// NSView or UIView subclass for presenting information in a DeviceDescription
 /// object.
 ///
 @interface DeviceDescriptionView
