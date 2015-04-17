@@ -130,16 +130,4 @@ static NSMutableDictionary *byTag;
 	return [measurements allKeys];
 }
 
-- (NSArray *)measurementNamesForType: (NSString *)typeName
-{
-	NSMutableArray *rv = [[NSMutableArray alloc] initWithCapacity:10];
-	for (NSString *k in [measurements allKeys]) {
-		MeasurementDataStore *v = [measurements objectForKey:k];
-		if ([v.measurementType isEqualToString:typeName]) {
-			[rv addObject:k];
-		}
-	}
-	return rv;
-}
-
 @end

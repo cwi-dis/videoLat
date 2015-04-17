@@ -9,6 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "protocols.h"
 
+///
+/// View that allows user to select input device and optionally base measurement.
+///
 @interface InputSelectionView : UIView<SelectionView,UIPickerViewDataSource, UIPickerViewDelegate> {
     NSArray *_baseNames;
 }

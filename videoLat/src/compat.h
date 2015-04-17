@@ -11,6 +11,10 @@
 
 #import <Foundation/Foundation.h>
 
+//@{
+/// Defines and typedefs to ease iOS/OSX compatibility.
+/// These forestall a large number of ifdefs in the code by
+/// resolving to either an AppKit or a UIKit type or function.
 #if TARGET_OS_IPHONE
 #define WITH_UIKIT
 #import <CoreGraphics/CoreGraphics.h>
@@ -63,13 +67,22 @@ typedef NSBezierPath NSorUIBezierPath;
 #define NSorUIMidX NSMidX
 #define NSorUIMidY NSMidY
 #endif
+//@}
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
+/// A monotonic clock.
+/// @return The current system time in microseconds, since an unknown (but stable) epoch.
 uint64_t monotonicMicroSecondClock();
+
+/// Present an error message to the user.
+/// @param error The information to present in the error message.
 void showErrorAlert(NSError *error);
+
+/// Present a warning dialog to the user.
+/// @param warning The message to show.
 void showWarningAlert(NSString *warning);
 
 #ifdef __cplusplus

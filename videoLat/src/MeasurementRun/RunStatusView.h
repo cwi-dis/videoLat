@@ -10,7 +10,7 @@
 #import "protocols.h"
 
 ///
-/// An NSView that shows information such as number of detections and average delay
+/// An NSView or UIView that shows information such as number of detections and average delay
 /// while a measurement run is underway.
 /// This view usually lives together with RunTypeView, and is instantiated from
 /// the NewMeasurement.xib NIB file.

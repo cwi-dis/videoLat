@@ -52,16 +52,7 @@
 @property(weak) IBOutlet NSTextField *bDetectMinDelay; //!< Reference to UI element
 @property(weak) IBOutlet NSTextField *bDetectMaxDelay; //!< Reference to UI element
 #endif
-@property(strong) MeasurementDataStore *modelObject;
-//@property(strong) NSString *measurementType;    //!< Current value of metadata item
-//@property(strong) NSString *date;    //!< Current value of metadata item
-//@property(strong) NSString *description;    //!< Current value of metadata item
-//@property(strong) NSString *detectCount;    //!< Current value of metadata item
-//@property(strong) NSString *missCount;    //!< Current value of metadata item
-//@property(strong) NSString *detectAverage;    //!< Current value of metadata item
-//@property(strong) NSString *detectMinDelay;    //!< Current value of metadata item
-//@property(strong) NSString *detectMaxDelay;    //!< Current value of metadata item
-/// Update UI elements to reflect values in metadata items
+@property(strong) MeasurementDataStore *modelObject;	//!< The object for which we display the data.
 
-- (void) update: (id)sender;
+- (void) update: (id)sender;	//!< Called when the UI should be updated.
 @end

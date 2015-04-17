@@ -95,46 +95,43 @@
 #endif
 
 @property(strong) MeasurementType *measurementType;
-///
+
 /// Textual representation of the current output code, for example @"white", or
 /// @"123456789" for QR code measurements. Set by the BaseRunManager that is
 /// responsible for output, read by its inputCompanion.
-///
 @property(strong) NSString *outputCode;           // Current code on the display
 
 - (void)terminate;	//!< Prepare for deallocation. Severs links with companion and releases resources.
 - (void)stop;	//!< Called when the user stops a measurement run, via @see stopMeasuring from @see RunTypeView
 - (IBAction)stopMeasuring: (id)sender;	//!< Called when user presses "stop" button
 
-///
 /// Select the actual measurement type this run will use.
 /// @param typeName the (human readable) measurement type name.
 /// This method is needed because many measurement types (for example Video Roundtrip and Video Calibration)
 /// share an awful lot of code.
-///
 - (void)selectMeasurementType: (NSString *)typeName;
 
 #ifdef WITH_UIKIT
-///
+
 /// Select the measurement type and base, and start prerunning.
-///
+/// @param measurementTypeName The type of measurement
+/// @param baseMeasurementName The name of the base measurement (or nil)
 - (void)runForType: (NSString *)measurementTypeName withBase: (NSString *)baseMeasurementName;
 #endif
 
+/// Signals that a measurement run should be restarted (for example because the input device has changed).
 - (void)restart;
 
-///
-/// Prepare data for a new delay measurement. Called on the output companion, should
+/// Prepare data for a new delay measurement.
+/// Called on the output companion, should
 /// create a pattern that is distinghuisable from the previous pattern and display it.
-///
 - (void)triggerNewOutputValue;
 
-///
 /// Can be overridden by RunManagers responsible for input, to enforce certain codes to be
 /// used during prerunning.
 /// Implemented by the NetworkRunManager to communicate the ip/port of the listener to the remote
 /// end.
-///
+/// @return the prerun code to use.
 - (NSString *)genPrerunCode;
 
 @property bool running;		//!< True after user has pressed "run" button, false again after pressing "stop".

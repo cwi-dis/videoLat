@@ -9,6 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "Document.h"
 
+///
+/// View controller for operations on documents.
+///
 @interface DocumentActionViewController : UIViewController
 @property(weak) Document *document;
 @property(weak) IBOutlet UIButton *bPrint;

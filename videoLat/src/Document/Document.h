@@ -13,13 +13,8 @@
 #import "MeasurementType.h"
 
 ///
-/// Subclass of NSDocument for a videoLat measurement run.
-/// Contains references to all measurements and the distribution, and provides accessors for all the
-/// metadata.
-///
-/// There is one twist: while we are creating a new document the normal document view window is hidden,
-/// and a window from NewMeasurement.xib is shown. This controls the measurement process.
-/// When the measurement run has completed that window disappears and the document window is shown.
+/// Subclass of NSDocument or UIDocument for a videoLat measurement run.
+/// Contains references to the measurements and the distribution.
 ///
 @interface Document :
 #ifdef WITH_UIKIT
@@ -36,6 +31,7 @@
 @property(strong) IBOutlet MeasurementDistribution *dataDistribution;   //!< distribution of dataStore
 
 #ifdef WITH_UIKIT
+/// Invent a filename for the given MeasurementDataStore object.
 + (NSURL *)inventURLForDocument: (MeasurementDataStore *)dataStore;
 #endif
 - (IBAction)newDocumentComplete: (id)sender;        //!< Callback used by NewMeasurement to signal it has finished.

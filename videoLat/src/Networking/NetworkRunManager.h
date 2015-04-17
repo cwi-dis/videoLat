@@ -15,7 +15,7 @@
 /// Subclass of BaseRunManager that handles transmitting and receiving measurement
 /// data over the network.
 ///
-/// This calss is never used as-is, it is always used as only an input component or only an output component.
+/// This class is never used as-is, it is always used as only an input component or only an output component.
 ///
 @interface NetworkRunManager : BaseRunManager <NetworkProtocolDelegate> {
     uint64_t inputStartTime;			//!< Internal: When last input was read, in local clock time
@@ -44,10 +44,7 @@
 
 + (void)initialize;	//!< Class initializer.
 
-// NetworkProtocolDelegate implementation
-/// Received data from the remote end.
 - (void)received: (NSDictionary *)data from: (id)connection;
-/// Remote end disconnected or connection got lost some other way.
 - (void)disconnected:(id)me;
 
 - (IBAction)startPreMeasuring: (id)sender;  //!< Called when user presses "prepare" button
