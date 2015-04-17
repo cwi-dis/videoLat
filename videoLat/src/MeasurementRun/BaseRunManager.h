@@ -25,10 +25,10 @@
 ///
 /// Implementations of this class should be able to handle both input and output, but
 /// they may have to handle only one of those, based on how things are initialized in the NIB.
-/// If the object should handle both (for example during a VideoRun) both @see inputCompanion
-/// and @see outputCompanion refer to self.
+/// If the object should handle both (for example during a VideoRun) both inputCompanion
+/// and outputCompanion refer to self.
 /// If the object should handle only input or output (for example during a MixedRun)
-/// the @see inputCompanion of the output object refers to the other object
+/// the inputCompanion of the output object refers to the other object
 /// and vice versa.
 ///
 /// In addition, the class methods implement a repository for remembering all available
@@ -102,7 +102,7 @@
 @property(strong) NSString *outputCode;           // Current code on the display
 
 - (void)terminate;	//!< Prepare for deallocation. Severs links with companion and releases resources.
-- (void)stop;	//!< Called when the user stops a measurement run, via @see stopMeasuring from @see RunTypeView
+- (void)stop;	//!< Called when the user stops a measurement run, via stopMeasuring from RunTypeView
 - (IBAction)stopMeasuring: (id)sender;	//!< Called when user presses "stop" button
 
 /// Select the actual measurement type this run will use.

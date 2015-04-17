@@ -35,14 +35,14 @@
 /// @param size size of buffer, in bytes
 /// @param channels number of channels (can be 1 or 2)
 /// @param now timestamp corresponding to first sample in buffer
-/// @return true if a copy of sample fed into @see processOriginal has been found (either now or earlier).
-/// Once this method returns true you can use @see lastMatchTimestamp to obtain the timestamp of the
+/// @return true if a copy of sample fed into processOriginal has been found (either now or earlier).
+/// Once this method returns true you can use lastMatchTimestamp to obtain the timestamp of the
 /// match.
 ///
 - (BOOL)feedData: (void *)buffer size: (size_t)size channels: (int)channels bitsPerChannel: (int)nBits at: (uint64_t)now duration: (uint64_t)duration;
 ///
-/// Timestamp (in @see feedData terms) of match that corresponds to the beginning of
-/// the sample fed to @see processOriginal.
+/// Timestamp (in feedData terms) of match that corresponds to the beginning of
+/// the sample fed to processOriginal.
 ///
 - (uint64_t) lastMatchTimestamp;
 

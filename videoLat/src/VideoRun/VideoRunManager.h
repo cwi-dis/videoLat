@@ -10,7 +10,7 @@
 #import "BaseRunManager.h"
 
 ///
-/// Subclass of @see BaseRunManager that handles video measurements based on QR codes.
+/// Subclass of BaseRunManager that handles video measurements based on QR codes.
 ///
 @interface VideoRunManager : BaseRunManager {
     uint64_t outputStartTime;       //!< Internal: When the last output was started
