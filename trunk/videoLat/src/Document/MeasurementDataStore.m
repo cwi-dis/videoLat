@@ -45,6 +45,43 @@
     return [NSString stringWithFormat:@"%@ (%@ to %@)", self.measurementType, self.output.device, self.input.device];
 }
 
+- (BOOL)isCalibration
+{
+    MeasurementType *theType = [MeasurementType forType: measurementType];
+    return theType.isCalibration;
+}
+
+- (NSString *)defaultNameForDocument
+{
+    MeasurementType *theType = [MeasurementType forType: measurementType];
+    if (!theType.isCalibration) {
+		// If this is an ordinary measurement data and time is probably best
+		NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+		NSDate *docDate = [formatter dateFromString:date];
+		if (docDate == nil)
+			docDate = [NSDate date];
+
+		[formatter setDateFormat:@"yyyy-MM-dd HH:mm"];
+		return [formatter stringFromDate:[NSDate date]];
+	}
+	NSString *name;
+	if (theType.inputOnlyCalibration) {
+		name = [NSString stringWithFormat:@"%@ (from %@)", self.input.nameForDevice, self.output.nameForDevice];
+
+	} else if (theType.outputOnlyCalibration) {
+		name = [NSString stringWithFormat:@"%@ (from %@)", self.output.nameForDevice, self.input.nameForDevice];
+	} else {
+		name = [NSString stringWithFormat:@"%@ to %@", self.output.nameForDevice, self.input.nameForDevice];
+	}
+	return name;
+}
+
+- (NSString *)defaultExtensionForDocument
+{
+    NSString *extension = @"videoLat";
+    if (self.isCalibration) extension = @"vlCalibration";
+	return extension;
+}
 
 - (NSString *)outputBaseMeasurementID {
     MeasurementDataStore *c = self.outputCalibration;
