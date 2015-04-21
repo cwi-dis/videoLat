@@ -40,25 +40,21 @@
 #endif
 
 #ifdef WITH_UIKIT
+
 + (NSURL *)inventURLForDocument: (MeasurementDataStore *)dataStore
 {
-    NSURL *fileUrl = nil;
-    MeasurementType *theType = [MeasurementType forType: dataStore.measurementType];
-
-    NSString *extension = @"videoLat";
-    if (theType.isCalibration) extension = @"vlCalibration";
+	NSURL *fileUrl;
+	NSString *baseFileName = dataStore.defaultNameForDocument;
+    NSString *extension = dataStore.defaultExtensionForDocument;
     int uniqueNumber = 0;
     do {
-        NSString *machineID = dataStore.output.machineTypeID;
-        if (theType.inputOnlyCalibration)
-            machineID = dataStore.input.machineTypeID;
         NSString *unique = @"";
         if (uniqueNumber) {
             unique = [NSString stringWithFormat:@" (%d)", uniqueNumber];
         }
-        NSString *fileName = [NSString stringWithFormat: @"%@-%@-%@-%@%@.%@", dataStore.measurementType, machineID, dataStore.output.device, dataStore.input.device, unique, extension];
+        NSString *fileName = [NSString stringWithFormat: @"%@%@.%@", baseFileName, unique, extension];
         NSURL *dirUrl;
-        if (theType.isCalibration) {
+        if (dataStore.isCalibration) {
             dirUrl = [(AppDelegate *)[[NSorUIApplication sharedApplication] delegate] directoryForCalibrations];
         } else {
             NSError *error;

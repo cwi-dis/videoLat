@@ -97,5 +97,13 @@
     [coder encodeObject: calibration forKey: @"calibration"];
 }
 
+- (NSString *)nameForDevice
+{
+    MachineDescription *md = [MachineDescription thisMachine];
+	if (machineTypeID != md.machineTypeID) {
+		return [NSString stringWithFormat:@"%@ on %@", device, machineTypeID];
+	}
+	return device;
+}
 @end
 

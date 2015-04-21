@@ -38,4 +38,9 @@
 /// Initializer for output-only calibrations
 /// Initialize everything from output device
 - (DeviceDescription *)initFromOutputDevice: (id<OutputViewProtocol>)inputDevice;
+
+/// Get name for device.
+/// Adds hardware type name if this measurrement was taken on differrent hardware than this one.
+- (NSString *)nameForDevice;
+
 @end

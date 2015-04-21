@@ -52,6 +52,17 @@
 
 @property(readonly) NSString *descriptiveName;	//!< Human readable name for the type of measurement run.
 
+/// Return true if this is a calibration.
+- (BOOL)isCalibration;
+
+/// Invent a default name for a document containing this measurement.
+/// The name returned is as short as possible while being descriptive on the current machine.
+- (NSString *)defaultNameForDocument;
+
+/// File extension to use for this document.
+- (NSString *)defaultExtensionForDocument;
+
+
 /// Adds a single measurement.
 /// @param data the data transmitted and received
 /// @param sent the clock time at which the data was sent
