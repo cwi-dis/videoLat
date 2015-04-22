@@ -9,8 +9,8 @@ delays caused by camera, grabber hardware, video output card and the video
 display.
 
 VideoLat can take round-trip measurements, with the same system both
-benerating and detecting the barcodes. A future release will also allow
-asymetric measurements, using a videoLat-system on both ends.
+benerating and detecting the barcodes. With two copies of videoLat running,
+one on each side, you can also do one-way measurements.
 
 If you have access to the internals of the system-under-test it is possible
 to take measurements there as well, because videoLat encodes the current
@@ -51,11 +51,11 @@ Change Log
 0.52: Fixed race condition that could cause negative latencies
 0.51: Added missing Help book
 
-Build Instructions, fast track
-==============================
+Build Instructions for OSX, fast track
+======================================
 
 To build videoLat from source you need:
-- a Mac (10.7-10.9 have been tested, must be 64-bit capable),
+- a Mac (10.9-10.10 have been tested, must be 64-bit capable, older releases may still work),
 - XCode and the OSX build tools installed,
 - the Apple X11 compatibility package (if running 10.7 or earlier), or
   if you are on a later OSX you need to build and install libpng 1.5 from
@@ -71,8 +71,8 @@ This should create the application in "build/Release/videoLat.app".
 In case it fails, or if you want to do modifications, or create distributions
 read the next section.
 
-Build Instructions, detailed
-============================
+Build Instructions for OSX, detailed
+====================================
 
 To build videoLat from source you need a Mac (10.7 or later, capable of running
 64-bit applications).
@@ -85,7 +85,7 @@ The first two should be included in a videoLat source distribution in the thirdP
 subdirectory.
 
 You also need libpng 1.5, download from http://sourceforge.net/projects/libpng/files/libpng15/
-and put the source tree in thirdParty/libpng-1.5.18. 
+and put the source tree in thirdParty/libpng-1.5.22. 
 
     (Actually, on 10.7 or earlier there is an Apple-installed libpng in te
     X11 package, so you don't have to download and build libpng unless you
@@ -95,7 +95,7 @@ Build the third-party packages:
 1. Build libpng with:
 	% mkdir thirdParty/installed
 	% INST=`(cd thirdParty/installed ; pwd)`
-	% cd thirdParty/libpng-1.5.18
+	% cd thirdParty/libpng-1.5.22
 	% ./configure \
 		--prefix=$INST \
 		CFLAGS="-arch i386 -arch x86_64" \
@@ -157,6 +157,26 @@ via <http://www.stack.nl/~dimitri/doxygen/> and GraphViz
 via <http://www.graphviz.org/Download_macos.php> and install both. Then
 you can use the toplevel Doxyfile or the XCode target.
 
+Build instructions for iOS
+==========================
+
+First you need to build the third party packages, for both iOS native and the simulator.
+Download libpng from http://sourceforge.net/projects/libpng/files/libpng15/ and run
+
+	$ sh scripts/build-ios.sh
+	$ sh scripts/build-iossim.sh
+
+If either of the builds fails you may need to edit the scripts to modify the IOS_VERSION
+variable to refer to a version of iOS for which you have the SDK available. The scripts
+install libpng, libzbar and libzint into thirdParty/installed-ios and thirdParty/installed-iossim,
+respectively.
+
+Next you open videoLat-iOS.xcodeproj and build the app, either for the simulator or the real
+device. Note that running under the simulator has only very limited functionality as
+no audio and video input devices are available. Also note that for device builds you may need
+to modify the build settings for code signing and provisioning so they refer to your identity
+in stead of mine.
+
 Contact
 =======
 
@@ -167,7 +187,7 @@ options.
 Licenses
 ========
 
-VideoLat is Copyright (c) 2010, Stichting Centrum Wiskunde & Informatica,
+VideoLat is Copyright (c) 2010-2015, Stichting Centrum Wiskunde & Informatica,
 licensed under GPL 3. Contact the authors in case you need different licensing
 options.
 
