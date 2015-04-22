@@ -56,7 +56,7 @@
         if (searching) {
             cell.textLabel.text = @"Searching...";
         } else {
-            cell.textLabel.text = @"No calibrations available for this device";
+            cell.textLabel.text = @"None available for this device";
         }
         cell.userInteractionEnabled = cell.textLabel.enabled = cell.detailTextLabel.enabled = NO;
         return cell;
@@ -65,10 +65,9 @@
     NSDictionary *cal = [calibrations objectAtIndex:indexPath.row];
     // Configure the cell...
 	NSString *uuid = [cal objectForKey: @"uuid"];
-	NSString *calName = [NSString stringWithFormat:@"%@-%@-%@-%@",
-						 [cal objectForKey:@"measurementTypeID"],
-						 [cal objectForKey:@"machineTypeID"],
+	NSString *calName = [NSString stringWithFormat:@"%@ (%@) %@",
 						 [cal objectForKey:@"deviceTypeID"],
+						 [cal objectForKey:@"measurementTypeID"],
 						 [cal objectForKey:@"uuid"]
 						 ];
 	cell.textLabel.text = calName;
@@ -95,7 +94,7 @@
 {
     searching = YES;
 	NSString *machineTypeID = [[MachineDescription thisMachine] machineTypeID];
-	NSArray *deviceTypeIDs = [VideoInput allDeviceTypeIDs];
+	NSArray *deviceTypeIDs = [VideoInput deviceNames];	// deviceTypeIDs is not very useful for iOS
 	deviceTypeIDs = [deviceTypeIDs arrayByAddingObjectsFromArray:[VideoOutputView allDeviceTypeIDs]];
 	NSLog(@"Getting calibrations for %@ and %@", machineTypeID, deviceTypeIDs);
 	[[CalibrationSharing sharedUploader] listForMachine: machineTypeID andDevices:deviceTypeIDs delegate:self];

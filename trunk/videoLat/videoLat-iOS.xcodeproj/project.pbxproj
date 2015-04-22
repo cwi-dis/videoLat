@@ -45,6 +45,8 @@
 		042422C61ACEE254003A153C /* CommonAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 042422C51ACEE254003A153C /* CommonAppDelegate.m */; };
 		042422C91ACEE299003A153C /* DocumentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 042422C81ACEE299003A153C /* DocumentViewController.m */; };
 		042422CB1ACEE2C3003A153C /* DocumentView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 042422CA1ACEE2C3003A153C /* DocumentView.xib */; };
+		042935361AE7C2100045C310 /* HelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 042935351AE7C2100045C310 /* HelpViewController.m */; };
+		042935381AE7C4B10045C310 /* videolat_ios_help.html in Resources */ = {isa = PBXBuildFile; fileRef = 042935371AE7C4B10045C310 /* videolat_ios_help.html */; };
 		042E0F2E1AC30DFD003D6267 /* VideoRun.xib in Resources */ = {isa = PBXBuildFile; fileRef = 042E0F2D1AC30DFD003D6267 /* VideoRun.xib */; };
 		042E0F341AC310BD003D6267 /* NewCalibrationTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 042E0F331AC310BD003D6267 /* NewCalibrationTableViewController.m */; };
 		0462CC171AC2F0E00077383B /* VideoCalibrationRun.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0462CC161AC2F0E00077383B /* VideoCalibrationRun.xib */; };
@@ -165,6 +167,9 @@
 		042422C81ACEE299003A153C /* DocumentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DocumentViewController.m; path = src/iOS/DocumentViewController.m; sourceTree = SOURCE_ROOT; };
 		042422CA1ACEE2C3003A153C /* DocumentView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DocumentView.xib; path = src/iOS/DocumentView.xib; sourceTree = SOURCE_ROOT; };
 		042422CC1ACEE2F3003A153C /* compat.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = compat.h; path = src/compat.h; sourceTree = SOURCE_ROOT; };
+		042935341AE7C2100045C310 /* HelpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HelpViewController.h; path = src/iOS/HelpViewController.h; sourceTree = SOURCE_ROOT; };
+		042935351AE7C2100045C310 /* HelpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HelpViewController.m; path = src/iOS/HelpViewController.m; sourceTree = SOURCE_ROOT; };
+		042935371AE7C4B10045C310 /* videolat_ios_help.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = videolat_ios_help.html; path = src/iOS/videolat_ios_help.html; sourceTree = SOURCE_ROOT; };
 		042E0F2D1AC30DFD003D6267 /* VideoRun.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = VideoRun.xib; path = src/iOS/VideoRun.xib; sourceTree = SOURCE_ROOT; };
 		042E0F321AC310BD003D6267 /* NewCalibrationTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NewCalibrationTableViewController.h; path = src/iOS/NewCalibrationTableViewController.h; sourceTree = SOURCE_ROOT; };
 		042E0F331AC310BD003D6267 /* NewCalibrationTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NewCalibrationTableViewController.m; path = src/iOS/NewCalibrationTableViewController.m; sourceTree = SOURCE_ROOT; };
@@ -480,6 +485,8 @@
 				042422C51ACEE254003A153C /* CommonAppDelegate.m */,
 				0472F3AF1ADC08FB00415BA9 /* EventLogger.h */,
 				0472F3B01ADC08FB00415BA9 /* EventLogger.m */,
+				042935341AE7C2100045C310 /* HelpViewController.h */,
+				042935351AE7C2100045C310 /* HelpViewController.m */,
 				0409FDCE1ACE9E2C00851D80 /* MainMenuTableViewController.h */,
 				0409FDCF1ACE9E2C00851D80 /* MainMenuTableViewController.m */,
 				04138C6A1AB319B9003D8167 /* MeasurementType.h */,
@@ -504,6 +511,7 @@
 				04FFFC821AB2FACB0023ED13 /* Images.xcassets */,
 				04FFFC841AB2FAD90023ED13 /* Info.plist */,
 				04FFFC851AB2FAD90023ED13 /* main.m */,
+				042935371AE7C4B10045C310 /* videolat_ios_help.html */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -603,6 +611,7 @@
 				040728B11AC9ED8B00191022 /* iTunesArtwork in Resources */,
 				040728B31AC9F86B00191022 /* MasterSenderScreenCalibrationRun.xib in Resources */,
 				04155E9A1AB6311C00DD53D9 /* sounds in Resources */,
+				042935381AE7C4B10045C310 /* videolat_ios_help.html in Resources */,
 				04FFFC861AB2FAD90023ED13 /* Info.plist in Resources */,
 				04FAAAAD1ACAD2DE0094A5E9 /* MasterSenderRun.xib in Resources */,
 				042422CB1ACEE2C3003A153C /* DocumentView.xib in Resources */,
@@ -641,6 +650,7 @@
 				0472F3B11ADC08FB00415BA9 /* EventLogger.m in Sources */,
 				040E77371AB72002001A7918 /* DocumentDescriptionView.m in Sources */,
 				041C90011AC41B2300539C68 /* NetworkRunManager.m in Sources */,
+				042935361AE7C2100045C310 /* HelpViewController.m in Sources */,
 				04C5FF1F1AB85EB800F4EC25 /* DeviceDescriptionView.m in Sources */,
 				040E77281AB6F5B1001A7918 /* RunCollector.m in Sources */,
 				04F7B8401AC02F4C00BEFDD5 /* VideoSelectionView.m in Sources */,

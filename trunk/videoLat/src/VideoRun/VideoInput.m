@@ -166,7 +166,7 @@
 	return session != nil && outputCapturer != nil;
 }
 
-- (NSArray*) deviceNames
++ (NSArray*) deviceNames
 {
 	NSMutableArray *rv = [NSMutableArray arrayWithCapacity:128];
 	/* First add the default Video input device */
@@ -193,6 +193,11 @@
 		showWarningAlert(@"No suitable video input device found, reception disabled.");
 	}
 	return rv;
+}
+
+- (NSArray *)deviceNames
+{
+	return [[self class] deviceNames];
 }
 
 - (BOOL)switchToDeviceWithName: (NSString *)name

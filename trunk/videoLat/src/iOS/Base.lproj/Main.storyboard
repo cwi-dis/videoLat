@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="13F1077" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="1YQ-6H-tpu">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="1YQ-6H-tpu">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
     </dependencies>
     <scenes>
         <!--videoLat Activities-->
@@ -109,7 +109,15 @@
                             <outlet property="delegate" destination="7XF-jy-iH3" id="Ty0-r7-w1k"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="videoLat Activities" id="nJc-SJ-2z4"/>
+                    <navigationItem key="navigationItem" title="videoLat Activities" id="nJc-SJ-2z4">
+                        <barButtonItem key="rightBarButtonItem" title="Help" id="S0U-CG-TrF">
+                            <connections>
+                                <segue destination="d5x-bW-17j" kind="popoverPresentation" popoverAnchorBarButtonItem="S0U-CG-TrF" id="aDF-8x-8s5">
+                                    <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                </segue>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <segue destination="E2I-Mm-42s" kind="show" identifier="showDocument" id="x21-Iw-NV5"/>
                     </connections>
@@ -117,6 +125,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QK5-5k-Vcx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="140" y="1705"/>
+        </scene>
+        <!--Help View Controller-->
+        <scene sceneID="v8v-PW-MPg">
+            <objects>
+                <viewController id="d5x-bW-17j" customClass="HelpViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="zPK-5U-3zm"/>
+                        <viewControllerLayoutGuide type="bottom" id="Rtw-Mm-30g"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Yjw-Zw-f4a" customClass="UIWebView">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vEG-su-AKU" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="140" y="2630"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="vtl-AM-pmU">
