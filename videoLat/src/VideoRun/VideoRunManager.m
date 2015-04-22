@@ -17,6 +17,8 @@
 
 @implementation VideoRunManager
 @synthesize mirrored;
+@synthesize selectionView;
+
 - (int) initialPrerunCount { return 10; }
 - (int) initialPrerunDelay { return 1000; }
 

@@ -39,7 +39,6 @@
 #endif
 
 - (void)_updateView;     //!< Updates variables in status view so they reflect the document values
-- (void)controlTextDidChange:(NSNotification *)aNotification;   //!< Called when description in status view has changed, updates the document
 
 #ifdef WITH_APPKIT
 - (void)viewWillDraw;   //!< Called by window manager just before viewing, calls updateView if needed

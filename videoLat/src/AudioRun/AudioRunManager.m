@@ -12,6 +12,8 @@
 #import "EventLogger.h"
 
 @implementation AudioRunManager
+@synthesize outputView;
+@synthesize selectionView;
 
 - (int) initialPrerunCount { return 10; }
 - (int) initialPrerunDelay { return 1000000; }

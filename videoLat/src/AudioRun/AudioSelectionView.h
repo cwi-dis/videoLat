@@ -31,7 +31,6 @@
 @property(weak) IBOutlet NSButton *bPreRun;             //!< UI element: start a measurement run
 #endif
 @property(weak) IBOutlet AudioInput *inputHandler;      //!< Input handler, will be told about camera changes
-@property(weak) IBOutlet NSObject <SelectionViewDelegate> *selectionDelegate;
 
 
 - (void)_updateDeviceNames: (NSNotification*) notification; //!< Called by notification manager when audio device configuration changes.
