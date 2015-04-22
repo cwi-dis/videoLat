@@ -62,7 +62,7 @@
 @property(weak) IBOutlet VideoInputView *selfView;	//!< View showing what our camera sees
 
 + (NSArray *) allDeviceTypeIDs;	//!< Returns a list of all known video devices.
-
++ (NSArray*) deviceNames;
 - (uint64_t)now;
 
 - (bool)available;

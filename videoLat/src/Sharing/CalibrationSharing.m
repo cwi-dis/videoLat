@@ -77,7 +77,7 @@
 		
 		if (!myType.outputOnlyCalibration) {
 			machineTypeID = dataStore.input.machineTypeID;
-			deviceTypeID = dataStore.input.deviceID;
+			deviceTypeID = dataStore.input.device;	// deviceID would be better but is unreadable...
 		}
 		
 		if (!myType.inputOnlyCalibration) {
