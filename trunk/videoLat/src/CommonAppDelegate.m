@@ -95,14 +95,14 @@
 	}
 	for (NSURL *url in files) {
 		NSError *error;
-		BOOL ok = [self _loadCalibration: url error: &error];
+		BOOL ok = [self loadCalibration: url error: &error];
 		if (!ok) {
 			showErrorAlert(error);
 		}
 	}
 }
 
-- (BOOL)_loadCalibration: (NSURL *)url error: (NSError **)outError
+- (BOOL)loadCalibration: (NSURL *)url error: (NSError **)outError
 {
     if (VL_DEBUG) NSLog(@"loading calibration from %@\n", url);
 	NSData *data = [NSData dataWithContentsOfURL: url];
