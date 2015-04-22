@@ -14,10 +14,10 @@ PATH=$INST/bin:$PATH
 #
 # Check for libpng15
 #
-if test -f thirdParty/libpng-1.5.18/configure; then
+if test -f thirdParty/libpng-1.5.22/configure; then
 	echo libpng 1.5 sources found, building local copy
 	(
-		cd thirdParty/libpng-1.5.18
+		cd thirdParty/libpng-1.5.22
 		./configure \
 			--prefix=$INST \
 			CFLAGS="-arch i386 -arch x86_64" \
@@ -34,7 +34,7 @@ elif (libpng15-config --version > /dev/null 2>&1); then
 else
 	echo libpng 1.5 not installed.
 	echo Please download from http://sourceforge.net/projects/libpng/files/libpng15/
-	echo Then unpack into thirdParty/libpng-1.5.18 and re-run this script.
+	echo Then unpack into thirdParty/libpng-1.5.22 and re-run this script.
 	exit 1
 fi
 

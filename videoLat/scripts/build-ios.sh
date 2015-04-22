@@ -10,7 +10,7 @@ rm -rf thirdParty/installed-ios
 mkdir thirdParty/installed-ios
 INST=`(cd thirdParty/installed-ios ; pwd)`
 XCODEDEV=/Applications/Xcode.app/Contents/Developer
-IOSVERSION=8.2
+IOSVERSION=8.3
 PATH=$INST/bin:$XCODEDEV/Platforms/iPhoneOS.platform/Developer/usr/bin:$XCODEDEV/usr/bin:$PATH
 CFLAGS="-arch armv7 -arch arm64 -isysroot $XCODEDEV/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS$IOSVERSION.sdk"
 PKG_CONFIG_LIBDIR=$INST/lib/pkgconfig
@@ -18,10 +18,10 @@ PKG_CONFIG_LIBDIR=$INST/lib/pkgconfig
 #
 # Check for libpng15
 #
-if test -f thirdParty/libpng-1.5.18/configure; then
+if test -f thirdParty/libpng-1.5.22/configure; then
 	echo libpng 1.5 sources found, building local copy
 	(
-		cd thirdParty/libpng-1.5.18
+		cd thirdParty/libpng-1.5.22
 		./configure \
 			--host=armv7 \
 			--prefix=$INST \
@@ -39,7 +39,7 @@ elif (libpng15-config --version > /dev/null 2>&1); then
 else
 	echo libpng 1.5 not installed.
 	echo Please download from http://sourceforge.net/projects/libpng/files/libpng15/
-	echo Then unpack into thirdParty/libpng-1.5.18 and re-run this script.
+	echo Then unpack into thirdParty/libpng-1.5.22 and re-run this script.
 	exit 1
 fi
 
