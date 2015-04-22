@@ -99,6 +99,8 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 @end
 
 @implementation NetworkRunManager
+@synthesize selectionView;
+@synthesize outputView;
 
 + (void)initialize
 {

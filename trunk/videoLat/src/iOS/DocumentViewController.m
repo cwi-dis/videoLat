@@ -11,6 +11,7 @@
 #import "CalibrationSharing.h"
 
 @implementation DocumentViewController
+@synthesize view;
 
 - (Document *)document { return _document; }
 - (void) setDocument: (Document *)document

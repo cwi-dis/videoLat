@@ -74,9 +74,8 @@
 	cell.textLabel.text = calName;
 
     AppDelegate *ad = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-	if ([ad haveCalibration: uuid]) {
-		cell.userInteractionEnabled = cell.textLabel.enabled = cell.detailTextLabel.enabled = NO;
-	}
+    BOOL want = ![ad haveCalibration: uuid];
+    cell.userInteractionEnabled = cell.textLabel.enabled = cell.detailTextLabel.enabled = want;
 
     return cell;
 }

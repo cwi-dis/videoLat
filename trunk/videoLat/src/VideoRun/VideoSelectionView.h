@@ -35,7 +35,6 @@
 @property(weak) IBOutlet NSButton *bPreRun;         //!< UI element: start preparing a measurement run
 #endif
 @property(weak) IBOutlet VideoInput *inputHandler;  //!< Input handler, will be told about camera changes
-@property(weak) IBOutlet NSObject <SelectionViewDelegate> *selectionDelegate;
 
 #ifdef WITH_APPKIT
 - (IBAction)deviceChanged: (id) sender;     //!< Called when the user makes a new selection in bCameras

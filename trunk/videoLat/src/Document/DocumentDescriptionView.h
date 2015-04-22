@@ -55,4 +55,7 @@
 @property(strong) MeasurementDataStore *modelObject;	//!< The object for which we display the data.
 
 - (void) update: (id)sender;	//!< Called when the UI should be updated.
+
+- (void)controlTextDidChange:(NSNotification *)aNotification;   //!< Called when description in status view has changed, updates the document
+
 @end
