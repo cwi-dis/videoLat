@@ -112,9 +112,7 @@
                     <navigationItem key="navigationItem" title="videoLat Activities" id="nJc-SJ-2z4">
                         <barButtonItem key="rightBarButtonItem" title="Help" id="S0U-CG-TrF">
                             <connections>
-                                <segue destination="d5x-bW-17j" kind="popoverPresentation" popoverAnchorBarButtonItem="S0U-CG-TrF" id="aDF-8x-8s5">
-                                    <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
-                                </segue>
+                                <segue destination="Agb-O4-Qvc" kind="show" identifier="Help" id="JaE-TT-ZsD"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -125,24 +123,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QK5-5k-Vcx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="140" y="1705"/>
-        </scene>
-        <!--Help View Controller-->
-        <scene sceneID="v8v-PW-MPg">
-            <objects>
-                <viewController id="d5x-bW-17j" customClass="HelpViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="zPK-5U-3zm"/>
-                        <viewControllerLayoutGuide type="bottom" id="Rtw-Mm-30g"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="Yjw-Zw-f4a" customClass="UIWebView">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="vEG-su-AKU" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="140" y="2630"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="vtl-AM-pmU">
@@ -339,7 +319,7 @@
                                 <color key="backgroundColor" red="1" green="0.072758138180000001" blue="0.1199374795" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="15"/>
                                 <state key="normal" title="Delete">
-                                    <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
@@ -479,6 +459,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZlD-0n-SOm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1346" y="-545"/>
+        </scene>
+        <!--Help View Controller-->
+        <scene sceneID="gv9-wZ-nhC">
+            <objects>
+                <viewController id="Agb-O4-Qvc" customClass="HelpViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="P1S-gI-cw2"/>
+                        <viewControllerLayoutGuide type="bottom" id="OKy-Yb-CzQ"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="dXx-bp-BVn" customClass="UIWebView">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="yy6-on-PLw" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="119" y="2957"/>
         </scene>
         <!--Download Calibrations-->
         <scene sceneID="0bi-Xo-JFS">
