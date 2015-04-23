@@ -21,6 +21,8 @@
 
 @implementation HardwareRunManager
 
+@synthesize outputView;
+
 - (int) initialPrerunCount { return 100; }
 - (int) initialPrerunDelay { return 1000; }
 - (NSString*) deviceID
@@ -480,49 +482,6 @@
 	alive = NO;
 }
 
-- (CIImage *)newOutputStart
-{
-	[NSException raise:@"HardwareRunManager" format:@"Must override newOutputStart in subclass"];
-	return nil;
-}
-
-- (void)newOutputDone
-{
-	[NSException raise:@"HardwareRunManager" format:@"Must override newOutputDone in subclass"];
-}
-
-- (void)setFinderRect: (NSRect)theRect
-{
-	[NSException raise:@"HardwareRunManager" format:@"Must override setFinderRect in subclass"];
-}
-
-
-- (void)newInputStart
-{
-	[NSException raise:@"HardwareRunManager" format:@"Must override newInputStart in subclass"];
-}
-
-- (void)newInputStart: (uint64_t)timestamp
-{
-	[NSException raise:@"HardwareRunManager" format:@"Must override newInputStart: in subclass"];
-}
-
-
-- (void)newInputDone
-{
-	[NSException raise:@"HardwareRunManager" format:@"Must override newInputDone in subclass"];
-}
-
-
-- (void) newInputDone: (void*)buffer
-                width: (int)w
-               height: (int)h
-               format: (const char*)formatStr
-                 size: (int)size
-{
-	[NSException raise:@"HardwareRunManager" format:@"Must override newInputDone in subclass"];
-}
-
 - (void) startCapturing: (BOOL)showPreview
 {
 }
@@ -534,5 +493,10 @@
 - (void) stopCapturing
 {
 }
+
+- (void)setMinCaptureInterval: (uint64_t)interval
+{
+}
+
 
 @end

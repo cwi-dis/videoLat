@@ -463,12 +463,6 @@ static NSMutableDictionary *runManagerSelectionNibs;
 	[NSException raise:@"BaseRunManager" format:@"Must override newInputStart: in subclass %@", [self class]];
 }
 
-
-- (void)newInputDone
-{
-	[NSException raise:@"BaseRunManager" format:@"Must override newInputDone in subclass %@", [self class]];
-}
-
 - (void) newInputDone: (NSString *)data count: (int)count at: (uint64_t) timestamp
 {
     [NSException raise:@"BaseRunManager" format:@"Must override newInputDone:count:at in subclass %@", [self class]];

@@ -310,7 +310,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 }
 
 
-- (void)newInputDone
+- (void)newInputDoneNoData
 {
     if (!self.running)
         return;
@@ -734,7 +734,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
             [self newInputDone: code count: (int)count at: 0];
 		} else {
             if (VL_DEBUG) NSLog(@"NetworkRunManager: received no qr-code at %lld,code=%@,masterDetectionTimestamp=%lld", masterTimestamp,code, masterDetectionTimestamp);
-            [self newInputDone];
+            [self newInputDoneNoData];
         }
     }
 }

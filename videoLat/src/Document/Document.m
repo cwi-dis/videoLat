@@ -277,16 +277,18 @@
 - (void)_changed
 {
     [self updateChangeCount:NSChangeDone];
+#ifdef WITH_UIKIT
 	// Schedule for the document to be saved shortly
 	[self autosaveWithCompletionHandler:^(BOOL success) {
 		if (success && myType.isCalibration) {
-			AppDelegate *ad = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+			AppDelegate *ad = (AppDelegate *)[[NSorUIApplication sharedApplication] delegate];
 			BOOL want = ![ad haveCalibration: self.dataStore.uuid];
 			if (want) {
 				[ad loadCalibration:self.fileURL error:nil];
 			}
 		};
 	}];
+#endif
 }
 
 - (void)shouldUpload:(BOOL)answer

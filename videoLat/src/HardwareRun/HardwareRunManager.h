@@ -42,7 +42,6 @@
 @property(weak) IBOutlet NSTextField *bInputNumericValue;   //!< UI element: feedback on analog input received
 @property(weak) IBOutlet NSTextField *bInputNumericMinValue;   //!< UI element: feedback on analog input received
 @property(weak) IBOutlet NSTextField *bInputNumericMaxValue;   //!< UI element: feedback on analog input received
-@property(weak) IBOutlet NSObject<SelectionView> *selectionView;  //!< Assigned in NIB: hardware device selector
 @property(weak) IBOutlet HardwareOutputView *outputView;    //!< Assigned in NIB: visual feedback view of output for the user
 @property(weak) IBOutlet NSObject <ClockProtocol> *clock;   //!< Assigned in NIB: clock source
 @property(readonly) NSString* deviceID;					//!< Unique string that identifies the input device
@@ -78,21 +77,8 @@
 
 - (void)triggerNewOutputValue;
 
-// MeasurementOutputManagerProtocol
-- (CIImage *)newOutputStart;
-- (void)newOutputDone;
-
 // MeasurementInputManagerProtocol
 - (void)restart;
-- (void)setFinderRect: (NSRect)theRect;
-- (void)newInputStart:(uint64_t)timestamp;
-- (void)newInputStart;
-- (void)newInputDone;
-- (void) newInputDone: (void*)buffer
-                width: (int)w
-               height: (int)h
-               format: (const char*)formatStr
-                 size: (int)size;
 
 // InputCaptureProtocol
 - (void) startCapturing: (BOOL)showPreview;

@@ -9,6 +9,8 @@
 #import "VideoSelectionView.h"
 
 @implementation VideoSelectionView
+@synthesize selectionDelegate;
+
 - (void)awakeFromNib
 {
     [super awakeFromNib];

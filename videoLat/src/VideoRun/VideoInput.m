@@ -53,10 +53,10 @@
     float max_y = upPoint.y;
     if (downPoint.y > max_y) max_y = downPoint.y;
 	float top = frame.size.height - max_y;
-	float height = abs(upPoint.y - downPoint.y);
+	float height = fabs(upPoint.y - downPoint.y);
 	float left = upPoint.x;
     if (downPoint.x < left) left = downPoint.x;
-	float width = abs(upPoint.x - downPoint.x);
+	float width = fabs(upPoint.x - downPoint.x);
 	NSRect r = {{left, top}, {width, height}};
 	[[self delegate] focusRectSelected: r];
 }

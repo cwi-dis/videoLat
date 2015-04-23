@@ -378,9 +378,6 @@
     channels: (int)channels
     at: (uint64_t)timestamp
 	duration: (uint64_t)duration;
-
-/// Signals that a capture cycle has ended without providing any data.
-- (void)newInputDone;
 @end
 
 ///
