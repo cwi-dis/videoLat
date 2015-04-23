@@ -48,7 +48,6 @@
 - (void)setFinderRect: (NSorUIRect)theRect;
 - (void)newInputStart:(uint64_t)timestamp;
 - (void)newInputStart;
-- (void)newInputDone;
 - (void) newInputDone: (void*)buffer
     width: (int)w
     height: (int)h

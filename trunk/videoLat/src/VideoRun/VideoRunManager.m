@@ -207,17 +207,6 @@
     [self newInputStart: [self.clock now]];
 }
 
-// XXXJACK this method can go!
-- (void) newInputDone
-{
-    @synchronized(self) {
-        inputStartTime = 0;
-        if (self.preRunning) {
-            [self _prerunRecordNoReception];
-        }
-    }
-}
-
 - (void) _prerunRecordNoReception
 {
 #if 1

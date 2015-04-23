@@ -10,6 +10,7 @@
 #import "AudioOutputView.h"
 
 @implementation AudioSelectionView
+@synthesize selectionDelegate;
 
 - (void)awakeFromNib
 {
