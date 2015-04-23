@@ -1,0 +1,14 @@
+# Make libzint and zint together
+
+zint:
+	$(MAKE) -C backend/ -f Makefile.ios
+
+install:
+	$(MAKE) install -C backend/ -f Makefile.ios
+
+uninstall:
+	$(MAKE) uninstall -C frontend/ -f Makefile.ios
+
+clean:
+	$(MAKE) clean -C backend/ -f Makefile.ios
+
