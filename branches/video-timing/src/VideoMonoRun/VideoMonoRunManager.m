@@ -138,10 +138,13 @@
 		if (![self.outputCompanion.outputCode isEqualToString:@"mixed"]) {
 			if ([inputCode isEqualToString: self.outputCompanion.outputCode]) {
 				if (self.running) {
-					assert(tsOutLatest);	// Must have been set before we can detect a qr-code
+                    if (handlesOutput) {
+                        assert(tsOutLatest);	// Must have been set before we can detect a qr-code
+                    }
 					assert(tsFrameLatest);	// Must have gotten an input frame before we get here
 					uint64_t oldestTimePossible = tsOutLatest;	// Cannot detect before it has been generated
 					if (tsFrameEarliest > oldestTimePossible) oldestTimePossible = tsFrameEarliest;
+                    if (oldestTimePossible == 0) oldestTimePossible = tsFrameLatest;
 					uint64_t bestTimeStamp = (oldestTimePossible + tsFrameLatest) / 2;
 					NSLog(@"output between %lld and %lld (delta %lld), input between %lld and %lld (delta %lld) best %lld",
 						tsOutEarliest, tsOutLatest, tsOutLatest-tsOutEarliest,

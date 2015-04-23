@@ -98,20 +98,16 @@
 }
 
 - (void)showNewData {
-#ifdef WITH_UIKIT
-#if 1
 	// Hack to attempt cutting down on CPU usage and randomize things a little too.
 	// We wait somewhere between 1 and 100ms
 	dispatch_time_t deltaT = dispatch_time(DISPATCH_TIME_NOW, 1000000LL * (1+(rand()%100)));
 	dispatch_after(deltaT, dispatch_get_main_queue(), ^{
-		[self setNeedsDisplay];
+#ifdef WITH_UIKIT
+        [self setNeedsDisplay];
+#else
+        [self setNeedsDisplay:YES];
+#endif
 	});
-#else
-	[self setNeedsDisplay];
-#endif
-#else
-	[self setNeedsDisplay:YES];
-#endif
 }
 
 - (void)drawRect:(NSorUIRect)dirtyRect {
