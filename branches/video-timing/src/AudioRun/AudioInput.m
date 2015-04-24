@@ -25,7 +25,7 @@
         deviceID = nil;
         sampleBufferQueue = dispatch_queue_create("Audio Sample Queue", DISPATCH_QUEUE_SERIAL);
 #ifdef WITH_DEVICE_CLOCK
-		if (CMClockGetHostTimeClock != NULL) {
+		if (&CMClockGetHostTimeClock != NULL) {
 			clock = CMClockGetHostTimeClock();
 		}
 #endif

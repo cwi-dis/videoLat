@@ -235,6 +235,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
             assert(baseStore.input);
             deviceDescriptorToSend = [[DeviceDescription alloc] initFromCalibrationInput: baseStore];
         }
+		[self.capturer startCapturing:YES];
 	}
 	return YES;
 }

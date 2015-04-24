@@ -324,7 +324,7 @@
                                           (long long)bestTimeStamp];
                         [alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
 #else
-						showWarningAlert([NSString stringWithFormat:@"Received code %llu ms before it was transmitted", inputStartTime-prerunOutputStartTime]);
+						showWarningAlert([NSString stringWithFormat:@"Received code %llu ms before it was transmitted", bestTimeStamp-tsOutLatest]);
 #endif
                     }
                 } else if (self.preRunning) {
