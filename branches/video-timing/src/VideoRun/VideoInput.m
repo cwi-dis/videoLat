@@ -14,10 +14,10 @@
 - (void)layoutSubviews
 {
 	CALayer *selfLayer = self.layer;
-	assert(self.layer.sublayers);
-	assert([self.layer.sublayers count] == 1);
-	CALayer *videoLayer = [self.layer.sublayers objectAtIndex:0];
-	videoLayer.frame = selfLayer.bounds;
+    if(self.layer && self.layer.sublayers && [self.layer.sublayers count] == 1) {
+        CALayer *videoLayer = [self.layer.sublayers objectAtIndex:0];
+        videoLayer.frame = selfLayer.bounds;
+    }
 
 }
 #else
