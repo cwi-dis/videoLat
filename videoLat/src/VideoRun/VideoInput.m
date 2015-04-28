@@ -358,6 +358,12 @@
         device.activeVideoMinFrameDuration = wantedDuration;
         
         [device unlockForConfiguration];
+#ifdef WITH_STATISTICS
+		firstTimeStamp = 0;
+		lastTimeStamp = 0;
+		nFrames = 0;
+		nFramesDropped = 0;
+#endif
     } else {
         NSLog(@"VideoInput: cannot lock video input device to set frame duration");
     }

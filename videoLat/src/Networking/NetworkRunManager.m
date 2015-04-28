@@ -466,6 +466,11 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
         uint64_t finderDuration = finderStopTime - finderStartTime;
         BOOL foundQRcode = (ccode != NULL);
         if (foundQRcode) {
+			// Compute average duration of our code detection algorithm
+			if (averageFinderDuration == 0)
+				averageFinderDuration = finderDuration;
+			else
+				averageFinderDuration = (averageFinderDuration+finderDuration)/2;
 			NSString *code = [NSString stringWithUTF8String: ccode];
 
             if (prevInputCode && [code isEqualToString: prevInputCode]) {
@@ -535,6 +540,14 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 #endif
                         }
 					}
+				}
+				else {
+#ifdef WITH_SET_MIN_CAPTURE_DURATION
+					if (averageFinderDuration && !captureDurationWasSet) {
+						captureDurationWasSet = YES;
+						[self.capturer setMinCaptureInterval:averageFinderDuration];
+					}
+#endif
 				}
                 
             }
