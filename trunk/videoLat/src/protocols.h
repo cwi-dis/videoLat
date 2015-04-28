@@ -20,7 +20,7 @@
 /// Turn on global debugging, at compile time
 #define VL_DEBUG 0
 
-#if 1 // !TARGET_OS_IPHONE
+#if !TARGET_OS_IPHONE
 /// On OSX we enable detailed logging
 #define WITH_LOGGING
 #endif
