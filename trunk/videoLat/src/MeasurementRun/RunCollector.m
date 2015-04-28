@@ -106,10 +106,12 @@
         return NO;
     }
     if ([lastTransmission isEqualToString:data]) {
+#if 0
         if (time < lastTransmissionTime) {
             NSLog(@"Collector: received %@ at %lld, which is %lldus earlier than transmit time %lld", data, time, lastTransmissionTime-time, lastTransmissionTime);
             return NO;
         }
+#endif
         if (!lastTransmissionReceived) {
             lastTransmissionReceived = YES;
             [dataStore addDataPoint: data sent: lastTransmissionTime received: time];
