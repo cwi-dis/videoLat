@@ -14,10 +14,10 @@
 - (void)layoutSubviews
 {
 	CALayer *selfLayer = self.layer;
-	assert(self.layer.sublayers);
-	assert([self.layer.sublayers count] == 1);
-	CALayer *videoLayer = [self.layer.sublayers objectAtIndex:0];
-	videoLayer.frame = selfLayer.bounds;
+    if(self.layer && self.layer.sublayers && [self.layer.sublayers count] == 1) {
+        CALayer *videoLayer = [self.layer.sublayers objectAtIndex:0];
+        videoLayer.frame = selfLayer.bounds;
+    }
 
 }
 #else
@@ -94,7 +94,7 @@
         outputCapturer = nil;
         deviceID = nil;
         sampleBufferQueue = dispatch_queue_create("Video Sample Queue", DISPATCH_QUEUE_SERIAL);
-#ifdef WITH_DEVICE_CLOCK
+#ifdef notWITH_DEVICE_CLOCK
 		if (CMClockGetHostTimeClock != NULL) {
 			clock = CMClockGetHostTimeClock();
 		}
@@ -283,12 +283,13 @@
             CMClockRef devClock = [videoPort clock];
             if (devClock) {
                 NSLog(@"Using device clock %@", devClock);
-                clock = devClock;
                 uint64_t oldNow = [self now];
                 clock = devClock;
                 epoch = 0;
                 uint64_t newNow = [self now];
                 epoch = newNow - oldNow;
+            } else {
+                NSLog(@"Warning: video device has no clock");
             }
         }
     }
@@ -449,20 +450,24 @@
 	VL_LOG_EVENT(@"cameraCaptureVideoClock", timestamp, @"");
 	NSString *deltaStr = [NSString stringWithFormat:@"delta=%lld", delta];
 	VL_LOG_EVENT(@"cameraCaptureSelfClock", now_timestamp, deltaStr);
+    if (!capturing) {
+        // We are not yet capturing, we optionally adjust the clock and return.
 #ifdef WITH_ADJUST_CLOCK_DRIFT
-    if (delta <= -WITH_ADJUST_CLOCK_DRIFT || delta >= WITH_ADJUST_CLOCK_DRIFT) {
-        //
-        // Suspect code ahead. On some combinations of camera and OS the video presentation
-        // timestamp clock drifts. We compensate by slowly moving the epoch of our software
-        // clock (which is used for output timestamping) to move towards the video input
-        // timestamp clock. We do so slowly, because our dispatch_queue seems to give us
-        // callbacks in some time-slotted fashion.
-        epoch += (delta/WITH_ADJUST_CLOCK_DRIFT_FACTOR);
-        NSLog(@"VideoInput: clock: delta %lld us, epoch set to %lld uS", delta, epoch);
-        NSString *deltaStr = [NSString stringWithFormat:@"delta=%lld,adjust=%lld", delta, delta/WITH_ADJUST_CLOCK_DRIFT_FACTOR];
-        VL_LOG_EVENT(@"adjustedClock",[self now], deltaStr);
-    }
+        if (delta <= -WITH_ADJUST_CLOCK_DRIFT || delta >= WITH_ADJUST_CLOCK_DRIFT) {
+            //
+            // Suspect code ahead. On some combinations of camera and OS the video presentation
+            // timestamp clock drifts. We compensate by slowly moving the epoch of our software
+            // clock (which is used for output timestamping) to move towards the video input
+            // timestamp clock. We do so slowly, because our dispatch_queue seems to give us
+            // callbacks in some time-slotted fashion.
+            epoch += (delta/WITH_ADJUST_CLOCK_DRIFT_FACTOR);
+            NSLog(@"VideoInput: clock: delta %lld us, epoch set to %lld uS", delta, epoch);
+            NSString *deltaStr = [NSString stringWithFormat:@"delta=%lld,adjust=%lld", delta, delta/WITH_ADJUST_CLOCK_DRIFT_FACTOR];
+            VL_LOG_EVENT(@"adjustedClock",[self now], deltaStr);
+        }
 #endif
+        return;
+    }
 	[self.manager newInputStart: now_timestamp];
 
     CMFormatDescriptionRef formatDescription = CMSampleBufferGetFormatDescription(sampleBuffer);

@@ -40,6 +40,10 @@
 #define WITH_ADJUST_CLOCK_DRIFT 30000
 #define WITH_ADJUST_CLOCK_DRIFT_FACTOR 2
 
+/// If this is defined the timestamp we record for reception are half-way between detection
+/// time and the last non-detection time. Otherwise we simply use detection time.
+#define WITH_MEDIAN_TIMESTAMP
+
 // Forward declarations
 @protocol RunInputManagerProtocol;
 

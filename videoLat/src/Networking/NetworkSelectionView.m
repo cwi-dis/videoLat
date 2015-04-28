@@ -8,9 +8,11 @@
 
 #import "NetworkSelectionView.h"
 @implementation NetworkSelectionView
-@dynamic bDevices;
 @dynamic bBase;
+#ifdef WITH_APPKIT
+@dynamic bDevices;
 @dynamic bPreRun;
+#endif
 
 - (void) reportClient: (NSString *)ip port: (int)port isUs: (BOOL) us
 {

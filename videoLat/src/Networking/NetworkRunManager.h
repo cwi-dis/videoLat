@@ -18,9 +18,12 @@
 /// This class is never used as-is, it is always used as only an input component or only an output component.
 ///
 @interface NetworkRunManager : BaseRunManager <NetworkProtocolDelegate> {
-    uint64_t inputStartTime;			//!< Internal: When last input was read, in local clock time
-    uint64_t prevInputStartTime;		//!< Internal: When last input was read
-	uint64_t prevInputStartTimeRemote;	//!< Internal: When last input was read, in remote clock time
+	uint64_t tsFrameEarliest;			//!< Earliest possible time the most recent frame may have been captured
+	uint64_t tsFrameLatest;				//!< Latest possible time the most recent frame may have been captured
+
+	uint64_t tsLastReported;			//!< Local timestamp of last qr-code detection reported to the master
+	uint64_t tsLastReportedRemote;		//!< Remote timestamp of last qr-code detection reported to the master
+
     uint64_t lastMessageSentTime;       //!< Internal: Last time we sent a message to the master
     uint64_t lastDetectionReceivedTime; //!< Internal: Last time we received a QR-code detection
     NSString *prevInputCode;			//!< Internal: for checking monotonous increase
