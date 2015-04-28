@@ -7,12 +7,18 @@
 //
 
 #import "AppDelegate.h"
+#import "EventLogger.h"
 
 @implementation AppDelegate
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [self initVideolat];
+#ifdef WITH_LOGGING
+	NSURL *eventLogUrl =[[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL: nil create:YES error:nil ];
+	eventLogUrl = [eventLogUrl URLByAppendingPathComponent:@"videoLat.log"];
+	[[EventLogger sharedLogger] save: eventLogUrl];
+#endif
     return YES;
 }
 

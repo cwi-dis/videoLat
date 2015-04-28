@@ -104,8 +104,7 @@
 		firstTimeStamp = 0;
 		lastTimeStamp = 0;
 		nFrames = 0;
-		nEarlyDrops = 0;
-		nLateDrops = 0;
+		nFramesDropped = 0;
 #endif
     }
     return self;
@@ -156,8 +155,8 @@
 #endif
 #ifdef WITH_STATISTICS
 	float deltaT = (lastTimeStamp-firstTimeStamp) / 1000000.0;
-	NSLog(@"Captured %.0f seconds, %d frames, %3.1f fps, %d too-early drops, %d too-late drops",
-		deltaT, nFrames, nFrames/deltaT, nEarlyDrops, nLateDrops);
+	NSLog(@"Captured %.0f seconds, %d frames, %3.1f fps capture,  %d drops, %3.1f fps captured+dropped",
+		deltaT, nFrames, nFrames/deltaT, nFramesDropped, (nFrames+nFramesDropped)/deltaT);
 #endif
 }
 
@@ -331,8 +330,7 @@
 	firstTimeStamp = 0;
 	lastTimeStamp = 0;
 	nFrames = 0;
-	nEarlyDrops = 0;
-	nLateDrops = 0;
+	nFramesDropped = 0;
 #endif
 	[self.manager restart];
 	VL_LOG_EVENT(@"startCamera", 0, deviceName);
@@ -510,6 +508,7 @@ didDropSampleBuffer:(CMSampleBufferRef)sampleBuffer
        fromConnection:(AVCaptureConnection *)connection;
 {
 	VL_LOG_EVENT(@"cameraCaptureDrop", 0, @"");
+	nFramesDropped++;
     // Should adjust maximal frame rate (minFrameDuration)
     if (VL_DEBUG) NSLog(@"camera capturer dropped frame...\n");
 }

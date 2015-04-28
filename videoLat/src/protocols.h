@@ -20,13 +20,13 @@
 /// Turn on global debugging, at compile time
 #define VL_DEBUG 0
 
-#if !TARGET_OS_IPHONE
+#if 1 // !TARGET_OS_IPHONE
 /// On OSX we enable detailed logging
 #define WITH_LOGGING
 #endif
 
 /// We need a monotonic system clock. Define this to use the Mach clock service
-// #define WITH_HOST_GET_CLOCK_SERVICE
+#undef WITH_HOST_GET_CLOCK_SERVICE
 
 /// Alternatively, we can use the Mach absolute time routines.
 #define WITH_MACH_ABSOLUTE_TIME
@@ -43,6 +43,11 @@
 /// If this is defined the timestamp we record for reception are half-way between detection
 /// time and the last non-detection time. Otherwise we simply use detection time.
 #define WITH_MEDIAN_TIMESTAMP
+
+/// If this is defined we throttle the video input capture rate.
+/// This lowers the CPU load and makes measurements more predictable, at the expense of
+/// having a (potentially much) larger inaccuracy.
+#define WITH_SET_MIN_CAPTURE_DURATION
 
 // Forward declarations
 @protocol RunInputManagerProtocol;

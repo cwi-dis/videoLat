@@ -52,8 +52,7 @@
 	uint64_t firstTimeStamp;					//!< First frame timestamp
 	uint64_t lastTimeStamp;						//!< Latest frame timestamp
 	int nFrames;								//!< Number of frames received
-	int nEarlyDrops;
-	int nLateDrops;
+	int nFramesDropped;
 #endif
 }
 @property (readonly) NSString *deviceID;
