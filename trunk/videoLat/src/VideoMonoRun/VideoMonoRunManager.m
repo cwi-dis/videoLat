@@ -138,8 +138,35 @@
 		if (![self.outputCompanion.outputCode isEqualToString:@"mixed"]) {
 			if ([inputCode isEqualToString: self.outputCompanion.outputCode]) {
 				if (self.running) {
-					[self.collector recordReception: inputCode at: inputStartTime];
-					VL_LOG_EVENT(@"reception", inputStartTime, inputCode);
+                    if (handlesOutput) {
+                        assert(tsOutLatest);	// Must have been set before we can detect a qr-code
+                    }
+					assert(tsFrameLatest);	// Must have gotten an input frame before we get here
+					uint64_t oldestTimePossible = tsOutLatest;	// Cannot detect before it has been generated
+					if (tsFrameEarliest > oldestTimePossible) oldestTimePossible = tsFrameEarliest;
+                    if (oldestTimePossible == 0) oldestTimePossible = tsFrameLatest;
+					uint64_t bestTimeStamp = (oldestTimePossible + tsFrameLatest) / 2;
+					NSLog(@"output between %lld and %lld (delta %lld), input between %lld and %lld (delta %lld) best %lld",
+						tsOutEarliest, tsOutLatest, tsOutLatest-tsOutEarliest,
+						tsFrameEarliest, tsFrameLatest, tsFrameLatest-tsFrameEarliest,
+						bestTimeStamp);
+					BOOL ok = [self.collector recordReception: self.outputCompanion.outputCode at: bestTimeStamp];
+					VL_LOG_EVENT(@"reception", bestTimeStamp, self.outputCompanion.outputCode);
+                    if (!ok) {
+#ifdef WITH_APPKIT
+                        NSAlert *alert = [NSAlert alertWithMessageText:@"Reception before transmission."
+                                                         defaultButton:@"OK"
+                                                       alternateButton:nil
+                                                           otherButton:nil
+                                             informativeTextWithFormat:@"Code %@ was transmitted at %lld, but received at %lld.\nConsult Helpfile if this error persists.",
+                                          self.outputCompanion.outputCode,
+                                          (long long)tsOutLatest,
+                                          (long long)bestTimeStamp];
+                        [alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
+#else
+						showWarningAlert([NSString stringWithFormat:@"Received code %llu ms before it was transmitted", inputStartTime-prerunOutputStartTime]);
+#endif
+					}
 					self.statusView.detectCount = [NSString stringWithFormat: @"%d", self.collector.count];
 					self.statusView.detectAverage = [NSString stringWithFormat: @"%.3f ms ± %.3f", self.collector.average / 1000.0, self.collector.stddev / 1000.0];
 					[self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
@@ -151,7 +178,9 @@
 				[self _prerunRecordNoReception];
 			}
 		}
+#ifndef WITH_MEDIAN_TIMESTAMP
         inputStartTime = 0;
+#endif
 		// While idle, change output value once in a while
 		if (!self.running && !self.preRunning) {
 			[self.outputCompanion triggerNewOutputValue];
@@ -185,9 +214,8 @@
 		}
 		CGRect rect = {0, 0, 480, 480};
 		newImage = [newImage imageByCroppingToRect: rect];
-        if (outputStartTime) prevOutputStartTime = outputStartTime;
-        outputStartTime = [self.clock now];
-        prerunOutputStartTime = outputStartTime;
+		tsOutEarliest = [self.clock now];
+		tsOutLatest = 0;
 		if (VL_DEBUG) NSLog(@"VideoMonoRunManager.newOutputStart: returning %@ image", self.outputCode);
 		return newImage;
     }
@@ -206,9 +234,9 @@
             self.outputCode = @"black";
         }
     }
-	prerunOutputStartTime = 0;
-	outputStartTime = 0;
-	inputStartTime = 0;
+//xyzzy	prerunOutputStartTime = 0;
+//xyzzy	outputStartTime = 0;
+//xyzzy	inputStartTime = 0;
 	[self.outputView performSelectorOnMainThread:@selector(showNewData) withObject:nil waitUntilDone:NO ];
 }
 @end

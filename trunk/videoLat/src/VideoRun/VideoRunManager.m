@@ -11,13 +11,14 @@
 #import "EventLogger.h"
 #import <sys/sysctl.h>
 
-//
-// Prerun parameters.
-// We want 10 consecutive catches, and we initially start with a 1ms delay (doubled at every failure)
 
 @implementation VideoRunManager
 @synthesize mirrored;
 @synthesize selectionView;
+
+//
+// Prerun parameters.
+// We want 10 consecutive catches, and we initially start with a 1ms delay (doubled at every failure)
 
 - (int) initialPrerunCount { return 10; }
 - (int) initialPrerunDelay { return 1000; }
@@ -35,13 +36,9 @@
 {
     self = [super init];
 	if (self) {
-		outputStartTime = 0;
-        prevOutputStartTime = 0;
         prevOutputCode = nil;
 		outputCodeImage = nil;
 
-        inputStartTime = 0;
-        prevInputStartTime = 0;
         prevInputCode = nil;
 	}
     return self;
@@ -72,9 +69,9 @@
 - (void)triggerNewOutputValue
 {
 	@synchronized(self) {
-		prerunOutputStartTime = 0;
-		outputStartTime = 0;
-		inputStartTime = 0;
+//xyzzy		prerunOutputStartTime = 0;
+//xyzzy		outputStartTime = 0;
+//xyzzy		inputStartTime = 0;
 		outputCodeImage = nil;
 		[self.outputView performSelectorOnMainThread:@selector(showNewData) withObject:nil waitUntilDone:NO ];
 	}
@@ -101,20 +98,18 @@
             return outputCodeImage;
         
         // Generate a new image. First obtain the timestamp.
-        prevOutputStartTime = outputStartTime;
-        outputStartTime = [self.clock now];
-        prerunOutputStartTime = outputStartTime;
+        uint64_t tsForCode = [self.clock now];
 
         // Sanity check: times should be monotonically increasing
-        if (prevOutputStartTime && prevOutputStartTime >= outputStartTime) {
+        if (tsOutLatest && tsOutLatest >= tsForCode) {
 #ifdef WITH_APPKIT
             NSAlert *alert = [NSAlert alertWithMessageText:@"Warning: output clock not monotonically increasing."
                     defaultButton:@"OK"
                     alternateButton:nil
                     otherButton:nil
                     informativeTextWithFormat:@"Previous value was %lld, current value is %lld.\nConsult Helpfile if this error persists.",
-                              (long long)prevOutputStartTime,
-                              (long long)outputStartTime];
+                              (long long)tsOutLatest,
+                              (long long)tsForCode];
             [alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
 #else
 			showWarningAlert(@"Output clock has gone back in time");
@@ -129,7 +124,7 @@
             self.outputCode = [self.inputCompanion genPrerunCode];
         }
         if (self.outputCode == nil) {
-            self.outputCode = [NSString stringWithFormat:@"%lld", outputStartTime];
+            self.outputCode = [NSString stringWithFormat:@"%lld", tsForCode];
         }
         if (VL_DEBUG) NSLog(@"New output code: %@", self.outputCode);
         int bpp = 4;
@@ -142,6 +137,8 @@
 		assert(data);
 		outputCodeImage = [CIImage imageWithBitmapData:data bytesPerRow:bpp*size.width size:size format:kCIFormatARGB8 colorSpace:nil];
 		assert(outputCodeImage);
+		tsOutEarliest = [self.clock now];
+		tsOutLatest = 0;
 		return outputCodeImage;
     }
 }
@@ -149,13 +146,24 @@
 - (void) newOutputDone
 {
     @synchronized(self) {
-        if (outputStartTime == 0) return;
-		uint64_t outputTime = [self.clock now];
+		if (tsOutEarliest == 0) {
+			// We haven't generated an output code yet, so ignore this, a redraw
+			// because of some other reason
+			return;
+		}
+		if (tsOutLatest != 0) {
+			// We have already received the redraw for our mosyt recent generated code.
+			// Again, redraw for some other reason, ignore.
+			return;
+		}
+        assert(tsOutEarliest);
+		assert(tsOutLatest == 0);
+		tsOutLatest = [self.clock now];
+		uint64_t tsOutToRemember = tsOutLatest;
 		if (self.running) {
-			[self.collector recordTransmission: self.outputCode at: outputTime];
-			VL_LOG_EVENT(@"transmission", outputTime, self.outputCode);
+			[self.collector recordTransmission: self.outputCode at: tsOutToRemember];
+			VL_LOG_EVENT(@"transmission", tsOutToRemember, self.outputCode);
         }
-        outputStartTime = 0;
     }
 }
 
@@ -180,19 +188,19 @@
     @synchronized(self) {
 //    assert(inputStartTime == 0);
         if (self.collector) {
-            prevInputStartTime = inputStartTime;
-            inputStartTime = timestamp;
+			tsFrameEarliest = tsFrameLatest;
+			tsFrameLatest = timestamp;
 
             // Sanity check: times should be monotonically increasing
-            if (prevInputStartTime && prevInputStartTime >= inputStartTime) {
+            if (tsFrameEarliest >= tsFrameLatest) {
 #ifdef WITH_APPKIT
                 NSAlert *alert = [NSAlert alertWithMessageText:@"Warning: input clock not monotonically increasing."
                                                  defaultButton:@"OK"
                                                alternateButton:nil
                                                    otherButton:nil
                                      informativeTextWithFormat:@"Previous value was %lld, current value is %lld.\nConsult Helpfile if this error persists.",
-                                  (long long)prevInputStartTime,
-                                  (long long)inputStartTime];
+                                  (long long)tsFrameEarliest,
+                                  (long long)tsFrameLatest];
                 [alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
 #else
 				showWarningAlert(@"Input clock has gone back in time");
@@ -204,6 +212,7 @@
 
 - (void) newInputStart
 {
+	assert(0); // I think this method shouldn't be used...
     [self newInputStart: [self.clock now]];
 }
 
@@ -212,9 +221,9 @@
 #if 1
     if (VL_DEBUG) NSLog(@"Prerun no reception\n");
     assert(self.preRunning);
-    if (prerunOutputStartTime != 0 && [self.clock now] - prerunOutputStartTime > maxDelay) {
+    if (tsOutLatest && [self.clock now] - tsOutLatest > maxDelay) {
         // No data found within alotted time. Double the time, reset the count, change mirroring
-        if (VL_DEBUG) NSLog(@"outputStartTime=%llu, prerunDelay=%llu, mirrored=%d\n", outputStartTime, maxDelay, self.mirrored);
+        if (VL_DEBUG) NSLog(@"tsOutLatest=%llu, prerunDelay=%llu, mirrored=%d\n", tsOutLatest, maxDelay, self.mirrored);
         maxDelay *= 2;
         prerunMoreNeeded = self.initialPrerunCount;
         self.mirrored = !self.mirrored;
@@ -257,8 +266,9 @@
 			if (VL_DEBUG) NSLog(@"newInputDone called, but no output code yet\n");
 			return;
 		}
-        if (inputStartTime == 0) {
-            NSLog(@"newInputDone called, but inputStartTime==0\n");
+        if (tsFrameLatest == 0) {
+            NSLog(@"newInputDone called, but tsFrameLatest==0\n");
+			assert(0);
             return;
         }
         uint64_t finderStartTime = [self.clock now];
@@ -291,8 +301,17 @@
                 
                 // Let's first report it.
 				if (self.running) {
-					BOOL ok = [self.collector recordReception: self.outputCompanion.outputCode at: inputStartTime];
-					VL_LOG_EVENT(@"reception", inputStartTime, self.outputCompanion.outputCode);
+					assert(tsOutLatest);	// Must have been set before we can detect a qr-code
+					assert(tsFrameLatest);	// Must have gotten an input frame before we get here
+					uint64_t oldestTimePossible = tsOutLatest;	// Cannot detect before it has been generated
+					if (tsFrameEarliest > oldestTimePossible) oldestTimePossible = tsFrameEarliest;
+					uint64_t bestTimeStamp = (oldestTimePossible + tsFrameLatest) / 2;
+					NSLog(@"output between %lld and %lld (delta %lld), input between %lld and %lld (delta %lld) best %lld",
+						tsOutEarliest, tsOutLatest, tsOutLatest-tsOutEarliest,
+						tsFrameEarliest, tsFrameLatest, tsFrameLatest-tsFrameEarliest,
+						bestTimeStamp);
+					BOOL ok = [self.collector recordReception: self.outputCompanion.outputCode at: bestTimeStamp];
+					VL_LOG_EVENT(@"reception", bestTimeStamp, self.outputCompanion.outputCode);
                     if (!ok) {
 #ifdef WITH_APPKIT
                         NSAlert *alert = [NSAlert alertWithMessageText:@"Reception before transmission."
@@ -301,11 +320,11 @@
                                                            otherButton:nil
                                              informativeTextWithFormat:@"Code %@ was transmitted at %lld, but received at %lld.\nConsult Helpfile if this error persists.",
                                           self.outputCompanion.outputCode,
-                                          (long long)prerunOutputStartTime,
-                                          (long long)inputStartTime];
+                                          (long long)tsOutLatest,
+                                          (long long)bestTimeStamp];
                         [alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
 #else
-						showWarningAlert([NSString stringWithFormat:@"Received code %llu ms before it was transmitted", inputStartTime-prerunOutputStartTime]);
+						showWarningAlert([NSString stringWithFormat:@"Received code %llu ms before it was transmitted", bestTimeStamp-tsOutLatest]);
 #endif
                     }
                 } else if (self.preRunning) {
@@ -364,7 +383,9 @@
                 [self _prerunRecordNoReception];
             }
         }
+#ifndef WITH_MEDIAN_TIMESTAMP
         inputStartTime = 0;
+#endif
 		if (self.running) {
 			self.statusView.detectCount = [NSString stringWithFormat: @"%d", self.collector.count];
 			self.statusView.detectAverage = [NSString stringWithFormat: @"%.3f ms ± %.3f", self.collector.average / 1000.0, self.collector.stddev / 1000.0];

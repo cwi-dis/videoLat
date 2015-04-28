@@ -235,6 +235,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
             assert(baseStore.input);
             deviceDescriptorToSend = [[DeviceDescription alloc] initFromCalibrationInput: baseStore];
         }
+		[self.capturer startCapturing:YES];
 	}
 	return YES;
 }
@@ -289,23 +290,24 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 {
     @synchronized(self) {
         assert(handlesInput);
-        inputStartTime = timestamp;
-        
-        // Sanity check: times should be monotonically increasing
-        if (prevInputStartTime && prevInputStartTime >= inputStartTime) {
-#ifdef WITH_UIKIT
-			showWarningAlert(@"Input clock not monotonically increasing");
+		tsFrameEarliest = tsFrameLatest;
+		tsFrameLatest = timestamp;
+
+		// Sanity check: times should be monotonically increasing
+		if (tsFrameEarliest >= tsFrameLatest) {
+#ifdef WITH_APPKIT
+			NSAlert *alert = [NSAlert alertWithMessageText:@"Warning: input clock not monotonically increasing."
+											 defaultButton:@"OK"
+										   alternateButton:nil
+											   otherButton:nil
+								 informativeTextWithFormat:@"Previous value was %lld, current value is %lld.\nConsult Helpfile if this error persists.",
+							  (long long)tsFrameEarliest,
+							  (long long)tsFrameLatest];
+			[alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
 #else
-            NSAlert *alert = [NSAlert alertWithMessageText:@"Warning: input clock not monotonically increasing."
-                                             defaultButton:@"OK"
-                                           alternateButton:nil
-                                               otherButton:nil
-                                 informativeTextWithFormat:@"Previous value was %lld, current value is %lld.\nConsult Helpfile if this error persists.",
-                              (long long)prevInputStartTime,
-                              (long long)inputStartTime];
-            [alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
+			showWarningAlert(@"Input clock has gone back in time");
 #endif
-        }
+		}
     }
 }
 
@@ -448,13 +450,17 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 {
     @synchronized(self) {
         assert(handlesInput);
-        if (inputStartTime == 0) {
-            NSLog(@"newInputDone called, but inputStartTime==0\n");
+        if (tsFrameLatest == 0) {
+            NSLog(@"newInputDone called, but tsFrameLatest==0\n");
+			assert(0);
             return;
         }
 
 		assert(self.finder);
+        uint64_t finderStartTime = [self.clock now];
         char *ccode = [self.finder find: buffer width: w height: h format: formatStr size:size];
+        uint64_t finderStopTime = [self.clock now];
+        uint64_t finderDuration = finderStopTime - finderStartTime;
         BOOL foundQRcode = (ccode != NULL);
         if (foundQRcode) {
 			NSString *code = [NSString stringWithUTF8String: ccode];
@@ -462,16 +468,18 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
             if (prevInputCode && [code isEqualToString: prevInputCode]) {
                 // We have seen this code before. Only increment the detection count.
                 prevInputCodeDetectionCount++;
-				if (VL_DEBUG) NSLog(@"Found %d copies since %lld (%lld) of %@", prevInputCodeDetectionCount, prevInputStartTime, prevInputStartTimeRemote, prevInputCode);
+				if (VL_DEBUG) NSLog(@"Found %d copies since %lld (%lld) of %@", prevInputCodeDetectionCount, tsLastReported, tsLastReportedRemote, prevInputCode);
             } else {
                 // We found a new QR code (at least, different from the last detection).
                 // Remember when we first detected it, and then see what we should do with it.
                 prevInputCode = code;
                 prevInputCodeDetectionCount = 1;
-                prevInputStartTime = inputStartTime;
-				prevInputStartTimeRemote = [self.remoteClock remoteNow:prevInputStartTime];
-                VL_LOG_EVENT(@"slaveDetectionSlaveTime", prevInputStartTime, code);
-                VL_LOG_EVENT(@"slaveDetectionMasterTime", prevInputStartTimeRemote, code);
+				uint64_t oldestTimePossible = tsFrameEarliest;
+				if (oldestTimePossible == 0) oldestTimePossible = tsFrameLatest;
+				tsLastReported = (oldestTimePossible + tsFrameLatest) / 2;
+				tsLastReportedRemote = [self.remoteClock remoteNow:tsLastReported];
+                VL_LOG_EVENT(@"slaveDetectionSlaveTime", tsLastReported, code);
+                VL_LOG_EVENT(@"slaveDetectionMasterTime", tsLastReportedRemote, code);
                 if (VL_DEBUG) NSLog(@"Found QR-code: %@", code);
                 
                 // If it is a URL it is probably a prerun QR-code (which is a URL, so that if
@@ -534,7 +542,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
                 uint64_t rtt = [self.remoteClock rtt];
                 NSMutableDictionary *msg = [@{
                                       @"code" : code,
-                                      @"masterDetectTime": [NSString stringWithFormat:@"%lld", prevInputStartTimeRemote],
+                                      @"masterDetectTime": [NSString stringWithFormat:@"%lld", tsLastReportedRemote],
                                       @"slaveTime" : [NSString stringWithFormat:@"%lld", now],
                                       @"masterTime" : [NSString stringWithFormat:@"%lld", remoteNow],
                                       @"count" : [NSString stringWithFormat:@"%d", prevInputCodeDetectionCount],
@@ -582,7 +590,9 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
                 lastMessageSentTime = now;
             }
         }
+#ifndef WITH_MEDIAN_TIMESTAMP
         inputStartTime = 0;
+#endif
     }
 }
 

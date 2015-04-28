@@ -13,16 +13,17 @@
 /// Subclass of BaseRunManager that handles video measurements based on QR codes.
 ///
 @interface VideoRunManager : BaseRunManager {
-    uint64_t outputStartTime;       //!< Internal: When the last output was started
-    uint64_t prerunOutputStartTime; //!< Internal: Like outputStartTime, but not reset when reported (for prerun duration checking)
-    uint64_t prevOutputStartTime;   //!< Internal: For checking that outputStartTime are monotonously increasing
     NSString *prevOutputCode;       //!< Internal: Previous code, for dual detections and checking monotonous increase
     CIImage *outputCodeImage;       //!< Internal: Current code as a CIImage
 
-    uint64_t inputStartTime;        //!< Internal: When last input was read
-    uint64_t prevInputStartTime;    //!< Internal: When last input was read
     NSString *prevInputCode;        //!< Internal: for checking monotonous increase
     int prevInputCodeDetectionCount;    //!<Internal: Number of times we re-detected a code.
+
+	uint64_t tsOutEarliest;			//!< Earliest possible time our output code may have been transmitted
+	uint64_t tsOutLatest;			//!< Latest possible time our output code may have been transmitted
+	uint64_t tsFrameEarliest;		//!< Earliest possible time the most recent frame may have been captured
+	uint64_t tsFrameLatest;			//!< Latest possible time the most recent frame may have been captured
+	
     uint64_t averageFinderDuration; //!< Running average of how much the patternfinder takes
 }
 
