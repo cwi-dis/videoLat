@@ -242,7 +242,8 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 
 - (void)stop
 {
-	//[NSException raise:@"NetworkRunManager" format:@"Must override stop in subclass"];
+	self.running = NO;
+	self.preRunning = NO;
 	[self _updateStatus: @"Measurements complete"];
 	statusToPeer = @"Measurements complete";
     MeasurementDataStore *ds = self.collector.dataStore;
@@ -420,6 +421,8 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
             if (VL_DEBUG) NSLog(@"Received: %@", self.outputCompanion.outputCode);
             // Now generate a new output code.
             [self.outputCompanion triggerNewOutputValue];
+		} else if (self.outputCompanion.prevOutputCode && [code isEqualToString:self.outputCompanion.prevOutputCode]) {
+			NSLog(@"Received old code %@", code);
         } else {
             // We have transmitted a code, but received a different one??
             NSLog(@"Bad data: expected %@, got %@", self.outputCompanion.outputCode, code);

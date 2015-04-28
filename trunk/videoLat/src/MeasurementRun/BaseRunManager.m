@@ -20,6 +20,7 @@ static NSMutableDictionary *runManagerSelectionNibs;
 
 @synthesize running;
 @synthesize preRunning;
+@synthesize prevOutputCode;
 
 - (int) initialPrerunCount
 {

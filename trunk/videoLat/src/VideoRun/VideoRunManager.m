@@ -36,7 +36,6 @@
 {
     self = [super init];
 	if (self) {
-        prevOutputCode = nil;
 		outputCodeImage = nil;
 
         prevInputCode = nil;
@@ -119,6 +118,7 @@
         // Generate the new output code. During preRunning, our input companion can
         // supply the codes, if it wants to (the NetworkRunManager does this, so the
         // codes contain the ip/port combination of the server)
+		self.prevOutputCode = self.outputCode;
         self.outputCode = nil;
         if (self.preRunning && [self.inputCompanion respondsToSelector:@selector(genPrerunCode)]) {
             self.outputCode = [self.inputCompanion genPrerunCode];
@@ -279,8 +279,8 @@
         if (foundQRcode) {
             
 			// Compare the code to what was expected.
-            if (prevOutputCode && strcmp(code, [prevOutputCode UTF8String]) == 0) {
-				//NSLog(@"Received old output code again: %s", code);
+            if (self.outputCompanion.prevOutputCode && strcmp(code, [self.outputCompanion.prevOutputCode UTF8String]) == 0) {
+				if (VL_DEBUG) NSLog(@"Received old output code again: %s", code);
             } else if (prevInputCode && strcmp(code, [prevInputCode UTF8String]) == 0) {
                 prevInputCodeDetectionCount++;
                 if (VL_DEBUG) NSLog(@"Received same code as last reception: %s, count=%d", code, prevInputCodeDetectionCount);

@@ -269,6 +269,10 @@
 /// responsible for output, read by its inputCompanion.
 ///
 @property(strong) NSString *outputCode;
+/// Previous value of outputCode.
+/// Used to forestall error messages in case we get a late detection of a previous code.
+@property(strong) NSString *prevOutputCode;
+
 
 @property(weak) IBOutlet NSObject *inputCompanion; //!< Our companion object that handles input
 @property(weak) IBOutlet NSorUIView <OutputViewProtocol> *outputView; //!< Assigned in NIB: Displays current output QR code

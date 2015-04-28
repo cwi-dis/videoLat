@@ -13,7 +13,6 @@
 /// Subclass of BaseRunManager that handles video measurements based on QR codes.
 ///
 @interface VideoRunManager : BaseRunManager {
-    NSString *prevOutputCode;       //!< Internal: Previous code, for dual detections and checking monotonous increase
     CIImage *outputCodeImage;       //!< Internal: Current code as a CIImage
 
     NSString *prevInputCode;        //!< Internal: for checking monotonous increase
