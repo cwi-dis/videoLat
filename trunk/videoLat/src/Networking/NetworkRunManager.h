@@ -29,6 +29,10 @@
     NSString *prevInputCode;			//!< Internal: for checking monotonous increase
     NSString *prerunCode;               //!< Internal: data for prerun qrcode
     int prevInputCodeDetectionCount;    //!< Internal: Number of times we re-detected a code.
+    uint64_t averageFinderDuration;		//!< Running average of how much the patternfinder takes
+#ifdef WITH_SET_MIN_CAPTURE_DURATION
+	BOOL captureDurationWasSet;
+#endif
 	NSObject <RemoteClockProtocol> *_keepRemoteClock;	//!< Internal: retain self-allocated clock
 	DeviceDescription *remoteDevice;	//!< Internal: description of device used at the remote end
 	DeviceDescription *deviceDescriptorToSend;	//!< Internal: description of local device, to be sent to remote
