@@ -95,6 +95,10 @@
 /// Return round-trip-time.
 /// @return Current round trip time
 - (uint64_t)rtt;
+
+/// Return rtt used to determine current clock synchronization.
+/// @return Best rtt measured
+- (uint64_t)clockInterval;
 @end
 
 ///

@@ -53,13 +53,20 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 
 @interface SimpleRemoteClock : NSObject  <RemoteClockProtocol> {
 	int64_t localTimeToRemoteTime;
+	uint64_t clockInterval;
     uint64_t rtt;
     bool initialized;
 };
 - (uint64_t)remoteNow: (uint64_t) now;
 - (void)remote: (uint64_t)remote between: (uint64_t)start and: (uint64_t) finish;
 - (uint64_t)rtt;
+- (uint64_t)clockInterval;
 @end
+
+/// Define this to always use the latest measurement as the correct time.
+#undef WITH_TIMESYNC_LATEST
+/// Define this to use the best measurement (shortest RTT) as the correct time.
+#define WITH_TIMESYNC_BEST
 
 @implementation SimpleRemoteClock
 - (SimpleRemoteClock *) init
@@ -83,10 +90,21 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
         VL_LOG_EVENT(@"negativeRTT", start-finish, @"");
         return;
     }
-    rtt = finish-start;
+	rtt = finish-start;
     VL_LOG_EVENT(@"RTT", rtt, @"");
 	uint64_t mid = (finish+start)/2;
-	localTimeToRemoteTime = (int64_t)remote - (int64_t)mid;
+	uint64_t newLocalTimeToRemoteTime = (int64_t)remote - (int64_t)mid;
+#ifdef WITH_TIMESYNC_BEST
+	if (rtt <= clockInterval || !initialized) {
+		clockInterval = rtt;
+		localTimeToRemoteTime = newLocalTimeToRemoteTime;
+	}
+#elif WITH_TIMESYNC_LATEST
+	clockInterval = rtt;
+	localTimeToRemoteTime = newLocalTimeToRemoteTime;
+#else
+#error No timesync algorithm selected
+#endif
     VL_LOG_EVENT(@"NewMasterTime", [self remoteNow: finish], @"");
     initialized = true;
 }
@@ -94,6 +112,11 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 - (uint64_t) rtt
 {
     return rtt;
+}
+
+- (uint64_t) clockInterval
+{
+    return clockInterval;
 }
 
 @end
@@ -556,13 +579,15 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
                 uint64_t now = [self.clock now];
                 uint64_t remoteNow = [self.remoteClock remoteNow: now];
                 uint64_t rtt = [self.remoteClock rtt];
+				uint64_t clockInterval = [self.remoteClock clockInterval];
                 NSMutableDictionary *msg = [@{
                                       @"code" : code,
                                       @"masterDetectTime": [NSString stringWithFormat:@"%lld", tsLastReportedRemote],
                                       @"slaveTime" : [NSString stringWithFormat:@"%lld", now],
                                       @"masterTime" : [NSString stringWithFormat:@"%lld", remoteNow],
                                       @"count" : [NSString stringWithFormat:@"%d", prevInputCodeDetectionCount],
-                                      @"rtt" : [NSString stringWithFormat:@"%lld", rtt]
+                                      @"rtt" : [NSString stringWithFormat:@"%lld", rtt],
+                                      @"clockInterval" : [NSString stringWithFormat:@"%lld", clockInterval]
                                       } mutableCopy];
 				if (deviceDescriptorToSend) {
                     NSData *ddData = [NSKeyedArchiver archivedDataWithRootObject: deviceDescriptorToSend];
@@ -585,10 +610,12 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
             if (self.protocol && now - lastMessageSentTime > HEARTBEAT_INTERVAL) {
                 uint64_t remoteNow = [self.remoteClock remoteNow: now];
                 uint64_t rtt = [self.remoteClock rtt];
+				uint64_t clockInterval = [self.remoteClock clockInterval];
                 NSMutableDictionary *msg = [@{
                                       @"slaveTime" : [NSString stringWithFormat:@"%lld", now],
                                       @"masterTime" : [NSString stringWithFormat:@"%lld", remoteNow],
-                                      @"rtt" : [NSString stringWithFormat:@"%lld", rtt]
+                                      @"rtt" : [NSString stringWithFormat:@"%lld", rtt],
+                                      @"clockInterval" : [NSString stringWithFormat:@"%lld", clockInterval]
                                       } mutableCopy];
 				if (deviceDescriptorToSend) {
                     NSData *ddData = [NSKeyedArchiver archivedDataWithRootObject: deviceDescriptorToSend];
@@ -670,10 +697,10 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
             [self.remoteClock remote:masterTimestamp between:slaveTimestamp and:now];
 #ifdef WITH_UIKIT
 			dispatch_async(dispatch_get_main_queue(), ^{
-				self.outputView.bPeerRTT.text = [NSString stringWithFormat:@"%lld", [self.remoteClock rtt]/1000];
+				self.outputView.bPeerRTT.text = [NSString stringWithFormat:@"%lld (best %lld)", [self.remoteClock rtt]/1000, [self.remoteClock clockInterval]/1000];
 				});
 #else
-            self.outputView.bPeerRTT.intValue = (int)([self.remoteClock rtt]/1000);
+            self.outputView.bPeerRTT.stringValue = [NSString stringWithFormat:@"%lld (best %lld)", [self.remoteClock rtt]/1000, [self.remoteClock clockInterval]/1000];
 #endif
             //NSLog(@"master %lld in %lld..%lld (delta=%lld)", masterTimestamp, slaveTimestamp, now, [self.remoteClock rtt]);
         } else {
@@ -700,6 +727,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
         uint64_t masterTimestamp = getTimestamp(data, @"masterTime");
 		uint64_t masterDetectionTimestamp = getTimestamp(data, @"masterDetectTime");
         uint64_t rtt = getTimestamp(data, @"rtt");
+        uint64_t clockInterval = getTimestamp(data, @"clockInterval");
         NSString *code = [data objectForKey: @"code"];
         
         if (slaveTimestamp) {
@@ -745,10 +773,10 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
             }
 #ifdef WITH_UIKIT
 			dispatch_async(dispatch_get_main_queue(), ^{
-				self.selectionViewForStatusOnly.bRTT.text = [NSString stringWithFormat:@"%lld", rtt/1000];
+				self.selectionViewForStatusOnly.bRTT.text = [NSString stringWithFormat:@"%lld (best %lld)", rtt/1000, clockInterval/1000];
 				});
 #else
-            self.selectionViewForStatusOnly.bRTT.intValue = (int)(rtt/1000);
+            self.selectionViewForStatusOnly.bRTT.stringValue = [NSString stringWithFormat:@"%lld (best %lld)", rtt/1000, clockInterval/1000];
 #endif
         }
         
