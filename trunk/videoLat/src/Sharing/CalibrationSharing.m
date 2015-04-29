@@ -77,7 +77,11 @@
 		
 		if (!myType.outputOnlyCalibration) {
 			machineTypeID = dataStore.input.machineTypeID;
-			deviceTypeID = dataStore.input.device;	// deviceID would be better but is unreadable...
+#if TARGET_OS_IPHONE
+            deviceTypeID = dataStore.input.device;	// deviceID would be better but is unreadable...
+#else
+            deviceTypeID = dataStore.input.deviceID;	// deviceID would be better but is unreadable...
+#endif
 		}
 		
 		if (!myType.inputOnlyCalibration) {
