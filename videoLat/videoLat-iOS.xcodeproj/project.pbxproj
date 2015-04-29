@@ -80,7 +80,6 @@
 		04FFFC801AB2FABE0023ED13 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04FFFC7C1AB2FABE0023ED13 /* LaunchScreen.xib */; };
 		04FFFC811AB2FABE0023ED13 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04FFFC7E1AB2FABE0023ED13 /* Main.storyboard */; };
 		04FFFC831AB2FACB0023ED13 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04FFFC821AB2FACB0023ED13 /* Images.xcassets */; };
-		04FFFC861AB2FAD90023ED13 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 04FFFC841AB2FAD90023ED13 /* Info.plist */; };
 		04FFFC871AB2FAD90023ED13 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FFFC851AB2FAD90023ED13 /* main.m */; };
 /* End PBXBuildFile section */
 
@@ -612,7 +611,6 @@
 				040728B31AC9F86B00191022 /* MasterSenderScreenCalibrationRun.xib in Resources */,
 				04155E9A1AB6311C00DD53D9 /* sounds in Resources */,
 				042935381AE7C4B10045C310 /* videolat_ios_help.html in Resources */,
-				04FFFC861AB2FAD90023ED13 /* Info.plist in Resources */,
 				04FAAAAD1ACAD2DE0094A5E9 /* MasterSenderRun.xib in Resources */,
 				042422CB1ACEE2C3003A153C /* DocumentView.xib in Resources */,
 				0462CC171AC2F0E00077383B /* VideoCalibrationRun.xib in Resources */,
@@ -748,8 +746,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Centrum Wiskunde & Informatica (W5J7983J99)";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -769,6 +766,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE = "a8f84d3f-a861-4b00-95ea-51ad9e9539c2";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "thirdParty/installed-ios/include";
@@ -792,8 +790,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Centrum Wiskunde & Informatica (W5J7983J99)";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -806,6 +803,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				PROVISIONING_PROFILE = "a8f84d3f-a861-4b00-95ea-51ad9e9539c2";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "thirdParty/installed-ios/include";
@@ -844,8 +842,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = src/iOS/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
