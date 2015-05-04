@@ -9,13 +9,13 @@
 #import <Foundation/Foundation.h>
 #import "protocols.h"
 
-@interface findQRcodesCI : NSObject <InputVideoFindProtocol> {
+@interface FindQRcodesCI : NSObject <InputVideoFindProtocol> {
 	CIDetector *detector;
 	NSString *lastDetection;
 }
 
 @property(readonly) NSorUIRect rect;	//!< Rectangle around most recent QR code found
 
-- (char*) find: (void*)buffer width: (int)width height: (int)height format: (const char*)format size:(int)size;
+- (NSString *) find: (CVImageBufferRef)image;
 
 @end

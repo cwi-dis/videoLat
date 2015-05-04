@@ -109,6 +109,8 @@
 		044F3D80183A467F0008CBA3 /* libpython2.7.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libpython2.7.dylib; path = ../../../../System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/config/libpython2.7.dylib; sourceTree = "<group>"; };
 		044F3D82183A469D0008CBA3 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = ../../../../System/Library/Frameworks/IOKit.framework; sourceTree = "<group>"; };
 		044F3D84183A47170008CBA3 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = ../../../../System/Library/Frameworks/QuartzCore.framework; sourceTree = "<group>"; };
+		04502F541AF7B8190023462A /* FindQRcodesCI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FindQRcodesCI.h; path = VideoRun/FindQRcodesCI.h; sourceTree = "<group>"; };
+		04502F551AF7B8190023462A /* FindQRcodesCI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FindQRcodesCI.m; path = VideoRun/FindQRcodesCI.m; sourceTree = "<group>"; };
 		045AA71519E71BA300E28AED /* MasterSenderRun.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MasterSenderRun.xib; path = MasterSenderRun/MasterSenderRun.xib; sourceTree = "<group>"; };
 		0461ED1F1A9FCD1F00439749 /* MasterSenderScreenCalibrationRun.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MasterSenderScreenCalibrationRun.xib; path = MasterSenderRun/MasterSenderScreenCalibrationRun.xib; sourceTree = "<group>"; };
 		0461ED211A9FCD9600439749 /* SlaveReceiverRun.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SlaveReceiverRun.xib; path = SlaveReceiverRun/SlaveReceiverRun.xib; sourceTree = "<group>"; };
@@ -305,6 +307,8 @@
 			children = (
 				049725FC18FD580300625326 /* findQRcodes.h */,
 				049725FD18FD580300625326 /* findQRcodes.mm */,
+				04502F541AF7B8190023462A /* FindQRcodesCI.h */,
+				04502F551AF7B8190023462A /* FindQRcodesCI.m */,
 				049725FE18FD580300625326 /* genQRcodes.h */,
 				049725FF18FD580300625326 /* genQRcodes.m */,
 				0497260018FD580300625326 /* VideoInput.h */,

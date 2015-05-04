@@ -470,13 +470,9 @@ static NSMutableDictionary *runManagerSelectionNibs;
 }
 
 
-- (void) newInputDone: (void*)buffer
-    width: (int)w
-    height: (int)h
-    format: (const char*)formatStr
-    size: (int)size
+- (void) newInputDone: (CVImageBufferRef) image
 {
-	[NSException raise:@"BaseRunManager" format:@"Must override newInputDone:width:height:format:size in subclass %@", [self class]];
+	[NSException raise:@"BaseRunManager" format:@"Must override newInputDone: in subclass %@", [self class]];
 }
 
 - (void)newInputDone: (void*)buffer
