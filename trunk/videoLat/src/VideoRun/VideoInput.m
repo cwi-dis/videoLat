@@ -297,6 +297,9 @@
     outputCapturer = [[AVCaptureVideoDataOutput alloc] init];
 	outputCapturer.alwaysDiscardsLateVideoFrames = YES;
 #if 0
+	outputCapturer.videoSettings = [NSDictionary dictionaryWithObject: [NSNumber numberWithUnsignedInt: kCVPixelFormatType_32BGRA] forKey: kCVPixelBufferPixelFormatTypeKey];
+#endif
+#if 0
     AVCaptureConnection *conn = [outputCapturer connectionWithMediaType:AVMediaTypeVideo];
     if (conn && conn.supportsVideoMinFrameDuration) {
         conn.videoMinFrameDuration = CMTimeMake(1,5);
@@ -322,7 +325,7 @@
         [self.selfView setHidden: NO];
     }
     
-	if (VL_DEBUG) NSLog(@"Camera format: %@ %@ %@", dev.activeFormat.mediaType, dev.activeFormat.formatDescription, dev.activeFormat.videoSupportedFrameRateRanges);
+	if (1 || VL_DEBUG) NSLog(@"Camera format: %@ %@ %@", dev.activeFormat.mediaType, dev.activeFormat.formatDescription, dev.activeFormat.videoSupportedFrameRateRanges);
 
 	/* Let the video madness begin */
 	capturing = NO;
@@ -474,9 +477,10 @@
     }
 	[self.manager newInputStart: now_timestamp];
 
+    CVImageBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
+#if 0
     CMFormatDescriptionRef formatDescription = CMSampleBufferGetFormatDescription(sampleBuffer);
     OSType format = CMFormatDescriptionGetMediaSubType(formatDescription);
-    CVImageBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
 	BOOL isPlanar = NO;
 	const char *formatStr;
 	if (format == kCVPixelFormatType_32ARGB) {
@@ -505,8 +509,11 @@
 	size_t h = CVPixelBufferGetHeight(pixelBuffer);
 	size_t size = CVPixelBufferGetDataSize(pixelBuffer);
 	assert (size>=w*h);
-	[self.manager newInputDone: buffer width: (int)w height: (int)h format: formatStr size:(int)size];
+#endif
+	[self.manager newInputDone: pixelBuffer];
+#if 0
 	CVPixelBufferUnlockBaseAddress(pixelBuffer, 0);
+#endif
 }
 
 - (void)captureOutput:(AVCaptureOutput *)captureOutput

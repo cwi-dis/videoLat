@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -133,7 +134,7 @@
                 <outlet property="manager" destination="JO0-Cs-Ava" id="R0C-7J-YVf"/>
             </connections>
         </customObject>
-        <customObject id="yK6-eC-GXL" customClass="FindQRcodes"/>
+        <customObject id="yK6-eC-GXL" customClass="FindQRcodesCI"/>
         <customObject id="Grd-1C-2Vo" customClass="GenQRcodes"/>
         <customObject id="2yL-bh-gyB" customClass="RunCollector"/>
     </objects>

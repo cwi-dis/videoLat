@@ -6,12 +6,12 @@
 //  Copyright (c) 2015 CWI. All rights reserved.
 //
 
-#import "findQRcodesCI.h"
+#import "FindQRcodesCI.h"
 
-@implementation findQRcodesCI
+@implementation FindQRcodesCI
 @synthesize rect;
 
-- (findQRcodesCI *)init
+- (FindQRcodesCI *)init
 {
 	self = [super init];
 	if (self) {
@@ -20,13 +20,11 @@
 	return self;
 }
 
-- (char*) find: (void*)buffer width: (int)width height: (int)height format: (const char*)format size:(int)size
+- (NSString *) find: (CVImageBufferRef)image
 {
 	assert(detector);
-	NSData *imageData = [NSData dataWithBytes:buffer length:size];
-	assert(strcmp(format, "argb") == 0);
-	CIImage *image = [CIImage imageWithBitmapData:imageData bytesPerRow:width*4 size:CGSizeMake(width, height) format:kCIFormatARGB8 colorSpace:nil];
-	NSArray *features = [detector featuresInImage:image];
+	CIImage *ciImage = [CIImage imageWithCVPixelBuffer:image];
+	NSArray *features = [detector featuresInImage:ciImage];
 	if (features == nil || features.count == 0) return NULL;
 	if (features.count > 1) {
 		NSLog(@"Warning: Multiple QR-codes detected");
@@ -34,7 +32,7 @@
 	CIQRCodeFeature *feature = features[0];
 	lastDetection = feature.messageString;
 	rect = feature.bounds;
-	return (char *)[lastDetection UTF8String];
+	return lastDetection;
 }
 
 @end

@@ -259,7 +259,7 @@
     }
 }
 
-- (void) newInputDone: (void*)buffer width: (int)w height: (int)h format: (const char*)formatStr size: (int)size
+- (void) newInputDone: (CVImageBufferRef)image
 {
     @synchronized(self) {
 		if (self.outputCompanion.outputCode == nil) {
@@ -272,18 +272,18 @@
             return;
         }
         uint64_t finderStartTime = [self.clock now];
-        char *code = [self.finder find: buffer width: w height: h format: formatStr size:size];
+        NSString *code = [self.finder find: image];
         uint64_t finderStopTime = [self.clock now];
         uint64_t finderDuration = finderStopTime - finderStartTime;
         BOOL foundQRcode = (code != NULL);
         if (foundQRcode) {
             
 			// Compare the code to what was expected.
-            if (self.outputCompanion.prevOutputCode && strcmp(code, [self.outputCompanion.prevOutputCode UTF8String]) == 0) {
-				if (VL_DEBUG) NSLog(@"Received old output code again: %s", code);
-            } else if (prevInputCode && strcmp(code, [prevInputCode UTF8String]) == 0) {
+            if (self.outputCompanion.prevOutputCode && [code isEqualToString:self.outputCompanion.prevOutputCode]) {
+				if (VL_DEBUG) NSLog(@"Received old output code again: %@", code);
+            } else if (prevInputCode && [code isEqualToString: prevInputCode]) {
                 prevInputCodeDetectionCount++;
-                if (VL_DEBUG) NSLog(@"Received same code as last reception: %s, count=%d", code, prevInputCodeDetectionCount);
+                if (VL_DEBUG) NSLog(@"Received same code as last reception: %@, count=%d", code, prevInputCodeDetectionCount);
                 if ((prevInputCodeDetectionCount % 250) == 0) {
 #ifdef WITH_APPKIT
                     NSAlert *alert = [NSAlert alertWithMessageText:@"Warning: no new QR code generated."
@@ -296,7 +296,7 @@
 #endif
                     [self.outputCompanion triggerNewOutputValue];
                 }
-            } else if (strcmp(code, [self.outputCompanion.outputCode UTF8String]) == 0) {
+            } else if ([code isEqualToString: self.outputCompanion.outputCode]) {
 				// Correct code found.
                 
                 // Let's first report it.
@@ -360,7 +360,7 @@
 			} else {
 				// We have transmitted a code, but received a different one??
                 if (self.running) {
-                    NSLog(@"Bad data: expected %@, got %s", self.outputCompanion.outputCode, code);
+                    NSLog(@"Bad data: expected %@, got %@", self.outputCompanion.outputCode, code);
 #ifdef WITH_APPKIT
                     NSAlert *alert = [NSAlert alertWithMessageText:@"Warning: received unexpected QR-code."
                                                      defaultButton:@"OK"
@@ -370,7 +370,7 @@
                                       self.outputCompanion.outputCode, code];
                     [alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
 #else
-					showWarningAlert([NSString stringWithFormat:@"Received unexpected QR-code %s", code]);
+					showWarningAlert([NSString stringWithFormat:@"Received unexpected QR-code %@", code]);
 #endif
 					[self.outputCompanion triggerNewOutputValue];
                 } else if (self.preRunning) {

@@ -108,13 +108,9 @@
 @property(readonly) NSorUIRect rect;	//!< Location of most recent pattern found
 
 /// Scan a grabbed image for a pattern this finder supports.
-/// @param buffer the memory buffer containing the grabbed image
-/// @param width width in pixels
-/// @param height height in pixels
-/// @param format one of "RGB4", "Y800", "YUYV" or "UYUV"
-/// @param size size of buffer (in bytes)
+/// @param image the grabbed image
 /// @return string representing the pattern, or nil
-- (char*) find: (void*)buffer width: (int)width height: (int)height format: (const char*)format size:(int)size;
+- (NSString *) find: (CVImageBufferRef)image;
 @end
 
 ///
@@ -372,16 +368,8 @@
 - (void) newInputDone: (NSString *)data count: (int)count at: (uint64_t) timestamp;
 
 /// Signals that a capture cycle has ended and provides image data.
-/// @param buffer The image data
-/// @param w Width of the captured image in pixels
-/// @param h Height of the captured image in pixels
-/// @param formatStr One of "RGB4", "Y800", "YUYV" or "UYUV"
-/// @param size Size of the buffer in bytes
-- (void) newInputDone: (void*)buffer
-    width: (int)w
-    height: (int)h
-    format: (const char*)formatStr
-    size: (int)size;
+/// @param image The image data
+- (void) newInputDone: (CVImageBufferRef)image;
 
 /// Signals that a capture cycle has ended and provides audio data.
 /// @param buffer The audio data, as 16 bit signed integer samples
