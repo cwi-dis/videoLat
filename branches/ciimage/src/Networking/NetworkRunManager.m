@@ -472,7 +472,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 /// This version of newInputDone is used when running in slave mode, it signals that the camera
 /// has captured an input.
 ///
-- (void) newInputDone: (CIImage *)image
+- (void) newInputDone: (CVImageBufferRef)image
 {
     @synchronized(self) {
         assert(handlesInput);
