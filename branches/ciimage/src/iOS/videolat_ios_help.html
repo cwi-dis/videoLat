@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+<style>
+body { font-family: "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif; }
+em { color: blue; }
+</style>
+	<title>VideoLat Help for iPhone/iPad</title>
+</head>
+<body>
+<h2>Getting Started</h2>
+
+	<p>These are concise instructions, more complete information is available on
+	the <a href="http://videoLat.org">videoLat.org website</a>.</p>
+
+	<p>Before you can do real measurements you must obtain calibrations for
+	your input and output devices. Try downloading calibrations from videolat.org
+	first. If the calibrations you need are not available you must do them yourself.</p>
+
+<h2>Roundtrip calibration</h2>
+
+	<p>Select <em>New Calibration</em>, then <em>Video Roundtrip Calibration</em>.
+	Select the camera you want to use. Use a mirror
+	(or 2 mirrors) to make sure that camera gets a good view of the whole screen.
+	Press <em>Continue</em>. You will see QR-codes and the <em>Count:</em> field
+	will go from 10 to 0. When you see the blue screen you press <em>Run</em>.
+	After enough measurements (a few hundred) press <em>Stop</em>. You will be
+	shown the results of the measurement.</p>
+
+<h2>Camera Calibration using Remote Calibrated Screen</h2>
+
+	<p>For this you need a second device (iPhone, iPad, Mac) with videoLat for which
+	you already have calibrations. Both devices should be on the same Wi-Fi network.</p>
+
+	<p>On this device select <em>New Calibration</em>, then
+	<em>Camera Calibration using Remote Calibrated Screen</em>.
+	Select the camera you want to calibrate. Point it so that you can see the screen of
+	the other device.</p>
+
+	<p>On the other, calibrated, device select <em>New Measurement</em>, 
+	then <em>Video Transmission (Master,Server)</em>. A QR-code will be shown on the
+	master device and is picked up by the slave device, and it will connect to the master device
+	over Wi-Fi, check the status indicators on the top of the slave device screen.</p>
+
+	<p>On the master device press <em>Run</em>, and after a few hundred measurements
+	<em>Stop</em>. You will be
+	shown the results of the measurement, on both devices.</p>
+
+<h2>Screen Calibration using Remote Calibrated Camera</h2>
+
+	<p>For this you need a second device (iPhone, iPad, Mac) with videoLat for which
+	you already have calibrations. Both devices should be on the same Wi-Fi network.</p>
+
+	<p>On the other, calibrated, device select <em>New Measurement</em>, 
+	then <em>Video Reception (slave,Client)</em>. Make sure the camera of this slave
+	device can see the screen of the master device (the device you are calibrating).</p>
+
+	<p>On the master device select <em>New Calibration</em>, then
+	<em>Screen Calibrate using Remote Calibrated Camera (Master,Server)</em>.
+	 A QR-code will be shown on the
+	master device and is picked up by the slave device, and it will connect to the master device
+	over Wi-Fi, check the status indicators on the top of the slave device screen.</p>
+
+	<p>On the master device press <em>Run</em>, and after a few hundred measurements
+	<em>Stop</em>. You will be
+	shown the results of the measurement, on both devices.</p>
+	
+<h2>Roundtrip measurement</h2>
+
+	<p>See the instruction video on the <a href="http://videoLat.org">videoLat.org website</a>
+	for instructions on how to run a round-trip video delay measurement.</p>
+
+<h2>One-way measurement</h2>
+
+	<p>For a one-way measurement you need two devices with videoLat and the required
+	calibrations. The master device must be on a network (Wi-Fi or Cellular) that is
+	reachable by the slave device.</p>
+
+	<p>On the slave device do <em>New Measurement</em>, 
+	then <em>Video Reception (slave,Client)</em>. Make sure the camera of this slave
+	device can see the screen of the system-under-test.</p>
+	
+	<p>On the master device do <em>New Measurement</em>, 
+	then <em>Video Transmission (Master,Server)</em>. Make sure the screen of the master
+	device is picked up by the camera of the system-under-test. 
+	A QR-code will be shown on the
+	master device and is picked up by the slave device, and it will connect to the master device
+	over Wi-Fi, check the status indicators on the top of the slave device screen.</p>
+
+	<p>On the master device press <em>Run</em>, and after a few hundred measurements
+	<em>Stop</em>. You will be
+	shown the results of the measurement, on both devices.</p>
+
+<h2>Viewing measurements</h2>
+
+	<p>Here you see the minimum, maximum and average of your measurement, plus
+	information on where and how the measurement was done. You also see graphs
+	with the individual measured delays and the distribution of those delays.</p>
+	
+	<p>Using the <em>Action</em> button you can print or email your measurement
+	in various forms. You can also delete your measurement, and for calibrations
+	you can upload them to videolat.org so other people can download it.</p>
+
+</body>
+</html>
