@@ -48,9 +48,5 @@
 - (void)setFinderRect: (NSorUIRect)theRect;
 - (void)newInputStart:(uint64_t)timestamp;
 - (void)newInputStart;
-- (void) newInputDone: (void*)buffer
-    width: (int)w
-    height: (int)h
-    format: (const char*)formatStr
-    size: (int)size;
+- (void)newInputDone: (CVImageBufferRef)image;
 @end

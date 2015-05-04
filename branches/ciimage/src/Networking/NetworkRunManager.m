@@ -472,7 +472,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 /// This version of newInputDone is used when running in slave mode, it signals that the camera
 /// has captured an input.
 ///
-- (void) newInputDone: (void*)buffer width: (int)w height: (int)h format: (const char*)formatStr size: (int)size
+- (void) newInputDone: (CIImage *)image
 {
     @synchronized(self) {
         assert(handlesInput);
@@ -484,17 +484,16 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 
 		assert(self.finder);
         uint64_t finderStartTime = [self.clock now];
-        char *ccode = [self.finder find: buffer width: w height: h format: formatStr size:size];
+        NSString *code = [self.finder find: image];
         uint64_t finderStopTime = [self.clock now];
         uint64_t finderDuration = finderStopTime - finderStartTime;
-        BOOL foundQRcode = (ccode != NULL);
+        BOOL foundQRcode = (code != NULL);
         if (foundQRcode) {
 			// Compute average duration of our code detection algorithm
 			if (averageFinderDuration == 0)
 				averageFinderDuration = finderDuration;
 			else
 				averageFinderDuration = (averageFinderDuration+finderDuration)/2;
-			NSString *code = [NSString stringWithUTF8String: ccode];
 
             if (prevInputCode && [code isEqualToString: prevInputCode]) {
                 // We have seen this code before. Only increment the detection count.

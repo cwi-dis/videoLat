@@ -14,13 +14,13 @@
 /// Interface to the zbar library to detect QR codes in greyscale image data.
 ///
 @interface FindQRcodes : NSObject <InputVideoFindProtocol> {
-    char *lastCode;			//!< Most recent QR code found
+    NSString *lastCode;			//!< Most recent QR code found
     void *scanner_hidden;	//!< Pointer to the zbar scanner object.
     NSorUIRect rect;			//!< Rectangle around most recent QR code found
 }
 
 @property(readonly) NSorUIRect rect;	//!< Rectangle around most recent QR code found
 
-- (char*) find: (void*)buffer width: (int)width height: (int)height format: (const char*)format size:(int)size;
+- (NSString*) find: (CVImageBufferRef)image;
 
 @end
