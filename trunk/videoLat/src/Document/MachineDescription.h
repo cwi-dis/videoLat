@@ -1,9 +1,9 @@
+///
+///  @file MachineDescription.h
+///  @brief Holds MachineDescription object definition.
 //
-//  MachineDescription.h
-//  videoLat
+//  Copyright 2010-2015 Centrum voor Wiskunde en Informatica. Licensed under GPL3.
 //
-//  Created by Jack Jansen on 2/03/15.
-//  Copyright (c) 2015 CWI. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>

@@ -1,9 +1,9 @@
+///
+///  @file AudioCalibrationRunManager.h
+///  @brief Implements audio roundtrip calibrations.
 //
-//  AudioCalibrationRunManager.h
-//  videoLat
+//  Copyright 2010-2015 Centrum voor Wiskunde en Informatica. Licensed under GPL3.
 //
-//  Created by Jack Jansen on 25/11/13.
-//  Copyright 2010-2014 Centrum voor Wiskunde en Informatica. Licensed under GPL3.
 //
 
 #import <Foundation/Foundation.h>

@@ -1,9 +1,9 @@
+///
+///  @file compat.h
+///  @brief Defines, typedefs and functions to handle iOS/OSX compatibility.
 //
-//  compat.h
-//  videoLat-iOS
+//  Copyright 2010-2015 Centrum voor Wiskunde en Informatica. Licensed under GPL3.
 //
-//  Created by Jack Jansen on 16/03/15.
-//  Copyright (c) 2015 CWI. All rights reserved.
 //
 
 #ifndef videoLat_iOS_compat_h

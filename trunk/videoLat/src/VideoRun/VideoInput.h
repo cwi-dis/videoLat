@@ -1,3 +1,10 @@
+///
+///  @file VideoInput.h
+///  @brief Video camera driver using AVFoundation.
+//
+//  Copyright 2010-2015 Centrum voor Wiskunde en Informatica. Licensed under GPL3.
+//
+//
 #import <AVFoundation/AVFoundation.h>
 #import "protocols.h"
 #import "genQRcodes.h"

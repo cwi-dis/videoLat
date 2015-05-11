@@ -1,9 +1,9 @@
+///
+///  @file VideoOutputView.h
+///  @brief Show QR-codes or B/W images in a window.
 //
-//  OutputView.h
-//  macMeasurements
+//  Copyright 2010-2015 Centrum voor Wiskunde en Informatica. Licensed under GPL3.
 //
-//  Created by Jack Jansen on 01-09-10.
-//  Copyright 2010-2014 Centrum voor Wiskunde en Informatica. Licensed under GPL3.
 //
 
 #import "protocols.h"

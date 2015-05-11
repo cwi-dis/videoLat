@@ -1,9 +1,9 @@
+///
+///  @file DownloadCalibrationViewController.h
+///  @brief Holds DownloadCalibrationViewController object definition.
 //
-//  DownloadSelectionView.h
-//  videoLat
+//  Copyright 2010-2015 Centrum voor Wiskunde en Informatica. Licensed under GPL3.
 //
-//  Created by Jack Jansen on 08/03/15.
-//  Copyright (c) 2015 CWI. All rights reserved.
 //
 
 #import <Cocoa/Cocoa.h>

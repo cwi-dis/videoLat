@@ -1,9 +1,9 @@
+///
+///  @file AudioProcess.h
+///  @brief Implements audio sample matching.
 //
-//  AudioProcess.h
-//  videoLat
+//  Copyright 2010-2015 Centrum voor Wiskunde en Informatica. Licensed under GPL3.
 //
-//  Created by Jack Jansen on 16/04/14.
-//  Copyright 2010-2014 Centrum voor Wiskunde en Informatica. Licensed under GPL3.
 //
 
 #import <Foundation/Foundation.h>

@@ -2,7 +2,7 @@
 ///  @file Document.h
 ///  @brief Defines Document object, part of the standard Cocoa application structure
 //
-//  Copyright 2010-2014 Centrum voor Wiskunde en Informatica. Licensed under GPL3.
+//  Copyright 2010-2015 Centrum voor Wiskunde en Informatica. Licensed under GPL3.
 //
 //
 
