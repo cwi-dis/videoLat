@@ -1,9 +1,9 @@
+///
+///  @file genQRcodes.g
+///  @brief Generate QR-codes using libzint.
 //
-//  genQRcodes.h
-//  macMeasurements
+//  Copyright 2010-2015 Centrum voor Wiskunde en Informatica. Licensed under GPL3.
 //
-//  Created by Jack Jansen on 21-08-10.
-//  Copyright 2010-2014 Centrum voor Wiskunde en Informatica. Licensed under GPL3.
 //
 
 #import "protocols.h"

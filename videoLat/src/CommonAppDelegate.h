@@ -1,8 +1,8 @@
+///
+///  @file CommonAppDelegate.h
+///  @brief Application delegate code common to OSX and iOS.
 //
-//  CommonAppDelegate.h
-//  
-//
-//  Created by Jack Jansen on 13/03/15.
+//  Copyright 2010-2015 Centrum voor Wiskunde en Informatica. Licensed under GPL3.
 //
 //
 

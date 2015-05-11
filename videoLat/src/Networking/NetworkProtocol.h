@@ -1,9 +1,9 @@
+///
+///  @file NetworkProtocol.h
+///  @brief Protocol to allow two videoLat instances to communicate.
 //
-//  NetworkProtocol.h
-//  videoLat
+//  Copyright 2010-2015 Centrum voor Wiskunde en Informatica. Licensed under GPL3.
 //
-//  Created by Jack Jansen on 02/10/14.
-//  Copyright (c) 2014 CWI. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>

@@ -1,9 +1,9 @@
+///
+///  @file NetworkOutputView.h
+///  @brief UI to see how videoLat is communicating with another instance.
 //
-//  NetworkOutputView.h
-//  videoLat
+//  Copyright 2010-2015 Centrum voor Wiskunde en Informatica. Licensed under GPL3.
 //
-//  Created by Jack Jansen on 7/01/14.
-//  Copyright 2010-2014 Centrum voor Wiskunde en Informatica. Licensed under GPL3.
 //
 
 #import "protocols.h"

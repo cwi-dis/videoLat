@@ -1,9 +1,9 @@
+///
+///  @file NewMeasurementView.h
+///  @brief Holds NewMeasurementViewController object definition.
 //
-//  NewMeasurement.h
-//  videoLat
+//  Copyright 2010-2015 Centrum voor Wiskunde en Informatica. Licensed under GPL3.
 //
-//  Created by Jack Jansen on 24/02/15.
-//  Copyright (c) 2015 CWI. All rights reserved.
 //
 
 #import <Cocoa/Cocoa.h>

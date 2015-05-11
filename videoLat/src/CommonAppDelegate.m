@@ -1,8 +1,7 @@
+///
+///  @file CommonAppDelegate.m
 //
-//  CommonAppDelegate.m
-//  
-//
-//  Created by Jack Jansen on 13/03/15.
+//  Copyright 2010-2015 Centrum voor Wiskunde en Informatica. Licensed under GPL3.
 //
 //
 

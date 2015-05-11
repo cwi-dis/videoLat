@@ -1,3 +1,10 @@
+///
+///  @file NetworkInput.h
+///  @brief Implements getting measurement samples from another videoLat on the network.
+//
+//  Copyright 2010-2015 Centrum voor Wiskunde en Informatica. Licensed under GPL3.
+//
+//
 #import "protocols.h"
 #import "genQRcodes.h"
 

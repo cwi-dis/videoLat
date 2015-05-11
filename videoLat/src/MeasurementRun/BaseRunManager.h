@@ -2,7 +2,7 @@
 ///  @file BaseRunManager.h
 ///  @brief Defines BaseRunManager object.
 //
-//  Copyright 2010-2014 Centrum voor Wiskunde en Informatica. Licensed under GPL3.
+//  Copyright 2010-2015 Centrum voor Wiskunde en Informatica. Licensed under GPL3.
 //
 //
 
