@@ -1,13 +1,16 @@
+///
+///  @file OpenDocumentTableViewController.h
+///  @brief Holds definition of OpenDocumentTableViewController object (iOS only).
 //
-//  OpenCalibrationTableViewController.h
-//  videoLat-iOS
+//  Copyright 2010-2015 Centrum voor Wiskunde en Informatica. Licensed under GPL3.
 //
-//  Created by Jack Jansen on 18/03/15.
-//  Copyright (c) 2015 CWI. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
+///
+/// Handle UI for opening and inspecting existing documents and calibrations.
+///
 @interface OpenDocumentTableViewController : UITableViewController
 {
     BOOL showCalibrations;

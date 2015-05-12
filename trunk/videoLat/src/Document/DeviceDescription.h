@@ -20,6 +20,8 @@
 @property(strong) NSString* machineTypeID;     //!< Unique ID identifying hardware machine type
 @property(strong) NSString* machineID;         //!< Unique ID identifying the hardware machine itself
 @property(strong) NSString* machine;           //!< Human readable name of the machine
+@property(strong) NSString* os;				   //!< Operating system
+@property(strong) NSString* videoLatVersion;   //!< Version of videoLat that handled this device
 @property(strong) NSString* deviceID;          //!< Unique ID identifying the input or output device type
 @property(strong) NSString* device;            //!< Human readable name of the input or output device type
 @property(strong) MeasurementDataStore* calibration;	//!< Optional calibration used for this device

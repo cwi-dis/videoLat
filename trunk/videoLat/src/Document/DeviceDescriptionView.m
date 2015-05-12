@@ -32,7 +32,12 @@
 
 - (void) update: (id)sender
 {
-    if (bMachineTypeID) bMachineTypeID.stringValue = modelObject.machineTypeID;
+    if (bMachineTypeID) {
+		if (modelObject.os)
+			bMachineTypeID.stringValue = [NSString stringWithFormat:@"%@ (%@)", modelObject.machineTypeID, modelObject.os];
+		else
+			bMachineTypeID.stringValue = modelObject.machineTypeID;
+	}
     if (bMachine) bMachine.stringValue = modelObject.machine;
     if (bLocation) bLocation.stringValue = modelObject.location;
     if (bDevice) bDevice.stringValue = modelObject.device;

@@ -366,7 +366,7 @@
                                                      defaultButton:@"OK"
                                                    alternateButton:nil
                                                        otherButton:nil
-                                         informativeTextWithFormat:@"Expected value was %@, received %s.\nConsult Helpfile if this error persists.",
+                                         informativeTextWithFormat:@"Expected value was %@, received %@.\nConsult Helpfile if this error persists.",
                                       self.outputCompanion.outputCode, code];
                     [alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
 #else

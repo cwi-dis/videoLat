@@ -115,7 +115,7 @@
         return NO;
     }
     str = [dict objectForKey:@"version"];
-    if (![str isEqualToString:VIDEOLAT_FILE_VERSION]) {
+    if (![str isEqualToString:VIDEOLAT_FILE_VERSION] && ![str isEqualToString:VIDEOLAT_COMPAT_FILE_VERSION]) {
         if (outError) {
 			NSString *messageString = [NSString stringWithFormat:@"Unsupported version (%@) videoLat file.", str];
             *outError = [[NSError alloc] initWithDomain:NSCocoaErrorDomain code:NSFileReadCorruptFileError

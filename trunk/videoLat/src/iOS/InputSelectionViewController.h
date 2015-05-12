@@ -1,14 +1,17 @@
+///
+///  @file InputSelectionViewController.h
+///  @brief Holds definition of InputSelectionViewController object.
 //
-//  VideoInputSelectionViewController.h
-//  videoLat-iOS
+//  Copyright 2010-2015 Centrum voor Wiskunde en Informatica. Licensed under GPL3.
 //
-//  Created by Jack Jansen on 23/03/15.
-//  Copyright (c) 2015 CWI. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 #import "protocols.h"
 
+///
+/// Baseclass to handle UI for selecting input device (and possibly calibration) for a new measurement.
+///
 @interface InputSelectionViewController : UIViewController {
 	NSArray *measurementNibObjects;		//!< Storage for selectionview nib toplevel objects
 	NSString *inputDeviceName;		//!< Remember selectionview parameter during segue

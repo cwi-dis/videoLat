@@ -14,8 +14,16 @@
 
 @class MeasurementDataStore;
 
+
+/// Version of the program
+#define NSQUOTE(arg) @#arg
+#define VIDEOLAT_VERSION_NSSTRING NSQUOTE(VIDEOLAT_VERSION)
+
 /// Version of our document files (not program version).
-#define VIDEOLAT_FILE_VERSION @"1.2"
+#define VIDEOLAT_FILE_VERSION @"2.0"
+
+/// Version of document files that we can still understand.
+#define VIDEOLAT_COMPAT_FILE_VERSION @"1.2"
 
 /// Turn on global debugging, at compile time
 #define VL_DEBUG 0

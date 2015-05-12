@@ -1,6 +1,6 @@
 ///
 ///  @file appDelegate.h
-///  @brief Application delegate, part of the standard Cocoa application structure.
+///  @brief Application delegate, part of the standard Cocoa application structure (OSX only).
 //
 //  Copyright 2010-2015 Centrum voor Wiskunde en Informatica. Licensed under GPL3.
 //

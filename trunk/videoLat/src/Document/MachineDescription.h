@@ -19,5 +19,6 @@
 @property(readonly) NSString *machineID;		//!< Unique identifier of this computer
 @property(readonly) NSString *machineName;		//!< Human-readable name of this computer
 @property(readonly) NSString *machineTypeID;	//!< Unique identifier of this computer model
+@property(readonly) NSString *os;				//!< Name and version of operating system on this computer
 
 @end

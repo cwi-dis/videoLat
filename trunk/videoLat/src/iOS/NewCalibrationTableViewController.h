@@ -1,13 +1,16 @@
+///
+///  @file NewCalibrationTableViewController.h
+///  @brief Holds definition of NewCalibrationTableViewController object.
 //
-//  NewCalibrationTableViewController.h
-//  videoLat-iOS
+//  Copyright 2010-2015 Centrum voor Wiskunde en Informatica. Licensed under GPL3.
 //
-//  Created by Jack Jansen on 25/03/15.
-//  Copyright (c) 2015 CWI. All rights reserved.
 //
 
 #import "NewMeasurementTableViewController.h"
 
+///
+/// Subclass of NewMeasurementTableViewController that handles initiating a new calibration measurement.
+///
 @interface NewCalibrationTableViewController : NewMeasurementTableViewController
 
 - (NSArray *)measurementNames;

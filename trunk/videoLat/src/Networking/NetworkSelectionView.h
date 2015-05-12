@@ -1,9 +1,9 @@
+///
+///  @file NetworkSelectionView.h
+///  @brief Holds definition of NetworkSelectionView object.
 //
-//  NetworkSelectionView.h
-//  videoLat
-//
-//  Created by Jack Jansen on 18/11/13.
 //  Copyright 2010-2015 Centrum voor Wiskunde en Informatica. Licensed under GPL3.
+//
 //
 
 #import <Foundation/Foundation.h>

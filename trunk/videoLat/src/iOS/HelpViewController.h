@@ -1,6 +1,6 @@
 ///
 ///  @file HelpViewController.h
-///  @brief Shows help.
+///  @brief Shows help (iOS only).
 //
 //  Copyright 2010-2015 Centrum voor Wiskunde en Informatica. Licensed under GPL3.
 //

@@ -15,6 +15,8 @@
 @synthesize machineTypeID;
 @synthesize machineID;
 @synthesize machine;
+@synthesize os;
+@synthesize videoLatVersion;
 @synthesize deviceID;
 @synthesize device;
 @synthesize calibration;
@@ -34,6 +36,8 @@
 	self.machineTypeID = _calibration.input.machineTypeID;
 	self.machineID = _calibration.input.machineID;
 	self.machine = _calibration.input.machine;
+	self.os = _calibration.input.os;
+	self.videoLatVersion = _calibration.input.videoLatVersion;
 	self.deviceID = _calibration.input.deviceID;
 	self.device = _calibration.input.device;
 	self.calibration = _calibration;
@@ -50,6 +54,8 @@
     self.machineID = md.machineID;
     self.machine = md.machineName;
     self.machineTypeID = md.machineTypeID;
+	self.os = md.os;
+	self.videoLatVersion = VIDEOLAT_VERSION_NSSTRING;
     self.device = inputDevice.deviceName;
     self.deviceID = inputDevice.deviceID;
     self.calibration = nil;
@@ -66,6 +72,8 @@
     self.machineID = md.machineID;
     self.machine = md.machineName;
     self.machineTypeID = md.machineTypeID;
+	self.os = md.os;
+	self.videoLatVersion = VIDEOLAT_VERSION_NSSTRING;
     self.device = outputDevice.deviceName;
     self.deviceID = outputDevice.deviceID;
     self.calibration = nil;
@@ -80,6 +88,8 @@
     machineTypeID = [coder decodeObjectForKey:@"machineTypeID"];
     machineID = [coder decodeObjectForKey:@"machineID"];
     machine = [coder decodeObjectForKey:@"machine"];
+    os = [coder decodeObjectForKey:@"os"];
+    videoLatVersion = [coder decodeObjectForKey:@"videoLatVersion"];
     deviceID = [coder decodeObjectForKey: @"deviceID"];
     device = [coder decodeObjectForKey: @"device"];
     calibration = [coder decodeObjectForKey: @"calibration"];
@@ -92,6 +102,8 @@
     [coder encodeObject:machineTypeID forKey: @"machineTypeID"];
     [coder encodeObject:machineID forKey: @"machineID"];
     [coder encodeObject:machine forKey: @"machine"];
+    [coder encodeObject:os forKey: @"os"];
+    [coder encodeObject:videoLatVersion forKey: @"videoLatVersion"];
     [coder encodeObject:deviceID forKey: @"deviceID"];
     [coder encodeObject:device forKey: @"device"];
     [coder encodeObject: calibration forKey: @"calibration"];
