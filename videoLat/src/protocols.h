@@ -16,8 +16,12 @@
 
 
 /// Version of the program
+#ifdef VIDEOLAT_VERSION
 #define NSQUOTE(arg) @#arg
 #define VIDEOLAT_VERSION_NSSTRING NSQUOTE(VIDEOLAT_VERSION)
+#else
+#define VIDEOLAT_VERSION_NSSTRING @"2.0"
+#endif
 
 /// Version of our document files (not program version).
 #define VIDEOLAT_FILE_VERSION @"2.0"
