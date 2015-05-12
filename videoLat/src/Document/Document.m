@@ -167,7 +167,7 @@
         return NO;
     }
     str = [dict objectForKey:@"version"];
-    if (![str isEqualToString:VIDEOLAT_FILE_VERSION]) {
+    if (![str isEqualToString:VIDEOLAT_FILE_VERSION] && ![str isEqualToString:VIDEOLAT_COMPAT_FILE_VERSION]) {
         if (outError) {
             *outError = [[NSError alloc] initWithDomain:NSCocoaErrorDomain code:NSFileReadCorruptFileError
                                                userInfo:@{
@@ -245,6 +245,8 @@
     [rv appendFormat: @"outputMachineTypeID,\"%@\"\n", self.dataStore.output.machineTypeID];
     [rv appendFormat: @"outputMachineID,\"%@\"\n", self.dataStore.output.machineID];
     [rv appendFormat: @"outputMachine,\"%@\"\n", self.dataStore.output.machine];
+    [rv appendFormat: @"outputOS,\"%@\"\n", self.dataStore.output.os];
+    [rv appendFormat: @"outputVideoLatVersion,\"%@\"\n", self.dataStore.output.videoLatVersion];
     [rv appendFormat: @"outputLocation,\"%@\"\n", self.dataStore.output.location];
     [rv appendFormat: @"outputDeviceID,\"%@\"\n", self.dataStore.output.deviceID];
     [rv appendFormat: @"outputDevice,\"%@\"\n", self.dataStore.output.device];
@@ -252,6 +254,8 @@
     [rv appendFormat: @"inputMachineTypeID,\"%@\"\n", self.dataStore.input.machineTypeID];
     [rv appendFormat: @"inputMachineID,\"%@\"\n", self.dataStore.input.machineID];
     [rv appendFormat: @"inputMachine,\"%@\"\n", self.dataStore.input.machine];
+    [rv appendFormat: @"inputOS,\"%@\"\n", self.dataStore.input.os];
+    [rv appendFormat: @"inputVideoLatVersion,\"%@\"\n", self.dataStore.input.videoLatVersion];
     [rv appendFormat: @"inputLocation,\"%@\"\n", self.dataStore.input.location];
 	[rv appendFormat: @"inputDeviceID,\"%@\"\n", self.dataStore.input.deviceID];
 	[rv appendFormat: @"outputDevice,\"%@\"\n", self.dataStore.output.device];

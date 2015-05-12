@@ -1,13 +1,16 @@
+///
+///  @file NewMeasurementTableViewController.h
+///  @brief Holds definition of NewMeasurementTableViewController object (iOS only).
 //
-//  NewMeasurementTableViewController.h
-//  videoLat-iOS
+//  Copyright 2010-2015 Centrum voor Wiskunde en Informatica. Licensed under GPL3.
 //
-//  Created by Jack Jansen on 15/03/15.
-//  Copyright (c) 2015 CWI. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
+///
+/// Object that handles UI for selecting a new measurement type.
+///
 @interface NewMeasurementTableViewController : UITableViewController {
 	NSString *selectedMeasurement;
 }

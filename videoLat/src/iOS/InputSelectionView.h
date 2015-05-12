@@ -1,9 +1,9 @@
+///
+///  @file InputSelectionBiew.h
+///  @brief Holds definition of InputSelectionView object (iOS only).
 //
-//  InputSelectionView.h
-//  videoLat-iOS
+//  Copyright 2010-2015 Centrum voor Wiskunde en Informatica. Licensed under GPL3.
 //
-//  Created by Jack Jansen on 25/03/15.
-//  Copyright (c) 2015 CWI. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>

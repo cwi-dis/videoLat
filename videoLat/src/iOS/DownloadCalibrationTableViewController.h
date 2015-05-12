@@ -1,14 +1,17 @@
+///
+///  @file DownloadCalibrationTableViewController.h
+///  @brief Holds definition of DownloadCalibrationViewController object (iOS only).
 //
-//  DownloadCalibrationTableViewController.h
-//  videoLat-iOS
+//  Copyright 2010-2015 Centrum voor Wiskunde en Informatica. Licensed under GPL3.
 //
-//  Created by Jack Jansen on 13/03/15.
-//  Copyright (c) 2015 CWI. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 #import "protocols.h"
 
+///
+/// Object that handles downloading calibrations from videolat.org.
+///
 @interface DownloadCalibrationTableViewController : UITableViewController<NewMeasurementDelegate, DownloadQueryDelegate>
 {
     NSArray *calibrations;

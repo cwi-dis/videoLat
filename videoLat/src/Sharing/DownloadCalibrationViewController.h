@@ -1,6 +1,6 @@
 ///
 ///  @file DownloadCalibrationViewController.h
-///  @brief Holds DownloadCalibrationViewController object definition.
+///  @brief Holds DownloadCalibrationViewController object definition (OSX only).
 //
 //  Copyright 2010-2015 Centrum voor Wiskunde en Informatica. Licensed under GPL3.
 //

@@ -45,4 +45,15 @@
 	return hwName;
 }
 
+- (NSString *)os
+{
+#if TARGET_OS_IPHONE
+	NSString *osName = @"iOS";
+#else
+	NSString *osName = @"OSX";
+#endif
+	NSOperatingSystemVersion osVersion = [[NSProcessInfo processInfo] operatingSystemVersion];
+	osName = [NSString stringWithFormat:@"%@-%d.%d.%d", osName, (int)osVersion.majorVersion, (int)osVersion.minorVersion, (int)osVersion.patchVersion];
+	return osName;
+}
 @end
