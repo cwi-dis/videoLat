@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+
+  <title>videoLat Help</title>
+  <meta name="AppleTitle" content="videoLat Help" />
+</head>
+
+<body>
+  <h1>videoLat Help</h1>
+
+  <p>Table of Contents:</p>
+
+  <ul> 
+    <li><a href="#Introduction">Introduction</a></li>
+
+    <li><a href="#calibration-workflow">Calibration Workflow</a></li>
+
+    <li><a href="#measurement-workflow">Measurement Workflow</a></li>
+
+    <li><a href="#fileformat">Export File Format</a></li>
+
+    <li><a href="#more">More Information</a></li>
+
+    <li><a href="#building">Building from Source</a></li>
+
+    <li><a href="#known-bugs">Known Bugs</a></li>
+
+    <li><a href="#license">Licensing and Copyright</a></li> 
+  </ul>
+
+  <h2 id="Introduction">Introduction</h2>
+
+  <p>VideoLat is a tool to help you analyse video delays, mainly aimed
+  at conferencing applications. Basically, it works by generating a
+  barcode on-screen and then measuring how long it takes until that same
+  barcode is detected by the camera. This method of measurement also
+  takes into account delays caused by camera, grabber hardware, video
+  output card and the video display.</p>
+
+  <p>VideoLat Primarily takes round-trip measurements, with the same
+  system both benerating and detecting the barcodes. A future release
+  will also allow asymetric measurements, using a videoLat-system on
+  both ends.</p>
+
+  <p>A future version will also do audio delay measurements, and
+  audio-video synchronization measurements.</p>
+
+  <p>The general workflow is that videoLat runs on a system that is
+  completely separate from the system under test, usually a MacBook or
+  something similar. You should now first do a <em>calibration run</em>,
+  which will teach videoLat about the delay of the camera and screen
+  used in the test system. After the calibration run you can do real
+  measurements with the exact same hardware setup, the calibration run
+  results will the be subtracted from the real data giving you the delay
+  of the system-under-test.</p>
+
+  <p>In summary, you will always do two measurements: a first one of the
+  test system itself, and then a second one of the system that you are
+  really interested in.</p>
+
+  <h2 id="calibration-workflow">Calibration Workflow</h2>
+
+  <p>Here is a screenshot of videoLat when you start it the first
+  time:
+  <img src="shrd/screenshot.png" alt="Screenshot of measurement window" />
+  </p>
+
+  <p>The left side of the window is the control area, the right side is
+  where the QR-code data will be displayed. The control area reads from
+  top to bottom.</p>
+
+  <p>In the control area, you first select <em>Measurement Type</em>.
+  Your first measurement should be a <em>Video Roundtrip
+  Calibrate</em>.</p>
+
+  <p>Next, you select the camera you want to use as input. Output from
+  the selected camera is shown in the preview area. Use this to position
+  your camera (and window!) so that it has a clear view of the blue
+  square, with not too much distortion. Using a mirror is possible,
+  rotation is no problem, and a fair bit of skewing can be handled
+  too.</p>
+
+  <p>Now you press <em>Prepare</em>. This will show a couple of QR-codes
+  and determine mirroring, approximate delays and such. After the
+  preparation phase you should refrain from changing the physical setup.
+  If the preparation phase is successful the <em>Run</em> button will be
+  enabled. If it is not successful you may have to re-select your
+  measurement type or camera to try again.</p>
+
+  <p>Now you press <em>Run</em> and the real measurement will start. In
+  the data area you will see QR-codes, and in the Measurement Run area
+  you will see how many succesful measurements have been taken and
+  current average delay and standard deviation. When you are happy (or
+  bored) press <em>Stop</em> and the data view window (below) will
+  open.</p>
+
+  <p>Determining the number of measurements to be taken is a bit of a
+  black art. For the calibrations you want a distribution of
+  measurements that is relatively close to a normal distribution,
+  because it makes your real measurements more trustworty. Start with
+  500 or 1000 samples, and inspect the distribution in the data view
+  window.</p>
+
+  <p>Here is a screenshot of the data view window, which automatically
+  opens when you stop a measurement run, and also when you open a
+  pre-existing measurement:
+  <img src="shrd/screenshot-document.png" alt="screenshot of results window" />
+  </p>
+
+  <p>The window shows input and output devices used, some metadata,
+  measurement values and two graphs: one of the individual measurement
+  values and one of their distribution. there is also a free text
+  <em>description</em> field that you can use for your own
+  reference.</p>
+
+  <p>If you are happy you should save your calibration data. In future
+  runs it can be used to base real measurements on. It is also possible
+  to export the data, see the next section.</p>
+
+  <h2 id="measurement-workflow">Measurement Workflow</h2>
+
+  <p>After you have done a calibration run of your camera, screen and
+  other hardware you are ready to take a measurement of the system under
+  test. Open a new document, but this time select Measurement type
+  <em>Video Roundtrip</em>.</p>
+
+  <p>Again, you select the camera, but now you also select the base
+  calibration run, which should use the exact same hardware as you are
+  using now (camera, display, etc). Now you make point the camera of the
+  system under test at the blue square, and you point the camera of the
+  measurement system at the screen of the system under test. Confirm in
+  the preview window that the blue square is visible.</p>
+
+  <p>At this point follow the same procedure as for calibration:
+  Prepare, Run, Stop. The data view will open again.</p>
+
+  <p>For a normal run you should save the data in your Documents folder,
+  for example. In addition, you can export the measurement run as a set
+  of three comma-separated value files.</p>
+
+  <p>If you have access to the internals of the system-under-test it is
+  possible to take measurements there as well, because videoLat encodes
+  the current timestamp in the barcode.</p>
+
+  <p>Because the camera of the system under test needs to see the
+  videoLat screen and vice versa it may be best to get a separate USB
+  camera attached to the videoLat system, using the builtin iSight may
+  make it difficult to adjust things.</p>
+
+  <p><em>Important</em>: you should start with the self-measurements,
+  and reason about the data you obtain. All components involved (camera,
+  display and computer) are finicky and I have seen completely
+  unexplainable results that went away when swapping, say, monitors.
+  Lack of trust in your measurement equipment leads to lack of trust in
+  your system measurements.</p>
+
+  <h2 id="fileformat">Export File Format</h2>
+  
+  <p>When you export a measurement run as CSV (text file with lines of
+  comma-separated values) you get three output files which you can import into
+  a spreadsheet or plotting program or other external tool.</p>
+
+  <p>The <em>description</em> file has two columns, "key" and "value". This
+  file contains the metadata of the measurement run, such as measurement type
+  and devices used.</p>
+
+  <p>The <em>measurements</em> file contains the raw measurements. It has three columns:</p>
+  <ul>
+    <li> "at" is the time of the measurement, in microseconds, since some unspecified epoch.</li>
+    <li> "data" is a string, representing the image (or sound) generated at that time</li>
+    <li> "delay" is the delay in microseconds until the image/sound was detected again</li>
+  </ul>
+
+  <p>The <em>distribution</em> file contains a frequency distribution of the measurements,
+  split over 100 bins.
+  It is for convenience only, it can be generated from the measurements file,
+  but in Numbers or Excel this can take an inordinate amount of time if you have
+  many data points. It has three columns:</p>
+  <ul>
+    <li>"lowerBound" is the lower bound of the bin</li>
+    <li>"upperBound" is the upper bound of the bin (which is the lower bound of the next one)</li>
+    <li>"binValue" is the fraction of the measurements that fall into this bin.</li>
+  </ul>
+
+  <h2 id="building">Building from Source</h2>
+  
+  <p>VideoLat is open source, and you can download the source to build it yourself,
+  extend it or modify it. The sources are available via <a href="https://sourceforge.net/projects/videolat/">sourceforge.net/projects/videolat/</a>.
+  Build instructions are included with the source distribution. </p>
+  
+  <h2 id="more">More Information</h2>
+
+  <p>The (rather meagre) website for videoLat is at 
+  <a href="http://www.videolat.org">www.videolat.org</a>.</p>
+  
+  <p>An earlier version of videoLat and the principles behind it is
+  described in the paper "<a
+  href="http://dx.doi.org/10.1145/2460782.2460789">User-centric video
+  delay measurements</a>" by Jack Jansen and Dick Bulterman,
+  DOI=10.1145/2460782.2460789. The corresponding <a
+  href="http://nossdav2013.ndlab.net/presentations/videolat.pdf">
+  presentation slides</a> and <a
+  href="http://www.youtube.com/watch?v=Xax77SyE0vE">presentation
+  video</a> are available too.</p>
+
+  <h2 id="known-bugs">Known Bugs</h2>
+
+  <p>There is one serious known bug: some conbinations of machine, camera and display
+  cause the clocks to drift, which may lead to QR-codes being received before they
+  are transmitted and other anomalies. Sometimes it helps to restart videoLat,
+  sometimes it helps to reboot the machine, otherwise you will have to try a
+  different camera or display.</p>
+
+  <p>If you encounter this problem please contact the authors, having more
+  data points may point us to a solution.</p>
+  
+  <h2 id="license">Licensing and Copyright</h2>
+
+  <p>VideoLat was written by Jack Jansen, <em>Jack.Jansen@cwi.nl</em>,
+  and is copyright (c) 2010-2014 Stichting Centrum Wiskunde &amp;
+  Informatica, Amsterdam, the Neterhlands. It is open source, licensed
+  under the GNU General Public License (GPL).</p>
+
+  <p>VideoLat depends on the ZBar bar code reader, its included QR code
+  reader and the Zint bar code generator. These tools are Copyright (c)
+  Jeff Brown, Timothy B. Terriberry and "Robin", and licensed under LGPL
+  and GPL.</p>
+
+  <p>The labjack Python driver and liblabjack are Copyright (c) 2010
+  LabJack corporation and under a BSD-like license. They use libusb
+  which is licensed under LGPL.</p> 
+</body>
+</html>
