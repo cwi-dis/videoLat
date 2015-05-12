@@ -314,18 +314,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HpD-xH-z0x">
-                                <rect key="frame" x="276" y="562" width="50" height="30"/>
-                                <color key="backgroundColor" red="1" green="0.072758138180000001" blue="0.1199374795" alpha="1" colorSpace="calibratedRGB"/>
-                                <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="15"/>
-                                <state key="normal" title="Delete">
-                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <segue destination="TC9-DD-hLm" kind="unwind" unwindAction="documentDelete:" id="WGt-bz-Ai4"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vb0-wB-ztb">
                                 <rect key="frame" x="276" y="28" width="48" height="30"/>
                                 <state key="normal" title="Cancel">
@@ -381,6 +369,16 @@
                                     <segue destination="TC9-DD-hLm" kind="unwind" unwindAction="documentUpload:" id="Pvt-Ba-J0X"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HpD-xH-z0x">
+                                <rect key="frame" x="241" y="256" width="118" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <state key="normal" title="Delete document">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="TC9-DD-hLm" kind="unwind" unwindAction="documentDelete:" id="WGt-bz-Ai4"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -391,7 +389,7 @@
                             <constraint firstItem="hSM-H2-jRW" firstAttribute="top" secondItem="MU2-DO-09p" secondAttribute="bottom" constant="8" id="5bi-vr-0cd"/>
                             <constraint firstItem="MU2-DO-09p" firstAttribute="top" secondItem="Lmi-Ud-l0v" secondAttribute="bottom" constant="8" id="8UO-CW-g7A"/>
                             <constraint firstAttribute="centerY" secondItem="hSM-H2-jRW" secondAttribute="centerY" id="Aks-aq-otq"/>
-                            <constraint firstItem="uRU-DV-mHa" firstAttribute="top" secondItem="HpD-xH-z0x" secondAttribute="bottom" constant="8" symbolic="YES" id="I3x-by-eGk"/>
+                            <constraint firstItem="uRU-DV-mHa" firstAttribute="top" secondItem="HpD-xH-z0x" secondAttribute="bottom" constant="314" id="I3x-by-eGk"/>
                             <constraint firstItem="Pfc-27-fhz" firstAttribute="top" secondItem="csr-Lv-lDe" secondAttribute="bottom" constant="8" id="O2z-hE-r44"/>
                             <constraint firstAttribute="centerX" secondItem="Lmi-Ud-l0v" secondAttribute="centerX" id="Osh-ld-1oQ"/>
                             <constraint firstAttribute="centerX" secondItem="Pfc-27-fhz" secondAttribute="centerX" id="PBM-MD-wdx"/>
