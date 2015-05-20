@@ -191,11 +191,11 @@
 	} else if (wasNoisy) {
 		// If we were noisy before we'll still consider it noisy
 		// if we're over 75% of what we had
-		isNoisy = (energy > 0.01 + 0.5 * prevEnergy);
+		isNoisy = (energy > 0.001 + 0.5 * prevEnergy);
 		prevEnergy = (3*energy + prevEnergy) / 4;
 	} else {
 		// If we were quiet we want at least twice the noise
-		isNoisy = (energy > 0.01 + 4 * prevEnergy);
+		isNoisy = (energy > 0.001 + 4 * prevEnergy);
 		prevEnergy = (3*energy + prevEnergy) / 4;
 	}
 	if (isNoisy && !wasNoisy) {
