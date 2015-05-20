@@ -238,7 +238,7 @@ static NSMutableDictionary *runManagerSelectionNibs;
 			[self.collector.dataStore useCalibration:baseStore];
 				
 		}
-#ifdef WITH_APKIT
+#ifdef WITH_APPKIT
 		[self.selectionView.bPreRun setEnabled: NO];
 #endif
 		if (self.statusView) {
