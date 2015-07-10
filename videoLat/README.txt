@@ -35,6 +35,7 @@ on <http://videolat.sourceforge.net>.
 
 Change Log
 ==========
+2.0: iOS port, one-way measurements, UI revamp
 1.0.3: Source-only, includes building the Doxygen documentation
 1.0.2: Bug fix: calibrations could not be found due to sandboxing
 1.0: First official release
