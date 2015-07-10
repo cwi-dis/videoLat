@@ -18,6 +18,7 @@
  - Document, plus DeviceDescription, MachineDescription, MeasurementDataStore and MeasurementDistribution
  - DocumentView, plus DeviceDescriptionView, DocumentDescriptionView and GraphView
  - AppDelegate, plus CommonAppDelegate, MeasurementType, EventLogger and (for Mac only) PythonLoader.
+ - New measurement control, described below.
  
  protocols.h is part of the global structure and defines various protocols implemented by multiple objects.
  
@@ -30,11 +31,12 @@
  
  The global structure for iPhone and iPad is based on the Main.storyboard. The first screen is controlled by
  MainMenuTableViewController which allows the user to select the task. The next levels are controlled by
- NewMeasurementTableViewController, NewClibrationTableViewController, OpenDocumentTableViewController and
+ NewMeasurementTableViewController, NewCalibrationTableViewController, OpenDocumentTableViewController and
  DownloadCalibrationTableViewController.
  
  The first two are used to select a measurement type, after which we proceed to InputSelectionViewController to
  select the input, and then to MeasurementContainerViewController to do the measurement, using the
+ structures described below.
  
  When the document has been selected (or created) we do an unwind segue to the toplevel where we open the
  document using DocumentViewController. If the user wants to do an action on the document (print, upload, etc)

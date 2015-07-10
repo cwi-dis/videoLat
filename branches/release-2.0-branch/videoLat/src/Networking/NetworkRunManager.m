@@ -371,7 +371,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
             self.statusView.detectCount = [NSString stringWithFormat: @"%d", count];
         } else {
             self.statusView.detectCount = @"";
-            [self stopPreMeasuring: self];
+            [self performSelectorOnMainThread:@selector(stopPreMeasuring:) withObject:self waitUntilDone:YES];
         }
         [self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
     }
@@ -798,7 +798,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
     self.protocol = nil;
 	[self _updateStatus: @"Disconnected"];
     if (self.preRunning)
-        [self stopPreMeasuring: self];
+        [self performSelectorOnMainThread:@selector(stopPreMeasuring:) withObject:self waitUntilDone:NO];
 
 }
 

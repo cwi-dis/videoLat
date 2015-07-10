@@ -64,27 +64,46 @@
     }
 }
 
-- (void) newInputDone: (void*)buffer width: (int)w height: (int)h format: (const char*)formatStr size: (int)size
+- (void) newInputDone: (CVImageBufferRef)image
 {
     @synchronized(self) {
         assert(handlesInput);
-		// Detect black/white
+        if (self.outputCompanion.outputCode == nil) return;
+
+		CVPixelBufferRef imagePixels = image;
+		OSType formatOSType = CVPixelBufferGetPixelFormatType(imagePixels);
+		size_t w = CVPixelBufferGetWidth(imagePixels);
+		size_t h = CVPixelBufferGetHeight(imagePixels);
+		size_t size = CVPixelBufferGetDataSize(imagePixels);
+
 		int pixelstep, pixelstart;
-		if (strcmp(formatStr, "Y800") == 0) {
+		bool isPlanar = false;
+		if (formatOSType == kCVPixelFormatType_8IndexedGray_WhiteIsZero) {
 			pixelstep = 1;
 			pixelstart = 0;
-		} else if (strcmp(formatStr, "YUYV") == 0) {
+		} else if (formatOSType == kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange) {
+			pixelstep = 1;
+			pixelstart = 0;
+			isPlanar = true;
+		} else if (formatOSType == 'yuvs' || formatOSType == 'yuv2') {
 			pixelstep = 2;
 			pixelstart = 0;
-		} else if (strcmp(formatStr, "UYVY") == 0) {
+		} else if (formatOSType == kCVPixelFormatType_422YpCbCr8) {
 			pixelstep = 2;
 			pixelstart = 1;
 		} else {
-            NSLog(@"Unexpected newInputDone format %s", formatStr);
+            NSLog(@"Unexpected newInputDone format %x", formatOSType);
             return;
 		}
-        if (self.outputCompanion.outputCode == nil) return;
-        
+
+ 		CVPixelBufferLockBaseAddress(imagePixels, 0);
+		void *buffer;
+		if (isPlanar) {
+			buffer = CVPixelBufferGetBaseAddressOfPlane(imagePixels, 0);
+		} else {
+			buffer = CVPixelBufferGetBaseAddress(imagePixels);
+		}
+
 		int minx, x, maxx, miny, y, maxy, ystep;
 		minx = sensitiveArea.origin.x + (sensitiveArea.size.width/4);
 		maxx = minx + (sensitiveArea.size.width/2);
@@ -100,6 +119,9 @@
 				count++;
 			}
 		}
+
+		CVPixelBufferUnlockBaseAddress(imagePixels, 0);
+		
         int average = 0;
         if (count) average = (int)(total/count);
 		// Complicated way to keep black and white level but adjust to changing camera apertures
