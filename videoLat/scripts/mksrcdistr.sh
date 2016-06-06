@@ -11,17 +11,16 @@ set -x
 #
 # Find the parameters
 #
-SVNURL=`svn info | sed -ne 's/URL: //p'`
 VIDEOLAT_VERSION=`sed -ne 's/.*VIDEOLAT_VERSION = \([^"].*\);/\1/p' videoLat.xcodeproj/project.pbxproj | head -1`
 DIRNAME=videoLat-$VIDEOLAT_VERSION
+BRANCHNAME=`git rev-parse --abbrev-ref HEAD`
 #
 # Create the tarball
 #
 rm -rf build/_src
-mkdir -p build/_src
+mkdir -p build/_src/$DIRNAME
+git archive $BRANCHNAME | tar -x -C build/_src/$DIRNAME
 cd build/_src
-svn co $SVNURL $DIRNAME
-find $DIRNAME -name .svn -print | xargs rm -rf '{}' ';'
 tar cfz ../$DIRNAME-src.tgz $DIRNAME
 rm -rf $DIRNAME
 #
