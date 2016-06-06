@@ -10,7 +10,7 @@ rm -rf thirdParty/installed-ios
 mkdir thirdParty/installed-ios
 INST=`(cd thirdParty/installed-ios ; pwd)`
 XCODEDEV=/Applications/Xcode.app/Contents/Developer
-IOSVERSION=8.3
+IOSVERSION=9.2
 PATH=$INST/bin:$XCODEDEV/Platforms/iPhoneOS.platform/Developer/usr/bin:$XCODEDEV/usr/bin:$PATH
 CFLAGS="-arch armv7 -arch arm64 -isysroot $XCODEDEV/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS$IOSVERSION.sdk"
 PKG_CONFIG_LIBDIR=$INST/lib/pkgconfig

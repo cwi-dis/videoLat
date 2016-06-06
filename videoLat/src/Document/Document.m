@@ -224,7 +224,7 @@
 	[savePanel setExtensionHidden: NO];
 	NSInteger rv = [savePanel runModal];
 	if (rv == NSFileHandlingPanelOKButton) {
-		BOOL ok = [csvData writeToURL:savePanel.URL atomically:NO encoding:NSStringEncodingConversionAllowLossy error:&error];
+		BOOL ok = [csvData writeToURL:savePanel.URL atomically:NO encoding:NSUTF8StringEncoding error:&error];
 		if (!ok) {
 			NSAlert *alert =[NSAlert alertWithError:error];
 			[alert runModal];
