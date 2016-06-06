@@ -10,7 +10,7 @@ rm -rf thirdParty/installed-iossim
 mkdir thirdParty/installed-iossim
 INST=`(cd thirdParty/installed-iossim ; pwd)`
 XCODEDEV=/Applications/Xcode.app/Contents/Developer
-IOSVERSION=8.3
+IOSVERSION=9.2
 PATH=$INST/bin:$XCODEDEV/Platforms/iPhoneSimulator.platform/Developer/usr/bin:$XCODEDEV/usr/bin:$PATH
 CFLAGS="-arch x86_64 -arch i386 -isysroot $XCODEDEV/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator$IOSVERSION.sdk -miphoneos-version-min=7.0"
 PKG_CONFIG_LIBDIR=$INST/lib/pkgconfig
