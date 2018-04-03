@@ -36,7 +36,8 @@
 - (void)availableCalibrations: (NSArray *)_calibrations
 {
     calibrations = _calibrations;
-    [self _updateCalibrations];
+	[self performSelectorOnMainThread:@selector(_updateCalibrations) withObject:nil waitUntilDone:YES];
+
 }
 
 - (void)_updateCalibrations
