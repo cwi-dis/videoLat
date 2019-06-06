@@ -73,8 +73,8 @@
 		CVPixelBufferRef imagePixels = image;
 		OSType formatOSType = CVPixelBufferGetPixelFormatType(imagePixels);
 		size_t w = CVPixelBufferGetWidth(imagePixels);
-		size_t h = CVPixelBufferGetHeight(imagePixels);
-		size_t size = CVPixelBufferGetDataSize(imagePixels);
+		//size_t h = CVPixelBufferGetHeight(imagePixels);
+		//size_t size = CVPixelBufferGetDataSize(imagePixels);
 
 		int pixelstep, pixelstart;
 		bool isPlanar = false;
@@ -109,7 +109,7 @@
 		maxx = minx + (sensitiveArea.size.width/2);
 		miny = sensitiveArea.origin.y + (sensitiveArea.size.height/4);
 		maxy = miny + (sensitiveArea.size.width/2);
-		ystep = w*pixelstep;
+		ystep = (int)w*pixelstep;
 		long long total = 0;
 		long count = 0;
 		for (y=miny; y<maxy; y++) {

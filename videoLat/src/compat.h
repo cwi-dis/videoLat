@@ -75,7 +75,7 @@ extern "C" {
 
 /// A monotonic clock.
 /// @return The current system time in microseconds, since an unknown (but stable) epoch.
-uint64_t monotonicMicroSecondClock();
+uint64_t monotonicMicroSecondClock(void);
 
 /// Present an error message to the user.
 /// @param error The information to present in the error message.
