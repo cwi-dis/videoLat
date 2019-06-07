@@ -95,10 +95,10 @@
 - (void)_fillURLWithOp:(NSString *)op
 {
     NSString *query = [NSString stringWithFormat:@"?op=%@", op];
-    if (measurementTypeID) query = [NSString stringWithFormat: @"%@&measurementTypeID=%@", query, [measurementTypeID stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-    if (uuid) query = [NSString stringWithFormat: @"%@&uuid=%@", query, [uuid stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-    if (machineTypeID) query = [NSString stringWithFormat: @"%@&machineTypeID=%@", query, [machineTypeID stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-    if (deviceTypeID) query = [NSString stringWithFormat: @"%@&deviceTypeID=%@", query, [deviceTypeID stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    if (measurementTypeID) query = [NSString stringWithFormat: @"%@&measurementTypeID=%@", query, [measurementTypeID stringByAddingPercentEncodingWithAllowedCharacters:NSCharacterSet.URLQueryAllowedCharacterSet]];
+    if (uuid) query = [NSString stringWithFormat: @"%@&uuid=%@", query, [uuid stringByAddingPercentEncodingWithAllowedCharacters:NSCharacterSet.URLQueryAllowedCharacterSet]];
+    if (machineTypeID) query = [NSString stringWithFormat: @"%@&machineTypeID=%@", query, [machineTypeID stringByAddingPercentEncodingWithAllowedCharacters:NSCharacterSet.URLQueryAllowedCharacterSet]];
+    if (deviceTypeID) query = [NSString stringWithFormat: @"%@&deviceTypeID=%@", query, [deviceTypeID stringByAddingPercentEncodingWithAllowedCharacters:NSCharacterSet.URLQueryAllowedCharacterSet]];
 	if (data) query = [NSString stringWithFormat: @"%@&dataSize=%ld", query, (long)[data length]];
     url = [NSURL URLWithString: [NSString stringWithFormat: @"%@%@", [baseURL absoluteString], query]];
 }
@@ -188,10 +188,10 @@
 	self = [super initWithURL: _baseURL dataStore: nil];
 	if (self) {
 		NSString *query = [NSString stringWithFormat:@"?op=list"];
-		if (_machineTypeID) query = [NSString stringWithFormat: @"%@&machineTypeID=%@", query, [_machineTypeID stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+		if (_machineTypeID) query = [NSString stringWithFormat: @"%@&machineTypeID=%@", query, [_machineTypeID stringByAddingPercentEncodingWithAllowedCharacters:NSCharacterSet.URLQueryAllowedCharacterSet]];
 		NSString *_deviceTypeID;
 		for (_deviceTypeID in deviceTypeIDs) {
-			query = [NSString stringWithFormat: @"%@&deviceTypeID=%@", query, [_deviceTypeID stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+			query = [NSString stringWithFormat: @"%@&deviceTypeID=%@", query, [_deviceTypeID stringByAddingPercentEncodingWithAllowedCharacters:NSCharacterSet.URLQueryAllowedCharacterSet]];
 		}
 		url = [NSURL URLWithString: [NSString stringWithFormat: @"%@%@", [baseURL absoluteString], query]];
 	}

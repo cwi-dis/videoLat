@@ -108,7 +108,7 @@
 {
     NSString *fileName = [NSString stringWithFormat: @"%@-%@-%@-%@.vlCalibration", self.dataStore.measurementType, self.dataStore.output.machineTypeID, self.dataStore.output.device, self.dataStore.input.device];
     NSURL *dirUrl = [(AppDelegate *)[[NSorUIApplication sharedApplication] delegate] directoryForCalibrations];
-    NSURL *fileUrl = [NSURL URLWithString:[fileName stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] relativeToURL:dirUrl];
+    NSURL *fileUrl = [NSURL URLWithString:[fileName stringByAddingPercentEncodingWithAllowedCharacters:NSCharacterSet.URLPathAllowedCharacterSet] relativeToURL:dirUrl];
     [self setFileURL: fileUrl];
     [self setFileType: [self fileType]];
     [self setDisplayName:fileName];
