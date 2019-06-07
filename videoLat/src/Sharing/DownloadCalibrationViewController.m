@@ -58,9 +58,10 @@
             [[bCalibrations itemWithTitle:calName] setEnabled: NO];
 	}
 	if([bCalibrations numberOfItems] == 0) {
-		[bCalibrations addItemWithTitle:@"No new calibrations available"];
+		[bCalibrations addItemWithTitle:@"No calibrations for this hardware"];
 		[[bCalibrations itemAtIndex: 0] setEnabled: NO];
 	}
+    [bCalibrations addItemWithTitle: @"[Show Calibrations for All Hardware]"];
 }
 
 
@@ -68,7 +69,9 @@
 {
     NSLog(@"Should download");
     NSInteger index = [bCalibrations indexOfSelectedItem];
-    if (index >= 0) {
+    if (index > [calibrations count]) {
+        [[CalibrationSharing sharedUploader] listForMachine: @"" andDevices:@[] delegate:self];
+    } else if (index >= 0) {
         [self _downloadCalibration: [calibrations objectAtIndex:index]];
     }
 }

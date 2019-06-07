@@ -13,7 +13,7 @@
 /// UploadHelper - Helper class to handle uploads and upload queries.
 /// Also superclass for downloads and download queries.
 ///
-@interface UploadHelper : NSThread  {
+@interface UploadHelper : NSObject {
     NSURL *baseURL;
     NSURL *url;
     MeasurementDataStore *dataStore;
@@ -27,7 +27,8 @@
 - (UploadHelper *)initWithURL: (NSURL *)_baseURL dataStore: (MeasurementDataStore *)_dataStore;
 - (void)uploadAsynchronously;
 - (void)_fillURLWithOp: (NSString *)op;
-- (void)main;
+- (void)_doit;
+- (void)_done: (NSData *)result;
 @end
 
 @interface UploadQueryHelper : UploadHelper {
@@ -108,53 +109,45 @@
 	data = [NSKeyedArchiver archivedDataWithRootObject: dataStore];
     [self _fillURLWithOp:@"upload"];
     NSLog(@"uploadAsynchronously: URL=%@", url);
-	[self start];
+    [self _doit];
 }
 
-- (void) main
+- (void)_doit
 {
-	NSLog(@"UploadHelper thread started");
-	NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL: url];
-	if (req == nil) {
-		NSLog(@"UploadHelper: NSMutableURLRequest returned nil for %@", url);
-		return;
-	}
-
-	if (data) {
-		req.HTTPBody = data;
-		req.HTTPMethod = @"PUT";
-	}
-
-	if (![NSURLConnection canHandleRequest: req]) {
-		NSLog(@"UploadHelper: NSURLConnection cannot handle request for %@", url);
-		return;
-	}
-
-	NSURLResponse *resp;
-	NSError *err;
-	NSData *result = [NSURLConnection sendSynchronousRequest: req returningResponse:&resp error:&err];
-	if (result == nil) {
-		NSLog(@"UploadHelper: sendSynchronousRequest failed, error=%@", err);
-		return;
-	}
-
-	if (VL_DEBUG) NSLog(@"UploadHelper: sendSynchronousRequest returned %@", result);
-	[self _done: result];
+    NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL: url];
+    if (req == nil) {
+        NSLog(@"UploadHelper: NSMutableURLRequest returned nil for %@", url);
+        return;
+    }
+    
+    if (data) {
+        req.HTTPBody = data;
+        req.HTTPMethod = @"PUT";
+    }
+    [[[NSURLSession sharedSession] dataTaskWithRequest:req
+                                     completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                                         if (error) {
+                                             showWarningAlert([error localizedDescription]);
+                                         } else {
+                                             [self _done: data];
+                                         }
+                                     }] resume];
 }
 
 - (void)_done: (NSData *)result
 {
-	char *s_result = (char *)[result bytes];
-	if (strncmp(s_result, "YES\n", 4) == 0) {
-		NSLog(@"Upload successful");
-	} else if (strncmp(s_result, "NO\n", 3) == 0) {
-		NSLog(@"Upload rejected");
-	} else {
-		NSLog(@"UploadHelper: Unexpected reply, starting with %40.40s", s_result);
-		if (VL_DEBUG) NSLog(@"\n%s", s_result);
-	}
+    char *s_result = (char *)[data bytes];
+    if (strncmp(s_result, "YES\n", 4) == 0) {
+        NSLog(@"Upload successful");
+    } else if (strncmp(s_result, "NO\n", 3) == 0) {
+        NSLog(@"Upload rejected");
+        showWarningAlert(@"Upload rejected by server");
+    } else {
+        NSLog(@"UploadHelper: Unexpected reply, starting with %40.40s", s_result);
+        showWarningAlert([NSString stringWithFormat: @"UploadHelper: Unexpected reply, starting with %40.40s", s_result]);
+        if (VL_DEBUG) NSLog(@"Unexpected reply: \n%s", s_result);
+    }
 }
-
 @end
 
 @implementation UploadQueryHelper
@@ -164,7 +157,7 @@
     delegate = _delegate;
     [self _fillURLWithOp:@"check"];
     NSLog(@"shouldUpload: URL=%@", url);
-	[self start];
+	[self _doit];
 }
 
 - (void)_done: (NSData *)result
@@ -222,7 +215,7 @@
     delegate = _delegate;
     // url has been filled by init already
     NSLog(@"list: URL=%@", url);
-	[self start];
+	[self _doit];
 }
 
 @end
@@ -269,7 +262,7 @@
     delegate = (NSObject<NewMeasurementDelegate> *)_delegate;
     [self _fillURLWithOp:@"get"];
     NSLog(@"download: URL=%@", url);
-	[self start];
+	[self _doit];
 }
 
 @end

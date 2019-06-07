@@ -82,7 +82,7 @@
 #ifdef WITH_UIKIT
 	self.dataStore.date = [[NSDate date] description];
 #else
-	self.dataStore.date = [[NSDate date] descriptionWithCalendarFormat:nil timeZone:nil locale:nil];
+	self.dataStore.date = [[NSDate date] description];
 #endif
 
     // Do the NSDocument things
