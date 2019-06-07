@@ -316,27 +316,27 @@
 #else
     NSWindow *win = [self windowForSheet];
     CalibrationSharing *uploader = [CalibrationSharing sharedUploader];
-    NSAlert *alert = [NSAlert alertWithMessageText:@"Do you want to share this calibration with other videoLat users?"
-                                     defaultButton:@"Yes"
-                                   alternateButton:@"Never"
-                                       otherButton:@"Not now"
-                         informativeTextWithFormat:@"videoLat.org has no calibration for this hardware combination yet."
-                      "If you think your measurement is trustworthy you can share it with other people (anonymously)."
-                      ];
+    NSAlert *alert = [[NSAlert alloc] init];
+    [alert setMessageText: @"Do you want to share this calibration with other videoLat users?"];
+    [alert setInformativeText: @"videoLat.org has no calibration for this hardware combination yet."
+     "If you think your measurement is trustworthy you can share it with other people (anonymously)."];
+    [alert addButtonWithTitle: @"Yes"];
+    [alert addButtonWithTitle: @"Never"];
+    [alert addButtonWithTitle: @"Ask me later"];
     if (win) {
         [alert beginSheetModalForWindow: win completionHandler:^(NSModalResponse returnCode) {
-            if (returnCode == NSAlertDefaultReturn) {
+            if (returnCode == NSAlertFirstButtonReturn) {
                 [uploader uploadAsynchronously:self.dataStore];
-            } else if (returnCode == NSAlertAlternateReturn) {
-                dontUpload = YES;
+            } else if (returnCode == NSAlertSecondButtonReturn) {
+                self->dontUpload = YES;
                 [self performSelectorOnMainThread:@selector(_changed) withObject:nil waitUntilDone:NO];
             }
         }];
     } else {
         NSModalResponse answer = [alert runModal];
-        if (answer == NSAlertDefaultReturn) {
+        if (answer == NSAlertFirstButtonReturn) {
             [uploader uploadAsynchronously:self.dataStore];
-        } else if (answer == NSAlertAlternateReturn) {
+        } else if (answer == NSAlertSecondButtonReturn) {
             dontUpload = YES;
             [self performSelectorOnMainThread:@selector(_changed) withObject:nil waitUntilDone:NO];
         }

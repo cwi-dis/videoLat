@@ -76,8 +76,7 @@
     NSString *runClassNib = [BaseRunManager nibForMeasurementType:typeName];
     BOOL ok = YES;
     if (!runClassNib) {
-        NSAlert *alert = [NSAlert alertWithMessageText:@"Error selecting measurement type" defaultButton:@"OK" alternateButton:nil otherButton:nil informativeTextWithFormat:@"Implementation is missing for %@\n", typeName];
-        [alert runModal];
+        showWarningAlert([NSString stringWithFormat:@"Implementation missing for measurement type %@", typeName]);
         [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"measurementType"];
         return;
     }
@@ -96,8 +95,7 @@
         ok = [NSBundle loadNibNamed:runClassNib owner:self];
     }
     if (!ok) {
-        NSAlert *alert = [NSAlert alertWithMessageText:@"Error selecting measurement type" defaultButton:@"OK" alternateButton:nil otherButton:nil informativeTextWithFormat:@"NIB is missing for %@\n", typeName];
-        [alert runModal];
+        showWarningAlert([NSString stringWithFormat:@"NIB missing for measurement type %@", typeName]);
         [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"measurementType"];
         return;
     }

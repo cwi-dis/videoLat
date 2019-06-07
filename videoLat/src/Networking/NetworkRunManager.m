@@ -319,18 +319,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 
 		// Sanity check: times should be monotonically increasing
 		if (tsFrameEarliest >= tsFrameLatest) {
-#ifdef WITH_APPKIT
-			NSAlert *alert = [NSAlert alertWithMessageText:@"Warning: input clock not monotonically increasing."
-											 defaultButton:@"OK"
-										   alternateButton:nil
-											   otherButton:nil
-								 informativeTextWithFormat:@"Previous value was %lld, current value is %lld.\nConsult Helpfile if this error persists.",
-							  (long long)tsFrameEarliest,
-							  (long long)tsFrameLatest];
-			[alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
-#else
 			showWarningAlert(@"Input clock has gone back in time");
-#endif
 		}
     }
 }
@@ -391,15 +380,8 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
         if (count > 1 && [code isEqualToString:prevInputCode]) {
             if (VL_DEBUG) NSLog(@"Received old output code again: %@, %d times", code, count);
             if ((count % 128) == 0) {
-#ifdef WITH_APPKIT
-                NSAlert *alert = [NSAlert alertWithMessageText:@"Warning: current QR code not detected."
-                                                 defaultButton:@"OK"
-                                               alternateButton:nil
-                                                   otherButton:nil
-                                     informativeTextWithFormat:@"QR-code %@ generated but %@ detected, %d times. Generating new one.",
-                                  self.outputCompanion.outputCode, code, count];
-                [alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
-#endif
+                showWarningAlert([NSString stringWithFormat:@"QR code not detected in time: %@", self.outputCompanion.outputCode]);
+
                 [self.outputCompanion triggerNewOutputValue];
             }
         } else if ([code isEqualToString: self.outputCompanion.outputCode]) {
@@ -409,33 +391,12 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 			VL_LOG_EVENT(@"reception", timestamp, code);
 			if (VL_DEBUG) NSLog(@"Reported %@ at %lld, ok=%d", code, timestamp, ok);
             if (!ok) {
-#ifdef WITH_UIKIT
 				showWarningAlert(@"Received QR-code that has not been transmitted yet");
-#else
-                NSAlert *alert = [NSAlert alertWithMessageText:@"Reception before transmission."
-                                                 defaultButton:@"OK"
-                                               alternateButton:nil
-                                                   otherButton:nil
-                                     informativeTextWithFormat:@"Code %@ was transmitted at (unknown), but received at %lld.\nConsult Helpfile if this error persists.",
-                                  self.outputCompanion.outputCode,
-                                  (long long)timestamp];
-                [alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
-#endif
             }
 
             // Now do a sanity check that it is greater than the previous detected code
             if (prevInputCode && [prevInputCode length] >= [self.outputCompanion.outputCode length] && [prevInputCode compare:self.outputCompanion.outputCode] >= 0) {
-#ifdef WITH_UIKIT
 				showWarningAlert(@"Received QR-code that is not monotonically increasing");
-#else
-                NSAlert *alert = [NSAlert alertWithMessageText:@"Warning: input QR-code not monotonically increasing."
-                                                 defaultButton:@"OK"
-                                               alternateButton:nil
-                                                   otherButton:nil
-                                     informativeTextWithFormat:@"Previous value was %@, current value is %@.\nConsult Helpfile if this error persists.",
-                                  prevInputCode, self.outputCompanion.outputCode];
-                [alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
-#endif
             }
             // Now let's remember it so we don't generate "bad code" messages
             // if we detect it a second time.
@@ -449,17 +410,8 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
         } else {
             // We have transmitted a code, but received a different one??
             NSLog(@"Bad data: expected %@, got %@", self.outputCompanion.outputCode, code);
-#ifdef WITH_UIKIT
-			showWarningAlert(@"Received unexpected QR-code");
-#else
-            NSAlert *alert = [NSAlert alertWithMessageText:@"Warning: received unexpected QR-code."
-                                             defaultButton:@"OK"
-                                           alternateButton:nil
-                                               otherButton:nil
-                                 informativeTextWithFormat:@"Expected value was %@, received %@.\nConsult Helpfile if this error persists.",
-                              self.outputCompanion.outputCode, code];
-            [alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
-#endif
+            showWarningAlert([NSString stringWithFormat:@"Unexpected QR code received: %@", code]);
+
             [self.outputCompanion triggerNewOutputValue];
         }
         self.statusView.detectCount = [NSString stringWithFormat: @"%d", self.collector.count];
@@ -881,18 +833,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
         if (errorMessage) {
 			[self _updateStatus: @"Missing calibration"];
 			statusToPeer = @"Missing calibration";
-#ifdef WITH_UIKIT
 			showWarningAlert(@"Base calibration mismatch");
-#else
-            NSAlert *alert = [NSAlert alertWithMessageText: @"Base calibration mismatch, are you sure you want to continue?"
-                                             defaultButton:@"Cancel"
-                                           alternateButton:@"Continue"
-                                               otherButton:nil
-                                 informativeTextWithFormat:@"%@", errorMessage];
-            NSInteger button = [alert runModal];
-            if (button == NSAlertDefaultReturn)
-                return;
-#endif
 	   }
         // Remember the input and output device in the collector
         if (baseStore) {

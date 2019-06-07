@@ -327,8 +327,12 @@
         NSString *msg = self.device.lastErrorMessage;
         if (msg && ![msg isEqualToString:lastError]) {
             lastError = msg;
-            NSAlert *alert = [NSAlert alertWithMessageText:@"Hardware device error" defaultButton:@"Continue" alternateButton:@"Stop" otherButton:nil informativeTextWithFormat:@"%@", msg];
-            if ([alert runModal] == NSAlertAlternateReturn)
+            NSAlert *alert = [[NSAlert alloc] init];
+            [alert setMessageText: @"Hardware device error"];
+            [alert setInformativeText: msg];
+            [alert addButtonWithTitle: @"Continue"];
+            [alert addButtonWithTitle: @"stop"];
+            if ([alert runModal] != NSAlertFirstButtonReturn)
                 [self stop];
         }
     }

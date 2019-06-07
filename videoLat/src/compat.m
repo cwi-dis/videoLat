@@ -57,7 +57,10 @@ void showWarningAlert(NSString *warning) {
                   otherButtonTitles:nil, nil];
 	[alert performSelectorOnMainThread:@selector(show) withObject:nil waitUntilDone:YES];
 #else
-    NSAlert *alert = [NSAlert alertWithMessageText:@"Warning" defaultButton:@"OK" alternateButton:nil otherButton:nil informativeTextWithFormat:@"%@", warning];
-    [alert runModal];
+    NSAlert *alert = [[NSAlert alloc] init];
+    [alert setMessageText: @"Warning"];
+    [alert setInformativeText: warning];
+    [alert addButtonWithTitle: @"OK"];
+    [alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:YES];
 #endif
 }

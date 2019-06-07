@@ -222,18 +222,7 @@ static NSMutableDictionary *runManagerSelectionNibs;
 				}
 			}
 			if (errorMessage) {
-#ifdef WITH_APPKIT
-				NSAlert *alert = [NSAlert alertWithMessageText: @"Base calibration mismatch, are you sure you want to continue?"
-					defaultButton:@"Cancel"
-					alternateButton:@"Continue"
-					otherButton:nil
-					informativeTextWithFormat:@"%@", errorMessage];
-				NSInteger button = [alert runModal];
-				if (button == NSAlertDefaultReturn)
-					return;
-#else
 				showWarningAlert(@"Base calibration does not match selected device(s)");
-#endif
 			}
 			[self.collector.dataStore useCalibration:baseStore];
 				
@@ -371,14 +360,13 @@ static NSMutableDictionary *runManagerSelectionNibs;
 				[self.selectionView.bPreRun setEnabled: YES];
 			} else {
 				[self.selectionView.bPreRun setEnabled: NO];
-				NSAlert *alert = [NSAlert alertWithMessageText:@"No calibrations available."
-					defaultButton:@"OK"
-					alternateButton:nil
-					otherButton:nil
-					informativeTextWithFormat:@"\"%@\" measurements should be based on a \"%@\" calibration. Please calibrate first.",
-						self.measurementType.name,
-						self.measurementType.requires.name
-					];
+                NSAlert *alert = [[NSAlert alloc] init];
+                [alert setMessageText: @"No calibrations available."];
+                [alert setInformativeText: [NSString stringWithFormat:@"\"%@\" measurements should be based on a \"%@\" calibration. Please calibrate first.",
+                                            self.measurementType.name,
+                                            self.measurementType.requires.name
+                                            ]];
+                [alert addButtonWithTitle: @"OK"];
 				[alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
 			}
 		}

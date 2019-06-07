@@ -175,19 +175,7 @@
 					BOOL ok = [self.collector recordReception: self.outputCompanion.outputCode at: bestTimeStamp];
 					VL_LOG_EVENT(@"reception", bestTimeStamp, self.outputCompanion.outputCode);
                     if (!ok) {
-#ifdef WITH_APPKIT
-                        NSAlert *alert = [NSAlert alertWithMessageText:@"Reception before transmission."
-                                                         defaultButton:@"OK"
-                                                       alternateButton:nil
-                                                           otherButton:nil
-                                             informativeTextWithFormat:@"Code %@ was transmitted at %lld, but received at %lld.\nConsult Helpfile if this error persists.",
-                                          self.outputCompanion.outputCode,
-                                          (long long)tsOutLatest,
-                                          (long long)bestTimeStamp];
-                        [alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
-#else
-						showWarningAlert([NSString stringWithFormat:@"Received code %llu ms before it was transmitted", inputStartTime-prerunOutputStartTime]);
-#endif
+						showWarningAlert([NSString stringWithFormat:@"Received code %@ before it was transmitted", self.outputCompanion.outputCode]);
 					}
 					self.statusView.detectCount = [NSString stringWithFormat: @"%d", self.collector.count];
 					self.statusView.detectAverage = [NSString stringWithFormat: @"%.3f ms ± %.3f", self.collector.average / 1000.0, self.collector.stddev / 1000.0];

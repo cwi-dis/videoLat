@@ -101,18 +101,7 @@
 
         // Sanity check: times should be monotonically increasing
         if (tsOutLatest && tsOutLatest >= tsForCode) {
-#ifdef WITH_APPKIT
-            NSAlert *alert = [NSAlert alertWithMessageText:@"Warning: output clock not monotonically increasing."
-                    defaultButton:@"OK"
-                    alternateButton:nil
-                    otherButton:nil
-                    informativeTextWithFormat:@"Previous value was %lld, current value is %lld.\nConsult Helpfile if this error persists.",
-                              (long long)tsOutLatest,
-                              (long long)tsForCode];
-            [alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
-#else
 			showWarningAlert(@"Output clock has gone back in time");
-#endif
         }
         
         // Generate the new output code. During preRunning, our input companion can
@@ -193,18 +182,7 @@
 
             // Sanity check: times should be monotonically increasing
             if (tsFrameEarliest >= tsFrameLatest) {
-#ifdef WITH_APPKIT
-                NSAlert *alert = [NSAlert alertWithMessageText:@"Warning: input clock not monotonically increasing."
-                                                 defaultButton:@"OK"
-                                               alternateButton:nil
-                                                   otherButton:nil
-                                     informativeTextWithFormat:@"Previous value was %lld, current value is %lld.\nConsult Helpfile if this error persists.",
-                                  (long long)tsFrameEarliest,
-                                  (long long)tsFrameLatest];
-                [alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
-#else
 				showWarningAlert(@"Input clock has gone back in time");
-#endif
             }
         }
     }
