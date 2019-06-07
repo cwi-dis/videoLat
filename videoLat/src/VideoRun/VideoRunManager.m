@@ -263,15 +263,7 @@
                 prevInputCodeDetectionCount++;
                 if (VL_DEBUG) NSLog(@"Received same code as last reception: %@, count=%d", code, prevInputCodeDetectionCount);
                 if ((prevInputCodeDetectionCount % 250) == 0) {
-#ifdef WITH_APPKIT
-                    NSAlert *alert = [NSAlert alertWithMessageText:@"Warning: no new QR code generated."
-                                                     defaultButton:@"OK"
-                                                   alternateButton:nil
-                                                       otherButton:nil
-                                         informativeTextWithFormat:@"QR-code %@ detected %d times. Generating new one.",
-                                      prevInputCode, prevInputCodeDetectionCount];
-                    [alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
-#endif
+                    showWarningAlert(@"Old QR-code detected too often. Generating new one.");
                     [self.outputCompanion triggerNewOutputValue];
                 }
             } else if ([code isEqualToString: self.outputCompanion.outputCode]) {
@@ -291,19 +283,7 @@
 					BOOL ok = [self.collector recordReception: self.outputCompanion.outputCode at: bestTimeStamp];
 					VL_LOG_EVENT(@"reception", bestTimeStamp, self.outputCompanion.outputCode);
                     if (!ok) {
-#ifdef WITH_APPKIT
-                        NSAlert *alert = [NSAlert alertWithMessageText:@"Reception before transmission."
-                                                         defaultButton:@"OK"
-                                                       alternateButton:nil
-                                                           otherButton:nil
-                                             informativeTextWithFormat:@"Code %@ was transmitted at %lld, but received at %lld.\nConsult Helpfile if this error persists.",
-                                          self.outputCompanion.outputCode,
-                                          (long long)tsOutLatest,
-                                          (long long)bestTimeStamp];
-                        [alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
-#else
-						showWarningAlert([NSString stringWithFormat:@"Received code %llu ms before it was transmitted", bestTimeStamp-tsOutLatest]);
-#endif
+						showWarningAlert([NSString stringWithFormat:@"Received code %@ before it was transmitted", self.outputCompanion.outputCode]);
                     }
                 } else if (self.preRunning) {
                     // Compute average duration of our code detection algorithm
@@ -316,17 +296,7 @@
                 }
                 // Now do a sanity check that it is greater than the previous detected code
                 if (prevInputCode && [prevInputCode length] >= [self.outputCompanion.outputCode length] && [prevInputCode compare:self.outputCompanion.outputCode] >= 0) {
-#ifdef WITH_APPKIT
-					NSAlert *alert = [NSAlert alertWithMessageText:@"Warning: input QR-code not monotonically increasing."
-                                                     defaultButton:@"OK"
-                                                   alternateButton:nil
-                                                       otherButton:nil
-                                         informativeTextWithFormat:@"Previous value was %@, current value is %@.\nConsult Helpfile if this error persists.",
-                                            prevInputCode, self.outputCompanion.outputCode];
-                    [alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
-#else
 					showWarningAlert(@"Warning: input QR-code not monotonically increasing.");
-#endif
                 }
                 // Now let's remember it so we don't generate "bad code" messages
                 // if we detect it a second time.
@@ -339,17 +309,7 @@
 				// We have transmitted a code, but received a different one??
                 if (self.running) {
                     NSLog(@"Bad data: expected %@, got %@", self.outputCompanion.outputCode, code);
-#ifdef WITH_APPKIT
-                    NSAlert *alert = [NSAlert alertWithMessageText:@"Warning: received unexpected QR-code."
-                                                     defaultButton:@"OK"
-                                                   alternateButton:nil
-                                                       otherButton:nil
-                                         informativeTextWithFormat:@"Expected value was %@, received %@.\nConsult Helpfile if this error persists.",
-                                      self.outputCompanion.outputCode, code];
-                    [alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
-#else
 					showWarningAlert([NSString stringWithFormat:@"Received unexpected QR-code %@", code]);
-#endif
 					[self.outputCompanion triggerNewOutputValue];
                 } else if (self.preRunning) {
 					[self _prerunRecordNoReception];

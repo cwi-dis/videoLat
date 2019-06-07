@@ -127,7 +127,7 @@
     UIImage *drawImage = [UIImage imageWithCIImage: newImage];
     [drawImage drawInRect:dstRect];
 #else
-    [newImage drawInRect:dstRect fromRect:NSRectFromCGRect([newImage extent]) operation:NSCompositeCopy fraction:1];
+    [newImage drawInRect:dstRect fromRect:NSRectFromCGRect([newImage extent]) operation:NSCompositingOperationCopy fraction:1];
 #endif
 
     // Report back that we have displayed it.
