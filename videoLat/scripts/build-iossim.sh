@@ -44,42 +44,6 @@ else
 fi
 
 #
-# build zbar
-#
-(
-	cd thirdParty/zbar-0.10-src
-	./configure \
-			--host=i386 \
-			--disable-dependency-tracking \
-			--disable-video \
-			--without-gtk \
-			--without-qt \
-			--without-xv \
-			--without-imagemagick \
-			--without-x \
-			--without-xshm \
-			--without-python \
-			--prefix=$INST \
-			CFLAGS="$CFLAGS" \
-			CXXFLAGS="$CFLAGS" \
-			LDFLAGS="$CFLAGS"
-	make clean
-	make
-	make install
-)
-#
-# Build zint
-#
-(
-	cd thirdParty/zint-2.6.3.src
-	rm -fr build
-	mkdir build
-	cd build
-	cmake .. -DCMAKE_INSTALL_PREFIX=$INST
-	make
-	make install
-)
-#
 # Build videoLat
 #
 echo Nothing more for now...

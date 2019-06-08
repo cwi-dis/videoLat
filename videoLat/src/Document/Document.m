@@ -64,7 +64,7 @@
                 return nil;
             }
         }
-        fileUrl = [NSURL URLWithString:[fileName stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] relativeToURL:dirUrl];
+        fileUrl = [NSURL URLWithString:[fileName stringByAddingPercentEncodingWithAllowedCharacters:NSCharacterSet.URLPathAllowedCharacterSet] relativeToURL:dirUrl];
         // If the file exists we will try with a new extension
         uniqueNumber++;
     } while ([[NSFileManager defaultManager] fileExistsAtPath: [fileUrl path]]);

@@ -8,11 +8,12 @@ set -ex
 #
 rm -rf thirdParty/installed-ios
 mkdir thirdParty/installed-ios
+SCRIPTDIR=`(cd scripts ; pwd)`
 INST=`(cd thirdParty/installed-ios ; pwd)`
 XCODEDEV=/Applications/Xcode.app/Contents/Developer
 IOSVERSION=12.1
 PATH=$INST/bin:$XCODEDEV/Platforms/iPhoneOS.platform/Developer/usr/bin:$XCODEDEV/usr/bin:$PATH
-CFLAGS="-arch armv7 -arch arm64 -isysroot $XCODEDEV/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS$IOSVERSION.sdk"
+CFLAGS="-arch arm64 -isysroot $XCODEDEV/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS$IOSVERSION.sdk"
 PKG_CONFIG_LIBDIR=$INST/lib/pkgconfig
 
 #
@@ -23,7 +24,7 @@ if test -f thirdParty/libpng-1.6.*/configure; then
 	(
 		cd thirdParty/libpng-1.6.*
 		./configure \
-			--host=armv7 \
+			--host=arm \
 			--prefix=$INST \
 			--disable-arm-neon \
 			CFLAGS="$CFLAGS" \
@@ -43,42 +44,6 @@ else
 	exit 1
 fi
 
-#
-# build zbar
-#
-(
-	cd thirdParty/zbar-0.10-src
-	./configure \
-			--host=arm \
-			--disable-dependency-tracking \
-			--disable-video \
-			--without-gtk \
-			--without-qt \
-			--without-xv \
-			--without-imagemagick \
-			--without-x \
-			--without-xshm \
-			--without-python \
-			--prefix=$INST \
-			CFLAGS="$CFLAGS" \
-			CXXFLAGS="$CFLAGS" \
-			LDFLAGS="$CFLAGS"
-	make clean
-	make
-	make install
-)
-#
-# Build zint
-#
-(
-	cd thirdParty/zint-2.6.3.src
-	rm -fr build
-	mkdir build
-	cd build
-	cmake .. -DCMAKE_INSTALL_PREFIX=$INST
-	make
-	make install
-)
 #
 # Build videoLat
 #

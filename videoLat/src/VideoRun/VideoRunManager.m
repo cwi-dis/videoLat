@@ -7,7 +7,11 @@
 
 #import "VideoRunManager.h"
 #import "findQRcodes.h"
+#ifdef WITH_UIKIT
+#import "genQRcodesCI.h"
+#else
 #import "genQRcodes.h"
+#endif
 #import "EventLogger.h"
 #import <sys/sysctl.h>
 
@@ -121,11 +125,15 @@
         char *bitmapdata = (char*)malloc(size.width*size.height*bpp);
         memset(bitmapdata, 0xf0, size.width*size.height*bpp);
         assert(self.genner);
-        [self.genner gen: bitmapdata width:size.width height:size.height code:[self.outputCode UTF8String]];
-        NSData *data = [NSData dataWithBytesNoCopy:bitmapdata length:(size.width*size.height*bpp) freeWhenDone: YES];
-		assert(data);
-		outputCodeImage = [CIImage imageWithBitmapData:data bytesPerRow:bpp*size.width size:size format:kCIFormatARGB8 colorSpace:nil];
-		assert(outputCodeImage);
+        if ([self.genner respondsToSelector:@selector(genImageForCode:)]) {
+            outputCodeImage = [self.genner genImageForCode:self.outputCode];
+        } else {
+            [self.genner gen: bitmapdata width:size.width height:size.height code:[self.outputCode UTF8String]];
+            NSData *data = [NSData dataWithBytesNoCopy:bitmapdata length:(size.width*size.height*bpp) freeWhenDone: YES];
+            assert(data);
+            outputCodeImage = [CIImage imageWithBitmapData:data bytesPerRow:bpp*size.width size:size format:kCIFormatARGB8 colorSpace:nil];
+        }
+        assert(outputCodeImage);
 		tsOutEarliest = [self.clock now];
 		tsOutLatest = 0;
 		return outputCodeImage;

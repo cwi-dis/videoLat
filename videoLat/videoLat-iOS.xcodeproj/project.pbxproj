@@ -53,13 +53,12 @@
 		0462CC171AC2F0E00077383B /* VideoCalibrationRun.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0462CC161AC2F0E00077383B /* VideoCalibrationRun.xib */; };
 		0472F3B11ADC08FB00415BA9 /* EventLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 0472F3B01ADC08FB00415BA9 /* EventLogger.m */; };
 		0478E1391AB9B7D80057548C /* OpenDocumentTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0478E1381AB9B7D80057548C /* OpenDocumentTableViewController.m */; };
-		0478E1461ABF6ABF0057548C /* genQRcodes.m in Sources */ = {isa = PBXBuildFile; fileRef = 0478E1441ABF6ABF0057548C /* genQRcodes.m */; };
 		0478E16D1ABF7DFB0057548C /* libpng16.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0478E16A1ABF7DFB0057548C /* libpng16.a */; };
-		0478E16F1ABF7DFB0057548C /* libzint.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0478E16C1ABF7DFB0057548C /* libzint.a */; };
 		0478E1711ABF7E250057548C /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0478E1701ABF7E250057548C /* libz.dylib */; };
 		0478E1751ABF7FD20057548C /* libpng16.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0478E1721ABF7FD20057548C /* libpng16.a */; };
-		0478E1771ABF7FD20057548C /* libzint.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0478E1741ABF7FD20057548C /* libzint.a */; };
 		0478E1781ABF808C0057548C /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0478E1471ABF6F240057548C /* libiconv.dylib */; };
+		04AEE2E522AC08830016DD82 /* FindQRcodesCI.m in Sources */ = {isa = PBXBuildFile; fileRef = 04AEE2E322AC08830016DD82 /* FindQRcodesCI.m */; };
+		04AEE2E622AC08830016DD82 /* genQRcodesCI.m in Sources */ = {isa = PBXBuildFile; fileRef = 04AEE2E422AC08830016DD82 /* genQRcodesCI.m */; };
 		04C5FF1F1AB85EB800F4EC25 /* DeviceDescriptionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C5FF1E1AB85EB800F4EC25 /* DeviceDescriptionView.m */; };
 		04F7B83C1AC02F4400BEFDD5 /* VideoInput.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F7B8391AC02F4400BEFDD5 /* VideoInput.m */; };
 		04F7B83D1AC02F4400BEFDD5 /* VideoOutputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F7B83B1AC02F4400BEFDD5 /* VideoOutputView.m */; };
@@ -177,20 +176,16 @@
 		0472F3B01ADC08FB00415BA9 /* EventLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EventLogger.m; path = src/EventLogger.m; sourceTree = SOURCE_ROOT; };
 		0478E1371AB9B7D80057548C /* OpenDocumentTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OpenDocumentTableViewController.h; path = src/iOS/OpenDocumentTableViewController.h; sourceTree = SOURCE_ROOT; };
 		0478E1381AB9B7D80057548C /* OpenDocumentTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OpenDocumentTableViewController.m; path = src/iOS/OpenDocumentTableViewController.m; sourceTree = SOURCE_ROOT; };
-		0478E1411ABF6ABF0057548C /* findQRcodes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = findQRcodes.h; path = src/VideoRun/findQRcodes.h; sourceTree = SOURCE_ROOT; };
-		0478E1421ABF6ABF0057548C /* findQRcodes.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = findQRcodes.mm; path = src/VideoRun/findQRcodes.mm; sourceTree = SOURCE_ROOT; };
-		0478E1431ABF6ABF0057548C /* genQRcodes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = genQRcodes.h; path = src/VideoRun/genQRcodes.h; sourceTree = SOURCE_ROOT; };
-		0478E1441ABF6ABF0057548C /* genQRcodes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = genQRcodes.m; path = src/VideoRun/genQRcodes.m; sourceTree = SOURCE_ROOT; };
 		0478E1471ABF6F240057548C /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
 		0478E16A1ABF7DFB0057548C /* libpng16.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libpng16.a; path = "thirdParty/installed-iossim/lib/libpng16.a"; sourceTree = "<group>"; };
-		0478E16B1ABF7DFB0057548C /* libzbar.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libzbar.a; path = "thirdParty/installed-iossim/lib/libzbar.a"; sourceTree = "<group>"; };
-		0478E16C1ABF7DFB0057548C /* libzint.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libzint.a; path = "thirdParty/installed-iossim/lib/libzint.a"; sourceTree = "<group>"; };
 		0478E1701ABF7E250057548C /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		0478E1721ABF7FD20057548C /* libpng16.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libpng16.a; path = "thirdParty/installed-ios/lib/libpng16.a"; sourceTree = "<group>"; };
-		0478E1731ABF7FD20057548C /* libzbar.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libzbar.a; path = "thirdParty/installed-ios/lib/libzbar.a"; sourceTree = "<group>"; };
-		0478E1741ABF7FD20057548C /* libzint.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libzint.a; path = "thirdParty/installed-ios/lib/libzint.a"; sourceTree = "<group>"; };
 		048BFCCA1AB2EE2C0026D104 /* videoLat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = videoLat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		048BFCE31AB2EE2C0026D104 /* videoLat-iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "videoLat-iOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		04AEE2E122AC08820016DD82 /* FindQRcodesCI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FindQRcodesCI.h; path = src/VideoRun/FindQRcodesCI.h; sourceTree = SOURCE_ROOT; };
+		04AEE2E222AC08820016DD82 /* genQRcodesCI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = genQRcodesCI.h; path = src/VideoRun/genQRcodesCI.h; sourceTree = SOURCE_ROOT; };
+		04AEE2E322AC08830016DD82 /* FindQRcodesCI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FindQRcodesCI.m; path = src/VideoRun/FindQRcodesCI.m; sourceTree = SOURCE_ROOT; };
+		04AEE2E422AC08830016DD82 /* genQRcodesCI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = genQRcodesCI.m; path = src/VideoRun/genQRcodesCI.m; sourceTree = SOURCE_ROOT; };
 		04C5FF1D1AB85EB800F4EC25 /* DeviceDescriptionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeviceDescriptionView.h; path = src/Document/DeviceDescriptionView.h; sourceTree = SOURCE_ROOT; };
 		04C5FF1E1AB85EB800F4EC25 /* DeviceDescriptionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DeviceDescriptionView.m; path = src/Document/DeviceDescriptionView.m; sourceTree = SOURCE_ROOT; };
 		04F7B8381AC02F4400BEFDD5 /* VideoInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VideoInput.h; path = src/VideoRun/VideoInput.h; sourceTree = SOURCE_ROOT; };
@@ -229,10 +224,8 @@
 			files = (
 				0478E1781ABF808C0057548C /* libiconv.dylib in Frameworks */,
 				0478E1751ABF7FD20057548C /* libpng16.a in Frameworks */,
-				0478E1771ABF7FD20057548C /* libzint.a in Frameworks */,
 				0478E1711ABF7E250057548C /* libz.dylib in Frameworks */,
 				0478E16D1ABF7DFB0057548C /* libpng16.a in Frameworks */,
-				0478E16F1ABF7DFB0057548C /* libzint.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -337,10 +330,10 @@
 		04138C891AB330C4003D8167 /* VideoRun */ = {
 			isa = PBXGroup;
 			children = (
-				0478E1411ABF6ABF0057548C /* findQRcodes.h */,
-				0478E1421ABF6ABF0057548C /* findQRcodes.mm */,
-				0478E1431ABF6ABF0057548C /* genQRcodes.h */,
-				0478E1441ABF6ABF0057548C /* genQRcodes.m */,
+				04AEE2E122AC08820016DD82 /* FindQRcodesCI.h */,
+				04AEE2E322AC08830016DD82 /* FindQRcodesCI.m */,
+				04AEE2E222AC08820016DD82 /* genQRcodesCI.h */,
+				04AEE2E422AC08830016DD82 /* genQRcodesCI.m */,
 				04F7B8381AC02F4400BEFDD5 /* VideoInput.h */,
 				04F7B8391AC02F4400BEFDD5 /* VideoInput.m */,
 				04F7B83A1AC02F4400BEFDD5 /* VideoOutputView.h */,
@@ -426,8 +419,6 @@
 			isa = PBXGroup;
 			children = (
 				0478E1721ABF7FD20057548C /* libpng16.a */,
-				0478E1731ABF7FD20057548C /* libzbar.a */,
-				0478E1741ABF7FD20057548C /* libzint.a */,
 			);
 			name = "thirdParty-iOS";
 			sourceTree = "<group>";
@@ -447,8 +438,6 @@
 			isa = PBXGroup;
 			children = (
 				0478E16A1ABF7DFB0057548C /* libpng16.a */,
-				0478E16B1ABF7DFB0057548C /* libzbar.a */,
-				0478E16C1ABF7DFB0057548C /* libzint.a */,
 			);
 			name = "thirdParty-iOSsim";
 			sourceTree = "<group>";
@@ -644,11 +633,13 @@
 			files = (
 				04155E9D1AB6312900DD53D9 /* AudioInput.m in Sources */,
 				04155EA91AB6481000DD53D9 /* BaseRunManager.m in Sources */,
+				04AEE2E622AC08830016DD82 /* genQRcodesCI.m in Sources */,
 				041C8FFF1AC41B2300539C68 /* NetworkOutputView.m in Sources */,
 				04155EA31AB6471900DD53D9 /* AudioProcess.m in Sources */,
 				0472F3B11ADC08FB00415BA9 /* EventLogger.m in Sources */,
 				040E77371AB72002001A7918 /* DocumentDescriptionView.m in Sources */,
 				041C90011AC41B2300539C68 /* NetworkRunManager.m in Sources */,
+				04AEE2E522AC08830016DD82 /* FindQRcodesCI.m in Sources */,
 				042935361AE7C2100045C310 /* HelpViewController.m in Sources */,
 				04C5FF1F1AB85EB800F4EC25 /* DeviceDescriptionView.m in Sources */,
 				040E77281AB6F5B1001A7918 /* RunCollector.m in Sources */,
@@ -668,7 +659,6 @@
 				040E77231AB6F314001A7918 /* AudioCalibrationRunManager.m in Sources */,
 				040E77181AB6DBBC001A7918 /* compat.m in Sources */,
 				04138C6C1AB319B9003D8167 /* MeasurementType.m in Sources */,
-				0478E1461ABF6ABF0057548C /* genQRcodes.m in Sources */,
 				04138C7F1AB31E9F003D8167 /* MeasurementDistribution.m in Sources */,
 				040E772E1AB70A12001A7918 /* RunStatusView.m in Sources */,
 				040E771F1AB6ED25001A7918 /* MeasurementContainerViewController.m in Sources */,
