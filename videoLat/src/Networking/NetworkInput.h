@@ -6,11 +6,7 @@
 //
 //
 #import "protocols.h"
-#ifdef WITH_UIKIT
 #import "genQRcodesCI.h"
-#else
-#import "genQRcodes.h"
-#endif
 
 
 ///

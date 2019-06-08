@@ -22,6 +22,7 @@
 		0461ED201A9FCD1F00439749 /* MasterSenderScreenCalibrationRun.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0461ED1F1A9FCD1F00439749 /* MasterSenderScreenCalibrationRun.xib */; };
 		0461ED221A9FCD9600439749 /* SlaveReceiverRun.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0461ED211A9FCD9600439749 /* SlaveReceiverRun.xib */; };
 		0472F3AE1AD7D07700415BA9 /* EventLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 0472F3AD1AD7D07700415BA9 /* EventLogger.m */; };
+		0478A56C22AC3DBA00331696 /* genQRcodesCI.m in Sources */ = {isa = PBXBuildFile; fileRef = 0478A56A22AC3DB900331696 /* genQRcodesCI.m */; };
 		047DD1C2183A3B4C00A04F83 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 047DD1C1183A3B4C00A04F83 /* Cocoa.framework */; };
 		047F65E01A9620B400D86391 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 047F65DF1A9620B400D86391 /* SystemConfiguration.framework */; };
 		048FB6F519FD21040023D29C /* HardwareDevices in Resources */ = {isa = PBXBuildFile; fileRef = 048FB6F419FD21040023D29C /* HardwareDevices */; };
@@ -33,8 +34,6 @@
 		049725E718FD568A00625326 /* HardwareOutputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 049725E318FD568A00625326 /* HardwareOutputView.m */; };
 		049725E818FD568A00625326 /* HardwareRunManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 049725E518FD568A00625326 /* HardwareRunManager.m */; };
 		049725E918FD568A00625326 /* HardwareRun.xib in Resources */ = {isa = PBXBuildFile; fileRef = 049725E618FD568A00625326 /* HardwareRun.xib */; };
-		0497260918FD580300625326 /* findQRcodes.mm in Sources */ = {isa = PBXBuildFile; fileRef = 049725FD18FD580300625326 /* findQRcodes.mm */; };
-		0497260A18FD580300625326 /* genQRcodes.m in Sources */ = {isa = PBXBuildFile; fileRef = 049725FF18FD580300625326 /* genQRcodes.m */; };
 		0497260B18FD580300625326 /* VideoInput.m in Sources */ = {isa = PBXBuildFile; fileRef = 0497260118FD580300625326 /* VideoInput.m */; };
 		0497260C18FD580300625326 /* VideoOutputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0497260318FD580300625326 /* VideoOutputView.m */; };
 		0497260D18FD580300625326 /* VideoRunManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0497260518FD580300625326 /* VideoRunManager.m */; };
@@ -64,8 +63,6 @@
 		04A9C14819216EB70016E6C0 /* AudioCalibrationRun.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04A9C14719216EB70016E6C0 /* AudioCalibrationRun.xib */; };
 		04A9C14B19216F320016E6C0 /* AudioCalibrationRunManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A9C14A19216F320016E6C0 /* AudioCalibrationRunManager.m */; };
 		04B1915119D2ECBC001ABA66 /* Doxyfile in Resources */ = {isa = PBXBuildFile; fileRef = 04B1915019D2ECBC001ABA66 /* Doxyfile */; };
-		04B58F39183A3D5300360A61 /* libzbar.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 04B58F37183A3D5300360A61 /* libzbar.0.dylib */; };
-		04B58F3A183A3D5300360A61 /* libzint.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 04B58F38183A3D5300360A61 /* libzint.dylib */; };
 		04B6A69E19ED63C300E1E3B6 /* ScreenToHardwareRun.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04B6A69D19ED63C300E1E3B6 /* ScreenToHardwareRun.xib */; };
 		04BFC60B1AD3E0A20061972D /* CommonAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 042ABE311AD1E21A00FB877A /* CommonAppDelegate.m */; };
 		04D411121A02CABC009AFEED /* CalibrateScreenFromCameraRun.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04D411101A02CABC009AFEED /* CalibrateScreenFromCameraRun.xib */; };
@@ -116,6 +113,8 @@
 		0461ED211A9FCD9600439749 /* SlaveReceiverRun.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SlaveReceiverRun.xib; path = SlaveReceiverRun/SlaveReceiverRun.xib; sourceTree = "<group>"; };
 		0472F3AC1AD7D07700415BA9 /* EventLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventLogger.h; sourceTree = "<group>"; };
 		0472F3AD1AD7D07700415BA9 /* EventLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventLogger.m; sourceTree = "<group>"; };
+		0478A56A22AC3DB900331696 /* genQRcodesCI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = genQRcodesCI.m; path = VideoRun/genQRcodesCI.m; sourceTree = "<group>"; };
+		0478A56B22AC3DBA00331696 /* genQRcodesCI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = genQRcodesCI.h; path = VideoRun/genQRcodesCI.h; sourceTree = "<group>"; };
 		047DD1BD183A3B4C00A04F83 /* videoLat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = videoLat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		047DD1C1183A3B4C00A04F83 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		047DD1C4183A3B4C00A04F83 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -137,10 +136,6 @@
 		049725E418FD568A00625326 /* HardwareRunManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HardwareRunManager.h; path = HardwareRun/HardwareRunManager.h; sourceTree = "<group>"; };
 		049725E518FD568A00625326 /* HardwareRunManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HardwareRunManager.m; path = HardwareRun/HardwareRunManager.m; sourceTree = "<group>"; };
 		049725E618FD568A00625326 /* HardwareRun.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = HardwareRun.xib; path = HardwareRun/HardwareRun.xib; sourceTree = "<group>"; };
-		049725FC18FD580300625326 /* findQRcodes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = findQRcodes.h; path = VideoRun/findQRcodes.h; sourceTree = "<group>"; };
-		049725FD18FD580300625326 /* findQRcodes.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = findQRcodes.mm; path = VideoRun/findQRcodes.mm; sourceTree = "<group>"; };
-		049725FE18FD580300625326 /* genQRcodes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = genQRcodes.h; path = VideoRun/genQRcodes.h; sourceTree = "<group>"; };
-		049725FF18FD580300625326 /* genQRcodes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = genQRcodes.m; path = VideoRun/genQRcodes.m; sourceTree = "<group>"; };
 		0497260018FD580300625326 /* VideoInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VideoInput.h; path = VideoRun/VideoInput.h; sourceTree = "<group>"; };
 		0497260118FD580300625326 /* VideoInput.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VideoInput.m; path = VideoRun/VideoInput.m; sourceTree = "<group>"; };
 		0497260218FD580300625326 /* VideoOutputView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VideoOutputView.h; path = VideoRun/VideoOutputView.h; sourceTree = "<group>"; };
@@ -191,8 +186,6 @@
 		04AD00EF19D3097200DDFDE6 /* xibfiles.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xibfiles.h; sourceTree = "<group>"; };
 		04B1915019D2ECBC001ABA66 /* Doxyfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Doxyfile; sourceTree = "<group>"; };
 		04B58F18183A3CF000360A61 /* protocols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = protocols.h; sourceTree = "<group>"; };
-		04B58F37183A3D5300360A61 /* libzbar.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libzbar.0.dylib; path = thirdParty/installed/lib/libzbar.0.dylib; sourceTree = "<group>"; };
-		04B58F38183A3D5300360A61 /* libzint.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libzint.dylib; path = thirdParty/installed/lib/libzint.dylib; sourceTree = "<group>"; };
 		04B6A69D19ED63C300E1E3B6 /* ScreenToHardwareRun.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ScreenToHardwareRun.xib; path = MixedRun/ScreenToHardwareRun.xib; sourceTree = "<group>"; };
 		04BFC60A1AD3E0270061972D /* compat.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = compat.h; sourceTree = "<group>"; };
 		04D411101A02CABC009AFEED /* CalibrateScreenFromCameraRun.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CalibrateScreenFromCameraRun.xib; path = VideoMonoRun/CalibrateScreenFromCameraRun.xib; sourceTree = "<group>"; };
@@ -237,8 +230,6 @@
 			files = (
 				047F65E01A9620B400D86391 /* SystemConfiguration.framework in Frameworks */,
 				047DD1C2183A3B4C00A04F83 /* Cocoa.framework in Frameworks */,
-				04B58F39183A3D5300360A61 /* libzbar.0.dylib in Frameworks */,
-				04B58F3A183A3D5300360A61 /* libzint.dylib in Frameworks */,
 				044F3D7D183A46390008CBA3 /* AVFoundation.framework in Frameworks */,
 				044F3D7F183A46540008CBA3 /* CoreMedia.framework in Frameworks */,
 				044F3D81183A467F0008CBA3 /* libpython2.7.dylib in Frameworks */,
@@ -305,12 +296,10 @@
 		040CF9D6183E4B570094C0D8 /* VideoRun */ = {
 			isa = PBXGroup;
 			children = (
-				049725FC18FD580300625326 /* findQRcodes.h */,
-				049725FD18FD580300625326 /* findQRcodes.mm */,
 				04502F541AF7B8190023462A /* FindQRcodesCI.h */,
 				04502F551AF7B8190023462A /* FindQRcodesCI.m */,
-				049725FE18FD580300625326 /* genQRcodes.h */,
-				049725FF18FD580300625326 /* genQRcodes.m */,
+				0478A56B22AC3DBA00331696 /* genQRcodesCI.h */,
+				0478A56A22AC3DB900331696 /* genQRcodesCI.m */,
 				0497260018FD580300625326 /* VideoInput.h */,
 				0497260118FD580300625326 /* VideoInput.m */,
 				0497260218FD580300625326 /* VideoOutputView.h */,
@@ -493,8 +482,6 @@
 		04B58F36183A3D3800360A61 /* thirdParty */ = {
 			isa = PBXGroup;
 			children = (
-				04B58F37183A3D5300360A61 /* libzbar.0.dylib */,
-				04B58F38183A3D5300360A61 /* libzint.dylib */,
 			);
 			name = thirdParty;
 			sourceTree = "<group>";
@@ -706,11 +693,9 @@
 				0497263818FD592C00625326 /* DocumentView.m in Sources */,
 				04BFC60B1AD3E0A20061972D /* CommonAppDelegate.m in Sources */,
 				049725E018FD563E00625326 /* RunStatusView.m in Sources */,
-				0497260A18FD580300625326 /* genQRcodes.m in Sources */,
 				04EEC1D019DC4D9E0056899C /* NetworkOutputView.m in Sources */,
 				04F9AA9B1AACF95D00AE5413 /* DownloadCalibrationViewController.m in Sources */,
 				049725E818FD568A00625326 /* HardwareRunManager.m in Sources */,
-				0497260918FD580300625326 /* findQRcodes.mm in Sources */,
 				049725DD18FD563E00625326 /* BaseRunManager.m in Sources */,
 				041714DD19DDEF340019FA45 /* NetworkProtocol.m in Sources */,
 				0497261318FD581700625326 /* VideoMonoRunManager.m in Sources */,
@@ -730,6 +715,7 @@
 				04068ED11AA47CD5004EF502 /* DeviceDescription.m in Sources */,
 				049725DF18FD563E00625326 /* RunCollector.m in Sources */,
 				0497260B18FD580300625326 /* VideoInput.m in Sources */,
+				0478A56C22AC3DBA00331696 /* genQRcodesCI.m in Sources */,
 				0497263618FD592C00625326 /* Document.m in Sources */,
 				04FFFC5D1AB2F02B0023ED13 /* PythonLoader.m in Sources */,
 				0497260F18FD580300625326 /* VideoSelectionView.m in Sources */,

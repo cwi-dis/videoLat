@@ -6,13 +6,8 @@
 //
 
 #import "VideoRunManager.h"
-#ifdef WITH_UIKIT
 #import "FindQRcodesCI.h"
 #import "genQRcodesCI.h"
-#else
-#import "findQRcodes.h"
-#import "genQRcodes.h"
-#endif
 #import "EventLogger.h"
 #import <sys/sysctl.h>
 
