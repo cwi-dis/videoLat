@@ -77,4 +77,9 @@
 #endif
 }
 
+- (void)gen:(void *)buffer width:(int)width height:(int)height code:(const char *)code {
+    showWarningAlert(@"getQRcodesCI: incorrect generator called");
+}
+
+
 @end
