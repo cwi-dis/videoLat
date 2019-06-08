@@ -1,8 +1,12 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="InputSelectionViewController">
@@ -14,11 +18,11 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB">
-            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jq6-xb-SVM" customClass="AudioSelectionView">
-                    <rect key="frame" x="0.0" y="61" width="600" height="539"/>
+                    <rect key="frame" x="0.0" y="61" width="375" height="606"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Input Device:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1E6-Gs-ncN">
                             <rect key="frame" x="8" y="35" width="101" height="21"/>
@@ -39,40 +43,40 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" text="unknown, probably default" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7d5-xx-HrS">
-                            <rect key="frame" x="140" y="35" width="460" height="21"/>
+                            <rect key="frame" x="140" y="35" width="235" height="21"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="unknown, probably default" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k1C-0g-XFD">
-                            <rect key="frame" x="140" y="6" width="460" height="21"/>
+                            <rect key="frame" x="140" y="6" width="235" height="21"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progressViewStyle="bar" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="MPT-x4-Iac">
-                            <rect key="frame" x="140" y="74" width="440" height="3"/>
+                            <rect key="frame" x="140" y="74" width="215" height="2.5"/>
                         </progressView>
                         <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QJo-g3-EMP">
-                            <rect key="frame" x="20" y="178" width="560" height="162"/>
+                            <rect key="frame" x="20" y="137" width="335" height="216"/>
                         </pickerView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Select calibration:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wfc-Zs-VBX">
-                            <rect key="frame" x="226" y="149" width="138" height="21"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Select Audio Sample:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SjC-9b-drW">
-                            <rect key="frame" x="218" y="348" width="165" height="21"/>
+                            <rect key="frame" x="114" y="108" width="137" height="21"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="c3D-rW-XYu">
-                            <rect key="frame" x="20" y="377" width="560" height="162"/>
+                            <rect key="frame" x="20" y="390" width="335" height="216"/>
                         </pickerView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Select Audio Sample:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SjC-9b-drW">
+                            <rect key="frame" x="107" y="361" width="162.5" height="21"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
                     </subviews>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstItem="7d5-xx-HrS" firstAttribute="top" secondItem="k1C-0g-XFD" secondAttribute="bottom" constant="8" symbolic="YES" id="3jn-g9-8iv"/>
                         <constraint firstAttribute="centerX" secondItem="SjC-9b-drW" secondAttribute="centerX" constant="-0.5" id="426-zM-DBd"/>
@@ -123,9 +127,7 @@
                         <outlet property="bBase" destination="QJo-g3-EMP" id="SI6-HU-VfW"/>
                         <outlet property="bBaseLabel" destination="Wfc-Zs-VBX" id="wKl-Wr-bMd"/>
                         <outlet property="bInputDeviceName" destination="7d5-xx-HrS" id="pqJ-mm-wiM"/>
-                        <outlet property="bOutputDeviceName" destination="k1C-0g-XFD" id="RWO-aG-sKj"/>
                         <outlet property="inputHandler" destination="1mF-Lb-Fyu" id="U9Z-sX-eaS"/>
-                        <outlet property="selectionDelegate" destination="-1" id="ZTb-Mx-6Ui"/>
                     </connections>
                 </view>
             </subviews>
@@ -135,6 +137,7 @@
                 <constraint firstItem="Jq6-xb-SVM" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="61" id="pLp-Pg-1W3"/>
                 <constraint firstItem="Jq6-xb-SVM" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="uBO-NR-gJc"/>
             </constraints>
+            <point key="canvasLocation" x="55.200000000000003" y="48.125937031484263"/>
         </view>
         <customObject id="1mF-Lb-Fyu" customClass="AudioInput">
             <connections>
