@@ -12,12 +12,12 @@ INST=`(cd thirdParty/installed ; pwd)`
 PATH=$INST/bin:$PATH
 
 #
-# Check for libpng15
+# Check for libpng16
 #
-if test -f thirdParty/libpng-1.5.22/configure; then
-	echo libpng 1.5 sources found, building local copy
+if test -f thirdParty/libpng-1.6.*/configure; then
+	echo libpng 1.6 sources found, building local copy
 	(
-		cd thirdParty/libpng-1.5.22
+		cd thirdParty/libpng-1.6.*
 		./configure \
 			--prefix=$INST \
 			CFLAGS="-arch i386 -arch x86_64" \
@@ -27,14 +27,14 @@ if test -f thirdParty/libpng-1.5.22/configure; then
 		make
 		make install
 	)
-elif (libpng15-config --version > /dev/null 2>&1); then
-	echo libpng 1.5 installed correctly, probably systemwide.
+elif (libpng16-config --version > /dev/null 2>&1); then
+	echo libpng 1.6 installed correctly, probably systemwide.
 	echo **WARNING: this is not suitable for creating a distribution of videoLat
 
 else
-	echo libpng 1.5 not installed.
-	echo Please download from http://sourceforge.net/projects/libpng/files/libpng15/
-	echo Then unpack into thirdParty/libpng-1.5.22 and re-run this script.
+	echo libpng 1.6 not installed.
+	echo Please download from http://sourceforge.net/projects/libpng/files/libpng16/
+	echo Then unpack into thirdParty/libpng-1.6.xxx and re-run this script.
 	exit 1
 fi
 
@@ -66,10 +66,13 @@ fi
 # Build zint
 #
 (
-	cd thirdParty/zint-2.4.3
-	make clean
-	make prefix=$INST
-	make install prefix=$INST
+	cd thirdParty/zint-2.6.3.src
+	rm -fr build
+	mkdir build
+	cd build
+	cmake .. -DCMAKE_INSTALL_PREFIX=$INST
+	make
+	make install
 )
 #
 # Build videoLat
