@@ -48,9 +48,9 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="RTT:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="adq-pi-9Lg">
-                            <rect key="frame" x="8" y="64" width="34" height="21"/>
+                            <rect key="frame" x="8" y="64" width="92" height="21"/>
                             <constraints>
-                                <constraint firstAttribute="width" constant="34" id="lkQ-ZH-iSM"/>
+                                <constraint firstAttribute="width" constant="92" id="Umj-ZW-LhF"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -67,17 +67,17 @@
                     <constraints>
                         <constraint firstItem="KKT-fE-pMS" firstAttribute="leading" secondItem="u9e-0E-c4l" secondAttribute="leading" id="0Wo-Sq-RpB"/>
                         <constraint firstItem="KKT-fE-pMS" firstAttribute="baseline" secondItem="vzl-Xy-K93" secondAttribute="baseline" id="6Gb-JA-nGM"/>
-                        <constraint firstItem="u9e-0E-c4l" firstAttribute="leading" secondItem="adq-pi-9Lg" secondAttribute="leading" id="CZ3-an-EYo"/>
+                        <constraint firstItem="adq-pi-9Lg" firstAttribute="top" secondItem="u9e-0E-c4l" secondAttribute="bottom" constant="8" symbolic="YES" id="8wP-ku-oGK"/>
                         <constraint firstItem="KKT-fE-pMS" firstAttribute="top" secondItem="YgM-JI-wCV" secondAttribute="top" constant="6" id="JTh-yr-Jk5"/>
+                        <constraint firstItem="adq-pi-9Lg" firstAttribute="leading" secondItem="u9e-0E-c4l" secondAttribute="leading" id="KUn-Ff-poq"/>
                         <constraint firstItem="KKT-fE-pMS" firstAttribute="leading" secondItem="YgM-JI-wCV" secondAttribute="leadingMargin" id="NHi-iQ-vJt"/>
+                        <constraint firstItem="adq-pi-9Lg" firstAttribute="trailing" secondItem="KKT-fE-pMS" secondAttribute="trailing" id="RpB-K3-C9c"/>
                         <constraint firstItem="u9e-0E-c4l" firstAttribute="baseline" secondItem="Dba-fm-tcE" secondAttribute="baseline" id="Tz6-E1-8XX"/>
-                        <constraint firstItem="vqN-gv-vKc" firstAttribute="leading" secondItem="adq-pi-9Lg" secondAttribute="trailing" constant="75" id="Uu7-09-9uJ"/>
-                        <constraint firstItem="adq-pi-9Lg" firstAttribute="top" secondItem="u9e-0E-c4l" secondAttribute="bottom" constant="8" symbolic="YES" id="cFx-5B-eAz"/>
                         <constraint firstItem="vzl-Xy-K93" firstAttribute="leading" secondItem="Dba-fm-tcE" secondAttribute="leading" id="dJD-VD-n0R"/>
                         <constraint firstItem="Dba-fm-tcE" firstAttribute="leading" secondItem="vqN-gv-vKc" secondAttribute="leading" id="hrS-N7-7rD"/>
                         <constraint firstItem="u9e-0E-c4l" firstAttribute="centerY" secondItem="YgM-JI-wCV" secondAttribute="centerY" id="liG-jj-kMO"/>
                         <constraint firstItem="Dba-fm-tcE" firstAttribute="leading" secondItem="u9e-0E-c4l" secondAttribute="trailing" constant="54" id="r3f-Dv-yuz"/>
-                        <constraint firstItem="adq-pi-9Lg" firstAttribute="baseline" secondItem="vqN-gv-vKc" secondAttribute="baseline" id="rk2-uS-Fj7"/>
+                        <constraint firstItem="adq-pi-9Lg" firstAttribute="baseline" secondItem="vqN-gv-vKc" secondAttribute="baseline" id="vtn-32-JBm"/>
                         <constraint firstItem="vzl-Xy-K93" firstAttribute="leading" secondItem="KKT-fE-pMS" secondAttribute="trailing" constant="17" id="y0Q-hS-YuB"/>
                         <constraint firstItem="u9e-0E-c4l" firstAttribute="top" secondItem="KKT-fE-pMS" secondAttribute="bottom" constant="8" symbolic="YES" id="yOB-2d-ELz"/>
                     </constraints>
