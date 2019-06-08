@@ -16,33 +16,6 @@ PATH=$INST/bin:$XCODEDEV/Platforms/iPhoneOS.platform/Developer/usr/bin:$XCODEDEV
 CFLAGS="-arch arm64 -isysroot $XCODEDEV/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS$IOSVERSION.sdk"
 PKG_CONFIG_LIBDIR=$INST/lib/pkgconfig
 
-#
-# Check for libpng15
-#
-if test -f thirdParty/libpng-1.6.*/configure; then
-	echo libpng 1.6 sources found, building local copy
-	(
-		cd thirdParty/libpng-1.6.*
-		./configure \
-			--host=arm \
-			--prefix=$INST \
-			--disable-arm-neon \
-			CFLAGS="$CFLAGS" \
-			CXXFLAGS="$CFLAGS" \
-			LDFLAGS="$CFLAGS"
-		make clean
-		make
-		make install
-	)
-elif (libpng15-config --version > /dev/null 2>&1); then
-	echo libpng 1.6 should be slurped for iPhone development
-	exit 1
-else
-	echo libpng 1.6 installed.
-	echo Please download from http://sourceforge.net/projects/libpng/files/libpng15/
-	echo Then unpack into thirdParty/libpng-1.6.* and re-run this script.
-	exit 1
-fi
 
 #
 # Build videoLat

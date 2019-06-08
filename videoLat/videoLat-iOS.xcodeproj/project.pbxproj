@@ -53,9 +53,7 @@
 		0462CC171AC2F0E00077383B /* VideoCalibrationRun.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0462CC161AC2F0E00077383B /* VideoCalibrationRun.xib */; };
 		0472F3B11ADC08FB00415BA9 /* EventLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 0472F3B01ADC08FB00415BA9 /* EventLogger.m */; };
 		0478E1391AB9B7D80057548C /* OpenDocumentTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0478E1381AB9B7D80057548C /* OpenDocumentTableViewController.m */; };
-		0478E16D1ABF7DFB0057548C /* libpng16.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0478E16A1ABF7DFB0057548C /* libpng16.a */; };
 		0478E1711ABF7E250057548C /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0478E1701ABF7E250057548C /* libz.dylib */; };
-		0478E1751ABF7FD20057548C /* libpng16.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0478E1721ABF7FD20057548C /* libpng16.a */; };
 		0478E1781ABF808C0057548C /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0478E1471ABF6F240057548C /* libiconv.dylib */; };
 		04AEE2E522AC08830016DD82 /* FindQRcodesCI.m in Sources */ = {isa = PBXBuildFile; fileRef = 04AEE2E322AC08830016DD82 /* FindQRcodesCI.m */; };
 		04AEE2E622AC08830016DD82 /* genQRcodesCI.m in Sources */ = {isa = PBXBuildFile; fileRef = 04AEE2E422AC08830016DD82 /* genQRcodesCI.m */; };
@@ -177,9 +175,7 @@
 		0478E1371AB9B7D80057548C /* OpenDocumentTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OpenDocumentTableViewController.h; path = src/iOS/OpenDocumentTableViewController.h; sourceTree = SOURCE_ROOT; };
 		0478E1381AB9B7D80057548C /* OpenDocumentTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OpenDocumentTableViewController.m; path = src/iOS/OpenDocumentTableViewController.m; sourceTree = SOURCE_ROOT; };
 		0478E1471ABF6F240057548C /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
-		0478E16A1ABF7DFB0057548C /* libpng16.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libpng16.a; path = "thirdParty/installed-iossim/lib/libpng16.a"; sourceTree = "<group>"; };
 		0478E1701ABF7E250057548C /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
-		0478E1721ABF7FD20057548C /* libpng16.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libpng16.a; path = "thirdParty/installed-ios/lib/libpng16.a"; sourceTree = "<group>"; };
 		048BFCCA1AB2EE2C0026D104 /* videoLat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = videoLat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		048BFCE31AB2EE2C0026D104 /* videoLat-iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "videoLat-iOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		04AEE2E122AC08820016DD82 /* FindQRcodesCI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FindQRcodesCI.h; path = src/VideoRun/FindQRcodesCI.h; sourceTree = SOURCE_ROOT; };
@@ -223,9 +219,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0478E1781ABF808C0057548C /* libiconv.dylib in Frameworks */,
-				0478E1751ABF7FD20057548C /* libpng16.a in Frameworks */,
 				0478E1711ABF7E250057548C /* libz.dylib in Frameworks */,
-				0478E16D1ABF7DFB0057548C /* libpng16.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -418,7 +412,6 @@
 		0478E13A1ABF6A670057548C /* thirdParty-iOS */ = {
 			isa = PBXGroup;
 			children = (
-				0478E1721ABF7FD20057548C /* libpng16.a */,
 			);
 			name = "thirdParty-iOS";
 			sourceTree = "<group>";
@@ -437,7 +430,6 @@
 		0478E14A1ABF718C0057548C /* thirdParty-iOSsim */ = {
 			isa = PBXGroup;
 			children = (
-				0478E16A1ABF7DFB0057548C /* libpng16.a */,
 			);
 			name = "thirdParty-iOSsim";
 			sourceTree = "<group>";
