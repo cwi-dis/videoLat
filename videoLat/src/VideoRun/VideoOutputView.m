@@ -21,6 +21,74 @@
 
 @synthesize mirrored;
 
+#ifdef WITH_APPKIT
+//
+// Returns the io_service_t corresponding to a CG display ID, or 0 on failure.
+// The io_service_t should be released with IOObjectRelease when not needed.
+//
+// This function was grabbed from github.com/glfw/glfw, and it has pretty much the same
+// functionality as the CGDisplayIOServicePort() function that Apple deprecated in 10.9.
+//
+static io_service_t IOServicePortFromCGDisplayID(CGDirectDisplayID displayID)
+{
+    io_iterator_t iter;
+    io_service_t serv, servicePort = 0;
+    
+    CFMutableDictionaryRef matching = IOServiceMatching("IODisplayConnect");
+    
+    // releases matching for us
+    kern_return_t err = IOServiceGetMatchingServices(kIOMasterPortDefault,
+                                                     matching,
+                                                     &iter);
+    if (err)
+    {
+        return 0;
+    }
+    
+    while ((serv = IOIteratorNext(iter)) != 0)
+    {
+        CFDictionaryRef info;
+        CFIndex vendorID, productID;
+        CFNumberRef vendorIDRef, productIDRef;
+        Boolean success;
+        
+        info = IODisplayCreateInfoDictionary(serv,
+                                             kIODisplayOnlyPreferredName);
+        
+        vendorIDRef = CFDictionaryGetValue(info,
+                                           CFSTR(kDisplayVendorID));
+        productIDRef = CFDictionaryGetValue(info,
+                                            CFSTR(kDisplayProductID));
+        
+        success = CFNumberGetValue(vendorIDRef, kCFNumberCFIndexType,
+                                   &vendorID);
+        success &= CFNumberGetValue(productIDRef, kCFNumberCFIndexType,
+                                    &productID);
+        
+        if (!success)
+        {
+            CFRelease(info);
+            continue;
+        }
+        
+        if (CGDisplayVendorNumber(displayID) != vendorID ||
+            CGDisplayModelNumber(displayID) != productID)
+        {
+            CFRelease(info);
+            continue;
+        }
+        
+        // we're a match
+        servicePort = serv;
+        CFRelease(info);
+        break;
+    }
+    
+    IOObjectRelease(iter);
+    return servicePort;
+}
+
+#endif
 + (NSArray *) allDeviceTypeIDs
 {
 #ifdef WITH_APPKIT
@@ -31,7 +99,7 @@
         NSDictionary *screenDescription = [d deviceDescription];
         NSNumber *screenNumber = [screenDescription objectForKey:@"NSScreenNumber"];
         CGDirectDisplayID aID = [screenNumber unsignedIntValue];
-        io_service_t displayPort = CGDisplayIOServicePort(aID);
+        io_service_t displayPort = IOServicePortFromCGDisplayID(aID);
         NSDictionary *dict = (NSDictionary *)CFBridgingRelease(IODisplayCreateInfoDictionary(displayPort, 0));
         NSDictionary *names = [dict objectForKey:[NSString stringWithUTF8String:kDisplayProductName]];
         if (VL_DEBUG) NSLog(@"Names %@", names);
