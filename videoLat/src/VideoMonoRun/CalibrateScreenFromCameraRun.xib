@@ -6,17 +6,9 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <customObject id="-2" userLabel="File's Owner" customClass="NewMeasurementView">
-            <connections>
-                <outlet property="measurementWindow" destination="159" id="227"/>
-                <outlet property="outputView" destination="2" id="66"/>
-                <outlet property="runManager" destination="1" id="67"/>
-                <outlet property="runManagerView" destination="160" id="228"/>
-                <outlet property="selectionView" destination="4" id="65"/>
-            </connections>
-        </customObject>
+        <customObject id="-2" userLabel="File's Owner" customClass="NewMeasurementView"/>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
-        <customObject id="-3" userLabel="Application"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customObject id="1" customClass="VideoMonoRunManager">
             <connections>
                 <outlet property="bInputNumericMaxValue" destination="126" id="155"/>
@@ -344,7 +336,6 @@
                             <outlet property="bDevices" destination="11" id="113"/>
                             <outlet property="bPreRun" destination="5" id="60"/>
                             <outlet property="inputHandler" destination="3" id="59"/>
-                            <outlet property="selectionDelegate" destination="1" id="243"/>
                         </connections>
                     </customView>
                     <view translatesAutoresizingMaskIntoConstraints="NO" id="2" customClass="VideoOutputView">

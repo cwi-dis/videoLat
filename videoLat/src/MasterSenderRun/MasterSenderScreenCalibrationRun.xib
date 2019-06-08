@@ -6,15 +6,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <customObject id="-2" userLabel="File's Owner" customClass="NewMeasurementView">
-            <connections>
-                <outlet property="measurementWindow" destination="273" id="337"/>
-                <outlet property="outputView" destination="2" id="66"/>
-                <outlet property="runManager" destination="125" id="228"/>
-                <outlet property="runManagerView" destination="274" id="338"/>
-                <outlet property="selectionView" destination="4" id="65"/>
-            </connections>
-        </customObject>
+        <customObject id="-2" userLabel="File's Owner" customClass="NewMeasurementView"/>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customObject id="125" customClass="NetworkRunManager">
@@ -180,7 +172,6 @@
                             <outlet property="bOurStatus" destination="151" id="208"/>
                             <outlet property="bPreRun" destination="5" id="60"/>
                             <outlet property="bRTT" destination="215" id="227"/>
-                            <outlet property="selectionDelegate" destination="125" id="355"/>
                         </connections>
                     </customView>
                     <customView translatesAutoresizingMaskIntoConstraints="NO" id="275" customClass="RunStatusView">

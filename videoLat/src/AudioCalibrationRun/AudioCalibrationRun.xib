@@ -6,19 +6,12 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <customObject id="-2" userLabel="File's Owner" customClass="NewMeasurementView">
-            <connections>
-                <outlet property="measurementWindow" destination="327" id="387"/>
-                <outlet property="runManagerView" destination="328" id="392"/>
-            </connections>
-        </customObject>
+        <customObject id="-2" userLabel="File's Owner" customClass="NewMeasurementView"/>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
-        <customObject id="-3" userLabel="Application"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customObject id="1" customClass="AudioCalibrationRunManager">
             <connections>
                 <outlet property="bDetection" destination="311" id="318"/>
-                <outlet property="bPreRun" destination="5" id="145"/>
-                <outlet property="bRun" destination="6" id="146"/>
                 <outlet property="capturer" destination="217" id="277"/>
                 <outlet property="clock" destination="217" id="278"/>
                 <outlet property="collector" destination="400" id="401"/>
@@ -67,7 +60,7 @@
                                 </constraints>
                                 <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="223">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
+                                    <font key="font" metaFont="menu"/>
                                     <menu key="menu" title="OtherViews" id="224"/>
                                 </popUpButtonCell>
                                 <connections>
@@ -327,7 +320,6 @@
                             <outlet property="bDevices" destination="158" id="326"/>
                             <outlet property="bPreRun" destination="5" id="60"/>
                             <outlet property="inputHandler" destination="217" id="218"/>
-                            <outlet property="selectionDelegate" destination="1" id="403"/>
                         </connections>
                     </customView>
                 </subviews>

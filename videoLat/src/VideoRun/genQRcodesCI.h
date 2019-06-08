@@ -18,6 +18,6 @@
 }
 
 - (GenQRcodesCI*)init;
-- (CIImage *) genImageForCode: (NSString *)code;
+- (CIImage *) genImageForCode: (NSString *)code size:(int)size;
 
 @end

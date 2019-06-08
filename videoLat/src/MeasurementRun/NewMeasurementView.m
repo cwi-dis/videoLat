@@ -68,7 +68,7 @@
 
 - (IBAction)doMeasurement:(id)sender
 {
-    NSLog(@"User pressed OK");
+    NSLog(@"NewMeasurementView.doMeasurement");
     NSString *typeName = [bType titleOfSelectedItem];
     [[NSUserDefaults standardUserDefaults] setObject:typeName forKey:@"measurementType"];
 
@@ -97,7 +97,6 @@
     assert(self.runManagerView.runManager);
     assert([self.runManagerView.runManager class] == runClass);
     [self.runManagerView.runManager selectMeasurementType: typeName];
-    NSLog(@"Should hide NewMeasurementView window....");
     [[self.runManagerView window] setDelegate: self];
 	[[[self view] window] orderOut:self];
 }

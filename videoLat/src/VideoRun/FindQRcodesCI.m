@@ -1,5 +1,5 @@
 //
-//  findQRcodesCI.m
+//  FindQRcodesCI.m
 //  videoLat-iOS
 //
 //  Created by Jack Jansen on 30/04/15.

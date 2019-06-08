@@ -139,7 +139,7 @@
 /// Generate CIImage with a detectable pattern.
 /// @param code NSString with the code to generate
 /// @return the CIImage created
-- (CIImage *) genImageForCode: (NSString *)code;
+- (CIImage *) genImageForCode: (NSString *)code size: (int)size;
 @end
 
 ///

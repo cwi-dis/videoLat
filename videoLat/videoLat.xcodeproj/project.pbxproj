@@ -814,7 +814,7 @@
 				OTHER_CODE_SIGN_FLAGS = "--deep";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx;
-				USER_HEADER_SEARCH_PATHS = thirdParty/installed/include;
+				USER_HEADER_SEARCH_PATHS = "";
 				VIDEOLAT_VERSION = 2.1;
 			};
 			name = Distribution;
@@ -830,7 +830,6 @@
 				INFOPLIST_FILE = "src/mac/videoLat-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/thirdParty/installed/lib\"",
 					"\"$(SYSTEM_LIBRARY_DIR)/Frameworks/Python.framework/Versions/2.7/lib/python2.7/config\"",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "nl.cwi.${PRODUCT_NAME:rfc1034identifier}";
@@ -892,7 +891,7 @@
 				OTHER_CODE_SIGN_FLAGS = "--deep";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx;
-				USER_HEADER_SEARCH_PATHS = thirdParty/installed/include;
+				USER_HEADER_SEARCH_PATHS = "";
 				VIDEOLAT_VERSION = 2.1;
 			};
 			name = Debug;
@@ -941,7 +940,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				OTHER_CODE_SIGN_FLAGS = "--deep";
 				SDKROOT = macosx;
-				USER_HEADER_SEARCH_PATHS = thirdParty/installed/include;
+				USER_HEADER_SEARCH_PATHS = "";
 				VIDEOLAT_VERSION = 2.1;
 			};
 			name = Release;
@@ -957,7 +956,6 @@
 				INFOPLIST_FILE = "src/mac/videoLat-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/thirdParty/installed/lib\"",
 					"\"$(SYSTEM_LIBRARY_DIR)/Frameworks/Python.framework/Versions/2.7/lib/python2.7/config\"",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "nl.cwi.${PRODUCT_NAME:rfc1034identifier}";
@@ -978,7 +976,6 @@
 				INFOPLIST_FILE = "src/mac/videoLat-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/thirdParty/installed/lib\"",
 					"\"$(SYSTEM_LIBRARY_DIR)/Frameworks/Python.framework/Versions/2.7/lib/python2.7/config\"",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "nl.cwi.${PRODUCT_NAME:rfc1034identifier}";
