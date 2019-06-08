@@ -84,16 +84,7 @@
     // We have a Nib. Load it, and it will alloc the manager object, we
     // only have to find it (by class)
     NSArray *newObjects;
-#if __MAC_OS_X_VERSION_MAX_ALLOWED >= 1080
-    if ([[NSBundle mainBundle] respondsToSelector:@selector(loadNibNamed:owner:topLevelObjects:)]) {
-        ok = [[NSBundle mainBundle] loadNibNamed: runClassNib owner: self topLevelObjects: &newObjects];
-    } else
-#endif
-    {
-        newObjects = [[NSMutableArray alloc] initWithCapacity:10];
-        
-        ok = [NSBundle loadNibNamed:runClassNib owner:self];
-    }
+    ok = [[NSBundle mainBundle] loadNibNamed: runClassNib owner: self topLevelObjects: &newObjects];
     if (!ok) {
         showWarningAlert([NSString stringWithFormat:@"NIB missing for measurement type %@", typeName]);
         [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"measurementType"];

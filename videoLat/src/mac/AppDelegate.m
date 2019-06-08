@@ -81,17 +81,9 @@
 {
 	if (self.newdocWindow == nil) {
 		BOOL ok;
-	#if __MAC_OS_X_VERSION_MAX_ALLOWED >= 1080
-		if ([[NSBundle mainBundle] respondsToSelector:@selector(loadNibNamed:owner:topLevelObjects:)]) {
-			NSArray *newObjects;
-			ok = [[NSBundle mainBundle] loadNibNamed: @"NewMeasurementView" owner: self topLevelObjects: &newObjects];
-			objectsForNewDocument = newObjects;
-		} else
-	#endif
-		{
-			ok = [NSBundle loadNibNamed:@"NewMeasurementView" owner:self];
-			objectsForNewDocument = [[NSMutableArray alloc] init];
-		}
+        NSArray *newObjects;
+        ok = [[NSBundle mainBundle] loadNibNamed: @"NewMeasurementView" owner: self topLevelObjects: &newObjects];
+        objectsForNewDocument = newObjects;
 		if (!ok) {
 			NSLog(@"Could not open NewMeasurement NIB file");
 			

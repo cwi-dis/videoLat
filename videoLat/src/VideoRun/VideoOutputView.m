@@ -141,7 +141,7 @@ static io_service_t IOServicePortFromCGDisplayID(CGDirectDisplayID displayID)
 	NSDictionary *screenDescription = [screen deviceDescription];
 	NSNumber *screenNumber = [screenDescription objectForKey:@"NSScreenNumber"];
     CGDirectDisplayID aID = [screenNumber unsignedIntValue];
-    io_service_t displayPort = CGDisplayIOServicePort(aID);
+    io_service_t displayPort = IOServicePortFromCGDisplayID(aID);
     NSDictionary *dict = (NSDictionary *)CFBridgingRelease(IODisplayCreateInfoDictionary(displayPort, 0));
     NSDictionary *names = [dict objectForKey:[NSString stringWithUTF8String:kDisplayProductName]];
 	if (VL_DEBUG) NSLog(@"Names %@", names);

@@ -104,7 +104,7 @@
 		// Extract results
 		for(zbar::Image::SymbolIterator symbol = greyImage.symbol_begin();
 			symbol != greyImage.symbol_end();
-			++symbol)
+        /* ++symbol not needed: will run at most once */)
 		{
 			std::string decoded = symbol->get_data();
             int x=0, y=0, i=0;
@@ -119,8 +119,9 @@
                 if (y>maxy) maxy = y;
                 i++;
             } while (x>=0 && y>=0);
-            if (i >= 3) 
+            if (i >= 3) {
                 rect = NSorUIMakeRect(minx, miny, (maxx-minx), (maxy-miny));
+            }
             lastCode = [NSString stringWithUTF8String:decoded.c_str()];
 			return lastCode;
 		}

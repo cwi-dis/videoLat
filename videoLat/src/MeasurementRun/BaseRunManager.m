@@ -203,26 +203,26 @@ static NSMutableDictionary *runManagerSelectionNibs;
 				NSString *hwName = [[MachineDescription thisMachine] machineTypeID];
 				// For all runs that are not single-ended clibrations the hardware platform should match the one in the calibration run
                 if (handlesOutput && !self.measurementType.outputOnlyCalibration && ![baseStore.output.machineTypeID isEqualToString:hwName]) {
-                    errorMessage = [NSString stringWithFormat:@"Base measurement output done on %@, current hardware is %@", baseStore.output.machineTypeID, hwName];
+                    errorMessage = [NSString stringWithFormat:@"Current machine is %@, otput base measurement done on %@", hwName, baseStore.output.machineTypeID];
                 }
                 if (handlesInput && !self.measurementType.inputOnlyCalibration && ![baseStore.input.machineTypeID isEqualToString:hwName]) {
-                    errorMessage = [NSString stringWithFormat:@"Base measurement input done on %@, current hardware is %@", baseStore.input.machineTypeID, hwName];
+                    errorMessage = [NSString stringWithFormat:@"Current machine is %@, input base measurement done on %@", hwName, baseStore.input.machineTypeID];
                 }
                 // For runs where we are responsible for input the input device should match
 				assert(self.capturer);
                 if (!self.measurementType.inputOnlyCalibration && ![baseStore.input.deviceID isEqualToString:self.capturer.deviceID]) {
-                    errorMessage = [NSString stringWithFormat:@"Base measurement uses input %@, current measurement uses %@", baseStore.input.device, self.capturer.deviceName];
+                    errorMessage = [NSString stringWithFormat:@"Input %@ selected, base measurement done with %@", self.capturer.deviceName, baseStore.input.device];
                 }
 				if (handlesOutput) {
 					assert(self.outputView);
 				}
 				// For runs where we are responsible for output the output device should match
                 if (!self.measurementType.outputOnlyCalibration && ![baseStore.output.deviceID isEqualToString:self.outputView.deviceID]) {
-					errorMessage = [NSString stringWithFormat:@"Base measurement uses output %@, current measurement uses %@", baseStore.output.device, self.outputView.deviceName];
+					errorMessage = [NSString stringWithFormat:@"Output %@ selected, base measurement done with %@", self.outputView.deviceName, baseStore.output.device];
 				}
 			}
 			if (errorMessage) {
-				showWarningAlert(@"Base calibration does not match selected device(s)");
+				showWarningAlert(errorMessage);
 			}
 			[self.collector.dataStore useCalibration:baseStore];
 				
