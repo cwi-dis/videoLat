@@ -66,29 +66,39 @@
 - (void) _doDelete:(id)dummy
 {
 	NSString *message = [NSString stringWithFormat:@"Are you sure you want to delete %@?", [self.document.fileURL lastPathComponent]];
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Delete Measurement"
-                            message:message
-                           delegate:self
-                  cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
-                  otherButtonTitles:NSLocalizedString(@"Delete", nil), nil];
-	[alert show];
-}
-
-- (void)alertView:(UIAlertView *)alertView
-didDismissWithButtonIndex:(NSInteger)buttonIndex
-{
-	if (buttonIndex > 0) {
-		NSURL *url = self.document.fileURL;
-		NSFileManager *fm = [NSFileManager defaultManager];
-
-		NSError *error;
-		BOOL ok = [fm removeItemAtURL:url error:&error];
-		if (!ok) {
-			showErrorAlert(error);
-			return;
-		}
-		[self performSegueWithIdentifier:@"unwindToMainMenu" sender:self];
-	}
+    UIAlertController * alert = [UIAlertController
+                                 alertControllerWithTitle:@"Delete Measurement"
+                                 message:message
+                                 preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction* cancel = [UIAlertAction
+                         actionWithTitle:@"Cancel"
+                         style:UIAlertActionStyleDefault
+                         handler:^(UIAlertAction * action)
+                         {
+                             [alert dismissViewControllerAnimated:YES completion:nil];
+                         }];
+    
+    [alert addAction:cancel];
+    UIAlertAction* ok = [UIAlertAction
+                         actionWithTitle:@"Delete"
+                         style:UIAlertActionStyleDefault
+                         handler:^(UIAlertAction * action)
+                         {
+                             [alert dismissViewControllerAnimated:YES completion:nil];
+                             NSURL *url = self.document.fileURL;
+                             NSFileManager *fm = [NSFileManager defaultManager];
+                             
+                             NSError *error;
+                             BOOL ok = [fm removeItemAtURL:url error:&error];
+                             if (!ok) {
+                                 showErrorAlert(error);
+                                 return;
+                             }
+                             [self performSegueWithIdentifier:@"unwindToMainMenu" sender:self];
+                         }];
+    
+    [alert addAction:ok];
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 - (IBAction)documentUpload:(UIStoryboardSegue *)sender
