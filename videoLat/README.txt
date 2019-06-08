@@ -35,6 +35,7 @@ on <http://videolat.org>.
 
 Change Log
 ==========
+2.1: Use CoreImage (get rid of3rd party libs) and ported to newer OSX/iOS
 2.0.3: CSV export failed if there were non-ASCII characters
 2.0: iOS port, one-way measurements, UI revamp
 1.0.3: Source-only, includes building the Doxygen documentation
@@ -76,85 +77,21 @@ read the next section.
 Build Instructions for OSX, detailed
 ====================================
 
-To build videoLat from source you need a Mac (10.7 or later, capable of running
-64-bit applications).
-You need three third party packages:
+To build videoLat from source you need a Mac (10.12 or later).
+Unlike older videoLat release you don't need any external libraries.
 
-- zbar (version 0.10 tested) for barcode generation
-- zint (version 2.4.3 tested) for barcode detection
-
-The first two should be included in a videoLat source distribution in the thirdParty
-subdirectory.
-
-You also need libpng 1.5, download from http://sourceforge.net/projects/libpng/files/libpng15/
-and put the source tree in thirdParty/libpng-1.5.22. 
-
-    (Actually, on 10.7 or earlier there is an Apple-installed libpng in te
-    X11 package, so you don't have to download and build libpng unless you
-    want to distribute your built binaries to systems running 10.8 or later).
-
-Build the third-party packages:
-1. Build libpng with:
-	% mkdir thirdParty/installed
-	% INST=`(cd thirdParty/installed ; pwd)`
-	% cd thirdParty/libpng-1.5.22
-	% ./configure \
-		--prefix=$INST \
-		CFLAGS="-arch i386 -arch x86_64" \
-		CXXFLAGS="-arch i386 -arch x86_64" \
-		LDFLAGS="-arch i386 -arch x86_64"
-	% make
-	% make install
-2. Build zbar with:
-	% mkdir thirdParty/installed
-	% INST=`(cd thirdParty/installed ; pwd)`
-	% cd thirdParty/zbar-0.10-src
-	% ./configure \
-		--disable-dependency-tracking \
-		--disable-video \
-		--without-gtk \
-		--without-qt \
-		--without-xv \
-		--without-imagemagick \
-		--without-x \
-		--without-xshm \
-		--without-python \
-		--prefix=$INST \
-		CFLAGS="-arch i386 -arch x86_64" \
-		CXXFLAGS="-arch i386 -arch x86_64" \
-		LDFLAGS="-arch i386 -arch x86_64"
-	% make
-	% make install
-
-3. Build zint with:
-	% mkdir thirdParty/installed
-	% INST=`(cd thirdParty/installed ; pwd)`
-	% cd thirdParty/zint-2.4.3
-	% make prefix=$INST
-	% make install prefix=$INST
-	
-   Alternatively you could use cmake but it doesn't work for me anymore:
-	% cd thirdParty/zint-2.4.3
-	% export PATH=/opt/local/bin:$PATH
-	% mkdir build
-	% cd build
-	% export CMAKE_OSX_ARCHITECTURES="i386;x86_64"
-	% cmake ..
-	% make
-	% make install prefix=$INST
-
-4. Build videoLat, by opening videoLat.xcodeproj and building it. The Debug and
+1. Build videoLat, by opening videoLat.xcodeproj and building it. The Debug and
 Release targets are as expected, the Distribution target is what you should use
 if you want to distribute a signed copy of your built application, and it will
 only work if you have all the Apple magic certificates and whatnot installed.
 
-5. If you want to create a binary or source distribution please make sure you
+2. If you want to create a binary or source distribution please make sure you
 update the VIDEOLAT_VERSION variable in the xcode project "build settings" section.
 Then you "Archive", then you "Validate" and "Distribute" that archive. For a
 source distribution you run the script "scripts/mksrcdistr.sh" which will create
 a tarball in the "build" directory and test that it builds. 
 
-6. If you want to build the Doxygen documentation you should install Doxygen
+3. If you want to build the Doxygen documentation you should install Doxygen
 via <http://www.stack.nl/~dimitri/doxygen/> and GraphViz 
 via <http://www.graphviz.org/Download_macos.php> and install both. Then
 you can use the toplevel Doxyfile or the XCode target.
@@ -162,18 +99,7 @@ you can use the toplevel Doxyfile or the XCode target.
 Build instructions for iOS
 ==========================
 
-First you need to build the third party packages, for both iOS native and the simulator.
-Download libpng from http://sourceforge.net/projects/libpng/files/libpng15/ and run
-
-	$ sh scripts/build-ios.sh
-	$ sh scripts/build-iossim.sh
-
-If either of the builds fails you may need to edit the scripts to modify the IOS_VERSION
-variable to refer to a version of iOS for which you have the SDK available. The scripts
-install libpng, libzbar and libzint into thirdParty/installed-ios and thirdParty/installed-iossim,
-respectively.
-
-Next you open videoLat-iOS.xcodeproj and build the app, either for the simulator or the real
+Open videoLat-iOS.xcodeproj and build the app, either for the simulator or the real
 device. Note that running under the simulator has only very limited functionality as
 no audio and video input devices are available. Also note that for device builds you may need
 to modify the build settings for code signing and provisioning so they refer to your identity
@@ -189,10 +115,7 @@ options.
 Licenses
 ========
 
-VideoLat is Copyright (c) 2010-2015, Stichting Centrum Wiskunde & Informatica,
+VideoLat is Copyright (c) 2010-2019, Stichting Centrum Wiskunde & Informatica,
 licensed under GPL 3. Contact the authors in case you need different licensing
 options.
 
-ZBar is licensed under LGPL 2.1.
-
-ZInt is licensed under GPL 3.
