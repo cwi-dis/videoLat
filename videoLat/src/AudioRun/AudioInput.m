@@ -304,8 +304,7 @@
         // callbacks in some time-slotted fashion.
         epoch += (delta/WITH_ADJUST_CLOCK_DRIFT_FACTOR);
         NSLog(@"AudioInput: clock: delta %lld us, epoch set to %lld uS", delta, epoch);
-        NSString *deltaStr = [NSString stringWithFormat:@"delta=%lld,adjust=%lld", delta, delta/WITH_ADJUST_CLOCK_DRIFT_FACTOR];
-        VL_LOG_EVENT(@"adjustedClock",[self now], deltaStr);
+        VL_LOG_EVENT(@"adjustedClock",[self now], ([NSString stringWithFormat:@"delta=%lld,adjust=%lld", delta, delta/WITH_ADJUST_CLOCK_DRIFT_FACTOR]));
     }
 #endif
 

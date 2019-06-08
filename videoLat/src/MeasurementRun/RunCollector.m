@@ -31,6 +31,7 @@
 
 - (void) awakeFromNib
 {
+    [super awakeFromNib];
     dataStore = [[MeasurementDataStore alloc] init];
 }
 

@@ -36,11 +36,22 @@ uint64_t monotonicMicroSecondClock()
 
 void showErrorAlert(NSError *error) {
 #ifdef WITH_UIKIT
-	[[[UIAlertView alloc] initWithTitle:error.localizedDescription
-                            message:error.localizedRecoverySuggestion
-                           delegate:nil
-                  cancelButtonTitle:NSLocalizedString(@"OK", nil)
-                  otherButtonTitles:nil, nil] show];
+    UIAlertController * alert = [UIAlertController
+                                 alertControllerWithTitle:error.localizedDescription
+                                 message:error.localizedRecoverySuggestion
+                                 preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction* ok = [UIAlertAction
+                         actionWithTitle:@"OK"
+                         style:UIAlertActionStyleDefault
+                         handler:^(UIAlertAction * action)
+                         {
+                             [alert dismissViewControllerAnimated:YES completion:nil];
+                         }];
+    
+    [alert addAction:ok];
+    UIViewController *rootVC = [UIApplication sharedApplication].keyWindow.rootViewController;
+    // Note that this does not run modal....
+    [rootVC presentViewController:alert animated:YES completion:nil];
 #else
 	NSAlert *alert = [NSAlert alertWithError:error];
 	[alert runModal];
@@ -49,13 +60,22 @@ void showErrorAlert(NSError *error) {
 
 void showWarningAlert(NSString *warning) {
 #ifdef WITH_UIKIT
-
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Warning"
-                            message:warning
-                           delegate:nil
-                  cancelButtonTitle:NSLocalizedString(@"OK", nil)
-                  otherButtonTitles:nil, nil];
-	[alert performSelectorOnMainThread:@selector(show) withObject:nil waitUntilDone:YES];
+    UIAlertController * alert = [UIAlertController
+                                 alertControllerWithTitle:@"Warning"
+                                 message:warning
+                                 preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction* ok = [UIAlertAction
+                         actionWithTitle:@"OK"
+                         style:UIAlertActionStyleDefault
+                         handler:^(UIAlertAction * action)
+                         {
+                             [alert dismissViewControllerAnimated:YES completion:nil];
+                         }];
+    
+    [alert addAction:ok];
+    UIViewController *rootVC = [UIApplication sharedApplication].keyWindow.rootViewController;
+    // Note that this does not run modal....
+    [rootVC presentViewController:alert animated:YES completion:nil];
 #else
     NSAlert *alert = [[NSAlert alloc] init];
     [alert setMessageText: @"Warning"];

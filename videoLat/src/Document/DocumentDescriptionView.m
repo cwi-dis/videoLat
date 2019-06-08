@@ -32,10 +32,6 @@
 #define stringValue text
 #endif
 
-- (void)awakeFromNib
-{
-}
-
 - (void) update: (id)sender
 {
 	NSString *measurementType = self.modelObject.measurementType;

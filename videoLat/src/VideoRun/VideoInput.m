@@ -117,6 +117,7 @@
 
 - (void) awakeFromNib
 {    
+    [super awakeFromNib];
     // Setup for callbacks
     [self.selfView setDelegate: self];
 
@@ -455,8 +456,7 @@
 #endif
     SInt64 delta = now_timestamp - timestamp;
 	VL_LOG_EVENT(@"cameraCaptureVideoClock", timestamp, @"");
-	NSString *deltaStr = [NSString stringWithFormat:@"delta=%lld", delta];
-	VL_LOG_EVENT(@"cameraCaptureSelfClock", now_timestamp, deltaStr);
+	VL_LOG_EVENT(@"cameraCaptureSelfClock", now_timestamp, ([NSString stringWithFormat:@"delta=%lld", delta]));
     if (!capturing) {
         // We are not yet capturing, we optionally adjust the clock and return.
 #ifdef WITH_ADJUST_CLOCK_DRIFT
@@ -469,8 +469,7 @@
             // callbacks in some time-slotted fashion.
             epoch += (delta/WITH_ADJUST_CLOCK_DRIFT_FACTOR);
             NSLog(@"VideoInput: clock: delta %lld us, epoch set to %lld uS", delta, epoch);
-            NSString *deltaStr = [NSString stringWithFormat:@"delta=%lld,adjust=%lld", delta, delta/WITH_ADJUST_CLOCK_DRIFT_FACTOR];
-            VL_LOG_EVENT(@"adjustedClock",[self now], deltaStr);
+            VL_LOG_EVENT(@"adjustedClock",[self now], ([NSString stringWithFormat:@"delta=%lld,adjust=%lld", delta, delta/WITH_ADJUST_CLOCK_DRIFT_FACTOR]));
         }
 #endif
         return;

@@ -127,6 +127,7 @@ static NSMutableDictionary *runManagerSelectionNibs;
 
 - (void) awakeFromNib
 {
+    [super awakeFromNib];
     NSString *errorMessage = nil;
     handlesInput = self.inputCompanion == nil;
     handlesOutput = self.outputCompanion == nil;
@@ -378,8 +379,8 @@ static NSMutableDictionary *runManagerSelectionNibs;
 			[self.statusView.bRun setEnabled: NO];
 			[self.statusView.bStop setEnabled: NO];
 		}
-		BOOL devicesOK = ([self prepareInputDevice] && [self.outputCompanion prepareOutputDevice]);
 #ifdef WITH_APPKIT
+        BOOL devicesOK = ([self prepareInputDevice] && [self.outputCompanion prepareOutputDevice]);
 		[self.selectionView.bPreRun setEnabled: devicesOK];
 #endif
 	}

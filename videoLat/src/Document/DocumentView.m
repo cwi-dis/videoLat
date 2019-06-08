@@ -55,14 +55,15 @@
     return self;
 }
 
+#ifdef WITH_UIKIT
 - (void) awakeFromNib
 {
-#ifdef WITH_UIKIT
+    [super awakeFromNib];
     self.bouncesZoom = YES;
     self.decelerationRate = UIScrollViewDecelerationRateFast;
     self.delegate = self;
-#endif
 }
+#endif
 
 #ifdef WITH_APPKIT
 - (void)viewWillDraw

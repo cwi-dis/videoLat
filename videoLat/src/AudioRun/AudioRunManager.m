@@ -52,7 +52,7 @@
 
 - (void)awakeFromNib
 {
-    if ([super respondsToSelector:@selector(awakeFromNib)]) [super awakeFromNib];
+    [super awakeFromNib];
 //    if (self.clock == nil) self.clock = self;
     [self restart];
 }

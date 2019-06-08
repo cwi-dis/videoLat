@@ -44,10 +44,6 @@
 	[self stop];
 }
 
-- (void) awakeFromNib
-{    
-}
-
 - (uint64_t)now
 {
     return monotonicMicroSecondClock();

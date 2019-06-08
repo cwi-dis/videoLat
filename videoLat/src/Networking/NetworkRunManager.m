@@ -177,7 +177,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
     if (self.capturer && ![self.capturer isKindOfClass: [NetworkInput class]]) {
         slaveHandler = YES;
     }
-    if ([super respondsToSelector:@selector(awakeFromNib)]) [super awakeFromNib];
+   [super awakeFromNib];
     assert(self.clock);
     // If we don't handle output (i.e. output is going through video) we start the server and
     // report the port number

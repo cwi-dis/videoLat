@@ -30,7 +30,7 @@
 
 - (void) awakeFromNib
 {
-    if ([super respondsToSelector:@selector(awakeFromNib)]) [super awakeFromNib];
+    [super awakeFromNib];
 }
 
 @end

@@ -52,7 +52,7 @@
     return YES;
 }
 
-- (NSUInteger)supportedInterfaceOrientations
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
 {
     BOOL hasVideoPreviewView = YES;
     if (!hasVideoPreviewView)

@@ -10,7 +10,7 @@ rm -rf thirdParty/installed-ios
 mkdir thirdParty/installed-ios
 INST=`(cd thirdParty/installed-ios ; pwd)`
 XCODEDEV=/Applications/Xcode.app/Contents/Developer
-IOSVERSION=9.3
+IOSVERSION=12.1
 PATH=$INST/bin:$XCODEDEV/Platforms/iPhoneOS.platform/Developer/usr/bin:$XCODEDEV/usr/bin:$PATH
 CFLAGS="-arch armv7 -arch arm64 -isysroot $XCODEDEV/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS$IOSVERSION.sdk"
 PKG_CONFIG_LIBDIR=$INST/lib/pkgconfig
@@ -18,10 +18,10 @@ PKG_CONFIG_LIBDIR=$INST/lib/pkgconfig
 #
 # Check for libpng15
 #
-if test -f thirdParty/libpng-1.5.22/configure; then
-	echo libpng 1.5 sources found, building local copy
+if test -f thirdParty/libpng-1.6.*/configure; then
+	echo libpng 1.6 sources found, building local copy
 	(
-		cd thirdParty/libpng-1.5.22
+		cd thirdParty/libpng-1.6.*
 		./configure \
 			--host=armv7 \
 			--prefix=$INST \
@@ -34,12 +34,12 @@ if test -f thirdParty/libpng-1.5.22/configure; then
 		make install
 	)
 elif (libpng15-config --version > /dev/null 2>&1); then
-	echo libpng 1.5 should be slurped for iPhone development
+	echo libpng 1.6 should be slurped for iPhone development
 	exit 1
 else
-	echo libpng 1.5 not installed.
+	echo libpng 1.6 installed.
 	echo Please download from http://sourceforge.net/projects/libpng/files/libpng15/
-	echo Then unpack into thirdParty/libpng-1.5.22 and re-run this script.
+	echo Then unpack into thirdParty/libpng-1.6.* and re-run this script.
 	exit 1
 fi
 
@@ -71,10 +71,13 @@ fi
 # Build zint
 #
 (
-	cd thirdParty/zint-2.4.3
-	make -f Makefile.ios clean
-	make -f Makefile.ios prefix=$INST CFLAGS="$CFLAGS"
-	make -f Makefile.ios install prefix=$INST
+	cd thirdParty/zint-2.6.3.src
+	rm -fr build
+	mkdir build
+	cd build
+	cmake .. -DCMAKE_INSTALL_PREFIX=$INST
+	make
+	make install
 )
 #
 # Build videoLat
