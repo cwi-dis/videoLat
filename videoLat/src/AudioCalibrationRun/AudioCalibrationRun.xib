@@ -6,7 +6,12 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <customObject id="-2" userLabel="File's Owner" customClass="NewMeasurementView"/>
+        <customObject id="-2" userLabel="File's Owner" customClass="NewMeasurementViewController">
+            <connections>
+                <outlet property="measurementWindow" destination="327" id="yh9-6K-Anx"/>
+                <outlet property="runManagerView" destination="328" id="C7s-fZ-RLM"/>
+            </connections>
+        </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customObject id="1" customClass="AudioCalibrationRunManager">

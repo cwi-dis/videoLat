@@ -6,7 +6,12 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <customObject id="-2" userLabel="File's Owner" customClass="NewMeasurementView"/>
+        <customObject id="-2" userLabel="File's Owner" customClass="NewMeasurementViewController">
+            <connections>
+                <outlet property="measurementWindow" destination="366" id="jbE-hy-ieP"/>
+                <outlet property="runManagerView" destination="367" id="rlu-9Q-gRt"/>
+            </connections>
+        </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customObject id="1" customClass="VideoMonoRunManager">

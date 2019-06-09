@@ -6,17 +6,14 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <customObject id="-2" userLabel="File's Owner" customClass="NewMeasurementView">
+        <customObject id="-2" userLabel="File's Owner" customClass="NewMeasurementViewController">
             <connections>
                 <outlet property="measurementWindow" destination="326" id="366"/>
-                <outlet property="outputView" destination="2" id="66"/>
-                <outlet property="runManager" destination="1" id="71"/>
                 <outlet property="runManagerView" destination="327" id="367"/>
-                <outlet property="selectionView" destination="4" id="65"/>
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
-        <customObject id="-3" userLabel="Application"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customObject id="1" customClass="AudioRunManager">
             <connections>
                 <outlet property="bBase" destination="10" id="147"/>
@@ -168,7 +165,7 @@
                                 </constraints>
                                 <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="223">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
+                                    <font key="font" metaFont="menu"/>
                                     <menu key="menu" title="OtherViews" id="224"/>
                                 </popUpButtonCell>
                                 <connections>
