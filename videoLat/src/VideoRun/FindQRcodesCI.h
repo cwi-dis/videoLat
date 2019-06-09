@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <CoreImage/CoreImage.h>
 #import "protocols.h"
 
 @interface FindQRcodesCI : NSObject <InputVideoFindProtocol> {

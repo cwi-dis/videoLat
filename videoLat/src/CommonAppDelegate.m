@@ -11,6 +11,7 @@
 #import "AudioRunManager.h"
 #import "AudioCalibrationRunManager.h"
 #import "NetworkRunManager.h"
+#import "FindQRcodesCI.h"
 
 #if !TARGET_OS_IPHONE
 #import "HardwareRunManager.h"
@@ -35,6 +36,10 @@
     [self _loadCalibrationsFrom:url];
     
     // Initialize run manager classes. Should be done differently.
+    // But I think this also ensures the class is available at runtime
+    // (for use in the XIB files) even though it isn't used anywhere
+    // else.
+    [FindQRcodesCI class];
     [VideoRunManager class];
     [VideoCalibrationRunManager class];
     [AudioRunManager class];
