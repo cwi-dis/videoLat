@@ -110,6 +110,8 @@
 		04502F541AF7B8190023462A /* FindQRcodesCI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FindQRcodesCI.h; path = VideoRun/FindQRcodesCI.h; sourceTree = "<group>"; };
 		04502F551AF7B8190023462A /* FindQRcodesCI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FindQRcodesCI.m; path = VideoRun/FindQRcodesCI.m; sourceTree = "<group>"; };
 		045AA71519E71BA300E28AED /* MasterSenderRun.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MasterSenderRun.xib; path = MasterSenderRun/MasterSenderRun.xib; sourceTree = "<group>"; };
+		045FCCA122AE6E0100846451 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = mac/Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		045FCCA222AE6E0100846451 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = mac/Base.lproj/Document.xib; sourceTree = "<group>"; };
 		0461ED1F1A9FCD1F00439749 /* MasterSenderScreenCalibrationRun.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MasterSenderScreenCalibrationRun.xib; path = MasterSenderRun/MasterSenderScreenCalibrationRun.xib; sourceTree = "<group>"; };
 		0461ED211A9FCD9600439749 /* SlaveReceiverRun.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SlaveReceiverRun.xib; path = SlaveReceiverRun/SlaveReceiverRun.xib; sourceTree = "<group>"; };
 		0472F3AC1AD7D07700415BA9 /* EventLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventLogger.h; sourceTree = "<group>"; };
@@ -217,9 +219,7 @@
 		04FFFC5E1AB2F03B0023ED13 /* videoLat.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = videoLat.entitlements; path = src/mac/videoLat.entitlements; sourceTree = "<group>"; };
 		04FFFC601AB2F0770023ED13 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = mac/main.m; sourceTree = "<group>"; };
 		04FFFC651AB2F0F20023ED13 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = mac/en.lproj/Credits.rtf; sourceTree = "<group>"; };
-		04FFFC671AB2F0F20023ED13 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = mac/en.lproj/Document.xib; sourceTree = "<group>"; };
 		04FFFC691AB2F0F20023ED13 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = mac/en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		04FFFC6B1AB2F0F20023ED13 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = mac/en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		04FFFC731AB2F1FE0023ED13 /* mac/videoLat-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "mac/videoLat-Prefix.pch"; sourceTree = "<group>"; };
 		04FFFC741AB2F2840023ED13 /* mac/videoLat-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "mac/videoLat-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -592,7 +592,7 @@
 		047DD1B4183A3B4C00A04F83 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1010;
+				LastUpgradeCheck = 1020;
 				ORGANIZATIONNAME = CWI;
 				TargetAttributes = {
 					047DD1BC183A3B4C00A04F83 = {
@@ -610,10 +610,11 @@
 			};
 			buildConfigurationList = 047DD1B7183A3B4C00A04F83 /* Build configuration list for PBXProject "videoLat" */;
 			compatibilityVersion = "Xcode 10.0";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = 047DD1B2183A3B4C00A04F83;
 			productRefGroup = 047DD1BE183A3B4C00A04F83 /* Products */;
@@ -747,7 +748,7 @@
 		04FFFC661AB2F0F20023ED13 /* Document.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				04FFFC671AB2F0F20023ED13 /* en */,
+				045FCCA222AE6E0100846451 /* Base */,
 			);
 			name = Document.xib;
 			sourceTree = "<group>";
@@ -763,7 +764,7 @@
 		04FFFC6A1AB2F0F20023ED13 /* MainMenu.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				04FFFC6B1AB2F0F20023ED13 /* en */,
+				045FCCA122AE6E0100846451 /* Base */,
 			);
 			name = MainMenu.xib;
 			sourceTree = "<group>";
@@ -775,6 +776,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
 				CLANG_CXX_LIBRARY = "compiler-default";
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -845,6 +847,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
 				CLANG_CXX_LIBRARY = "compiler-default";
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -902,6 +905,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
 				CLANG_CXX_LIBRARY = "compiler-default";
 				CLANG_ENABLE_OBJC_ARC = YES;
