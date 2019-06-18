@@ -1,5 +1,7 @@
 os: osx
 language: objective-c
-xcode_project: videoLat/videoLat.xcodeproj
-xcode_scheme: videoLat
-xcode_destination: platform=macOS
+xcode_project: videoLat/videoLat.xcworkspace
+xcode_scheme: videoLat-macos
+xcode_destination: 
+  - platform=macOS
+#  - platform=iOS Simulator,OS=11.4,name=iPhone 6
