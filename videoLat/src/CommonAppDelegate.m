@@ -34,6 +34,7 @@
     NSURL *url = [self directoryForCalibrations];
     if (url == nil) return;
     [self _loadCalibrationsFrom:url];
+    [self _loadNullCalibration];
     
     // Initialize run manager classes. Should be done differently.
     // But I think this also ensures the class is available at runtime
@@ -149,6 +150,17 @@
     [uuidToURL setObject: url forKey:uuid];
 	
 	return YES;
+}
+
+- (void)_loadNullCalibration
+{
+    MeasurementDataStore *dataStore = [[MeasurementDataStore alloc] init];
+    dataStore.measurementType = @"null";
+    dataStore.date = @"";
+    dataStore.description = @"Null measurement (testing only)";
+    [dataStore addDataPoint: @"" sent: 0 received: 0];
+    MeasurementType *myType = [MeasurementType forType: dataStore.measurementType];
+    [myType addMeasurement: dataStore];
 }
 
 - (BOOL)haveCalibration: (NSString *)uuid

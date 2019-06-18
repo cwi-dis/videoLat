@@ -24,6 +24,7 @@
 - (void)initVideolat;   //!< Initialize the app, common to OSX and iOS.
 - (NSURL *)directoryForCalibrations;    //!< Returns directory where calibration run documents should be stored/loaded.
 - (void)_loadCalibrationsFrom: (NSURL *)directory;  //!< Internal helper for applicationWillFinishLaunching, loads all calibrations.
+- (void)_loadNullCalibration; //!< Internal helper to load the 0 duration calibration
 - (BOOL)loadCalibration: (NSURL *)url error: (NSError **)outError;   //!< Helper for loadCalibrationsFrom, loads a single calibration.
 - (BOOL)haveCalibration: (NSString *)uuid;
 - (IBAction)openWebsite:(id)sender; //!< Method to be called when the user wants to view the videoLat website.
