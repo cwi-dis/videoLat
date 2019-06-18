@@ -62,7 +62,8 @@
 		04A6D93B1AB7820A0065FEA5 /* DeviceDescriptionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A6D93A1AB7820A0065FEA5 /* DeviceDescriptionView.m */; };
 		04A9C14819216EB70016E6C0 /* AudioCalibrationRun.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04A9C14719216EB70016E6C0 /* AudioCalibrationRun.xib */; };
 		04A9C14B19216F320016E6C0 /* AudioCalibrationRunManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A9C14A19216F320016E6C0 /* AudioCalibrationRunManager.m */; };
-		04AD64EA22B9754B003E7693 /* videoLatUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 04AD64E922B9754B003E7693 /* videoLatUITests.m */; };
+		04AD64F422B981A2003E7693 /* videoLatUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 04AD64F222B981A2003E7693 /* videoLatUITests.m */; };
+		04AD64F522B981A2003E7693 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 04AD64F322B981A2003E7693 /* Info.plist */; };
 		04B1915119D2ECBC001ABA66 /* Doxyfile in Resources */ = {isa = PBXBuildFile; fileRef = 04B1915019D2ECBC001ABA66 /* Doxyfile */; };
 		04B6A69E19ED63C300E1E3B6 /* ScreenToHardwareRun.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04B6A69D19ED63C300E1E3B6 /* ScreenToHardwareRun.xib */; };
 		04BFC60B1AD3E0A20061972D /* CommonAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 042ABE311AD1E21A00FB877A /* CommonAppDelegate.m */; };
@@ -199,8 +200,8 @@
 		04A9C14A19216F320016E6C0 /* AudioCalibrationRunManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AudioCalibrationRunManager.m; path = AudioCalibrationRun/AudioCalibrationRunManager.m; sourceTree = "<group>"; };
 		04AD00EF19D3097200DDFDE6 /* xibfiles.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xibfiles.h; sourceTree = "<group>"; };
 		04AD64E722B9754B003E7693 /* videoLatUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = videoLatUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		04AD64E922B9754B003E7693 /* videoLatUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = videoLatUITests.m; sourceTree = "<group>"; };
-		04AD64EB22B9754B003E7693 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		04AD64F222B981A2003E7693 /* videoLatUITests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = videoLatUITests.m; sourceTree = "<group>"; };
+		04AD64F322B981A2003E7693 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		04B1915019D2ECBC001ABA66 /* Doxyfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Doxyfile; sourceTree = "<group>"; };
 		04B58F18183A3CF000360A61 /* protocols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = protocols.h; sourceTree = "<group>"; };
 		04B6A69D19ED63C300E1E3B6 /* ScreenToHardwareRun.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ScreenToHardwareRun.xib; path = MixedRun/ScreenToHardwareRun.xib; sourceTree = "<group>"; };
@@ -498,8 +499,8 @@
 		04AD64E822B9754B003E7693 /* videoLatUITests */ = {
 			isa = PBXGroup;
 			children = (
-				04AD64E922B9754B003E7693 /* videoLatUITests.m */,
-				04AD64EB22B9754B003E7693 /* Info.plist */,
+				04AD64F322B981A2003E7693 /* Info.plist */,
+				04AD64F222B981A2003E7693 /* videoLatUITests.m */,
 			);
 			path = videoLatUITests;
 			sourceTree = "<group>";
@@ -721,6 +722,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04AD64F522B981A2003E7693 /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -800,7 +802,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				04AD64EA22B9754B003E7693 /* videoLatUITests.m in Sources */,
+				04AD64F422B981A2003E7693 /* videoLatUITests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
