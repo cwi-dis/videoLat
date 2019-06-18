@@ -45,6 +45,7 @@
 		042422C61ACEE254003A153C /* CommonAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 042422C51ACEE254003A153C /* CommonAppDelegate.m */; };
 		042422C91ACEE299003A153C /* DocumentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 042422C81ACEE299003A153C /* DocumentViewController.m */; };
 		042422CB1ACEE2C3003A153C /* DocumentView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 042422CA1ACEE2C3003A153C /* DocumentView.xib */; };
+		0427A4F422B98AF900A536D9 /* videoLatUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0427A4F322B98AF900A536D9 /* videoLatUITests.m */; };
 		042935361AE7C2100045C310 /* HelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 042935351AE7C2100045C310 /* HelpViewController.m */; };
 		042935381AE7C4B10045C310 /* videolat_ios_help.html in Resources */ = {isa = PBXBuildFile; fileRef = 042935371AE7C4B10045C310 /* videolat_ios_help.html */; };
 		042E0F2E1AC30DFD003D6267 /* VideoRun.xib in Resources */ = {isa = PBXBuildFile; fileRef = 042E0F2D1AC30DFD003D6267 /* VideoRun.xib */; };
@@ -78,6 +79,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		0427A4F622B98AF900A536D9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 048BFCC21AB2EE2B0026D104 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 048BFCC91AB2EE2B0026D104;
+			remoteInfo = videoLat;
+		};
 		048BFCE41AB2EE2C0026D104 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 048BFCC21AB2EE2B0026D104 /* Project object */;
@@ -160,6 +168,9 @@
 		042422C81ACEE299003A153C /* DocumentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DocumentViewController.m; path = src/iOS/DocumentViewController.m; sourceTree = SOURCE_ROOT; };
 		042422CA1ACEE2C3003A153C /* DocumentView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DocumentView.xib; path = src/iOS/DocumentView.xib; sourceTree = SOURCE_ROOT; };
 		042422CC1ACEE2F3003A153C /* compat.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = compat.h; path = src/compat.h; sourceTree = SOURCE_ROOT; };
+		0427A4F122B98AF900A536D9 /* videoLatUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = videoLatUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		0427A4F322B98AF900A536D9 /* videoLatUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = videoLatUITests.m; sourceTree = "<group>"; };
+		0427A4F522B98AF900A536D9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		042935341AE7C2100045C310 /* HelpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HelpViewController.h; path = src/iOS/HelpViewController.h; sourceTree = SOURCE_ROOT; };
 		042935351AE7C2100045C310 /* HelpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HelpViewController.m; path = src/iOS/HelpViewController.m; sourceTree = SOURCE_ROOT; };
 		042935371AE7C4B10045C310 /* videolat_ios_help.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = videolat_ios_help.html; path = src/iOS/videolat_ios_help.html; sourceTree = SOURCE_ROOT; };
@@ -211,6 +222,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		0427A4EE22B98AF900A536D9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		048BFCC71AB2EE2B0026D104 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -395,6 +413,15 @@
 			name = SlaveReceiverRun;
 			sourceTree = "<group>";
 		};
+		0427A4F222B98AF900A536D9 /* videoLatUITests */ = {
+			isa = PBXGroup;
+			children = (
+				0427A4F322B98AF900A536D9 /* videoLatUITests.m */,
+				0427A4F522B98AF900A536D9 /* Info.plist */,
+			);
+			path = videoLatUITests;
+			sourceTree = "<group>";
+		};
 		0478E1361AB9B7AC0057548C /* ExistingDocument */ = {
 			isa = PBXGroup;
 			children = (
@@ -434,6 +461,7 @@
 			children = (
 				048BFCCC1AB2EE2C0026D104 /* src */,
 				0478E1491ABF71720057548C /* Libraries */,
+				0427A4F222B98AF900A536D9 /* videoLatUITests */,
 				048BFCCB1AB2EE2C0026D104 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -443,6 +471,7 @@
 			children = (
 				048BFCCA1AB2EE2C0026D104 /* videoLat.app */,
 				048BFCE31AB2EE2C0026D104 /* videoLat-iOSTests.xctest */,
+				0427A4F122B98AF900A536D9 /* videoLatUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -504,6 +533,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		0427A4F022B98AF900A536D9 /* videoLatUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0427A4FA22B98AF900A536D9 /* Build configuration list for PBXNativeTarget "videoLatUITests" */;
+			buildPhases = (
+				0427A4ED22B98AF900A536D9 /* Sources */,
+				0427A4EE22B98AF900A536D9 /* Frameworks */,
+				0427A4EF22B98AF900A536D9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				0427A4F722B98AF900A536D9 /* PBXTargetDependency */,
+			);
+			name = videoLatUITests;
+			productName = videoLatUITests;
+			productReference = 0427A4F122B98AF900A536D9 /* videoLatUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		048BFCC91AB2EE2B0026D104 /* videoLat */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 048BFCED1AB2EE2C0026D104 /* Build configuration list for PBXNativeTarget "videoLat" */;
@@ -548,6 +595,11 @@
 				LastUpgradeCheck = 1020;
 				ORGANIZATIONNAME = CWI;
 				TargetAttributes = {
+					0427A4F022B98AF900A536D9 = {
+						CreatedOnToolsVersion = 10.1;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 048BFCC91AB2EE2B0026D104;
+					};
 					048BFCC91AB2EE2B0026D104 = {
 						CreatedOnToolsVersion = 6.2;
 						DevelopmentTeam = W5J7983J99;
@@ -574,11 +626,19 @@
 			targets = (
 				048BFCC91AB2EE2B0026D104 /* videoLat */,
 				048BFCE21AB2EE2C0026D104 /* videoLat-iOSTests */,
+				0427A4F022B98AF900A536D9 /* videoLatUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		0427A4EF22B98AF900A536D9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		048BFCC81AB2EE2B0026D104 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -614,6 +674,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		0427A4ED22B98AF900A536D9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0427A4F422B98AF900A536D9 /* videoLatUITests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		048BFCC61AB2EE2B0026D104 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -679,6 +747,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		0427A4F722B98AF900A536D9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 048BFCC91AB2EE2B0026D104 /* videoLat */;
+			targetProxy = 0427A4F622B98AF900A536D9 /* PBXContainerItemProxy */;
+		};
 		048BFCE51AB2EE2C0026D104 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 048BFCC91AB2EE2B0026D104 /* videoLat */;
@@ -706,6 +779,55 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		0427A4F822B98AF900A536D9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = videoLatUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = nl.jackjansen.videoLatUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = videoLat;
+			};
+			name = Debug;
+		};
+		0427A4F922B98AF900A536D9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = videoLatUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = nl.jackjansen.videoLatUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = videoLat;
+			};
+			name = Release;
+		};
 		048BFCEB1AB2EE2C0026D104 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -897,6 +1019,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		0427A4FA22B98AF900A536D9 /* Build configuration list for PBXNativeTarget "videoLatUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0427A4F822B98AF900A536D9 /* Debug */,
+				0427A4F922B98AF900A536D9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		048BFCC51AB2EE2B0026D104 /* Build configuration list for PBXProject "videoLat-iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
