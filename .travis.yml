@@ -4,8 +4,8 @@ language: objective-c
 #xcode_scheme: videoLat-macos
 script:
   - xcodebuild -workspace videoLat/videoLat.xcworkspace -list
-  - set -o pipefail && xcodebuild -workspace videoLat/videoLat.xcworkspace -scheme "$MY_SCHEME" -destination "$MY_DESTINATION" $MY_ACTIONS | xcpretty
+  - set -o pipefail && xcodebuild -project "$MY_PROJECT" -scheme "$MY_SCHEME" -destination "$MY_DESTINATION" $MY_ACTIONS | xcpretty
 env:
   matrix:
-   - MY_SCHEME=videoLat-macos MY_DESTINATION='platform=macOS' MY_ACTIONS="build test"
-   - MY_SCHEME=videoLat-iOS MY_DESTINATION='platform=iOS Simulator,OS=11.4,name=iPhone 6' MY_ACTIONS="build test"
+   - MY_PROJECT=videoLat/videoLat-macos.xcodeproj MY_SCHEME=videoLat MY_DESTINATION='platform=macOS' MY_ACTIONS="build"
+   - MY_PROJECT=videoLat/videoLat-iOS.xcodeproj MY_SCHEME=videoLat-iOS MY_DESTINATION='platform=iOS Simulator,OS=11.4,name=iPhone 6' MY_ACTIONS="build test"
