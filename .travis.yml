@@ -1,5 +1,8 @@
 os: osx
 language: objective-c
+install:
+  # This is a hack to make UI tests work. From <https://stackoverflow.com/questions/34231587/xcode-ui-testing-on-travis-for-osx-with-xcode-helper-accessibility>
+  - sudo sqlite3 "/Library/Application Support/com.apple.TCC/TCC.db" "INSERT INTO access VALUES ('kTCCServiceAccessibility','com.apple.dt.Xcode-Helper',0,1,1,NULL,NULL);"
 xcode_project: videoLat/videoLat.xcodeproj
 xcode_scheme: videoLat
 xcode_destination: platform=macOS
