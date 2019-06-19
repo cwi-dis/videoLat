@@ -309,8 +309,10 @@
 #endif
 
     CMFormatDescriptionRef formatDescription = CMSampleBufferGetFormatDescription(sampleBuffer);
+#ifdef DEBUG
     OSType format = CMFormatDescriptionGetMediaSubType(formatDescription);
 	assert(format == kAudioFormatLinearPCM);
+#endif
     
 	CMBlockBufferRef bufferOut = nil;
     size_t bufferListSizeNeeded = 0;

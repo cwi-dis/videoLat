@@ -80,8 +80,10 @@
 
         CMFormatDescriptionRef formatDescription = CMSampleBufferGetFormatDescription(sampleBuffer);
         assert(formatDescription);
+#ifdef DEBUG
         OSType format = CMFormatDescriptionGetMediaSubType(formatDescription);
         assert(format == kAudioFormatLinearPCM);
+#endif
         const AudioStreamBasicDescription* const basicDescription = CMAudioFormatDescriptionGetStreamBasicDescription(formatDescription);
         Float64 sampleRate = basicDescription->mSampleRate;
         int sampleSize = basicDescription->mBitsPerChannel / 8;

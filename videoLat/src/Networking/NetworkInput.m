@@ -24,6 +24,7 @@
 - (BOOL)switchToDeviceWithName:(NSString *)name
 {
 	assert(0);
+    return false;
 }
 
 - (NetworkInput *)init
