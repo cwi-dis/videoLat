@@ -2,7 +2,7 @@
 ///  @file EventLogger.h
 ///  @brief Log detailed events and their timing to a file.
 //
-//  Copyright 2010-2015 Centrum voor Wiskunde en Informatica. Licensed under GPL3.
+//  Copyright 2010-2019 Centrum voor Wiskunde en Informatica. Licensed under GPL3.
 //
 //
 

@@ -2,7 +2,7 @@
 ///  @file VideoCalibrationRunManager.h
 ///  @brief Implements video roundtrip calibrations.
 //
-//  Copyright 2010-2015 Centrum voor Wiskunde en Informatica. Licensed under GPL3.
+//  Copyright 2010-2019 Centrum voor Wiskunde en Informatica. Licensed under GPL3.
 //
 //
 

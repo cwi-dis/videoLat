@@ -2,7 +2,7 @@
 ///  @file HardwareOutputView.h
 ///  @brief NSView subclass that shows light/darkness for hardware devices.
 //
-//  Copyright 2010-2015 Centrum voor Wiskunde en Informatica. Licensed under GPL3.
+//  Copyright 2010-2019 Centrum voor Wiskunde en Informatica. Licensed under GPL3.
 //
 //
 

@@ -2,7 +2,7 @@
 //  VideoRunManager.m
 //
 //  Created by Jack Jansen on 27-08-10.
-//  Copyright 2010-2015 Centrum voor Wiskunde en Informatica. Licensed under GPL3.
+//  Copyright 2010-2019 Centrum voor Wiskunde en Informatica. Licensed under GPL3.
 //
 
 #import "VideoRunManager.h"

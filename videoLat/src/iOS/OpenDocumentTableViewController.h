@@ -2,7 +2,7 @@
 ///  @file OpenDocumentTableViewController.h
 ///  @brief Holds definition of OpenDocumentTableViewController object (iOS only).
 //
-//  Copyright 2010-2015 Centrum voor Wiskunde en Informatica. Licensed under GPL3.
+//  Copyright 2010-2019 Centrum voor Wiskunde en Informatica. Licensed under GPL3.
 //
 //
 

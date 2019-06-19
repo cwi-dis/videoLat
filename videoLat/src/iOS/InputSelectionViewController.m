@@ -3,7 +3,7 @@
 //  videoLat-iOS
 //
 //  Created by Jack Jansen on 23/03/15.
-//  Copyright (c) 2015 CWI. All rights reserved.
+//  Copyright 2010-2019 Centrum voor Wiskunde en Informatica. Licensed under GPL3.
 //
 
 #import "InputSelectionViewController.h"

@@ -2,7 +2,7 @@
 ///  @file VideoOutputView.h
 ///  @brief Show QR-codes or B/W images in a window.
 //
-//  Copyright 2010-2015 Centrum voor Wiskunde en Informatica. Licensed under GPL3.
+//  Copyright 2010-2019 Centrum voor Wiskunde en Informatica. Licensed under GPL3.
 //
 //
 

@@ -2,7 +2,7 @@
 ///  @file NetworkOutputView.h
 ///  @brief UI to see how videoLat is communicating with another instance.
 //
-//  Copyright 2010-2015 Centrum voor Wiskunde en Informatica. Licensed under GPL3.
+//  Copyright 2010-2019 Centrum voor Wiskunde en Informatica. Licensed under GPL3.
 //
 //
 

@@ -2,7 +2,7 @@
 ///  @file HardwareSelectionView.h
 ///  @brief UI to select Arduino/Labjack hardware device.
 //
-//  Copyright 2010-2015 Centrum voor Wiskunde en Informatica. Licensed under GPL3.
+//  Copyright 2010-2019 Centrum voor Wiskunde en Informatica. Licensed under GPL3.
 //
 //
 
