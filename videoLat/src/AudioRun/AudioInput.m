@@ -308,8 +308,8 @@
     }
 #endif
 
-    CMFormatDescriptionRef formatDescription = CMSampleBufferGetFormatDescription(sampleBuffer);
 #ifdef DEBUG
+    CMFormatDescriptionRef formatDescription = CMSampleBufferGetFormatDescription(sampleBuffer);
     OSType format = CMFormatDescriptionGetMediaSubType(formatDescription);
 	assert(format == kAudioFormatLinearPCM);
 #endif

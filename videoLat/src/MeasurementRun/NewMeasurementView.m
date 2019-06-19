@@ -72,7 +72,9 @@
     NSString *typeName = [bType titleOfSelectedItem];
     [[NSUserDefaults standardUserDefaults] setObject:typeName forKey:@"measurementType"];
 
+#ifdef DEBUG
     Class runClass = [BaseRunManager classForMeasurementType: typeName];
+#endif
     NSString *runClassNib = [BaseRunManager nibForMeasurementType:typeName];
     BOOL ok = YES;
     if (!runClassNib) {

@@ -44,6 +44,7 @@
 - (BOOL)switchToDeviceWithName: (NSString *)deviceName
 {
     assert(0);
+    return false;
 }
 
 + (void) initialize
