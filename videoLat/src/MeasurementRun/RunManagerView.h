@@ -1,6 +1,6 @@
 ///
-///  @file RunTypeView.h
-///  @brief Defines RunTypeView object.
+///  @file RunManagerView.h
+///  @brief Defines RunManagerView object.
 //
 //  Copyright 2010-2019 Centrum voor Wiskunde en Informatica. Licensed under GPL3.
 //

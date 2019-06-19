@@ -38,7 +38,7 @@ on <http://videolat.org>.
 
 Change Log
 ==========
-2.1: Use CoreImage (get rid of3rd party libs) and ported to newer OSX/iOS
+2.1: Use CoreImage (get rid of3rd party libs), ported to newer OSX/iOS
 2.0.3: CSV export failed if there were non-ASCII characters
 2.0: iOS port, one-way measurements, UI revamp
 1.0.3: Source-only, includes building the Doxygen documentation
@@ -84,8 +84,8 @@ source distribution you run the script "scripts/mksrcdistr.sh" which will create
 a tarball in the "build" directory and test that it builds. 
 
 3. If you want to build the Doxygen documentation you should install Doxygen
-via <http://www.stack.nl/~dimitri/doxygen/> and GraphViz 
-via <http://www.graphviz.org/Download_macos.php> and install both. Then
+via <http://www.doxygen.nl/> and GraphViz 
+via <http://www.graphviz.org/> and install both. Then
 you can use the toplevel Doxyfile or the XCode target.
 
 Build instructions for iOS
@@ -96,6 +96,9 @@ device. Note that running under the simulator has only very limited functionalit
 no audio and video input devices are available. Also note that for device builds you may need
 to modify the build settings for code signing and provisioning so they refer to your identity
 in stead of mine.
+
+Instructions for building distributions are similar as for MacOS. Note that the version number
+also needs to be opdated on the opening screen.
 
 Contact
 =======

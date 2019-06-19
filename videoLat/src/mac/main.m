@@ -1,5 +1,5 @@
 ///
-///  @file main.m
+///  @file mac/main.m
 ///  @brief Skeleton main program, and holds XIB file documentation.
 //
 //  Copyright 2010-2019 Centrum voor Wiskunde en Informatica. Licensed under GPL3.

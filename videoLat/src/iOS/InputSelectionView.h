@@ -1,5 +1,5 @@
 ///
-///  @file InputSelectionBiew.h
+///  @file InputSelectionView.h
 ///  @brief Holds definition of InputSelectionView object (iOS only).
 //
 //  Copyright 2010-2019 Centrum voor Wiskunde en Informatica. Licensed under GPL3.

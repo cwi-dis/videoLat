@@ -141,12 +141,12 @@ select a calibration to download from videolat.org.
  */
 
 /**
-@file VideoRun.xib
+@file VideoRun/VideoRun.xib
 @brief NIB file for VideoRunManager run.
  */
 
  /**
-@file VideoCalibrationRun.xib
+@file VideoCalibrationRun/VideoCalibrationRun.xib
 @brief NIB file for VideoCalibrationRunManager run.
  */
 
@@ -171,31 +171,31 @@ select a calibration to download from videolat.org.
  */
 
 /**
-@file MasterSenderRun.xib
+@file MasterSenderRun/MasterSenderRun.xib
 @brief NIB file for sending (server) side of asymetric measurements.
  */
 
 /**
-@file MasterSenderScreenCalibrationRun.xib
+@file MasterSenderRun/MasterSenderScreenCalibrationRun.xib
 @brief NIB file for sending (server) side of asymetric measurements to do a screen calibration.
  */
 
 /**
-@file SlaveReceiver.xib
+@file SlaveReceiverRun/SlaveReceiverRun.xib
 @brief NIB file for receiving (client) side of asymetric measurements.
  */
 
 /**
-@file SlaveReceiverCameraClibration.xib
+@file SlaveReceiverRun/SlaveReceiverCameraCalibrationRun.xib
 @brief NIB file for sending (server) side of asymetric measurements to do a camera calibration.
  */
 
 /**
-@file AudioRun.xib
+@file AudioRun/AudioRun.xib
 @brief NIB file for AudioRunManager run.
  */
 
 /**
-@file AudioCalibrationRun.xib
+@file AudioCalibrationRun/AudioCalibrationRun.xib
 @brief NIB file for AudioCalibrationRunManager run.
 */
