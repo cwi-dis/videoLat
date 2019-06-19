@@ -23,7 +23,8 @@
 
 - (void)applicationWillFinishLaunching:(NSNotification *)aNotification; //!< Standard method called to signal application start.
 - (void)applicationWillTerminate:(NSNotification *)notification;	//!< Standard method called to signal application termination
-- (BOOL) applicationShouldOpenUntitledFile: (id)sender;	//!< Standard method to ask whether an untilted document should be opened
+- (BOOL)applicationShouldOpenUntitledFile: (id)sender;	//!< Standard method to ask whether an untitled document should be opened
+- (BOOL)applicationOpenUntitledFile:(id)sender;          //!< Open an untitled file (new measurement)
 
 /// Create and show a new document for a measurement.
 /// @param dataStore The measurement data.

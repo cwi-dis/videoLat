@@ -30,9 +30,14 @@
 
 - (BOOL) applicationShouldOpenUntitledFile: (id)sender
 {
-	return NO;
+    return YES;
 }
 
+- (BOOL) applicationOpenUntitledFile: (id)sender
+{
+    [self newMeasurement:sender];
+    return YES;
+}
 
 - (IBAction)openCalibrationFolder:(id)sender
 {
