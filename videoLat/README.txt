@@ -23,9 +23,12 @@ videoLat.help/Contents/Resources/videoLat.html in your browser.
 Download
 ========
 
-Binary installers and source code can be downloaded via
+Binary installers for Mac and source code can be downloaded via
 <http://videolat.org>. Installation is optional: videoLat can
 run in-place.
+
+Binaries are also available in the Apple MacOS app store and the Apple iOS
+app store.
 
 Usage
 =====
@@ -58,29 +61,18 @@ Build Instructions for OSX, fast track
 ======================================
 
 To build videoLat from source you need:
-- a Mac (10.9-10.10 have been tested, must be 64-bit capable, older releases may still work),
-- XCode and the OSX build tools installed,
-- the Apple X11 compatibility package (if running 10.7 or earlier), or
-  if you are on a later OSX you need to build and install libpng 1.5 from
-  http://sourceforge.net/projects/libpng/files/libpng15, 
-- and the videoLat sources, obviously.
+- a Mac (10.12 and later have been tested, must be 64-bit capable, older releases may still work).
+- XCode and the OSX build tools installed.
+- the videoLat sources, obviously.
 
-Unpack the sources, go to the source directory, type
+Build with
 
-% sh scripts/build.sh
+% xcodebuild -project videoLat-macos.xcodeproject build
 
 This should create the application in "build/Release/videoLat.app".
 
-In case it fails, or if you want to do modifications, or create distributions
-read the next section.
-
-Build Instructions for OSX, detailed
-====================================
-
-To build videoLat from source you need a Mac (10.12 or later).
-Unlike older videoLat release you don't need any external libraries.
-
-1. Build videoLat, by opening videoLat.xcodeproj and building it. The Debug and
+Alternatively, you can 
+1. Build videoLat, by opening videoLat-macos.xcodeproj and building it. The Debug and
 Release targets are as expected, the Distribution target is what you should use
 if you want to distribute a signed copy of your built application, and it will
 only work if you have all the Apple magic certificates and whatnot installed.
