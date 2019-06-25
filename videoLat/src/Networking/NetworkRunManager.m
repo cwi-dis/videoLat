@@ -758,7 +758,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 {
     assert (self.protocol);
     if (prerunCode == nil) {
-        prerunCode = [NSString stringWithFormat:@"http://videolat.org/landing?ip=%@&port=%d", self.protocol.host, self.protocol.port];
+        prerunCode = [NSString stringWithFormat:@"https://videolat.org/landing?ip=%@&port=%d", self.protocol.host, self.protocol.port];
     }
     return prerunCode;
 }

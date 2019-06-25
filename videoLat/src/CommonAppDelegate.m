@@ -167,9 +167,9 @@
 - (IBAction)openWebsite:(id)sender
 {
 #ifdef WITH_UIKIT
-	[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.videoLat.org"]];
+	[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://www.videoLat.org"]];
 #else
-	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://www.videoLat.org"]];
+	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://www.videoLat.org"]];
 #endif
 }
 

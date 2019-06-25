@@ -7,7 +7,7 @@
  @mainpage videoLat structure overview
  
  
- This is the internal developer-oriented documentation of videoLat. For user documentation and other information please visit the videoLat website at http://www.videolat.org .
+ This is the internal developer-oriented documentation of videoLat. For user documentation and other information please visit the videoLat website at https://www.videolat.org .
 
  @section global Global structure overview
  

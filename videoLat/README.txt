@@ -16,7 +16,7 @@ If you have access to the internals of the system-under-test it is possible
 to take measurements there as well, because videoLat encodes the current
 timestamp in the barcode.
 
-More information on videoLat can be found at <http://www.videolat.org>, by
+More information on videoLat can be found at <https://www.videolat.org>, by
 using the "help" command from within videoLat or by viewing the file
 videoLat.help/Contents/Resources/videoLat.html in your browser.
 
@@ -24,7 +24,7 @@ Download
 ========
 
 Binary installers for Mac and source code can be downloaded via
-<http://videolat.org>. Installation is optional: videoLat can
+<https://videolat.org>. Installation is optional: videoLat can
 run in-place.
 
 Binaries are also available in the Apple MacOS app store and the Apple iOS
@@ -34,7 +34,7 @@ Usage
 =====
 
 Instructions on using videoLat are available in the built-in help page and
-on <http://videolat.org>.
+on <https://videolat.org>.
 
 Change Log
 ==========
