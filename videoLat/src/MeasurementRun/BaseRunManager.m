@@ -339,7 +339,10 @@ static NSMutableDictionary *runManagerSelectionNibs;
 - (void)restart
 {
 	@synchronized(self) {
-		if (self.measurementType == nil) return;
+        if (self.measurementType == nil) {
+            NSLog(@"Error: BaseRunManager.restart called without measurementType");
+            return;
+        }
         assert(handlesInput);
 #ifdef WITH_APPKIT
 		if (!self.selectionView) {
@@ -379,8 +382,8 @@ static NSMutableDictionary *runManagerSelectionNibs;
 			[self.statusView.bRun setEnabled: NO];
 			[self.statusView.bStop setEnabled: NO];
 		}
-#ifdef WITH_APPKIT
         BOOL devicesOK = ([self prepareInputDevice] && [self.outputCompanion prepareOutputDevice]);
+#ifdef WITH_APPKIT
 		[self.selectionView.bPreRun setEnabled: devicesOK];
 #endif
 	}
