@@ -26,6 +26,11 @@
 - (void)awakeFromNib
 {
 	[super awakeFromNib];
+    // Test NIB consistency with expectations.
+    assert(self.tabView);
+    assert(self.bType);
+    assert(self.downloadCalibrationViewController);
+    
 	NSTabViewItem *item = [self.tabView tabViewItemAtIndex: 1];
 	assert(item);
 	NSView *view = [item view];
@@ -95,9 +100,13 @@
     
     // Keep the toplevel objects, and search for the runManager by class name (unless it has been set by the NIB already)
     runManagerNibObjects = newObjects;
+    assert(self.measurementWindow);
     assert(self.runManagerView);
     assert(self.runManagerView.runManager);
     assert([self.runManagerView.runManager class] == runClass);
+    assert(self.runManagerView.selectionView);
+    assert(self.runManagerView.outputView);
+    assert(self.runManagerView.statusView);
     [self.runManagerView.runManager selectMeasurementType: typeName];
     [[self.runManagerView window] setDelegate: self];
 	[[[self view] window] orderOut:self];
