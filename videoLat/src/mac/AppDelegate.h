@@ -39,4 +39,5 @@
 - (NSURL *)hardwareFolder;                      //!< URL of folder containing hardware drivers
 
 - (void) windowWillClose: (NSNotification *)notification;	//!< Called when the New Document window closes
+- (void)showAlert: (NSString *)message;
 @end

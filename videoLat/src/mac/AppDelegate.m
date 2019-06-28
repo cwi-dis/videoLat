@@ -150,4 +150,12 @@
 	[myType addMeasurement: dataStore];
 }
 
+- (void)showAlert: (NSString *)message
+{
+    NSAlert *alert = [[NSAlert alloc] init];
+    [alert setMessageText: @"Warning"];
+    [alert setInformativeText: message];
+    [alert addButtonWithTitle: @"OK"];
+    [alert runModal];
+}
 @end

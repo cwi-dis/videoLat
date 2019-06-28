@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "protocols.h"
 #import "compat.h"
+#import "AppDelegate.h"
 #import <mach/mach.h>
 #import <mach/mach_time.h>
 #import <mach/clock.h>
@@ -77,10 +78,7 @@ void showWarningAlert(NSString *warning) {
     // Note that this does not run modal....
     [rootVC presentViewController:alert animated:YES completion:nil];
 #else
-    NSAlert *alert = [[NSAlert alloc] init];
-    [alert setMessageText: @"Warning"];
-    [alert setInformativeText: warning];
-    [alert addButtonWithTitle: @"OK"];
-    [alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:YES];
+    
+    [(AppDelegate *)[[NSApplication sharedApplication] delegate] performSelectorOnMainThread:@selector(showAlert:) withObject:warning waitUntilDone:YES];
 #endif
 }
