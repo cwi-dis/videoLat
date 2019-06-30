@@ -135,7 +135,9 @@
 			self.bDetection.on = foundSample;
 		});
 #else
-		[self.bDetection setState: (foundSample? NSOnState : NSOffState)];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.bDetection setState: (foundSample? NSOnState : NSOffState)];
+        });
 #endif
 
 		// If we're not running or prerunning we're done.
