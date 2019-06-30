@@ -26,6 +26,11 @@
     
 - (void)awakeFromNib
 {
+    [super awakeFromNib];
+    assert(self.runManager);
+    assert(self.selectionView);
+    assert(self.outputView);
+    assert(self.statusView);
 }
 
 @end

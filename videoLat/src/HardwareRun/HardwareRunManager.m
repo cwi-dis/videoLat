@@ -70,7 +70,19 @@
 
 - (void)awakeFromNib
 {
-    if ([super respondsToSelector:@selector(awakeFromNib)]) [super awakeFromNib];
+    // The hardware run manager is its own capturer and clock
+    self.capturer = self;
+    self.clock = self;
+    [super awakeFromNib];
+    assert(self.bConnected);
+    assert(self.bInputValue);
+    assert(self.bInputNumericValue);
+    assert(self.bInputNumericMinValue);
+    assert(self.bInputNumericMaxValue);
+    assert(self.outputView);
+    assert(self.clock);
+    assert(self.bSamplePeriodStepper);
+    assert(self.bSamplePeriodValue);
 	self.samplePeriodMs = 1;
 	[self _updatePeriod];
     if (self.clock == nil) self.clock = self;
