@@ -7,6 +7,8 @@ import u3
 # Import the ObjC/Cocoa support
 from Cocoa import *
 import objc
+objc.setVerbose(1)
+from objc import super
 import threading
 
 DEBUG=True
@@ -79,8 +81,6 @@ class LabJack(NSObject, HardwareLightProtocol):
                 if not DEBUG:
                     print 'Exception during LabJack.available'
                     return False
-                import pdb
-                pdb.post_mortem()
     
     def light_(self, level):
         """Set output light level to 'level' and read return input light level."""

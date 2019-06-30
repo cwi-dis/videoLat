@@ -126,7 +126,11 @@
         NSLog(@"HardwareRunManager: Programmer error: class %@ does not exist", selectedDevice);
         return;
     }
-    self.device = [[deviceClass alloc] init];
+    @try {
+        self.device = [[deviceClass alloc] init];
+    } @catch (NSException *exception) {
+        NSLog(@"Caught exception %@ while allocating hardware device class: %@", [exception name], [exception reason]);
+    }
     if (self.device == nil) {
         NSLog(@"HardwareRunManager: cannot allocate %@ object", deviceClass);
     }

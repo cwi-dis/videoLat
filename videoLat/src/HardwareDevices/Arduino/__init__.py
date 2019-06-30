@@ -7,7 +7,8 @@ import threading
 # Import the ObjC/Cocoa support
 from Cocoa import *
 import objc
-
+objc.setVerbose(1)
+from objc import super
 import arduinoserial
 
 DEBUG=False
