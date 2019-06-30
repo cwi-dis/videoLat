@@ -26,6 +26,7 @@ static PythonLoader *theSharedPythonLoader;
 {
     self = [super init];
     if (self) {
+        Py_SetPythonHome("/System/Library/Frameworks/Python.framework/Versions/2.7");
         PyEval_InitThreads();
 		Py_Initialize();
 		if (VL_DEBUG) NSLog(@"Python home=%s\n", Py_GetPythonHome());
