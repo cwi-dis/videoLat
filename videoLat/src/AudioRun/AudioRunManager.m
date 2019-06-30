@@ -54,10 +54,12 @@
 {
     [super awakeFromNib];
     assert(self.outputView);
-    assert(self.selectionView);
     assert(self.clock);
     assert(self.processor);
     assert(self.bDetection);
+#ifdef WITH_APPKIT
+    assert(self.selectionView);
+#endif
 //    if (self.clock == nil) self.clock = self;
     [self restart];
 }

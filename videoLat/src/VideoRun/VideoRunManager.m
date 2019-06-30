@@ -53,10 +53,12 @@
 - (void) awakeFromNib
 {
     [super awakeFromNib];
-    assert(self.selectionView);
     assert(self.clock);
     assert(self.finder);
     assert(self.genner);
+#ifdef WITH_APPKIT
+    assert(self.selectionView);
+#endif
 }
 
 - (void)stop
