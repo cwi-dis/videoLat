@@ -21,6 +21,12 @@
 
 @synthesize mirrored;
 
+- (void)awakeFromNib
+{
+    [super awakeFromNib];
+    assert(self.manager);
+}
+
 #ifdef WITH_APPKIT
 //
 // Returns the io_service_t corresponding to a CG display ID, or 0 on failure.

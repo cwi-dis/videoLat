@@ -48,7 +48,7 @@
 
 - (void) awakeFromNib
 {
-    if ([super respondsToSelector:@selector(awakeFromNib)]) [super awakeFromNib];
+    [super awakeFromNib];
     sensitiveArea = NSorUIMakeRect(160, 120, 320, 240);
 }
 

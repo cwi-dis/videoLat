@@ -53,9 +53,10 @@
 - (void) awakeFromNib
 {
     [super awakeFromNib];
-    @synchronized(self) {
-        assert(self.clock);
-    }
+    assert(self.selectionView);
+    assert(self.clock);
+    assert(self.finder);
+    assert(self.genner);
 }
 
 - (void)stop

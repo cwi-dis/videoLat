@@ -14,6 +14,7 @@
 - (void)awakeFromNib
 {
     [super awakeFromNib];
+    assert(self.inputHandler);
     [self _updateCameraNames: nil];
     [[NSNotificationCenter defaultCenter]
      addObserver:self

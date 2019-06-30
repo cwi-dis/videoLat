@@ -27,6 +27,8 @@
 - (void)awakeFromNib
 {
     [super awakeFromNib];
+    assert(self.manager);
+    assert(self.processor);
     NSBundle *bundle = [NSBundle mainBundle];
     samples = [bundle pathsForResourcesOfType:@"aif" inDirectory:@"sounds"];
     if (VL_DEBUG) NSLog(@"Sounds: %@\n", samples);

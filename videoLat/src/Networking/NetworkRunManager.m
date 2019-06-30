@@ -179,6 +179,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
     }
    [super awakeFromNib];
     assert(self.clock);
+    assert(self.finder);
     // If we don't handle output (i.e. output is going through video) we start the server and
     // report the port number
     if (!handlesOutput) {

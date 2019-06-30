@@ -13,6 +13,10 @@
 
 - (void)awakeFromNib
 {
+    [super awakeFromNib];
+    assert(self.bDevices);
+    assert(self.bPreRun);
+    assert(self.selectionDelegate);
     NSArray *names = ((AppDelegate *)[[NSApplication sharedApplication] delegate]).hardwareNames;
     
     if ([names count]) {

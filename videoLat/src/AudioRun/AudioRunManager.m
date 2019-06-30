@@ -53,6 +53,11 @@
 - (void)awakeFromNib
 {
     [super awakeFromNib];
+    assert(self.outputView);
+    assert(self.selectionView);
+    assert(self.clock);
+    assert(self.processor);
+    assert(self.bDetection);
 //    if (self.clock == nil) self.clock = self;
     [self restart];
 }

@@ -17,7 +17,7 @@
 ///
 @interface HardwareSelectionView : NSView<SelectionView>
 @property(weak) IBOutlet NSPopUpButton *bDevices;   //!< UI element: all available hardware
-@property(weak) IBOutlet NSPopUpButton *bBase;      //!< UI element: available calibration runs
+@property(weak) IBOutlet NSPopUpButton *bBase;      //!< UI element: available calibration runs (nil for Hardware run)
 @property(weak) IBOutlet NSButton *bPreRun;         //!< UI element: start preparing a measurement run
 @property(weak) IBOutlet NSObject <SelectionViewDelegate> *selectionDelegate;	//!< Object we send feedback to.
 

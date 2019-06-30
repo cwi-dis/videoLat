@@ -118,6 +118,7 @@
 - (void) awakeFromNib
 {    
     [super awakeFromNib];
+    
     // Setup for callbacks
     [self.selfView setDelegate: self];
 

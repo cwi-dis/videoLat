@@ -40,6 +40,12 @@
     return self;
 }
 
+- (void)awakeFromNib
+{
+    [super awakeFromNib];
+    assert(self.manager);
+}
+
 - (void)dealloc
 {
 	[self stop];

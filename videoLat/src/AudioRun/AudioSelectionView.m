@@ -15,6 +15,7 @@
 - (void)awakeFromNib
 {
     [super awakeFromNib];
+    assert(self.inputHandler);
     [self _updateDeviceNames: nil];
     [[NSNotificationCenter defaultCenter]
      addObserver:self
