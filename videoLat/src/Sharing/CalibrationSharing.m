@@ -34,7 +34,7 @@
 @interface UploadQueryHelper : UploadHelper {
     id<UploadQueryDelegate> delegate;
 }
-- (void)shouldUpload: (id<UploadQueryDelegate>)_delegate;
+- (void)testForFresh: (id<UploadQueryDelegate>)_delegate;
 - (void)_done: (NSData *)result;
 @end
 
@@ -152,11 +152,11 @@
 
 @implementation UploadQueryHelper
 
-- (void)shouldUpload: (id<UploadQueryDelegate>)_delegate
+- (void)testForFresh: (id<UploadQueryDelegate>)_delegate
 {
     delegate = _delegate;
     [self _fillURLWithOp:@"check"];
-    NSLog(@"shouldUpload: URL=%@", url);
+    NSLog(@"testForFresh: URL=%@", url);
 	[self _doit];
 }
 
@@ -164,9 +164,9 @@
 {
 	char *s_result = (char *)[result bytes];
 	if (strncmp(s_result, "YES\n", 4) == 0) {
-		if (delegate) [delegate shouldUpload: YES];
+		if (delegate) [delegate calibrationIsFresh: YES];
 	} else if (strncmp(s_result, "NO\n", 3) == 0) {
-		if (delegate) [delegate shouldUpload: NO];
+		if (delegate) [delegate calibrationIsFresh: NO];
 	} else {
 		NSLog(@"UploadQueryHelper: Unexpected reply, starting with %40.40s", s_result);
 		if (VL_DEBUG) NSLog(@"\n%s", s_result);
@@ -325,11 +325,11 @@
     return self;
 }
 
-- (void)shouldUpload: (MeasurementDataStore *)dataStore delegate: (id<UploadQueryDelegate>) delegate
+- (void)testForFresh: (MeasurementDataStore *)dataStore delegate: (id<UploadQueryDelegate>) delegate
 {
     UploadQueryHelper *helper = [[UploadQueryHelper alloc] initWithURL: baseURL dataStore: dataStore];
     if (helper) {
-        [helper shouldUpload: delegate];
+        [helper testForFresh: delegate];
     }
     
 }

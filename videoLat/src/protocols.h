@@ -406,7 +406,7 @@
 /// Protocol that returns answers to "should I upload this calibration?" queries
 ///
 @protocol UploadQueryDelegate
-- (void) shouldUpload: (BOOL)answer;	//!< Signals whether the calibration should be uploaded
+- (void) calibrationIsFresh: (BOOL)answer;	//!< Signals whether the calibration should be uploaded
 @end
 
 ///

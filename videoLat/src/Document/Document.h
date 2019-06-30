@@ -40,7 +40,7 @@
 - (NSString *) asCSVString; //!< Helper for _exportCSV: return metadata as CSV string
 - (void)changed;    //!< Increment document change count because user made a change, also clears dontUpload flag
 - (void)_changed;    //!< Internal: increment document change count.
-- (void)shouldUpload: (BOOL)answer; //!< UploadQueryDelegate method called when the server answers whether or not to upload this document.
+- (void)calibrationIsFresh: (BOOL)answer; //!< UploadQueryDelegate method called when the server answers whether or not to upload this document.
 - (void)_doShouldUpload;            //!< Help for shouldUpload, runs in main thread
 
 #ifdef WITH_APPKIT

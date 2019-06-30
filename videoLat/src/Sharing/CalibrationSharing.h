@@ -23,7 +23,7 @@
 - initWithServer: (NSURL *)server;	//!< Initialize the object for a given URL.
 
 /// Test whether the server wants this measurement.
-- (void)shouldUpload: (MeasurementDataStore *)dataStore delegate: (id<UploadQueryDelegate>) delegate;
+- (void)testForFresh: (MeasurementDataStore *)dataStore delegate: (id<UploadQueryDelegate>) delegate;
 
 /// Upload this measurement to the server.
 - (void)uploadAsynchronously: (MeasurementDataStore *)dataStore;

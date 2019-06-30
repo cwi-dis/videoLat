@@ -34,7 +34,7 @@
     // Finally see whether this document is worth uploading
     if (!dontUpload) {
         CalibrationSharing *uploader = [CalibrationSharing sharedUploader];
-        [uploader shouldUpload:self.dataStore delegate:self];
+        [uploader testForFresh:self.dataStore delegate:self];
     }
 }
 #endif
@@ -98,9 +98,6 @@
     [super makeWindowControllers];
     [self showWindows];
 #endif
-    // Finally see whether this document is worth uploading
-    CalibrationSharing *uploader = [CalibrationSharing sharedUploader];
-    [uploader shouldUpload:self.dataStore delegate:self];
 }
 
 #ifdef WITH_APPKIT
@@ -292,8 +289,11 @@
 #endif
 }
 
-- (void)shouldUpload:(BOOL)answer
+- (void)calibrationIsFresh:(BOOL)answer
 {
+#if 1 // xxxjack temp disabled
+    answer = NO;
+#endif
     if (answer) {
         [self performSelectorOnMainThread:@selector(_doShouldUpload) withObject:nil waitUntilDone:NO];
     } else {
