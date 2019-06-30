@@ -204,10 +204,14 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 
 - (void) _updateStatus: (NSString *)status
 {
+    NetworkOutputView *nov = NULL;
+    if ([self.outputView isKindOfClass:[NetworkOutputView class]]) {
+        nov = (NetworkOutputView *)self.outputView;
+    }
 #ifdef WITH_UIKIT
 	dispatch_async(dispatch_get_main_queue(), ^{
-		if (self.outputView) {
-			self.outputView.bPeerStatus.text = status;
+		if (nov) {
+			nov.bPeerStatus.text = status;
 		}
 		if (self.selectionViewForStatusOnly) {
 			self.selectionViewForStatusOnly.bOurStatus.text = status;
@@ -215,8 +219,8 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 	});
 
 #else
-	if (self.outputView) {
-		self.outputView.bPeerStatus.stringValue = status;
+	if (nov) {
+		nov.bPeerStatus.stringValue = status;
 	}
 	if (self.selectionViewForStatusOnly) {
 		self.selectionViewForStatusOnly.bOurStatus.stringValue = status;
@@ -483,18 +487,22 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
                         if (rv != 2) {
                             [self _updateStatus: [NSString stringWithFormat: @"Unexcepted URL: %@", code] ];
                         } else {
+                            NetworkOutputView *nov = NULL;
+                            if ([self.outputView isKindOfClass:[NetworkOutputView class]]) {
+                                nov = (NetworkOutputView *)self.outputView;
+                            }
                             NSString *ipAddress = [NSString stringWithUTF8String:ipBuffer];
 #ifdef WITH_UIKIT
 							dispatch_async(dispatch_get_main_queue(), ^{
-								self.outputView.bPeerIPAddress.text = ipAddress;
-								self.outputView.bPeerPort.text = [NSString stringWithFormat:@"%d", port];
-								self.outputView.bPeerStatus.text = @"Connecting...";
+								nov.bPeerIPAddress.text = ipAddress;
+								nov.bPeerPort.text = [NSString stringWithFormat:@"%d", port];
+								nov.bPeerStatus.text = @"Connecting...";
 							});
 
 #else
-                            self.outputView.bPeerIPAddress.stringValue = ipAddress;
-                            self.outputView.bPeerPort.intValue = port;
-                            self.outputView.bPeerStatus.stringValue = @"Connecting...";
+                            nov.bPeerIPAddress.stringValue = ipAddress;
+                            nov.bPeerPort.intValue = port;
+                            nov.bPeerStatus.stringValue = @"Connecting...";
 #endif
 
                             self.protocol = [[NetworkProtocolClient alloc] initWithPort:port host: ipAddress];
@@ -507,10 +515,10 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
                             }
 #ifdef WITH_UIKIT
 							dispatch_async(dispatch_get_main_queue(), ^{
-								self.outputView.bPeerStatus.text = status;
+								nov.bPeerStatus.text = status;
 							});
 #else
-                                self.outputView.bPeerStatus.stringValue = status;
+                                nov.bPeerStatus.stringValue = status;
 #endif
                         }
 					}
@@ -646,14 +654,17 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
         if (slaveTimestamp && masterTimestamp) {
             uint64_t now = [self.clock now];
             [self.remoteClock remote:masterTimestamp between:slaveTimestamp and:now];
-#ifdef WITH_UIKIT
-			dispatch_async(dispatch_get_main_queue(), ^{
-				self.outputView.bPeerRTT.text = [NSString stringWithFormat:@"%lld (best %lld)", [self.remoteClock rtt]/1000, [self.remoteClock clockInterval]/1000];
-				});
-#else
-            self.outputView.bPeerRTT.stringValue = [NSString stringWithFormat:@"%lld (best %lld)", [self.remoteClock rtt]/1000, [self.remoteClock clockInterval]/1000];
-#endif
+            if ([self.outputView isKindOfClass:[NetworkOutputView class]]) {
+                NetworkOutputView *nov = (NetworkOutputView *)self.outputView;
+    #ifdef WITH_UIKIT
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    nov.bPeerRTT.text = [NSString stringWithFormat:@"%lld (best %lld)", [self.remoteClock rtt]/1000, [self.remoteClock clockInterval]/1000];
+                    });
+    #else
+                nov.bPeerRTT.stringValue = [NSString stringWithFormat:@"%lld (best %lld)", [self.remoteClock rtt]/1000, [self.remoteClock clockInterval]/1000];
+    #endif
             //NSLog(@"master %lld in %lld..%lld (delta=%lld)", masterTimestamp, slaveTimestamp, now, [self.remoteClock rtt]);
+            }
         } else {
             NSLog(@"unexpected data from master: %@", data);
         }
