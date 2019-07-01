@@ -227,16 +227,18 @@
     self.bInputNumericMaxValue.text = [NSString stringWithFormat:@"%d", maxInputLevel];
     self.bInputValue.on = [inputCode isEqualToString:@"white"];
 #else
-    [self.bInputNumericValue setIntValue: average];
-    [self.bInputNumericMinValue setIntValue: minInputLevel];
-    [self.bInputNumericMaxValue setIntValue: maxInputLevel];
     NSCellStateValue iVal = NSMixedState;
     if ([inputCode isEqualToString:@"black"]) {
         iVal = NSOffState;
     } else if ([inputCode isEqualToString:@"white"]) {
         iVal = NSOnState;
     }
-    [self.bInputValue setState: iVal];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.bInputNumericValue setIntValue: average];
+        [self.bInputNumericMinValue setIntValue: self->minInputLevel];
+        [self.bInputNumericMaxValue setIntValue: self->maxInputLevel];
+        [self.bInputValue setState: iVal];
+    });
 #endif
     return inputCode;
 }
