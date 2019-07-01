@@ -129,13 +129,6 @@
 /// Protocol for an object that creates (visual) patterns in an image output buffer.
 ///
 @protocol OutputVideoGenProtocol
-/// Generate a detectable pattern
-/// @param buffer Where to store the image, as 8-bit greyscale
-/// @param width Width of the buffer in pixels
-/// @param height Height of the buffer in pixels
-/// @param code The string representation of the code to generate
-- (void) gen: (void*)buffer width: (int)width height: (int)height code: (const char *)code;
-
 /// Generate CIImage with a detectable pattern.
 /// @param code NSString with the code to generate
 /// @return the CIImage created

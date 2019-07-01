@@ -269,8 +269,4 @@
     return newImage;
 }
 
-- (void)gen:(void *)buffer width:(int)width height:(int)height code:(const char *)code {
-    assert(0);
-}
-
 @end
