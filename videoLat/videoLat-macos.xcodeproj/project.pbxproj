@@ -63,7 +63,6 @@
 		04A9C14819216EB70016E6C0 /* AudioCalibrationRun.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04A9C14719216EB70016E6C0 /* AudioCalibrationRun.xib */; };
 		04A9C14B19216F320016E6C0 /* AudioCalibrationRunManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A9C14A19216F320016E6C0 /* AudioCalibrationRunManager.m */; };
 		04AD64F422B981A2003E7693 /* videoLatUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 04AD64F222B981A2003E7693 /* videoLatUITests.m */; };
-		04AD64F522B981A2003E7693 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 04AD64F322B981A2003E7693 /* Info.plist */; };
 		04B1915119D2ECBC001ABA66 /* Doxyfile in Resources */ = {isa = PBXBuildFile; fileRef = 04B1915019D2ECBC001ABA66 /* Doxyfile */; };
 		04B6A69E19ED63C300E1E3B6 /* ScreenToHardwareRun.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04B6A69D19ED63C300E1E3B6 /* ScreenToHardwareRun.xib */; };
 		04BFC60B1AD3E0A20061972D /* CommonAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 042ABE311AD1E21A00FB877A /* CommonAppDelegate.m */; };
@@ -644,7 +643,7 @@
 		047DD1B4183A3B4C00A04F83 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1020;
+				LastUpgradeCheck = 1010;
 				ORGANIZATIONNAME = CWI;
 				TargetAttributes = {
 					047DD1BC183A3B4C00A04F83 = {
@@ -724,7 +723,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				04AD64F522B981A2003E7693 /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -975,7 +973,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = /System/Library/Frameworks/Python.framework/Versions/2.7/include/python2.7;
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				ONLY_ACTIVE_ARCH = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CODE_SIGN_FLAGS = "--deep";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx;
