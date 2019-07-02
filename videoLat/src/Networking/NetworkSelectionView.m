@@ -27,7 +27,7 @@
 
 - (NSString *)baseName {
     NSLog(@"networkSelectionView baseName called");
-    return @"remote calibration";
+    return nil;
 }
 
 - (NSString *)deviceName {

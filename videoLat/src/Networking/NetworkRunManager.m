@@ -798,6 +798,8 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
             baseStore = [baseType measurementNamed: baseName];
             if (baseType == nil) {
                 errorMessage = @"No base (calibration) measurement selected.";
+            } else if (baseStore == nil) {
+                
             } else {
                 // Check that the base measurement is compatible with this measurement,
                 NSString *hwName = [[MachineDescription thisMachine] machineTypeID];
@@ -820,7 +822,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
         if (errorMessage) {
 			[self _updateStatus: @"Missing calibration"];
 			statusToPeer = @"Missing calibration";
-			showWarningAlert(@"Base calibration mismatch");
+			showWarningAlert(errorMessage);
 	   }
         // Remember the input and output device in the collector
         if (baseStore) {
