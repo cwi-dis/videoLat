@@ -80,10 +80,13 @@
     self.clock = self;
     [super awakeFromNib];
     assert(self.bConnected);
-    assert(self.outputView);
+    if (handlesOutput) assert(self.outputView);
     assert(self.clock);
+#if 0
+    // Unsure why there aren't in screentohardware...
     assert(self.bSamplePeriodStepper);
     assert(self.bSamplePeriodValue);
+#endif
 	self.samplePeriodMs = 1;
 	[self _updatePeriod];
     if (self.clock == nil) self.clock = self;

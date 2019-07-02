@@ -131,7 +131,7 @@ static NSMutableDictionary *runManagerSelectionNibs;
     assert(self.capturer);
     if (handlesOutput) assert(self.outputView);
     assert(self.collector);
-    assert(self.statusView);
+    if (handlesInput) assert(self.statusView);
 #ifdef WITH_APPKIT
     assert(self.selectionView);
     assert(self.measurementMaster);
