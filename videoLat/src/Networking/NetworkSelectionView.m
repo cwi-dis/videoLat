@@ -8,8 +8,10 @@
 
 #import "NetworkSelectionView.h"
 @implementation NetworkSelectionView
+#ifdef WITH_APPKIT
 @synthesize bBase;
 @synthesize bPreRun;
+#endif
 @synthesize selectionDelegate;
 
 - (void) reportClient: (NSString *)ip port: (int)port isUs: (BOOL) us

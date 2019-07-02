@@ -12,6 +12,11 @@
 #import "NetworkInput.h"
 #import "EventLogger.h"
 
+#ifdef WITH_UIKIT
+// Gross....
+#define stringValue text
+#endif
+
 ///
 /// How many times do we want to get a message that the prerun code has been detected?
 /// This define is used on the master side, and stops the prerun sequence. It should be high enough that we
@@ -189,11 +194,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
         assert(self.protocol == nil);
         self.protocol = [[NetworkProtocolServer alloc] init];
         self.protocol.delegate = self;
-#ifdef WITH_UIKIT
-        self.selectionViewForStatusOnly.bOurPort.text = [NSString stringWithFormat:@"%d", self.protocol.port];
-#else
-        self.selectionViewForStatusOnly.bOurPort.intValue = self.protocol.port;
-#endif
+        self.selectionViewForStatusOnly.bOurPort.stringValue = [NSString stringWithFormat:@"%d", self.protocol.port];
     }
     // If we handle output (i.e. we get video from the camera and report QR codes to the server)
     // we only allocate a clock, the client-side of the network connection will be created once we
@@ -212,24 +213,14 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
     if ([self.outputView isKindOfClass:[NetworkOutputView class]]) {
         nov = (NetworkOutputView *)self.outputView;
     }
-#ifdef WITH_UIKIT
 	dispatch_async(dispatch_get_main_queue(), ^{
 		if (nov) {
-			nov.bPeerStatus.text = status;
+			nov.bPeerStatus.stringValue = status;
 		}
 		if (self.selectionViewForStatusOnly) {
-			self.selectionViewForStatusOnly.bOurStatus.text = status;
+			self.selectionViewForStatusOnly.bOurStatus.stringValue = status;
 		}
 	});
-
-#else
-	if (nov) {
-		nov.bPeerStatus.stringValue = status;
-	}
-	if (self.selectionViewForStatusOnly) {
-		self.selectionViewForStatusOnly.bOurStatus.stringValue = status;
-	}
-#endif
 }
 
 - (IBAction)selectionChanged:(id)sender
@@ -496,18 +487,11 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
                                 nov = (NetworkOutputView *)self.outputView;
                             }
                             NSString *ipAddress = [NSString stringWithUTF8String:ipBuffer];
-#ifdef WITH_UIKIT
 							dispatch_async(dispatch_get_main_queue(), ^{
-								nov.bPeerIPAddress.text = ipAddress;
-								nov.bPeerPort.text = [NSString stringWithFormat:@"%d", port];
-								nov.bPeerStatus.text = @"Connecting...";
+								nov.bPeerIPAddress.stringValue = ipAddress;
+								nov.bPeerPort.stringValue = [NSString stringWithFormat:@"%d", port];
+								nov.bPeerStatus.stringValue = @"Connecting...";
 							});
-
-#else
-                            nov.bPeerIPAddress.stringValue = ipAddress;
-                            nov.bPeerPort.intValue = port;
-                            nov.bPeerStatus.stringValue = @"Connecting...";
-#endif
 
                             self.protocol = [[NetworkProtocolClient alloc] initWithPort:port host: ipAddress];
 							NSString *status;
@@ -517,13 +501,9 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
                                 self.protocol.delegate = self;
                                 status = @"Connection established";
                             }
-#ifdef WITH_UIKIT
 							dispatch_async(dispatch_get_main_queue(), ^{
-								nov.bPeerStatus.text = status;
+								nov.bPeerStatus.stringValue = status;
 							});
-#else
-                                nov.bPeerStatus.stringValue = status;
-#endif
                         }
 					}
 				}
@@ -660,13 +640,9 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
             [self.remoteClock remote:masterTimestamp between:slaveTimestamp and:now];
             if ([self.outputView isKindOfClass:[NetworkOutputView class]]) {
                 NetworkOutputView *nov = (NetworkOutputView *)self.outputView;
-    #ifdef WITH_UIKIT
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    nov.bPeerRTT.text = [NSString stringWithFormat:@"%lld (best %lld)", [self.remoteClock rtt]/1000, [self.remoteClock clockInterval]/1000];
+                    nov.bPeerRTT.stringValue = [NSString stringWithFormat:@"%lld (best %lld)", [self.remoteClock rtt]/1000, [self.remoteClock clockInterval]/1000];
                     });
-    #else
-                nov.bPeerRTT.stringValue = [NSString stringWithFormat:@"%lld (best %lld)", [self.remoteClock rtt]/1000, [self.remoteClock clockInterval]/1000];
-    #endif
             //NSLog(@"master %lld in %lld..%lld (delta=%lld)", masterTimestamp, slaveTimestamp, now, [self.remoteClock rtt]);
             }
         } else {
@@ -737,13 +713,9 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
                 // RTT bigger than 10 seconds is preposterous
                 NSLog(@"NetworkRunManager: preposterous RTT of %lld ms",(rtt/1000));
             }
-#ifdef WITH_UIKIT
 			dispatch_async(dispatch_get_main_queue(), ^{
-				self.selectionViewForStatusOnly.bRTT.text = [NSString stringWithFormat:@"%lld (best %lld)", rtt/1000, clockInterval/1000];
+				self.selectionViewForStatusOnly.bRTT.stringValue = [NSString stringWithFormat:@"%lld (best %lld)", rtt/1000, clockInterval/1000];
 				});
-#else
-            self.selectionViewForStatusOnly.bRTT.stringValue = [NSString stringWithFormat:@"%lld (best %lld)", rtt/1000, clockInterval/1000];
-#endif
         }
         
         if(code && masterDetectionTimestamp) {
