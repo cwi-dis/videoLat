@@ -77,7 +77,7 @@
  
  - Video roundtrip, which does roundtrip delay measurements using QR code patterns.
    Contained in VideoRun.xib and VideoRunManager. It has helper classes VideoInput, VideoOutputView,
-   VideoSelectionView, FindQRcodes and GenQRcodes.
+   VideoSelectionView, FindQRcodesCI and GenQRcodesCI.
  - Video calibration roundtrip, which is a specialisation of video roundtrip for calibrating the videoLat machine.
    It uses VideoCalibrationRun.xib and VideoCalibrationRunManager.
  - Video monochrome roundtrip, which is a specialisation of video roundtrip. It shows alternating 100% black and 100% white

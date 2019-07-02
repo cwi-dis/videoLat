@@ -14,7 +14,16 @@
 /// Subclass of NSView that may at some point allow user to select networking
 /// parameters
 ///
+#if 0
 @interface NetworkSelectionView : VideoSelectionView<NetworkViewProtocol>
+#else
+@interface NetworkSelectionView
+#ifdef WITH_UIKIT
+: InputSelectionView<NetworkViewProtocol>
+#else
+: NSView<SelectionView, NetworkViewProtocol>
+#endif
+#endif
 
 #ifdef WITH_UIKIT
 @property(weak) IBOutlet UILabel *bOurPort;     //!< UI element: shows server port

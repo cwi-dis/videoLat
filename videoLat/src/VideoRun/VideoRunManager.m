@@ -54,8 +54,8 @@
 {
     [super awakeFromNib];
     assert(self.clock);
-    assert(self.finder);
-    assert(self.genner);
+    if (handlesInput) assert(self.finder);
+    if (handlesOutput) assert(self.genner);
 #ifdef WITH_APPKIT
     assert(self.selectionView);
 #endif

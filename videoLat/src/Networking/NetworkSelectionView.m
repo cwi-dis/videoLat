@@ -8,11 +8,9 @@
 
 #import "NetworkSelectionView.h"
 @implementation NetworkSelectionView
-@dynamic bBase;
-#ifdef WITH_APPKIT
-@dynamic bDevices;
-@dynamic bPreRun;
-#endif
+@synthesize bBase;
+@synthesize bPreRun;
+@synthesize selectionDelegate;
 
 - (void) reportClient: (NSString *)ip port: (int)port isUs: (BOOL) us
 {
@@ -22,6 +20,17 @@
 - (void) reportServer: (NSString *)ip port: (int)port isUs: (BOOL) us
 {
     NSLog(@"NetworkSelectionView.reportServer ip=%@ port=%d isUs=%d", ip, port, us);
+}
+
+
+- (NSString *)baseName {
+    NSLog(@"networkSelectionView baseName called");
+    assert(0);
+}
+
+- (NSString *)deviceName {
+    NSLog(@"networkSelectionView deviceName called");
+    assert(0);
 }
 
 @end

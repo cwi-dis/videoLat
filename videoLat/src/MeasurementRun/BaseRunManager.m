@@ -128,9 +128,11 @@ static NSMutableDictionary *runManagerSelectionNibs;
 - (void) awakeFromNib
 {
     [super awakeFromNib];
-    assert(self.capturer);
-    if (handlesOutput) assert(self.outputView);
-    assert(self.collector);
+    if (handlesInput) assert(self.capturer);
+    if (handlesOutput) {
+        assert(self.outputView);
+        assert(self.collector);
+    }
     if (handlesInput) assert(self.statusView);
 #ifdef WITH_APPKIT
     assert(self.selectionView);
