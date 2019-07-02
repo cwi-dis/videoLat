@@ -174,6 +174,7 @@
 
 - (void) newInputStart:(uint64_t)timestamp
 {
+    NSString *warning = NULL;
     @synchronized(self) {
 //    assert(inputStartTime == 0);
         if (self.collector) {
@@ -181,11 +182,13 @@
 			tsFrameLatest = timestamp;
 
             // Sanity check: times should be monotonically increasing
-            if (tsFrameEarliest >= tsFrameLatest) {
-				showWarningAlert(@"Input clock has gone back in time");
+            if (tsFrameEarliest > tsFrameLatest) {
+                warning = [NSString stringWithFormat: @"Input clock has gone back in time, got %lld after %lld", tsFrameLatest, tsFrameEarliest];
             }
         }
     }
+    if (warning) showWarningAlert(warning);
+
 }
 
 - (void) newInputStart
