@@ -124,14 +124,7 @@
         char *bitmapdata = (char*)malloc(size.width*size.height*bpp);
         memset(bitmapdata, 0xf0, size.width*size.height*bpp);
         assert(self.genner);
-        if ([self.genner respondsToSelector:@selector(genImageForCode:size:)]) {
-            outputCodeImage = [self.genner genImageForCode:self.outputCode size:size.width];
-        } else {
-            [self.genner gen: bitmapdata width:size.width height:size.height code:[self.outputCode UTF8String]];
-            NSData *data = [NSData dataWithBytesNoCopy:bitmapdata length:(size.width*size.height*bpp) freeWhenDone: YES];
-            assert(data);
-            outputCodeImage = [CIImage imageWithBitmapData:data bytesPerRow:bpp*size.width size:size format:kCIFormatARGB8 colorSpace:nil];
-        }
+        outputCodeImage = [self.genner genImageForCode:self.outputCode size:size.width];
         assert(outputCodeImage);
 		tsOutEarliest = [self.clock now];
 		tsOutLatest = 0;

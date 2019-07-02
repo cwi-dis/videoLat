@@ -13,6 +13,7 @@
 #define IDLE_LIGHT_INTERVAL 200000
 
 @implementation VideoMonoRunManager
+@synthesize rect;
 
 - (int) initialPrerunCount { return 40; }
 - (int) initialPrerunDelay { return 1000; }
@@ -48,6 +49,10 @@
 
 - (void) awakeFromNib
 {
+    assert(self.finder == NULL);
+    self.finder = self;
+    assert(self.genner == NULL);
+    self.genner = self;
     [super awakeFromNib];
     sensitiveArea = NSorUIMakeRect(160, 120, 320, 240);
 }
@@ -70,93 +75,8 @@
         assert(handlesInput);
         if (self.outputCompanion.outputCode == nil) return;
 
-		CVPixelBufferRef imagePixels = image;
-		OSType formatOSType = CVPixelBufferGetPixelFormatType(imagePixels);
-		size_t w = CVPixelBufferGetWidth(imagePixels);
-		//size_t h = CVPixelBufferGetHeight(imagePixels);
-		//size_t size = CVPixelBufferGetDataSize(imagePixels);
-
-		int pixelstep, pixelstart;
-		bool isPlanar = false;
-		if (formatOSType == kCVPixelFormatType_8IndexedGray_WhiteIsZero) {
-			pixelstep = 1;
-			pixelstart = 0;
-		} else if (formatOSType == kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange) {
-			pixelstep = 1;
-			pixelstart = 0;
-			isPlanar = true;
-		} else if (formatOSType == 'yuvs' || formatOSType == 'yuv2') {
-			pixelstep = 2;
-			pixelstart = 0;
-		} else if (formatOSType == kCVPixelFormatType_422YpCbCr8) {
-			pixelstep = 2;
-			pixelstart = 1;
-		} else {
-            NSLog(@"Unexpected newInputDone format %x", formatOSType);
-            return;
-		}
-
- 		CVPixelBufferLockBaseAddress(imagePixels, 0);
-		void *buffer;
-		if (isPlanar) {
-			buffer = CVPixelBufferGetBaseAddressOfPlane(imagePixels, 0);
-		} else {
-			buffer = CVPixelBufferGetBaseAddress(imagePixels);
-		}
-
-		int minx, x, maxx, miny, y, maxy, ystep;
-		minx = sensitiveArea.origin.x + (sensitiveArea.size.width/4);
-		maxx = minx + (sensitiveArea.size.width/2);
-		miny = sensitiveArea.origin.y + (sensitiveArea.size.height/4);
-		maxy = miny + (sensitiveArea.size.width/2);
-		ystep = (int)w*pixelstep;
-		long long total = 0;
-		long count = 0;
-		for (y=miny; y<maxy; y++) {
-			for (x=minx; x<maxx; x++) {
-				unsigned char *pixelPtr = (unsigned char *)buffer + pixelstart + y*ystep + x*pixelstep;
-				total += *pixelPtr;
-				count++;
-			}
-		}
-
-		CVPixelBufferUnlockBaseAddress(imagePixels, 0);
-		
-        int average = 0;
-        if (count) average = (int)(total/count);
-		// Complicated way to keep black and white level but adjust to changing camera apertures
-		if (minInputLevel < 255) minInputLevel++;
-		if (maxInputLevel > 0) maxInputLevel--;
-		if (average < minInputLevel) minInputLevel = average;
-		if (average > maxInputLevel) maxInputLevel = average;
-		//bool foundColorIsWhite = average > (whitelevel+blacklevel) / 2;
-        NSString *inputCode = @"mixed";
-        int delta = (maxInputLevel - minInputLevel);
-        if (delta > 10) {
-            if (average < minInputLevel + (delta / 3))
-                inputCode = @"black";
-            if (average > maxInputLevel - (delta / 3))
-                inputCode = @"white";
-        }
-        if (VL_DEBUG) NSLog(@" level %d (black %d white %d) found code %@", average, minInputLevel, maxInputLevel, inputCode);
-#ifdef WITH_UIKIT
-		self.bInputNumericValue.text = [NSString stringWithFormat:@"%d", average];
-		self.bInputNumericMinValue.text = [NSString stringWithFormat:@"%d", minInputLevel];
-		self.bInputNumericMaxValue.text = [NSString stringWithFormat:@"%d", maxInputLevel];
-		self.bInputValue.on = [inputCode isEqualToString:@"white"];
-#else
-        [self.bInputNumericValue setIntValue: average];
-        [self.bInputNumericMinValue setIntValue: minInputLevel];
-        [self.bInputNumericMaxValue setIntValue: maxInputLevel];
-        NSCellStateValue iVal = NSMixedState;
-        if ([inputCode isEqualToString:@"black"]) {
-            iVal = NSOffState;
-        } else if ([inputCode isEqualToString:@"white"]) {
-            iVal = NSOnState;
-        }
-        [self.bInputValue setState: iVal];
-#endif
-
+        NSString *inputCode = [self.finder find:image];
+        
 		if (![self.outputCompanion.outputCode isEqualToString:@"mixed"]) {
 			if ([inputCode isEqualToString: self.outputCompanion.outputCode]) {
 				if (self.running) {
@@ -199,41 +119,21 @@
 	}
 }
 
-
 - (CIImage *)newOutputStart
 {
     @synchronized(self) {
-		assert(handlesOutput);
-        CIImage *newImage = nil;
-		if ([self.outputCode isEqualToString: @"white"]) {
-			newImage = [CIImage imageWithColor:[CIColor colorWithRed:1 green:1 blue:1]];
-		} else if ([self.outputCode isEqualToString: @"black"]) {
-			newImage = [CIImage imageWithColor:[CIColor colorWithRed:0 green:0 blue:0]];
-        } else {
-#if 1
-			static double outputLevel;
-			static uint64_t lastChange;
-			if ([self.clock now] > lastChange + IDLE_LIGHT_INTERVAL) {
-				outputLevel = (double)rand() / (double)RAND_MAX;
-				lastChange = [self.clock now];
-			}
-            newImage = [CIImage imageWithColor:[CIColor colorWithRed:outputLevel green:outputLevel blue:outputLevel]];
-#else
-            newImage = [CIImage imageWithColor:[CIColor colorWithRed:0.1 green:0.4 blue:0.5]];
-#endif
-		}
-		CGRect rect = {0, 0, 480, 480};
-		newImage = [newImage imageByCroppingToRect: rect];
-		tsOutEarliest = [self.clock now];
-		tsOutLatest = 0;
-		if (VL_DEBUG) NSLog(@"VideoMonoRunManager.newOutputStart: returning %@ image", self.outputCode);
-		return newImage;
+        assert(handlesOutput);
+        CIImage *newImage = [self.genner genImageForCode:self.outputCode size:480];
+        tsOutEarliest = [self.clock now];
+        tsOutLatest = 0;
+        if (VL_DEBUG) NSLog(@"VideoMonoRunManager.newOutputStart: returning %@ image", self.outputCode);
+        return newImage;
     }
 }
 
 - (void)triggerNewOutputValue
 {
-	assert(handlesOutput);
+    assert(handlesOutput);
     if (!self.running && !self.preRunning) {
         // Idle, show intermediate value
         self.outputCode = @"mixed";
@@ -244,9 +144,129 @@
             self.outputCode = @"black";
         }
     }
-//xyzzy	prerunOutputStartTime = 0;
-//xyzzy	outputStartTime = 0;
-//xyzzy	inputStartTime = 0;
-	[self.outputView performSelectorOnMainThread:@selector(showNewData) withObject:nil waitUntilDone:NO ];
+    //xyzzy    prerunOutputStartTime = 0;
+    //xyzzy    outputStartTime = 0;
+    //xyzzy    inputStartTime = 0;
+    [self.outputView performSelectorOnMainThread:@selector(showNewData) withObject:nil waitUntilDone:NO ];
 }
+
+// InputVideoFindProtocol
+- (NSString *) find: (CVImageBufferRef)image
+{
+    OSType formatOSType = CVPixelBufferGetPixelFormatType(image);
+    size_t w = CVPixelBufferGetWidth(image);
+    //size_t h = CVPixelBufferGetHeight(image);
+    //size_t size = CVPixelBufferGetDataSize(image);
+    
+    int pixelstep, pixelstart;
+    bool isPlanar = false;
+    if (formatOSType == kCVPixelFormatType_8IndexedGray_WhiteIsZero) {
+        pixelstep = 1;
+        pixelstart = 0;
+    } else if (formatOSType == kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange) {
+        pixelstep = 1;
+        pixelstart = 0;
+        isPlanar = true;
+    } else if (formatOSType == 'yuvs' || formatOSType == 'yuv2') {
+        pixelstep = 2;
+        pixelstart = 0;
+    } else if (formatOSType == kCVPixelFormatType_422YpCbCr8) {
+        pixelstep = 2;
+        pixelstart = 1;
+    } else {
+        NSLog(@"Unexpected newInputDone format %x", formatOSType);
+        return nil;
+    }
+    
+    CVPixelBufferLockBaseAddress(image, 0);
+    void *buffer;
+    if (isPlanar) {
+        buffer = CVPixelBufferGetBaseAddressOfPlane(image, 0);
+    } else {
+        buffer = CVPixelBufferGetBaseAddress(image);
+    }
+    
+    int minx, x, maxx, miny, y, maxy, ystep;
+    minx = sensitiveArea.origin.x + (sensitiveArea.size.width/4);
+    maxx = minx + (sensitiveArea.size.width/2);
+    miny = sensitiveArea.origin.y + (sensitiveArea.size.height/4);
+    maxy = miny + (sensitiveArea.size.width/2);
+    ystep = (int)w*pixelstep;
+    long long total = 0;
+    long count = 0;
+    for (y=miny; y<maxy; y++) {
+        for (x=minx; x<maxx; x++) {
+            unsigned char *pixelPtr = (unsigned char *)buffer + pixelstart + y*ystep + x*pixelstep;
+            total += *pixelPtr;
+            count++;
+        }
+    }
+    
+    CVPixelBufferUnlockBaseAddress(image, 0);
+    
+    int average = 0;
+    if (count) average = (int)(total/count);
+    // Complicated way to keep black and white level but adjust to changing camera apertures
+    if (minInputLevel < 255) minInputLevel++;
+    if (maxInputLevel > 0) maxInputLevel--;
+    if (average < minInputLevel) minInputLevel = average;
+    if (average > maxInputLevel) maxInputLevel = average;
+    //bool foundColorIsWhite = average > (whitelevel+blacklevel) / 2;
+    NSString *inputCode = @"mixed";
+    int delta = (maxInputLevel - minInputLevel);
+    if (delta > 10) {
+        if (average < minInputLevel + (delta / 3))
+            inputCode = @"black";
+        if (average > maxInputLevel - (delta / 3))
+            inputCode = @"white";
+    }
+    if (VL_DEBUG) NSLog(@" level %d (black %d white %d) found code %@", average, minInputLevel, maxInputLevel, inputCode);
+#ifdef WITH_UIKIT
+    self.bInputNumericValue.text = [NSString stringWithFormat:@"%d", average];
+    self.bInputNumericMinValue.text = [NSString stringWithFormat:@"%d", minInputLevel];
+    self.bInputNumericMaxValue.text = [NSString stringWithFormat:@"%d", maxInputLevel];
+    self.bInputValue.on = [inputCode isEqualToString:@"white"];
+#else
+    NSCellStateValue iVal = NSMixedState;
+    if ([inputCode isEqualToString:@"black"]) {
+        iVal = NSOffState;
+    } else if ([inputCode isEqualToString:@"white"]) {
+        iVal = NSOnState;
+    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.bInputNumericValue setIntValue: average];
+        [self.bInputNumericMinValue setIntValue: self->minInputLevel];
+        [self.bInputNumericMaxValue setIntValue: self->maxInputLevel];
+        [self.bInputValue setState: iVal];
+    });
+#endif
+    return inputCode;
+}
+
+// OutputVideoGenProtocol
+- (CIImage *) genImageForCode: (NSString *)code size:(int)size
+{
+    CIImage *newImage;
+    if ([code isEqualToString: @"white"]) {
+        newImage = [CIImage imageWithColor:[CIColor colorWithRed:1 green:1 blue:1]];
+    } else if ([code isEqualToString: @"black"]) {
+        newImage = [CIImage imageWithColor:[CIColor colorWithRed:0 green:0 blue:0]];
+    } else {
+#if 1
+        static double outputLevel;
+        static uint64_t lastChange;
+        if ([self.clock now] > lastChange + IDLE_LIGHT_INTERVAL) {
+            outputLevel = (double)rand() / (double)RAND_MAX;
+            lastChange = [self.clock now];
+        }
+        newImage = [CIImage imageWithColor:[CIColor colorWithRed:outputLevel green:outputLevel blue:outputLevel]];
+#else
+        newImage = [CIImage imageWithColor:[CIColor colorWithRed:0.1 green:0.4 blue:0.5]];
+#endif
+    }
+    CGRect rect = {0, 0, 480, 480};
+    newImage = [newImage imageByCroppingToRect: rect];
+    return newImage;
+}
+
 @end
