@@ -225,7 +225,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 
 - (IBAction)selectionChanged:(id)sender
 {
-	assert(handlesInput);
+    if(!handlesInput) return;
 }
 
 - (IBAction)selectBase:(id)sender
@@ -233,7 +233,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 	// This method is only called on the slave side. We need to obtain the
 	// base measurement for our input device, and set up for it to be transmitted
 	// to the master side.
-	assert(handlesInput);
+	if(!handlesInput) return;
 	[self restart];
 }
 
