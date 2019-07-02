@@ -80,10 +80,6 @@
     self.clock = self;
     [super awakeFromNib];
     assert(self.bConnected);
-    assert(self.bInputValue);
-    assert(self.bInputNumericValue);
-    assert(self.bInputNumericMinValue);
-    assert(self.bInputNumericMaxValue);
     assert(self.outputView);
     assert(self.clock);
     assert(self.bSamplePeriodStepper);

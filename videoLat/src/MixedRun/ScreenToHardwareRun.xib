@@ -16,6 +16,10 @@
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customObject id="1" customClass="VideoMonoRunManager">
             <connections>
+                <outlet property="bInputNumericMaxValue" destination="337" id="Lp4-XW-8Bc"/>
+                <outlet property="bInputNumericMinValue" destination="335" id="1Bq-eF-qjx"/>
+                <outlet property="bInputNumericValue" destination="231" id="sg3-zd-3hL"/>
+                <outlet property="capturer" destination="74" id="ZgH-Uk-rXn"/>
                 <outlet property="clock" destination="74" id="297"/>
                 <outlet property="collector" destination="426" id="437"/>
                 <outlet property="inputCompanion" destination="74" id="251"/>
@@ -24,7 +28,7 @@
                 <outlet property="selectionView" destination="203" id="325"/>
             </connections>
         </customObject>
-        <customObject id="74" customClass="HardwareRunManager">
+        <customObject id="74" userLabel="Clock and capturer" customClass="HardwareRunManager">
             <connections>
                 <outlet property="bConnected" destination="204" id="321"/>
                 <outlet property="bInputNumericMaxValue" destination="337" id="355"/>
