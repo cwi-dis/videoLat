@@ -27,12 +27,12 @@
 
 - (NSString *)baseName {
     NSLog(@"networkSelectionView baseName called");
-    assert(0);
+    return @"remote calibration";
 }
 
 - (NSString *)deviceName {
     NSLog(@"networkSelectionView deviceName called");
-    assert(0);
+    return @"NetworkInput";
 }
 
 @end

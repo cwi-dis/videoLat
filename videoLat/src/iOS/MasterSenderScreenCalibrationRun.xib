@@ -21,7 +21,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YgM-JI-wCV" customClass="NetworkSelectionView">
-                    <rect key="frame" x="0.0" y="441" width="375" height="91"/>
+                    <rect key="frame" x="0.0" y="440" width="375" height="91"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Status:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u9e-0E-c4l">
                             <rect key="frame" x="8" y="35" width="55" height="21"/>
@@ -78,6 +78,7 @@
                         <constraint firstItem="u9e-0E-c4l" firstAttribute="centerY" secondItem="YgM-JI-wCV" secondAttribute="centerY" id="liG-jj-kMO"/>
                         <constraint firstItem="Dba-fm-tcE" firstAttribute="leading" secondItem="u9e-0E-c4l" secondAttribute="trailing" constant="54" id="r3f-Dv-yuz"/>
                         <constraint firstItem="adq-pi-9Lg" firstAttribute="baseline" secondItem="vqN-gv-vKc" secondAttribute="baseline" id="vtn-32-JBm"/>
+                        <constraint firstAttribute="height" constant="91" id="w9d-RZ-RIX"/>
                         <constraint firstItem="vzl-Xy-K93" firstAttribute="leading" secondItem="KKT-fE-pMS" secondAttribute="trailing" constant="17" id="y0Q-hS-YuB"/>
                         <constraint firstItem="u9e-0E-c4l" firstAttribute="top" secondItem="KKT-fE-pMS" secondAttribute="bottom" constant="8" symbolic="YES" id="yOB-2d-ELz"/>
                     </constraints>
@@ -160,6 +161,7 @@
                         <constraint firstItem="Tni-uN-GsW" firstAttribute="top" secondItem="Uf5-jO-9tP" secondAttribute="bottom" constant="8" symbolic="YES" id="gK2-P6-Px9"/>
                         <constraint firstItem="bgE-9x-iLE" firstAttribute="leading" secondItem="LsZ-P3-9pd" secondAttribute="leading" id="m0S-9J-pvn"/>
                         <constraint firstItem="Uf5-jO-9tP" firstAttribute="leading" secondItem="IoA-hh-w9S" secondAttribute="leading" constant="20" id="mKU-qi-fgo"/>
+                        <constraint firstAttribute="height" constant="128" id="wdR-JJ-O8H"/>
                     </constraints>
                     <connections>
                         <outlet property="bAverage" destination="LsZ-P3-9pd" id="hBX-Yo-Lal"/>
@@ -169,7 +171,7 @@
                     </connections>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xuL-9Z-d7r" customClass="VideoOutputView">
-                    <rect key="frame" x="0.0" y="64" width="375" height="369"/>
+                    <rect key="frame" x="0.0" y="65" width="375" height="367"/>
                     <color key="backgroundColor" red="0.045329090209999999" green="0.92391306159999997" blue="0.90212601420000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <connections>
                         <outlet property="manager" destination="JIP-ay-XCU" id="tzx-Yf-ojx"/>
@@ -184,9 +186,9 @@
                 <constraint firstItem="xuL-9Z-d7r" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="bfO-2g-BrR"/>
                 <constraint firstItem="YgM-JI-wCV" firstAttribute="leading" secondItem="IoA-hh-w9S" secondAttribute="leading" id="fG6-6D-vmA"/>
                 <constraint firstAttribute="trailing" secondItem="xuL-9Z-d7r" secondAttribute="trailing" id="gWO-sj-ebh"/>
-                <constraint firstItem="xuL-9Z-d7r" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="topMargin" id="kR6-d0-8e0"/>
+                <constraint firstItem="xuL-9Z-d7r" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="65" id="kR6-d0-8e0"/>
                 <constraint firstItem="xuL-9Z-d7r" firstAttribute="leading" secondItem="YgM-JI-wCV" secondAttribute="leading" id="l1f-iY-Tgu"/>
-                <constraint firstItem="IoA-hh-w9S" firstAttribute="top" secondItem="YgM-JI-wCV" secondAttribute="bottom" constant="7" id="msf-q2-Nk5"/>
+                <constraint firstItem="IoA-hh-w9S" firstAttribute="top" secondItem="YgM-JI-wCV" secondAttribute="bottom" constant="8" symbolic="YES" id="msf-q2-Nk5"/>
             </constraints>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics"/>
             <point key="canvasLocation" x="165.59999999999999" y="238.83058470764618"/>

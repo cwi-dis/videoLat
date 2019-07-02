@@ -23,8 +23,8 @@
 
 - (BOOL)switchToDeviceWithName:(NSString *)name
 {
-	assert(0);
-    return false;
+	assert([name isEqualToString:@"NetworkInput"]);
+    return true;
 }
 
 - (NetworkInput *)init
