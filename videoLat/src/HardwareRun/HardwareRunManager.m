@@ -19,6 +19,11 @@
 // prerunning. In microseconds.
 #define IDLE_LIGHT_INTERVAL 200000
 
+@interface HardwareRunManager ()
+- (void)showErrorSheet: (NSString *)message;
+- (void)showErrorSheet: (NSString *)message button:(NSString *)button handler:(void (^ __nullable)(void))handler;
+@end
+
 @implementation HardwareRunManager
 
 @synthesize outputView;
@@ -90,6 +95,32 @@
     [self restart];
 }
 
+- (void)showErrorSheet: (NSString *)message
+{
+    NSLog(@"%@", message);
+    NSAlert *errorAlert = [[NSAlert alloc] init];
+    errorAlert.messageText = message;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [errorAlert beginSheetModalForWindow:[self.outputView window] completionHandler:^(NSModalResponse returnCode) {}];
+    });
+}
+
+- (void)showErrorSheet: (NSString *)message button:(NSString *)button handler:(void (^ __nullable)(void))handler
+{
+    NSLog(@"%@", message);
+    NSAlert *errorAlert = [[NSAlert alloc] init];
+    errorAlert.messageText = message;
+    [errorAlert addButtonWithTitle:@"OK"];
+    [errorAlert addButtonWithTitle:button];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [errorAlert beginSheetModalForWindow:[self.outputView window] completionHandler:^(NSModalResponse returnCode) {
+            if (returnCode == NSAlertSecondButtonReturn) handler();
+        }];
+    });
+}
+
+// (void (^ __nullable)(NSModalResponse returnCode))handler
+
 - (IBAction) selectionChanged: (id)sender
 {
     if (!handlesInput) return;
@@ -117,26 +148,26 @@
     PythonLoader *pl = [PythonLoader sharedPythonLoader];
     BOOL ok = [pl loadPackageNamed: selectedDevice];
     if (!ok) {
-        NSLog(@"HardwareRunManager: Programmer error: Python module %@ cannot be imported", selectedDevice);
+        [self showErrorSheet: [NSString stringWithFormat:@"HardwareRunManager: Programmer error: Python module %@ cannot be imported", selectedDevice]];
         return;
     }
     
     Class deviceClass = NSClassFromString(selectedDevice);
     if (deviceClass == nil) {
-        NSLog(@"HardwareRunManager: Programmer error: class %@ does not exist", selectedDevice);
+        [self showErrorSheet: [NSString stringWithFormat:@"HardwareRunManager: Programmer error: class %@ does not exist", selectedDevice]];
         return;
     }
     @try {
         self.device = [[deviceClass alloc] init];
+        connected = [self.device available];
     } @catch (NSException *exception) {
-        NSLog(@"Caught exception %@ while allocating hardware device class: %@", [exception name], [exception reason]);
+        [self showErrorSheet: [NSString stringWithFormat:@"Caught exception %@ while allocating hardware device class: %@", [exception name], [exception reason]]];
     }
     if (self.device == nil) {
-        NSLog(@"HardwareRunManager: cannot allocate %@ object", deviceClass);
+        [self showErrorSheet: [NSString stringWithFormat:@"HardwareRunManager: cannot allocate %@ object", deviceClass]];
     }
     
     self.outputView.device = self.device;
-    connected = [self.device available];
     [self.bConnected setState: (int)connected];
     [self.selectionView.bPreRun setEnabled: connected];
     [self.statusView.bRun setEnabled: NO];
@@ -146,7 +177,7 @@
     maxInputLevel = 0.0;
     inputLevel = -1;
     // This call is in completely the wrong place....
-    if (!alive) {
+    if (connected && !alive) {
         alive = YES;
         [self performSelectorInBackground:@selector(_periodic:) withObject:self];
     }
@@ -168,7 +199,7 @@
 	}
     MeasurementDataStore *baseStore = [baseType measurementNamed: baseName];
     if (baseStore == nil) {
-        NSLog(@"HardwareRunManager: no base measurement named %@", baseName);
+        [self showErrorSheet: [NSString stringWithFormat:@"HardwareRunManager: no base measurement named %@", baseName]];
         return;
     }
     if (handlesInput) {
@@ -203,78 +234,83 @@
     BOOL first = YES;
     BOOL outputLevelChanged = NO;
 	uint64_t lastUpdateCall = 0;
-    while(alive) {
-        BOOL nConnected = self.device && [self.device available];
-        uint64_t loopTimestamp = [self.clock now];
-        @synchronized(self) {
-            if (newOutputValueWanted) {
-                outputTimestamp = loopTimestamp;
-                if ([self.outputCode isEqualToString: @"white"]) {
-                    outputLevel = 1;
-                    outputLevelChanged = YES;
-                } else if ([self.outputCode isEqualToString: @"black"]) {
-                    outputLevel = 0;
-                    outputLevelChanged = YES;
-                } else {
-					outputLevel = (double)rand() / (double)RAND_MAX;
-				}
-                newOutputValueWanted = NO;
-                if (VL_DEBUG) NSLog(@"HardwareRunManager: outputLevel %f at %lld", outputLevel, outputTimestamp);
+    @try {
+        while(alive) {
+            BOOL nConnected = self.device && [self.device available];
+            uint64_t loopTimestamp = [self.clock now];
+            @synchronized(self) {
+                if (newOutputValueWanted) {
+                    outputTimestamp = loopTimestamp;
+                    if ([self.outputCode isEqualToString: @"white"]) {
+                        outputLevel = 1;
+                        outputLevelChanged = YES;
+                    } else if ([self.outputCode isEqualToString: @"black"]) {
+                        outputLevel = 0;
+                        outputLevelChanged = YES;
+                    } else {
+                        outputLevel = (double)rand() / (double)RAND_MAX;
+                    }
+                    newOutputValueWanted = NO;
+                    if (VL_DEBUG) NSLog(@"HardwareRunManager: outputLevel %f at %lld", outputLevel, outputTimestamp);
+                }
             }
-        }
-		NSString *outputLevelStr = [NSString stringWithFormat:@"%f", outputLevel];
-		VL_LOG_EVENT(@"hardwareOutput", loopTimestamp, outputLevelStr);
-        double nInputLevel = [self.device light: outputLevel];
-		NSString *inputLevelStr = [NSString stringWithFormat:@"%f", inputLevel];
-		VL_LOG_EVENT(@"hardwareInput", loopTimestamp, inputLevelStr);
-        if (nInputLevel < 0) {
-            [self performSelectorOnMainThread:@selector(_update:) withObject:self waitUntilDone:NO];
-            continue;
-        }
-        
-        @synchronized(self) {
-#ifdef IGNORE_LEVELS_0_AND_1
-			if (inputLevel > 0 && inputLevel < minInputLevel)
-				minInputLevel = inputLevel;
-			if (inputLevel < 1 && inputLevel > maxInputLevel)
-				maxInputLevel = inputLevel;
-#else
-			if (inputLevel >= 0 && inputLevel < minInputLevel)
-				minInputLevel = inputLevel;
-			if (inputLevel <= 1 && inputLevel > maxInputLevel)
-				maxInputLevel = inputLevel;
-
-#endif
-			// We call update for a number of cases:
-			// - first time through the loop
-			// - device connected or disconnected
-			// - input level changed
-			// - output level changed
-			// - maxDelay has passed since last call and we are running or prerunning
-            if (first
-                    || nConnected != connected
-                    || nInputLevel != inputLevel
-                    || outputLevelChanged
-                    || ((self.preRunning || self.running) && loopTimestamp > lastUpdateCall + maxDelay)
-                    ) {
-				// Stopgap measure: if the device wasn't available we won't let it come available.
-				// This triggers some bug in our code...
-				if (connected)
-					connected = nConnected;
-                inputLevel = nInputLevel;
-                inputTimestamp = loopTimestamp;
+            NSString *outputLevelStr = [NSString stringWithFormat:@"%f", outputLevel];
+            VL_LOG_EVENT(@"hardwareOutput", loopTimestamp, outputLevelStr);
+            double nInputLevel = [self.device light: outputLevel];
+            NSString *inputLevelStr = [NSString stringWithFormat:@"%f", inputLevel];
+            VL_LOG_EVENT(@"hardwareInput", loopTimestamp, inputLevelStr);
+            if (nInputLevel < 0) {
                 [self performSelectorOnMainThread:@selector(_update:) withObject:self waitUntilDone:NO];
-				lastUpdateCall = loopTimestamp;
-                first = NO;
+                continue;
             }
-			// Finally, if we are not running, we change the light level every once in a while
-			if (!self.preRunning && !self.running && [self.clock now] > outputTimestamp + IDLE_LIGHT_INTERVAL)
-				newOutputValueWanted = YES;
+            
+            @synchronized(self) {
+    #ifdef IGNORE_LEVELS_0_AND_1
+                if (inputLevel > 0 && inputLevel < minInputLevel)
+                    minInputLevel = inputLevel;
+                if (inputLevel < 1 && inputLevel > maxInputLevel)
+                    maxInputLevel = inputLevel;
+    #else
+                if (inputLevel >= 0 && inputLevel < minInputLevel)
+                    minInputLevel = inputLevel;
+                if (inputLevel <= 1 && inputLevel > maxInputLevel)
+                    maxInputLevel = inputLevel;
+
+    #endif
+                // We call update for a number of cases:
+                // - first time through the loop
+                // - device connected or disconnected
+                // - input level changed
+                // - output level changed
+                // - maxDelay has passed since last call and we are running or prerunning
+                if (first
+                        || nConnected != connected
+                        || nInputLevel != inputLevel
+                        || outputLevelChanged
+                        || ((self.preRunning || self.running) && loopTimestamp > lastUpdateCall + maxDelay)
+                        ) {
+                    // Stopgap measure: if the device wasn't available we won't let it come available.
+                    // This triggers some bug in our code...
+                    if (connected)
+                        connected = nConnected;
+                    inputLevel = nInputLevel;
+                    inputTimestamp = loopTimestamp;
+                    [self performSelectorOnMainThread:@selector(_update:) withObject:self waitUntilDone:NO];
+                    lastUpdateCall = loopTimestamp;
+                    first = NO;
+                }
+                // Finally, if we are not running, we change the light level every once in a while
+                if (!self.preRunning && !self.running && [self.clock now] > outputTimestamp + IDLE_LIGHT_INTERVAL)
+                    newOutputValueWanted = YES;
+            }
+            outputLevelChanged = NO;
+            double interval = (0.001 * (double)self.samplePeriodMs);
+            [NSThread sleepForTimeInterval:interval];
         }
-        outputLevelChanged = NO;
-		double interval = (0.001 * (double)self.samplePeriodMs);
-        [NSThread sleepForTimeInterval:interval];
+    } @catch (NSException *exception) {
+        [self showErrorSheet: [NSString stringWithFormat:@"Caught exception %@ in hardware handler: %@", [exception name], [exception reason]]];
     }
+    alive = NO;
 }
 
 - (void)_update: (id)sender
@@ -343,14 +379,8 @@
         }
         NSString *msg = self.device.lastErrorMessage;
         if (msg && ![msg isEqualToString:lastError]) {
-            lastError = msg;
-            NSAlert *alert = [[NSAlert alloc] init];
-            [alert setMessageText: @"Hardware device error"];
-            [alert setInformativeText: msg];
-            [alert addButtonWithTitle: @"Continue"];
-            [alert addButtonWithTitle: @"stop"];
-            if ([alert runModal] != NSAlertFirstButtonReturn)
-                [self stop];
+            [self showErrorSheet: [NSString stringWithFormat: @"Hardware device error: %@", msg]];
+            [self stop];
         }
     }
 }
