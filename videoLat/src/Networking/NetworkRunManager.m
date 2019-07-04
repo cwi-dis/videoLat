@@ -664,7 +664,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
     } else {
         // This code runs in the master (video sender, network receiver)
 #ifdef WITH_APPKIT
-        assert(self.selectionView);
+        if(!self.selectionView) NSLog(@"Warning: NetworkrunManager has no selectionView");
 #endif
 
         uint64_t slaveTimestamp = getTimestamp(data, @"slaveTime");
