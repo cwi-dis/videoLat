@@ -70,6 +70,7 @@
 {
     // We should dynamically determine this, but I am too lazy for now...
     return @[
+             @"ArduinoLed",
              @"Arduino",
              @"LabJack"
              ];
