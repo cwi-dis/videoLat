@@ -621,6 +621,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
             //
             mr.measurementType = self.measurementType.name;
             [self.protocol close];
+            if (self.protocol) self.protocol.delegate = nil;
             self.protocol = nil;
             if (self.capturer) [self.capturer stop];
             [self _updateStatus:@"Complete"];
@@ -739,7 +740,9 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 - (void)disconnected:(id)connection
 {
     NSLog(@"received disconnect from %@ (our protocol %@)", connection, self.protocol);
-    self.protocol = nil;
+	[self.protocol close];
+	if (self.protocol) self.protocol.delegate = nil;
+	self.protocol = nil;
 	[self _updateStatus: @"Disconnected"];
     if (self.preRunning)
         [self performSelectorOnMainThread:@selector(stopPreMeasuring:) withObject:self waitUntilDone:NO];
