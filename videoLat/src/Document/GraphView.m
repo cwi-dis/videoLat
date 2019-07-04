@@ -143,6 +143,10 @@ static double normFunc(double x, double average, double stddev)
     CGFloat maxX = self.modelObject.maxXaxis;
 	CGFloat minXaxis = (CGFloat)_RoundUpTo125(minX);
     CGFloat maxXaxis = (CGFloat)_RoundUpTo125(maxX);
+    if (maxXaxis == minXaxis) {
+        maxXaxis += 1;
+        minXaxis -= 1;
+    }
     CGFloat xPixelPerUnit = width / (CGFloat)(maxXaxis-minXaxis);
 #if 0
     if (xPixelPerUnit < 1.0) {
@@ -163,6 +167,10 @@ static double normFunc(double x, double average, double stddev)
     CGFloat maxY = self.modelObject.max;
     CGFloat minYaxis = (CGFloat)_RoundUpTo125(minY);
     CGFloat maxYaxis = (CGFloat)_RoundUpTo125(maxY);
+    if (minYaxis == maxYaxis) {
+        minYaxis -= 1;
+        maxYaxis += 1;
+    }
 
     CGFloat yPixelPerUnit = height / (maxYaxis-minYaxis);
     if (yPixelPerUnit == 0) yPixelPerUnit = 1;
