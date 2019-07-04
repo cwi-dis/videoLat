@@ -278,6 +278,9 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
         NSString *dsString = [dsData base64EncodedStringWithOptions:0];
         assert(dsString);
         [self.protocol send: @{@"measurementResults" : dsString}];
+        [self.protocol close];
+        self.protocol.delegate = nil;
+        self.protocol = nil;
     }
 }
 
