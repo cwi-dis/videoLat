@@ -177,8 +177,10 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 
 - (void) awakeFromNib
 {
+#if 0
 	if (self.selectionViewForStatusOnly == nil)
 		self.selectionViewForStatusOnly = self.selectionView;
+#endif
     if (self.capturer && ![self.capturer isKindOfClass: [NetworkInput class]]) {
         slaveHandler = YES;
     }

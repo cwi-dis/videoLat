@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14460.31"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14490.70"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -41,7 +41,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="956" height="684"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="4" customClass="NetworkSelectionView">
+                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="4" customClass="VideoSelectionView">
                         <rect key="frame" x="20" y="164" width="268" height="394"/>
                         <subviews>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9">
@@ -61,7 +61,7 @@
                                 </textFieldCell>
                             </textField>
                             <popUpButton toolTip="Select camera to use for input. " verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="11">
-                                <rect key="frame" x="77" y="334" width="174" height="26"/>
+                                <rect key="frame" x="77" y="335" width="174" height="25"/>
                                 <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="39">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="menu"/>
@@ -72,7 +72,7 @@
                                 </connections>
                             </popUpButton>
                             <customView toolTip="Video captured by the camera" translatesAutoresizingMaskIntoConstraints="NO" id="8" customClass="VideoInputView">
-                                <rect key="frame" x="0.0" y="67" width="268" height="219"/>
+                                <rect key="frame" x="0.0" y="25" width="268" height="261"/>
                                 <connections>
                                     <outlet property="visibleButton" destination="7" id="61"/>
                                 </connections>
@@ -87,36 +87,12 @@
                                     <action selector="visibleChanged:" target="8" id="62"/>
                                 </connections>
                             </button>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="405">
-                                <rect key="frame" x="18" y="42" width="47" height="17"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Status:" id="412">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="6Of-Km-OsJ">
+                                <rect key="frame" x="15" y="0.0" width="238" height="17"/>
+                                <textFieldCell key="cell" alignment="center" title="(Control is handled by remote sender)" id="Wyx-Nw-6e2">
                                     <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
-                            <textField toolTip="Output display used. Position whole window to select output display." horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="406">
-                                <rect key="frame" x="77" y="42" width="114" height="17"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="not yet connected" id="411">
-                                    <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="407">
-                                <rect key="frame" x="18" y="17" width="64" height="17"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="RTT (ms):" id="410">
-                                    <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
-                            <textField toolTip="Output display used. Position whole window to select output display." horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="408">
-                                <rect key="frame" x="77" y="17" width="59" height="17"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="unknown" id="409">
-                                    <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
                         </subviews>
@@ -133,21 +109,13 @@
                             <constraint firstItem="11" firstAttribute="baseline" secondItem="36" secondAttribute="baseline" id="381"/>
                             <constraint firstItem="36" firstAttribute="top" secondItem="9" secondAttribute="bottom" constant="8" symbolic="YES" id="389"/>
                             <constraint firstItem="8" firstAttribute="top" secondItem="7" secondAttribute="bottom" constant="8" symbolic="YES" id="403"/>
-                            <constraint firstItem="405" firstAttribute="leading" secondItem="7" secondAttribute="leading" id="422"/>
-                            <constraint firstItem="405" firstAttribute="top" secondItem="8" secondAttribute="bottom" constant="8" symbolic="YES" id="425"/>
-                            <constraint firstAttribute="bottom" secondItem="407" secondAttribute="bottom" constant="17" id="426"/>
-                            <constraint firstItem="407" firstAttribute="leading" secondItem="405" secondAttribute="leading" id="427"/>
-                            <constraint firstItem="407" firstAttribute="top" secondItem="405" secondAttribute="bottom" constant="8" symbolic="YES" id="428"/>
-                            <constraint firstItem="406" firstAttribute="baseline" secondItem="405" secondAttribute="baseline" id="430"/>
-                            <constraint firstItem="408" firstAttribute="baseline" secondItem="407" secondAttribute="baseline" id="433"/>
-                            <constraint firstItem="408" firstAttribute="leading" secondItem="406" secondAttribute="leading" id="434"/>
-                            <constraint firstItem="406" firstAttribute="leading" secondItem="11" secondAttribute="leading" id="511"/>
                             <constraint firstItem="7" firstAttribute="top" secondItem="4" secondAttribute="top" constant="86" id="512"/>
+                            <constraint firstItem="6Of-Km-OsJ" firstAttribute="top" secondItem="8" secondAttribute="bottom" constant="8" id="61F-br-glc"/>
+                            <constraint firstAttribute="bottom" secondItem="6Of-Km-OsJ" secondAttribute="bottom" id="YZI-Vf-plK"/>
+                            <constraint firstItem="6Of-Km-OsJ" firstAttribute="centerX" secondItem="4" secondAttribute="centerX" id="z25-Wm-2kK"/>
                         </constraints>
                         <connections>
                             <outlet property="bDevices" destination="11" id="384"/>
-                            <outlet property="bOurStatus" destination="406" id="435"/>
-                            <outlet property="bRTT" destination="408" id="436"/>
                             <outlet property="inputHandler" destination="3" id="59"/>
                         </connections>
                     </customView>

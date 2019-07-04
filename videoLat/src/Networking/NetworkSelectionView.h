@@ -14,7 +14,7 @@
 /// Subclass of NSView that may at some point allow user to select networking
 /// parameters
 ///
-#if 1
+#if 0
 @interface NetworkSelectionView : VideoSelectionView<NetworkViewProtocol>
 #else
 @interface NetworkSelectionView
