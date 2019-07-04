@@ -18,24 +18,11 @@
             <connections>
                 <outlet property="capturer" destination="3" id="207"/>
                 <outlet property="clock" destination="3" id="89"/>
-                <outlet property="collector" destination="IcB-3o-4w8" id="hg3-or-Vl1"/>
                 <outlet property="finder" destination="209" id="210"/>
-                <outlet property="inputCompanion" destination="Qml-aT-Xcl" id="l5w-zJ-wRK"/>
                 <outlet property="measurementMaster" destination="-2" id="180"/>
                 <outlet property="outputView" destination="77" id="200"/>
                 <outlet property="selectionView" destination="4" id="437"/>
                 <outlet property="statusView" destination="442" id="514"/>
-            </connections>
-        </customObject>
-        <customObject id="Qml-aT-Xcl" userLabel="Input companion" customClass="VideoRunManager">
-            <connections>
-                <outlet property="capturer" destination="3" id="ogD-bZ-qBx"/>
-                <outlet property="clock" destination="3" id="n4I-QN-G4s"/>
-                <outlet property="collector" destination="IcB-3o-4w8" id="yjK-De-Z3X"/>
-                <outlet property="finder" destination="209" id="Xi3-ko-ji1"/>
-                <outlet property="measurementMaster" destination="-2" id="fEq-mM-W5S"/>
-                <outlet property="outputCompanion" destination="74" id="Bpp-bx-U4z"/>
-                <outlet property="selectionView" destination="4" id="bja-3D-Dk6"/>
             </connections>
         </customObject>
         <customObject id="3" customClass="VideoInput">
@@ -375,6 +362,5 @@
                 </connections>
             </view>
         </window>
-        <customObject id="IcB-3o-4w8" customClass="RunCollector"/>
     </objects>
 </document>
