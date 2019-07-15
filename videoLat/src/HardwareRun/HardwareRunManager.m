@@ -76,8 +76,8 @@
 - (void)awakeFromNib
 {
     // The hardware run manager is its own capturer and clock
-    self.capturer = self;
-    self.clock = self;
+    if (self.capturer == nil) self.capturer = self;
+    if (self.clock == nil) self.clock = self;
     [super awakeFromNib];
     assert(self.bConnected);
     if (handlesOutput) assert(self.outputView);
@@ -89,8 +89,6 @@
 #endif
 	self.samplePeriodMs = 1;
 	[self _updatePeriod];
-    if (self.clock == nil) self.clock = self;
-	if (self.capturer == nil) self.capturer = self;
     [self restart];
 }
 
