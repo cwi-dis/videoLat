@@ -77,7 +77,14 @@
 
         NSString *inputCode = [self.finder find:image];
         
-		if (![self.outputCompanion.outputCode isEqualToString:@"mixed"]) {
+        if ([inputCode isEqualToString:@"mixed"]) {
+            // Unsure what we have detected. Leave it be for a while then change.
+            prevInputCodeDetectionCount++;
+            if (prevInputCodeDetectionCount % 250 == 0) {
+                NSLog(@"Received mixed code for too long. Generating new one.");
+                [self.outputCompanion triggerNewOutputValue];
+            }
+        } else {
             if (self.outputCompanion.prevOutputCode && [inputCode isEqualToString:self.outputCompanion.prevOutputCode]) {
                 if (VL_DEBUG) NSLog(@"Received old output code again: %@", inputCode);
             } else if (prevInputCode && [inputCode isEqualToString: prevInputCode]) {
