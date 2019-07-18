@@ -355,14 +355,25 @@
         if (handlesInput) {
             // Check for detections
             if (VL_DEBUG) NSLog(@" input %@ (%f  range %f..%f) output %@", inputCode, inputLevel, minInputLevel, maxInputLevel, self.outputCode);
-            if ([inputCode isEqualToString: self.outputCompanion.outputCode]) {
+            if (self.outputCompanion.prevOutputCode && [inputCode isEqualToString:self.outputCompanion.prevOutputCode]) {
+                if (VL_DEBUG) NSLog(@"Received old output code again: %@", inputCode);
+            } else if (prevInputCode && [inputCode isEqualToString: prevInputCode]) {
+                prevInputCodeDetectionCount++;
+                if (VL_DEBUG) NSLog(@"Received same code as last reception: %@, count=%d", inputCode, prevInputCodeDetectionCount);
+                if ((prevInputCodeDetectionCount % 250) == 0) {
+                    showWarningAlert(@"Old code detected too often. Generating new one.");
+                    [self.outputCompanion triggerNewOutputValue];
+                }
+            } else if ([inputCode isEqualToString: self.outputCompanion.outputCode]) {
                 if (self.running) {
                     [self.collector recordReception:inputCode at:inputTimestamp];
 					VL_LOG_EVENT(@"reception", inputTimestamp, inputCode);
                     self.statusView.detectCount = [NSString stringWithFormat: @"%d", self.collector.count];
                     self.statusView.detectAverage = [NSString stringWithFormat: @"%.3f ms ± %.3f", self.collector.average / 1000.0, self.collector.stddev / 1000.0];
                     [self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
-                    [self.outputCompanion triggerNewOutputValue];
+                    prevInputCode = self.outputCompanion.outputCode;
+                    prevInputCodeDetectionCount = 0;
+                    [self.outputCompanion triggerNewOutputValueAfterDelay];
                 } else if (self.preRunning) {
                     [self _prerunRecordReception: inputCode];
                 }

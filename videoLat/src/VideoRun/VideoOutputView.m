@@ -172,16 +172,11 @@ static io_service_t IOServicePortFromCGDisplayID(CGDirectDisplayID displayID)
 }
 
 - (void)showNewData {
-	// Hack to attempt cutting down on CPU usage and randomize things a little too.
-	// We wait somewhere between 1 and 100ms
-	dispatch_time_t deltaT = dispatch_time(DISPATCH_TIME_NOW, 1000000LL * (1+(rand()%100)));
-	dispatch_after(deltaT, dispatch_get_main_queue(), ^{
 #ifdef WITH_UIKIT
-        [self setNeedsDisplay];
+    [self setNeedsDisplay];
 #else
-        [self setNeedsDisplay:YES];
+    [self setNeedsDisplay:YES];
 #endif
-	});
 }
 
 - (void)drawRect:(NSorUIRect)dirtyRect {

@@ -78,7 +78,16 @@
         NSString *inputCode = [self.finder find:image];
         
 		if (![self.outputCompanion.outputCode isEqualToString:@"mixed"]) {
-			if ([inputCode isEqualToString: self.outputCompanion.outputCode]) {
+            if (self.outputCompanion.prevOutputCode && [inputCode isEqualToString:self.outputCompanion.prevOutputCode]) {
+                if (VL_DEBUG) NSLog(@"Received old output code again: %@", inputCode);
+            } else if (prevInputCode && [inputCode isEqualToString: prevInputCode]) {
+                prevInputCodeDetectionCount++;
+                if (VL_DEBUG) NSLog(@"Received same code as last reception: %@, count=%d", inputCode, prevInputCodeDetectionCount);
+                if ((prevInputCodeDetectionCount % 250) == 0) {
+                    showWarningAlert(@"Old code detected too often. Generating new one.");
+                    [self.outputCompanion triggerNewOutputValue];
+                }
+            } else if ([inputCode isEqualToString: self.outputCompanion.outputCode]) {
 				if (self.running) {
                     if (handlesOutput) {
                         assert(tsOutLatest);	// Must have been set before we can detect a qr-code
@@ -103,7 +112,13 @@
 				} else if (self.preRunning) {
 					[self _prerunRecordReception: inputCode];
 				}
-				[self.outputCompanion triggerNewOutputValue];
+                // Now let's remember it so we don't generate "bad code" messages
+                // if we detect it a second time.
+                prevInputCode = self.outputCompanion.outputCode;
+                prevInputCodeDetectionCount = 0;
+                if (VL_DEBUG) NSLog(@"Received: %@", self.outputCompanion.outputCode);
+                // Now generate a new output code.
+				[self.outputCompanion triggerNewOutputValueAfterDelay];
 			} else if (self.preRunning) {
 				[self _prerunRecordNoReception];
 			}

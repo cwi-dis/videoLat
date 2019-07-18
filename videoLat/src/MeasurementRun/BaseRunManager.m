@@ -440,6 +440,15 @@ static NSMutableDictionary *runManagerSelectionNibs;
 	[NSException raise:@"BaseRunManager" format:@"Must override triggerNewOutputValue in subclass %@", [self class]];
 }
 
+- (void)triggerNewOutputValueAfterDelay
+{
+    // Randomize a 0..100ms delay before producing the next code.
+    dispatch_time_t when = dispatch_time(DISPATCH_TIME_NOW, 1000000LL * (1+(rand()%100)));
+    dispatch_after(when, dispatch_get_main_queue(), ^{
+        [self triggerNewOutputValue];
+    });
+}
+
 - (CIImage *)newOutputStart
 {
 	[NSException raise:@"BaseRunManager" format:@"Must override newOutputStart in subclass %@", [self class]];

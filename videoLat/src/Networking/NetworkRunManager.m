@@ -408,7 +408,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
             prevInputCodeDetectionCount = 0;
             if (VL_DEBUG) NSLog(@"Received: %@", self.outputCompanion.outputCode);
             // Now generate a new output code.
-            [self.outputCompanion triggerNewOutputValue];
+            [self.outputCompanion triggerNewOutputValueAfterDelay];
 		} else if (self.outputCompanion.prevOutputCode && [code isEqualToString:self.outputCompanion.prevOutputCode]) {
 			NSLog(@"Received old code %@", code);
         } else {

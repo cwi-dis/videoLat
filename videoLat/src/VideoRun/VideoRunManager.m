@@ -253,23 +253,23 @@
             return;
         }
         uint64_t finderStartTime = [self.clock now];
-        NSString *code = [self.finder find: image];
+        NSString *inputCode = [self.finder find: image];
         uint64_t finderStopTime = [self.clock now];
         uint64_t finderDuration = finderStopTime - finderStartTime;
-        BOOL foundQRcode = (code != NULL);
+        BOOL foundQRcode = (inputCode != NULL);
         if (foundQRcode) {
             
 			// Compare the code to what was expected.
-            if (self.outputCompanion.prevOutputCode && [code isEqualToString:self.outputCompanion.prevOutputCode]) {
-				if (VL_DEBUG) NSLog(@"Received old output code again: %@", code);
-            } else if (prevInputCode && [code isEqualToString: prevInputCode]) {
+            if (self.outputCompanion.prevOutputCode && [inputCode isEqualToString:self.outputCompanion.prevOutputCode]) {
+				if (VL_DEBUG) NSLog(@"Received old output code again: %@", inputCode);
+            } else if (prevInputCode && [inputCode isEqualToString: prevInputCode]) {
                 prevInputCodeDetectionCount++;
-                if (VL_DEBUG) NSLog(@"Received same code as last reception: %@, count=%d", code, prevInputCodeDetectionCount);
+                if (VL_DEBUG) NSLog(@"Received same code as last reception: %@, count=%d", inputCode, prevInputCodeDetectionCount);
                 if ((prevInputCodeDetectionCount % 250) == 0) {
                     showWarningAlert(@"Old QR-code detected too often. Generating new one.");
                     [self.outputCompanion triggerNewOutputValue];
                 }
-            } else if ([code isEqualToString: self.outputCompanion.outputCode]) {
+            } else if ([inputCode isEqualToString: self.outputCompanion.outputCode]) {
 				// Correct code found.
                 
                 // Let's first report it.
@@ -307,12 +307,12 @@
                 prevInputCodeDetectionCount = 0;
                 if (VL_DEBUG) NSLog(@"Received: %@", self.outputCompanion.outputCode);
                 // Now generate a new output code.
-                [self.outputCompanion triggerNewOutputValue];
+                [self.outputCompanion triggerNewOutputValueAfterDelay];
 			} else {
 				// We have transmitted a code, but received a different one??
                 if (self.running) {
-                    NSLog(@"Bad data: expected %@, got %@", self.outputCompanion.outputCode, code);
-					showWarningAlert([NSString stringWithFormat:@"Received unexpected QR-code %@", code]);
+                    NSLog(@"Bad data: expected %@, got %@", self.outputCompanion.outputCode, inputCode);
+					showWarningAlert([NSString stringWithFormat:@"Received unexpected QR-code %@", inputCode]);
 					[self.outputCompanion triggerNewOutputValue];
                 } else if (self.preRunning) {
 					[self _prerunRecordNoReception];

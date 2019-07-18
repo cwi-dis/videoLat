@@ -160,7 +160,7 @@
             } else if (self.preRunning) {
                 [self _prerunRecordReception: self.outputCompanion.outputCode];
             }
-            [self.outputCompanion triggerNewOutputValue];
+            [self.outputCompanion triggerNewOutputValueAfterDelay];
         } else {
 			// Nothing found. See whether we are still expecting something
 			if ([self.clock now] > outputStartTime + maxDelay) {

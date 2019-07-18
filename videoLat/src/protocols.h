@@ -311,6 +311,10 @@
 ///
 - (void)triggerNewOutputValue;
 
+/// Prepare data for a new delay measurement, possibly after a delay to forestall lock-step behaviour.
+/// Called on the output companion, will call triggerNewOutputValue after a delay.
+- (void)triggerNewOutputValueAfterDelay;
+
 /// Request a new output pattern.
 /// @return The pattern to display, as a CIImage.
 - (CIImage *)newOutputStart;

@@ -127,6 +127,10 @@
 /// create a pattern that is distinghuisable from the previous pattern and display it.
 - (void)triggerNewOutputValue;
 
+/// Prepare data for a new delay measurement, possibly after a delay to forestall lock-step behaviour.
+/// Called on the output companion, will call triggerNewOutputValue after a delay.
+- (void)triggerNewOutputValueAfterDelay;
+
 /// Can be overridden by RunManagers responsible for input, to enforce certain codes to be
 /// used during prerunning.
 /// Implemented by the NetworkRunManager to communicate the ip/port of the listener to the remote
