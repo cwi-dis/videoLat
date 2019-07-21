@@ -69,11 +69,61 @@
     }
 }
 
+- (void) _newOutputCode
+{
+	if (!self.running && !self.preRunning) {
+		// Idle, show intermediate value
+		self.outputCode = @"mixed";
+	} else {
+		if ([self.outputCode isEqualToString:@"black"]) {
+			self.outputCode = @"white";
+		} else {
+			self.outputCode = @"black";
+		}
+	}
+}
+
+#pragma mark RunOutputManagerProtocol
+
+- (void)triggerNewOutputValue
+{
+	assert(handlesOutput);
+	@synchronized(self) {
+		outputCodeImage = nil;
+		[self.outputView performSelectorOnMainThread:@selector(showNewData) withObject:nil waitUntilDone:NO ];
+	}
+}
+
+- (CIImage *)newOutputStart
+{
+    @synchronized(self) {
+        assert(handlesOutput);
+        if (outputCodeImage)
+            return outputCodeImage;
+		[self _newOutputCode];
+        outputCodeImage = [self.genner genImageForCode:self.outputCode size:480];
+        tsOutEarliest = [self.clock now];
+        tsOutLatest = 0;
+        if (VL_DEBUG) NSLog(@"VideoMonoRunManager.newOutputStart: returning %@ image", self.outputCode);
+        return outputCodeImage;
+    }
+}
+
+#pragma mark RunInputManagerProtocol
+
 - (void) newInputDone: (CVImageBufferRef)image
 {
     @synchronized(self) {
         assert(handlesInput);
-        if (self.outputCompanion.outputCode == nil) return;
+		if (self.outputCompanion.outputCode == nil) {
+			if (VL_DEBUG) NSLog(@"newInputDone called, but no output code yet\n");
+			return;
+		}
+        if (tsFrameLatest == 0) {
+            NSLog(@"newInputDone called, but tsFrameLatest==0\n");
+			assert(0);
+            return;
+        }
 
         NSString *inputCode = [self.finder find:image];
         
@@ -126,9 +176,11 @@
                 if (VL_DEBUG) NSLog(@"Received: %@", self.outputCompanion.outputCode);
                 // Now generate a new output code.
 				[self.outputCompanion triggerNewOutputValueAfterDelay];
-			} else if (self.preRunning) {
-				[self _prerunRecordNoReception];
-			}
+			} else {
+				if (self.preRunning) {
+					[self _prerunRecordNoReception];
+				}
+			}	
 		}
 #ifndef WITH_MEDIAN_TIMESTAMP
         inputStartTime = 0;
@@ -137,42 +189,11 @@
 		if (!self.running && !self.preRunning) {
 			[self.outputCompanion triggerNewOutputValue];
 		}
-
 	}
 }
 
-- (CIImage *)newOutputStart
-{
-    @synchronized(self) {
-        assert(handlesOutput);
-        CIImage *newImage = [self.genner genImageForCode:self.outputCode size:480];
-        tsOutEarliest = [self.clock now];
-        tsOutLatest = 0;
-        if (VL_DEBUG) NSLog(@"VideoMonoRunManager.newOutputStart: returning %@ image", self.outputCode);
-        return newImage;
-    }
-}
+#pragma mark InputVideoFindProtocol
 
-- (void)triggerNewOutputValue
-{
-    assert(handlesOutput);
-    if (!self.running && !self.preRunning) {
-        // Idle, show intermediate value
-        self.outputCode = @"mixed";
-    } else {
-        if ([self.outputCode isEqualToString:@"black"]) {
-            self.outputCode = @"white";
-        } else {
-            self.outputCode = @"black";
-        }
-    }
-    //xyzzy    prerunOutputStartTime = 0;
-    //xyzzy    outputStartTime = 0;
-    //xyzzy    inputStartTime = 0;
-    [self.outputView performSelectorOnMainThread:@selector(showNewData) withObject:nil waitUntilDone:NO ];
-}
-
-// InputVideoFindProtocol
 - (NSString *) find: (CVImageBufferRef)image
 {
     OSType formatOSType = CVPixelBufferGetPixelFormatType(image);
@@ -264,6 +285,8 @@
 #endif
     return inputCode;
 }
+
+#pragma mark OutputVideoGenProtocol
 
 // OutputVideoGenProtocol
 - (CIImage *) genImageForCode: (NSString *)code size:(int)size

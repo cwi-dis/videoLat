@@ -68,134 +68,6 @@
 	self.clock = nil;
 }
 
-- (void)triggerNewOutputValue
-{
-	@synchronized(self) {
-//xyzzy		prerunOutputStartTime = 0;
-//xyzzy		outputStartTime = 0;
-//xyzzy		inputStartTime = 0;
-		outputCodeImage = nil;
-		[self.outputView performSelectorOnMainThread:@selector(showNewData) withObject:nil waitUntilDone:NO ];
-	}
-}
-
-
-#pragma mark MeasurementOutputManagerProtocol
-
-- (CIImage *)newOutputStart
-{
-    // Called from the redraw routine, should generate a new output code only when needed.
-    @synchronized(self) {
-        
-        // If we are not running we should display a blue-grayish square
-        if (!self.running && !self.preRunning) {
-            CIImage *idleImage = [CIImage imageWithColor:[CIColor colorWithRed:0.1 green:0.4 blue:0.5]];
-            CGRect rect = {0, 0, 480, 480};
-            idleImage = [idleImage imageByCroppingToRect: rect];
-            return idleImage;
-        }
-        
-        // If we have already generated a QR code that hasn't been detected yet we return that.
-        if (outputCodeImage)
-            return outputCodeImage;
-        
-        // Generate a new image. First obtain the timestamp.
-        uint64_t tsForCode = [self.clock now];
-
-        // Sanity check: times should be monotonically increasing
-        if (tsOutLatest && tsOutLatest >= tsForCode) {
-			showWarningAlert(@"Output clock has gone back in time");
-        }
-        
-        // Generate the new output code. During preRunning, our input companion can
-        // supply the codes, if it wants to (the NetworkRunManager does this, so the
-        // codes contain the ip/port combination of the server)
-		self.prevOutputCode = self.outputCode;
-        self.outputCode = nil;
-        if (self.preRunning && [self.inputCompanion respondsToSelector:@selector(genPrerunCode)]) {
-            self.outputCode = [self.inputCompanion genPrerunCode];
-        }
-        if (self.outputCode == nil) {
-            self.outputCode = [NSString stringWithFormat:@"%lld", tsForCode];
-        }
-        if (VL_DEBUG) NSLog(@"New output code: %@", self.outputCode);
-        int bpp = 4;
-        CGSize size = {480, 480};
-        char *bitmapdata = (char*)malloc(size.width*size.height*bpp);
-        memset(bitmapdata, 0xf0, size.width*size.height*bpp);
-        assert(self.genner);
-        outputCodeImage = [self.genner genImageForCode:self.outputCode size:size.width];
-        assert(outputCodeImage);
-		tsOutEarliest = [self.clock now];
-		tsOutLatest = 0;
-		return outputCodeImage;
-    }
-}
-
-- (void) newOutputDone
-{
-    @synchronized(self) {
-		if (tsOutEarliest == 0) {
-			// We haven't generated an output code yet, so ignore this, a redraw
-			// because of some other reason
-			return;
-		}
-		if (tsOutLatest != 0) {
-			// We have already received the redraw for our mosyt recent generated code.
-			// Again, redraw for some other reason, ignore.
-			return;
-		}
-        assert(tsOutEarliest);
-		assert(tsOutLatest == 0);
-		tsOutLatest = [self.clock now];
-		uint64_t tsOutToRemember = tsOutLatest;
-		if (self.running) {
-			[self.collector recordTransmission: self.outputCode at: tsOutToRemember];
-			VL_LOG_EVENT(@"transmission", tsOutToRemember, self.outputCode);
-        }
-    }
-}
-
-#pragma mark MeasurementInputManagerProtocol
-
-- (IBAction)startPreMeasuring: (id)sender
-{
-	[super startPreMeasuring: sender];
-	self.outputView.mirrored = self.mirrored;
-}
-
-- (void)setFinderRect: (NSorUIRect)theRect
-{
-#if 0
-	[self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
-#endif
-}
-
-
-- (void) newInputStart:(uint64_t)timestamp
-{
-    NSString *warning = NULL;
-    @synchronized(self) {
-//    assert(inputStartTime == 0);
-        if (self.collector) {
-			tsFrameEarliest = tsFrameLatest;
-			tsFrameLatest = timestamp;
-
-            // Sanity check: times should be monotonically increasing
-            if (tsFrameEarliest > tsFrameLatest) {
-                warning = [NSString stringWithFormat: @"Input clock has gone back in time, got %lld after %lld", tsFrameLatest, tsFrameEarliest];
-            }
-        }
-    }
-    if (warning) showWarningAlert(warning);
-
-}
-
-- (void) newInputStart
-{
-	assert(0); // I think this method shouldn't be used...
-    [self newInputStart: [self.clock now]];
-}
 
 - (void) _prerunRecordNoReception
 {
@@ -239,6 +111,93 @@
         }
     }
 }
+
+- (void) _newOutputCode
+{
+	uint64_t tsForCode = [self.clock now];
+	// Sanity check: times should be monotonically increasing
+	if (tsOutLatest && tsOutLatest >= tsForCode) {
+		showWarningAlert(@"Output clock has gone back in time");
+	}
+	
+	// Generate the new output code. During preRunning, our input companion can
+	// supply the codes, if it wants to (the NetworkRunManager does this, so the
+	// codes contain the ip/port combination of the server)
+	self.prevOutputCode = self.outputCode;
+	self.outputCode = nil;
+	if (self.preRunning && [self.inputCompanion respondsToSelector:@selector(genPrerunCode)]) {
+		self.outputCode = [self.inputCompanion genPrerunCode];
+	}
+	if (self.outputCode == nil) {
+		self.outputCode = [NSString stringWithFormat:@"%lld", tsForCode];
+	}
+	if (VL_DEBUG) NSLog(@"New output code: %@", self.outputCode);
+}
+
+#pragma mark RunOutputManagerProtocol
+
+- (void)triggerNewOutputValue
+{
+	assert(handlesOutput);
+	@synchronized(self) {
+		outputCodeImage = nil;
+		[self.outputView performSelectorOnMainThread:@selector(showNewData) withObject:nil waitUntilDone:NO ];
+	}
+}
+
+- (CIImage *)newOutputStart
+{
+    // Called from the redraw routine, should generate a new output code only when needed.
+    @synchronized(self) {
+        
+        // If we are not running we should display a blue-grayish square
+        if (!self.running && !self.preRunning) {
+            CIImage *idleImage = [CIImage imageWithColor:[CIColor colorWithRed:0.1 green:0.4 blue:0.5]];
+            CGRect rect = {0, 0, 480, 480};
+            idleImage = [idleImage imageByCroppingToRect: rect];
+            return idleImage;
+        }
+        
+        // If we have already generated a QR code that hasn't been detected yet we return that.
+        if (outputCodeImage)
+            return outputCodeImage;
+        [self _newOutputCode];
+
+        CGSize size = {480, 480};
+        assert(self.genner);
+        outputCodeImage = [self.genner genImageForCode:self.outputCode size:size.width];
+        assert(outputCodeImage);
+		tsOutEarliest = [self.clock now];
+		tsOutLatest = 0;
+		return outputCodeImage;
+    }
+}
+
+- (void) newOutputDone
+{
+    @synchronized(self) {
+		if (tsOutEarliest == 0) {
+			// We haven't generated an output code yet, so ignore this, a redraw
+			// because of some other reason
+			return;
+		}
+		if (tsOutLatest != 0) {
+			// We have already received the redraw for our mosyt recent generated code.
+			// Again, redraw for some other reason, ignore.
+			return;
+		}
+        assert(tsOutEarliest);
+		assert(tsOutLatest == 0);
+		tsOutLatest = [self.clock now];
+		uint64_t tsOutToRemember = tsOutLatest;
+		if (self.running) {
+			[self.collector recordTransmission: self.outputCode at: tsOutToRemember];
+			VL_LOG_EVENT(@"transmission", tsOutToRemember, self.outputCode);
+        }
+    }
+}
+
+#pragma mark RunInputManagerProtocol
 
 - (void) newInputDone: (CVImageBufferRef)image
 {
@@ -295,7 +254,7 @@
                     else
                         averageFinderDuration = (averageFinderDuration+finderDuration)/2;
                     // Notify the detection
-                    [self _prerunRecordReception: self.outputCompanion.outputCode];
+                    [self _prerunRecordReception: inputCode];
                 }
                 // Now do a sanity check that it is greater than the previous detected code
                 if (prevInputCode && [prevInputCode length] >= [self.outputCompanion.outputCode length] && [prevInputCode compare:self.outputCompanion.outputCode] >= 0) {
@@ -334,4 +293,38 @@
 		}
     }
 }
+
+- (IBAction)startPreMeasuring: (id)sender
+{
+	[super startPreMeasuring: sender];
+	self.outputView.mirrored = self.mirrored;
+}
+
+- (void)setFinderRect: (NSorUIRect)theRect
+{
+#if 0
+	[self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
+#endif
+}
+
+
+- (void) newInputStart:(uint64_t)timestamp
+{
+    NSString *warning = NULL;
+    @synchronized(self) {
+//    assert(inputStartTime == 0);
+        if (self.collector) {
+			tsFrameEarliest = tsFrameLatest;
+			tsFrameLatest = timestamp;
+
+            // Sanity check: times should be monotonically increasing
+            if (tsFrameEarliest > tsFrameLatest) {
+                warning = [NSString stringWithFormat: @"Input clock has gone back in time, got %lld after %lld", tsFrameLatest, tsFrameEarliest];
+            }
+        }
+    }
+    if (warning) showWarningAlert(warning);
+
+}
+
 @end

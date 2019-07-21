@@ -371,10 +371,6 @@
 /// @param timestamp When the cycle started, in microseconds.
 - (void)newInputStart:(uint64_t)timestamp;
 
-/// Signals that a capture cycle has started now.
-/// Used by input devices that have no clock.
-- (void)newInputStart;
-
 /// Signals that a capture cycle has ended and provides the data.
 /// @param data The data captured
 /// @param count How often this exact data item has been detected already

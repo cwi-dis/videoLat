@@ -465,12 +465,6 @@ static NSMutableDictionary *runManagerSelectionNibs;
 	[NSException raise:@"BaseRunManager" format:@"Must override setFinderRect in subclass %@", [self class]];
 }
 
-
-- (void)newInputStart
-{
-	[NSException raise:@"BaseRunManager" format:@"Must override newInputStart in subclass %@", [self class]];
-}
-
 - (void)newInputStart: (uint64_t)timestamp
 {
 	[NSException raise:@"BaseRunManager" format:@"Must override newInputStart: in subclass %@", [self class]];

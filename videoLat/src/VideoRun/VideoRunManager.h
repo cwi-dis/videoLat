@@ -33,21 +33,9 @@
 @property(weak) IBOutlet NSObject<InputVideoFindProtocol> *finder;        //!< Assigned in NIB: matches incoming QR codes
 @property(weak) IBOutlet NSObject<OutputVideoGenProtocol> *genner;        //!< Assigned in NIB: generates QR codes for output
 
-+ (void)initialize;
 - (VideoRunManager *)init;  //!< Initializer
--(void)stop;
 
-- (void)triggerNewOutputValue;
 - (void) _prerunRecordNoReception;                  //!< Internal: no QR code was received in time during prerun
 - (void) _prerunRecordReception: (NSString *)code;  //!< Internal: QR code was received in time during prerun
-
-// MeasurementOutputManagerProtocol
-- (CIImage *)newOutputStart;
-- (void)newOutputDone;
-
-// MeasurementInputManagerProtocol
-- (void)setFinderRect: (NSorUIRect)theRect;
-- (void)newInputStart:(uint64_t)timestamp;
-- (void)newInputStart;
-- (void)newInputDone: (CVImageBufferRef)image;
+- (void) _newOutputCode;							//!< Internal: set outputCode to a new value (depending on running/prerunning/idle)
 @end

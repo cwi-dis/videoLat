@@ -308,12 +308,6 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 	[NSException raise:@"NetworkRunManager" format:@"Must override setFinderRect in subclass"];
 }
 
-
-- (void)newInputStart
-{
-	[NSException raise:@"NetworkRunManager" format:@"Must override newInputStart in subclass"];
-}
-
 - (void) newInputStart:(uint64_t)timestamp
 {
     @synchronized(self) {
