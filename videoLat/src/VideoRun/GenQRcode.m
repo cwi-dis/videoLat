@@ -1,5 +1,5 @@
 //
-//  genQRcodesCI.m
+//  GenQRcode.m
 //  macMeasurements
 //
 //  Created by Jack Jansen on 21-08-10.
