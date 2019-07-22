@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0401ED7C22E64EE500FB72E4 /* FindMono.m in Sources */ = {isa = PBXBuildFile; fileRef = 0401ED7A22E64EE400FB72E4 /* FindMono.m */; };
+		0401ED7F22E64EF500FB72E4 /* GenMono.m in Sources */ = {isa = PBXBuildFile; fileRef = 0401ED7E22E64EF500FB72E4 /* GenMono.m */; };
 		04068ECE1AA476E3004EF502 /* MachineDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = 04068ECD1AA476E3004EF502 /* MachineDescription.m */; };
 		04068ED11AA47CD5004EF502 /* DeviceDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = 04068ED01AA47CD5004EF502 /* DeviceDescription.m */; };
 		040E771C1AB6E0D6001A7918 /* compat.m in Sources */ = {isa = PBXBuildFile; fileRef = 040E771B1AB6E0D6001A7918 /* compat.m */; };
@@ -101,6 +103,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0401ED7A22E64EE400FB72E4 /* FindMono.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FindMono.m; path = VideoRun/FindMono.m; sourceTree = "<group>"; };
+		0401ED7B22E64EE400FB72E4 /* FindMono.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FindMono.h; path = VideoRun/FindMono.h; sourceTree = "<group>"; };
+		0401ED7D22E64EF500FB72E4 /* GenMono.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GenMono.h; path = VideoRun/GenMono.h; sourceTree = "<group>"; };
+		0401ED7E22E64EF500FB72E4 /* GenMono.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GenMono.m; path = VideoRun/GenMono.m; sourceTree = "<group>"; };
 		04068ECC1AA476E3004EF502 /* MachineDescription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MachineDescription.h; path = Document/MachineDescription.h; sourceTree = "<group>"; };
 		04068ECD1AA476E3004EF502 /* MachineDescription.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MachineDescription.m; path = Document/MachineDescription.m; sourceTree = "<group>"; };
 		04068ECF1AA47CD5004EF502 /* DeviceDescription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeviceDescription.h; path = Document/DeviceDescription.h; sourceTree = "<group>"; };
@@ -318,8 +324,12 @@
 		040CF9D6183E4B570094C0D8 /* VideoRun */ = {
 			isa = PBXGroup;
 			children = (
+				0401ED7B22E64EE400FB72E4 /* FindMono.h */,
+				0401ED7A22E64EE400FB72E4 /* FindMono.m */,
 				04502F541AF7B8190023462A /* FindQRcode.h */,
 				04502F551AF7B8190023462A /* FindQRcode.m */,
+				0401ED7D22E64EF500FB72E4 /* GenMono.h */,
+				0401ED7E22E64EF500FB72E4 /* GenMono.m */,
 				0478A56B22AC3DBA00331696 /* GenQRcode.h */,
 				0478A56A22AC3DB900331696 /* GenQRcode.m */,
 				0497260018FD580300625326 /* VideoInput.h */,
@@ -753,12 +763,14 @@
 				0497262518FD589300625326 /* AudioInput.m in Sources */,
 				0497263B18FD592C00625326 /* MeasurementDistribution.m in Sources */,
 				04EEC1D719DC8E2E0056899C /* NetworkInput.m in Sources */,
+				0401ED7C22E64EE500FB72E4 /* FindMono.m in Sources */,
 				0497262918FD589300625326 /* AudioSelectionView.m in Sources */,
 				04DE78C81A11759A002BA654 /* HardwareSelectionView.m in Sources */,
 				0497262718FD589300625326 /* AudioRunManager.m in Sources */,
 				04CC193822AD6AC60047D818 /* FindQRcode.m in Sources */,
 				0497263818FD592C00625326 /* DocumentView.m in Sources */,
 				04BFC60B1AD3E0A20061972D /* CommonAppDelegate.m in Sources */,
+				0401ED7F22E64EF500FB72E4 /* GenMono.m in Sources */,
 				049725E018FD563E00625326 /* RunStatusView.m in Sources */,
 				04EEC1D019DC4D9E0056899C /* NetworkOutputView.m in Sources */,
 				04F9AA9B1AACF95D00AE5413 /* DownloadCalibrationViewController.m in Sources */,
