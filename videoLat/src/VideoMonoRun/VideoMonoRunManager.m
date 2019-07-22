@@ -297,7 +297,7 @@
     } else if ([code isEqualToString: @"black"]) {
         newImage = [CIImage imageWithColor:[CIColor colorWithRed:0 green:0 blue:0]];
     } else {
-#if 1
+        // Image with a random grey level
         static double outputLevel;
         static uint64_t lastChange;
         if ([self.clock now] > lastChange + IDLE_LIGHT_INTERVAL) {
@@ -305,11 +305,8 @@
             lastChange = [self.clock now];
         }
         newImage = [CIImage imageWithColor:[CIColor colorWithRed:outputLevel green:outputLevel blue:outputLevel]];
-#else
-        newImage = [CIImage imageWithColor:[CIColor colorWithRed:0.1 green:0.4 blue:0.5]];
-#endif
     }
-    CGRect rect = {0, 0, 480, 480};
+    CGRect rect = {0, 0, 1, 1};
     newImage = [newImage imageByCroppingToRect: rect];
     return newImage;
 }
