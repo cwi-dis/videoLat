@@ -11,7 +11,7 @@
 #import "AudioRunManager.h"
 #import "AudioCalibrationRunManager.h"
 #import "NetworkRunManager.h"
-#import "FindQRcodesCI.h"
+#import "FindQRcode.h"
 
 #if !TARGET_OS_IPHONE
 #import "HardwareRunManager.h"
@@ -39,7 +39,7 @@
     // But I think this also ensures the class is available at runtime
     // (for use in the XIB files) even though it isn't used anywhere
     // else.
-    [FindQRcodesCI class];
+    [FindQRcode class];
     [VideoRunManager class];
     [VideoCalibrationRunManager class];
     [AudioRunManager class];

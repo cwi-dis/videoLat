@@ -1,5 +1,5 @@
 ///
-///  @file genQRcodesCI.h
+///  @file GenQRcode.h
 ///  @brief Generate QR-codes using CoreImage.
 //
 //  Copyright 2010-2019 Centrum voor Wiskunde en Informatica. Licensed under GPL3.
@@ -13,11 +13,11 @@
 ///
 /// QR code generator. Uses CoreImage to create greyscale image data prepresenting a QR code.
 ///
-@interface GenQRcodesCI : NSObject <OutputVideoGenProtocol> {
+@interface GenQRcode : NSObject <OutputVideoGenProtocol> {
 	CIFilter *qrcodegenerator;
 }
 
-- (GenQRcodesCI*)init;
+- (GenQRcode*)init;
 - (CIImage *) genImageForCode: (NSString *)code size:(int)size;
 
 @end

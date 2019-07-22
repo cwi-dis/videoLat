@@ -7,7 +7,7 @@
 //
 #import <AVFoundation/AVFoundation.h>
 #import "protocols.h"
-#import "genQRcodesCI.h"
+#import "GenQRcode.h"
 #define WITH_STATISTICS
 
 ///

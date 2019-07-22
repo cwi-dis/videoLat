@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
-    <device id="retina5_5" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -133,8 +129,8 @@
                 <outlet property="manager" destination="JO0-Cs-Ava" id="R0C-7J-YVf"/>
             </connections>
         </customObject>
-        <customObject id="yK6-eC-GXL" customClass="FindQRcodesCI"/>
-        <customObject id="Grd-1C-2Vo" customClass="GenQRcodesCI"/>
+        <customObject id="yK6-eC-GXL" customClass="FindQRcode"/>
+        <customObject id="Grd-1C-2Vo" customClass="GenQRcode"/>
         <customObject id="2yL-bh-gyB" customClass="RunCollector"/>
     </objects>
 </document>

@@ -1,17 +1,17 @@
 //
-//  FindQRcodesCI.m
+//  FindQRcode.m
 //  videoLat-iOS
 //
 //  Created by Jack Jansen on 30/04/15.
 //  Copyright 2010-2019 Centrum voor Wiskunde en Informatica. Licensed under GPL3.
 //
 
-#import "FindQRcodesCI.h"
+#import "FindQRcode.h"
 
-@implementation FindQRcodesCI
+@implementation FindQRcode
 @synthesize rect;
 
-- (FindQRcodesCI *)init
+- (FindQRcode *)init
 {
 	self = [super init];
 	if (self) {

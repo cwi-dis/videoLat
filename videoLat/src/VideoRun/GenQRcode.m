@@ -6,11 +6,11 @@
 //  Copyright 2010-2019 Centrum voor Wiskunde en Informatica. Licensed under GPL3.
 //
 
-#import "genQRcodesCI.h"
+#import "GenQRcode.h"
 
 
-@implementation GenQRcodesCI
-- (GenQRcodesCI*)init
+@implementation GenQRcode
+- (GenQRcode*)init
 {
     self = [super init];
     qrcodegenerator = [CIFilter filterWithName:@"CIQRCodeGenerator"];

@@ -6,8 +6,8 @@
 //
 
 #import "VideoRunManager.h"
-#import "FindQRcodesCI.h"
-#import "genQRcodesCI.h"
+#import "FindQRcode.h"
+#import "GenQRcode.h"
 #import "EventLogger.h"
 #import <sys/sysctl.h>
 

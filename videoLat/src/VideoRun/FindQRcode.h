@@ -10,7 +10,7 @@
 #import <CoreImage/CoreImage.h>
 #import "protocols.h"
 
-@interface FindQRcodesCI : NSObject <InputVideoFindProtocol> {
+@interface FindQRcode : NSObject <InputVideoFindProtocol> {
 	CIDetector *detector;
 	NSString *lastDetection;
 }
