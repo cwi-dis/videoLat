@@ -38,6 +38,7 @@
                 <outlet property="capturer" destination="3" id="319"/>
                 <outlet property="clock" destination="3" id="svo-qO-ugB"/>
                 <outlet property="collector" destination="446" id="449"/>
+                <outlet property="finder" destination="Mgi-N2-Xys" id="IKr-aa-Ado"/>
                 <outlet property="measurementMaster" destination="-2" id="70"/>
                 <outlet property="outputCompanion" destination="74" id="75"/>
                 <outlet property="outputView" destination="77" id="202"/>
@@ -460,6 +461,7 @@
                 </connections>
             </view>
         </window>
+        <customObject id="Mgi-N2-Xys" userLabel="Finder" customClass="FindMono"/>
         <customObject id="446" customClass="RunCollector"/>
         <userDefaultsController representsSharedInstance="YES" id="521"/>
     </objects>

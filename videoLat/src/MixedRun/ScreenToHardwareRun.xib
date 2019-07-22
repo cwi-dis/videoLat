@@ -22,13 +22,14 @@
                 <outlet property="capturer" destination="74" id="ZgH-Uk-rXn"/>
                 <outlet property="clock" destination="74" id="297"/>
                 <outlet property="collector" destination="426" id="437"/>
+                <outlet property="genner" destination="0Pf-VW-jbC" id="TKq-In-2ze"/>
                 <outlet property="inputCompanion" destination="74" id="251"/>
                 <outlet property="measurementMaster" destination="-2" id="70"/>
                 <outlet property="outputView" destination="270" id="288"/>
                 <outlet property="selectionView" destination="203" id="325"/>
             </connections>
         </customObject>
-        <customObject id="74" userLabel="Clock and capturer" customClass="HardwareRunManager">
+        <customObject id="74" userLabel="Input Companion" customClass="HardwareRunManager">
             <connections>
                 <outlet property="bConnected" destination="204" id="321"/>
                 <outlet property="bInputNumericMaxValue" destination="337" id="355"/>
@@ -42,6 +43,7 @@
                 <outlet property="statusView" destination="368" id="431"/>
             </connections>
         </customObject>
+        <customObject id="0Pf-VW-jbC" customClass="GenMono"/>
         <window title="Screen to Hardware Calibration" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" id="366">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>

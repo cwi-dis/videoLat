@@ -23,6 +23,8 @@
                 <outlet property="capturer" destination="3" id="49"/>
                 <outlet property="clock" destination="3" id="71"/>
                 <outlet property="collector" destination="229" id="230"/>
+                <outlet property="finder" destination="Ay9-T6-U0b" id="pRp-ob-FhM"/>
+                <outlet property="genner" destination="RJv-1f-aOZ" id="rSM-cF-H9i"/>
                 <outlet property="measurementMaster" destination="-2" id="70"/>
                 <outlet property="outputView" destination="2" id="50"/>
                 <outlet property="selectionView" destination="4" id="51"/>
@@ -374,5 +376,7 @@
             </view>
         </window>
         <customObject id="229" customClass="RunCollector"/>
+        <customObject id="Ay9-T6-U0b" userLabel="Finder" customClass="FindMono"/>
+        <customObject id="RJv-1f-aOZ" userLabel="Genner" customClass="GenMono"/>
     </objects>
 </document>
