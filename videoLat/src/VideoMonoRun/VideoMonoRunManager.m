@@ -79,15 +79,6 @@
 
 #pragma mark RunOutputManagerProtocol
 
-- (void)triggerNewOutputValue
-{
-	assert(handlesOutput);
-	@synchronized(self) {
-		outputCodeImage = nil;
-		[self.outputView performSelectorOnMainThread:@selector(showNewData) withObject:nil waitUntilDone:NO ];
-	}
-}
-
 - (CIImage *)newOutputStart
 {
     @synchronized(self) {

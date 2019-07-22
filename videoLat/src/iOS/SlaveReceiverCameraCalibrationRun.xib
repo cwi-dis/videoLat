@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -109,14 +113,14 @@
                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="200" verticalHuggingPriority="251" misplaced="YES" text="No QR-code seen yet" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lNA-Ld-V3F">
-                            <rect key="frame" x="111" y="66" width="295" height="21"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="200" verticalHuggingPriority="251" text="No QR-code seen yet" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lNA-Ld-V3F">
+                            <rect key="frame" x="111" y="66" width="256" height="20"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="200" verticalHuggingPriority="251" text="No QR-code seen yet" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BJL-hu-Hn0">
-                            <rect key="frame" x="111" y="92" width="256" height="23"/>
+                            <rect key="frame" x="111" y="90" width="256" height="25"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                             <nil key="highlightedColor"/>
@@ -134,25 +138,26 @@
                     </subviews>
                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
-                        <constraint firstItem="lNA-Ld-V3F" firstAttribute="trailing" secondItem="5yJ-li-1Af" secondAttribute="trailing" id="20u-sR-gSX"/>
                         <constraint firstItem="Dxl-av-IMT" firstAttribute="leading" secondItem="ThF-UP-I4h" secondAttribute="leading" constant="52" id="2n1-xl-L0C"/>
                         <constraint firstItem="Dxl-av-IMT" firstAttribute="centerX" secondItem="sfc-Zt-omN" secondAttribute="centerX" id="3GI-Qz-gQv"/>
+                        <constraint firstItem="lNA-Ld-V3F" firstAttribute="leading" secondItem="BJL-hu-Hn0" secondAttribute="leading" id="3Yu-Dx-sh6"/>
                         <constraint firstItem="BJL-hu-Hn0" firstAttribute="trailing" secondItem="sfc-Zt-omN" secondAttribute="trailing" id="58y-oL-s9a"/>
-                        <constraint firstItem="lNA-Ld-V3F" firstAttribute="leading" secondItem="5yJ-li-1Af" secondAttribute="leading" id="9FX-JB-pzy"/>
+                        <constraint firstItem="lNA-Ld-V3F" firstAttribute="centerY" secondItem="2fQ-Vk-9ya" secondAttribute="centerY" id="5vU-pm-DqS"/>
                         <constraint firstItem="ABk-eh-HVE" firstAttribute="leading" secondItem="5yJ-li-1Af" secondAttribute="leading" id="AUh-qw-Jr6"/>
                         <constraint firstItem="JoS-6n-f5y" firstAttribute="baseline" secondItem="ABk-eh-HVE" secondAttribute="baseline" id="AVH-xM-v3S"/>
+                        <constraint firstItem="lNA-Ld-V3F" firstAttribute="leading" secondItem="2fQ-Vk-9ya" secondAttribute="trailing" constant="8" symbolic="YES" id="AxP-w1-Yw3"/>
                         <constraint firstItem="R9U-dD-OEU" firstAttribute="baseline" secondItem="BJL-hu-Hn0" secondAttribute="baseline" id="BAf-sf-vSc"/>
+                        <constraint firstItem="BJL-hu-Hn0" firstAttribute="top" secondItem="lNA-Ld-V3F" secondAttribute="bottom" constant="4" id="BEy-c3-gpi"/>
                         <constraint firstItem="JoS-6n-f5y" firstAttribute="leading" secondItem="ThF-UP-I4h" secondAttribute="leadingMargin" id="GbM-AB-aON"/>
                         <constraint firstItem="ABk-eh-HVE" firstAttribute="trailing" secondItem="5yJ-li-1Af" secondAttribute="trailing" id="HHj-Lm-UQa"/>
                         <constraint firstItem="ABk-eh-HVE" firstAttribute="trailing" secondItem="ThF-UP-I4h" secondAttribute="trailingMargin" id="HYu-O3-513"/>
                         <constraint firstItem="JoS-6n-f5y" firstAttribute="leading" secondItem="o1W-W1-bsq" secondAttribute="leading" id="JnH-YY-uXG"/>
                         <constraint firstItem="5yJ-li-1Af" firstAttribute="leading" secondItem="o1W-W1-bsq" secondAttribute="trailing" constant="24" id="JuX-XB-04P"/>
                         <constraint firstItem="sfc-Zt-omN" firstAttribute="bottom" secondItem="ThF-UP-I4h" secondAttribute="bottomMargin" id="K3H-k9-pMU"/>
-                        <constraint firstItem="lNA-Ld-V3F" firstAttribute="trailing" secondItem="BJL-hu-Hn0" secondAttribute="trailing" id="MWe-qM-HLp"/>
-                        <constraint firstItem="BJL-hu-Hn0" firstAttribute="top" secondItem="lNA-Ld-V3F" secondAttribute="bottom" constant="6" id="NIq-du-K1N"/>
+                        <constraint firstItem="lNA-Ld-V3F" firstAttribute="leading" secondItem="5yJ-li-1Af" secondAttribute="leading" id="Of1-RM-Xog"/>
                         <constraint firstItem="2fQ-Vk-9ya" firstAttribute="top" secondItem="o1W-W1-bsq" secondAttribute="bottom" constant="8" symbolic="YES" id="Ovd-kw-TIe"/>
-                        <constraint firstItem="lNA-Ld-V3F" firstAttribute="firstBaseline" secondItem="2fQ-Vk-9ya" secondAttribute="firstBaseline" id="PVh-No-hem"/>
-                        <constraint firstItem="lNA-Ld-V3F" firstAttribute="leading" secondItem="2fQ-Vk-9ya" secondAttribute="trailing" constant="8" symbolic="YES" id="SQk-UB-9in"/>
+                        <constraint firstItem="lNA-Ld-V3F" firstAttribute="trailing" secondItem="BJL-hu-Hn0" secondAttribute="trailing" id="Qgu-K5-DfT"/>
+                        <constraint firstItem="lNA-Ld-V3F" firstAttribute="trailing" secondItem="5yJ-li-1Af" secondAttribute="trailing" id="SDt-9h-FQm"/>
                         <constraint firstItem="JoS-6n-f5y" firstAttribute="top" secondItem="ThF-UP-I4h" secondAttribute="top" constant="8" id="TBd-zs-qJ2"/>
                         <constraint firstItem="BJL-hu-Hn0" firstAttribute="leading" secondItem="R9U-dD-OEU" secondAttribute="trailing" constant="8" symbolic="YES" id="Yyj-7J-aeh"/>
                         <constraint firstItem="ABk-eh-HVE" firstAttribute="leading" secondItem="JoS-6n-f5y" secondAttribute="trailing" constant="48" id="ZiJ-CE-nyh"/>
@@ -160,10 +165,9 @@
                         <constraint firstItem="sfc-Zt-omN" firstAttribute="top" secondItem="Dxl-av-IMT" secondAttribute="bottom" constant="11" id="bsY-CX-UET"/>
                         <constraint firstItem="Dxl-av-IMT" firstAttribute="top" secondItem="R9U-dD-OEU" secondAttribute="bottom" constant="8" symbolic="YES" id="cRk-m0-SwS"/>
                         <constraint firstItem="o1W-W1-bsq" firstAttribute="leading" secondItem="2fQ-Vk-9ya" secondAttribute="leading" id="cSV-9n-UGO"/>
+                        <constraint firstItem="lNA-Ld-V3F" firstAttribute="firstBaseline" secondItem="2fQ-Vk-9ya" secondAttribute="firstBaseline" id="js4-hA-vex"/>
                         <constraint firstItem="R9U-dD-OEU" firstAttribute="leading" secondItem="sfc-Zt-omN" secondAttribute="leading" id="nPc-Sz-9Iz"/>
                         <constraint firstItem="2fQ-Vk-9ya" firstAttribute="leading" secondItem="R9U-dD-OEU" secondAttribute="leading" id="okL-dm-lnH"/>
-                        <constraint firstItem="lNA-Ld-V3F" firstAttribute="centerY" secondItem="2fQ-Vk-9ya" secondAttribute="centerY" id="t2Y-PA-ePW"/>
-                        <constraint firstItem="lNA-Ld-V3F" firstAttribute="leading" secondItem="BJL-hu-Hn0" secondAttribute="leading" id="xHH-LC-VXA"/>
                         <constraint firstItem="R9U-dD-OEU" firstAttribute="top" secondItem="2fQ-Vk-9ya" secondAttribute="bottom" constant="8" symbolic="YES" id="xcZ-vI-Ko4"/>
                         <constraint firstItem="o1W-W1-bsq" firstAttribute="top" secondItem="JoS-6n-f5y" secondAttribute="bottom" constant="8" symbolic="YES" id="xiV-m8-tie"/>
                     </constraints>
@@ -186,7 +190,7 @@
             </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics"/>
-            <point key="canvasLocation" x="375.36231884057975" y="501.35869565217394"/>
+            <point key="canvasLocation" x="375.19999999999999" y="500.59970014992507"/>
         </view>
         <customObject id="87u-6Q-QkS" customClass="NetworkRunManager">
             <connections>
