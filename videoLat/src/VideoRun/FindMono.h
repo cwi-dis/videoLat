@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <CoreImage/CoreImage.h>
 #import "protocols.h"
+#import "LevelStatusView.h"
 
 @interface FindMono : NSObject <InputVideoFindProtocol> {
     NSorUIRect sensitiveArea;       //!< Internal: where we look for black/white in the input signal.
@@ -17,6 +18,7 @@
 }
 
 @property(readonly) NSorUIRect rect;	//!< Rectangle around most recent QR code found
+@property(weak) IBOutlet LevelStatusView *levelStatusView;  //!< Assigned in NIB: visual feedback on light level detected
 
 - (NSString *) find: (CVImageBufferRef)image;
 

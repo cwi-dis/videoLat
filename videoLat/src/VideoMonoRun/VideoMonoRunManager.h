@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "VideoRunManager.h"
+#import "LevelStatusView.h"
 #import "compat.h"
 
 ///
@@ -18,18 +19,6 @@
 @interface VideoMonoRunManager : VideoRunManager {
     // Black/white detection
 }
-
-#ifdef WITH_UIKIT
-@property(weak) IBOutlet UISwitch *bInputValue;             //!< UI element: feedback on light/no light detected
-@property(weak) IBOutlet UILabel *bInputNumericValue;   //!< UI element: feedback on analog input received
-@property(weak) IBOutlet UILabel *bInputNumericMinValue;   //!< UI element: feedback on analog input received
-@property(weak) IBOutlet UILabel *bInputNumericMaxValue;   //!< UI element: feedback on analog input received
-#else
-@property(weak) IBOutlet NSButton *bInputValue;             //!< UI element: feedback on light/no light detected
-@property(weak) IBOutlet NSTextField *bInputNumericValue;   //!< UI element: feedback on analog input received
-@property(weak) IBOutlet NSTextField *bInputNumericMinValue;   //!< UI element: feedback on analog input received
-@property(weak) IBOutlet NSTextField *bInputNumericMaxValue;   //!< UI element: feedback on analog input received
-#endif
 
 + (void)initialize;
 - (VideoMonoRunManager *)init;

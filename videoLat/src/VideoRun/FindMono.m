@@ -93,27 +93,27 @@
             inputCode = @"white";
     }
     if (VL_DEBUG) NSLog(@" level %d (black %d white %d) found code %@", average, minInputLevel, maxInputLevel, inputCode);
-#if 0 // Need to find a way to do set these values in the MonoRunManager...
+    if (self.levelStatusView) {
 #ifdef WITH_UIKIT
-    self.bInputNumericValue.text = [NSString stringWithFormat:@"%d", average];
-    self.bInputNumericMinValue.text = [NSString stringWithFormat:@"%d", minInputLevel];
-    self.bInputNumericMaxValue.text = [NSString stringWithFormat:@"%d", maxInputLevel];
-    self.bInputValue.on = [inputCode isEqualToString:@"white"];
+        self.levelStatusView.bInputNumericValue.text = [NSString stringWithFormat:@"%d", average];
+        self.levelStatusView.bInputNumericMinValue.text = [NSString stringWithFormat:@"%d", minInputLevel];
+        self.levelStatusView.bInputNumericMaxValue.text = [NSString stringWithFormat:@"%d", maxInputLevel];
+        self.levelStatusView.bInputValue.on = [inputCode isEqualToString:@"white"];
 #else
-    NSCellStateValue iVal = NSMixedState;
-    if ([inputCode isEqualToString:@"black"]) {
-        iVal = NSOffState;
-    } else if ([inputCode isEqualToString:@"white"]) {
-        iVal = NSOnState;
+        NSCellStateValue iVal = NSMixedState;
+        if ([inputCode isEqualToString:@"black"]) {
+            iVal = NSOffState;
+        } else if ([inputCode isEqualToString:@"white"]) {
+            iVal = NSOnState;
+        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.levelStatusView.bInputNumericValue setIntValue: average];
+            [self.levelStatusView.bInputNumericMinValue setIntValue: self->minInputLevel];
+            [self.levelStatusView.bInputNumericMaxValue setIntValue: self->maxInputLevel];
+            [self.levelStatusView.bInputValue setState: iVal];
+        });
+#endif
     }
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.bInputNumericValue setIntValue: average];
-        [self.bInputNumericMinValue setIntValue: self->minInputLevel];
-        [self.bInputNumericMaxValue setIntValue: self->maxInputLevel];
-        [self.bInputValue setState: iVal];
-    });
-#endif
-#endif
     return inputCode;
 }
 

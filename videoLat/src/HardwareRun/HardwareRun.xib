@@ -17,10 +17,6 @@
         <customObject id="1" customClass="HardwareRunManager">
             <connections>
                 <outlet property="bConnected" destination="170" id="179"/>
-                <outlet property="bInputNumericMaxValue" destination="230" id="237"/>
-                <outlet property="bInputNumericMinValue" destination="189" id="238"/>
-                <outlet property="bInputNumericValue" destination="118" id="127"/>
-                <outlet property="bInputValue" destination="94" id="128"/>
                 <outlet property="bSamplePeriodStepper" destination="6Sc-hd-lQl" id="z7s-2F-nNf"/>
                 <outlet property="bSamplePeriodValue" destination="ybB-q1-sOc" id="JwF-vg-aEe"/>
                 <outlet property="collector" destination="316" id="317"/>
@@ -167,7 +163,7 @@
                                     <action selector="startPreMeasuring:" target="1" id="52"/>
                                 </connections>
                             </button>
-                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="8">
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="8" customClass="LevelStatusView">
                                 <rect key="frame" x="0.0" y="0.0" width="268" height="219"/>
                                 <subviews>
                                     <button toolTip="On when light is detected by hardware cell" translatesAutoresizingMaskIntoConstraints="NO" id="94">
@@ -287,6 +283,12 @@
                                     <constraint firstItem="94" firstAttribute="leading" secondItem="100" secondAttribute="leading" id="245"/>
                                     <constraint firstItem="94" firstAttribute="top" secondItem="188" secondAttribute="bottom" constant="8" symbolic="YES" id="246"/>
                                 </constraints>
+                                <connections>
+                                    <outlet property="bInputNumericMaxValue" destination="230" id="P5h-4G-1M6"/>
+                                    <outlet property="bInputNumericMinValue" destination="189" id="pq4-7s-Ofp"/>
+                                    <outlet property="bInputNumericValue" destination="118" id="0am-XY-lyb"/>
+                                    <outlet property="bInputValue" destination="94" id="2J3-CT-4qj"/>
+                                </connections>
                             </customView>
                             <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="154">
                                 <rect key="frame" x="74" y="318" width="177" height="26"/>

@@ -327,17 +327,19 @@
 		}
 
         [self.bConnected setState: (connected ? NSOnState : NSOffState)];
-        [self.bInputNumericValue setDoubleValue: inputLevel];
-        [self.bInputNumericMinValue setDoubleValue: minInputLevel];
-        [self.bInputNumericMaxValue setDoubleValue: maxInputLevel];
         NSCellStateValue iVal = NSMixedState;
         if ([inputCode isEqualToString:@"black"]) {
             iVal = NSOffState;
         } else if ([inputCode isEqualToString:@"white"]) {
             iVal = NSOnState;
         }
-        [self.bInputValue setState: iVal];
-		if (handlesOutput) {
+        if (self.levelStatusView) {
+            [self.levelStatusView.bInputNumericValue setDoubleValue: inputLevel];
+            [self.levelStatusView.bInputNumericMinValue setDoubleValue: minInputLevel];
+            [self.levelStatusView.bInputNumericMaxValue setDoubleValue: maxInputLevel];
+            [self.levelStatusView.bInputValue setState: iVal];
+        }
+        if (handlesOutput) {
 			NSCellStateValue oVal = NSMixedState;
 			if ([self.outputCode isEqualToString:@"white"]) {
 				oVal = NSOnState;

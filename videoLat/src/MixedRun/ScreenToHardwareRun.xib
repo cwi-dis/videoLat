@@ -32,11 +32,8 @@
         <customObject id="74" userLabel="Input Companion" customClass="HardwareRunManager">
             <connections>
                 <outlet property="bConnected" destination="204" id="321"/>
-                <outlet property="bInputNumericMaxValue" destination="337" id="355"/>
-                <outlet property="bInputNumericMinValue" destination="335" id="356"/>
-                <outlet property="bInputNumericValue" destination="231" id="293"/>
-                <outlet property="bInputValue" destination="230" id="365"/>
                 <outlet property="collector" destination="426" id="432"/>
+                <outlet property="levelStatusView" destination="205" id="PdQ-I1-M5K"/>
                 <outlet property="measurementMaster" destination="-2" id="180"/>
                 <outlet property="outputCompanion" destination="1" id="250"/>
                 <outlet property="selectionView" destination="203" id="364"/>
@@ -248,7 +245,7 @@
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                             </button>
-                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="205">
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="205" customClass="LevelStatusView">
                                 <rect key="frame" x="0.0" y="-30" width="265" height="199"/>
                                 <subviews>
                                     <button toolTip="On when light is detected by hardware cell" translatesAutoresizingMaskIntoConstraints="NO" id="230">
@@ -342,6 +339,12 @@
                                     <constraint firstItem="337" firstAttribute="leading" secondItem="336" secondAttribute="trailing" constant="8" symbolic="YES" id="uGS-BB-sbV"/>
                                     <constraint firstAttribute="bottom" secondItem="230" secondAttribute="bottom" constant="90" id="uIV-xU-H52"/>
                                 </constraints>
+                                <connections>
+                                    <outlet property="bInputNumericMaxValue" destination="337" id="DKC-Ug-74l"/>
+                                    <outlet property="bInputNumericMinValue" destination="335" id="asw-l6-R49"/>
+                                    <outlet property="bInputNumericValue" destination="231" id="eQ6-KJ-pXd"/>
+                                    <outlet property="bInputValue" destination="230" id="cWv-oU-kxr"/>
+                                </connections>
                             </customView>
                         </subviews>
                         <constraints>

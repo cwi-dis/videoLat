@@ -16,10 +16,6 @@
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customObject id="1" customClass="VideoMonoRunManager">
             <connections>
-                <outlet property="bInputNumericMaxValue" destination="126" id="155"/>
-                <outlet property="bInputNumericMinValue" destination="124" id="156"/>
-                <outlet property="bInputNumericValue" destination="122" id="157"/>
-                <outlet property="bInputValue" destination="120" id="158"/>
                 <outlet property="capturer" destination="3" id="49"/>
                 <outlet property="clock" destination="3" id="71"/>
                 <outlet property="collector" destination="229" id="230"/>
@@ -144,10 +140,20 @@
                         </connections>
                     </customView>
                     <customView translatesAutoresizingMaskIntoConstraints="NO" id="4" customClass="VideoSelectionView">
-                        <rect key="frame" x="20" y="154" width="268" height="394"/>
+                        <rect key="frame" x="20" y="154" width="268" height="510"/>
                         <subviews>
+                            <button translatesAutoresizingMaskIntoConstraints="NO" id="7">
+                                <rect key="frame" x="18" y="210" width="141" height="18"/>
+                                <buttonCell key="cell" type="check" title="Show Input Preview" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="44">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="visibleChanged:" target="8" id="62"/>
+                                </connections>
+                            </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9">
-                                <rect key="frame" x="18" y="364" width="232" height="17"/>
+                                <rect key="frame" x="18" y="473" width="232" height="17"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Monochrome Device Selection" id="43">
                                     <font key="font" metaFont="systemBold"/>
                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -155,7 +161,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="36">
-                                <rect key="frame" x="18" y="310" width="55" height="17"/>
+                                <rect key="frame" x="18" y="419" width="55" height="17"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Camera:" id="37">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -163,7 +169,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="96">
-                                <rect key="frame" x="18" y="335" width="52" height="17"/>
+                                <rect key="frame" x="18" y="444" width="52" height="17"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Display:" id="97">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -171,7 +177,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField toolTip="Output display used. Position whole window to select output display." horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="103">
-                                <rect key="frame" x="74" y="335" width="107" height="17"/>
+                                <rect key="frame" x="74" y="444" width="107" height="17"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Unknown display" id="104">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -179,7 +185,7 @@
                                 </textFieldCell>
                             </textField>
                             <popUpButton toolTip="Select camera to use for input. Position whole window to select output display." verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="11">
-                                <rect key="frame" x="77" y="303" width="174" height="26"/>
+                                <rect key="frame" x="77" y="412" width="174" height="26"/>
                                 <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="39">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="menu"/>
@@ -190,7 +196,7 @@
                                 </connections>
                             </popUpButton>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="35">
-                                <rect key="frame" x="18" y="285" width="38" height="17"/>
+                                <rect key="frame" x="18" y="394" width="38" height="17"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" enabled="NO" sendsActionOnEndEditing="YES" title="Base:" id="38">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -198,7 +204,7 @@
                                 </textFieldCell>
                             </textField>
                             <popUpButton toolTip="Self-measurement for this camera/display combination" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="10">
-                                <rect key="frame" x="77" y="278" width="174" height="26"/>
+                                <rect key="frame" x="77" y="387" width="174" height="26"/>
                                 <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" enabled="NO" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="41">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="menu"/>
@@ -206,7 +212,7 @@
                                 </popUpButtonCell>
                             </popUpButton>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5">
-                                <rect key="frame" x="175" y="233" width="79" height="32"/>
+                                <rect key="frame" x="175" y="342" width="79" height="32"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="67" id="46"/>
                                 </constraints>
@@ -218,83 +224,112 @@
                                     <action selector="startPreMeasuring:" target="1" id="52"/>
                                 </connections>
                             </button>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="RS1-4J-8f9" customClass="LevelStatusView">
+                                <rect key="frame" x="0.0" y="234" width="268" height="95"/>
+                                <subviews>
+                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="22g-O4-JhI">
+                                        <rect key="frame" x="18" y="78" width="108" height="17"/>
+                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Light Detection" id="TCZ-GK-LFa">
+                                            <font key="font" metaFont="systemBold"/>
+                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                    </textField>
+                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="FYQ-66-2ud">
+                                        <rect key="frame" x="20" y="53" width="45" height="17"/>
+                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Value: " id="sHN-Lm-7Oy">
+                                            <font key="font" metaFont="system"/>
+                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                    </textField>
+                                    <textField toolTip="Analog value reported by light detection cell" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="wCj-0G-mv4">
+                                        <rect key="frame" x="101" y="53" width="46" height="17"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="42" id="Yjb-i2-b69"/>
+                                        </constraints>
+                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="0" id="awN-gg-dID">
+                                            <font key="font" metaFont="system"/>
+                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                    </textField>
+                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gDT-Jy-fdR">
+                                        <rect key="frame" x="20" y="32" width="66" height="17"/>
+                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="All values:" id="V9s-le-aBK">
+                                            <font key="font" metaFont="system"/>
+                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                    </textField>
+                                    <textField toolTip="Analog value reported by light detection cell" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="vIo-de-V8f">
+                                        <rect key="frame" x="101" y="32" width="46" height="17"/>
+                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="0" id="iys-2l-U0B">
+                                            <font key="font" metaFont="system"/>
+                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                    </textField>
+                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="NjV-Pe-eZL">
+                                        <rect key="frame" x="151" y="32" width="12" height="17"/>
+                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title=".." id="WIr-O9-cgH">
+                                            <font key="font" metaFont="system"/>
+                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                    </textField>
+                                    <textField toolTip="Analog value reported by light detection cell" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="XFg-yN-odD">
+                                        <rect key="frame" x="167" y="32" width="46" height="17"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="42" id="siu-j9-mv3"/>
+                                        </constraints>
+                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="0" id="1GN-Ni-fng">
+                                            <font key="font" metaFont="system"/>
+                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                    </textField>
+                                    <button toolTip="On when light is detected by hardware cell" translatesAutoresizingMaskIntoConstraints="NO" id="zve-wa-076">
+                                        <rect key="frame" x="20" y="8" width="111" height="18"/>
+                                        <buttonCell key="cell" type="check" title="Light detected" bezelStyle="regularSquare" imagePosition="left" enabled="NO" state="on" inset="2" id="Rwb-Ux-SbR">
+                                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="NjV-Pe-eZL" firstAttribute="baseline" secondItem="vIo-de-V8f" secondAttribute="baseline" id="2oa-7T-byZ"/>
+                                    <constraint firstItem="zve-wa-076" firstAttribute="top" secondItem="gDT-Jy-fdR" secondAttribute="bottom" constant="8" symbolic="YES" id="3Ci-Tj-NtB"/>
+                                    <constraint firstItem="zve-wa-076" firstAttribute="leading" secondItem="22g-O4-JhI" secondAttribute="leading" constant="2" id="ELR-iL-qjz"/>
+                                    <constraint firstItem="NjV-Pe-eZL" firstAttribute="leading" secondItem="vIo-de-V8f" secondAttribute="trailing" constant="8" symbolic="YES" id="IUR-Ad-Nze"/>
+                                    <constraint firstAttribute="trailing" secondItem="22g-O4-JhI" secondAttribute="trailing" constant="144" id="JtR-9i-FPW"/>
+                                    <constraint firstItem="XFg-yN-odD" firstAttribute="leading" secondItem="NjV-Pe-eZL" secondAttribute="trailing" constant="8" symbolic="YES" id="LDQ-X2-FPL"/>
+                                    <constraint firstItem="22g-O4-JhI" firstAttribute="leading" secondItem="RS1-4J-8f9" secondAttribute="leading" constant="20" symbolic="YES" id="M9d-9T-qXg"/>
+                                    <constraint firstItem="vIo-de-V8f" firstAttribute="baseline" secondItem="gDT-Jy-fdR" secondAttribute="baseline" id="RHm-4R-VoN"/>
+                                    <constraint firstItem="XFg-yN-odD" firstAttribute="baseline" secondItem="NjV-Pe-eZL" secondAttribute="baseline" id="RY5-hw-unW"/>
+                                    <constraint firstItem="22g-O4-JhI" firstAttribute="top" secondItem="RS1-4J-8f9" secondAttribute="top" id="Vws-E6-dUK"/>
+                                    <constraint firstItem="gDT-Jy-fdR" firstAttribute="leading" secondItem="FYQ-66-2ud" secondAttribute="leading" id="a0w-Ru-JiC"/>
+                                    <constraint firstItem="gDT-Jy-fdR" firstAttribute="top" secondItem="FYQ-66-2ud" secondAttribute="bottom" constant="4" id="cMS-RA-KWD"/>
+                                    <constraint firstItem="wCj-0G-mv4" firstAttribute="baseline" secondItem="FYQ-66-2ud" secondAttribute="baseline" id="f4d-8k-iK4"/>
+                                    <constraint firstItem="wCj-0G-mv4" firstAttribute="leading" secondItem="RS1-4J-8f9" secondAttribute="leading" constant="103" id="hdb-s0-aqq"/>
+                                    <constraint firstItem="FYQ-66-2ud" firstAttribute="leading" secondItem="RS1-4J-8f9" secondAttribute="leading" constant="22" id="iSV-pN-2ag"/>
+                                    <constraint firstItem="FYQ-66-2ud" firstAttribute="top" secondItem="RS1-4J-8f9" secondAttribute="top" constant="25" id="lRs-Wp-dgC"/>
+                                    <constraint firstItem="wCj-0G-mv4" firstAttribute="leading" secondItem="vIo-de-V8f" secondAttribute="leading" id="qug-Te-bON"/>
+                                    <constraint firstItem="vIo-de-V8f" firstAttribute="trailing" secondItem="wCj-0G-mv4" secondAttribute="trailing" id="zox-GV-Hfk"/>
+                                </constraints>
+                                <connections>
+                                    <outlet property="bInputNumericMaxValue" destination="XFg-yN-odD" id="uCh-Fx-Itf"/>
+                                    <outlet property="bInputNumericMinValue" destination="vIo-de-V8f" id="nAx-2n-w3e"/>
+                                    <outlet property="bInputNumericValue" destination="wCj-0G-mv4" id="m2B-Lx-YDZ"/>
+                                    <outlet property="bInputValue" destination="zve-wa-076" id="waq-XI-BKw"/>
+                                </connections>
+                            </customView>
                             <customView toolTip="Video captured by the camera" translatesAutoresizingMaskIntoConstraints="NO" id="8" customClass="VideoInputView">
-                                <rect key="frame" x="0.0" y="0.0" width="268" height="142"/>
+                                <rect key="frame" x="0.0" y="0.0" width="268" height="204"/>
                                 <connections>
                                     <outlet property="visibleButton" destination="7" id="61"/>
                                 </connections>
                             </customView>
-                            <button translatesAutoresizingMaskIntoConstraints="NO" id="7">
-                                <rect key="frame" x="18" y="148" width="141" height="18"/>
-                                <buttonCell key="cell" type="check" title="Show Input Preview" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="44">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="visibleChanged:" target="8" id="62"/>
-                                </connections>
-                            </button>
-                            <button toolTip="On when light is detected by hardware cell" translatesAutoresizingMaskIntoConstraints="NO" id="120">
-                                <rect key="frame" x="18" y="170" width="111" height="18"/>
-                                <buttonCell key="cell" type="check" title="Light detected" bezelStyle="regularSquare" imagePosition="left" enabled="NO" state="on" allowsMixedState="YES" inset="2" id="135">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                            </button>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="121">
-                                <rect key="frame" x="20" y="219" width="45" height="17"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Value: " id="134">
-                                    <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
-                            <textField toolTip="Analog value reported by light detection cell" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="122">
-                                <rect key="frame" x="101" y="219" width="46" height="17"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="42" id="132"/>
-                                </constraints>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="0" id="133">
-                                    <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="123">
-                                <rect key="frame" x="20" y="194" width="66" height="17"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="All values:" id="131">
-                                    <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
-                            <textField toolTip="Analog value reported by light detection cell" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="124">
-                                <rect key="frame" x="101" y="194" width="46" height="17"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="0" id="130">
-                                    <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="125">
-                                <rect key="frame" x="151" y="194" width="12" height="17"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title=".." id="129">
-                                    <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
-                            <textField toolTip="Analog value reported by light detection cell" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="126">
-                                <rect key="frame" x="167" y="194" width="46" height="17"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="42" id="128"/>
-                                </constraints>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="0" id="127">
-                                    <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
                         </subviews>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="9" secondAttribute="trailing" constant="20" symbolic="YES" id="13"/>
@@ -310,33 +345,22 @@
                             <constraint firstItem="8" firstAttribute="trailing" secondItem="4" secondAttribute="trailing" id="29"/>
                             <constraint firstItem="8" firstAttribute="bottom" secondItem="4" secondAttribute="bottom" id="30"/>
                             <constraint firstItem="8" firstAttribute="leading" secondItem="4" secondAttribute="leading" id="32"/>
-                            <constraint firstItem="9" firstAttribute="top" secondItem="4" secondAttribute="top" constant="13" id="95"/>
+                            <constraint firstItem="9" firstAttribute="top" secondItem="4" secondAttribute="top" constant="20" id="95"/>
                             <constraint firstItem="36" firstAttribute="top" secondItem="96" secondAttribute="bottom" constant="8" symbolic="YES" id="100"/>
                             <constraint firstItem="96" firstAttribute="leading" secondItem="4" secondAttribute="leading" constant="20" symbolic="YES" id="101"/>
-                            <constraint firstItem="96" firstAttribute="top" secondItem="4" secondAttribute="top" constant="42" id="102"/>
+                            <constraint firstItem="96" firstAttribute="top" secondItem="4" secondAttribute="top" constant="49" id="102"/>
                             <constraint firstItem="103" firstAttribute="leading" secondItem="96" secondAttribute="trailing" constant="8" symbolic="YES" id="108"/>
                             <constraint firstItem="103" firstAttribute="baseline" secondItem="96" secondAttribute="baseline" id="109"/>
                             <constraint firstItem="11" firstAttribute="baseline" secondItem="36" secondAttribute="baseline" id="115"/>
                             <constraint firstItem="35" firstAttribute="baseline" secondItem="10" secondAttribute="baseline" id="117"/>
                             <constraint firstItem="8" firstAttribute="top" secondItem="7" secondAttribute="bottom" constant="8" symbolic="YES" id="119"/>
-                            <constraint firstItem="125" firstAttribute="baseline" secondItem="126" secondAttribute="baseline" id="136"/>
-                            <constraint firstItem="123" firstAttribute="baseline" secondItem="124" secondAttribute="baseline" id="137"/>
-                            <constraint firstItem="122" firstAttribute="baseline" secondItem="121" secondAttribute="baseline" id="138"/>
-                            <constraint firstItem="124" firstAttribute="trailing" secondItem="122" secondAttribute="trailing" id="139"/>
-                            <constraint firstItem="122" firstAttribute="leading" secondItem="124" secondAttribute="leading" id="140"/>
-                            <constraint firstItem="126" firstAttribute="leading" secondItem="125" secondAttribute="trailing" constant="8" symbolic="YES" id="141"/>
-                            <constraint firstItem="125" firstAttribute="leading" secondItem="124" secondAttribute="trailing" constant="8" symbolic="YES" id="142"/>
-                            <constraint firstItem="123" firstAttribute="leading" secondItem="121" secondAttribute="leading" id="144"/>
-                            <constraint firstItem="125" firstAttribute="baseline" secondItem="124" secondAttribute="baseline" id="146"/>
-                            <constraint firstItem="120" firstAttribute="top" secondItem="123" secondAttribute="bottom" constant="8" symbolic="YES" id="149"/>
-                            <constraint firstItem="123" firstAttribute="top" secondItem="121" secondAttribute="bottom" constant="8" symbolic="YES" id="150"/>
-                            <constraint firstItem="120" firstAttribute="leading" secondItem="7" secondAttribute="leading" id="151"/>
-                            <constraint firstItem="121" firstAttribute="leading" secondItem="4" secondAttribute="leading" constant="22" id="152"/>
-                            <constraint firstItem="121" firstAttribute="top" secondItem="4" secondAttribute="top" constant="158" id="153"/>
-                            <constraint firstItem="122" firstAttribute="leading" secondItem="4" secondAttribute="leading" constant="103" id="154"/>
-                            <constraint firstItem="8" firstAttribute="top" secondItem="4" secondAttribute="top" constant="252" id="203"/>
+                            <constraint firstItem="8" firstAttribute="top" secondItem="4" secondAttribute="top" constant="306" id="203"/>
                             <constraint firstItem="5" firstAttribute="top" secondItem="10" secondAttribute="bottom" constant="20" symbolic="YES" id="250"/>
                             <constraint firstItem="5" firstAttribute="trailing" secondItem="10" secondAttribute="trailing" id="251"/>
+                            <constraint firstItem="7" firstAttribute="top" secondItem="RS1-4J-8f9" secondAttribute="bottom" constant="8" id="9gn-cC-PG9"/>
+                            <constraint firstAttribute="trailing" secondItem="RS1-4J-8f9" secondAttribute="trailing" id="YvH-mB-OKR"/>
+                            <constraint firstItem="RS1-4J-8f9" firstAttribute="top" secondItem="5" secondAttribute="bottom" constant="20" id="vEi-kU-Wm5"/>
+                            <constraint firstItem="RS1-4J-8f9" firstAttribute="leading" secondItem="4" secondAttribute="leading" id="xXt-uk-o6H"/>
                         </constraints>
                         <connections>
                             <outlet property="bBase" destination="10" id="56"/>
@@ -359,7 +383,7 @@
                     <constraint firstItem="161" firstAttribute="leading" secondItem="160" secondAttribute="leading" constant="20" symbolic="YES" id="164"/>
                     <constraint firstAttribute="bottom" secondItem="4" secondAttribute="bottom" constant="154" id="208"/>
                     <constraint firstItem="4" firstAttribute="leading" secondItem="161" secondAttribute="leading" id="209"/>
-                    <constraint firstItem="4" firstAttribute="top" secondItem="160" secondAttribute="top" constant="136" id="211"/>
+                    <constraint firstItem="4" firstAttribute="top" secondItem="160" secondAttribute="top" constant="20" id="211"/>
                     <constraint firstItem="2" firstAttribute="top" secondItem="160" secondAttribute="top" constant="20" symbolic="YES" id="235"/>
                     <constraint firstAttribute="bottom" secondItem="2" secondAttribute="bottom" constant="24" id="236"/>
                     <constraint firstItem="2" firstAttribute="leading" secondItem="160" secondAttribute="leading" constant="296" id="237"/>
@@ -376,7 +400,11 @@
             </view>
         </window>
         <customObject id="229" customClass="RunCollector"/>
-        <customObject id="pwn-HT-rIj" userLabel="Finder" customClass="FindMono"/>
+        <customObject id="pwn-HT-rIj" userLabel="Finder" customClass="FindMono">
+            <connections>
+                <outlet property="levelStatusView" destination="RS1-4J-8f9" id="EMy-j0-fRW"/>
+            </connections>
+        </customObject>
         <customObject id="1EW-yd-jsW" userLabel="Genner" customClass="GenMono"/>
     </objects>
 </document>

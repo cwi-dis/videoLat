@@ -8,6 +8,7 @@
 
 #import "BaseRunManager.h"
 #import "HardwareOutputView.h"
+#import "LevelStatusView.h"
 #import "protocols.h"
 ///
 /// A Subclass of BaseRunManager geared towards doing hardware-assisted video
@@ -39,10 +40,7 @@
 }
 
 @property(weak) IBOutlet NSButton *bConnected;              //!< Indicator for the user that the selected device works
-@property(weak) IBOutlet NSButton *bInputValue;             //!< UI element: feedback on light/no light detected
-@property(weak) IBOutlet NSTextField *bInputNumericValue;   //!< UI element: feedback on analog input received
-@property(weak) IBOutlet NSTextField *bInputNumericMinValue;   //!< UI element: feedback on analog input received
-@property(weak) IBOutlet NSTextField *bInputNumericMaxValue;   //!< UI element: feedback on analog input received
+@property(weak) IBOutlet LevelStatusView *levelStatusView;  //!< Assigned in NIB: visual feedback on light level detected
 @property(weak) IBOutlet HardwareOutputView *outputView;    //!< Assigned in NIB: visual feedback view of output for the user
 @property(weak) IBOutlet NSObject <ClockProtocol> *clock;   //!< Assigned in NIB: clock source
 @property(readonly) NSString* deviceID;					//!< Unique string that identifies the input device
