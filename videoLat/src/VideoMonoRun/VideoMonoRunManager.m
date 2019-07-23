@@ -104,12 +104,13 @@
 			if (VL_DEBUG) NSLog(@"newInputDone called, but no output code yet\n");
 			return;
 		}
+#ifdef WITH_FRAMETIME_COMPUTE
         if (tsFrameLatest == 0) {
             NSLog(@"newInputDone called, but tsFrameLatest==0\n");
 			assert(0);
             return;
         }
-
+#endif
         NSString *inputCode = [self.finder find:image];
         
         if ([inputCode isEqualToString:@"mixed"]) {
@@ -134,6 +135,7 @@
                     if (handlesOutput) {
                         assert(tsOutLatest);	// Must have been set before we can detect a qr-code
                     }
+#ifdef WITH_FRAMETIME_COMPUTE
 					assert(tsFrameLatest);	// Must have gotten an input frame before we get here
 					uint64_t oldestTimePossible = tsOutLatest;	// Cannot detect before it has been generated
 					if (tsFrameEarliest > oldestTimePossible) oldestTimePossible = tsFrameEarliest;
@@ -143,6 +145,9 @@
 						tsOutEarliest, tsOutLatest, tsOutLatest-tsOutEarliest,
 						tsFrameEarliest, tsFrameLatest, tsFrameLatest-tsFrameEarliest,
 						bestTimeStamp);
+#else
+                    uint64_t bestTimeStamp = 0;
+#endif
 					BOOL ok = [self.collector recordReception: self.outputCompanion.outputCode at: bestTimeStamp];
 					VL_LOG_EVENT(@"reception", bestTimeStamp, self.outputCompanion.outputCode);
                     if (!ok) {

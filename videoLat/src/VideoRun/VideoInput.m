@@ -99,7 +99,11 @@
 			clock = CMClockGetHostTimeClock();
 		}
 #endif
+#ifdef WITH_ADJUST_CLOCK_DRIFT
         epoch = [self now];
+#else
+        epoch = 0;
+#endif
 #ifdef WITH_STATISTICS
 		firstTimeStamp = 0;
 		lastTimeStamp = 0;
@@ -456,6 +460,7 @@
 	nFrames++;
 #endif
     SInt64 delta = now_timestamp - timestamp;
+    NSLog(@"xxxjack capture delta %lld", delta);
 	VL_LOG_EVENT(@"cameraCaptureVideoClock", timestamp, @"");
 	VL_LOG_EVENT(@"cameraCaptureSelfClock", now_timestamp, ([NSString stringWithFormat:@"delta=%lld", delta]));
     if (!capturing) {
@@ -471,6 +476,10 @@
             epoch += (delta/WITH_ADJUST_CLOCK_DRIFT_FACTOR);
             NSLog(@"VideoInput: clock: delta %lld us, epoch set to %lld uS", delta, epoch);
             VL_LOG_EVENT(@"adjustedClock",[self now], ([NSString stringWithFormat:@"delta=%lld,adjust=%lld", delta, delta/WITH_ADJUST_CLOCK_DRIFT_FACTOR]));
+        }
+#else
+        if (epoch == 0) {
+            epoch = -delta;
         }
 #endif
         return;

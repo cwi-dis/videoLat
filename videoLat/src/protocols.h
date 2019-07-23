@@ -51,6 +51,7 @@
 /// before we start adjusting.
 #define WITH_ADJUST_CLOCK_DRIFT 30000
 #define WITH_ADJUST_CLOCK_DRIFT_FACTOR 2
+//#undef WITH_ADJUST_CLOCK_DRIFT
 
 /// If this is defined we throttle the video input capture rate.
 /// This lowers the CPU load and makes measurements more predictable, at the expense of
