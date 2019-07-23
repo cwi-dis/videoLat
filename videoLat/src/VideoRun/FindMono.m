@@ -17,7 +17,8 @@
     if (self) {
         minInputLevel = 255;
         maxInputLevel = 0;
-        sensitiveArea = NSorUIMakeRect(160, 120, 320, 240);
+        sensitiveArea = NSorUIMakeRect(0, 0, 0, 0);
+        context = [CIContext context];
     }
 	return self;
 }
@@ -25,59 +26,29 @@
 
 - (NSString *) find: (CVImageBufferRef)image
 {
-    OSType formatOSType = CVPixelBufferGetPixelFormatType(image);
-    size_t w = CVPixelBufferGetWidth(image);
-    //size_t h = CVPixelBufferGetHeight(image);
-    //size_t size = CVPixelBufferGetDataSize(image);
-    
-    int pixelstep, pixelstart;
-    bool isPlanar = false;
-    if (formatOSType == kCVPixelFormatType_8IndexedGray_WhiteIsZero) {
-        pixelstep = 1;
-        pixelstart = 0;
-    } else if (formatOSType == kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange) {
-        pixelstep = 1;
-        pixelstart = 0;
-        isPlanar = true;
-    } else if (formatOSType == 'yuvs' || formatOSType == 'yuv2') {
-        pixelstep = 2;
-        pixelstart = 0;
-    } else if (formatOSType == kCVPixelFormatType_422YpCbCr8) {
-        pixelstep = 2;
-        pixelstart = 1;
-    } else {
-        NSLog(@"Unexpected newInputDone format %x", formatOSType);
-        return nil;
-    }
-    
-    CVPixelBufferLockBaseAddress(image, 0);
-    void *buffer;
-    if (isPlanar) {
-        buffer = CVPixelBufferGetBaseAddressOfPlane(image, 0);
-    } else {
-        buffer = CVPixelBufferGetBaseAddress(image);
-    }
-    
-    int minx, x, maxx, miny, y, maxy, ystep;
-    minx = sensitiveArea.origin.x + (sensitiveArea.size.width/4);
-    maxx = minx + (sensitiveArea.size.width/2);
-    miny = sensitiveArea.origin.y + (sensitiveArea.size.height/4);
-    maxy = miny + (sensitiveArea.size.width/2);
-    ystep = (int)w*pixelstep;
-    long long total = 0;
-    long count = 0;
-    for (y=miny; y<maxy; y++) {
-        for (x=minx; x<maxx; x++) {
-            unsigned char *pixelPtr = (unsigned char *)buffer + pixelstart + y*ystep + x*pixelstep;
-            total += *pixelPtr;
-            count++;
-        }
-    }
-    
-    CVPixelBufferUnlockBaseAddress(image, 0);
-    
     int average = 0;
-    if (count) average = (int)(total/count);
+    CIImage *ciImage = [CIImage imageWithCVPixelBuffer:image];
+    NSorUIRect rect = sensitiveArea;
+    if (rect.size.width == 0 || rect.size.height == 0) {
+        rect = ciImage.extent;
+    }
+    CIVector *ciExtent = [CIVector vectorWithX:rect.origin.x
+                                             Y:rect.origin.y
+                                             Z:rect.size.width
+                                             W:rect.size.height];
+    CIFilter *filter = [CIFilter filterWithName:@"CIAreaAverage"
+                            keysAndValues:
+                            kCIInputImageKey, ciImage,
+                            kCIInputExtentKey, ciExtent,
+                            nil
+                        ];
+    [filter setValue:ciImage forKey:kCIInputImageKey];
+    CIImage *outputImage = filter.outputImage;
+    unsigned char bytes[4];
+    CGRect bounds = CGRectMake(0, 0, 1, 1);
+    [context render:outputImage toBitmap:bytes rowBytes:4 bounds:bounds format:kCIFormatL8 colorSpace:NULL];
+    average = bytes[0];
+
     // Complicated way to keep black and white level but adjust to changing camera apertures
     if (minInputLevel < 255) minInputLevel++;
     if (maxInputLevel > 0) maxInputLevel--;

@@ -15,6 +15,7 @@
     NSorUIRect sensitiveArea;       //!< Internal: where we look for black/white in the input signal.
     int minInputLevel;             //!< Internal: darkest color seen during prerun
     int maxInputLevel;             //!< Internal: lightest color seen during prerun
+    CIContext *context;
 }
 
 @property(readonly) NSorUIRect rect;	//!< Rectangle around most recent QR code found
