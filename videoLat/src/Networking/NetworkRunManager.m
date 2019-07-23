@@ -575,9 +575,6 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
                 lastMessageSentTime = now;
             }
         }
-#ifndef WITH_MEDIAN_TIMESTAMP
-        inputStartTime = 0;
-#endif
     }
 }
 

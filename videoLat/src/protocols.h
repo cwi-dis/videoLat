@@ -52,10 +52,6 @@
 #define WITH_ADJUST_CLOCK_DRIFT 30000
 #define WITH_ADJUST_CLOCK_DRIFT_FACTOR 2
 
-/// If this is defined the timestamp we record for reception are half-way between detection
-/// time and the last non-detection time. Otherwise we simply use detection time.
-#define WITH_MEDIAN_TIMESTAMP
-
 /// If this is defined we throttle the video input capture rate.
 /// This lowers the CPU load and makes measurements more predictable, at the expense of
 /// having a (potentially much) larger inaccuracy.

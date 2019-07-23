@@ -167,9 +167,6 @@
 				}
 			}	
 		}
-#ifndef WITH_MEDIAN_TIMESTAMP
-        inputStartTime = 0;
-#endif
 		// While idle, change output value once in a while
 		if (!self.running && !self.preRunning) {
 			[self.outputCompanion triggerNewOutputValue];

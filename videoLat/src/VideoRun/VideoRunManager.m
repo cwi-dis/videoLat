@@ -283,9 +283,6 @@
                 [self _prerunRecordNoReception];
             }
         }
-#ifndef WITH_MEDIAN_TIMESTAMP
-        inputStartTime = 0;
-#endif
 		if (self.running) {
 			self.statusView.detectCount = [NSString stringWithFormat: @"%d", self.collector.count];
 			self.statusView.detectAverage = [NSString stringWithFormat: @"%.3f ms ± %.3f", self.collector.average / 1000.0, self.collector.stddev / 1000.0];
