@@ -41,14 +41,14 @@
 
 - (void)mouseDown: (NSEvent *)theEvent
 {
-	downPoint = [theEvent locationInWindow];
-	if (VL_DEBUG) NSLog(@"Mouse down (%d,%d)\n", (int)downPoint.x, (int)downPoint.y);
+    downPoint = [self convertPoint:[theEvent locationInWindow] fromView:nil];
+	if (1 || VL_DEBUG) NSLog(@"Mouse down (%d,%d)\n", (int)downPoint.x, (int)downPoint.y);
 }
 
 - (void)mouseUp: (NSEvent *)theEvent
 {
-	NSPoint upPoint = [theEvent locationInWindow];
-	if (VL_DEBUG) NSLog(@"Mouse up (%d,%d)\n", (int)upPoint.x, (int)upPoint.y);
+	NSPoint upPoint = [self convertPoint:[theEvent locationInWindow] fromView:nil];
+	if (1 || VL_DEBUG) NSLog(@"Mouse up (%d,%d)\n", (int)upPoint.x, (int)upPoint.y);
 	NSRect frame = [self frame];
     float max_y = upPoint.y;
     if (downPoint.y > max_y) max_y = downPoint.y;
@@ -57,7 +57,7 @@
 	float left = upPoint.x;
     if (downPoint.x < left) left = downPoint.x;
 	float width = fabs(upPoint.x - downPoint.x);
-	NSRect r = {{left, top}, {width, height}};
+	NSRect r = {{left/frame.size.width, top/frame.size.height}, {width/frame.size.width, height/frame.size.height}};
 	[[self delegate] focusRectSelected: r];
 }
 #endif
