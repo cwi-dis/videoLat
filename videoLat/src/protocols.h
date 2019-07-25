@@ -49,8 +49,8 @@
 /// If we don't use the device clock we can still resync our idea of the system clock
 /// if it drifts too much. The value of the define is the allowable range (in microseconds)
 /// before we start adjusting.
-#define WITH_ADJUST_CLOCK_DRIFT 30000
-#define WITH_ADJUST_CLOCK_DRIFT_FACTOR 2
+//#define WITH_ADJUST_CLOCK_DRIFT 30000
+//#define WITH_ADJUST_CLOCK_DRIFT_FACTOR 2
 //#undef WITH_ADJUST_CLOCK_DRIFT
 
 /// If this is defined we throttle the video input capture rate.
@@ -327,7 +327,7 @@
 @protocol RunInputManagerProtocol
 
 @property(weak) IBOutlet NSObject<RunOutputManagerProtocol> *outputCompanion; //!< Our companion object that handles output
-
+@property(weak) NSObject<ClockProtocol> *clock; //!< Input manager clock
 @property(readonly) NSObject<MeasurementTypeProtocol> *measurementType;	//!< The type of measurement we are doing
 @property(readonly) int initialPrerunCount;	//!< How many detections are needed during prerun
 @property(readonly) int initialPrerunDelay;	//!< The current (or final) delay between prerun generations.

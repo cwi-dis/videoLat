@@ -478,8 +478,10 @@
             VL_LOG_EVENT(@"adjustedClock",[self now], ([NSString stringWithFormat:@"delta=%lld,adjust=%lld", delta, delta/WITH_ADJUST_CLOCK_DRIFT_FACTOR]));
         }
 #else
-        if (epoch == 0) {
-            epoch = -delta;
+        if (delta < 0) {
+            // The capture time of this frame cannot ever be before now. So we adjust the epoch.
+            NSLog(@"VideoInput: clock: delta %lld us, adjusting epoch", delta);
+            epoch += delta;
         }
 #endif
         return;

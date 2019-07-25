@@ -186,10 +186,17 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
     }
     [super awakeFromNib];
     assert(self.clock);
+    if (handlesInput) {
 #if 0
-    // This isn't set for screen calibrate using remote camera...
-    assert(self.finder);
+        // This isn't set for screen calibrate using remote camera...
+        assert(self.finder);
 #endif
+    } else {
+        assert(self.inputCompanion);
+        assert(self.capturer == nil);
+        assert(self.clock);
+        assert(self.clock == self.inputCompanion.clock);
+    }
     // If we don't handle output (i.e. output is going through video) we start the server and
     // report the port number
     if (!handlesOutput) {

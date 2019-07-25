@@ -15,6 +15,7 @@
 @implementation VideoRunManager
 @synthesize mirrored;
 @synthesize selectionView;
+@synthesize clock;
 
 //
 // Prerun parameters.
@@ -54,8 +55,18 @@
 {
     [super awakeFromNib];
     assert(self.clock);
-    if (handlesInput) assert(self.finder);
-    if (handlesOutput) assert(self.genner);
+    if (handlesInput) {
+        assert(self.finder);
+        assert(self.clock);
+    } else {
+        assert(self.inputCompanion);
+        assert(self.capturer == nil);
+        assert(self.clock);
+        assert(self.clock == self.inputCompanion.clock);
+    }
+    if (handlesOutput) {
+        assert(self.genner);
+    }
 #ifdef WITH_APPKIT
     assert(self.selectionView);
 #endif
@@ -79,7 +90,7 @@
         if (VL_DEBUG) NSLog(@"tsOutLatest=%llu, prerunDelay=%llu, mirrored=%d\n", tsOutLatest, maxDelay, self.mirrored);
         maxDelay *= 2;
         prerunMoreNeeded = self.initialPrerunCount;
-        self.mirrored = !self.mirrored;
+        self.mirrored = true; // xxxjack !self.mirrored;
         self.outputView.mirrored = self.mirrored;
         self.statusView.detectCount = [NSString stringWithFormat: @"%d more, mirrored=%d", prerunMoreNeeded, (int)self.mirrored];
 		self.statusView.detectAverage = @"";
