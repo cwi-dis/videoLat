@@ -161,7 +161,7 @@
 #endif
 #ifdef WITH_STATISTICS
 	float deltaT = (lastTimeStamp-firstTimeStamp) / 1000000.0;
-	NSLog(@"Captured %.0f seconds, %d frames, %3.1f fps capture,  %d drops, %3.1f fps captured+dropped",
+	NSLog(@"Captured %.1f seconds, %d frames, %3.1f fps capture,  %d drops, %3.1f fps captured+dropped",
 		deltaT, nFrames, nFrames/deltaT, nFramesDropped, (nFrames+nFramesDropped)/deltaT);
 #endif
 }
