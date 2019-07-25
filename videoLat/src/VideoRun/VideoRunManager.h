@@ -21,12 +21,7 @@
 
 	uint64_t outputFrameEarliestTimestamp;			//!< Earliest possible time our output code may have been transmitted
 	uint64_t outputFrameLatestTimestamp;			//!< Latest possible time our output code may have been transmitted
-#ifdef WITH_FRAMETIME_COMPUTE
-    uint64_t tsFrameEarliest;		//!< Earliest possible time the most recent frame may have been captured
-	uint64_t tsFrameLatest;			//!< Latest possible time the most recent frame may have been captured
-#else
     uint64_t inputFrameTimestamp;   //!< Timestamp of current video frame (or 0 if already processed)
-#endif
     uint64_t averageFinderDuration; //!< Running average of how much the patternfinder takes
 }
 

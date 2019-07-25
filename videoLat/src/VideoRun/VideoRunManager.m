@@ -214,13 +214,6 @@
 			if (VL_DEBUG) NSLog(@"newInputDone called, but no output code yet\n");
 			return;
 		}
-#ifdef WITH_FRAMETIME_COMPUTE
-        if (tsFrameLatest == 0) {
-            NSLog(@"newInputDone called, but tsFrameLatest==0\n");
-			assert(0);
-            return;
-        }
-#endif
         uint64_t finderStartTime = [self.clock now];
         NSString *inputCode = [self.finder find: image];
         uint64_t finderStopTime = [self.clock now];
@@ -243,25 +236,12 @@
                 
                 // Let's first report it.
 				if (self.running) {
-#ifdef WITH_FRAMETIME_COMPUTE
-					assert(tsOutLatest);	// Must have been set before we can detect a qr-code
-					assert(tsFrameLatest);	// Must have gotten an input frame before we get here
-					uint64_t oldestTimePossible = tsOutLatest;	// Cannot detect before it has been generated
-					if (tsFrameEarliest > oldestTimePossible) oldestTimePossible = tsFrameEarliest;
-					uint64_t bestTimeStamp = (oldestTimePossible + tsFrameLatest) / 2;
-					NSLog(@"output between %lld and %lld (delta %lld), input between %lld and %lld (delta %lld) best %lld",
-						tsOutEarliest, tsOutLatest, tsOutLatest-tsOutEarliest,
-						tsFrameEarliest, tsFrameLatest, tsFrameLatest-tsFrameEarliest,
-						bestTimeStamp);
-#else
-                    uint64_t bestTimeStamp = inputFrameTimestamp;
-                    inputFrameTimestamp = 0;
-                    if (bestTimeStamp == 0) {
+                    if (inputFrameTimestamp == 0) {
                         showWarningAlert(@"newInputDone called before newInputStart was called");
                     }
-#endif
-					BOOL ok = [self.collector recordReception: self.outputCompanion.outputCode at: bestTimeStamp];
-					VL_LOG_EVENT(@"reception", bestTimeStamp, self.outputCompanion.outputCode);
+					BOOL ok = [self.collector recordReception: self.outputCompanion.outputCode at: inputFrameTimestamp];
+					VL_LOG_EVENT(@"reception", inputFrameTimestamp, self.outputCompanion.outputCode);
+                    inputFrameTimestamp = 0;
                     if (!ok) {
 						showWarningAlert([NSString stringWithFormat:@"Received code %@ before it was transmitted", self.outputCompanion.outputCode]);
                     }
