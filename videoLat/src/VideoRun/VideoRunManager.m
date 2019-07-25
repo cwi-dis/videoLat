@@ -13,7 +13,6 @@
 
 
 @implementation VideoRunManager
-@synthesize mirrored;
 @synthesize selectionView;
 @synthesize clock;
 
@@ -87,12 +86,10 @@
     assert(self.preRunning);
     if (tsOutLatest && [self.clock now] - tsOutLatest > maxDelay) {
         // No data found within alotted time. Double the time, reset the count, change mirroring
-        if (VL_DEBUG) NSLog(@"tsOutLatest=%llu, prerunDelay=%llu, mirrored=%d\n", tsOutLatest, maxDelay, self.mirrored);
+        if (VL_DEBUG) NSLog(@"tsOutLatest=%llu, prerunDelay=%llu\n", tsOutLatest, maxDelay);
         maxDelay *= 2;
         prerunMoreNeeded = self.initialPrerunCount;
-        self.mirrored = true; // xxxjack !self.mirrored;
-        self.outputView.mirrored = self.mirrored;
-        self.statusView.detectCount = [NSString stringWithFormat: @"%d more, mirrored=%d", prerunMoreNeeded, (int)self.mirrored];
+        self.statusView.detectCount = [NSString stringWithFormat: @"%d more", prerunMoreNeeded];
 		self.statusView.detectAverage = @"";
         [self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
         [self.outputCompanion triggerNewOutputValue];
@@ -106,7 +103,7 @@
     assert(self.preRunning);
     if (self.preRunning) {
         prerunMoreNeeded -= 1;
-        self.statusView.detectCount = [NSString stringWithFormat: @"%d more, mirrored=%d", prerunMoreNeeded, (int)self.mirrored];
+        self.statusView.detectCount = [NSString stringWithFormat: @"%d more", prerunMoreNeeded];
 		self.statusView.detectAverage = @"";
         [self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
         if (VL_DEBUG) NSLog(@"preRunMoreMeeded=%d\n", prerunMoreNeeded);
@@ -310,12 +307,6 @@
             [self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
 		}
     }
-}
-
-- (IBAction)startPreMeasuring: (id)sender
-{
-	[super startPreMeasuring: sender];
-	self.outputView.mirrored = self.mirrored;
 }
 
 - (void)setFinderRect: (NSorUIRect)theRect

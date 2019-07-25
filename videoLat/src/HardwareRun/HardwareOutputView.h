@@ -16,7 +16,6 @@
 @interface HardwareOutputView : NSView <OutputViewProtocol> {
 }
 
-@property BOOL mirrored;                    //!< Unused
 @property(readonly) NSString *deviceID;     //!< accessor for device.deviceID
 @property(readonly) NSString *deviceName;	//!< accessor for device.deviceName
 @property(weak) IBOutlet NSButton *bOutputValue;    //!< UI element that shows current output value

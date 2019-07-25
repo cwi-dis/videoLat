@@ -30,7 +30,6 @@
     NSArray *signature;     //!< AudioProcess signature of current sample
 }
 
-@property BOOL mirrored;    //!< Ignored, this is an audio device
 @property(readonly) NSString *deviceID;	//!< Unique string that identifies the output device
 @property(readonly) NSString *deviceName;	//!< Human-readable string that identifies the output device
 @property(weak) IBOutlet AudioRunManager *manager; //!< Set by NIB: our run manager

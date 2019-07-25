@@ -19,8 +19,6 @@
 
 @implementation VideoOutputView
 
-@synthesize mirrored;
-
 - (void)awakeFromNib
 {
     [super awakeFromNib];
@@ -182,10 +180,6 @@ static io_service_t IOServicePortFromCGDisplayID(CGDirectDisplayID displayID)
 - (void)drawRect:(NSorUIRect)dirtyRect {
     CIImage *newImage = [self.manager newOutputStart];
     assert(newImage);
-    if (mirrored) {
-        CIImage *mirror = [newImage imageByApplyingTransform: CGAffineTransformMakeScale(-1.0, 1.0)];
-        newImage = mirror;
-    }
     
     NSorUIRect dstRect = [self bounds];
     CGFloat width = NSorUIWidth(dstRect);

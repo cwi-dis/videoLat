@@ -18,7 +18,6 @@
 #else
 : NSView <OutputViewProtocol, NetworkViewProtocol>
 #endif
-@property BOOL mirrored;                    //!< Unused
 @property(readonly) NSString *deviceID;     //!< accessor for device.deviceID
 @property(readonly) NSString *deviceName;	//!< accessor for device.deviceName
 #ifdef WITH_UIKIT

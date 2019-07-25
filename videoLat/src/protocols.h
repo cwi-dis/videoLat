@@ -139,7 +139,6 @@
 @protocol OutputViewProtocol
 @property(readonly) NSString *deviceID;	//!< Unique string that identifies the output device
 @property(readonly) NSString *deviceName;	//!< Human-readable string that identifies the output device
-@property BOOL mirrored;	//!< Set to true to display the pattern mirrored
 
 /// Makes output viewer request a new pattern from the OutputRunManager and display it.
 - (void) showNewData;

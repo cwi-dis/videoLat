@@ -30,7 +30,6 @@
     uint64_t averageFinderDuration; //!< Running average of how much the patternfinder takes
 }
 
-@property bool mirrored;    //!< True if we need to mirror output. Initialized during prerun.
 @property(weak) IBOutlet VideoSelectionView *selectionView;         //!< Assigned in NIB: view that allows selection of input device
 @property(weak) IBOutlet NSObject<ClockProtocol> *clock;                  //!< Assigned in NIB: clock source, usually same as capturer
 @property(weak) IBOutlet NSObject<InputVideoFindProtocol> *finder;        //!< Assigned in NIB: matches incoming QR codes
