@@ -84,9 +84,9 @@
 #if 1
     if (VL_DEBUG) NSLog(@"Prerun no reception\n");
     assert(self.preRunning);
-    if (tsOutLatest && [self.clock now] - tsOutLatest > maxDelay) {
+    if (outputFrameLatestTimestamp && [self.clock now] - outputFrameLatestTimestamp > maxDelay) {
         // No data found within alotted time. Double the time, reset the count, change mirroring
-        if (VL_DEBUG) NSLog(@"tsOutLatest=%llu, prerunDelay=%llu\n", tsOutLatest, maxDelay);
+        if (VL_DEBUG) NSLog(@"tsOutLatest=%llu, prerunDelay=%llu\n", outputFrameLatestTimestamp, maxDelay);
         maxDelay *= 2;
         prerunMoreNeeded = self.initialPrerunCount;
         self.statusView.detectCount = [NSString stringWithFormat: @"%d more", prerunMoreNeeded];
@@ -124,7 +124,7 @@
 {
 	uint64_t tsForCode = [self.clock now];
 	// Sanity check: times should be monotonically increasing
-	if (tsOutLatest && tsOutLatest >= tsForCode) {
+	if (outputFrameLatestTimestamp && outputFrameLatestTimestamp >= tsForCode) {
 		showWarningAlert(@"Output clock has gone back in time");
 	}
 	
@@ -175,8 +175,8 @@
         assert(self.genner);
         outputCodeImage = [self.genner genImageForCode:self.outputCode size:size.width];
         assert(outputCodeImage);
-		tsOutEarliest = [self.clock now];
-		tsOutLatest = 0;
+		outputFrameEarliestTimestamp = [self.clock now];
+		outputFrameLatestTimestamp = 0;
 		return outputCodeImage;
     }
 }
@@ -184,20 +184,20 @@
 - (void) newOutputDone
 {
     @synchronized(self) {
-		if (tsOutEarliest == 0) {
+		if (outputFrameEarliestTimestamp == 0) {
 			// We haven't generated an output code yet, so ignore this, a redraw
 			// because of some other reason
 			return;
 		}
-		if (tsOutLatest != 0) {
+		if (outputFrameLatestTimestamp != 0) {
 			// We have already received the redraw for our mosyt recent generated code.
 			// Again, redraw for some other reason, ignore.
 			return;
 		}
-        assert(tsOutEarliest);
-		assert(tsOutLatest == 0);
-		tsOutLatest = [self.clock now];
-		uint64_t tsOutToRemember = tsOutLatest;
+        assert(outputFrameEarliestTimestamp);
+		assert(outputFrameLatestTimestamp == 0);
+		outputFrameLatestTimestamp = [self.clock now];
+		uint64_t tsOutToRemember = outputFrameLatestTimestamp;
 		if (self.running) {
 			[self.collector recordTransmission: self.outputCode at: tsOutToRemember];
 			VL_LOG_EVENT(@"transmission", tsOutToRemember, self.outputCode);

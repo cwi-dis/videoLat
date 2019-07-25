@@ -87,8 +87,8 @@
             return outputCodeImage;
 		[self _newOutputCode];
         outputCodeImage = [self.genner genImageForCode:self.outputCode size:480];
-        tsOutEarliest = [self.clock now];
-        tsOutLatest = 0;
+        outputFrameEarliestTimestamp = [self.clock now];
+        outputFrameLatestTimestamp = 0;
         if (VL_DEBUG) NSLog(@"VideoMonoRunManager.newOutputStart: returning %@ image", self.outputCode);
         return outputCodeImage;
     }
@@ -133,7 +133,7 @@
             } else if ([inputCode isEqualToString: self.outputCompanion.outputCode]) {
 				if (self.running) {
                     if (handlesOutput) {
-                        assert(tsOutLatest);	// Must have been set before we can detect a qr-code
+                        assert(outputFrameLatestTimestamp);	// Must have been set before we can detect a qr-code
                     }
 #ifdef WITH_FRAMETIME_COMPUTE
 					assert(tsFrameLatest);	// Must have gotten an input frame before we get here
@@ -146,7 +146,7 @@
 						tsFrameEarliest, tsFrameLatest, tsFrameLatest-tsFrameEarliest,
 						bestTimeStamp);
 #else
-                    uint64_t bestTimeStamp = 0;
+                    uint64_t bestTimeStamp = inputFrameTimestamp;
 #endif
 					BOOL ok = [self.collector recordReception: self.outputCompanion.outputCode at: bestTimeStamp];
 					VL_LOG_EVENT(@"reception", bestTimeStamp, self.outputCompanion.outputCode);

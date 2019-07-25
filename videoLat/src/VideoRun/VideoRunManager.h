@@ -19,8 +19,8 @@
     NSString *prevInputCode;        //!< Internal: for checking monotonous increase
     int prevInputCodeDetectionCount;    //!<Internal: Number of times we re-detected a code.
 
-	uint64_t tsOutEarliest;			//!< Earliest possible time our output code may have been transmitted
-	uint64_t tsOutLatest;			//!< Latest possible time our output code may have been transmitted
+	uint64_t outputFrameEarliestTimestamp;			//!< Earliest possible time our output code may have been transmitted
+	uint64_t outputFrameLatestTimestamp;			//!< Latest possible time our output code may have been transmitted
 #ifdef WITH_FRAMETIME_COMPUTE
     uint64_t tsFrameEarliest;		//!< Earliest possible time the most recent frame may have been captured
 	uint64_t tsFrameLatest;			//!< Latest possible time the most recent frame may have been captured
