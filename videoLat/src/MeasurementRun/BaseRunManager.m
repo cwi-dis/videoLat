@@ -17,7 +17,7 @@ static NSMutableDictionary *runManagerNibs;
 static NSMutableDictionary *runManagerSelectionNibs;
 #endif
 @implementation BaseRunManager
-
+@synthesize clock;
 @synthesize running;
 @synthesize preRunning;
 @synthesize prevOutputCode;

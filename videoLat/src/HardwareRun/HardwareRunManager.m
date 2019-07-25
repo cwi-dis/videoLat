@@ -27,6 +27,7 @@
 @implementation HardwareRunManager
 
 @synthesize outputView;
+@dynamic clock;
 
 - (int) initialPrerunCount { return 100; }
 - (int) initialPrerunDelay { return 1000; }

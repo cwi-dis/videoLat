@@ -14,6 +14,7 @@
 @implementation AudioRunManager
 @synthesize outputView;
 @synthesize selectionView;
+@dynamic clock;
 
 - (int) initialPrerunCount { return 10; }
 - (int) initialPrerunDelay { return 1000000; }
