@@ -7,6 +7,7 @@
 //
 
 #import "FindMono.h"
+#import "EventLogger.h"
 
 @implementation FindMono
 @synthesize rect;
@@ -52,13 +53,13 @@
     CGRect bounds = CGRectMake(0, 0, 1, 1);
     [context render:outputImage toBitmap:bytes rowBytes:4 bounds:bounds format:kCIFormatL8 colorSpace:NULL];
     average = bytes[0];
-
     // Complicated way to keep black and white level but adjust to changing camera apertures
     if (minInputLevel < 255) minInputLevel++;
     if (maxInputLevel > 0) maxInputLevel--;
     if (average < minInputLevel) minInputLevel = average;
     if (average > maxInputLevel) maxInputLevel = average;
     //bool foundColorIsWhite = average > (whitelevel+blacklevel) / 2;
+    VL_LOG_EVENT(@"monoValue", 0LL, ([NSString stringWithFormat:@"%d range=(%d..%d)", average, minInputLevel, maxInputLevel]));
     NSString *inputCode = @"mixed";
     int delta = (maxInputLevel - minInputLevel);
     if (delta > 10) {
@@ -67,6 +68,7 @@
         if (average > maxInputLevel - (delta / 3))
             inputCode = @"white";
     }
+    VL_LOG_EVENT(@"monoCode", 0LL, inputCode);
     if (VL_DEBUG) NSLog(@" level %d (black %d white %d) found code %@", average, minInputLevel, maxInputLevel, inputCode);
     if (self.levelStatusView) {
 #ifdef WITH_UIKIT
