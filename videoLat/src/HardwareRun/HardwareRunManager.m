@@ -239,6 +239,7 @@
     BOOL first = YES;
     BOOL outputLevelChanged = NO;
 	uint64_t lastUpdateCall = 0;
+    double oldInputLevel = -1;
     @try {
         while(alive) {
             BOOL nConnected = self.device && [self.device available];
@@ -260,10 +261,14 @@
                 }
             }
             NSString *outputLevelStr = [NSString stringWithFormat:@"%f", outputLevel];
-            VL_LOG_EVENT(@"hardwareOutput", loopTimestamp, outputLevelStr);
+            if (outputLevelChanged) {
+                VL_LOG_EVENT(@"hardwareOutput", loopTimestamp, outputLevelStr);
+            }
             double nInputLevel = [self.device light: outputLevel];
             NSString *inputLevelStr = [NSString stringWithFormat:@"%f", inputLevel];
-            VL_LOG_EVENT(@"hardwareInput", loopTimestamp, inputLevelStr);
+            if (nInputLevel != inputLevel) {
+                VL_LOG_EVENT(@"hardwareInput", loopTimestamp, inputLevelStr);
+            }
             if (nInputLevel < 0) {
                 [self performSelectorOnMainThread:@selector(_update:) withObject:self waitUntilDone:NO];
                 continue;
