@@ -299,25 +299,7 @@
 
 - (void) newInputStart:(uint64_t)timestamp
 {
-    NSString *warning = NULL;
-    @synchronized(self) {
-//    assert(inputStartTime == 0);
-#ifdef WITH_FRAMETIME_COMPUTE
-        if (self.collector) {
-			tsFrameEarliest = tsFrameLatest;
-			tsFrameLatest = timestamp;
-
-            // Sanity check: times should be monotonically increasing
-            if (tsFrameEarliest > tsFrameLatest) {
-                warning = [NSString stringWithFormat: @"Input clock has gone back in time, got %lld after %lld", tsFrameLatest, tsFrameEarliest];
-            }
-        }
-#else
-        inputFrameTimestamp = timestamp;
-#endif
-    }
-    if (warning) showWarningAlert(warning);
-
+    inputFrameTimestamp = timestamp;
 }
 
 @end
