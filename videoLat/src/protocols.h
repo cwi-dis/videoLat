@@ -120,6 +120,11 @@
 /// @param image the grabbed image
 /// @return string representing the pattern, or nil
 - (NSString *) find: (CVImageBufferRef)image;
+
+@optional
+/// Optional method to set the area within the grabbed image that should be taken into account.
+/// @param the area
+- (void) setSensitiveArea: (NSorUIRect)rect;
 @end
 
 ///

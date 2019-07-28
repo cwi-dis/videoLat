@@ -22,5 +22,6 @@
 @property(weak) IBOutlet LevelStatusView *levelStatusView;  //!< Assigned in NIB: visual feedback on light level detected
 
 - (NSString *) find: (CVImageBufferRef)image;
+- (void) setSensitiveArea: (NSorUIRect)rect;
 
 @end

@@ -294,6 +294,9 @@
 #if 0
 	[self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
 #endif
+    if ([self.finder respondsToSelector:@selector(setSensitiveArea:)]) {
+        [self.finder setSensitiveArea: theRect];
+    }
 }
 
 

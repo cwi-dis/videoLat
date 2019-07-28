@@ -23,6 +23,10 @@
 	return self;
 }
 
+- (void) setSensitiveArea: (NSorUIRect)rect
+{
+    sensitiveArea = rect;
+}
 
 - (NSString *) find: (CVImageBufferRef)image
 {
