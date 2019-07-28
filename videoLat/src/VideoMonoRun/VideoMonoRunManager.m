@@ -44,9 +44,13 @@
 
 - (void) awakeFromNib
 {
-    assert(self.finder);
-    assert(self.genner);
     [super awakeFromNib];
+    if (handlesInput) {
+        assert(self.finder);
+    }
+    if (handlesOutput) {
+        assert(self.genner);
+    }
 }
 
 - (void)restart
@@ -57,9 +61,11 @@
 		[super restart];
 		self.outputCode = @"mixed";
         assert(self.finder);
-        assert(self.genner);
         (void)[self.finder init];
-        (void)[self.genner init];
+        if (handlesOutput) {
+            assert(self.genner);
+            (void)[self.genner init];
+        }
     }
 }
 
