@@ -164,6 +164,10 @@
 	float deltaT = (lastTimeStamp-firstTimeStamp) / 1000000.0;
 	NSLog(@"Captured %.1f seconds, %d frames, %3.1f fps capture,  %d drops, %3.1f fps captured+dropped",
 		deltaT, nFrames, nFrames/deltaT, nFramesDropped, (nFrames+nFramesDropped)/deltaT);
+    firstTimeStamp = 0;
+    lastTimeStamp = 0;
+    nFrames = 0;
+    nFramesDropped = 0;
 #endif
 }
 
@@ -455,11 +459,6 @@
     timestampCMT = CMTimeConvertScale(timestampCMT, 1000000, kCMTimeRoundingMethod_Default);
     UInt64 timestamp = timestampCMT.value;
     UInt64 now_timestamp = [self now];
-#ifdef WITH_STATISTICS
-	if (firstTimeStamp == 0) firstTimeStamp = timestamp;
-	lastTimeStamp = timestamp;
-	nFrames++;
-#endif
     SInt64 delta = now_timestamp - timestamp;
     NSLog(@"xxxjack capture delta %lld", delta);
 	VL_LOG_EVENT(@"cameraCaptureVideoClock", timestamp, @"");
@@ -491,10 +490,27 @@
             size_t h = CVPixelBufferGetHeight(tmpBuffer);
             xFactor = w;
             yFactor = h;
-       }
+        }
+#ifdef WITH_STATISTICS
+        firstTimeStamp = 0;
+        lastTimeStamp = 0;
+        nFrames = 0;
+        nFramesDropped = 0;
+#endif
         return;
     }
+#ifdef WITH_STATISTICS
+    if (firstTimeStamp == 0) firstTimeStamp = timestamp;
+    lastTimeStamp = timestamp;
+    nFrames++;
+#endif
+#if 1
 	[self.manager newInputStart: now_timestamp];
+#else
+    // It would theoretically be better to use the real camera timestamp but
+    // unfortunately this invalidates all old calibrations....
+    [self.manager newInputStart: timestamp];
+#endif
 
     CVImageBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
 	[self.manager newInputDone: pixelBuffer];
