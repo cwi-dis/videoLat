@@ -151,7 +151,10 @@
 	assert(self.selectionView);
     [self.bConnected setState: 0];
     PythonLoader *pl = [PythonLoader sharedPythonLoader];
+    uint64_t loadStartTime = [self.clock now];
     BOOL ok = [pl loadPackageNamed: selectedDevice];
+    uint64_t loadDoneTime = [self.clock now];
+    NSLog(@"Loading %@ Python code took %f seconds", selectedDevice, ((float)(loadDoneTime-loadStartTime)/1000000.0));
     if (!ok) {
         [self showErrorSheet: [NSString stringWithFormat:@"HardwareRunManager: Programmer error: Python module %@ cannot be imported", selectedDevice]];
         return;
