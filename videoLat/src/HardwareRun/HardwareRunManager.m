@@ -69,13 +69,14 @@
 	if (self) {
 		NSLog(@"HardwareLightProtocol = %@", @protocol(HardwareLightProtocol));
         maxDelay = self.initialPrerunDelay;
-		self.samplePeriodMs = 1;
+		self.samplePeriodMs = 10;
 	}
     return self;
 }
 
 - (void)awakeFromNib
 {
+    [super awakeFromNib];
     // The hardware run manager is its own capturer and clock
     if (handlesInput) {
         if (self.capturer == nil) self.capturer = self;
@@ -86,7 +87,6 @@
         assert(self.clock);
         assert(self.clock == self.inputCompanion.clock);
     }
-    [super awakeFromNib];
     assert(self.bConnected);
     if (handlesOutput) assert(self.outputView);
     assert(self.clock);
@@ -95,7 +95,7 @@
     assert(self.bSamplePeriodStepper);
     assert(self.bSamplePeriodValue);
 #endif
-	self.samplePeriodMs = 1;
+	self.samplePeriodMs = 10;
 	[self _updatePeriod];
     [self restart];
 }

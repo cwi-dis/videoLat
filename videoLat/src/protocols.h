@@ -56,7 +56,7 @@
 /// If this is defined we throttle the video input capture rate.
 /// This lowers the CPU load and makes measurements more predictable, at the expense of
 /// having a (potentially much) larger inaccuracy.
-#define WITH_SET_MIN_CAPTURE_DURATION
+#undef WITH_SET_MIN_CAPTURE_DURATION
 
 // Forward declarations
 @protocol RunInputManagerProtocol;
