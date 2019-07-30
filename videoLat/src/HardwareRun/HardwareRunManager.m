@@ -321,7 +321,7 @@
             [NSThread sleepForTimeInterval:interval];
         }
     } @catch (NSException *exception) {
-        [self showErrorSheet: [NSString stringWithFormat:@"Caught exception %@ in hardware handler: %@", [exception name], [exception reason]]];
+		[self performSelectorOnMainThread:@selector(showErrorSheet:) withObject:[NSString stringWithFormat:@"Caught exception %@ in hardware handler: %@", [exception name], [exception reason]] waitUntilDone:NO];
     }
     alive = NO;
 }

@@ -49,7 +49,7 @@ class ArduinoLed(NSObject, HardwareLightProtocol):
             else:
                 description = p[1]
                 device = p[0]
-            if description.startswith('Arduino'):
+            if description.startswith('Arduino') or description.startswith('FT232'):
                 if found:
                     self._lastErrorMessage = 'Multiple Arduinos connected to system'
                     return False
@@ -85,22 +85,29 @@ class ArduinoLed(NSObject, HardwareLightProtocol):
     def light_(self, level):
         """Set output light level to 'level' and read return output light level."""
         with self.lock:
-            self.arduino.flushInput()
             if not self.arduino:
                 self._lastErrorMessage = 'Arduino not connected'
                 return -1
-            
+            self.arduino.flushInput()
+
             if level < 0.5:
                 self.arduino.write('0\n')
             else:
                 self.arduino.write('1\n')
-            
-            result = self.arduino.readline()
-            if '0' in result:
-                return 0.0
-            if '1' in result:
-                return 1.0
-            self._lastErrorMessage = 'Unexpected Arduino reply: ' + result
+
+            result = ''
+            tries = 0
+            while True:
+                result = self.arduino.readline()
+                result = result.strip()
+                if '0' in result:
+                    return 0.0
+                if '1' in result:
+                    return 1.0
+                self._lastErrorMessage = 'Unexpected Arduino reply: ' + result
+                print 'ArduinoLed:', self._lastErrorMessage
+                tries += 1
+                if tries > 3: break
             return -1
 
                     
