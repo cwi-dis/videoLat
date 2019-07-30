@@ -50,6 +50,7 @@ class ArduinoLed(NSObject, HardwareLightProtocol):
                 description = p[1]
                 device = p[0]
             if description.startswith('Arduino') or description.startswith('FT232'):
+                print 'ArduinoLed: found', device
                 if found:
                     self._lastErrorMessage = 'Multiple Arduinos connected to system'
                     return False
@@ -57,7 +58,7 @@ class ArduinoLed(NSObject, HardwareLightProtocol):
         if not found:
             self._lastErrorMessage = 'No Arduinos connected'
             return False
-        self.arduino = serial.Serial(found, baudrate=self.BAUD, timeout=2)
+        self.arduino = serial.Serial(found, baudrate=self.BAUD, timeout=4)
         print 'ArduinoLed: device opened, fd=%d' % self.arduino.fd
         return True
 
@@ -96,18 +97,13 @@ class ArduinoLed(NSObject, HardwareLightProtocol):
                 self.arduino.write('1\n')
 
             result = ''
-            tries = 0
-            while True:
-                result = self.arduino.readline()
-                result = result.strip()
-                if '0' in result:
-                    return 0.0
-                if '1' in result:
-                    return 1.0
-                self._lastErrorMessage = 'Unexpected Arduino reply: ' + result
-                print 'ArduinoLed:', self._lastErrorMessage
-                tries += 1
-                if tries > 3: break
+            result = self.arduino.readline()
+            if '0' in result:
+                return 0.0
+            if '1' in result:
+                return 1.0
+            self._lastErrorMessage = 'Unexpected Arduino reply: ' + repr(result)
+            print 'ArduinoLed:', self._lastErrorMessage
             return -1
 
                     

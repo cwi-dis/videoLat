@@ -7,7 +7,7 @@ void setup() {
 }
 
 unsigned long lastWrite;
-char ledStatus;
+char ledStatus = '0';
 
 // the loop function runs over and over again forever
 void loop() {
