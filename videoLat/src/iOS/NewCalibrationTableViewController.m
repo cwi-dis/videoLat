@@ -17,8 +17,8 @@
 		@"Audio Roundtrip Calibrate",
 		@"Camera Calibrate using Calibrated Screen",
 		@"Screen Calibrate using Calibrated Camera",
-		@"Camera Calibrate using Remote Calibrated Screen (Slave,Client)",
-		@"Screen Calibrate using Remote Calibrated Camera (Master,Server)"
+		@"Camera Calibrate using Other Device",
+		@"Screen Calibrate using Other Device"
 		];
 }
 

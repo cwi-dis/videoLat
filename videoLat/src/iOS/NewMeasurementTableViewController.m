@@ -17,8 +17,8 @@
 	return @[
 		@"Video Roundtrip",
 		@"Audio Roundtrip",
-		@"Video Transmission (Master,Server)",
-		@"Video Reception (Slave,Client)"
+		@"Video Transmission Only",
+		@"Video Reception Only"
 
 		];
 }

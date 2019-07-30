@@ -20,7 +20,7 @@
             <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
             <view key="contentView" id="qyg-y8-V7w">
                 <rect key="frame" x="0.0" y="0.0" width="480" height="183"/>
-                <autoresizingMask key="autoresizingMask"/>
+                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
                     <tabView initialItem="lyj-eq-PKq" translatesAutoresizingMaskIntoConstraints="NO" id="AvN-K4-hB7">
                         <rect key="frame" x="13" y="16" width="454" height="161"/>
@@ -56,8 +56,8 @@ DQ
                                                     <items>
                                                         <menuItem title="Video Roundtrip Calibrate" tag="1" toolTip="Self-measurement of display to camera delay using QR-codes" id="VHC-hC-tsG"/>
                                                         <menuItem title="Video Roundtrip" tag="2" enabled="NO" toolTip="Measurement of display to camera delay using QR-codes" id="O3P-iE-5AA"/>
-                                                        <menuItem title="Video Transmission (Master,Server)" tag="7" enabled="NO" toolTip="Single-ended measurement, transmitter" id="Brj-eH-pgx"/>
-                                                        <menuItem title="Video Reception (Slave,Client)" tag="6" enabled="NO" toolTip="Single-ended measurement, receiver" id="a22-DG-zuN"/>
+                                                        <menuItem title="Video Transmission Only" tag="7" enabled="NO" toolTip="Single-ended measurement, transmitter" id="Brj-eH-pgx"/>
+                                                        <menuItem title="Video Reception Only" tag="6" enabled="NO" toolTip="Single-ended measurement, receiver" id="a22-DG-zuN"/>
                                                         <menuItem isSeparatorItem="YES" id="YR2-f4-uXj">
                                                             <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                                                         </menuItem>
@@ -75,17 +75,17 @@ DQ
                                                             <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                                                         </menuItem>
                                                         <menuItem title="Hardware Calibrate" tag="3" toolTip="Self-measurement of hardware light generation/detection" id="OO5-7j-pEf"/>
-                                                        <menuItem title="Camera Calibrate" tag="4" enabled="NO" toolTip="Generate light with hardware, detect with camera" id="x9b-4e-UjV"/>
-                                                        <menuItem title="Screen Calibrate" tag="5" enabled="NO" toolTip="Generate light with screen, detect with hardware" id="bnQ-gf-TVU"/>
+                                                        <menuItem title="Camera Calibrate using Hardware" tag="4" enabled="NO" toolTip="Generate light with hardware, detect with camera" id="x9b-4e-UjV"/>
+                                                        <menuItem title="Screen Calibrate using Hardware" tag="5" enabled="NO" toolTip="Generate light with screen, detect with hardware" id="bnQ-gf-TVU"/>
                                                         <menuItem isSeparatorItem="YES" id="gtf-mo-HpE">
                                                             <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                                                         </menuItem>
                                                         <menuItem title="Camera Calibrate using Calibrated Screen" tag="5" enabled="NO" toolTip="Generate light with screen, detect with calibrated camera" id="FGW-MP-1ae"/>
-                                                        <menuItem title="Camera Calibrate using Remote Calibrated Screen (Slave,Client)" id="BbI-4y-CTj">
+                                                        <menuItem title="Camera Calibrate using Other Device" id="BbI-4y-CTj">
                                                             <modifierMask key="keyEquivalentModifierMask"/>
                                                         </menuItem>
                                                         <menuItem title="Screen Calibrate using Calibrated Camera" tag="5" enabled="NO" toolTip="Generate light with calibrated screen, detect with camera" id="dzQ-zl-zon"/>
-                                                        <menuItem title="Screen Calibrate using Remote Calibrated Camera (Master,Server)" id="ccI-Su-loC">
+                                                        <menuItem title="Screen Calibrate using Other Device" id="ccI-Su-loC">
                                                             <modifierMask key="keyEquivalentModifierMask"/>
                                                         </menuItem>
                                                         <menuItem isSeparatorItem="YES" id="7fL-i4-mse"/>

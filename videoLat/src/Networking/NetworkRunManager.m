@@ -137,23 +137,23 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 
     // We also register ourselves for send-only, as a slave. At the very least we must make
     // sure the nibfile is registered...
-    [BaseRunManager registerClass: [self class] forMeasurementType: @"Video Transmission (Master,Server)"];
-    [BaseRunManager registerNib: @"MasterSenderRun" forMeasurementType: @"Video Transmission (Master,Server)"];
+    [BaseRunManager registerClass: [self class] forMeasurementType: @"Video Transmission Only"];
+    [BaseRunManager registerNib: @"MasterSenderRun" forMeasurementType: @"Video Transmission Only"];
     // We register ourselves for receive-only, as a slave. At the very least we must make
     // sure the nibfile is registered...
-    [BaseRunManager registerClass: [self class] forMeasurementType: @"Video Reception (Slave,Client)"];
-    [BaseRunManager registerNib: @"SlaveReceiverRun" forMeasurementType: @"Video Reception (Slave,Client)"];
+    [BaseRunManager registerClass: [self class] forMeasurementType: @"Video Reception Only"];
+    [BaseRunManager registerNib: @"SlaveReceiverRun" forMeasurementType: @"Video Reception Only"];
 
-    [BaseRunManager registerClass: [self class] forMeasurementType: @"Camera Calibrate using Remote Calibrated Screen (Slave,Client)"];
-    [BaseRunManager registerNib: @"SlaveReceiverCameraCalibrationRun" forMeasurementType: @"Camera Calibrate using Remote Calibrated Screen (Slave,Client)"];
-    [BaseRunManager registerClass: [self class] forMeasurementType: @"Screen Calibrate using Remote Calibrated Camera (Master,Server)"];
-    [BaseRunManager registerNib: @"MasterSenderScreenCalibrationRun" forMeasurementType: @"Screen Calibrate using Remote Calibrated Camera (Master,Server)"];
+    [BaseRunManager registerClass: [self class] forMeasurementType: @"Camera Calibrate using Other Device"];
+    [BaseRunManager registerNib: @"SlaveReceiverCameraCalibrationRun" forMeasurementType: @"Camera Calibrate using Other Device"];
+    [BaseRunManager registerClass: [self class] forMeasurementType: @"Screen Calibrate using Other Device"];
+    [BaseRunManager registerNib: @"MasterSenderScreenCalibrationRun" forMeasurementType: @"Screen Calibrate using Other Device"];
 
 #ifdef WITH_UIKIT
-    [BaseRunManager registerSelectionNib: @"VideoInputSelectionView" forMeasurementType: @"Video Reception (Slave,Client)"];
-    [BaseRunManager registerSelectionNib: @"VideoInputSelectionView" forMeasurementType: @"Camera Calibrate using Remote Calibrated Screen (Slave,Client)"];
-    [BaseRunManager registerSelectionNib: @"NetworkInputSelectionView" forMeasurementType: @"Video Transmission (Master,Server)"];
-    [BaseRunManager registerSelectionNib: @"NetworkInputSelectionView" forMeasurementType: @"Screen Calibrate using Remote Calibrated Camera (Master,Server)"];
+    [BaseRunManager registerSelectionNib: @"VideoInputSelectionView" forMeasurementType: @"Video Reception Only"];
+    [BaseRunManager registerSelectionNib: @"VideoInputSelectionView" forMeasurementType: @"Camera Calibrate using Other Device"];
+    [BaseRunManager registerSelectionNib: @"NetworkInputSelectionView" forMeasurementType: @"Video Transmission Only"];
+    [BaseRunManager registerSelectionNib: @"NetworkInputSelectionView" forMeasurementType: @"Screen Calibrate using Other Device"];
 #endif
 }
 
