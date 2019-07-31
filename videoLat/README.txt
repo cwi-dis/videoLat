@@ -38,6 +38,7 @@ on <https://videolat.org>.
 
 Change Log
 ==========
+2.2: Fixed layout issues, naming issues, added ArduinoLed hardware device
 2.1: Use CoreImage (get rid of3rd party libs), ported to newer OSX/iOS
 2.0.3: CSV export failed if there were non-ASCII characters
 2.0: iOS port, one-way measurements, UI revamp
@@ -57,8 +58,8 @@ Change Log
 0.52: Fixed race condition that could cause negative latencies
 0.51: Added missing Help book
 
-Build Instructions for OSX, fast track
-======================================
+Build Instructions for OSX
+==========================
 
 To build videoLat from source you need:
 - a Mac (10.12 and later have been tested, must be 64-bit capable, older releases may still work).
@@ -104,8 +105,11 @@ Contact
 =======
 
 For praise, complaints, bug reports and other feedback,
-contact Jack Jansen <Jack.Jansen@cwi.nl> or use the sourceforge feedback
+contact Jack Jansen <Jack.Jansen@cwi.nl> or use the website or github feedback
 options.
+
+If you use videoLat measurements in a scientific paper (in a significant way) a reference 
+to one of the videoLat papers would be appreciated. See the website for details.
 
 Licenses
 ========
