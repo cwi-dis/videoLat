@@ -25,10 +25,10 @@
 
 + (void) initialize
 {
-    [BaseRunManager registerClass: [self class] forMeasurementType: @"Video Roundtrip"];
-    [BaseRunManager registerNib: @"VideoRun" forMeasurementType: @"Video Roundtrip"];
+    [BaseRunManager registerClass: [self class] forMeasurementType: @"QR Code Roundtrip"];
+    [BaseRunManager registerNib: @"VideoRun" forMeasurementType: @"QR Code Roundtrip"];
 #ifdef WITH_UIKIT
-    [BaseRunManager registerSelectionNib: @"VideoInputSelectionView" forMeasurementType: @"Video Roundtrip"];
+    [BaseRunManager registerSelectionNib: @"VideoInputSelectionView" forMeasurementType: @"QR Code Roundtrip"];
 #endif
 }
 

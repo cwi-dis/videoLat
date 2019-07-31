@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
+        <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14460.31"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -54,10 +55,10 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <customView translatesAutoresizingMaskIntoConstraints="NO" id="4" customClass="NetworkSelectionView">
-                        <rect key="frame" x="20" y="164" width="268" height="394"/>
+                        <rect key="frame" x="20" y="164" width="264" height="394"/>
                         <subviews>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9">
-                                <rect key="frame" x="18" y="360" width="232" height="17"/>
+                                <rect key="frame" x="18" y="360" width="228" height="17"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Video Output, Networked Input" id="43">
                                     <font key="font" metaFont="systemBold"/>
                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -65,7 +66,7 @@
                                 </textFieldCell>
                             </textField>
                             <button toolTip="Do initial measurements to check everything works and detect mirroring" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5">
-                                <rect key="frame" x="175" y="199" width="79" height="32"/>
+                                <rect key="frame" x="171" y="199" width="79" height="32"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="67" id="46"/>
                                 </constraints>
@@ -86,7 +87,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField toolTip="Output display used. Position whole window to select output display." horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="158">
-                                <rect key="frame" x="102" y="335" width="148" height="17"/>
+                                <rect key="frame" x="98" y="335" width="148" height="17"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="144" id="236"/>
                                 </constraints>
@@ -105,15 +106,15 @@
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="108">
-                                <rect key="frame" x="18" y="285" width="77" height="17"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Server Port:" id="109">
+                                <rect key="frame" x="18" y="285" width="73" height="17"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Serving on:" id="109">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
                             <textField toolTip="Output display used. Position whole window to select output display." horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="117">
-                                <rect key="frame" x="99" y="285" width="104" height="17"/>
+                                <rect key="frame" x="98" y="285" width="148" height="17"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="not yet selected" id="118">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -121,7 +122,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField toolTip="Output display used. Position whole window to select output display." horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="151">
-                                <rect key="frame" x="99" y="260" width="114" height="17"/>
+                                <rect key="frame" x="98" y="260" width="148" height="17"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="not yet connected" id="152">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -137,11 +138,21 @@
                                 </textFieldCell>
                             </textField>
                             <textField toolTip="Output display used. Position whole window to select output display." horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="215">
-                                <rect key="frame" x="99" y="235" width="62" height="17"/>
+                                <rect key="frame" x="98" y="235" width="148" height="17"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="unknown" id="216">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NqA-8w-exc">
+                                <rect key="frame" x="18" y="20" width="228" height="178"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <textFieldCell key="cell" alignment="left" id="Lvi-LV-baZ">
+                                    <font key="font" metaFont="systemLight" size="13"/>
+                                    <string key="title">(Note that the receiver must be able to contact the sender over the internet, so they should be on the same WiFi or LAN, or the sender must be serving on a public IP address)</string>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
                         </subviews>
@@ -151,27 +162,26 @@
                             <constraint firstItem="36" firstAttribute="leading" secondItem="4" secondAttribute="leading" constant="20" symbolic="YES" id="15"/>
                             <constraint firstItem="108" firstAttribute="leading" secondItem="4" secondAttribute="leading" constant="20" symbolic="YES" id="112"/>
                             <constraint firstItem="9" firstAttribute="top" secondItem="4" secondAttribute="top" constant="17" id="116"/>
-                            <constraint firstItem="117" firstAttribute="leading" secondItem="108" secondAttribute="trailing" constant="8" symbolic="YES" id="132"/>
-                            <constraint firstItem="151" firstAttribute="leading" secondItem="117" secondAttribute="leading" id="155"/>
+                            <constraint firstItem="117" firstAttribute="leading" secondItem="108" secondAttribute="trailing" constant="11" id="132"/>
                             <constraint firstItem="157" firstAttribute="baseline" secondItem="158" secondAttribute="baseline" id="162"/>
                             <constraint firstItem="157" firstAttribute="leading" secondItem="9" secondAttribute="leading" id="165"/>
                             <constraint firstItem="157" firstAttribute="top" secondItem="9" secondAttribute="bottom" constant="8" symbolic="YES" id="167"/>
                             <constraint firstItem="36" firstAttribute="top" secondItem="108" secondAttribute="bottom" constant="8" symbolic="YES" id="201"/>
                             <constraint firstItem="117" firstAttribute="baseline" secondItem="108" secondAttribute="baseline" id="202"/>
-                            <constraint firstItem="151" firstAttribute="baseline" secondItem="36" secondAttribute="baseline" id="204"/>
-                            <constraint firstItem="215" firstAttribute="leading" secondItem="151" secondAttribute="leading" id="224"/>
                             <constraint firstItem="5" firstAttribute="top" secondItem="215" secondAttribute="bottom" constant="8" symbolic="YES" id="226"/>
                             <constraint firstItem="158" firstAttribute="trailing" secondItem="9" secondAttribute="trailing" id="229"/>
                             <constraint firstItem="214" firstAttribute="top" secondItem="36" secondAttribute="bottom" constant="8" symbolic="YES" id="244"/>
                             <constraint firstItem="214" firstAttribute="leading" secondItem="36" secondAttribute="leading" id="245"/>
                             <constraint firstItem="214" firstAttribute="baseline" secondItem="215" secondAttribute="baseline" id="246"/>
-                            <constraint firstItem="158" firstAttribute="leading" secondItem="117" secondAttribute="leading" constant="3" id="248"/>
-                            <constraint firstItem="158" firstAttribute="leading" secondItem="151" secondAttribute="leading" constant="3" id="249"/>
-                            <constraint firstItem="158" firstAttribute="leading" secondItem="215" secondAttribute="leading" constant="3" id="250"/>
-                            <constraint firstItem="158" firstAttribute="trailing" secondItem="117" secondAttribute="trailing" constant="47" id="252"/>
-                            <constraint firstItem="158" firstAttribute="trailing" secondItem="215" secondAttribute="trailing" constant="89" id="253"/>
+                            <constraint firstItem="158" firstAttribute="leading" secondItem="117" secondAttribute="leading" id="248"/>
+                            <constraint firstItem="158" firstAttribute="trailing" secondItem="117" secondAttribute="trailing" id="252"/>
+                            <constraint firstItem="158" firstAttribute="trailing" secondItem="215" secondAttribute="trailing" id="253"/>
                             <constraint firstItem="108" firstAttribute="top" secondItem="4" secondAttribute="top" constant="92" id="346"/>
                             <constraint firstItem="5" firstAttribute="trailing" secondItem="158" secondAttribute="trailing" id="354"/>
+                            <constraint firstItem="151" firstAttribute="leading" secondItem="117" secondAttribute="leading" id="344-rP-cB1"/>
+                            <constraint firstItem="151" firstAttribute="leading" secondItem="215" secondAttribute="leading" id="IpT-Jg-2Ph"/>
+                            <constraint firstItem="151" firstAttribute="baseline" secondItem="36" secondAttribute="baseline" id="Rro-GL-Ddi"/>
+                            <constraint firstItem="151" firstAttribute="trailing" secondItem="117" secondAttribute="trailing" id="ddg-ax-5zT"/>
                         </constraints>
                         <connections>
                             <outlet property="bOurPort" destination="117" id="207"/>
@@ -181,7 +191,7 @@
                         </connections>
                     </customView>
                     <customView translatesAutoresizingMaskIntoConstraints="NO" id="275" customClass="RunStatusView">
-                        <rect key="frame" x="20" y="20" width="268" height="136"/>
+                        <rect key="frame" x="20" y="20" width="264" height="136"/>
                         <subviews>
                             <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="283">
                                 <rect key="frame" x="18" y="74" width="56" height="17"/>
@@ -192,7 +202,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="282">
-                                <rect key="frame" x="95" y="49" width="155" height="17"/>
+                                <rect key="frame" x="91" y="49" width="155" height="17"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" enabled="NO" sendsActionOnEndEditing="YES" title="unknown" id="303">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -211,7 +221,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="280">
-                                <rect key="frame" x="95" y="74" width="155" height="17"/>
+                                <rect key="frame" x="91" y="74" width="155" height="17"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="151" id="306"/>
                                 </constraints>
@@ -222,7 +232,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="284">
-                                <rect key="frame" x="18" y="99" width="232" height="17"/>
+                                <rect key="frame" x="18" y="99" width="228" height="17"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Measurement Run" id="300">
                                     <font key="font" metaFont="systemBold"/>
                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -230,7 +240,7 @@
                                 </textFieldCell>
                             </textField>
                             <button toolTip="Stop measuring and present results" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="279">
-                                <rect key="frame" x="185" y="13" width="69" height="32"/>
+                                <rect key="frame" x="181" y="13" width="69" height="32"/>
                                 <buttonCell key="cell" type="push" title="Stop" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="308">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -278,7 +288,7 @@
                         </connections>
                     </customView>
                     <view translatesAutoresizingMaskIntoConstraints="NO" id="2" customClass="VideoOutputView">
-                        <rect key="frame" x="296" y="24" width="640" height="640"/>
+                        <rect key="frame" x="292" y="24" width="644" height="640"/>
                         <connections>
                             <outlet property="bOutputName" destination="158" id="209"/>
                             <outlet property="manager" destination="1" id="63"/>

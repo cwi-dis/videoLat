@@ -13,12 +13,12 @@
 - (NSArray *)measurementNames
 {
 	return @[
-		@"Video Roundtrip Calibrate",
-		@"Audio Roundtrip Calibrate",
-		@"Camera Calibrate using Calibrated Screen",
-		@"Screen Calibrate using Calibrated Camera",
-		@"Camera Calibrate using Other Device",
-		@"Screen Calibrate using Other Device"
+        @"Transmission Calibrate using Other Device",
+		@"Reception Calibrate using Other Device",
+        @"Transmission Calibrate using Calibrated Camera",
+        @"Reception Calibrate using Calibrated Screen",
+        @"QR Code Roundtrip Calibrate",
+        @"Audio Roundtrip Calibrate"
 		];
 }
 

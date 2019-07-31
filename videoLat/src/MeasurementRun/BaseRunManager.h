@@ -107,7 +107,7 @@
 
 /// Select the actual measurement type this run will use.
 /// @param typeName the (human readable) measurement type name.
-/// This method is needed because many measurement types (for example Video Roundtrip and Video Calibration)
+/// This method is needed because many measurement types (for example QR Code Roundtrip and Video Calibration)
 /// share an awful lot of code.
 - (void)selectMeasurementType: (NSString *)typeName;
 

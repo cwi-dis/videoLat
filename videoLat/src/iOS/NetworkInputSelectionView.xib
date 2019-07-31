@@ -29,7 +29,7 @@
                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Server Port:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aaM-t2-I54">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Serving on:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aaM-t2-I54">
                             <rect key="frame" x="8" y="11" width="92" height="21"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="92" id="Uox-ci-38R"/>
@@ -77,11 +77,20 @@
                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LGX-AI-nah">
-                            <rect key="frame" x="8" y="98" width="398" height="61"/>
-                            <string key="text">(Note that the connection parameters will be adjusted automatically, after you continue and capture the QR codes using the remote camera)</string>
-                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                            <nil key="textColor"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="none" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LGX-AI-nah">
+                            <rect key="frame" x="8" y="98" width="398" height="370"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="370" id="ujm-Xp-i9s"/>
+                            </constraints>
+                            <attributedString key="attributedText">
+                                <fragment>
+                                    <string key="content">(Note that the receiver must be able to contact the sender over the internet, so they should be on the same WiFi or LAN, or the sender must be serving on a public IP address. The connection parameters will be adjusted automatically, after you continue and capture the QR codes using the camera of the receiving device)</string>
+                                    <attributes>
+                                        <font key="NSFont" metaFont="system" size="17"/>
+                                        <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                    </attributes>
+                                </fragment>
+                            </attributedString>
                             <nil key="highlightedColor"/>
                         </label>
                     </subviews>
@@ -89,7 +98,10 @@
                     <constraints>
                         <constraint firstItem="lMl-q6-GAA" firstAttribute="top" secondItem="ZHU-rR-BBB" secondAttribute="bottom" constant="8" symbolic="YES" id="7CH-1k-owN"/>
                         <constraint firstItem="aaM-t2-I54" firstAttribute="leading" secondItem="OP7-d0-8Jt" secondAttribute="leadingMargin" id="AI1-vW-80O"/>
+                        <constraint firstItem="LGX-AI-nah" firstAttribute="leading" secondItem="wp6-Q2-Rap" secondAttribute="leading" id="EZV-cr-hOt"/>
                         <constraint firstAttribute="bottom" secondItem="lMl-q6-GAA" secondAttribute="bottom" constant="5" id="G3a-Fb-QZ7"/>
+                        <constraint firstItem="ZHU-rR-BBB" firstAttribute="top" secondItem="LGX-AI-nah" secondAttribute="bottom" constant="8" id="Gea-c5-ngV"/>
+                        <constraint firstAttribute="trailing" secondItem="LGX-AI-nah" secondAttribute="trailing" constant="8" id="JBH-UP-95n"/>
                         <constraint firstAttribute="bottom" secondItem="lMl-q6-GAA" secondAttribute="bottom" constant="5" id="M2J-jV-OTd"/>
                         <constraint firstItem="ZHU-rR-BBB" firstAttribute="centerX" secondItem="lMl-q6-GAA" secondAttribute="centerX" id="OAf-Gm-XY4"/>
                         <constraint firstItem="mbr-Vf-Oyo" firstAttribute="top" secondItem="aaM-t2-I54" secondAttribute="bottom" constant="8" symbolic="YES" id="OnI-Ay-3ta"/>
@@ -97,16 +109,16 @@
                         <constraint firstItem="V4e-e0-t0q" firstAttribute="leading" secondItem="aaM-t2-I54" secondAttribute="trailing" constant="8" symbolic="YES" id="Ryl-2J-4fB"/>
                         <constraint firstItem="iOO-Ei-FYw" firstAttribute="trailing" secondItem="lMl-q6-GAA" secondAttribute="trailing" id="SjV-HA-bdT"/>
                         <constraint firstItem="V4e-e0-t0q" firstAttribute="trailing" secondItem="0hX-4r-Wk3" secondAttribute="trailing" id="Tq1-6N-XdU"/>
-                        <constraint firstAttribute="trailing" secondItem="LGX-AI-nah" secondAttribute="trailing" constant="8" id="W3f-lm-mEP"/>
                         <constraint firstItem="0hX-4r-Wk3" firstAttribute="trailing" secondItem="iOO-Ei-FYw" secondAttribute="trailing" id="bJs-z4-drA"/>
                         <constraint firstItem="aaM-t2-I54" firstAttribute="leading" secondItem="mbr-Vf-Oyo" secondAttribute="leading" id="diz-P4-QHU"/>
                         <constraint firstItem="V4e-e0-t0q" firstAttribute="leading" secondItem="0hX-4r-Wk3" secondAttribute="leading" id="fST-wc-kau"/>
                         <constraint firstItem="wp6-Q2-Rap" firstAttribute="top" secondItem="mbr-Vf-Oyo" secondAttribute="bottom" constant="8" symbolic="YES" id="fvN-0C-gmT"/>
                         <constraint firstItem="mbr-Vf-Oyo" firstAttribute="leading" secondItem="wp6-Q2-Rap" secondAttribute="leading" id="gki-zX-cov"/>
-                        <constraint firstItem="LGX-AI-nah" firstAttribute="leading" secondItem="OP7-d0-8Jt" secondAttribute="leading" constant="8" id="i0r-1m-Gcg"/>
                         <constraint firstItem="wp6-Q2-Rap" firstAttribute="leading" secondItem="lMl-q6-GAA" secondAttribute="leading" id="iYo-lZ-eJP"/>
                         <constraint firstItem="aaM-t2-I54" firstAttribute="top" secondItem="OP7-d0-8Jt" secondAttribute="top" constant="11" id="lU6-BX-X1x"/>
-                        <constraint firstItem="LGX-AI-nah" firstAttribute="top" secondItem="wp6-Q2-Rap" secondAttribute="bottom" constant="8" id="m1F-Es-SrP"/>
+                        <constraint firstItem="LGX-AI-nah" firstAttribute="leading" secondItem="OP7-d0-8Jt" secondAttribute="leading" constant="8" id="mjs-pD-aPe"/>
+                        <constraint firstItem="LGX-AI-nah" firstAttribute="top" secondItem="wp6-Q2-Rap" secondAttribute="bottom" constant="8" id="nJ5-Jd-Zh2"/>
+                        <constraint firstItem="LGX-AI-nah" firstAttribute="top" secondItem="wp6-Q2-Rap" secondAttribute="bottom" constant="8" symbolic="YES" id="oxX-fR-Aa0"/>
                         <constraint firstItem="wp6-Q2-Rap" firstAttribute="baseline" secondItem="iOO-Ei-FYw" secondAttribute="baseline" id="pKh-Ay-VZK"/>
                         <constraint firstItem="0hX-4r-Wk3" firstAttribute="leading" secondItem="iOO-Ei-FYw" secondAttribute="leading" id="pvU-Aj-4Tb"/>
                         <constraint firstItem="0hX-4r-Wk3" firstAttribute="leading" secondItem="mbr-Vf-Oyo" secondAttribute="trailing" constant="8" symbolic="YES" id="ruM-HS-9cm"/>

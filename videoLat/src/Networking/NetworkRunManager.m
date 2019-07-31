@@ -137,23 +137,23 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 
     // We also register ourselves for send-only, as a slave. At the very least we must make
     // sure the nibfile is registered...
-    [BaseRunManager registerClass: [self class] forMeasurementType: @"Video Transmission Only"];
-    [BaseRunManager registerNib: @"MasterSenderRun" forMeasurementType: @"Video Transmission Only"];
+    [BaseRunManager registerClass: [self class] forMeasurementType: @"QR Code Transmission"];
+    [BaseRunManager registerNib: @"MasterSenderRun" forMeasurementType: @"QR Code Transmission"];
     // We register ourselves for receive-only, as a slave. At the very least we must make
     // sure the nibfile is registered...
-    [BaseRunManager registerClass: [self class] forMeasurementType: @"Video Reception Only"];
-    [BaseRunManager registerNib: @"SlaveReceiverRun" forMeasurementType: @"Video Reception Only"];
+    [BaseRunManager registerClass: [self class] forMeasurementType: @"QR Code Reception"];
+    [BaseRunManager registerNib: @"SlaveReceiverRun" forMeasurementType: @"QR Code Reception"];
 
-    [BaseRunManager registerClass: [self class] forMeasurementType: @"Camera Calibrate using Other Device"];
-    [BaseRunManager registerNib: @"SlaveReceiverCameraCalibrationRun" forMeasurementType: @"Camera Calibrate using Other Device"];
-    [BaseRunManager registerClass: [self class] forMeasurementType: @"Screen Calibrate using Other Device"];
-    [BaseRunManager registerNib: @"MasterSenderScreenCalibrationRun" forMeasurementType: @"Screen Calibrate using Other Device"];
+    [BaseRunManager registerClass: [self class] forMeasurementType: @"Reception Calibrate using Other Device"];
+    [BaseRunManager registerNib: @"SlaveReceiverCameraCalibrationRun" forMeasurementType: @"Reception Calibrate using Other Device"];
+    [BaseRunManager registerClass: [self class] forMeasurementType: @"Transmission Calibrate using Other Device"];
+    [BaseRunManager registerNib: @"MasterSenderScreenCalibrationRun" forMeasurementType: @"Transmission Calibrate using Other Device"];
 
 #ifdef WITH_UIKIT
-    [BaseRunManager registerSelectionNib: @"VideoInputSelectionView" forMeasurementType: @"Video Reception Only"];
-    [BaseRunManager registerSelectionNib: @"VideoInputSelectionView" forMeasurementType: @"Camera Calibrate using Other Device"];
-    [BaseRunManager registerSelectionNib: @"NetworkInputSelectionView" forMeasurementType: @"Video Transmission Only"];
-    [BaseRunManager registerSelectionNib: @"NetworkInputSelectionView" forMeasurementType: @"Screen Calibrate using Other Device"];
+    [BaseRunManager registerSelectionNib: @"VideoInputSelectionView" forMeasurementType: @"QR Code Reception"];
+    [BaseRunManager registerSelectionNib: @"VideoInputSelectionView" forMeasurementType: @"Reception Calibrate using Other Device"];
+    [BaseRunManager registerSelectionNib: @"NetworkInputSelectionView" forMeasurementType: @"QR Code Transmission"];
+    [BaseRunManager registerSelectionNib: @"NetworkInputSelectionView" forMeasurementType: @"Transmission Calibrate using Other Device"];
 #endif
 }
 
@@ -204,7 +204,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
         assert(self.protocol == nil);
         self.protocol = [[NetworkProtocolServer alloc] init];
         self.protocol.delegate = self;
-        self.selectionViewForStatusOnly.bOurPort.stringValue = [NSString stringWithFormat:@"%d", self.protocol.port];
+        self.selectionViewForStatusOnly.bOurPort.stringValue = [NSString stringWithFormat:@"%@:%d", self.protocol.host, self.protocol.port];
     }
     // If we handle output (i.e. we get video from the camera and report QR codes to the server)
     // we only allocate a clock, the client-side of the network connection will be created once we

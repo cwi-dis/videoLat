@@ -42,31 +42,31 @@ static NSMutableDictionary *byTag;
     byName = [[NSMutableDictionary alloc] initWithCapacity: 10];
     byTag = [[NSMutableDictionary alloc] initWithCapacity: 10];
     // NOTE: this list should be identical to the "Measurement Type" popup in NewMeasurement.xib
-    MeasurementType *cal_VR = [self addType: @"Video Roundtrip Calibrate" tag: 1 isCalibration: YES requires: nil];
-    [self addType: @"Video Roundtrip" tag: 2 isCalibration: NO requires: cal_VR];
+    MeasurementType *cal_VR = [self addType: @"QR Code Roundtrip Calibrate" tag: 1 isCalibration: YES requires: nil];
+    [self addType: @"QR Code Roundtrip" tag: 2 isCalibration: NO requires: cal_VR];
     [self addType: @"Video Mono Roundtrip" tag: 8 isCalibration: NO requires: cal_VR];
     
     MeasurementType *cal_HW = [self addType: @"Hardware Calibrate" tag: 3 isCalibration: YES requires: nil];
     
-    MeasurementType *cal_IN = [self addType: @"Camera Calibrate using Hardware" tag: 4 isCalibration: YES requires: cal_HW];
+    MeasurementType *cal_IN = [self addType: @"Reception Calibrate using Hardware" tag: 4 isCalibration: YES requires: cal_HW];
     cal_IN.inputOnlyCalibration = YES;
-    MeasurementType *cal_OUT = [self addType: @"Screen Calibrate using Hardware" tag: 5 isCalibration: YES requires: cal_HW];
+    MeasurementType *cal_OUT = [self addType: @"Transmission Calibrate using Hardware" tag: 5 isCalibration: YES requires: cal_HW];
     cal_OUT.outputOnlyCalibration = YES;
     
-    MeasurementType *cal_IN2 = [self addType: @"Camera Calibrate using Calibrated Screen" tag: 4 isCalibration: YES requires: cal_OUT];
+    MeasurementType *cal_IN2 = [self addType: @"Reception Calibrate using Calibrated Screen" tag: 4 isCalibration: YES requires: cal_OUT];
     cal_IN2.inputOnlyCalibration = YES;
     [cal_IN2 setIsSubtypeOf: cal_IN];
-    MeasurementType *cal_OUT2 = [self addType: @"Screen Calibrate using Calibrated Camera" tag: 5 isCalibration: YES requires: cal_IN];
+    MeasurementType *cal_OUT2 = [self addType: @"Transmission Calibrate using Calibrated Camera" tag: 5 isCalibration: YES requires: cal_IN];
     cal_OUT2.outputOnlyCalibration = YES;
     [cal_OUT2 setIsSubtypeOf: cal_OUT];
 
-    [self addType: @"Video Transmission Only" tag: 6 isCalibration: NO requires: cal_OUT];
-    [self addType: @"Video Reception Only" tag: 7 isCalibration: NO requires: cal_IN];
+    [self addType: @"QR Code Transmission" tag: 6 isCalibration: NO requires: cal_OUT];
+    [self addType: @"QR Code Reception" tag: 7 isCalibration: NO requires: cal_IN];
     
-    MeasurementType *cal_IN3 = [self addType: @"Camera Calibrate using Other Device" tag: 4 isCalibration: YES requires: nil];
+    MeasurementType *cal_IN3 = [self addType: @"Reception Calibrate using Other Device" tag: 4 isCalibration: YES requires: nil];
     cal_IN3.inputOnlyCalibration = YES;
     [cal_IN3 setIsSubtypeOf: cal_IN];
-    MeasurementType *cal_OUT3 = [self addType: @"Screen Calibrate using Other Device" tag: 5 isCalibration: YES requires: nil];
+    MeasurementType *cal_OUT3 = [self addType: @"Transmission Calibrate using Other Device" tag: 5 isCalibration: YES requires: nil];
     cal_OUT3.outputOnlyCalibration = YES;
     [cal_OUT3 setIsSubtypeOf: cal_OUT];
 

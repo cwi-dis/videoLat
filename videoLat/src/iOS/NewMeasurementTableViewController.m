@@ -15,11 +15,10 @@
 - (NSArray *)measurementNames
 {
 	return @[
-		@"Video Roundtrip",
+        @"QR Code Transmission",
+        @"QR Code Reception",
+		@"QR Code Roundtrip",
 		@"Audio Roundtrip",
-		@"Video Transmission Only",
-		@"Video Reception Only"
-
 		];
 }
 
