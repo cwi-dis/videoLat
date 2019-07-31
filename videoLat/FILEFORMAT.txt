@@ -17,3 +17,15 @@ many data points. It has three columns:
 - "lowerBound" is the lower bound of the bin
 - "upperBound" is the upper bound of the bin (which is the lower bound of the next one)
 - "binValue" is the fraction of the measurements that fall into this bin.
+
+There is also the log file format (Generated after selecting File->Log All Events...).
+This has low level timestamped logging of all sorts of events that happened during
+the videoLat run. It may contain interesting information if you know what to look
+for. The log files are also CSV files with the following fields:
+
+- "systemTimeMicro" is the system clock at the time the event happened
+- "moduleName" and "eventName" define the event that happened.
+- "eventTimeMicro" (if not 0) is the time the event happened on some other clock
+  (such as a per-device clock)
+- "eventArgument" is event-dependent, and may contain things like the QR-code
+  captured or other useful information.

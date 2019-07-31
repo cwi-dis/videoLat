@@ -48,11 +48,18 @@ static NSMutableDictionary *byTag;
     
     MeasurementType *cal_HW = [self addType: @"Hardware Calibrate" tag: 3 isCalibration: YES requires: nil];
     
-    MeasurementType *cal_IN = [self addType: @"Reception Calibrate using Hardware" tag: 4 isCalibration: YES requires: cal_HW];
+    MeasurementType *cal_IN = [self addType: @"Reception Calibrate" tag: 4 isCalibration: YES requires: nil];
     cal_IN.inputOnlyCalibration = YES;
-    MeasurementType *cal_OUT = [self addType: @"Transmission Calibrate using Hardware" tag: 5 isCalibration: YES requires: cal_HW];
+    MeasurementType *cal_OUT = [self addType: @"Transmission Calibrate" tag: 5 isCalibration: YES requires: nil];
     cal_OUT.outputOnlyCalibration = YES;
     
+    MeasurementType *cal_IN1 = [self addType: @"Reception Calibrate using Hardware" tag: 4 isCalibration: YES requires: cal_HW];
+    cal_IN1.inputOnlyCalibration = YES;
+    [cal_IN1 setIsSubtypeOf: cal_IN];
+    MeasurementType *cal_OUT1 = [self addType: @"Transmission Calibrate using Hardware" tag: 5 isCalibration: YES requires: cal_HW];
+    cal_OUT1.outputOnlyCalibration = YES;
+    [cal_OUT1 setIsSubtypeOf: cal_OUT];
+
     MeasurementType *cal_IN2 = [self addType: @"Reception Calibrate using Calibrated Screen" tag: 4 isCalibration: YES requires: cal_OUT];
     cal_IN2.inputOnlyCalibration = YES;
     [cal_IN2 setIsSubtypeOf: cal_IN];

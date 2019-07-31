@@ -49,37 +49,37 @@ DQ
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="400" id="UYW-HT-fzS"/>
                                             </constraints>
-                                            <popUpButtonCell key="cell" type="push" title="QR Code Transmission" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" tag="7" imageScaling="proportionallyDown" inset="2" autoenablesItems="NO" selectedItem="Brj-eH-pgx" id="1QG-s6-T0k">
+                                            <popUpButtonCell key="cell" type="push" title="QR Code Transmission" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="7" imageScaling="proportionallyDown" inset="2" autoenablesItems="NO" selectedItem="Brj-eH-pgx" id="1QG-s6-T0k">
                                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="menu"/>
                                                 <menu key="menu" title="OtherViews" autoenablesItems="NO" id="A3x-cu-h0s">
                                                     <items>
-                                                        <menuItem title="QR Code Transmission" tag="7" enabled="NO" toolTip="Single-ended measurement, transmitter" id="Brj-eH-pgx"/>
-                                                        <menuItem title="QR Code Reception" tag="6" enabled="NO" toolTip="Single-ended measurement, receiver" id="a22-DG-zuN"/>
+                                                        <menuItem title="QR Code Transmission" state="on" tag="7" enabled="NO" toolTip="Two-device measurement, transmitter" id="Brj-eH-pgx"/>
+                                                        <menuItem title="QR Code Reception" tag="6" enabled="NO" toolTip="Two-device measurement, receiver" id="a22-DG-zuN"/>
                                                         <menuItem title="QR Code Roundtrip" tag="2" enabled="NO" toolTip="Measurement of display to camera delay using QR-codes" id="O3P-iE-5AA"/>
                                                         <menuItem title="Audio Roundtrip" tag="9" enabled="NO" toolTip="Measurement of speaker to microphone delay" id="DoQ-UJ-EAt"/>
                                                         <menuItem isSeparatorItem="YES" id="YR2-f4-uXj">
                                                             <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                                                         </menuItem>
-                                                        <menuItem title="Transmission Calibrate using Other Device" id="ccI-Su-loC">
+                                                        <menuItem title="Transmission Calibrate using Other Device" toolTip="Calibrate your screen for transmission, using another device with a calibrated camera." id="ccI-Su-loC">
                                                             <modifierMask key="keyEquivalentModifierMask"/>
                                                         </menuItem>
-                                                        <menuItem title="Reception Calibrate using Other Device" id="BbI-4y-CTj">
+                                                        <menuItem title="Reception Calibrate using Other Device" toolTip="Calibrate your camera for reception, using another device with a calibrated screen." id="BbI-4y-CTj">
                                                             <modifierMask key="keyEquivalentModifierMask"/>
                                                         </menuItem>
-                                                        <menuItem title="Transmission Calibrate using Calibrated Camera" tag="5" enabled="NO" toolTip="Generate light with calibrated screen, detect with camera" id="dzQ-zl-zon"/>
-                                                        <menuItem title="Reception Calibrate using Calibrated Screen" tag="5" enabled="NO" toolTip="Generate light with screen, detect with calibrated camera" id="FGW-MP-1ae"/>
-                                                        <menuItem title="QR Code Roundtrip Calibrate" tag="1" toolTip="Self-measurement of display to camera delay using QR-codes" id="VHC-hC-tsG"/>
+                                                        <menuItem title="Transmission Calibrate using Calibrated Camera" tag="5" enabled="NO" toolTip="Calibrate your screen for transmission if your camera is calibrated and can see the screen." id="dzQ-zl-zon"/>
+                                                        <menuItem title="Reception Calibrate using Calibrated Screen" tag="5" enabled="NO" toolTip="Calibrate your camera for reception if your screen is calibrated and your camera can see the screen." id="FGW-MP-1ae"/>
+                                                        <menuItem title="QR Code Roundtrip Calibrate" tag="1" toolTip="Calibrate camera and screen together for roundtrip." id="VHC-hC-tsG"/>
                                                         <menuItem title="Audio Roundtrip Calibrate" tag="8" toolTip="Self-measurement of speaker to microphone delay" id="Aax-6u-b2b"/>
                                                         <menuItem isSeparatorItem="YES" id="zXU-l7-KEp"/>
                                                         <menuItem title="Advanced Types:" enabled="NO" id="Tew-m3-svZ">
                                                             <attributedString key="attributedTitle"/>
                                                             <modifierMask key="keyEquivalentModifierMask"/>
                                                         </menuItem>
-                                                        <menuItem title="Transmission Calibrate using Hardware" tag="5" enabled="NO" toolTip="Generate light with screen, detect with hardware" id="bnQ-gf-TVU"/>
-                                                        <menuItem title="Reception Calibrate using Hardware" tag="4" enabled="NO" toolTip="Generate light with hardware, detect with camera" id="x9b-4e-UjV"/>
-                                                        <menuItem title="Hardware Calibrate" tag="3" toolTip="Self-measurement of hardware light generation/detection" id="OO5-7j-pEf"/>
-                                                        <menuItem title="Video Mono Roundtrip" tag="2" enabled="NO" toolTip="Measurement of display to camera delay using black and white" id="yN6-Ib-K2S" userLabel="Menu Item - Video Mono Roundtrip">
+                                                        <menuItem title="Transmission Calibrate using Hardware" tag="5" enabled="NO" toolTip="Calibrate your screen for transmission using special hardware. See the manual." id="bnQ-gf-TVU"/>
+                                                        <menuItem title="Reception Calibrate using Hardware" tag="4" enabled="NO" toolTip="Calibrate your camera for reception using special hardware. See the manual." id="x9b-4e-UjV"/>
+                                                        <menuItem title="Hardware Calibrate" tag="3" toolTip="Special hardware calibration. See the manual." id="OO5-7j-pEf"/>
+                                                        <menuItem title="Video Mono Roundtrip" tag="2" enabled="NO" toolTip="Measurement of display to camera delay using black and white in stead of QR codes." id="yN6-Ib-K2S" userLabel="Menu Item - Video Mono Roundtrip">
                                                             <attributedString key="attributedTitle"/>
                                                         </menuItem>
                                                     </items>

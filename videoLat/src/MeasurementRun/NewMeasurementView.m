@@ -58,7 +58,7 @@
         [[bType itemWithTitle: itemTitle] setEnabled: ok];
         if (!ok) {
             NSString *tt = [[bType itemWithTitle: itemTitle] toolTip];
-            [[bType itemWithTitle: itemTitle] setToolTip: [NSString stringWithFormat: @"%@\n\nDisabled because it requires a calibration of type %@", tt, myCalibration.name]];
+            [[bType itemWithTitle: itemTitle] setToolTip: [NSString stringWithFormat: @"%@\n\nDisabled until you have a calibration of type %@", tt, myCalibration.name]];
         }
     }
     // Try to set same as in previous run
