@@ -81,7 +81,6 @@
 
 - (void) _prerunRecordNoReception
 {
-#if 1
     if (VL_DEBUG) NSLog(@"Prerun no reception\n");
     assert(self.preRunning);
     if (outputFrameLatestTimestamp && [self.clock now] - outputFrameLatestTimestamp > maxDelay) {
@@ -94,7 +93,6 @@
         [self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
         [self.outputCompanion triggerNewOutputValue];
     } 
-#endif
 }
 
 - (void) _prerunRecordReception: (NSString *)code
@@ -291,9 +289,6 @@
 
 - (void)setFinderRect: (NSorUIRect)theRect
 {
-#if 0
-	[self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
-#endif
     if ([self.finder respondsToSelector:@selector(setSensitiveArea:)]) {
         [self.finder setSensitiveArea: theRect];
     }

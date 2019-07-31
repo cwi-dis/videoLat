@@ -148,18 +148,6 @@ static double normFunc(double x, double average, double stddev)
         minXaxis -= 1;
     }
     CGFloat xPixelPerUnit = width / (CGFloat)(maxXaxis-minXaxis);
-#if 0
-    if (xPixelPerUnit < 1.0) {
-        // Don't show the left bit
-        minX = (maxX - (int)width);
-        maxXaxis = maxX;
-		minXaxis = minX;
-        xPixelPerUnit = 1;
-    }
-#endif
-#if 0
-    if (minX < 0) minX = 0;
-#endif
 
     // Determine Y scale. Go from at least 0 to at least max, but round up to 1/2/5 first digit.
     CGFloat minY = self.modelObject.min;

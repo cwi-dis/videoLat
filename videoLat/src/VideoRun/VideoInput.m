@@ -307,18 +307,6 @@
     /* Create the video capture output, and let us be its delegate */
     outputCapturer = [[AVCaptureVideoDataOutput alloc] init];
 	outputCapturer.alwaysDiscardsLateVideoFrames = YES;
-#if 0
-	outputCapturer.videoSettings = [NSDictionary dictionaryWithObject: [NSNumber numberWithUnsignedInt: kCVPixelFormatType_32BGRA] forKey: kCVPixelBufferPixelFormatTypeKey];
-#endif
-#if 0
-    AVCaptureConnection *conn = [outputCapturer connectionWithMediaType:AVMediaTypeVideo];
-    if (conn && conn.supportsVideoMinFrameDuration) {
-        conn.videoMinFrameDuration = CMTimeMake(1,5);
-        conn.videoMaxFrameDuration = CMTimeMake(1,5);
-    } else {
-        NSLog(@"Cannot throttle framerate");
-    }
-#endif
     [outputCapturer setSampleBufferDelegate: self queue:sampleBufferQueue];
     [session addOutput: outputCapturer];
 	// XXXJACK Should catch AVCaptureSessionRuntimeErrorNotification
@@ -399,7 +387,6 @@
 
 - (AVCaptureDevice*)_deviceWithName: (NSString*)name
 {
-#if 1
 	NSArray *devs = [AVCaptureDevice devicesWithMediaType: AVMediaTypeVideo];
 	AVCaptureDevice *d;
 	for(d in devs) {
@@ -414,16 +401,10 @@
 			return d;
 	}
     return nil;
-#else
-	return [AVCaptureDevice deviceWithUniqueID:name];
-#endif
 }
 
 - (void) startCapturing: (BOOL) showPreview
 {
-#if 0
-    // Lock focus and exposure, if supported
-#endif
     // Hide preview
     if (!showPreview) [self.selfView setHidden: YES];
 	capturing = YES;

@@ -90,11 +90,6 @@
     assert(self.bConnected);
     if (handlesOutput) assert(self.outputView);
     assert(self.clock);
-#if 0
-    // Unsure why there aren't in screentohardware...
-    assert(self.bSamplePeriodStepper);
-    assert(self.bSamplePeriodValue);
-#endif
 	self.samplePeriodMs = 10;
 	[self _updatePeriod];
     [self restart];
@@ -278,18 +273,10 @@
             }
             
             @synchronized(self) {
-    #ifdef IGNORE_LEVELS_0_AND_1
-                if (inputLevel > 0 && inputLevel < minInputLevel)
-                    minInputLevel = inputLevel;
-                if (inputLevel < 1 && inputLevel > maxInputLevel)
-                    maxInputLevel = inputLevel;
-    #else
                 if (inputLevel >= 0 && inputLevel < minInputLevel)
                     minInputLevel = inputLevel;
                 if (inputLevel <= 1 && inputLevel > maxInputLevel)
                     maxInputLevel = inputLevel;
-
-    #endif
                 // We call update for a number of cases:
                 // - first time through the loop
                 // - device connected or disconnected
@@ -463,44 +450,9 @@
 
 - (IBAction)stopPreMeasuring: (id)sender
 {
-#if 1
 	[super stopPreMeasuring: sender];
 	self.outputCode = @"mixed";
-#else
-	@synchronized(self) {
-		self.preRunning = NO;
-        if (!handlesOutput)
-            [self.outputCompanion companionStopPreMeasuring];
-        outputLevel = 0.5;
-        newOutputValueWanted = NO;
-		[self.bPreRun setEnabled: NO];
-		[self.bRun setEnabled: YES];
-		if (!self.statusView) {
-			// XXXJACK Make sure statusview is active/visible
-		}
-		[self.statusView.bStop setEnabled: NO];
-	}
-#endif
 }
-
-#if 0
-- (IBAction)startMeasuring: (id)sender
-{
-    @synchronized(self) {
-		[self.bPreRun setEnabled: NO];
-		[self.bRun setEnabled: NO];
-		if (!self.statusView) {
-			// XXXJACK Make sure statusview is active/visible
-		}
-		[self.statusView.bStop setEnabled: YES];
-        self.running = YES;
-        if (!handlesOutput)
-            [self.outputCompanion companionStartMeasuring];
-        [self.collector startCollecting: self.measurementType.name input: self.device.deviceID name: self.device.deviceName output: self.device.deviceID name: self.device.deviceName];
-        [self.outputCompanion triggerNewOutputValue];
-    }
-}
-#endif
 
 - (BOOL) _prepareDevice
 {

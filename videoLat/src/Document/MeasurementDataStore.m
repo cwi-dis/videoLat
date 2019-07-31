@@ -104,21 +104,7 @@
 		// are small. This is generally the case for hardware base measurements (and
 		// possibly for audio measurements.
 		double inputAverage = input.calibration.average;
-#if 0
-		if (inputAverage) {
-			MeasurementType *inputType = [MeasurementType forType: input.calibration.measurementType];
-			if (!inputType.inputOnlyCalibration)
-				inputAverage = inputAverage / 2;
-		}
-#endif
 		double outputAverage = output.calibration.average;
-#if 0
-		if (outputAverage) {
-			MeasurementType *outputType = [MeasurementType forType: output.calibration.measurementType];
-			if (!outputType.outputOnlyCalibration)
-				outputAverage = outputAverage / 2;
-		}
-#endif
 		return inputAverage + outputAverage;
 	}
 	return 0;

@@ -31,11 +31,6 @@
 {
     self = [super init];
     if (self) {
-#if __MAC_OS_X_VERSION_MAX_ALLOWED >= 1080
-//		if (CMClockGetHostTimeClock != NULL) {
-//			clock = CMClockGetHostTimeClock();
-//		}
-#endif
     }
     return self;
 }

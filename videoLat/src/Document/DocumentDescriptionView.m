@@ -35,17 +35,6 @@
 - (void) update: (id)sender
 {
 	NSString *measurementType = self.modelObject.measurementType;
-#if 0
-	NSString *inputBaseMeasurementID = self.modelObject.inputBaseMeasurementID;
-	NSString *outputBaseMeasurementID = self.modelObject.outputBaseMeasurementID;
-	if (inputBaseMeasurementID && outputBaseMeasurementID && ![inputBaseMeasurementID isEqualToString: outputBaseMeasurementID]) {
-		measurementType = [NSString stringWithFormat: @"%@ (based on %@ and %@)", measurementType, outputBaseMeasurementID, inputBaseMeasurementID];
-	} else if (inputBaseMeasurementID) {
-		measurementType = [NSString stringWithFormat: @"%@ (based on %@)", measurementType, inputBaseMeasurementID];
-	} else if (outputBaseMeasurementID) {
-		measurementType = [NSString stringWithFormat: @"%@ (based on %@)", measurementType, outputBaseMeasurementID];
-	}
-#endif
 	if (bMeasurementType) bMeasurementType.stringValue = measurementType?measurementType:@"";
     if (vInput) [vInput update: self];
     if (vOutput)[vOutput update: self];

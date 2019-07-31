@@ -216,7 +216,6 @@
 
 - (AVCaptureDevice*)_deviceWithName: (NSString*)name
 {
-#if 1
 	NSArray *devs = [AVCaptureDevice devicesWithMediaType: AVMediaTypeAudio];
 	AVCaptureDevice *d;
 	for(d in devs) {
@@ -231,9 +230,6 @@
 			return d;
 	}
     return nil;
-#else
-	return [AVCaptureDevice deviceWithUniqueID:name];
-#endif
 }
 
 - (void)setMinCaptureInterval: (uint64_t)interval

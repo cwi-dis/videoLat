@@ -112,17 +112,12 @@
 		}
         [self updateMeters];
         [player prepareToPlay];
-#if 1
         // Start playing 100ms in the future. This should get rid of any output device uncertainties
         NSTimeInterval deviceNow = [player deviceCurrentTime];
         NSTimeInterval startTime = deviceNow + 0.1;
         uint64_t startTimeUs = (uint64_t)(startTime*1000000.0);
         [self.manager newOutputStartAt:startTimeUs];
         [player playAtTime:startTime];
-#else
-        [self.manager newOutputStart]; // XXXJACK should have a newOutputStartAt: timestamp and use playAtTime
-        [player play];
-#endif
      } else {
         [self.manager newOutputStart];
         NSLog(@"Pretend you hear something...");

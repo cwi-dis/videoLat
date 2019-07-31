@@ -291,9 +291,6 @@
 
 - (void)calibrationIsFresh:(BOOL)answer
 {
-#if 1 // xxxjack temp disabled
-    answer = NO;
-#endif
     if (answer) {
         [self performSelectorOnMainThread:@selector(_doShouldUpload) withObject:nil waitUntilDone:NO];
     } else {
