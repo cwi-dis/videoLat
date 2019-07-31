@@ -441,7 +441,6 @@
     UInt64 timestamp = timestampCMT.value;
     UInt64 now_timestamp = [self now];
     SInt64 delta = now_timestamp - timestamp;
-    NSLog(@"xxxjack capture delta %lld", delta);
 	VL_LOG_EVENT(@"cameraCaptureVideoClock", timestamp, @"");
 	VL_LOG_EVENT(@"cameraCaptureSelfClock", now_timestamp, ([NSString stringWithFormat:@"delta=%lld", delta]));
     if (!capturing) {
