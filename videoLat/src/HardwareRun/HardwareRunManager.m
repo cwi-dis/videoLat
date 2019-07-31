@@ -237,7 +237,6 @@
     BOOL first = YES;
     BOOL outputLevelChanged = NO;
 	uint64_t lastUpdateCall = 0;
-    double oldInputLevel = -1;
     @try {
         while(alive) {
             BOOL nConnected = self.device && [self.device available];

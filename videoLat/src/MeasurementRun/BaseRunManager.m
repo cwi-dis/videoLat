@@ -396,6 +396,8 @@ static NSMutableDictionary *runManagerSelectionNibs;
         BOOL devicesOK = ([self prepareInputDevice] && [self.outputCompanion prepareOutputDevice]);
 #ifdef WITH_APPKIT
 		[self.selectionView.bPreRun setEnabled: devicesOK];
+#else
+#pragma unused(devicesOK)
 #endif
 	}
 }

@@ -287,10 +287,9 @@
     CMTime timestampCMT = CMSampleBufferGetPresentationTimeStamp(sampleBuffer);
     timestampCMT = CMTimeConvertScale(timestampCMT, 1000000, kCMTimeRoundingMethod_Default);
     UInt64 timestamp = timestampCMT.value;
-	
+#ifdef WITH_ADJUST_CLOCK_DRIFT
     UInt64 now_timestamp = [self now];
     SInt64 delta = now_timestamp - timestamp;
-#ifdef WITH_ADJUST_CLOCK_DRIFT
     if (delta <= -WITH_ADJUST_CLOCK_DRIFT || delta >= WITH_ADJUST_CLOCK_DRIFT) {
         //
         // Suspect code ahead. On some combinations of camera and OS the video presentation
@@ -320,10 +319,11 @@
     }
     if (err == 0 && bufferList[0].mNumberBuffers == 1) {
 		// Pass to the manager
+        // xxxjack Unsure whether we should use timestamp or now_timestamp...
 		[self.manager newInputDone: bufferList[0].mBuffers[0].mData
 					  size: bufferList[0].mBuffers[0].mDataByteSize
 					  channels: bufferList[0].mBuffers[0].mNumberChannels
-					  at: [self now]
+					  at: timestamp
 					  duration: duration];
 	} else {
 		NSLog(@"AudioInput: CMSampleBufferGetAudioBufferListWithRetainedBlockBuffer returned err=%d, mNumberBuffers=%d", (int)err, (unsigned int)(bufferList?bufferList[0].mNumberBuffers:-1));
