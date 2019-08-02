@@ -101,6 +101,24 @@ in stead of mine.
 Instructions for building distributions are similar as for MacOS. Note that the version number
 also needs to be opdated on the opening screen.
 
+Uploading to iOS and MacOS App Stores
+=====================================
+
+These instructions are mainly for myself, because I keep forgetting what I have to do.
+
+- Build the app, test that it works.
+- Update VIDEOLAT_VERSION
+- Archive
+- In the Archive window, first validate, then distribute (app store). 
+  - select correct team (macOS).
+  - Use Automatically manage signing.
+  - Sometimes (often?) you have to try distribute twice.
+- Goto appstoreconnect.apple.com.
+- Select app (iOS or mac)
+- Create new version, provide all the (possibly new) details. Or edit existing version.
+- Add the correct build.
+- iOS: go to TestFlight page and add new version (and possibly remove old ones).
+
 Contact
 =======
 
