@@ -6,7 +6,7 @@
 body { font-family: "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif; }
 em { color: blue; }
 </style>
-	<title>VideoLat Help for iPhone/iPad</title>
+	<title>VideoLat Help for iPhone and iPad</title>
 </head>
 <body>
 <h2>Getting Started</h2>
@@ -18,23 +18,13 @@ em { color: blue; }
 	your input and output devices. Try downloading calibrations from videolat.org
 	first. If the calibrations you need are not available you must do them yourself.</p>
 
-<h2>Roundtrip calibration</h2>
-
-	<p>Select <em>New Calibration</em>, then <em>QR Code Roundtrip Calibration</em>.
-	Select the camera you want to use. Use a mirror
-	(or 2 mirrors) to make sure that camera gets a good view of the whole screen.
-	Press <em>Continue</em>. You will see QR-codes and the <em>Count:</em> field
-	will go from 10 to 0. When you see the blue screen you press <em>Run</em>.
-	After enough measurements (a few hundred) press <em>Stop</em>. You will be
-	shown the results of the measurement.</p>
-
 <h2>Camera Calibration using Remote Calibrated Screen</h2>
 
 	<p>For this you need a second device (iPhone, iPad, Mac) with videoLat for which
 	you already have calibrations. Both devices should be on the same Wi-Fi network.</p>
 
 	<p>On this device select <em>New Calibration</em>, then
-	<em>Camera Calibration using Remote Calibrated Screen</em>.
+	<em>Reception Calibrate using Other Device</em>.
 	Select the camera you want to calibrate. Point it so that you can see the screen of
 	the other device.</p>
 
@@ -53,32 +43,26 @@ em { color: blue; }
 	you already have calibrations. Both devices should be on the same Wi-Fi network.</p>
 
 	<p>On the other, calibrated, device select <em>New Measurement</em>, 
-	then <em>Video Reception (slave,Client)</em>. Make sure the camera of this slave
-	device can see the screen of the master device (the device you are calibrating).</p>
+	then <em>QR Code Transmission</em>. It will show a QR code.</p>
 
-	<p>On the master device select <em>New Calibration</em>, then
+	<p>On this device select <em>New Calibration</em>, then
 	<em>Transmission Calibrate using Other Device</em>.
-	 A QR-code will be shown on the
-	master device and is picked up by the slave device, and it will connect to the master device
+    Point this camera at the QR-code shown on the
+	master device and this device will connect to the master device
 	over Wi-Fi, check the status indicators on the top of the slave device screen.</p>
 
 	<p>On the master device press <em>Run</em>, and after a few hundred measurements
 	<em>Stop</em>. You will be
 	shown the results of the measurement, on both devices.</p>
 	
-<h2>Roundtrip measurement</h2>
-
-	<p>See the instruction video on the <a href="https://videoLat.org">videoLat.org website</a>
-	for instructions on how to run a round-trip video delay measurement.</p>
-
-<h2>One-way measurement</h2>
+<h2>Video measurement</h2>
 
 	<p>For a one-way measurement you need two devices with videoLat and the required
 	calibrations. The master device must be on a network (Wi-Fi or Cellular) that is
 	reachable by the slave device.</p>
 
 	<p>On the slave device do <em>New Measurement</em>, 
-	then <em>Video Reception (slave,Client)</em>. Make sure the camera of this slave
+	then <em>QR Code Reception</em>. Make sure the camera of this slave
 	device can see the screen of the system-under-test.</p>
 	
 	<p>On the master device do <em>New Measurement</em>, 
@@ -91,6 +75,23 @@ em { color: blue; }
 	<p>On the master device press <em>Run</em>, and after a few hundred measurements
 	<em>Stop</em>. You will be
 	shown the results of the measurement, on both devices.</p>
+
+<h2>Roundtrip calibration and measurement</h2>
+
+    <p>Note that roundtrip measurements are in general not very easy on an iPhone or iPad
+    because you cannot position the camera and screen independently.</p>
+    
+    <p>Select <em>New Calibration</em>, then <em>QR Code Roundtrip Calibration</em>.
+    Select the camera you want to use. Use a mirror
+    (or 2 mirrors) to make sure that camera gets a good view of the whole screen.
+    Press <em>Continue</em>. You will see QR-codes and the <em>Count:</em> field
+    will go from 10 to 0. When you see the blue screen you press <em>Run</em>.
+    After enough measurements (a few hundred) press <em>Stop</em>. You will be
+    shown the results of the measurement.</p>
+    
+    <p>See the instruction video on the <a href="https://videoLat.org">videoLat.org website</a>
+    for instructions on how to run a round-trip video delay measurement.</p>
+    
 
 <h2>Viewing measurements</h2>
 
