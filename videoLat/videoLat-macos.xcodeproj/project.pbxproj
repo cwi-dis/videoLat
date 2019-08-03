@@ -123,7 +123,7 @@
 		042574911AA8F28800CFD180 /* CalibrationSharing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CalibrationSharing.m; path = Sharing/CalibrationSharing.m; sourceTree = "<group>"; };
 		042ABE301AD1E21A00FB877A /* CommonAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonAppDelegate.h; sourceTree = "<group>"; };
 		042ABE311AD1E21A00FB877A /* CommonAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommonAppDelegate.m; sourceTree = "<group>"; };
-		0436C91C22F5D7C00060A5E1 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ../videoLat/Images.xcassets; sourceTree = "<group>"; };
+		0436C91C22F5D7C00060A5E1 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ../src/mac/Images.xcassets; sourceTree = "<group>"; };
 		044F3D7C183A46390008CBA3 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = /System/Library/Frameworks/AVFoundation.framework; sourceTree = "<absolute>"; };
 		044F3D7E183A46540008CBA3 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = ../../../../System/Library/Frameworks/CoreMedia.framework; sourceTree = "<group>"; };
 		044F3D80183A467F0008CBA3 /* libpython2.7.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libpython2.7.dylib; path = ../../../../System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/config/libpython2.7.dylib; sourceTree = "<group>"; };
@@ -942,7 +942,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "nl.cwi.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				VIDEOLAT_VERSION = 2.1.4;
+				VIDEOLAT_VERSION = 2.1.5;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Distribution;
@@ -1072,7 +1072,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "nl.cwi.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				VIDEOLAT_VERSION = 2.1.4;
+				VIDEOLAT_VERSION = 2.1.5;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1093,7 +1093,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "nl.cwi.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				VIDEOLAT_VERSION = 2.1.4;
+				VIDEOLAT_VERSION = 2.1.5;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
