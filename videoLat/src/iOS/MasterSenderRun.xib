@@ -21,7 +21,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" horizontalHuggingPriority="1" verticalHuggingPriority="1" placeholderIntrinsicWidth="infinite" placeholderIntrinsicHeight="infinite" translatesAutoresizingMaskIntoConstraints="NO" id="xuL-9Z-d7r" customClass="VideoOutputView">
-                    <rect key="frame" x="0.0" y="80" width="414" height="413"/>
+                    <rect key="frame" x="0.0" y="65" width="414" height="428"/>
                     <color key="backgroundColor" red="0.045329090209999999" green="0.92391306159999997" blue="0.90212601420000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <connections>
                         <outlet property="manager" destination="JIP-ay-XCU" id="tzx-Yf-ojx"/>
@@ -185,7 +185,7 @@
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="YgM-JI-wCV" secondAttribute="trailing" id="1eY-g3-bEH"/>
                 <constraint firstItem="xuL-9Z-d7r" firstAttribute="leading" secondItem="YgM-JI-wCV" secondAttribute="leading" id="7iY-dc-Pu6"/>
-                <constraint firstItem="xuL-9Z-d7r" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="80" id="La2-T4-yha"/>
+                <constraint firstItem="xuL-9Z-d7r" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="65" id="La2-T4-yha"/>
                 <constraint firstItem="YgM-JI-wCV" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Ln2-E6-aPG"/>
                 <constraint firstItem="YgM-JI-wCV" firstAttribute="top" secondItem="xuL-9Z-d7r" secondAttribute="bottom" id="Mf8-oK-9YG"/>
                 <constraint firstItem="IoA-hh-w9S" firstAttribute="top" secondItem="YgM-JI-wCV" secondAttribute="bottom" id="ZXo-Ej-AOJ"/>

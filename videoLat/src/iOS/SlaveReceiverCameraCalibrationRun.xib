@@ -72,7 +72,7 @@
                     </connections>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ThF-UP-I4h" customClass="NetworkOutputView">
-                    <rect key="frame" x="0.0" y="99" width="375" height="457"/>
+                    <rect key="frame" x="0.0" y="65" width="375" height="491"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Master IP:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o1W-W1-bsq">
                             <rect key="frame" x="8" y="37" width="79" height="21"/>
@@ -126,7 +126,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sfc-Zt-omN" customClass="VideoInputView">
-                            <rect key="frame" x="8" y="154" width="359" height="295"/>
+                            <rect key="frame" x="8" y="154" width="359" height="329"/>
                             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         </view>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(Note: remote side controls)" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dxl-av-IMT">
@@ -186,7 +186,7 @@
                 <constraint firstItem="ThF-UP-I4h" firstAttribute="leading" secondItem="Aid-Op-h2w" secondAttribute="leading" id="kNi-YJ-LLl"/>
                 <constraint firstItem="ThF-UP-I4h" firstAttribute="trailing" secondItem="Aid-Op-h2w" secondAttribute="trailing" id="mvw-zE-gp3"/>
                 <constraint firstAttribute="bottom" secondItem="Aid-Op-h2w" secondAttribute="bottom" id="nDd-oM-Du5"/>
-                <constraint firstItem="ThF-UP-I4h" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="99" id="vHC-Gt-T99"/>
+                <constraint firstItem="ThF-UP-I4h" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="65" id="vHC-Gt-T99"/>
             </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics"/>

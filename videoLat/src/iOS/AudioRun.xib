@@ -27,25 +27,25 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Output Volume:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="klW-w1-Rgs">
-                    <rect key="frame" x="8" y="64" width="120" height="21"/>
+                    <rect key="frame" x="8" y="75" width="120" height="21"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Output Level:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wj8-zY-3x4">
-                    <rect key="frame" x="8" y="98" width="118.5" height="21"/>
+                    <rect key="frame" x="8" y="109" width="118.5" height="21"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progressViewStyle="bar" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="aMp-jV-aKa">
-                    <rect key="frame" x="134.5" y="109" width="625.5" height="2.5"/>
+                    <rect key="frame" x="134.5" y="120" width="625.5" height="2.5"/>
                 </progressView>
                 <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="9ye-6b-ebQ">
-                    <rect key="frame" x="134" y="58" width="628" height="34"/>
+                    <rect key="frame" x="134" y="69" width="628" height="34"/>
                 </slider>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Input Level: " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H9Z-y2-dYf">
-                    <rect key="frame" x="8" y="127" width="94" height="21"/>
+                    <rect key="frame" x="8" y="138" width="94" height="21"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="94" id="6ta-nv-we8"/>
                         <constraint firstAttribute="height" constant="21" id="ldV-mQ-VG5"/>
@@ -55,7 +55,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Input Onset: " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OaG-lx-KdJ">
-                    <rect key="frame" x="8" y="156" width="98.5" height="21"/>
+                    <rect key="frame" x="8" y="167" width="98.5" height="21"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="21" id="cLh-ca-DeM"/>
                     </constraints>
@@ -64,10 +64,10 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FZp-Si-u6Q">
-                    <rect key="frame" x="134.5" y="151" width="51" height="31"/>
+                    <rect key="frame" x="134.5" y="162" width="51" height="31"/>
                 </switch>
                 <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progressViewStyle="bar" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="RdB-Lu-k6S">
-                    <rect key="frame" x="134.5" y="137.5" width="625.5" height="2.5"/>
+                    <rect key="frame" x="134.5" y="148.5" width="625.5" height="2.5"/>
                 </progressView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Q8b-ME-ujW" customClass="RunStatusView">
                     <rect key="frame" x="8" y="819" width="752" height="185"/>
@@ -157,7 +157,7 @@
                 <constraint firstItem="OaG-lx-KdJ" firstAttribute="top" secondItem="H9Z-y2-dYf" secondAttribute="bottom" constant="8" id="Eg4-cL-NL8"/>
                 <constraint firstItem="RdB-Lu-k6S" firstAttribute="leading" secondItem="aMp-jV-aKa" secondAttribute="leading" id="IPe-Vf-dHG"/>
                 <constraint firstItem="Q8b-ME-ujW" firstAttribute="leading" secondItem="OaG-lx-KdJ" secondAttribute="leading" id="JIU-69-lFw"/>
-                <constraint firstItem="klW-w1-Rgs" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="64" id="Njk-LU-b7R"/>
+                <constraint firstItem="klW-w1-Rgs" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="75" id="Njk-LU-b7R"/>
                 <constraint firstItem="Q8b-ME-ujW" firstAttribute="trailing" secondItem="RdB-Lu-k6S" secondAttribute="trailing" id="Q2i-hb-7nu"/>
                 <constraint firstAttribute="bottom" secondItem="Q8b-ME-ujW" secondAttribute="bottom" constant="20" symbolic="YES" id="QXC-81-6Ui"/>
                 <constraint firstItem="aMp-jV-aKa" firstAttribute="leading" secondItem="wj8-zY-3x4" secondAttribute="trailing" constant="8" id="ZjC-sC-Nph"/>
