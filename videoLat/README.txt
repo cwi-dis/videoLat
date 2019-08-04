@@ -118,6 +118,12 @@ These instructions are mainly for myself, because I keep forgetting what I have 
 - Create new version, provide all the (possibly new) details. Or edit existing version.
 - Add the correct build.
 - iOS: go to TestFlight page and add new version (and possibly remove old ones).
+- Create the screen shots. This is a royal pain for iOS, because the screenshots
+  are needed for a number of different devices, and running videoLat under the
+  simulator isn't going to work (no camera and no microphone). Create them using
+  available hardware and try scaling them to the sizes needed. Sigh.
+  What may work in the simulator is output-only modes (such as Calibrate Transmit using
+  other device).
 
 Contact
 =======
