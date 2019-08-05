@@ -16,12 +16,15 @@
 
 - (void) dealloc
 {
-    if (self.runManager) [(BaseRunManager *)self.runManager stop];
+    [self terminate];
 }
 
 - (void) terminate
 {
-    if (self.runManager) [(BaseRunManager *)self.runManager stop];
+    if (self.runManager) {
+        [(BaseRunManager *)self.runManager stop];
+        [(BaseRunManager *)self.runManager terminate];
+    }
 }
     
 - (void)awakeFromNib

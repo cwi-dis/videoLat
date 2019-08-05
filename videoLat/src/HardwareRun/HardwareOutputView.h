@@ -20,7 +20,7 @@
 @property(readonly) NSString *deviceName;	//!< accessor for device.deviceName
 @property(weak) IBOutlet NSButton *bOutputValue;    //!< UI element that shows current output value
 
-@property NSObject <HardwareLightProtocol> *device;  //!< our output device (assigned by HardwareRunManager)
+@property(weak) NSObject <HardwareLightProtocol> *device;  //!< our output device (assigned by HardwareRunManager)
 
 - (void) showNewData;   //!< Called when new data should be shown
  

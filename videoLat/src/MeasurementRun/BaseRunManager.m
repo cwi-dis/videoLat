@@ -123,6 +123,8 @@ static NSMutableDictionary *runManagerSelectionNibs;
 
 - (void) dealloc
 {
+    self.inputCompanion = nil;
+    self.outputCompanion = nil;
 }
 
 - (void) awakeFromNib
@@ -147,6 +149,8 @@ static NSMutableDictionary *runManagerSelectionNibs;
         self.inputCompanion = self;
         self.outputCompanion = self;
     }
+    if (!handlesInput) assert(self.inputCompanion);
+    if (!handlesOutput) assert(self.outputCompanion);
     if (handlesInput) {
         // We handle only input. Assert output handler exists and points back to us
         if (self.outputCompanion.inputCompanion != self) {

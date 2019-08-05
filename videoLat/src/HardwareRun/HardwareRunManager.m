@@ -29,6 +29,10 @@
 @synthesize outputView;
 @dynamic clock;
 
+- (void)dealloc
+{
+}
+
 - (int) initialPrerunCount { return 100; }
 - (int) initialPrerunDelay { return 1000; }
 - (NSString*) deviceID
@@ -523,6 +527,12 @@
 - (void)stop
 {
 	alive = NO;
+}
+
+- (void)terminate
+{
+    alive = NO;
+    [super terminate];
 }
 
 - (void) startCapturing: (BOOL)showPreview

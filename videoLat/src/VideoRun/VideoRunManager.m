@@ -73,9 +73,10 @@
 
 - (void)stop
 {
-	if (self.capturer) [self.capturer stop];
+ 	if (self.capturer) [self.capturer stop];
 	self.capturer = nil;
 	self.clock = nil;
+    self.inputCompanion = nil;
 }
 
 
