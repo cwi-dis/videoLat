@@ -67,7 +67,6 @@
     if (average > maxInputLevel) maxInputLevel = average;
     //bool foundColorIsWhite = average > (whitelevel+blacklevel) / 2;
     VL_LOG_EVENT(@"monoValue", 0LL, ([NSString stringWithFormat:@"%d range=(%d..%d)", average, minInputLevel, maxInputLevel]));
-    NSLog(@"xxxjack %d range=(%d..%d)", average, minInputLevel, maxInputLevel);
     NSString *inputCode = @"uncertain";
     int delta = (maxInputLevel - minInputLevel);
     if (delta > 10) {

@@ -110,9 +110,9 @@
 			if (VL_DEBUG) NSLog(@"newInputDone called, but no output code yet\n");
 			return;
 		}
-        NSLog(@"xxxjack want %@", self.outputCompanion.outputCode);
+        if (VL_DEBUG) NSLog(@"newInputDone: expecting code %@", self.outputCompanion.outputCode);
         NSString *inputCode = [self.finder find:image];
-        NSLog(@"xxxjack got %@", inputCode);
+        if (VL_DEBUG) NSLog(@"newInputDone: got code %@", inputCode);
 
         if ([inputCode isEqualToString:@"undetectable"]) {
             // Detector needs to be kicked (black and white levels have come too close)
@@ -130,6 +130,11 @@
                 if (VL_DEBUG) NSLog(@"Received old output code again: %@", inputCode);
             } else if (prevInputCode && [inputCode isEqualToString: prevInputCode]) {
                 prevInputCodeDetectionCount++;
+                if (prevInputCodeDetectionCount == 3) {
+                    // Aftter we've detected 3 frames with the right light level
+                    // we generate a new one.
+                    [self.outputCompanion triggerNewOutputValueAfterDelay];
+                }
                 if (VL_DEBUG) NSLog(@"Received same code as last reception: %@, count=%d", inputCode, prevInputCodeDetectionCount);
                 if ((prevInputCodeDetectionCount % 250) == 0) {
                     showWarningAlert(@"Old code detected too often. Generating new one.");
@@ -157,8 +162,7 @@
                 prevInputCode = self.outputCompanion.outputCode;
                 prevInputCodeDetectionCount = 0;
                 if (VL_DEBUG) NSLog(@"Received: %@", self.outputCompanion.outputCode);
-                // Now generate a new output code.
-				[self.outputCompanion triggerNewOutputValueAfterDelay];
+                // Generate new output code later, after we've detected this one a few times.
 			} else {
 				if (self.preRunning) {
 					[self _prerunRecordNoReception];
