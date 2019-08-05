@@ -207,10 +207,18 @@
     }
     if (handlesInput) {
         NSString *deviceName = baseStore.input.device;
+#if 1
+        [self performSelectorOnMainThread:@selector(_switchToDevice:) withObject:deviceName waitUntilDone:NO];
+#else
         [self _switchToDevice:deviceName];
+#endif
     } else if (handlesOutput) {
         NSString *deviceName = baseStore.output.device;
+#if 1
+        [self performSelectorOnMainThread:@selector(_switchToDevice:) withObject:deviceName waitUntilDone:NO];
+#else
         [self _switchToDevice:deviceName];
+#endif
     } else {
         assert(0);
     }
