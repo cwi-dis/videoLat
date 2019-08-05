@@ -107,8 +107,15 @@ static io_service_t IOServicePortFromCGDisplayID(CGDirectDisplayID displayID)
         NSDictionary *dict = (NSDictionary *)CFBridgingRelease(IODisplayCreateInfoDictionary(displayPort, 0));
         NSDictionary *names = [dict objectForKey:[NSString stringWithUTF8String:kDisplayProductName]];
         if (VL_DEBUG) NSLog(@"Names %@", names);
-        if([names count])
-            [rv addObject: [names objectForKey:[[names allKeys] objectAtIndex:0]]];
+        NSString *thisName;
+        if([names count]) {
+            thisName = [names objectForKey:@"en_US"];
+            if (thisName == nil) {
+                thisName = [names objectForKey:[[names allKeys] objectAtIndex:0]];
+            }
+        }
+        if(thisName)
+            [rv addObject: thisName];
     }
     return rv;
 #else
@@ -148,9 +155,13 @@ static io_service_t IOServicePortFromCGDisplayID(CGDirectDisplayID displayID)
     io_service_t displayPort = IOServicePortFromCGDisplayID(aID);
     NSDictionary *dict = (NSDictionary *)CFBridgingRelease(IODisplayCreateInfoDictionary(displayPort, 0));
     NSDictionary *names = [dict objectForKey:[NSString stringWithUTF8String:kDisplayProductName]];
-	if (VL_DEBUG) NSLog(@"Names %@", names);
-    if([names count])
-		rv = [names objectForKey:[[names allKeys] objectAtIndex:0]];
+	if (1 || VL_DEBUG) NSLog(@"Names %@", names);
+    if([names count]) {
+        rv = [names objectForKey:@"en_US"];
+        if (rv == nil) {
+            rv = [names objectForKey:[[names allKeys] objectAtIndex:0]];
+        }
+    }
     return rv;
 #else
 	return @"screen";
