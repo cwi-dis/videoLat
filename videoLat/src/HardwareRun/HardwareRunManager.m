@@ -315,7 +315,7 @@
 - (void)_update: (id)sender
 {
     @synchronized(self) {
-        NSString *inputCode = @"mixed";
+        NSString *inputCode = @"uncertain";
         float delta = (maxInputLevel - minInputLevel);
         if (inputLevel >= 0 && delta > 0) {
             if (inputLevel < minInputLevel + (delta / 3))
@@ -405,7 +405,7 @@
 	self.statusView.detectAverage = [NSString stringWithFormat: @"%.2f .. %.2f", minInputLevel, maxInputLevel];
 	[self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
 	if (prerunMoreNeeded == 0) {
-		self.outputCode = @"mixed";
+		self.outputCode = @"uncertain";
 		self.statusView.detectCount = @"";
 		//self.statusView.detectAverage = @"";
 		[self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
@@ -435,7 +435,7 @@
 {
     if (!self.running && !self.preRunning) {
         // Idle, show intermediate value
-        self.outputCode = @"mixed";
+        self.outputCode = @"uncertain";
     } else {
         if ([self.outputCode isEqualToString:@"black"]) {
             self.outputCode = @"white";
@@ -450,7 +450,7 @@
 - (IBAction)stopPreMeasuring: (id)sender
 {
 	[super stopPreMeasuring: sender];
-	self.outputCode = @"mixed";
+	self.outputCode = @"uncertain";
 }
 
 - (BOOL) _prepareDevice
@@ -487,7 +487,7 @@
 		if (self.measurementType == nil) return;
         assert(handlesInput);
 		[super restart];
-		self.outputCode = @"mixed";
+		self.outputCode = @"uncertain";
 		if (!alive) {
             alive = YES;
             [self performSelectorInBackground:@selector(_periodic:) withObject:self];
@@ -498,7 +498,7 @@
 - (void) companionRestart
 {
 	[super companionRestart];
-	self.outputCode = @"mixed";
+	self.outputCode = @"uncertain";
 	if (!alive) {
 		alive = YES;
 		[self performSelectorInBackground:@selector(_periodic:) withObject:self];

@@ -59,7 +59,7 @@
 		if (self.measurementType == nil) return;
         assert(handlesInput);
 		[super restart];
-		self.outputCode = @"mixed";
+		self.outputCode = @"uncertain";
         assert(self.finder);
         (void)[self.finder init];
         if (handlesOutput) {
@@ -73,7 +73,7 @@
 {
 	if (!self.running && !self.preRunning) {
 		// Idle, show intermediate value
-		self.outputCode = @"mixed";
+		self.outputCode = @"uncertain";
 	} else {
 		if ([self.outputCode isEqualToString:@"black"]) {
 			self.outputCode = @"white";
@@ -110,13 +110,19 @@
 			if (VL_DEBUG) NSLog(@"newInputDone called, but no output code yet\n");
 			return;
 		}
+        NSLog(@"xxxjack want %@", self.outputCompanion.outputCode);
         NSString *inputCode = [self.finder find:image];
-        
-        if ([inputCode isEqualToString:@"mixed"]) {
+        NSLog(@"xxxjack got %@", inputCode);
+
+        if ([inputCode isEqualToString:@"undetectable"]) {
+            // Detector needs to be kicked (black and white levels have come too close)
+            NSLog(@"Detector range too small, generating new code");
+            [self.outputCompanion triggerNewOutputValue];
+        } else if ([inputCode isEqualToString:@"uncertain"]) {
             // Unsure what we have detected. Leave it be for a while then change.
             prevInputCodeDetectionCount++;
             if (prevInputCodeDetectionCount % 250 == 0) {
-                NSLog(@"Received mixed code for too long. Generating new one.");
+                NSLog(@"Received uncertain code for too long. Generating new one.");
                 [self.outputCompanion triggerNewOutputValue];
             }
         } else {
@@ -156,6 +162,7 @@
 			} else {
 				if (self.preRunning) {
 					[self _prerunRecordNoReception];
+                    prevInputCode = nil;
 				}
 			}	
 		}

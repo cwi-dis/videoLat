@@ -86,6 +86,7 @@
     if (outputFrameLatestTimestamp && [self.clock now] - outputFrameLatestTimestamp > maxDelay) {
         // No data found within alotted time. Double the time, reset the count, change mirroring
         if (VL_DEBUG) NSLog(@"tsOutLatest=%llu, prerunDelay=%llu\n", outputFrameLatestTimestamp, maxDelay);
+        NSLog(@"prerun: detection %d failed for maxDelay=%lld. Doubling.", self.initialPrerunCount-prerunMoreNeeded, maxDelay);
         maxDelay *= 2;
         prerunMoreNeeded = self.initialPrerunCount;
         self.statusView.detectCount = [NSString stringWithFormat: @"%d more", prerunMoreNeeded];
