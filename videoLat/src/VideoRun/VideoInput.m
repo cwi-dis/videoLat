@@ -312,15 +312,27 @@
 	// XXXJACK Should catch AVCaptureSessionRuntimeErrorNotification
 
     if(self.selfView) {
-        selfLayer = [AVCaptureVideoPreviewLayer layerWithSession:session];
+        CALayer* videoLayer = [AVCaptureVideoPreviewLayer layerWithSession:session];
+        overlayLayer = [CALayer layer];
+        overlayLayer.delegate = self;
+        CALayer* parentLayer = [CALayer layer];
+        [parentLayer addSublayer: videoLayer];
+        [parentLayer addSublayer: overlayLayer];
+        overlayLayer.opacity = 0.8;
 #ifdef WITH_UIKIT
 		CGRect bounds = self.selfView.bounds;
-		selfLayer.frame = bounds;
+		videoLayer.frame = bounds;
+        overlayLayer.frame = bounds;
+        parentLayer.frame = bounds;
 #else
-        selfLayer.frame = NSRectToCGRect(self.selfView.bounds);
+        videoLayer.frame = NSRectToCGRect(self.selfView.bounds);
+        overlayLayer.frame = NSRectToCGRect(self.selfView.bounds);
+        parentLayer.frame = NSRectToCGRect(self.selfView.bounds);
         [self.selfView setWantsLayer: YES];
 #endif
+        selfLayer = parentLayer;
         [self.selfView.layer addSublayer: selfLayer];
+        [overlayLayer setNeedsDisplay];
         [self.selfView setHidden: NO];
     }
     
@@ -337,6 +349,21 @@
 	[self.manager restart];
 	VL_LOG_EVENT(@"startCamera", 0, deviceName);
 	[session startRunning];
+}
+
+- (void)drawLayer:(CALayer *)layer inContext:(CGContextRef)context
+{
+    CGContextSetRGBStrokeColor(context, 1, 0, 0, 1);
+    float width = layer.frame.size.width;
+    float height = layer.frame.size.height;
+    for(NSValue *rectVal in self.overlayRects) {
+        NSRect rect = rectVal.rectValue;
+        rect.origin.x *= width;
+        rect.origin.y *= height;
+        rect.size.width *= width;
+        rect.size.height *= height;
+        CGContextStrokeRect(context, rect);
+    }
 }
 
 - (void)setMinCaptureInterval: (uint64_t)interval
@@ -418,6 +445,10 @@
 
 - (void)focusRectSelected: (NSorUIRect)theRect
 {
+    // Show to the user
+    self.overlayRects = [NSArray arrayWithObject:[NSValue valueWithRect:theRect]];
+    [overlayLayer setNeedsDisplay];
+    
 	theRect.origin.x *= xFactor;
 	theRect.origin.y *= yFactor;
 	theRect.size.width *= xFactor;

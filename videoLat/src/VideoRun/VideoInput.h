@@ -40,8 +40,9 @@
 /// Class that implements InputCaptureProtocol (and ClockProtocol) for video input, using
 /// AVCapture to capture a video stream from a camera.
 ///
-@interface VideoInput : NSObject <ClockProtocol, InputCaptureProtocol, AVCaptureVideoDataOutputSampleBufferDelegate> {
-    AVCaptureVideoPreviewLayer *selfLayer;		//!< Our self-view in the UI
+@interface VideoInput : NSObject <ClockProtocol, InputCaptureProtocol, AVCaptureVideoDataOutputSampleBufferDelegate, CALayerDelegate> {
+    CALayer *selfLayer;		                    //!< Our self-view in the UI
+    CALayer *overlayLayer;                      //!< Overlay layer for rectangles and such
     AVCaptureVideoDataOutput *outputCapturer;	//!< Object that forwards frames to use
 	AVCaptureSession *session;					//!< Currently running capture session
     dispatch_queue_t sampleBufferQueue;			//!< Used by outputCapturer to communicate with us
@@ -65,6 +66,7 @@
 @property (readonly) NSString *deviceName;
 @property(weak) IBOutlet id <RunInputManagerProtocol> manager;
 @property(weak) IBOutlet VideoInputView *selfView;	//!< View showing what our camera sees
+@property NSArray* overlayRects;
 
 + (NSArray *) allDeviceTypeIDs;	//!< Returns a list of all known video devices.
 + (NSArray*) deviceNames;
