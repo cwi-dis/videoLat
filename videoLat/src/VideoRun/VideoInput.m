@@ -313,24 +313,24 @@
 
     if(self.selfView) {
         CALayer* videoLayer = [AVCaptureVideoPreviewLayer layerWithSession:session];
+#ifdef WITH_UIKIT
+		CGRect bounds = self.selfView.bounds;
+		videoLayer.frame = bounds;
+        overlayLayer = nil;
+        selfLayer = videoLayer;
+#else
         overlayLayer = [CALayer layer];
         overlayLayer.delegate = self;
         CALayer* parentLayer = [CALayer layer];
         [parentLayer addSublayer: videoLayer];
         [parentLayer addSublayer: overlayLayer];
         overlayLayer.opacity = 0.8;
-#ifdef WITH_UIKIT
-		CGRect bounds = self.selfView.bounds;
-		videoLayer.frame = bounds;
-        overlayLayer.frame = bounds;
-        parentLayer.frame = bounds;
-#else
         videoLayer.frame = NSRectToCGRect(self.selfView.bounds);
         overlayLayer.frame = NSRectToCGRect(self.selfView.bounds);
         parentLayer.frame = NSRectToCGRect(self.selfView.bounds);
         [self.selfView setWantsLayer: YES];
-#endif
         selfLayer = parentLayer;
+#endif
         [self.selfView.layer addSublayer: selfLayer];
         [overlayLayer setNeedsDisplay];
         [self.selfView setHidden: NO];
