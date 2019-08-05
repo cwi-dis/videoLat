@@ -357,7 +357,11 @@
     float width = layer.frame.size.width;
     float height = layer.frame.size.height;
     for(NSValue *rectVal in self.overlayRects) {
+#ifdef WITH_APPKIT
         NSRect rect = rectVal.rectValue;
+#else
+        CGRect rect = rectVal.CGRectValue;
+#endif
         rect.origin.x *= width;
         rect.origin.y *= height;
         rect.size.width *= width;
@@ -446,7 +450,11 @@
 - (void)focusRectSelected: (NSorUIRect)theRect
 {
     // Show to the user
+#ifdef WITH_APPKIT
     self.overlayRects = [NSArray arrayWithObject:[NSValue valueWithRect:theRect]];
+#else
+    self.overlayRects = [NSArray arrayWithObject:[NSValue valueWithCGRect:theRect]];
+#endif
     [overlayLayer setNeedsDisplay];
     
 	theRect.origin.x *= xFactor;
