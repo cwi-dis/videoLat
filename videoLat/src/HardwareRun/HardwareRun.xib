@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14460.31"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14490.70"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -16,7 +16,7 @@
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customObject id="1" customClass="HardwareRunManager">
             <connections>
-                <outlet property="bConnected" destination="170" id="179"/>
+                <outlet property="bDriverStatus" destination="fyc-4s-Yfv" id="6fW-dd-BiR"/>
                 <outlet property="bSamplePeriodStepper" destination="6Sc-hd-lQl" id="z7s-2F-nNf"/>
                 <outlet property="bSamplePeriodValue" destination="ybB-q1-sOc" id="JwF-vg-aEe"/>
                 <outlet property="collector" destination="316" id="317"/>
@@ -30,7 +30,7 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="196" y="240" width="956" height="684"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
             <view key="contentView" id="248" customClass="RunManagerView">
                 <rect key="frame" x="0.0" y="0.0" width="956" height="684"/>
                 <autoresizingMask key="autoresizingMask"/>
@@ -143,7 +143,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="36">
-                                <rect key="frame" x="18" y="324" width="45" height="17"/>
+                                <rect key="frame" x="18" y="323" width="45" height="17"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Driver:" id="37">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -291,7 +291,7 @@
                                 </connections>
                             </customView>
                             <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="154">
-                                <rect key="frame" x="74" y="318" width="177" height="26"/>
+                                <rect key="frame" x="74" y="318" width="177" height="25"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="172" id="168"/>
                                 </constraints>
@@ -308,13 +308,24 @@
                                     <action selector="deviceChanged:" target="4" id="178"/>
                                 </connections>
                             </popUpButton>
-                            <button translatesAutoresizingMaskIntoConstraints="NO" id="170">
-                                <rect key="frame" x="74" y="285" width="89" height="18"/>
-                                <buttonCell key="cell" type="check" title="Connected" bezelStyle="regularSquare" imagePosition="left" enabled="NO" inset="2" id="171">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fyc-4s-Yfv">
+                                <rect key="frame" x="74" y="296" width="176" height="17"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="Unknown" id="Caz-z6-LZE">
                                     <font key="font" metaFont="system"/>
-                                </buttonCell>
-                            </button>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bbH-Bu-J8g">
+                                <rect key="frame" x="16" y="296" width="47" height="17"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="Status:" id="BZv-7Y-2Zc">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
                         </subviews>
                         <constraints>
                             <constraint firstItem="9" firstAttribute="top" secondItem="4" secondAttribute="top" constant="20" symbolic="YES" id="12"/>
@@ -329,8 +340,6 @@
                             <constraint firstItem="154" firstAttribute="baseline" secondItem="36" secondAttribute="baseline" id="165"/>
                             <constraint firstItem="154" firstAttribute="top" secondItem="4" secondAttribute="top" constant="52" id="166"/>
                             <constraint firstItem="9" firstAttribute="trailing" secondItem="154" secondAttribute="trailing" id="167"/>
-                            <constraint firstItem="170" firstAttribute="top" secondItem="154" secondAttribute="bottom" constant="20" id="172"/>
-                            <constraint firstItem="170" firstAttribute="leading" secondItem="154" secondAttribute="leading" id="173"/>
                             <constraint firstItem="5" firstAttribute="leading" secondItem="4" secondAttribute="leading" constant="116" id="324"/>
                         </constraints>
                         <connections>

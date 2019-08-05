@@ -39,7 +39,7 @@
     uint64_t inputTimestamp;    //!< When inputLevel was measured
 }
 
-@property(weak) IBOutlet NSButton *bConnected;              //!< Indicator for the user that the selected device works
+@property(weak) IBOutlet NSTextField *bDriverStatus;        //!< Indicator for the user that the selected device works
 @property(weak) IBOutlet LevelStatusView *levelStatusView;  //!< Assigned in NIB: visual feedback on light level detected
 @property(weak) IBOutlet HardwareOutputView *outputView;    //!< Assigned in NIB: visual feedback view of output for the user
 @property(weak) IBOutlet NSObject <ClockProtocol> *clock;   //!< Assigned in NIB: clock source

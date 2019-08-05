@@ -87,7 +87,7 @@
         assert(self.clock);
         assert(self.clock == self.inputCompanion.clock);
     }
-    assert(self.bConnected);
+    assert(self.bDriverStatus);
     if (handlesOutput) assert(self.outputView);
     assert(self.clock);
 	self.samplePeriodMs = 10;
@@ -137,24 +137,31 @@
     
     if (selectedDevice == nil)
         return;
-    
-    [self _switchToDevice: selectedDevice];
+    // Note we call _switchToDevice asynchronously so the UI update indicating that we're
+    // loading is visible.
+    self.bDriverStatus.stringValue = @"Loading...";
+    [self.bDriverStatus display];
+    [self performSelectorOnMainThread:@selector(_switchToDevice:) withObject:selectedDevice waitUntilDone:NO];
 }
 
 - (void)_switchToDevice: (NSString *)selectedDevice
 {
 	assert(self.selectionView);
-    [self.bConnected setState: 0];
+    self.bDriverStatus.stringValue = @"Loading...";
+    [self.bDriverStatus display];
     PythonLoader *pl = [PythonLoader sharedPythonLoader];
     uint64_t loadStartTime = [self.clock now];
     BOOL ok = [pl loadPackageNamed: selectedDevice];
     uint64_t loadDoneTime = [self.clock now];
     NSLog(@"Loading %@ Python code took %f seconds", selectedDevice, ((float)(loadDoneTime-loadStartTime)/1000000.0));
     if (!ok) {
+        self.bDriverStatus.stringValue = @"Not loaded";
+        [self.bDriverStatus display];
         [self showErrorSheet: [NSString stringWithFormat:@"HardwareRunManager: Programmer error: Python module %@ cannot be imported", selectedDevice]];
         return;
     }
-    
+    self.bDriverStatus.stringValue = @"Loaded";
+    [self.bDriverStatus display];
     Class deviceClass = NSClassFromString(selectedDevice);
     if (deviceClass == nil) {
         [self showErrorSheet: [NSString stringWithFormat:@"HardwareRunManager: Programmer error: class %@ does not exist", selectedDevice]];
@@ -171,7 +178,7 @@
     }
     
     self.outputView.device = self.device;
-    [self.bConnected setState: (int)connected];
+    self.bDriverStatus.stringValue = (connected ? @"Connected" : @"Disconnected");
     [self.selectionView.bPreRun setEnabled: connected];
     [self.statusView.bRun setEnabled: NO];
     self.preRunning = NO;
@@ -207,18 +214,18 @@
     }
     if (handlesInput) {
         NSString *deviceName = baseStore.input.device;
-#if 1
+        // Note we call _switchToDevice asynchronously so the UI update indicating that we're
+        // loading is visible.
+        self.bDriverStatus.stringValue = @"Loading...";
+        [self.bDriverStatus display];
         [self performSelectorOnMainThread:@selector(_switchToDevice:) withObject:deviceName waitUntilDone:NO];
-#else
-        [self _switchToDevice:deviceName];
-#endif
     } else if (handlesOutput) {
         NSString *deviceName = baseStore.output.device;
-#if 1
+        // Note we call _switchToDevice asynchronously so the UI update indicating that we're
+        // loading is visible.
+        self.bDriverStatus.stringValue = @"Loading...";
+        [self.bDriverStatus display];
         [self performSelectorOnMainThread:@selector(_switchToDevice:) withObject:deviceName waitUntilDone:NO];
-#else
-        [self _switchToDevice:deviceName];
-#endif
     } else {
         assert(0);
     }
@@ -336,7 +343,7 @@
             //assert(0); //outputLight = [self.outputCompanion.outputCode isEqualToString:@"white"];
 		}
 
-        [self.bConnected setState: (connected ? NSOnState : NSOffState)];
+        self.bDriverStatus.stringValue = (connected ? @"Connected" : @"Disconnected");
         NSCellStateValue iVal = NSMixedState;
         if ([inputCode isEqualToString:@"black"]) {
             iVal = NSOffState;
