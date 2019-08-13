@@ -68,6 +68,7 @@
 #pragma mark - Navigation
 - (IBAction)selectionDone:(id)sender
 {
+    assert(self.selectionView);
 	inputDeviceName = self.selectionView.deviceName;
 	baseMeasurementName = self.selectionView.baseName;
 	[self performSegueWithIdentifier:@"runMeasurement" sender:self];

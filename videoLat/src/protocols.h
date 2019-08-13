@@ -171,8 +171,8 @@
 /// Object to which this view should send changes in input device, base measurement and completion.
 @property(weak) IBOutlet NSObject <InputSelectionDelegate> *inputSelectionDelegate;
 
-- (NSString *)baseName;                //!< Returns name of currently selected base measurement
-- (NSString *)deviceName;            //!< Returns name of currently selected input device
+@property(readonly) NSString *baseName;              //!< Returns name of currently selected base measurement
+@property(readonly) NSString *deviceName;            //!< Returns name of currently selected input device
 
 #ifdef WITH_APPKIT
 @property(weak)IBOutlet NSPopUpButton *bBase;		//!< UI element: popup showing possible base measurements

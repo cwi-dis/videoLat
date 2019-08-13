@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
+        <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14460.31"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -221,7 +222,7 @@ Optionally you can select a region-of-interest (the LED) in the Video Preview on
                                     <menu key="menu" title="OtherViews" id="40"/>
                                 </popUpButtonCell>
                                 <connections>
-                                    <action selector="deviceChanged:" target="4" id="316"/>
+                                    <action selector="inputDeviceChanged:" target="4" id="316"/>
                                 </connections>
                             </popUpButton>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="35">
@@ -240,7 +241,7 @@ Optionally you can select a region-of-interest (the LED) in the Video Preview on
                                     <menu key="menu" title="OtherViews" id="42"/>
                                 </popUpButtonCell>
                                 <connections>
-                                    <action selector="selectBase:" target="74" id="311"/>
+                                    <action selector="inputDeviceChanged:" target="74" id="311"/>
                                 </connections>
                             </popUpButton>
                             <button toolTip="Do initial measurements to check everything works" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5">

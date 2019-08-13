@@ -234,15 +234,6 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 	assert(handlesInput);
 }
 
-- (IBAction)selectBase:(id)sender
-{
-	// This method is only called on the slave side. We need to obtain the
-	// base measurement for our input device, and set up for it to be transmitted
-	// to the master side.
-	assert(handlesInput);
-	[self restart];
-}
-
 - (BOOL)prepareInputDevice
 {
     if (handlesInput && ![self.capturer isKindOfClass: [NetworkInput class]]) {
@@ -252,7 +243,8 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 			assert(self.capturer);
 			deviceDescriptorToSend = [[DeviceDescription alloc] initFromInputDevice: self.capturer];
         } else {
-            if (self.selectionView) baseName = [self.selectionView baseName];
+            assert(self.selectionView);
+            baseName = self.selectionView.baseName;
             if (baseName == nil) {
                 NSLog(@"NetworkRunManager: baseName == nil");
                 return NO;
@@ -796,7 +788,8 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
         MeasurementDataStore *baseStore = nil;
         if (!self.measurementType.isCalibration) {
             // If this is not a calibration we should check our base type
-            if (self.selectionView) baseName = [self.selectionView baseName];
+            assert(self.selectionView);
+            baseName = self.selectionView.baseName;
             MeasurementType *baseType = self.measurementType.requires;
             baseStore = [baseType measurementNamed: baseName];
             if (baseType == nil) {

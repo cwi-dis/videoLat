@@ -38,7 +38,7 @@
 
 #ifdef WITH_APPKIT
 - (void)inputDeviceChanged:(id)sender {
-    NSLog(@"networkInputSelectionView deviceChanged called");
+    NSLog(@"networkInputSelectionView inputDeviceChanged called");
 }
 #endif
 @end

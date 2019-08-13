@@ -209,7 +209,12 @@ static NSMutableDictionary *runManagerSelectionNibs;
 		if (self.measurementType.requires != nil) {
 			// First check that a base measurement has been selected.
 			NSString *errorMessage;
-			if (self.selectionView) baseName = [self.selectionView baseName];
+            assert(self.selectionView);
+            baseName = self.selectionView.baseName;
+            if (baseName == nil) {
+                NSLog(@"BaseRunManager: baseName == nil");
+                return;
+            }
 			MeasurementType *baseType = self.measurementType.requires;
 			MeasurementDataStore *baseStore = [baseType measurementNamed: baseName];
 			if (baseType == nil) {

@@ -53,7 +53,7 @@
 -(void)stop;
 
 - (void)_switchToDevice: (NSString *)selectedDevice;
-- (IBAction)selectBase: (id)sender;
+- (IBAction)inputDeviceChanged: (id)sender;
 
 - (IBAction)periodChanged: (id) sender;	//!< Action message for samplePeriodMs UI elements
 - (void)_updatePeriod;	//!< Internal: update UI to show samplePeriodMs.

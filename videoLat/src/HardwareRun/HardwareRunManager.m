@@ -197,10 +197,10 @@
     }
 }
 
-- (IBAction)selectBase: (id) sender
+- (IBAction)inputDeviceChanged: (id) sender
 {
 	assert(self.selectionView);
-    baseName = [self.selectionView baseName];
+    baseName = self.selectionView.baseName;
     if (baseName == nil) {
         NSLog(@"HardwareRunManager: baseName == nil");
         return;
@@ -479,7 +479,7 @@
 		return NO;
 	}
 	[self inputSelectionChanged: self];
-	[self selectBase: self];
+	[self inputDeviceChanged: self];
 
 	if (self.device == nil) {
 		NSLog(@"HardwareRunManager: no hardware device available");
