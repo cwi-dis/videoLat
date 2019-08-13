@@ -229,7 +229,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 	});
 }
 
-- (IBAction)selectionChanged:(id)sender
+- (IBAction)inputSelectionChanged:(id)sender
 {
 	assert(handlesInput);
 }

@@ -43,9 +43,9 @@
 	NSString *baseName;		//<! Name of our base (calibration) measurement
 }
 
-@property(weak) IBOutlet NSObject<SelectionView> *selectionView;         //!< Assigned in NIB: view that allows selection of input device
-@property(weak) IBOutlet NSObject<InputCaptureProtocol> *capturer;    //!< Assigned in NIB: input capturer
-@property(weak) IBOutlet NSorUIView <OutputViewProtocol> *outputView; //!< Assigned in NIB: Displays current output QR code
+@property(weak) IBOutlet NSObject<InputSelectionView> *selectionView;         //!< Assigned in NIB: view that allows selection of input device
+@property(weak) IBOutlet NSObject<InputDeviceProtocol> *capturer;    //!< Assigned in NIB: input capturer
+@property(weak) IBOutlet NSorUIView <OutputDeviceProtocol> *outputView; //!< Assigned in NIB: Displays current output QR code
 @property(weak) IBOutlet NSObject<NewMeasurementDelegate> *completionHandler;	//!< Optionally assigned in NIB: handler to open completed measurement
 + (void)initialize;	//!< Class initializer.
 

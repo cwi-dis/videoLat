@@ -20,7 +20,7 @@
 #ifdef WITH_UIKIT
 : InputSelectionView
 #else
-: NSView<SelectionView>
+: NSView<InputSelectionView>
 #endif
 
 #ifdef WITH_UIKIT

@@ -10,13 +10,16 @@
 #import "AppDelegate.h"
 
 @implementation HardwareSelectionView
+@synthesize bBase;
+@synthesize bPreRun;
+@synthesize inputSelectionDelegate;
 
 - (void)awakeFromNib
 {
     [super awakeFromNib];
     assert(self.bDevices);
     assert(self.bPreRun);
-    assert(self.selectionDelegate);
+    assert(self.inputSelectionDelegate);
     NSArray *names = ((AppDelegate *)[[NSApplication sharedApplication] delegate]).hardwareNames;
     
     if ([names count]) {
@@ -35,8 +38,8 @@
 	NSMenuItem *item = [sender selectedItem];
 	NSString *device = [item title];
 	NSLog(@"Switch to %@\n", device);
-	assert(self.selectionDelegate);
-	[self.selectionDelegate selectionChanged: self];
+	assert(self.inputSelectionDelegate);
+	[self.inputSelectionDelegate inputSelectionChanged: self];
 }
 
 - (void)setBases: (NSArray *)baseNames
@@ -44,7 +47,7 @@
 	assert(self.bBase);
     [self.bBase removeAllItems];
     [self.bBase addItemsWithTitles: baseNames];
-	[self.selectionDelegate selectionChanged:self];
+	[self.inputSelectionDelegate inputSelectionChanged:self];
 }
 
 - (void)disableBases

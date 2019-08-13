@@ -22,7 +22,7 @@
 #ifdef WITH_UIKIT
  : InputSelectionView
 #else
- : NSView<SelectionView>
+ : NSView<InputSelectionView>
 #endif
 
 
@@ -35,7 +35,7 @@
 @property(weak) IBOutlet NSButton *bPreRun;         //!< UI element: start preparing a measurement run
 #endif
 @property(weak) IBOutlet VideoInput *inputHandler;  //!< Input handler, will be told about camera changes
-@property(weak) IBOutlet NSObject <SelectionViewDelegate> *selectionDelegate;
+@property(weak) IBOutlet NSObject <InputSelectionDelegate> *inputSelectionDelegate;
 
 #ifdef WITH_APPKIT
 - (IBAction)deviceChanged: (id) sender;     //!< Called when the user makes a new selection in bCameras

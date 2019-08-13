@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14490.70"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14460.31"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -36,7 +35,7 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="196" y="240" width="956" height="684"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
             <view key="contentView" id="441" customClass="RunManagerView">
                 <rect key="frame" x="0.0" y="0.0" width="956" height="684"/>
                 <autoresizingMask key="autoresizingMask"/>
@@ -61,7 +60,7 @@
                                 </textFieldCell>
                             </textField>
                             <popUpButton toolTip="Select camera to use for input. " verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="11">
-                                <rect key="frame" x="77" y="335" width="174" height="25"/>
+                                <rect key="frame" x="77" y="334" width="174" height="26"/>
                                 <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="39">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="menu"/>
@@ -96,7 +95,7 @@
                                 </textFieldCell>
                             </textField>
                             <popUpButton toolTip="Select hardware self-measurement for this setup" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="367">
-                                <rect key="frame" x="77" y="310" width="174" height="25"/>
+                                <rect key="frame" x="77" y="309" width="174" height="26"/>
                                 <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" enabled="NO" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="368">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="menu"/>
@@ -140,7 +139,7 @@
                             <outlet property="bDevices" destination="11" id="384"/>
                             <outlet property="cameraPreview" destination="8" id="HUh-OQ-TEH"/>
                             <outlet property="inputHandler" destination="3" id="59"/>
-                            <outlet property="selectionDelegate" destination="74" id="RDd-oU-aHP"/>
+                            <outlet property="inputSelectionDelegate" destination="74" id="RDd-oU-aHP"/>
                         </connections>
                     </customView>
                     <customView translatesAutoresizingMaskIntoConstraints="NO" id="442" customClass="RunStatusView">
@@ -305,7 +304,7 @@
                                 <autoresizingMask key="autoresizingMask"/>
                                 <textFieldCell key="cell" selectable="YES" id="1cX-95-New">
                                     <font key="font" metaFont="system"/>
-                                    <mutableString key="title">Quick instructions:  The other device should run "QR Code Transmission" or "Transmission Calibrate using Other Device". Control (the user interface buttons) is on the other device.  Point the camera of this computer at the QR code displayed by the other device and IP address and port (above) will be filled in. this computer will then connect to the other devie.  Note that for this connection to work both computers need to be on the same WiFi network or the other computer must have a public IP address.  User control (the Prepare and Run buttons) are on the other device (the transmitter).</mutableString>
+                                    <string key="title">Quick instructions:  The other device should run "QR Code Transmission" or "Transmission Calibrate using Other Device". Control (the user interface buttons) is on the other device.  Point the camera of this computer at the QR code displayed by the other device and IP address and port (above) will be filled in. this computer will then connect to the other devie.  Note that for this connection to work both computers need to be on the same WiFi network or the other computer must have a public IP address.  User control (the Prepare and Run buttons) are on the other device (the transmitter).</string>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>

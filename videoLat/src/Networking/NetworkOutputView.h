@@ -9,17 +9,15 @@
 #import "protocols.h"
 
 ///
-/// Subclass of NSView that adheres to OutputViewProtocol and shows currently
+/// Subclass of NSView that adheres to OutputDeviceProtocol and shows currently
 /// selected hardware output device.
 ///
 @interface NetworkOutputView
 #ifdef WITH_UIKIT
-: UIView <OutputViewProtocol, NetworkViewProtocol>
+: UIView <OutputDeviceProtocol, NetworkViewProtocol>
 #else
-: NSView <OutputViewProtocol, NetworkViewProtocol>
+: NSView <OutputDeviceProtocol, NetworkViewProtocol>
 #endif
-@property(readonly) NSString *deviceID;     //!< accessor for device.deviceID
-@property(readonly) NSString *deviceName;	//!< accessor for device.deviceName
 #ifdef WITH_UIKIT
 @property(weak) IBOutlet UILabel *bPeerIPAddress;   //!< UI element: shows server IP address
 @property(weak) IBOutlet UILabel *bPeerPort;        //!< UI element: shows server port

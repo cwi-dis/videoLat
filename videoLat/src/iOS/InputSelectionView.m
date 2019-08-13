@@ -9,7 +9,7 @@
 #import "InputSelectionView.h"
 
 @implementation InputSelectionView
-@synthesize selectionDelegate;
+@synthesize inputSelectionDelegate;
 
 - (void)awakeFromNib
 {

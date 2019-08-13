@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14490.70"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14460.31"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -41,16 +40,16 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="196" y="240" width="956" height="684"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
             <view key="contentView" id="367" customClass="RunManagerView">
                 <rect key="frame" x="0.0" y="0.0" width="956" height="684"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <customView translatesAutoresizingMaskIntoConstraints="NO" id="368" customClass="RunStatusView">
-                        <rect key="frame" x="20" y="20" width="261" height="167"/>
+                        <rect key="frame" x="20" y="20" width="261" height="166"/>
                         <subviews>
                             <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="376">
-                                <rect key="frame" x="18" y="105" width="56" height="17"/>
+                                <rect key="frame" x="18" y="104" width="56" height="17"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Count:" id="395">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -58,7 +57,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="375">
-                                <rect key="frame" x="88" y="80" width="155" height="17"/>
+                                <rect key="frame" x="88" y="79" width="155" height="17"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" enabled="NO" sendsActionOnEndEditing="YES" title="unknown" id="396">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -66,7 +65,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="374">
-                                <rect key="frame" x="18" y="80" width="62" height="17"/>
+                                <rect key="frame" x="18" y="79" width="62" height="17"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="58" id="397"/>
                                 </constraints>
@@ -77,7 +76,7 @@
                                 </textFieldCell>
                             </textField>
                             <button toolTip="Stop measuring and present results" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="372">
-                                <rect key="frame" x="178" y="44" width="69" height="32"/>
+                                <rect key="frame" x="178" y="43" width="69" height="32"/>
                                 <buttonCell key="cell" type="push" title="Stop" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="401">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -87,7 +86,7 @@
                                 </connections>
                             </button>
                             <button toolTip="Start doing a measurement run" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="223">
-                                <rect key="frame" x="14" y="44" width="64" height="32"/>
+                                <rect key="frame" x="14" y="43" width="64" height="32"/>
                                 <buttonCell key="cell" type="push" title="Run" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="227">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -97,7 +96,7 @@
                                 </connections>
                             </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="377">
-                                <rect key="frame" x="18" y="130" width="126" height="17"/>
+                                <rect key="frame" x="18" y="129" width="126" height="17"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Measurement Run" id="393">
                                     <font key="font" metaFont="systemBold"/>
                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -105,7 +104,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="373">
-                                <rect key="frame" x="88" y="105" width="155" height="17"/>
+                                <rect key="frame" x="88" y="104" width="155" height="17"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="151" id="399"/>
                                 </constraints>
@@ -149,10 +148,10 @@
                         </connections>
                     </view>
                     <customView translatesAutoresizingMaskIntoConstraints="NO" id="203" customClass="HardwareSelectionView">
-                        <rect key="frame" x="16" y="195" width="265" height="363"/>
+                        <rect key="frame" x="16" y="194" width="265" height="364"/>
                         <subviews>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="222">
-                                <rect key="frame" x="18" y="326" width="229" height="17"/>
+                                <rect key="frame" x="18" y="327" width="229" height="17"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Screen to Hardware Measurement" id="228">
                                     <font key="font" metaFont="systemBold"/>
                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -173,7 +172,7 @@
                                 </connections>
                             </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="257">
-                                <rect key="frame" x="18" y="276" width="38" height="17"/>
+                                <rect key="frame" x="18" y="277" width="38" height="17"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" enabled="NO" sendsActionOnEndEditing="YES" title="Base:" id="261">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -181,7 +180,7 @@
                                 </textFieldCell>
                             </textField>
                             <popUpButton toolTip="Select hardware self-measurement for this setup" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="258">
-                                <rect key="frame" x="80" y="270" width="168" height="25"/>
+                                <rect key="frame" x="80" y="270" width="168" height="26"/>
                                 <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" enabled="NO" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="259">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="menu"/>
@@ -192,7 +191,7 @@
                                 </connections>
                             </popUpButton>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="kJx-F6-BX3">
-                                <rect key="frame" x="18" y="247" width="50" height="17"/>
+                                <rect key="frame" x="18" y="248" width="50" height="17"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" enabled="NO" sendsActionOnEndEditing="YES" title="Device:" id="usS-kA-dof">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -200,7 +199,7 @@
                                 </textFieldCell>
                             </textField>
                             <popUpButton toolTip="Select hardware self-measurement for this setup" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="JAy-ML-q9o" userLabel="Device">
-                                <rect key="frame" x="80" y="239" width="168" height="25"/>
+                                <rect key="frame" x="80" y="239" width="168" height="26"/>
                                 <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" enabled="NO" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="xBh-KK-wNH">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="menu"/>
@@ -211,7 +210,7 @@
                                 </connections>
                             </popUpButton>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="271">
-                                <rect key="frame" x="18" y="301" width="52" height="17"/>
+                                <rect key="frame" x="18" y="302" width="52" height="17"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Display:" id="274">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -219,7 +218,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField toolTip="Output display used. Position whole window to select output display." horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="272">
-                                <rect key="frame" x="80" y="301" width="105" height="17"/>
+                                <rect key="frame" x="80" y="302" width="105" height="17"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="unknown display" id="273">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -336,7 +335,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="rVE-oI-sta">
-                                <rect key="frame" x="18" y="218" width="47" height="17"/>
+                                <rect key="frame" x="18" y="219" width="47" height="17"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Status:" id="ESW-Je-XyS">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -376,7 +375,7 @@
                             <outlet property="bBase" destination="258" id="322"/>
                             <outlet property="bDevices" destination="JAy-ML-q9o" id="lBH-lu-cLy"/>
                             <outlet property="bPreRun" destination="224" id="323"/>
-                            <outlet property="selectionDelegate" destination="74" id="Q4M-Ny-A7J"/>
+                            <outlet property="inputSelectionDelegate" destination="74" id="Q4M-Ny-A7J"/>
                         </connections>
                     </customView>
                 </subviews>

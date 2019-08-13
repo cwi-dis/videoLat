@@ -138,12 +138,18 @@
 @end
 
 ///
+/// Protocol to determine device names
+///
+@protocol DeviceNameProtocol
+@property(readonly) NSString *deviceID;    //!< Unique string that identifies the output device
+@property(readonly) NSString *deviceName;    //!< Human-readable string that identifies the output device
+@end
+
+///
 /// Protocol for an object that is responsible for displaying patterns, and for
 /// enabling the user to select the output device to use.
 ///
-@protocol OutputViewProtocol
-@property(readonly) NSString *deviceID;	//!< Unique string that identifies the output device
-@property(readonly) NSString *deviceName;	//!< Human-readable string that identifies the output device
+@protocol OutputDeviceProtocol <DeviceNameProtocol>
 
 /// Makes output viewer request a new pattern from the OutputRunManager and display it.
 - (void) showNewData;
@@ -152,8 +158,8 @@
 ///
 /// Protocol used by selectionView to communicate changes
 ///
-@protocol SelectionViewDelegate
-- (IBAction)selectionChanged: (id)sender;		//!< Called whenever input device or base measurement changes
+@protocol InputSelectionDelegate
+- (IBAction)inputSelectionChanged: (id)sender;		//!< Called whenever input device or base measurement changes
 - (IBAction)startPreMeasuring: (id)sender;		//!< Called when premeasuring button has been pressed
 @end
 
@@ -161,14 +167,14 @@
 /// Protocol for an object that allows selection of input device, base measurement (optional),
 /// and starting of preruns and runs.
 ///
-@protocol SelectionView
+@protocol InputSelectionView
 #ifdef WITH_APPKIT
 @property(weak)IBOutlet NSPopUpButton *bBase;		//!< UI element: popup showing possible base measurements
 @property(weak) IBOutlet NSButton *bPreRun;         //!< UI element: start preparing a measurement run
 #endif
 
 /// Object to which this view should send changes in input device, base measurement and completion.
-@property(weak) IBOutlet NSObject <SelectionViewDelegate> *selectionDelegate;
+@property(weak) IBOutlet NSObject <InputSelectionDelegate> *inputSelectionDelegate;
 
 #ifdef WITH_UIKIT
 /// Change the set of base measurements available in the UI.
@@ -204,9 +210,7 @@
 ///
 /// Protocol for an object that captures input patterns.
 ///
-@protocol InputCaptureProtocol
-@property (readonly) NSString* deviceID;	//!< Unique string that identifies the input device
-@property (readonly) NSString* deviceName;	//!< Human-readable string that identifies the input device
+@protocol InputDeviceProtocol <DeviceNameProtocol>
 
 /// List available input devices.
 /// @return List of human-readable device names (as NSString)
@@ -239,9 +243,7 @@
 ///
 /// Protocol for a binary (monochrome) hardware input/output device.
 ///
-@protocol HardwareLightProtocol
-@property (readonly) NSString* deviceID;	//!< Unique string that identifies the input device
-@property (readonly) NSString* deviceName;	//!< Human-readable string that identifies the input device
+@protocol HardwareLightProtocol <DeviceNameProtocol>
 @property (readonly) NSString* lastErrorMessage;	//!< Last error encountered, for example during initialization
 
 /// Test hardware device availability.
@@ -275,7 +277,7 @@
 @end
 
 ///
-/// Protocol used by OutputViewProtocol objects to request new data and report results.
+/// Protocol used by OutputDeviceProtocol objects to request new data and report results.
 ///
 @protocol RunOutputManagerProtocol
 
@@ -291,7 +293,7 @@
 
 
 @property(weak) IBOutlet NSObject *inputCompanion; //!< Our companion object that handles input
-@property(weak) IBOutlet NSorUIView <OutputViewProtocol> *outputView; //!< Assigned in NIB: Displays current output QR code
+@property(weak) IBOutlet NSorUIView <OutputDeviceProtocol> *outputView; //!< Assigned in NIB: Displays current output QR code
 
 /// Called to prepare the output device, if needed, when restarting.
 /// @return NO if not successful
@@ -326,18 +328,15 @@
 @end
 
 ///
-/// Protocol used by InputCaptureProtocol objects to report new data and timing.
+/// Protocol used by InputDeviceProtocol objects to report new data and timing.
 ///
-@protocol RunInputManagerProtocol
+@protocol RunInputManagerProtocol <InputSelectionDelegate>
 
 @property(weak) IBOutlet NSObject<RunOutputManagerProtocol> *outputCompanion; //!< Our companion object that handles output
 @property(weak) NSObject<ClockProtocol> *clock; //!< Input manager clock
 @property(readonly) NSObject<MeasurementTypeProtocol> *measurementType;	//!< The type of measurement we are doing
 @property(readonly) int initialPrerunCount;	//!< How many detections are needed during prerun
 @property(readonly) int initialPrerunDelay;	//!< The current (or final) delay between prerun generations.
-
-/// Called whenever input device or base measurement changes///
-- (IBAction)selectionChanged: (id) sender;
 
 /// Called to prepare the input device, if needed, when restarting.
 /// @return NO if not successful
@@ -355,9 +354,6 @@
 
 /// RunManager is about to disappear, clean up.
 - (void)terminate;
-
-/// Called when user presses "prepare" button.
-- (IBAction)startPreMeasuring: (id)sender;
 
 /// Stop pre-measuring because we have enough prerun samples.
 - (IBAction)stopPreMeasuring: (id)sender;

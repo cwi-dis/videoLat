@@ -22,7 +22,7 @@
 /// When compared to the other run manager this class also implements the input and
 /// selection view object functionality. Should be fixed at some point.
 ///
-@interface HardwareRunManager : BaseRunManager <ClockProtocol, InputCaptureProtocol> {
+@interface HardwareRunManager : BaseRunManager <ClockProtocol, InputDeviceProtocol> {
     BOOL alive;                 //!< True when the _periodic method should run
     BOOL connected;             //!< True if the hardware device is connected
     NSString *lastError;        //!< Last error message from device
@@ -43,8 +43,6 @@
 @property(weak) IBOutlet LevelStatusView *levelStatusView;  //!< Assigned in NIB: visual feedback on light level detected
 @property(weak) IBOutlet HardwareOutputView *outputView;    //!< Assigned in NIB: visual feedback view of output for the user
 @property(weak) IBOutlet NSObject <ClockProtocol> *clock;   //!< Assigned in NIB: clock source
-@property(readonly) NSString* deviceID;					//!< Unique string that identifies the input device
-@property(readonly) NSString* deviceName;					//!< Human-readable string that identifies the input device
 @property(nonatomic,readwrite) int samplePeriodMs;			//!< How often we sample the hardware
 @property(weak) IBOutlet NSStepper *bSamplePeriodStepper;	//!< UI element for samplePeriodMs
 @property(weak) IBOutlet NSTextField *bSamplePeriodValue;	//!< UI element for samplePeriodMs
@@ -79,7 +77,7 @@
 // MeasurementInputManagerProtocol
 - (void)restart;
 
-// InputCaptureProtocol
+// InputDeviceProtocol
 - (void) startCapturing: (BOOL)showPreview;
 - (void) stopCapturing;
 

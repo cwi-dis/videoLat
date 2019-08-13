@@ -10,14 +10,12 @@
 #import "protocols.h"
 
 ///
-/// Subclass of NSView that adheres to OutputViewProtocol and shows currently
+/// Subclass of NSView that adheres to OutputDeviceProtocol and shows currently
 /// selected hardware output device.
 ///
-@interface HardwareOutputView : NSView <OutputViewProtocol> {
+@interface HardwareOutputView : NSView <OutputDeviceProtocol> {
 }
 
-@property(readonly) NSString *deviceID;     //!< accessor for device.deviceID
-@property(readonly) NSString *deviceName;	//!< accessor for device.deviceName
 @property(weak) IBOutlet NSButton *bOutputValue;    //!< UI element that shows current output value
 
 @property(weak) NSObject <HardwareLightProtocol> *device;  //!< our output device (assigned by HardwareRunManager)

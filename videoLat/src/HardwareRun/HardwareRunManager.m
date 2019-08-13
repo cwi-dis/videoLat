@@ -125,7 +125,7 @@
 
 // (void (^ __nullable)(NSModalResponse returnCode))handler
 
-- (IBAction) selectionChanged: (id)sender
+- (IBAction) inputSelectionChanged: (id)sender
 {
     if (!handlesInput) return;
     lastError = nil;
@@ -478,7 +478,7 @@
 		// Not fully initialized yet
 		return NO;
 	}
-	[self selectionChanged: self];
+	[self inputSelectionChanged: self];
 	[self selectBase: self];
 
 	if (self.device == nil) {

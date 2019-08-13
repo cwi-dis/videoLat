@@ -20,9 +20,9 @@
 
 @interface AudioOutputView
 #ifdef WITH_UIKIT
-: UIView <OutputViewProtocol, AVAudioPlayerDelegate>
+: UIView <OutputDeviceProtocol, AVAudioPlayerDelegate>
 #else
-: NSView <OutputViewProtocol, AVAudioPlayerDelegate>
+: NSView <OutputDeviceProtocol, AVAudioPlayerDelegate>
 #endif
 {
     NSArray *samples;       //!< list of available sample filenames
@@ -30,8 +30,10 @@
     NSArray *signature;     //!< AudioProcess signature of current sample
 }
 
+#ifdef xxxjacknotneeded
 @property(readonly) NSString *deviceID;	//!< Unique string that identifies the output device
 @property(readonly) NSString *deviceName;	//!< Human-readable string that identifies the output device
+#endif
 @property(weak) IBOutlet AudioRunManager *manager; //!< Set by NIB: our run manager
 @property(weak) IBOutlet AudioProcess *processor;   //!< Set by NIB: our audio processor
 #ifdef WITH_UIKIT

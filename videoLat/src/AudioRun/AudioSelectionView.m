@@ -10,7 +10,7 @@
 #import "AudioOutputView.h"
 
 @implementation AudioSelectionView
-@synthesize selectionDelegate;
+@synthesize inputSelectionDelegate;
 
 - (void)awakeFromNib
 {
@@ -91,8 +91,8 @@
 	NSString *cam = [item title];
 	if (VL_DEBUG) NSLog(@"Switch audioInput to %@\n", cam);
 	[self.inputHandler switchToDeviceWithName: cam];
-	assert(self.selectionDelegate);
-	[self.selectionDelegate selectionChanged: self];
+	assert(self.inputSelectionDelegate);
+	[self.inputSelectionDelegate inputSelectionChanged: self];
 }
 
 - (void)_reselectInput: (NSString *)name

@@ -12,7 +12,7 @@
 @synthesize bBase;
 @synthesize bPreRun;
 #endif
-@synthesize selectionDelegate;
+@synthesize inputSelectionDelegate;
 
 - (void) reportClient: (NSString *)ip port: (int)port isUs: (BOOL) us
 {

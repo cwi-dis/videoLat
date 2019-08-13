@@ -9,7 +9,7 @@
 #import "VideoSelectionView.h"
 
 @implementation VideoSelectionView
-@synthesize selectionDelegate;
+@synthesize inputSelectionDelegate;
 
 - (void)awakeFromNib
 {
@@ -93,8 +93,8 @@
 	NSString *cam = [item title];
 	NSLog(@"Switch to %@\n", cam);
 	[self.inputHandler switchToDeviceWithName: cam];
-	assert(self.selectionDelegate);
-	[self.selectionDelegate selectionChanged: self];
+	assert(self.inputSelectionDelegate);
+	[self.inputSelectionDelegate inputSelectionChanged: self];
 }
 
 - (NSString *)baseName

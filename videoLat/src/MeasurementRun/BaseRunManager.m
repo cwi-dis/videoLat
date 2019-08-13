@@ -194,7 +194,7 @@ static NSMutableDictionary *runManagerSelectionNibs;
 }
 #endif
 
-- (IBAction)selectionChanged: (id) sender
+- (IBAction)inputSelectionChanged: (id) sender
 {
 	NSLog(@"BaseRunManager: device changed");
 }
@@ -296,7 +296,7 @@ static NSMutableDictionary *runManagerSelectionNibs;
 		assert(self.measurementType.name);
 		assert(self.capturer.deviceID);
 		assert(self.capturer.deviceName);
-		NSorUIView <OutputViewProtocol> *outputView;
+		NSorUIView <OutputDeviceProtocol> *outputView;
 		if (handlesOutput)
 			outputView = self.outputView;
 		else

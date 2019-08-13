@@ -44,7 +44,7 @@
 	return self;
 }
 
-- (DeviceDescription *)initFromInputDevice: (id<InputCaptureProtocol>)inputDevice
+- (DeviceDescription *)initFromInputDevice: (id<InputDeviceProtocol>)inputDevice
 {
     self = [super init];
     if (self == nil) return nil;
@@ -62,7 +62,7 @@
     return self;
 }
 
-- (DeviceDescription *)initFromOutputDevice: (id<OutputViewProtocol>)outputDevice
+- (DeviceDescription *)initFromOutputDevice: (id<OutputDeviceProtocol>)outputDevice
 {
     self = [super init];
     if (self == nil) return nil;

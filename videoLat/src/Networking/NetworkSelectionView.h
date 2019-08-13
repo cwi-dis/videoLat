@@ -18,7 +18,7 @@
 #ifdef WITH_UIKIT
 : InputSelectionView<NetworkViewProtocol>
 #else
-: NSView<SelectionView, NetworkViewProtocol>
+: NSView<InputSelectionView, NetworkViewProtocol>
 #endif
 
 #ifdef WITH_UIKIT

@@ -62,8 +62,8 @@
  - a runmanager, an instance of a subclass of BaseRunManager that controls the measurement run.
  - for asymetric measurements a second BaseRunManager subclass instance to handle to output aspects of
    the measurement run.
- - An input capturer, adhering to InputCaptureProtocol, to grab images (or audio, or something else).
- - A view adhering to OutputViewProtocol to show the output codes.
+ - An input capturer, adhering to InputDeviceProtocol, to grab images (or audio, or something else).
+ - A view adhering to OutputDeviceProtocol to show the output codes.
  - a RunCollector to collect the data points (individual delay measurements).
  
  In the XCode project, these source files are contained in the "MeasurementRun" group, and the individual
