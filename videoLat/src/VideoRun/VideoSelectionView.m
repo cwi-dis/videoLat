@@ -10,6 +10,11 @@
 
 @implementation VideoSelectionView
 @synthesize inputSelectionDelegate;
+#ifdef WITH_APPKIT
+@synthesize bInputDevices;
+@synthesize bBase;
+@synthesize bPreRun;
+#endif
 
 - (void)awakeFromNib
 {
@@ -41,7 +46,7 @@
 #else
     if (VL_DEBUG) NSLog(@"Cameras changed\n");
     // Remember the old selection (if any)
-	NSMenuItem *oldItem = [self.bDevices selectedItem];
+	NSMenuItem *oldItem = [self.bInputDevices selectedItem];
     if (oldItem) {
         oldCam = [oldItem title];
     } else {
@@ -49,12 +54,12 @@
         oldCam = [[NSUserDefaults standardUserDefaults] stringForKey:@"Camera"];
     }
     // Add all cameras
-    [self.bDevices removeAllItems];
-    [self.bDevices addItemsWithTitles: newList];
+    [self.bInputDevices removeAllItems];
+    [self.bInputDevices addItemsWithTitles: newList];
     // Re-select old selection, if possible
     [self _reselectCamera:oldCam];
     // Tell the input handler if the device has changed
-    NSMenuItem *newItem = [self.bDevices selectedItem];
+    NSMenuItem *newItem = [self.bInputDevices selectedItem];
     newCam = [newItem title];
 #endif
     if (![newCam isEqualToString:oldCam] || notification == nil)
@@ -80,14 +85,14 @@
 - (void)_reselectCamera: (NSString *)oldCam
 {
     if (oldCam)
-        [self.bDevices selectItemWithTitle:oldCam];
+        [self.bInputDevices selectItemWithTitle:oldCam];
     // Select first item, if nothing has been selected
-    NSMenuItem *newItem = [self.bDevices selectedItem];
+    NSMenuItem *newItem = [self.bInputDevices selectedItem];
     if (newItem == nil)
-        [self.bDevices selectItemAtIndex: 0];
+        [self.bInputDevices selectItemAtIndex: 0];
 }
 
-- (IBAction)deviceChanged: (id) sender
+- (IBAction)inputDeviceChanged: (id) sender
 {
 	NSMenuItem *item = [sender selectedItem];
 	NSString *cam = [item title];
@@ -107,8 +112,8 @@
 
 - (NSString *)deviceName
 {
-    if(!self.bDevices) return nil;
-    NSMenuItem *item = [self.bDevices selectedItem];
+    if(!self.bInputDevices) return nil;
+    NSMenuItem *item = [self.bInputDevices selectedItem];
     if (item == nil) return nil;
     return [item title];
 }

@@ -47,10 +47,6 @@
 	AVCaptureSession *session;					//!< Currently running capture session
     dispatch_queue_t sampleBufferQueue;			//!< Used by outputCapturer to communicate with us
 	float xFactor, yFactor;
-#if xxxjacknotneeded
-    NSString *deviceID;
-	NSString *deviceName;
-#endif
 #ifdef WITH_DEVICE_CLOCK
     CMClockRef clock;							//!< Clock of the current video input device.
 #endif

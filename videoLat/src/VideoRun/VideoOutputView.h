@@ -22,9 +22,6 @@
  : NSView <OutputDeviceProtocol>
 #endif
 {
-#ifdef xxxjacknotneeded
-	NSString *deviceID;
-#endif
 }
 
 @property(weak) IBOutlet id <RunOutputManagerProtocol> manager; //!< Set by NIB: our run manager

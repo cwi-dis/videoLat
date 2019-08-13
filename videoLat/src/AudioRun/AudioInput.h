@@ -17,10 +17,6 @@
     AVCaptureAudioDataOutput *outputCapturer;
 	AVCaptureSession *session;
     dispatch_queue_t sampleBufferQueue;
-#ifdef xxxjacknotneeded
-	NSString *deviceID;
-	NSString *deviceName;
-#endif
 #ifdef WITH_DEVICE_CLOCK
     CMClockRef clock;
 #endif

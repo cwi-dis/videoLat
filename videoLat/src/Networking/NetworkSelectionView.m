@@ -11,6 +11,7 @@
 #ifdef WITH_APPKIT
 @synthesize bBase;
 @synthesize bPreRun;
+@synthesize bInputDevices;
 #endif
 @synthesize inputSelectionDelegate;
 
@@ -35,4 +36,9 @@
     return @"NetworkInput";
 }
 
+#ifdef WITH_APPKIT
+- (void)inputDeviceChanged:(id)sender {
+    NSLog(@"networkInputSelectionView deviceChanged called");
+}
+#endif
 @end

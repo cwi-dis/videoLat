@@ -168,13 +168,20 @@
 /// and starting of preruns and runs.
 ///
 @protocol InputSelectionView
-#ifdef WITH_APPKIT
-@property(weak)IBOutlet NSPopUpButton *bBase;		//!< UI element: popup showing possible base measurements
-@property(weak) IBOutlet NSButton *bPreRun;         //!< UI element: start preparing a measurement run
-#endif
-
 /// Object to which this view should send changes in input device, base measurement and completion.
 @property(weak) IBOutlet NSObject <InputSelectionDelegate> *inputSelectionDelegate;
+
+- (NSString *)baseName;                //!< Returns name of currently selected base measurement
+- (NSString *)deviceName;            //!< Returns name of currently selected input device
+
+#ifdef WITH_APPKIT
+@property(weak)IBOutlet NSPopUpButton *bBase;		//!< UI element: popup showing possible base measurements
+@property(weak) IBOutlet NSPopUpButton *bInputDevices;   //!< UI element: all available hardware
+@property(weak) IBOutlet NSButton *bPreRun;         //!< UI element: start preparing a measurement run
+
+/// Called when the user makes a new selection in bDevices
+- (IBAction)inputDeviceChanged: (id) sender;
+#endif
 
 #ifdef WITH_UIKIT
 /// Change the set of base measurements available in the UI.
@@ -184,8 +191,7 @@
 /// Disable (and possibly hide) the base measurement selector.
 - (void)disableBases;
 #endif
-- (NSString *)baseName;				//!< Returns name of currently selected base measurement
-- (NSString *)deviceName;			//!< Returns name of currently selected input device
+
 
 @end
 

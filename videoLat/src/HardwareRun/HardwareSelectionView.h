@@ -16,8 +16,4 @@
 /// measurement runs.
 ///
 @interface HardwareSelectionView : NSView<InputSelectionView>
-@property(weak) IBOutlet NSPopUpButton *bDevices;   //!< UI element: all available hardware
-
-- (IBAction)deviceChanged: (id) sender;     //!< Called when the user makes a new selection in bDevices
-
 @end
