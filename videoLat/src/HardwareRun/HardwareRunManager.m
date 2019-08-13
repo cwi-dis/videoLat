@@ -33,8 +33,8 @@
 {
 }
 
-- (int) initialPrerunCount { return 100; }
-- (int) initialPrerunDelay { return 1000; }
+- (int) initialPrepareCount { return 100; }
+- (int) initialPrepareDelay { return 1000; }
 - (NSString*) deviceID
 {
 	return self.device.deviceID;
@@ -72,7 +72,7 @@
     self = [super init];
 	if (self) {
 		NSLog(@"HardwareLightProtocol = %@", @protocol(HardwareLightProtocol));
-        maxDelay = self.initialPrerunDelay;
+        maxDelay = self.initialPrepareDelay;
 		self.samplePeriodMs = 10;
 	}
     return self;
@@ -183,9 +183,9 @@
     
     self.outputView.device = self.device;
     self.bDriverStatus.stringValue = (connected ? @"Connected" : @"Disconnected");
-    [self.selectionView.bPreRun setEnabled: connected];
+    [self.selectionView.bPrepare setEnabled: connected];
     [self.statusView.bRun setEnabled: NO];
-    self.preRunning = NO;
+    self.preparing = NO;
     self.running = NO;
     minInputLevel = 1.0;
     maxInputLevel = 0.0;
@@ -197,7 +197,7 @@
     }
 }
 
-- (IBAction)inputDeviceChanged: (id) sender
+- (IBAction)inputDeviceSelectionChanged: (id) sender
 {
 	assert(self.selectionView);
     baseName = self.selectionView.baseName;
@@ -305,7 +305,7 @@
                         || nConnected != connected
                         || nInputLevel != inputLevel
                         || outputLevelChanged
-                        || ((self.preRunning || self.running) && loopTimestamp > lastUpdateCall + maxDelay)
+                        || ((self.preparing || self.running) && loopTimestamp > lastUpdateCall + maxDelay)
                         ) {
                     // Stopgap measure: if the device wasn't available we won't let it come available.
                     // This triggers some bug in our code...
@@ -318,7 +318,7 @@
                     first = NO;
                 }
                 // Finally, if we are not running, we change the light level every once in a while
-                if (!self.preRunning && !self.running && [self.clock now] > outputTimestamp + IDLE_LIGHT_INTERVAL)
+                if (!self.preparing && !self.running && [self.clock now] > outputTimestamp + IDLE_LIGHT_INTERVAL)
                     newOutputValueWanted = YES;
             }
             outputLevelChanged = NO;
@@ -397,14 +397,14 @@
                     prevInputCode = self.outputCompanion.outputCode;
                     prevInputCodeDetectionCount = 0;
                     [self.outputCompanion triggerNewOutputValueAfterDelay];
-                } else if (self.preRunning) {
-                    [self _prerunRecordReception: inputCode];
+                } else if (self.preparing) {
+                    [self _prepareRecordReception: inputCode];
                 }
 
             } else {
                 // We did not detect the light level we expected
-                if (self.preRunning) {
-                    [self _prerunRecordNoReception];
+                if (self.preparing) {
+                    [self _prepareRecordNoReception];
                 }
             }
         }
@@ -416,14 +416,14 @@
     }
 }
 
-- (void)_prerunRecordReception: (NSString *)code
+- (void)_prepareRecordReception: (NSString *)code
 {
-	prerunMoreNeeded--;
-	if (VL_DEBUG) NSLog(@"prerunRecordReception %@ preRunMoreMeeded=%d\n", code, prerunMoreNeeded);
-	self.statusView.detectCount = [NSString stringWithFormat: @"%d more", prerunMoreNeeded];
+	prepareMoreNeeded--;
+	if (VL_DEBUG) NSLog(@"prepareRecordReception %@ prepareMoreMeeded=%d\n", code, prepareMoreNeeded);
+	self.statusView.detectCount = [NSString stringWithFormat: @"%d more", prepareMoreNeeded];
 	self.statusView.detectAverage = [NSString stringWithFormat: @"%.2f .. %.2f", minInputLevel, maxInputLevel];
 	[self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
-	if (prerunMoreNeeded == 0) {
+	if (prepareMoreNeeded == 0) {
 		self.outputCode = @"uncertain";
 		self.statusView.detectCount = @"";
 		//self.statusView.detectAverage = @"";
@@ -434,17 +434,17 @@
 	[self.outputCompanion triggerNewOutputValue];
 }
 
-- (void) _prerunRecordNoReception
+- (void) _prepareRecordNoReception
 {
-	assert(self.preRunning);
+	assert(self.preparing);
 	// Check that we have waited long enough
 	if ([self.clock now] < outputTimestamp + maxDelay)
 		return;
 	assert(maxDelay);
 	maxDelay *= 2;
-	prerunMoreNeeded = self.initialPrerunCount;
-	if (VL_DEBUG) NSLog(@"prerunRecordNoReception, maxDelay is now %lld", maxDelay);
-	self.statusView.detectCount = [NSString stringWithFormat: @"%d more", prerunMoreNeeded];
+	prepareMoreNeeded = self.initialPrepareCount;
+	if (VL_DEBUG) NSLog(@"prepareRecordNoReception, maxDelay is now %lld", maxDelay);
+	self.statusView.detectCount = [NSString stringWithFormat: @"%d more", prepareMoreNeeded];
 	self.statusView.detectAverage = [NSString stringWithFormat: @"%.2f .. %.2f", minInputLevel, maxInputLevel];
 	[self.outputCompanion triggerNewOutputValue];
 }
@@ -452,7 +452,7 @@
 
 - (void)triggerNewOutputValue
 {
-    if (!self.running && !self.preRunning) {
+    if (!self.running && !self.preparing) {
         // Idle, show intermediate value
         self.outputCode = @"uncertain";
     } else {
@@ -479,7 +479,7 @@
 		return NO;
 	}
 	[self inputSelectionChanged: self];
-	[self inputDeviceChanged: self];
+	[self inputDeviceSelectionChanged: self];
 
 	if (self.device == nil) {
 		NSLog(@"HardwareRunManager: no hardware device available");

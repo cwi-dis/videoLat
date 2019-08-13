@@ -14,7 +14,7 @@
 #ifdef WITH_APPKIT
 @synthesize bBase;
 @synthesize bInputDevices;
-@synthesize bPreRun;
+@synthesize bPrepare;
 #endif
 
 - (void)awakeFromNib
@@ -90,7 +90,7 @@
 }
 
 #ifdef WITH_APPKIT
-- (IBAction)inputDeviceChanged: (id) sender
+- (IBAction)inputDeviceSelectionChanged: (id) sender
 {
 	NSMenuItem *item = [sender selectedItem];
 	NSString *cam = [item title];

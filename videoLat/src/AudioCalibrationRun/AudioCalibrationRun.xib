@@ -301,7 +301,7 @@
                                     <menu key="menu" title="OtherViews" id="161"/>
                                 </popUpButtonCell>
                                 <connections>
-                                    <action selector="inputDeviceChanged:" target="4" id="324"/>
+                                    <action selector="inputDeviceSelectionChanged:" target="4" id="324"/>
                                 </connections>
                             </popUpButton>
                         </subviews>
@@ -322,7 +322,7 @@
                         </constraints>
                         <connections>
                             <outlet property="bDevices" destination="158" id="326"/>
-                            <outlet property="bPreRun" destination="5" id="60"/>
+                            <outlet property="bPrepare" destination="5" id="60"/>
                             <outlet property="inputHandler" destination="217" id="218"/>
                         </connections>
                     </customView>

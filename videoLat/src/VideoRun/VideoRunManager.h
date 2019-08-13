@@ -32,7 +32,7 @@
 
 - (VideoRunManager *)init;  //!< Initializer
 
-- (void) _prerunRecordNoReception;                  //!< Internal: no QR code was received in time during prerun
-- (void) _prerunRecordReception: (NSString *)code;  //!< Internal: QR code was received in time during prerun
+- (void) _prepareRecordNoReception;                  //!< Internal: no QR code was received in time during prerun
+- (void) _prepareRecordReception: (NSString *)code;  //!< Internal: QR code was received in time during prerun
 - (void) _newOutputCode;							//!< Internal: set outputCode to a new value (depending on running/prerunning/idle)
 @end

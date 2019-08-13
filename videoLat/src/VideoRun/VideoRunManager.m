@@ -20,8 +20,8 @@
 // Prerun parameters.
 // We want 10 consecutive catches, and we initially start with a 1ms delay (doubled at every failure)
 
-- (int) initialPrerunCount { return 10; }
-- (int) initialPrerunDelay { return 1000; }
+- (int) initialPrepareCount { return 10; }
+- (int) initialPrepareDelay { return 1000; }
 
 + (void) initialize
 {
@@ -80,34 +80,34 @@
 }
 
 
-- (void) _prerunRecordNoReception
+- (void) _prepareRecordNoReception
 {
-    if (VL_DEBUG) NSLog(@"Prerun no reception\n");
-    assert(self.preRunning);
+    if (VL_DEBUG) NSLog(@"Prepare no reception\n");
+    assert(self.preparing);
     if (outputFrameLatestTimestamp && [self.clock now] - outputFrameLatestTimestamp > maxDelay) {
         // No data found within alotted time. Double the time, reset the count, change mirroring
-        if (VL_DEBUG) NSLog(@"tsOutLatest=%llu, prerunDelay=%llu\n", outputFrameLatestTimestamp, maxDelay);
-        NSLog(@"prerun: detection %d failed for maxDelay=%lld. Doubling.", self.initialPrerunCount-prerunMoreNeeded, maxDelay);
+        if (VL_DEBUG) NSLog(@"tsOutLatest=%llu, prepareDelay=%llu\n", outputFrameLatestTimestamp, maxDelay);
+        NSLog(@"prepare: detection %d failed for maxDelay=%lld. Doubling.", self.initialPrepareCount-prepareMoreNeeded, maxDelay);
         maxDelay *= 2;
-        prerunMoreNeeded = self.initialPrerunCount;
-        self.statusView.detectCount = [NSString stringWithFormat: @"%d more", prerunMoreNeeded];
+        prepareMoreNeeded = self.initialPrepareCount;
+        self.statusView.detectCount = [NSString stringWithFormat: @"%d more", prepareMoreNeeded];
 		self.statusView.detectAverage = @"";
         [self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
         [self.outputCompanion triggerNewOutputValue];
     } 
 }
 
-- (void) _prerunRecordReception: (NSString *)code
+- (void) _prepareRecordReception: (NSString *)code
 {
-    if (VL_DEBUG) NSLog(@"prerun reception %@\n", code);
-    assert(self.preRunning);
-    if (self.preRunning) {
-        prerunMoreNeeded -= 1;
-        self.statusView.detectCount = [NSString stringWithFormat: @"%d more", prerunMoreNeeded];
+    if (VL_DEBUG) NSLog(@"prepare reception %@\n", code);
+    assert(self.preparing);
+    if (self.preparing) {
+        prepareMoreNeeded -= 1;
+        self.statusView.detectCount = [NSString stringWithFormat: @"%d more", prepareMoreNeeded];
 		self.statusView.detectAverage = @"";
         [self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
-        if (VL_DEBUG) NSLog(@"preRunMoreMeeded=%d\n", prerunMoreNeeded);
-        if (prerunMoreNeeded == 0) {
+        if (VL_DEBUG) NSLog(@"prepareMoreMeeded=%d\n", prepareMoreNeeded);
+        if (prepareMoreNeeded == 0) {
             NSLog(@"average detection algorithm duration=%lld µS", averageFinderDuration);
 #ifdef WITH_SET_MIN_CAPTURE_DURATION
             [self.capturer setMinCaptureInterval: averageFinderDuration*2];
@@ -133,8 +133,8 @@
 	// codes contain the ip/port combination of the server)
 	self.prevOutputCode = self.outputCode;
 	self.outputCode = nil;
-	if (self.preRunning && [self.inputCompanion respondsToSelector:@selector(genPrerunCode)]) {
-		self.outputCode = [self.inputCompanion genPrerunCode];
+	if (self.preparing && [self.inputCompanion respondsToSelector:@selector(genPrepareCode)]) {
+		self.outputCode = [self.inputCompanion genPrepareCode];
 	}
 	if (self.outputCode == nil) {
 		self.outputCode = [NSString stringWithFormat:@"%lld", tsForCode];
@@ -159,7 +159,7 @@
     @synchronized(self) {
         
         // If we are not running we should display a blue-grayish square
-        if (!self.running && !self.preRunning) {
+        if (!self.running && !self.preparing) {
             CIImage *idleImage = [CIImage imageWithColor:[CIColor colorWithRed:0.1 green:0.4 blue:0.5]];
             CGRect rect = {0, 0, 480, 480};
             idleImage = [idleImage imageByCroppingToRect: rect];
@@ -245,14 +245,14 @@
                     if (!ok) {
 						showWarningAlert([NSString stringWithFormat:@"Received code %@ before it was transmitted", self.outputCompanion.outputCode]);
                     }
-                } else if (self.preRunning) {
+                } else if (self.preparing) {
                     // Compute average duration of our code detection algorithm
                     if (averageFinderDuration == 0)
                         averageFinderDuration = finderDuration;
                     else
                         averageFinderDuration = (averageFinderDuration+finderDuration)/2;
                     // Notify the detection
-                    [self _prerunRecordReception: inputCode];
+                    [self _prepareRecordReception: inputCode];
                 }
                 // Now do a sanity check that it is greater than the previous detected code
                 if (prevInputCode && [prevInputCode length] >= [self.outputCompanion.outputCode length] && [prevInputCode compare:self.outputCompanion.outputCode] >= 0) {
@@ -271,14 +271,14 @@
                     NSLog(@"Bad data: expected %@, got %@", self.outputCompanion.outputCode, inputCode);
 					showWarningAlert([NSString stringWithFormat:@"Received unexpected QR-code %@", inputCode]);
 					[self.outputCompanion triggerNewOutputValue];
-                } else if (self.preRunning) {
-					[self _prerunRecordNoReception];
+                } else if (self.preparing) {
+					[self _prepareRecordNoReception];
 				}
 			}
         } else {
              
-            if (self.preRunning) {
-                [self _prerunRecordNoReception];
+            if (self.preparing) {
+                [self _prepareRecordNoReception];
             }
         }
 		if (self.running) {

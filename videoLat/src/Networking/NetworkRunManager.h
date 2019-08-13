@@ -27,7 +27,7 @@
     uint64_t lastMessageSentTime;       //!< Internal: Last time we sent a message to the master
     uint64_t lastDetectionReceivedTime; //!< Internal: Last time we received a QR-code detection
     NSString *prevInputCode;			//!< Internal: for checking monotonous increase
-    NSString *prerunCode;               //!< Internal: data for prerun qrcode
+    NSString *prepareCode;               //!< Internal: data for prerun qrcode
     int prevInputCodeDetectionCount;    //!< Internal: Number of times we re-detected a code.
     uint64_t averageFinderDuration;		//!< Running average of how much the patternfinder takes
 #ifdef WITH_SET_MIN_CAPTURE_DURATION
@@ -58,6 +58,6 @@
 - (IBAction)stopPreMeasuring: (id)sender;   //!< Internal: stop pre-measuring because we have heard enough
 - (IBAction)startMeasuring: (id)sender;     //!< Called when user presses "start" button
 
-- (NSString *)genPrerunCode;    //!< Returns QR-code containing our IP/port combination
+- (NSString *)genPrepareCode;    //!< Returns QR-code containing our IP/port combination
 
 @end

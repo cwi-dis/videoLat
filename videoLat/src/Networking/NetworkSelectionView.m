@@ -10,7 +10,7 @@
 @implementation NetworkSelectionView
 #ifdef WITH_APPKIT
 @synthesize bBase;
-@synthesize bPreRun;
+@synthesize bPrepare;
 @synthesize bInputDevices;
 #endif
 @synthesize inputSelectionDelegate;
@@ -37,8 +37,8 @@
 }
 
 #ifdef WITH_APPKIT
-- (void)inputDeviceChanged:(id)sender {
-    NSLog(@"networkInputSelectionView inputDeviceChanged called");
+- (void)inputDeviceSelectionChanged:(id)sender {
+    NSLog(@"networkInputSelectionView inputDeviceSelectionChanged called");
 }
 #endif
 @end

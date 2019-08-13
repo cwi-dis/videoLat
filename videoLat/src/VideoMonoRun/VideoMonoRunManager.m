@@ -14,8 +14,8 @@
 
 @implementation VideoMonoRunManager
 
-- (int) initialPrerunCount { return 40; }
-- (int) initialPrerunDelay { return 1000; }
+- (int) initialPrepareCount { return 40; }
+- (int) initialPrepareDelay { return 1000; }
 
 + (void) initialize
 {
@@ -71,7 +71,7 @@
 
 - (void) _newOutputCode
 {
-	if (!self.running && !self.preRunning) {
+	if (!self.running && !self.preparing) {
 		// Idle, show intermediate value
 		self.outputCode = @"uncertain";
 	} else {
@@ -154,8 +154,8 @@
 					self.statusView.detectCount = [NSString stringWithFormat: @"%d", self.collector.count];
 					self.statusView.detectAverage = [NSString stringWithFormat: @"%.3f ms ± %.3f", self.collector.average / 1000.0, self.collector.stddev / 1000.0];
 					[self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
-				} else if (self.preRunning) {
-					[self _prerunRecordReception: inputCode];
+				} else if (self.preparing) {
+					[self _prepareRecordReception: inputCode];
 				}
                 // Now let's remember it so we don't generate "bad code" messages
                 // if we detect it a second time.
@@ -164,14 +164,14 @@
                 if (VL_DEBUG) NSLog(@"Received: %@", self.outputCompanion.outputCode);
                 // Generate new output code later, after we've detected this one a few times.
 			} else {
-				if (self.preRunning) {
-					[self _prerunRecordNoReception];
+				if (self.preparing) {
+					[self _prepareRecordNoReception];
                     prevInputCode = nil;
 				}
 			}	
 		}
 		// While idle, change output value once in a while
-		if (!self.running && !self.preRunning) {
+		if (!self.running && !self.preparing) {
 			[self.outputCompanion triggerNewOutputValue];
 		}
 	}

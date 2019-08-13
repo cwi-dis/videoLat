@@ -21,7 +21,7 @@
 /// How many times do we want to get a message that the prerun code has been detected?
 /// This define is used on the master side, and stops the prerun sequence. It should be high enough that we
 /// have a reasonable measurement of the RTT and the clock difference.
-#define PRERUN_COUNT 32
+#define PREPARE_COUNT 32
 
 ///
 /// How often do we send a message if we have not received a QR-code (in microseconds)?
@@ -263,7 +263,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 - (void)stop
 {
 	self.running = NO;
-	self.preRunning = NO;
+	self.preparing = NO;
 	[self _updateStatus: @"Measurements complete"];
 	statusToPeer = @"Measurements complete";
     MeasurementDataStore *ds = self.collector.dataStore;
@@ -345,12 +345,12 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 - (void) newInputDone: (NSString *)code count: (int)count at: (uint64_t) timestamp
 {
     lastDetectionReceivedTime = timestamp;
-    if (self.preRunning) {
-        if (prerunCode == nil || ![prerunCode isEqualToString:code]) {
-            NSLog(@"Peer sent us code %@ but we expected %@", code, prerunCode);
+    if (self.preparing) {
+        if (prepareCode == nil || ![prepareCode isEqualToString:code]) {
+            NSLog(@"Peer sent us code %@ but we expected %@", code, prepareCode);
             return;
         }
-        if (count < PRERUN_COUNT) {
+        if (count < PREPARE_COUNT) {
             self.statusView.detectCount = [NSString stringWithFormat: @"%d", count];
         } else {
             self.statusView.detectCount = @"";
@@ -714,7 +714,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
         if(code && masterDetectionTimestamp) {
 			uint64_t count = getTimestamp(data, @"count");
             [self newInputDone: code count: (int)count at: masterDetectionTimestamp];
-        } else if (code && self.preRunning) {
+        } else if (code && self.preparing) {
 			uint64_t count = getTimestamp(data, @"count");
             [self newInputDone: code count: (int)count at: 0];
 		} else {
@@ -731,18 +731,18 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 	if (self.protocol) self.protocol.delegate = nil;
 	self.protocol = nil;
 	[self _updateStatus: @"Disconnected"];
-    if (self.preRunning)
+    if (self.preparing)
         [self performSelectorOnMainThread:@selector(stopPreMeasuring:) withObject:self waitUntilDone:NO];
 
 }
 
-- (NSString *)genPrerunCode
+- (NSString *)genPrepareCode
 {
     assert (self.protocol);
-    if (prerunCode == nil) {
-        prerunCode = [NSString stringWithFormat:@"https://videolat.org/landing?ip=%@&port=%d", self.protocol.host, self.protocol.port];
+    if (prepareCode == nil) {
+        prepareCode = [NSString stringWithFormat:@"https://videolat.org/landing?ip=%@&port=%d", self.protocol.host, self.protocol.port];
     }
-    return prerunCode;
+    return prepareCode;
 }
 
 - (IBAction)startPreMeasuring: (id)sender
@@ -752,19 +752,18 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 		statusToPeer = @"Determining RTT";
         assert(handlesInput);
 #ifdef WITH_APPKIT
-        [self.selectionView.bPreRun setEnabled: NO];
+        [self.selectionView.bPrepare setEnabled: NO];
 #endif
         [self.statusView.bRun setEnabled: NO];
         if (self.statusView) {
             [self.statusView.bStop setEnabled: NO];
         }
         // Do actual prerunning
-//        prerunMoreNeeded = PRERUN_COUNT;
         if (!handlesOutput) {
             BOOL ok = [self.outputCompanion companionStartPreMeasuring];
             if (!ok) return;
         }
-        self.preRunning = YES;
+        self.preparing = YES;
         [self.outputCompanion triggerNewOutputValue];
     }
 }
@@ -773,13 +772,13 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 {
     @synchronized(self) {
         assert(handlesInput);
-        self.preRunning = NO;
+        self.preparing = NO;
         if (!handlesOutput)
             [self.outputCompanion companionStopPreMeasuring];
 //        outputLevel = 0.5;
 //        newOutputValueWanted = NO;
 #ifdef WITH_APPKIT
-        [self.selectionView.bPreRun setEnabled: NO];
+        [self.selectionView.bPrepare setEnabled: NO];
 #endif
         [self.statusView.bRun setEnabled: NO];
         //
@@ -846,7 +845,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 		[self _updateStatus: @"Running measurements"];
 		statusToPeer = @"Running measurements";
 #ifdef WITH_APPKIT
-        [self.selectionView.bPreRun setEnabled: NO];
+        [self.selectionView.bPrepare setEnabled: NO];
 #endif
         [self.statusView.bRun setEnabled: NO];
         if (!self.statusView) {

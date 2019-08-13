@@ -19,18 +19,18 @@ static NSMutableDictionary *runManagerSelectionNibs;
 @implementation BaseRunManager
 @synthesize clock;
 @synthesize running;
-@synthesize preRunning;
+@synthesize preparing;
 @synthesize prevOutputCode;
 
-- (int) initialPrerunCount
+- (int) initialPrepareCount
 {
-	[NSException raise:@"BaseRunManager" format:@"Must override initialPrerunCount in subclass %@", [self class]];
+	[NSException raise:@"BaseRunManager" format:@"Must override initialPrepareCount in subclass %@", [self class]];
 	return 1;
 }
 
-- (int) initialPrerunDelay
+- (int) initialPrepareDelay
 {
-	[NSException raise:@"BaseRunManager" format:@"Must override initialPrerunDelay in subclass %@", [self class]];
+	[NSException raise:@"BaseRunManager" format:@"Must override initialPrepareDelay in subclass %@", [self class]];
 	return 1;
 }
 
@@ -202,7 +202,7 @@ static NSMutableDictionary *runManagerSelectionNibs;
 - (IBAction)startPreMeasuring: (id)sender
 {
 	@synchronized(self) {
- 		assert(!self.preRunning);
+ 		assert(!self.preparing);
 		assert(!self.running);
        assert(handlesInput);
 		// First check that everything is OK with base measurement and such
@@ -249,7 +249,7 @@ static NSMutableDictionary *runManagerSelectionNibs;
 				
 		}
 #ifdef WITH_APPKIT
-		[self.selectionView.bPreRun setEnabled: NO];
+		[self.selectionView.bPrepare setEnabled: NO];
 #endif
 		if (self.statusView) {
 			[self.statusView.bRun setEnabled: NO];
@@ -261,9 +261,9 @@ static NSMutableDictionary *runManagerSelectionNibs;
             if (!ok) return;
         }
         // Do actual prerunning
-        maxDelay = self.initialPrerunDelay; // Start with 1ms delay (ridiculously low)
-        prerunMoreNeeded = self.initialPrerunCount;
-        self.preRunning = YES;
+        maxDelay = self.initialPrepareDelay; // Start with 1ms delay (ridiculously low)
+        prepareMoreNeeded = self.initialPrepareCount;
+        self.preparing = YES;
 		VL_LOG_EVENT(@"startPremeasuring", 0LL, @"");
 		[self.capturer startCapturing: YES];
 		[self.outputCompanion triggerNewOutputValue];
@@ -273,9 +273,9 @@ static NSMutableDictionary *runManagerSelectionNibs;
 - (IBAction)stopPreMeasuring: (id)sender
 {
 	@synchronized(self) {
-		assert(self.preRunning);
+		assert(self.preparing);
 		assert(!self.running);
-		self.preRunning = NO;
+		self.preparing = NO;
 		// We now have a ballpark figure for the maximum delay. Use 4 times that as the highest
 		// we are willing to wait for.
 		maxDelay = maxDelay * 4;
@@ -283,7 +283,7 @@ static NSMutableDictionary *runManagerSelectionNibs;
             [self.outputCompanion companionStopPreMeasuring];
 		[self.capturer stopCapturing];
 #ifdef WITH_APPKIT
-		[self.selectionView.bPreRun setEnabled: NO];
+		[self.selectionView.bPrepare setEnabled: NO];
 #endif
 		assert (self.statusView);
 		[self.statusView.bRun setEnabled: YES];
@@ -295,7 +295,7 @@ static NSMutableDictionary *runManagerSelectionNibs;
 - (IBAction)startMeasuring: (id)sender
 {
     @synchronized(self) {
-		assert(!self.preRunning);
+		assert(!self.preparing);
 		assert(!self.running);
         assert(handlesInput);
 		assert(self.measurementType.name);
@@ -309,7 +309,7 @@ static NSMutableDictionary *runManagerSelectionNibs;
 		assert(outputView.deviceID);
 		assert(outputView.deviceName);
 #ifdef WITH_APPKIT
-		[self.selectionView.bPreRun setEnabled: NO];
+		[self.selectionView.bPrepare setEnabled: NO];
 #endif
 		assert(self.statusView);
 		[self.statusView.bRun setEnabled: NO];
@@ -326,14 +326,14 @@ static NSMutableDictionary *runManagerSelectionNibs;
 
 - (BOOL)companionStartPreMeasuring
 {
-    self.preRunning = YES;
+    self.preparing = YES;
     return YES;
 }
 
 - (void)companionStopPreMeasuring
 {
-    assert(self.preRunning);
-    self.preRunning = NO;
+    assert(self.preparing);
+    self.preparing = NO;
 }
 
 - (void)companionStartMeasuring
@@ -371,7 +371,7 @@ static NSMutableDictionary *runManagerSelectionNibs;
 		}
 		if (self.measurementType.requires == nil) {
 			[self.selectionView.bBase setEnabled: NO];
-			[self.selectionView.bPreRun setEnabled: YES];
+			[self.selectionView.bPrepare setEnabled: YES];
 		} else {
 			NSArray *calibrationNames = self.measurementType.requires.measurementNames;
             [self.selectionView.bBase removeAllItems];
@@ -381,9 +381,9 @@ static NSMutableDictionary *runManagerSelectionNibs;
 			[self.selectionView.bBase setEnabled:YES];
 
 			if ([self.selectionView.bBase selectedItem]) {
-				[self.selectionView.bPreRun setEnabled: YES];
+				[self.selectionView.bPrepare setEnabled: YES];
 			} else {
-				[self.selectionView.bPreRun setEnabled: NO];
+				[self.selectionView.bPrepare setEnabled: NO];
                 NSAlert *alert = [[NSAlert alloc] init];
                 [alert setMessageText: @"No calibrations available."];
                 [alert setInformativeText: [NSString stringWithFormat:@"\"%@\" measurements should be based on a \"%@\" calibration. Please calibrate first.",
@@ -395,7 +395,7 @@ static NSMutableDictionary *runManagerSelectionNibs;
 			}
 		}
 #endif
-		self.preRunning = NO;
+		self.preparing = NO;
 		self.running = NO;
 		VL_LOG_EVENT(@"restart", 0LL, self.measurementType.name);
 		if (self.statusView) {
@@ -404,7 +404,7 @@ static NSMutableDictionary *runManagerSelectionNibs;
 		}
         BOOL devicesOK = ([self prepareInputDevice] && [self.outputCompanion prepareOutputDevice]);
 #ifdef WITH_APPKIT
-		[self.selectionView.bPreRun setEnabled: devicesOK];
+		[self.selectionView.bPrepare setEnabled: devicesOK];
 #else
 #pragma unused(devicesOK)
 #endif
@@ -413,7 +413,7 @@ static NSMutableDictionary *runManagerSelectionNibs;
 
 - (void) companionRestart
 {
-	self.preRunning = NO;
+	self.preparing = NO;
 	self.running = NO;
 }
 - (void)stop
@@ -501,7 +501,7 @@ static NSMutableDictionary *runManagerSelectionNibs;
 	[NSException raise:@"BaseRunManager" format:@"Must override newInputDone:buffer:size:channels:at in subclass %@", [self class]];
 }
 
-- (NSString *)genPrerunCode
+- (NSString *)genPrepareCode
 {
     return nil;
 }

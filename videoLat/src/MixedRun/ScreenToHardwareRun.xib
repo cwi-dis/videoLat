@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14460.31"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -188,7 +187,7 @@
                                     <menu key="menu" title="OtherViews" id="260"/>
                                 </popUpButtonCell>
                                 <connections>
-                                    <action selector="inputDeviceChanged:" target="74" id="299"/>
+                                    <action selector="inputDeviceSelectionChanged:" target="74" id="299"/>
                                 </connections>
                             </popUpButton>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="kJx-F6-BX3">
@@ -207,7 +206,7 @@
                                     <menu key="menu" title="OtherViews" id="S5e-Z6-UqA"/>
                                 </popUpButtonCell>
                                 <connections>
-                                    <action selector="inputDeviceChanged:" target="74" id="FOx-8C-L0i"/>
+                                    <action selector="inputDeviceSelectionChanged:" target="74" id="FOx-8C-L0i"/>
                                 </connections>
                             </popUpButton>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="271">
@@ -375,7 +374,7 @@
                         <connections>
                             <outlet property="bBase" destination="258" id="322"/>
                             <outlet property="bDevices" destination="JAy-ML-q9o" id="lBH-lu-cLy"/>
-                            <outlet property="bPreRun" destination="224" id="323"/>
+                            <outlet property="bPrepare" destination="224" id="323"/>
                             <outlet property="inputSelectionDelegate" destination="74" id="Q4M-Ny-A7J"/>
                         </connections>
                     </customView>

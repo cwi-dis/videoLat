@@ -183,7 +183,7 @@
                                     <menu key="menu" title="OtherViews" id="40"/>
                                 </popUpButtonCell>
                                 <connections>
-                                    <action selector="inputDeviceChanged:" target="4" id="115"/>
+                                    <action selector="inputDeviceSelectionChanged:" target="4" id="115"/>
                                 </connections>
                             </popUpButton>
                             <button toolTip="Do initial measurements to check everything works and detect mirroring" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5">
@@ -240,7 +240,7 @@
                         </constraints>
                         <connections>
                             <outlet property="bDevices" destination="11" id="117"/>
-                            <outlet property="bPreRun" destination="5" id="60"/>
+                            <outlet property="bPrepare" destination="5" id="60"/>
                             <outlet property="inputHandler" destination="3" id="59"/>
                             <outlet property="inputSelectionDelegate" destination="1" id="kJZ-jv-PgM"/>
                         </connections>

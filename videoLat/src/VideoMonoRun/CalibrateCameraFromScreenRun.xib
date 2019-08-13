@@ -191,7 +191,7 @@
                                     <menu key="menu" title="OtherViews" id="40"/>
                                 </popUpButtonCell>
                                 <connections>
-                                    <action selector="inputDeviceChanged:" target="4" id="111"/>
+                                    <action selector="inputDeviceSelectionChanged:" target="4" id="111"/>
                                 </connections>
                             </popUpButton>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="35">
@@ -364,7 +364,7 @@
                         <connections>
                             <outlet property="bBase" destination="10" id="56"/>
                             <outlet property="bDevices" destination="11" id="113"/>
-                            <outlet property="bPreRun" destination="5" id="60"/>
+                            <outlet property="bPrepare" destination="5" id="60"/>
                             <outlet property="inputHandler" destination="3" id="59"/>
                             <outlet property="inputSelectionDelegate" destination="1" id="243"/>
                         </connections>

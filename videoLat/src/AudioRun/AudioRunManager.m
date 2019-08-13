@@ -16,8 +16,8 @@
 @synthesize selectionView;
 @dynamic clock;
 
-- (int) initialPrerunCount { return 10; }
-- (int) initialPrerunDelay { return 1000000; }
+- (int) initialPrepareCount { return 10; }
+- (int) initialPrepareDelay { return 1000000; }
 
 + (void) initialize
 {
@@ -46,7 +46,7 @@
 		foundCurrentSample = NO;
 		triggerOutputWhenDone = NO;
 		maxDelay = 0;
-		prerunMoreNeeded = 0;
+		prepareMoreNeeded = 0;
 	}
     return self;
 }
@@ -89,7 +89,7 @@
     assert(!outputActive);
     outputActive = YES;
     foundCurrentSample = NO;
-    if ((self.running || self.preRunning)) {
+    if ((self.running || self.preparing)) {
         outputStartTime = [self.clock now];
         if (VL_DEBUG) NSLog(@"AudioRun.newOutputStart at %lld", outputStartTime);
         if (self.running) {
@@ -107,7 +107,7 @@
     assert(!outputActive);
     outputActive = YES;
     foundCurrentSample = NO;
-    if ((self.running || self.preRunning)) {
+    if ((self.running || self.preparing)) {
         outputStartTime = startTime;
         if (VL_DEBUG) NSLog(@"AudioRun.newOutputStart at %lld clock=%lld", outputStartTime, [self.clock now]);
         if (self.running) {
@@ -144,7 +144,7 @@
 #endif
 
 		// If we're not running or prerunning we're done.
-		if (!self.running && !self.preRunning)
+		if (!self.running && !self.preparing)
 			return;
 
 		// If we have already reported a match there's nothing more to do
@@ -158,16 +158,16 @@
             if (self.running) {
                 [self.collector recordReception: @"audio" at: [self.processor lastMatchTimestamp]];
 				VL_LOG_EVENT(@"reception", [self.processor lastMatchTimestamp], @"audio");
-            } else if (self.preRunning) {
-                [self _prerunRecordReception: self.outputCompanion.outputCode];
+            } else if (self.preparing) {
+                [self _prepareRecordReception: self.outputCompanion.outputCode];
             }
             [self.outputCompanion triggerNewOutputValueAfterDelay];
         } else {
 			// Nothing found. See whether we are still expecting something
 			if ([self.clock now] > outputStartTime + maxDelay) {
 				// No we are not. Admit failure, and do another sample.
-				if (self.preRunning) {
-					[self _prerunRecordNoReception];
+				if (self.preparing) {
+					[self _prepareRecordNoReception];
 				} else {
 					[self.collector recordReception: @"noaudio" at: [self.clock now]];
 					VL_LOG_EVENT(@"noReception", [self.clock now], @"noaudio");
@@ -185,34 +185,34 @@
     }
 }
 
-- (void) _prerunRecordNoReception
+- (void) _prepareRecordNoReception
 {
 	assert(handlesInput);
     if (1||VL_DEBUG) NSLog(@"Prerun no reception\n");
-    assert(self.preRunning);
+    assert(self.preparing);
 	// No data found within alotted time. Double the time, reset the count, change mirroring
 	if (1 || VL_DEBUG) NSLog(@"outputStartTime=%llu, maxDelay=%llu\n", outputStartTime, maxDelay);
 	maxDelay = maxDelay + (maxDelay / 4);
-	prerunMoreNeeded = self.initialPrerunCount;
-	self.statusView.detectCount = [NSString stringWithFormat: @"%d more", prerunMoreNeeded];
+	prepareMoreNeeded = self.initialPrepareCount;
+	self.statusView.detectCount = [NSString stringWithFormat: @"%d more", prepareMoreNeeded];
 	self.statusView.detectAverage = @"";
 	[self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
 }
 
-- (void) _prerunRecordReception: (NSString *)code
+- (void) _prepareRecordReception: (NSString *)code
 {
     if (VL_DEBUG) NSLog(@"prerun reception %@\n", code);
-    assert(self.preRunning);
-    if (self.preRunning) {
+    assert(self.preparing);
+    if (self.preparing) {
 	
-        prerunMoreNeeded -= 1; // And we need one less
+        prepareMoreNeeded -= 1; // And we need one less
 		
-        self.statusView.detectCount = [NSString stringWithFormat: @"%d more", prerunMoreNeeded];
+        self.statusView.detectCount = [NSString stringWithFormat: @"%d more", prepareMoreNeeded];
 		self.statusView.detectAverage = @"";
         [self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
-        if (VL_DEBUG) NSLog(@"preRunMoreMeeded=%d\n", prerunMoreNeeded);
+        if (VL_DEBUG) NSLog(@"preRunMoreMeeded=%d\n", prepareMoreNeeded);
 		
-        if (prerunMoreNeeded == 0) {
+        if (prepareMoreNeeded == 0) {
             self.statusView.detectCount = @"";
 			self.statusView.detectAverage = @"";
             [self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];

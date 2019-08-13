@@ -14,14 +14,14 @@
 #ifdef WITH_APPKIT
 @synthesize bInputDevices;
 @synthesize bBase;
-@synthesize bPreRun;
+@synthesize bPrepare;
 #endif
 
 - (void)awakeFromNib
 {
     [super awakeFromNib];
     assert(self.bInputDevices);
-    assert(self.bPreRun);
+    assert(self.bPrepare);
     assert(self.inputSelectionDelegate);
     NSArray *names = ((AppDelegate *)[[NSApplication sharedApplication] delegate]).hardwareNames;
     
@@ -36,7 +36,7 @@
 }
 
 #ifdef WITH_APPKIT
-- (IBAction)inputDeviceChanged: (id) sender
+- (IBAction)inputDeviceSelectionChanged: (id) sender
 {
 	NSMenuItem *item = [sender selectedItem];
 	NSString *device = [item title];

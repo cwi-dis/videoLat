@@ -177,10 +177,10 @@
 #ifdef WITH_APPKIT
 @property(weak)IBOutlet NSPopUpButton *bBase;		//!< UI element: popup showing possible base measurements
 @property(weak) IBOutlet NSPopUpButton *bInputDevices;   //!< UI element: all available hardware
-@property(weak) IBOutlet NSButton *bPreRun;         //!< UI element: start preparing a measurement run
+@property(weak) IBOutlet NSButton *bPrepare;         //!< UI element: start preparing a measurement run
 
-/// Called when the user makes a new selection in bDevices
-- (IBAction)inputDeviceChanged: (id) sender;
+/// Called when the user makes a new selection in bInputDevices or bBase
+- (IBAction)inputDeviceSelectionChanged: (id) sender;
 #endif
 
 #ifdef WITH_UIKIT
@@ -341,8 +341,8 @@
 @property(weak) IBOutlet NSObject<RunOutputManagerProtocol> *outputCompanion; //!< Our companion object that handles output
 @property(weak) NSObject<ClockProtocol> *clock; //!< Input manager clock
 @property(readonly) NSObject<MeasurementTypeProtocol> *measurementType;	//!< The type of measurement we are doing
-@property(readonly) int initialPrerunCount;	//!< How many detections are needed during prerun
-@property(readonly) int initialPrerunDelay;	//!< The current (or final) delay between prerun generations.
+@property(readonly) int initialPrepareCount;	//!< How many detections are needed during prerun
+@property(readonly) int initialPrepareDelay;	//!< The current (or final) delay between prerun generations.
 
 /// Called to prepare the input device, if needed, when restarting.
 /// @return NO if not successful
@@ -353,7 +353,7 @@
 /// Implemented by the NetworkRunManager to communicate the ip/port of the listener to the remote
 /// end.
 /// @return the prerun code to use.
-- (NSString *)genPrerunCode;
+- (NSString *)genPrepareCode;
 
 /// Signals that a measurement run should be restarted (for example because the input device has changed).
 - (void)restart;

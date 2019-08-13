@@ -40,8 +40,6 @@
 - (void)stop;
 
 - (void)triggerNewOutputValue;
-//- (void) _prerunRecordNoReception;
-//- (void) _prerunRecordReception: (NSString *)code;
 
 // MeasurementOutputManagerProtocol
 - (CIImage *)newOutputStart;

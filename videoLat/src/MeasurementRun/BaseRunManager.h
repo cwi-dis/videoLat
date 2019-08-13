@@ -39,7 +39,7 @@
     BOOL handlesOutput;		//!< true if we are responsible for output processing
     BOOL slaveHandler;      //!< true if this is a slave, i.e. it has no collector.
     uint64_t maxDelay;   //!< Internal: How log to wait for prerun code finding
-    int prerunMoreNeeded;   //!< Internal: How many more prerun correct catches we need
+    int prepareMoreNeeded;   //!< Internal: How many more prerun correct catches we need
 	NSString *baseName;		//<! Name of our base (calibration) measurement
 }
 
@@ -136,10 +136,10 @@
 /// Implemented by the NetworkRunManager to communicate the ip/port of the listener to the remote
 /// end.
 /// @return the prerun code to use.
-- (NSString *)genPrerunCode;
+- (NSString *)genPrepareCode;
 
 @property bool running;		//!< True after user has pressed "run" button, false again after pressing "stop".
-@property bool preRunning;	//!< True after user has pressed "prepare" button, false again after pressing "run".
+@property bool preparing;	//!< True after user has pressed "prepare" button, false again after pressing "run".
 
 @property(weak) IBOutlet RunCollector *collector;			//!< Initialized in the NIB, RunCollector for this measurement run.
 @property(weak) IBOutlet RunStatusView *statusView;			//!< Initialized in the NIB, RunStatusView for this measurement run.
