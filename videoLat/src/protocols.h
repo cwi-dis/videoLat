@@ -175,9 +175,8 @@
 @property(readonly) NSString *deviceName;            //!< Returns name of currently selected input device
 
 #ifdef WITH_APPKIT
-@property(weak)IBOutlet NSPopUpButton *bBase;		//!< UI element: popup showing possible base measurements
+@property(weak) IBOutlet NSPopUpButton *bBase;		//!< UI element: popup showing possible base measurements
 @property(weak) IBOutlet NSPopUpButton *bInputDevices;   //!< UI element: all available hardware
-@property(weak) IBOutlet NSButton *bPrepare;         //!< UI element: start preparing a measurement run
 
 /// Called when the user makes a new selection in bInputDevices or bBase
 - (IBAction)inputDeviceSelectionChanged: (id) sender;

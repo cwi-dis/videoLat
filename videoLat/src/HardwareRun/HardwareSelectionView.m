@@ -14,14 +14,12 @@
 #ifdef WITH_APPKIT
 @synthesize bInputDevices;
 @synthesize bBase;
-@synthesize bPrepare;
 #endif
 
 - (void)awakeFromNib
 {
     [super awakeFromNib];
     assert(self.bInputDevices);
-    assert(self.bPrepare);
     assert(self.inputSelectionDelegate);
     NSArray *names = ((AppDelegate *)[[NSApplication sharedApplication] delegate]).hardwareNames;
     

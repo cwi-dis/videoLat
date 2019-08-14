@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
+        <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14460.31"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -49,7 +50,7 @@
                         <rect key="frame" x="20" y="20" width="261" height="166"/>
                         <subviews>
                             <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="376">
-                                <rect key="frame" x="18" y="104" width="56" height="17"/>
+                                <rect key="frame" x="18" y="104" width="45" height="17"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Count:" id="395">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -76,7 +77,7 @@
                                 </textFieldCell>
                             </textField>
                             <button toolTip="Stop measuring and present results" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="372">
-                                <rect key="frame" x="178" y="43" width="69" height="32"/>
+                                <rect key="frame" x="168" y="43" width="79" height="32"/>
                                 <buttonCell key="cell" type="push" title="Stop" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="401">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -86,7 +87,7 @@
                                 </connections>
                             </button>
                             <button toolTip="Start doing a measurement run" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="223">
-                                <rect key="frame" x="14" y="43" width="64" height="32"/>
+                                <rect key="frame" x="91" y="43" width="79" height="32"/>
                                 <buttonCell key="cell" type="push" title="Run" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="227">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -114,28 +115,45 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
+                            <button toolTip="Do initial measurements to check everything works and detect mirroring" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="b72-wM-1Bb">
+                                <rect key="frame" x="14" y="43" width="79" height="32"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="67" id="0Uw-BX-8cV"/>
+                                </constraints>
+                                <buttonCell key="cell" type="push" title="Prepare" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="lCe-mJ-hVL">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="startPreMeasuring:" target="74" id="y6P-Ms-pw4"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <constraints>
+                            <constraint firstItem="223" firstAttribute="centerX" secondItem="368" secondAttribute="centerX" id="7HC-us-R4S"/>
                             <constraint firstItem="374" firstAttribute="baseline" secondItem="375" secondAttribute="baseline" id="7NK-7l-fDX"/>
                             <constraint firstItem="374" firstAttribute="top" secondItem="376" secondAttribute="bottom" constant="8" symbolic="YES" id="AYa-c4-q1b"/>
-                            <constraint firstItem="376" firstAttribute="trailing" secondItem="223" secondAttribute="trailing" id="B2a-4v-f4d"/>
                             <constraint firstItem="373" firstAttribute="leading" secondItem="375" secondAttribute="leading" id="Deh-u4-XrU"/>
                             <constraint firstItem="377" firstAttribute="leading" secondItem="376" secondAttribute="leading" id="Fby-2n-9Bu"/>
                             <constraint firstItem="223" firstAttribute="top" secondItem="374" secondAttribute="bottom" constant="8" symbolic="YES" id="Ht0-gZ-a2q"/>
                             <constraint firstItem="223" firstAttribute="baseline" secondItem="372" secondAttribute="baseline" id="M7s-cs-fng"/>
+                            <constraint firstAttribute="bottom" secondItem="b72-wM-1Bb" secondAttribute="bottom" constant="50" id="QcB-h1-zyU"/>
                             <constraint firstItem="373" firstAttribute="trailing" secondItem="375" secondAttribute="trailing" id="S0J-KA-1Vh"/>
                             <constraint firstItem="377" firstAttribute="top" secondItem="368" secondAttribute="top" constant="20" symbolic="YES" id="Vqw-oT-I1F"/>
                             <constraint firstAttribute="trailing" secondItem="373" secondAttribute="trailing" constant="20" symbolic="YES" id="dT2-1I-omp"/>
+                            <constraint firstItem="372" firstAttribute="width" secondItem="b72-wM-1Bb" secondAttribute="width" id="j6d-HK-x9v"/>
                             <constraint firstItem="375" firstAttribute="trailing" secondItem="372" secondAttribute="trailing" id="khu-1x-rD8"/>
                             <constraint firstItem="376" firstAttribute="leading" secondItem="374" secondAttribute="leading" id="l8R-1X-fnl"/>
                             <constraint firstItem="376" firstAttribute="top" secondItem="377" secondAttribute="bottom" constant="8" symbolic="YES" id="mjA-9r-jND"/>
+                            <constraint firstItem="223" firstAttribute="width" secondItem="b72-wM-1Bb" secondAttribute="width" id="ouS-Hv-bdA"/>
+                            <constraint firstItem="b72-wM-1Bb" firstAttribute="leading" secondItem="368" secondAttribute="leading" constant="20" id="s4E-H6-aHX"/>
                             <constraint firstItem="377" firstAttribute="leading" secondItem="368" secondAttribute="leading" constant="20" symbolic="YES" id="xCR-nA-Cx8"/>
-                            <constraint firstItem="374" firstAttribute="leading" secondItem="223" secondAttribute="leading" id="xKf-vi-8xJ"/>
                             <constraint firstItem="376" firstAttribute="baseline" secondItem="373" secondAttribute="baseline" id="xmv-ue-XgR"/>
                         </constraints>
                         <connections>
                             <outlet property="bAverage" destination="375" id="403"/>
                             <outlet property="bCount" destination="373" id="404"/>
+                            <outlet property="bPrepare" destination="b72-wM-1Bb" id="oKS-t1-E9D"/>
                             <outlet property="bRun" destination="223" id="464"/>
                             <outlet property="bStop" destination="372" id="405"/>
                         </connections>
@@ -158,19 +176,6 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <button toolTip="Do initial measurements to check everything works and detect mirroring" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="224">
-                                <rect key="frame" x="172" y="182" width="79" height="32"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="67" id="226"/>
-                                </constraints>
-                                <buttonCell key="cell" type="push" title="Prepare" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="225">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="startPreMeasuring:" target="74" id="328"/>
-                                </connections>
-                            </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="257">
                                 <rect key="frame" x="18" y="277" width="38" height="17"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" enabled="NO" sendsActionOnEndEditing="YES" title="Base:" id="261">
@@ -198,7 +203,7 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <popUpButton toolTip="Select hardware self-measurement for this setup" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="JAy-ML-q9o" userLabel="Device">
+                            <popUpButton toolTip="Select hardware self-measurement for this setup" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="JAy-ML-q9o" userLabel="bDevice">
                                 <rect key="frame" x="80" y="239" width="168" height="26"/>
                                 <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" enabled="NO" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="xBh-KK-wNH">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
@@ -351,31 +356,27 @@
                             <constraint firstItem="222" firstAttribute="leading" secondItem="203" secondAttribute="leading" constant="20" symbolic="YES" id="7p5-bf-mS8"/>
                             <constraint firstItem="271" firstAttribute="leading" secondItem="257" secondAttribute="leading" id="8j5-17-3kZ"/>
                             <constraint firstAttribute="trailing" secondItem="222" secondAttribute="trailing" constant="20" symbolic="YES" id="GE3-jm-6dF"/>
-                            <constraint firstItem="205" firstAttribute="top" secondItem="224" secondAttribute="bottom" constant="20" symbolic="YES" id="KGQ-7s-hxk"/>
                             <constraint firstItem="k6h-8Z-ghY" firstAttribute="leading" secondItem="rVE-oI-sta" secondAttribute="trailing" constant="19" id="KKs-ZY-Dd1"/>
                             <constraint firstItem="222" firstAttribute="top" secondItem="203" secondAttribute="top" constant="20" symbolic="YES" id="L45-3d-oo1"/>
                             <constraint firstItem="271" firstAttribute="baseline" secondItem="272" secondAttribute="baseline" id="MOo-UD-ALo"/>
                             <constraint firstItem="258" firstAttribute="trailing" secondItem="JAy-ML-q9o" secondAttribute="trailing" id="OOy-zE-hTZ"/>
                             <constraint firstItem="271" firstAttribute="top" secondItem="222" secondAttribute="bottom" constant="8" symbolic="YES" id="Ra0-WE-srb"/>
-                            <constraint firstItem="JAy-ML-q9o" firstAttribute="trailing" secondItem="224" secondAttribute="trailing" id="TXj-Xt-CVc"/>
                             <constraint firstItem="257" firstAttribute="baseline" secondItem="258" secondAttribute="baseline" id="WEN-wY-pZY"/>
                             <constraint firstItem="222" firstAttribute="trailing" secondItem="258" secondAttribute="trailing" id="Y3b-tD-8RR"/>
                             <constraint firstItem="rVE-oI-sta" firstAttribute="leading" secondItem="203" secondAttribute="leading" constant="20" id="Zpv-sF-RFD"/>
                             <constraint firstItem="kJx-F6-BX3" firstAttribute="top" secondItem="257" secondAttribute="bottom" constant="12" id="bL0-3R-e7Y"/>
-                            <constraint firstItem="224" firstAttribute="top" secondItem="k6h-8Z-ghY" secondAttribute="bottom" constant="8" id="cV1-BE-ll8"/>
                             <constraint firstAttribute="bottom" secondItem="205" secondAttribute="bottom" constant="-30" id="gAI-rv-Blg"/>
                             <constraint firstItem="272" firstAttribute="centerX" secondItem="205" secondAttribute="centerX" id="jgi-56-nbx"/>
                             <constraint firstItem="257" firstAttribute="top" secondItem="271" secondAttribute="bottom" constant="8" symbolic="YES" id="kCU-DG-anC"/>
                             <constraint firstItem="272" firstAttribute="leading" secondItem="258" secondAttribute="leading" id="rVt-ZP-AtX"/>
                             <constraint firstItem="JAy-ML-q9o" firstAttribute="top" secondItem="258" secondAttribute="bottom" constant="10" symbolic="YES" id="t0e-Mh-gz6"/>
                             <constraint firstItem="257" firstAttribute="leading" secondItem="kJx-F6-BX3" secondAttribute="leading" id="xRZ-ku-kes"/>
+                            <constraint firstItem="205" firstAttribute="top" secondItem="k6h-8Z-ghY" secondAttribute="bottom" constant="49" id="xVC-Sp-275"/>
                             <constraint firstItem="k6h-8Z-ghY" firstAttribute="top" secondItem="JAy-ML-q9o" secondAttribute="bottom" constant="7" id="ztL-vt-WwN"/>
                         </constraints>
                         <connections>
                             <outlet property="bBase" destination="258" id="322"/>
-                            <outlet property="bDevices" destination="JAy-ML-q9o" id="lBH-lu-cLy"/>
-                            <outlet property="bPrepare" destination="224" id="323"/>
-                            <outlet property="inputSelectionDelegate" destination="74" id="Q4M-Ny-A7J"/>
+                            <outlet property="bInputDevices" destination="JAy-ML-q9o" id="TP6-H4-2xG"/>
                         </connections>
                     </customView>
                 </subviews>

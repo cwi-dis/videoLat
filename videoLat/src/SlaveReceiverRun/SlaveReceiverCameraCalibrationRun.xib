@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
+        <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14460.31"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -114,7 +115,7 @@
                             <constraint firstItem="6Of-Km-OsJ" firstAttribute="centerX" secondItem="4" secondAttribute="centerX" id="z25-Wm-2kK"/>
                         </constraints>
                         <connections>
-                            <outlet property="bDevices" destination="11" id="384"/>
+                            <outlet property="bInputDevices" destination="11" id="384"/>
                             <outlet property="inputHandler" destination="3" id="59"/>
                             <outlet property="inputSelectionDelegate" destination="74" id="tTc-zv-nRM"/>
                         </connections>
@@ -171,6 +172,30 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
+                            <button toolTip="Start doing a measurement run" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="HuN-y3-0qy">
+                                <rect key="frame" x="95" y="13" width="79" height="32"/>
+                                <buttonCell key="cell" type="push" title="Run" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="8Jg-Jy-IY2">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                            </button>
+                            <button toolTip="Do initial measurements to check everything works and detect mirroring" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ema-Q3-Fmo">
+                                <rect key="frame" x="14" y="13" width="79" height="32"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="67" id="wt6-Ln-yJq"/>
+                                </constraints>
+                                <buttonCell key="cell" type="push" title="Prepare" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="yif-4H-0aD">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                            </button>
+                            <button toolTip="Stop measuring and present results" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="8jn-wc-Nie">
+                                <rect key="frame" x="175" y="13" width="79" height="32"/>
+                                <buttonCell key="cell" type="push" title="Stop" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="WMY-B0-aHR">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                            </button>
                         </subviews>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="451" secondAttribute="trailing" constant="20" symbolic="YES" id="452"/>
@@ -185,10 +210,22 @@
                             <constraint firstAttribute="trailing" secondItem="447" secondAttribute="trailing" constant="20" symbolic="YES" id="461"/>
                             <constraint firstItem="449" firstAttribute="baseline" secondItem="448" secondAttribute="baseline" id="462"/>
                             <constraint firstAttribute="trailing" secondItem="449" secondAttribute="trailing" constant="20" symbolic="YES" id="463"/>
+                            <constraint firstAttribute="bottom" secondItem="HuN-y3-0qy" secondAttribute="bottom" constant="20" id="3xl-Jq-wzV"/>
+                            <constraint firstAttribute="bottom" secondItem="ema-Q3-Fmo" secondAttribute="bottom" constant="20" id="4gc-JH-BYO"/>
+                            <constraint firstAttribute="trailing" secondItem="8jn-wc-Nie" secondAttribute="trailing" constant="20" id="C89-9k-y7j"/>
+                            <constraint firstItem="HuN-y3-0qy" firstAttribute="centerX" secondItem="442" secondAttribute="centerX" id="Crt-m1-Bku"/>
+                            <constraint firstItem="8jn-wc-Nie" firstAttribute="width" secondItem="ema-Q3-Fmo" secondAttribute="width" id="M64-qU-0XU"/>
+                            <constraint firstAttribute="bottom" secondItem="8jn-wc-Nie" secondAttribute="bottom" constant="20" id="UWC-PC-L3X"/>
+                            <constraint firstItem="HuN-y3-0qy" firstAttribute="baseline" secondItem="8jn-wc-Nie" secondAttribute="baseline" id="a9P-mM-2H9"/>
+                            <constraint firstItem="HuN-y3-0qy" firstAttribute="width" secondItem="ema-Q3-Fmo" secondAttribute="width" id="ccH-rt-MLA"/>
+                            <constraint firstItem="ema-Q3-Fmo" firstAttribute="leading" secondItem="442" secondAttribute="leading" constant="20" id="o6X-4L-IBE"/>
                         </constraints>
                         <connections>
                             <outlet property="bAverage" destination="449" id="478"/>
                             <outlet property="bCount" destination="447" id="479"/>
+                            <outlet property="bPrepare" destination="ema-Q3-Fmo" id="U32-N0-Js6"/>
+                            <outlet property="bRun" destination="HuN-y3-0qy" id="1z3-rO-4uL"/>
+                            <outlet property="bStop" destination="8jn-wc-Nie" id="fI8-kN-LS3"/>
                         </connections>
                     </customView>
                     <view translatesAutoresizingMaskIntoConstraints="NO" id="77" customClass="NetworkOutputView">

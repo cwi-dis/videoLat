@@ -30,6 +30,16 @@
     return self;
 }
 
+- (void)awakeFromNib
+{
+    [super awakeFromNib];
+#ifdef WITH_APPKIT
+    assert(self.bPrepare);
+#endif
+    assert(self.bRun);
+    assert(self.bStop);
+}
+
 - (void) dealloc
 {
 }

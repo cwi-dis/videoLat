@@ -183,7 +183,8 @@
     
     self.outputView.device = self.device;
     self.bDriverStatus.stringValue = (connected ? @"Connected" : @"Disconnected");
-    [self.selectionView.bPrepare setEnabled: connected];
+    assert(self.statusView);
+    [self.statusView.bPrepare setEnabled: connected];
     [self.statusView.bRun setEnabled: NO];
     self.preparing = NO;
     self.running = NO;

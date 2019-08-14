@@ -10,7 +10,6 @@
 @implementation NetworkSelectionView
 #ifdef WITH_APPKIT
 @synthesize bBase;
-@synthesize bPrepare;
 @synthesize bInputDevices;
 #endif
 @synthesize inputSelectionDelegate;

@@ -14,7 +14,6 @@
 #ifdef WITH_APPKIT
 @synthesize bBase;
 @synthesize bInputDevices;
-@synthesize bPrepare;
 #endif
 
 - (void)awakeFromNib
@@ -41,11 +40,9 @@
 #endif
 }
 
-
 - (void)dealloc
 {
 }
-
 
 - (void)_updateDeviceNames: (NSNotification*) notification
 {
@@ -130,6 +127,5 @@
     return [item title];
 }
 #endif
-
 
 @end

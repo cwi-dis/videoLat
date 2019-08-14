@@ -248,10 +248,10 @@ static NSMutableDictionary *runManagerSelectionNibs;
 			[self.collector.dataStore useCalibration:baseStore];
 				
 		}
-#ifdef WITH_APPKIT
-		[self.selectionView.bPrepare setEnabled: NO];
-#endif
 		if (self.statusView) {
+#ifdef WITH_APPKIT
+            [self.statusView.bPrepare setEnabled: NO];
+#endif
 			[self.statusView.bRun setEnabled: NO];
 			[self.statusView.bStop setEnabled: NO];
 		}
@@ -282,10 +282,10 @@ static NSMutableDictionary *runManagerSelectionNibs;
         if (!handlesOutput)
             [self.outputCompanion companionStopPreMeasuring];
 		[self.capturer stopCapturing];
-#ifdef WITH_APPKIT
-		[self.selectionView.bPrepare setEnabled: NO];
-#endif
 		assert (self.statusView);
+#ifdef WITH_APPKIT
+        [self.statusView.bPrepare setEnabled: NO];
+#endif
 		[self.statusView.bRun setEnabled: YES];
 		[self.statusView.bStop setEnabled: NO];
 		VL_LOG_EVENT(@"stopPremeasuring", 0LL, @"");
@@ -308,10 +308,10 @@ static NSMutableDictionary *runManagerSelectionNibs;
 			outputView = self.outputCompanion.outputView;
 		assert(outputView.deviceID);
 		assert(outputView.deviceName);
-#ifdef WITH_APPKIT
-		[self.selectionView.bPrepare setEnabled: NO];
-#endif
 		assert(self.statusView);
+#ifdef WITH_APPKIT
+        [self.statusView.bPrepare setEnabled: NO];
+#endif
 		[self.statusView.bRun setEnabled: NO];
 		[self.statusView.bStop setEnabled: YES];
         self.running = YES;
@@ -371,7 +371,7 @@ static NSMutableDictionary *runManagerSelectionNibs;
 		}
 		if (self.measurementType.requires == nil) {
 			[self.selectionView.bBase setEnabled: NO];
-			[self.selectionView.bPrepare setEnabled: YES];
+			[self.statusView.bPrepare setEnabled: YES];
 		} else {
 			NSArray *calibrationNames = self.measurementType.requires.measurementNames;
             [self.selectionView.bBase removeAllItems];
@@ -381,9 +381,9 @@ static NSMutableDictionary *runManagerSelectionNibs;
 			[self.selectionView.bBase setEnabled:YES];
 
 			if ([self.selectionView.bBase selectedItem]) {
-				[self.selectionView.bPrepare setEnabled: YES];
+				[self.statusView.bPrepare setEnabled: YES];
 			} else {
-				[self.selectionView.bPrepare setEnabled: NO];
+				[self.statusView.bPrepare setEnabled: NO];
                 NSAlert *alert = [[NSAlert alloc] init];
                 [alert setMessageText: @"No calibrations available."];
                 [alert setInformativeText: [NSString stringWithFormat:@"\"%@\" measurements should be based on a \"%@\" calibration. Please calibrate first.",
@@ -398,16 +398,15 @@ static NSMutableDictionary *runManagerSelectionNibs;
 		self.preparing = NO;
 		self.running = NO;
 		VL_LOG_EVENT(@"restart", 0LL, self.measurementType.name);
-		if (self.statusView) {
-			[self.statusView.bRun setEnabled: NO];
-			[self.statusView.bStop setEnabled: NO];
-		}
+        assert (self.statusView);
         BOOL devicesOK = ([self prepareInputDevice] && [self.outputCompanion prepareOutputDevice]);
 #ifdef WITH_APPKIT
-		[self.selectionView.bPrepare setEnabled: devicesOK];
+        [self.statusView.bPrepare setEnabled: devicesOK];
 #else
 #pragma unused(devicesOK)
 #endif
+        [self.statusView.bRun setEnabled: NO];
+        [self.statusView.bStop setEnabled: NO];
 	}
 }
 

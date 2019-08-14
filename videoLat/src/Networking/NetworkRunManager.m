@@ -751,13 +751,13 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 		[self _updateStatus: @"Determining RTT"];
 		statusToPeer = @"Determining RTT";
         assert(handlesInput);
+        assert(self.statusView);
 #ifdef WITH_APPKIT
-        [self.selectionView.bPrepare setEnabled: NO];
+        [self.statusView.bPrepare setEnabled: NO];
 #endif
         [self.statusView.bRun setEnabled: NO];
-        if (self.statusView) {
-            [self.statusView.bStop setEnabled: NO];
-        }
+        [self.statusView.bStop setEnabled: NO];
+
         // Do actual prerunning
         if (!handlesOutput) {
             BOOL ok = [self.outputCompanion companionStartPreMeasuring];
@@ -777,8 +777,9 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
             [self.outputCompanion companionStopPreMeasuring];
 //        outputLevel = 0.5;
 //        newOutputValueWanted = NO;
+        assert(self.statusView);
 #ifdef WITH_APPKIT
-        [self.selectionView.bPrepare setEnabled: NO];
+        [self.statusView.bPrepare setEnabled: NO];
 #endif
         [self.statusView.bRun setEnabled: NO];
         //
@@ -830,10 +831,11 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 		[self _updateStatus: @"Ready to run"];
 		statusToPeer = @"Ready to run";
 
-        [self.statusView.bRun setEnabled: YES];
         if (!self.statusView) {
             // XXXJACK Make sure statusview is active/visible
         }
+        assert(self.statusView);
+        [self.statusView.bRun setEnabled: YES];
         [self.statusView.bStop setEnabled: NO];
         [self.outputCompanion triggerNewOutputValue];
     }
@@ -844,13 +846,14 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
     @synchronized(self) {
 		[self _updateStatus: @"Running measurements"];
 		statusToPeer = @"Running measurements";
-#ifdef WITH_APPKIT
-        [self.selectionView.bPrepare setEnabled: NO];
-#endif
-        [self.statusView.bRun setEnabled: NO];
         if (!self.statusView) {
             // XXXJACK Make sure statusview is active/visible
         }
+        assert(self.statusView);
+#ifdef WITH_APPKIT
+        [self.statusView.bPrepare setEnabled: NO];
+#endif
+        [self.statusView.bRun setEnabled: NO];
         [self.statusView.bStop setEnabled: YES];
         self.running = YES;
         if (!handlesOutput)

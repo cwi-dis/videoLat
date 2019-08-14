@@ -13,7 +13,6 @@
 #ifdef WITH_APPKIT
 @synthesize bInputDevices;
 @synthesize bBase;
-@synthesize bPrepare;
 #endif
 
 - (void)awakeFromNib
