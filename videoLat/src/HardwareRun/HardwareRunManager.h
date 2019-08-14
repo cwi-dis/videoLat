@@ -53,7 +53,9 @@
 -(void)stop;
 
 - (void)_switchToDevice: (NSString *)selectedDevice;
+#ifdef xxxjacknotneeded
 - (IBAction)inputDeviceSelectionChanged: (id)sender;
+#endif
 
 - (IBAction)periodChanged: (id) sender;	//!< Action message for samplePeriodMs UI elements
 - (void)_updatePeriod;	//!< Internal: update UI to show samplePeriodMs.

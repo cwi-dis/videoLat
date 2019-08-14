@@ -198,6 +198,7 @@
     }
 }
 
+#ifdef xxxjacknotneeded
 - (IBAction)inputDeviceSelectionChanged: (id) sender
 {
 	assert(self.selectionView);
@@ -235,6 +236,7 @@
         assert(0);
     }
 }
+#endif
 - (IBAction)periodChanged: (id) sender
 {
 	self.samplePeriodMs = [sender intValue];
