@@ -70,6 +70,7 @@
 		04B1915119D2ECBC001ABA66 /* Doxyfile in Resources */ = {isa = PBXBuildFile; fileRef = 04B1915019D2ECBC001ABA66 /* Doxyfile */; };
 		04B6A69E19ED63C300E1E3B6 /* ScreenToHardwareRun.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04B6A69D19ED63C300E1E3B6 /* ScreenToHardwareRun.xib */; };
 		04BFC60B1AD3E0A20061972D /* CommonAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 042ABE311AD1E21A00FB877A /* CommonAppDelegate.m */; };
+		04C4F4872305A0FC008A1709 /* HardwareInput.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C4F4852305A0FC008A1709 /* HardwareInput.m */; };
 		04CC193822AD6AC60047D818 /* FindQRcode.m in Sources */ = {isa = PBXBuildFile; fileRef = 04502F551AF7B8190023462A /* FindQRcode.m */; };
 		04D411121A02CABC009AFEED /* CalibrateScreenFromCameraRun.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04D411101A02CABC009AFEED /* CalibrateScreenFromCameraRun.xib */; };
 		04D411131A02CABC009AFEED /* CalibrateCameraFromScreenRun.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04D411111A02CABC009AFEED /* CalibrateCameraFromScreenRun.xib */; };
@@ -216,6 +217,8 @@
 		04B58F18183A3CF000360A61 /* protocols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = protocols.h; sourceTree = "<group>"; };
 		04B6A69D19ED63C300E1E3B6 /* ScreenToHardwareRun.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ScreenToHardwareRun.xib; path = MixedRun/ScreenToHardwareRun.xib; sourceTree = "<group>"; };
 		04BFC60A1AD3E0270061972D /* compat.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = compat.h; sourceTree = "<group>"; };
+		04C4F4852305A0FC008A1709 /* HardwareInput.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HardwareInput.m; path = HardwareRun/HardwareInput.m; sourceTree = "<group>"; };
+		04C4F4862305A0FC008A1709 /* HardwareInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HardwareInput.h; path = HardwareRun/HardwareInput.h; sourceTree = "<group>"; };
 		04D411101A02CABC009AFEED /* CalibrateScreenFromCameraRun.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CalibrateScreenFromCameraRun.xib; path = VideoMonoRun/CalibrateScreenFromCameraRun.xib; sourceTree = "<group>"; };
 		04D411111A02CABC009AFEED /* CalibrateCameraFromScreenRun.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CalibrateCameraFromScreenRun.xib; path = VideoMonoRun/CalibrateCameraFromScreenRun.xib; sourceTree = "<group>"; };
 		04DC70C7185B57EB005110A5 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = ../../../../System/Library/Frameworks/CoreLocation.framework; sourceTree = "<group>"; };
@@ -553,6 +556,8 @@
 			isa = PBXGroup;
 			children = (
 				048FB6F419FD21040023D29C /* HardwareDevices */,
+				04C4F4862305A0FC008A1709 /* HardwareInput.h */,
+				04C4F4852305A0FC008A1709 /* HardwareInput.m */,
 				049725E218FD568A00625326 /* HardwareOutputView.h */,
 				049725E318FD568A00625326 /* HardwareOutputView.m */,
 				049725E418FD568A00625326 /* HardwareRunManager.h */,
@@ -784,6 +789,7 @@
 				049725E018FD563E00625326 /* RunStatusView.m in Sources */,
 				04EEC1D019DC4D9E0056899C /* NetworkOutputView.m in Sources */,
 				04F9AA9B1AACF95D00AE5413 /* DownloadCalibrationViewController.m in Sources */,
+				04C4F4872305A0FC008A1709 /* HardwareInput.m in Sources */,
 				049725E818FD568A00625326 /* HardwareRunManager.m in Sources */,
 				049725DD18FD563E00625326 /* BaseRunManager.m in Sources */,
 				041714DD19DDEF340019FA45 /* NetworkProtocol.m in Sources */,
