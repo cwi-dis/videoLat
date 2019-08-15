@@ -360,9 +360,6 @@
 /// RunManager is about to disappear, clean up.
 - (void)terminate;
 
-/// Stop pre-measuring because we have enough prerun samples.
-- (IBAction)stopPreMeasuring: (id)sender;
-
 /// Called when user presses "start" button.
 - (IBAction)startMeasuring: (id)sender;
 

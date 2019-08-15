@@ -103,6 +103,9 @@
 
 - (void)terminate;	//!< Prepare for deallocation. Severs links with companion and releases resources.
 - (void)stop;	//!< Called when the user stops a measurement run, via stopMeasuring from RunTypeView
+
+- (void)stopPreMeasuring: (id)sender; //!< Stop pre-measuring because we have enough prerun samples.
+
 - (IBAction)stopMeasuring: (id)sender;	//!< Called when user presses "stop" button
 
 /// Select the actual measurement type this run will use.
