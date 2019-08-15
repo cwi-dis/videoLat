@@ -360,9 +360,6 @@
 /// RunManager is about to disappear, clean up.
 - (void)terminate;
 
-/// Called when user presses "start" button.
-- (IBAction)startMeasuring: (id)sender;
-
 /// Unused.
 - (void)setFinderRect: (NSorUIRect)theRect;
 
