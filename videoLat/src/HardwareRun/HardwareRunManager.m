@@ -127,9 +127,10 @@
 
 - (IBAction) inputSelectionChanged: (id)sender
 {
+	assert(handlesInput);
     if (!handlesInput) return;
     lastError = nil;
-    NSString *selectedDevice = [self.selectionView deviceName];
+    NSString *selectedDevice = self.selectionView.deviceName;
     NSString *oldDevice = nil;
     if (self.device)
         oldDevice = [self.device deviceName];
@@ -482,7 +483,9 @@
 		return NO;
 	}
 	[self inputSelectionChanged: self];
+#ifdef xxxjacknotneeded
 	[self inputDeviceSelectionChanged: self];
+#endif
 
 	if (self.device == nil) {
 		NSLog(@"HardwareRunManager: no hardware device available");
