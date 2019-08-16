@@ -330,9 +330,13 @@
 /// Called on the output companion, will call triggerNewOutputValue after a delay.
 - (void)triggerNewOutputValueAfterDelay;
 
-/// Request a new output pattern.
+/// Request a new output pattern as an image.
 /// @return The pattern to display, as a CIImage.
-- (CIImage *)newOutputStart;
+- (CIImage *)getNewOutputImage;
+
+/// Request string representation of new output code.
+/// @return The string representing the output code.
+- (NSString *)getNewOutputCode;
 
 /// Signals that output pattern is now visible.
 /// This will record the output timestamp.

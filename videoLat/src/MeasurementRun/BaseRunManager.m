@@ -489,10 +489,16 @@ static NSMutableDictionary *runManagerSelectionNibs;
     });
 }
 
-- (CIImage *)newOutputStart
+- (CIImage *)getNewOutputImage
 {
-	[NSException raise:@"BaseRunManager" format:@"Must override newOutputStart in subclass %@", [self class]];
-	return nil;
+    [NSException raise:@"BaseRunManager" format:@"Must override getNewOutputImage in subclass %@", [self class]];
+    return nil;
+}
+
+- (NSString *)getNewOutputCode
+{
+    [NSException raise:@"BaseRunManager" format:@"Must override getNewOutputCode in subclass %@", [self class]];
+    return nil;
 }
 
 - (void)newOutputDone

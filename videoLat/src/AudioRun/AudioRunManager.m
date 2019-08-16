@@ -84,14 +84,14 @@
 	[self.outputView performSelectorOnMainThread:@selector(showNewData) withObject:nil waitUntilDone:NO ];
 }
 
-- (CIImage *)newOutputStart
+- (CIImage *)getNewOutputImage
 {
     assert(!outputActive);
     outputActive = YES;
     foundCurrentSample = NO;
     if ((self.running || self.preparing)) {
         outputStartTime = [self.clock now];
-        if (VL_DEBUG) NSLog(@"AudioRun.newOutputStart at %lld", outputStartTime);
+        if (VL_DEBUG) NSLog(@"AudioRun.getNewOutputImage at %lld", outputStartTime);
         if (self.running) {
             [self.collector recordTransmission: @"audio" at: outputStartTime];
 			VL_LOG_EVENT(@"transmission", outputStartTime, @"audio");
@@ -109,7 +109,7 @@
     foundCurrentSample = NO;
     if ((self.running || self.preparing)) {
         outputStartTime = startTime;
-        if (VL_DEBUG) NSLog(@"AudioRun.newOutputStart at %lld clock=%lld", outputStartTime, [self.clock now]);
+        if (VL_DEBUG) NSLog(@"AudioRun.getNewOutputImage at %lld clock=%lld", outputStartTime, [self.clock now]);
         if (self.running) {
             [self.collector recordTransmission: @"audio" at: outputStartTime];
 			VL_LOG_EVENT(@"transmission", outputStartTime, @"audio");

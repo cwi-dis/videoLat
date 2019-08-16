@@ -124,7 +124,7 @@
         [self.manager newOutputStartAt:startTimeUs];
         [player playAtTime:startTime];
      } else {
-        [self.manager newOutputStart];
+        [self.manager getNewOutputImage];
         NSLog(@"Pretend you hear something...");
         // Report back that we have displayed it.
         [self.manager newOutputDone];

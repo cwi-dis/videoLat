@@ -161,16 +161,18 @@
             self.outputCode = @"black";
         }
     }
-	newOutputValueWanted = YES;
     if (VL_DEBUG) NSLog(@"triggerNewOutputValue called");
-    assert(0); // xxxjack need to communicate to outputView
-	NSCellStateValue oVal = NSMixedState;
-	if ([self.outputCode isEqualToString:@"white"]) {
-		oVal = NSOnState;
-	} else if ([self.outputCode isEqualToString: @"black"]) {
-		oVal = NSOffState;
-	}
-	[self.outputView.bOutputValue setState: oVal];
+    [self.outputView showNewData];
+}
+
+- (NSString *)getNewOutputCode
+{
+    return self.outputCode;
+}
+
+- (void)newOutputDone
+{
+    outputTimestamp = [self.clock now];
 	if (self.running && self.outputCode && ![self.outputCode isEqualToString: oldOutputCode]) {
 		// We have generated a new output code. Remember it, if we are running
 		[self.collector recordTransmission: self.outputCode at:outputTimestamp];

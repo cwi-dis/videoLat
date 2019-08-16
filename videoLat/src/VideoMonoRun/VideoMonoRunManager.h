@@ -22,6 +22,6 @@
 
 + (void)initialize;
 - (VideoMonoRunManager *)init;
-- (CIImage *)newOutputStart;
+- (CIImage *)getNewOutputImage;
 @end
 

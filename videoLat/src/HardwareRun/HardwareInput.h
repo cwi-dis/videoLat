@@ -38,6 +38,7 @@
 
 @property(nonatomic,readwrite) int samplePeriodMs;			//!< How often we sample the hardware
 @property NSObject <HardwareLightProtocol> *device;         //!< Hardware device handler
+@property(strong) NSString *outputCode;
 
 - (IBAction)periodChanged: (id) sender;	//!< Action message for samplePeriodMs UI elements
 

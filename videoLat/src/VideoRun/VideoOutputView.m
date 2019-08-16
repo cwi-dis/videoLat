@@ -193,7 +193,7 @@ static io_service_t IOServicePortFromCGDisplayID(CGDirectDisplayID displayID)
 }
 
 - (void)drawRect:(NSorUIRect)dirtyRect {
-    CIImage *newImage = [self.manager newOutputStart];
+    CIImage *newImage = [self.manager getNewOutputImage];
     assert(newImage);
     
     NSorUIRect dstRect = [self bounds];

@@ -286,9 +286,9 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
     assert(handlesOutput);
 }
 
-- (CIImage *)newOutputStart
+- (CIImage *)getNewOutputImage
 {
-	[NSException raise:@"NetworkRunManager" format:@"Must override newOutputStart in subclass"];
+	[NSException raise:@"NetworkRunManager" format:@"Must override getNewOutputImage in subclass"];
     assert(handlesOutput);
 	return nil;
 }

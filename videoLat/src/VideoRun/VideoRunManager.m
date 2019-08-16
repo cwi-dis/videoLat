@@ -153,7 +153,7 @@
 	}
 }
 
-- (CIImage *)newOutputStart
+- (CIImage *)getNewOutputImage
 {
     // Called from the redraw routine, should generate a new output code only when needed.
     @synchronized(self) {
@@ -170,14 +170,30 @@
         if (outputCodeImage)
             return outputCodeImage;
         [self _newOutputCode];
-
+        
         CGSize size = {480, 480};
         assert(self.genner);
         outputCodeImage = [self.genner genImageForCode:self.outputCode size:size.width];
         assert(outputCodeImage);
-		outputFrameEarliestTimestamp = [self.clock now];
-		outputFrameLatestTimestamp = 0;
-		return outputCodeImage;
+        outputFrameEarliestTimestamp = [self.clock now];
+        outputFrameLatestTimestamp = 0;
+        return outputCodeImage;
+    }
+}
+
+- (NSString *)getNewOutputCode
+{
+    // Called from the redraw routine, should generate a new output code only when needed.
+    @synchronized(self) {
+        
+        // If we are not running we should display a blue-grayish square
+        if (!self.running && !self.preparing) {
+            return @"undefined";
+        }
+        [self _newOutputCode];
+        outputFrameEarliestTimestamp = [self.clock now];
+        outputFrameLatestTimestamp = 0;
+        return self.outputCode;
     }
 }
 

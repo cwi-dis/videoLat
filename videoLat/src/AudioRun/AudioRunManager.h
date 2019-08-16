@@ -42,7 +42,7 @@
 - (void)triggerNewOutputValue;
 
 // MeasurementOutputManagerProtocol
-- (CIImage *)newOutputStart;
+- (CIImage *)getNewOutputImage;
 - (void)newOutputStartAt: (uint64_t) startTime;
 - (void)newOutputDone;
 

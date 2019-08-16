@@ -85,7 +85,7 @@
 
 #pragma mark RunOutputManagerProtocol
 
-- (CIImage *)newOutputStart
+- (CIImage *)getNewOutputImage
 {
     @synchronized(self) {
         assert(handlesOutput);
@@ -95,7 +95,7 @@
         outputCodeImage = [self.genner genImageForCode:self.outputCode size:480];
         outputFrameEarliestTimestamp = [self.clock now];
         outputFrameLatestTimestamp = 0;
-        if (VL_DEBUG) NSLog(@"VideoMonoRunManager.newOutputStart: returning %@ image", self.outputCode);
+        if (VL_DEBUG) NSLog(@"VideoMonoRunManager.getNewOutputImage: returning %@ image", self.outputCode);
         return outputCodeImage;
     }
 }
