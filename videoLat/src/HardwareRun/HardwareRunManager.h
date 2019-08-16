@@ -28,9 +28,6 @@
     NSString *oldOutputCode;    //!< Last output code reported to collector
     NSString *prevInputCode;    //!< Last input code detected
     int prevInputCodeDetectionCount;    //!< How often prevInputCode was detected
-    double inputLevel;          //!< Current input light level
-    double minInputLevel;       //!< Lowest analog input level seen
-    double maxInputLevel;       //!< Highest analog input level seen
     uint64_t inputTimestamp;    //!< When inputLevel was measured
 }
 

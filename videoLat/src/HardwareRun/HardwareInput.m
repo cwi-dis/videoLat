@@ -132,7 +132,14 @@
     }
 
     self.bDriverStatus.stringValue = (connected ? @"Connected" : @"Disconnected");
+    minInputLevel = 1.0;
+    maxInputLevel = 0.0;
+    inputLevel = -1;
     [self restart];
+    // Because this runs asynchronously we should infor the runmanager again,
+    // so it can enable prepare button and all that
+    if (connected)
+        [self.manager inputSelectionChanged: self];
 }
 
 - (void)pauseCapturing: (BOOL) pause

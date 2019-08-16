@@ -70,13 +70,14 @@
     NSString *selectedDevice = self.selectionView.deviceName;
 	assert(self.capturer);
     [self.capturer switchToDeviceWithName: selectedDevice];
+    BOOL connected = [self.capturer available];
     assert(self.statusView);
     [self.statusView.bRun setEnabled: NO];
+    [self.statusView.bPrepare setEnabled: connected];
+    [self.statusView.bRun setEnabled: NO];
+    self.running = NO;
     self.preparing = NO;
     self.running = NO;
-    minInputLevel = 1.0;
-    maxInputLevel = 0.0;
-    inputLevel = -1;
 }
 
 - (void)newInputDone:(NSString *)inputCode count:(int)count at:(uint64_t)inputTimestamp
@@ -118,7 +119,7 @@
 	prepareMoreNeeded--;
 	if (VL_DEBUG) NSLog(@"prepareRecordReception %@ prepareMoreMeeded=%d\n", code, prepareMoreNeeded);
 	self.statusView.detectCount = [NSString stringWithFormat: @"%d more", prepareMoreNeeded];
-	self.statusView.detectAverage = [NSString stringWithFormat: @"%.2f .. %.2f", minInputLevel, maxInputLevel];
+	self.statusView.detectAverage = @"";
 	[self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
 	if (prepareMoreNeeded == 0) {
 		self.outputCode = @"uncertain";
@@ -142,7 +143,7 @@
 	prepareMoreNeeded = self.initialPrepareCount;
 	if (VL_DEBUG) NSLog(@"prepareRecordNoReception, maxDelay is now %lld", maxDelay);
 	self.statusView.detectCount = [NSString stringWithFormat: @"%d more", prepareMoreNeeded];
-	self.statusView.detectAverage = [NSString stringWithFormat: @"%.2f .. %.2f", minInputLevel, maxInputLevel];
+	self.statusView.detectAverage = @"";
 	[self.outputCompanion triggerNewOutputValue];
 }
 
@@ -236,5 +237,9 @@
 {
 }
 
+- (void)stop
+{
+    [self.capturer stop];
+}
 
 @end
