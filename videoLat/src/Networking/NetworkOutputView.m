@@ -23,15 +23,18 @@
 {
 }
 
+- (BOOL)available {
+	return YES;
+}
 
 - (void) reportClient: (NSString *)ip port: (int)port isUs: (BOOL) us
 {
-    NSLog(@"NetworkSelectionView.reportClient ip=%@ port=%d isUs=%d", ip, port, us);
+	NSLog(@"NetworkSelectionView.reportClient ip=%@ port=%d isUs=%d", ip, port, us);
 }
 
 - (void) reportServer: (NSString *)ip port: (int)port isUs: (BOOL) us
 {
-    NSLog(@"NetworkSelectionView.reportServer ip=%@ port=%d isUs=%d", ip, port, us);
+	NSLog(@"NetworkSelectionView.reportServer ip=%@ port=%d isUs=%d", ip, port, us);
 }
 
 @end

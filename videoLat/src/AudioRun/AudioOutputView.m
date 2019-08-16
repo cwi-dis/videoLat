@@ -62,6 +62,11 @@
     return [[self class] defaultOutputDevice];
 }
 
+- (BOOL)available
+{
+	return YES; // xxxjack or can we actually check?
+}
+
 - (void)stop
 {
 	if (player) [player stop];

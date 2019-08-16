@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "protocols.h"
+#import "HardwareInput.h"
 
 ///
 /// Subclass of NSView that adheres to OutputDeviceProtocol and shows currently
@@ -18,7 +19,7 @@
 
 @property(weak) IBOutlet NSButton *bOutputValue;    //!< UI element that shows current output value
 
-@property(weak) NSObject <HardwareLightProtocol> *device;  //!< our output device (assigned by HardwareRunManager)
+@property(weak) IBOutlet HardwareInput *hardwareInputHandler;  //!< our output device is actually managed by the combined input/output driver
 
 - (void) showNewData;   //!< Called when new data should be shown
  

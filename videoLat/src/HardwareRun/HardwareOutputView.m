@@ -11,12 +11,17 @@
 @implementation HardwareOutputView
 - (NSString *)deviceID
 {
-	return self.device.deviceID;
+	return self.hardwareInputHandler.deviceID;
 }
 
 - (NSString *)deviceName
 {
-	return self.device.deviceName;
+	return self.hardwareInputHandler.deviceID;
+}
+
+
+- (BOOL)available {
+	return self.hardwareInputHandler.available;
 }
 
 - (void) showNewData

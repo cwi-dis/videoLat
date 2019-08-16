@@ -324,6 +324,32 @@ static NSMutableDictionary *runManagerSelectionNibs;
     }
 }
 
+#ifdef WITH_APPKIT
+
+- (void)showErrorSheet: (NSString *)message
+{
+    NSLog(@"%@", message);
+    NSAlert *errorAlert = [[NSAlert alloc] init];
+    errorAlert.messageText = message;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [errorAlert beginSheetModalForWindow:[self.outputView window] completionHandler:^(NSModalResponse returnCode) {}];
+    });
+}
+
+- (void)showErrorSheet: (NSString *)message button:(NSString *)button handler:(void (^ __nullable)(void))handler
+{
+    NSLog(@"%@", message);
+    NSAlert *errorAlert = [[NSAlert alloc] init];
+    errorAlert.messageText = message;
+    [errorAlert addButtonWithTitle:@"OK"];
+    [errorAlert addButtonWithTitle:button];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [errorAlert beginSheetModalForWindow:[self.outputView window] completionHandler:^(NSModalResponse returnCode) {
+            if (returnCode == NSAlertSecondButtonReturn) handler();
+        }];
+    });
+}
+#endif
 - (BOOL)companionStartPreMeasuring
 {
     self.preparing = YES;

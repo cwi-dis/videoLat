@@ -150,6 +150,9 @@
 /// enabling the user to select the output device to use.
 ///
 @protocol OutputDeviceProtocol <DeviceNameProtocol>
+/// Test hardware device availability.
+/// @return True if the device exists and functions
+- (BOOL)available;
 
 /// Makes output viewer request a new pattern from the OutputRunManager and display it.
 - (void) showNewData;
@@ -225,6 +228,10 @@
 /// @param Name of the device (as returned by deviceNames)
 /// @return True if succesful
 - (BOOL)switchToDeviceWithName: (NSString *)name;
+
+/// Test hardware device availability.
+/// @return True if the device exists and functions
+- (BOOL)available;
 
 /// Start capturing, each captured frame will be forwarded to the InputRunManager
 /// @param showPreview Set to true if the capturer should show its preview window (if applicable)
@@ -389,6 +396,15 @@
     channels: (int)channels
     at: (uint64_t)timestamp
 	duration: (uint64_t)duration;
+
+
+#ifdef WITH_APPKIT
+/// Show an error message sheet to the user
+- (void)showErrorSheet: (NSString *)message;
+/// Show an error message to the user, and run a completion code handler after the user presses the dismiss button.
+- (void)showErrorSheet: (NSString *)message button:(NSString *)button handler:(void (^ __nullable)(void))handler;
+#endif
+
 @end
 
 ///

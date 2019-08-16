@@ -21,6 +21,11 @@
     return @"NetworkInput";
 }
 
+
+- (BOOL)available {
+	return YES; // xxxjack or should we test this?
+}
+
 - (BOOL)switchToDeviceWithName:(NSString *)name
 {
 	assert([name isEqualToString:@"NetworkInput"]);

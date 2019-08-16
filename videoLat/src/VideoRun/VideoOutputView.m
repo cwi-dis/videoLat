@@ -168,6 +168,10 @@ static io_service_t IOServicePortFromCGDisplayID(CGDirectDisplayID displayID)
 #endif
 }
 
+- (BOOL)available {
+	return YES;
+}
+
 - (void)viewWillDraw
 {
 #ifdef WITH_APPKIT
