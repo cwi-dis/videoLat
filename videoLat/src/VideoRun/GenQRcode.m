@@ -21,6 +21,12 @@
 
 - (CIImage *) genImageForCode: (NSString *)code size:(int)size;
 {
+    if ([code isEqualToString:@"undefined"]) {
+        CIImage *idleImage = [CIImage imageWithColor:[CIColor colorWithRed:0.1 green:0.4 blue:0.5]];
+        CGRect rect = {0, 0, size, size};
+        idleImage = [idleImage imageByCroppingToRect: rect];
+        return idleImage;
+    }
     NSData *codeData = [code dataUsingEncoding:NSUTF8StringEncoding];
     [qrcodegenerator setValue: codeData forKey:@"inputMessage"];
     CIImage *codeImage = qrcodegenerator.outputImage;

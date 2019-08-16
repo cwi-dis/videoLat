@@ -126,6 +126,10 @@
 
 - (void) _newOutputCode
 {
+    if (!self.running && !self.preparing) {
+        self.outputCode =  @"undefined";
+        return;
+    }
 	uint64_t tsForCode = [self.clock now];
 	// Sanity check: times should be monotonically increasing
 	if (outputFrameLatestTimestamp && outputFrameLatestTimestamp >= tsForCode) {
@@ -164,6 +168,7 @@
     // Called from the redraw routine, should generate a new output code only when needed.
     @synchronized(self) {
         
+#if 0
         // If we are not running we should display a blue-grayish square
         if (!self.running && !self.preparing) {
             CIImage *idleImage = [CIImage imageWithColor:[CIColor colorWithRed:0.1 green:0.4 blue:0.5]];
@@ -171,7 +176,7 @@
             idleImage = [idleImage imageByCroppingToRect: rect];
             return idleImage;
         }
-        
+#endif
         // If we have already generated a QR code that hasn't been detected yet we return that.
         if (outputCodeImage)
             return outputCodeImage;
@@ -321,8 +326,10 @@
             // We have transmitted a code, but received a different one??
             if (self.running) {
                 NSLog(@"Bad data: expected %@, got %@", self.outputCompanion.outputCode, inputCode);
+#if 0
                 showWarningAlert([NSString stringWithFormat:@"Received unexpected QR-code %@", inputCode]);
                 [self.outputCompanion triggerNewOutputValue];
+#endif
             } else if (self.preparing) {
                 [self _prepareRecordNoReception];
                 prevInputCode = nil;
