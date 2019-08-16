@@ -55,20 +55,24 @@
     [super awakeFromNib];
     assert(self.clock);
     if (handlesInput) {
-        assert(self.finder);
-        assert(self.clock);
     } else {
         assert(self.inputCompanion);
         assert(self.capturer == nil);
-        assert(self.clock);
         assert(self.clock == self.inputCompanion.clock);
-    }
-    if (handlesOutput) {
-        assert(self.genner);
     }
 #ifdef WITH_APPKIT
     assert(self.selectionView);
 #endif
+}
+
+- (void)restart
+{
+    @synchronized(self) {
+        if (self.measurementType == nil) return;
+        assert(handlesInput);
+        [super restart];
+        self.outputCode = @"uncertain";
+    }
 }
 
 - (void)stop
@@ -155,6 +159,8 @@
 
 - (CIImage *)getNewOutputImage
 {
+    assert(handlesOutput);
+    assert(self.genner);
     // Called from the redraw routine, should generate a new output code only when needed.
     @synchronized(self) {
         
@@ -225,6 +231,8 @@
 
 - (void) newInputDone: (CVImageBufferRef)image
 {
+    assert(handlesInput);
+    assert(self.finder);
     @synchronized(self) {
 		if (self.outputCompanion.outputCode == nil) {
 			if (VL_DEBUG) NSLog(@"newInputDone called, but no output code yet\n");
@@ -234,79 +242,103 @@
         NSString *inputCode = [self.finder find: image];
         uint64_t finderStopTime = [self.clock now];
         uint64_t finderDuration = finderStopTime - finderStartTime;
-        BOOL foundQRcode = (inputCode != NULL);
-        if (foundQRcode) {
-            
-			// Compare the code to what was expected.
-            if (self.outputCompanion.prevOutputCode && [inputCode isEqualToString:self.outputCompanion.prevOutputCode]) {
-				if (VL_DEBUG) NSLog(@"Received old output code again: %@", inputCode);
-            } else if (prevInputCode && [inputCode isEqualToString: prevInputCode]) {
-                prevInputCodeDetectionCount++;
-                if (VL_DEBUG) NSLog(@"Received same code as last reception: %@, count=%d", inputCode, prevInputCodeDetectionCount);
-                if ((prevInputCodeDetectionCount % 250) == 0) {
-                    showWarningAlert(@"Old QR-code detected too often. Generating new one.");
-                    [self.outputCompanion triggerNewOutputValue];
-                }
-            } else if ([inputCode isEqualToString: self.outputCompanion.outputCode]) {
-				// Correct code found.
-                
-                // Let's first report it.
-				if (self.running) {
-                    if (inputFrameTimestamp == 0) {
-                        showWarningAlert(@"newInputDone called before newInputStart was called");
-                    }
-					BOOL ok = [self.collector recordReception: self.outputCompanion.outputCode at: inputFrameTimestamp];
-					VL_LOG_EVENT(@"reception", inputFrameTimestamp, self.outputCompanion.outputCode);
-                    inputFrameTimestamp = 0;
-                    if (!ok) {
-						showWarningAlert([NSString stringWithFormat:@"Received code %@ before it was transmitted", self.outputCompanion.outputCode]);
-                    }
-                } else if (self.preparing) {
-                    // Compute average duration of our code detection algorithm
-                    if (averageFinderDuration == 0)
-                        averageFinderDuration = finderDuration;
-                    else
-                        averageFinderDuration = (averageFinderDuration+finderDuration)/2;
-                    // Notify the detection
-                    [self _prepareRecordReception: inputCode];
-                }
-                // Now do a sanity check that it is greater than the previous detected code
-                if (prevInputCode && [prevInputCode length] >= [self.outputCompanion.outputCode length] && [prevInputCode compare:self.outputCompanion.outputCode] >= 0) {
-					showWarningAlert(@"Warning: input QR-code not monotonically increasing.");
-                }
-                // Now let's remember it so we don't generate "bad code" messages
-                // if we detect it a second time.
-                prevInputCode = self.outputCompanion.outputCode;
-                prevInputCodeDetectionCount = 0;
-                if (VL_DEBUG) NSLog(@"Received: %@", self.outputCompanion.outputCode);
-                // Now generate a new output code.
-                [self.outputCompanion triggerNewOutputValueAfterDelay];
-			} else {
-				// We have transmitted a code, but received a different one??
-                if (self.running) {
-                    NSLog(@"Bad data: expected %@, got %@", self.outputCompanion.outputCode, inputCode);
-					showWarningAlert([NSString stringWithFormat:@"Received unexpected QR-code %@", inputCode]);
-					[self.outputCompanion triggerNewOutputValue];
-                } else if (self.preparing) {
-					[self _prepareRecordNoReception];
-				}
-			}
-        } else {
-             
+        if (inputCode == NULL) {
+            // Nothing found.
             if (self.preparing) {
                 [self _prepareRecordNoReception];
             }
+            return;
         }
-		if (self.running) {
-			self.statusView.detectCount = [NSString stringWithFormat: @"%d", self.collector.count];
-			self.statusView.detectAverage = [NSString stringWithFormat: @"%.3f ms ± %.3f", self.collector.average / 1000.0, self.collector.stddev / 1000.0];
-            [self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
-		}
-    }
+        if (self.outputCompanion.outputCode == nil) {
+            if (VL_DEBUG) NSLog(@"newInputDone called, but no output code yet\n");
+            return;
+        }
+        if ([inputCode isEqualToString:@"undetectable"]) {
+            // black/white detector needs to be kicked (black and white levels have come too close)
+            NSLog(@"Detector range too small, generating new code");
+            [self.outputCompanion triggerNewOutputValue];
+            return;
+        }
+        if ([inputCode isEqualToString:@"uncertain"]) {
+            // Unsure what we have detected. Leave it be for a while then change.
+            prevInputCodeDetectionCount++;
+            if (prevInputCodeDetectionCount % 250 == 0) {
+                NSLog(@"Received uncertain code for too long. Generating new one.");
+                [self.outputCompanion triggerNewOutputValue];
+            }
+            return;
+        }
+        // Compare the code to what was expected.
+        if (self.outputCompanion.prevOutputCode && [inputCode isEqualToString:self.outputCompanion.prevOutputCode]) {
+            if (VL_DEBUG) NSLog(@"Received old output code again: %@", inputCode);
+            return;
+        }
+        if (prevInputCode && [inputCode isEqualToString: prevInputCode]) {
+            prevInputCodeDetectionCount++;
+            if (prevInputCodeDetectionCount == 3) {
+                // Aftter we've detected 3 frames with the right light level
+                // we generate a new one.
+                [self.outputCompanion triggerNewOutputValueAfterDelay];
+            }
+            if (VL_DEBUG) NSLog(@"Received same code as last reception: %@, count=%d", inputCode, prevInputCodeDetectionCount);
+            if ((prevInputCodeDetectionCount % 250) == 0) {
+                showWarningAlert(@"Old QR-code detected too often. Generating new one.");
+                [self.outputCompanion triggerNewOutputValue];
+            }
+        } else if ([inputCode isEqualToString: self.outputCompanion.outputCode]) {
+            // Correct code found.
+            
+            // Let's first report it.
+            if (self.running) {
+                if (inputFrameTimestamp == 0) {
+                    showWarningAlert(@"newInputDone called before newInputStart was called");
+                }
+                BOOL ok = [self.collector recordReception: self.outputCompanion.outputCode at: inputFrameTimestamp];
+                VL_LOG_EVENT(@"reception", inputFrameTimestamp, self.outputCompanion.outputCode);
+                inputFrameTimestamp = 0;
+                if (!ok) {
+                    showWarningAlert([NSString stringWithFormat:@"Received code %@ before it was transmitted", self.outputCompanion.outputCode]);
+                }
+                self.statusView.detectCount = [NSString stringWithFormat: @"%d", self.collector.count];
+                self.statusView.detectAverage = [NSString stringWithFormat: @"%.3f ms ± %.3f", self.collector.average / 1000.0, self.collector.stddev / 1000.0];
+                [self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
+            } else if (self.preparing) {
+                // Compute average duration of our code detection algorithm
+                if (averageFinderDuration == 0)
+                    averageFinderDuration = finderDuration;
+                else
+                    averageFinderDuration = (averageFinderDuration+finderDuration)/2;
+                // Notify the detection
+                [self _prepareRecordReception: inputCode];
+            }
+            // Now let's remember it so we don't generate "bad code" messages
+            // if we detect it a second time.
+            prevInputCode = self.outputCompanion.outputCode;
+            prevInputCodeDetectionCount = 0;
+            if (VL_DEBUG) NSLog(@"Received: %@", self.outputCompanion.outputCode);
+            // Generate new output code later, after we've detected this one a few times.
+        } else {
+            // We have transmitted a code, but received a different one??
+            if (self.running) {
+                NSLog(@"Bad data: expected %@, got %@", self.outputCompanion.outputCode, inputCode);
+                showWarningAlert([NSString stringWithFormat:@"Received unexpected QR-code %@", inputCode]);
+                [self.outputCompanion triggerNewOutputValue];
+            } else if (self.preparing) {
+                [self _prepareRecordNoReception];
+                prevInputCode = nil;
+            }
+        }
+        // While idle, change output value once in a while
+        if (!self.running && !self.preparing) {
+            [self.outputCompanion triggerNewOutputValue];
+        }
+   }
 }
 
 - (void)setFinderRect: (NSorUIRect)theRect
 {
+    assert(handlesInput);
+    assert(self.finder);
     if ([self.finder respondsToSelector:@selector(setSensitiveArea:)]) {
         [self.finder setSensitiveArea: theRect];
     }

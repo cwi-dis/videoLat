@@ -42,33 +42,6 @@
     return self;
 }
 
-- (void) awakeFromNib
-{
-    [super awakeFromNib];
-    if (handlesInput) {
-        assert(self.finder);
-    }
-    if (handlesOutput) {
-        assert(self.genner);
-    }
-}
-
-- (void)restart
-{
-    @synchronized(self) {
-		if (self.measurementType == nil) return;
-        assert(handlesInput);
-		[super restart];
-		self.outputCode = @"uncertain";
-        assert(self.finder);
-        (void)[self.finder init];
-        if (handlesOutput) {
-            assert(self.genner);
-            (void)[self.genner init];
-        }
-    }
-}
-
 - (void) _newOutputCode
 {
 	if (!self.running && !self.preparing) {
@@ -87,6 +60,8 @@
 
 - (CIImage *)getNewOutputImage
 {
+    assert(handlesOutput);
+    assert(self.genner);
     @synchronized(self) {
         assert(handlesOutput);
         if (outputCodeImage)
@@ -104,6 +79,8 @@
 
 - (void) newInputDone: (CVImageBufferRef)image
 {
+    assert(handlesInput);
+    assert(self.finder);
     @synchronized(self) {
         assert(handlesInput);
 		if (self.outputCompanion.outputCode == nil) {
