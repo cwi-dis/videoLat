@@ -147,10 +147,8 @@
 	[self.outputCompanion triggerNewOutputValue];
 }
 
-
-- (void)triggerNewOutputValue
+- (void) _newOutputCode
 {
-    assert(handlesOutput);
     if (!self.running && !self.preparing) {
         // Idle, show intermediate value
         self.outputCode = @"uncertain";
@@ -161,6 +159,12 @@
             self.outputCode = @"black";
         }
     }
+}
+
+- (void)triggerNewOutputValue
+{
+    assert(handlesOutput);
+    [self _newOutputCode];
     if (VL_DEBUG) NSLog(@"triggerNewOutputValue called");
     [self.outputView showNewData];
 }
@@ -211,7 +215,6 @@
 - (BOOL) prepareOutputDevice
 {
 	assert(handlesOutput);
-	assert(0);
 	return [self _prepareDevice];
 }
 

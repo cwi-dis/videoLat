@@ -16,9 +16,6 @@
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customObject id="74" userLabel="Manager" customClass="HardwareRunManager">
             <connections>
-                <outlet property="bDriverStatus" destination="jVR-XG-ska" id="TdL-CX-YLm"/>
-                <outlet property="bSamplePeriodStepper" destination="475" id="527"/>
-                <outlet property="bSamplePeriodValue" destination="479" id="528"/>
                 <outlet property="clock" destination="3" id="89"/>
                 <outlet property="collector" destination="446" id="451"/>
                 <outlet property="inputCompanion" destination="1" id="76"/>
@@ -26,6 +23,15 @@
                 <outlet property="outputView" destination="77" id="200"/>
                 <outlet property="selectionView" destination="4" id="313"/>
                 <outlet property="statusView" destination="369" id="452"/>
+            </connections>
+        </customObject>
+        <customObject id="ECR-OS-7nF" userLabel="HardwareDriver" customClass="HardwareInput">
+            <connections>
+                <outlet property="bDriverStatus" destination="jVR-XG-ska" id="cPo-zW-yR0"/>
+                <outlet property="bSamplePeriodStepper" destination="475" id="Syr-3J-ecA"/>
+                <outlet property="bSamplePeriodValue" destination="479" id="Bye-D0-AQd"/>
+                <outlet property="levelStatusView" destination="gNJ-e7-Fzu" id="4Wv-0r-ggZ"/>
+                <outlet property="manager" destination="74" id="R72-0J-nOd"/>
             </connections>
         </customObject>
         <customObject id="1" customClass="VideoMonoRunManager">
@@ -36,7 +42,6 @@
                 <outlet property="finder" destination="Mgi-N2-Xys" id="IKr-aa-Ado"/>
                 <outlet property="measurementMaster" destination="-2" id="70"/>
                 <outlet property="outputCompanion" destination="74" id="75"/>
-                <outlet property="outputView" destination="77" id="202"/>
                 <outlet property="selectionView" destination="4" id="51"/>
                 <outlet property="statusView" destination="369" id="450"/>
             </connections>
@@ -207,6 +212,8 @@ Optionally you can select a region-of-interest (the LED) in the Video Preview on
                         </constraints>
                         <connections>
                             <outlet property="bOutputValue" destination="78" id="199"/>
+                            <outlet property="hardwareInputHandler" destination="ECR-OS-7nF" id="SiZ-YX-bOI"/>
+                            <outlet property="manager" destination="74" id="5p7-O5-Xg1"/>
                         </connections>
                     </view>
                     <customView translatesAutoresizingMaskIntoConstraints="NO" id="4" customClass="VideoSelectionView">
@@ -392,11 +399,10 @@ Optionally you can select a region-of-interest (the LED) in the Video Preview on
                                 <constraints>
                                     <constraint firstAttribute="width" constant="13" id="i6Z-2j-7IJ"/>
                                 </constraints>
-                                <stepperCell key="cell" continuous="YES" alignment="left" minValue="1" maxValue="1000" doubleValue="1" id="476">
-                                    <connections>
-                                        <action selector="periodChanged:" target="74" id="526"/>
-                                    </connections>
-                                </stepperCell>
+                                <stepperCell key="cell" continuous="YES" alignment="left" minValue="1" maxValue="1000" doubleValue="1" id="476"/>
+                                <connections>
+                                    <action selector="periodChanged:" target="ECR-OS-7nF" id="SaX-F1-mmQ"/>
+                                </connections>
                             </stepper>
                             <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="479">
                                 <rect key="frame" x="79" y="352" width="124" height="22"/>
@@ -404,10 +410,10 @@ Optionally you can select a region-of-interest (the LED) in the Video Preview on
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                    <connections>
-                                        <action selector="periodChanged:" target="74" id="525"/>
-                                    </connections>
                                 </textFieldCell>
+                                <connections>
+                                    <action selector="periodChanged:" target="ECR-OS-7nF" id="BPq-oP-BLi"/>
+                                </connections>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="jVR-XG-ska">
                                 <rect key="frame" x="77" y="382" width="173" height="17"/>
