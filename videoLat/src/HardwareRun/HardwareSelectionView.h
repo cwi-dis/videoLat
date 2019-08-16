@@ -20,5 +20,6 @@
 // These are not picked up from the InputSelectionProtocol in the XIB builder. Don't know why...
 @property(weak) IBOutlet NSPopUpButton *bBase;        //!< UI element: popup showing possible base measurements
 @property(weak) IBOutlet NSPopUpButton *bInputDevices;   //!< UI element: all available hardware
+@property(weak) IBOutlet NSObject <InputSelectionDelegate> *inputSelectionDelegate;
 #endif
 @end

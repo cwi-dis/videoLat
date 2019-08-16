@@ -328,6 +328,10 @@ static NSMutableDictionary *runManagerSelectionNibs;
 
 - (void)showErrorSheet: (NSString *)message
 {
+	if (![NSThread isMainThread]) {
+		[self performSelectorOnMainThread:@selector(showErrorSheet:) withObject:message waitUntilDone:NO];
+		return;
+	}
     NSLog(@"%@", message);
     NSAlert *errorAlert = [[NSAlert alloc] init];
     errorAlert.messageText = message;

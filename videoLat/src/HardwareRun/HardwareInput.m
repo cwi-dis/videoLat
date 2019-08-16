@@ -94,7 +94,7 @@
     // loading is visible.
     self.bDriverStatus.stringValue = @"Loading...";
     [self.bDriverStatus display];
-    [self performSelectorOnMainThread:@selector(_switchToDevice:) withObject:selectedDevice waitUntilDone:NO];	assert(0);
+    [self performSelectorOnMainThread:@selector(_switchToDevice:) withObject:selectedDevice waitUntilDone:NO];
     return YES;
 }
 
@@ -269,7 +269,7 @@
             [NSThread sleepForTimeInterval:interval];
         }
     } @catch (NSException *exception) {
-		[self performSelectorOnMainThread:@selector(showErrorSheet:) withObject:[NSString stringWithFormat:@"Caught exception %@ in hardware handler: %@", [exception name], [exception reason]] waitUntilDone:NO];
+		[self.manager showErrorSheet: [NSString stringWithFormat:@"Caught exception %@ in hardware handler: %@", [exception name], [exception reason]]];
     }
     alive = NO;
 }

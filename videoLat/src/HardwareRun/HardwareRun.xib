@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14460.31"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14490.70"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -14,11 +14,10 @@
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
-        <customObject id="1" customClass="HardwareRunManager">
+        <customObject id="1" userLabel="RunManager" customClass="HardwareRunManager">
             <connections>
-                <outlet property="bDriverStatus" destination="fyc-4s-Yfv" id="6fW-dd-BiR"/>
-                <outlet property="bSamplePeriodStepper" destination="6Sc-hd-lQl" id="z7s-2F-nNf"/>
-                <outlet property="bSamplePeriodValue" destination="ybB-q1-sOc" id="JwF-vg-aEe"/>
+                <outlet property="capturer" destination="6t3-F6-bxv" id="HPk-KO-yjW"/>
+                <outlet property="clock" destination="6t3-F6-bxv" id="V5R-RV-0aL"/>
                 <outlet property="collector" destination="316" id="317"/>
                 <outlet property="measurementMaster" destination="-2" id="74"/>
                 <outlet property="outputView" destination="2" id="50"/>
@@ -160,7 +159,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="36">
-                                <rect key="frame" x="18" y="324" width="45" height="17"/>
+                                <rect key="frame" x="18" y="323" width="45" height="17"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Driver:" id="37">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -258,13 +257,16 @@
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                         </textFieldCell>
                                         <connections>
-                                            <action selector="periodChanged:" target="1" id="ZrO-Q2-9kB"/>
+                                            <action selector="periodChanged:" target="6t3-F6-bxv" id="RDE-Lp-IwJ"/>
                                         </connections>
                                     </textField>
                                     <stepper horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6Sc-hd-lQl">
                                         <rect key="frame" x="216" y="76" width="19" height="27"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <stepperCell key="cell" continuous="YES" alignment="left" maxValue="100" id="IMU-eJ-Sh9"/>
+                                        <connections>
+                                            <action selector="periodChanged:" target="6t3-F6-bxv" id="tQ7-Ix-Xux"/>
+                                        </connections>
                                     </stepper>
                                 </subviews>
                                 <constraints>
@@ -295,7 +297,7 @@
                                 </connections>
                             </customView>
                             <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="154">
-                                <rect key="frame" x="74" y="318" width="177" height="26"/>
+                                <rect key="frame" x="74" y="318" width="177" height="25"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="172" id="168"/>
                                 </constraints>
@@ -346,6 +348,7 @@
                         </constraints>
                         <connections>
                             <outlet property="bInputDevices" destination="154" id="176"/>
+                            <outlet property="inputSelectionDelegate" destination="1" id="Xf8-P4-gN9"/>
                         </connections>
                     </customView>
                     <view translatesAutoresizingMaskIntoConstraints="NO" id="2" customClass="HardwareOutputView">
@@ -402,6 +405,15 @@
             </view>
             <point key="canvasLocation" x="781" y="-657"/>
         </window>
+        <customObject id="6t3-F6-bxv" userLabel="capturer" customClass="HardwareInput">
+            <connections>
+                <outlet property="bDriverStatus" destination="fyc-4s-Yfv" id="9uk-P3-wOe"/>
+                <outlet property="bSamplePeriodStepper" destination="6Sc-hd-lQl" id="Y09-pu-ExV"/>
+                <outlet property="bSamplePeriodValue" destination="ybB-q1-sOc" id="UyY-AA-fZ3"/>
+                <outlet property="levelStatusView" destination="8" id="3QB-Q8-Z9V"/>
+                <outlet property="manager" destination="1" id="r5j-0T-kit"/>
+            </connections>
+        </customObject>
         <customObject id="316" customClass="RunCollector"/>
     </objects>
 </document>
