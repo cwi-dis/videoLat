@@ -34,8 +34,7 @@
 - (void)showNewData
 {
     NSString *code = [self.manager getNewOutputCode];
-    self.hardwareInputHandler.outputCode = code;
-    [self.manager newOutputDone];
+    [self.hardwareInputHandler setOutputCode:code report:YES];
     [self performSelectorOnMainThread:@selector(showCode:) withObject:code waitUntilDone:NO];
 }
 

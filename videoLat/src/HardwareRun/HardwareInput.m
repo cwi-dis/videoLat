@@ -179,16 +179,12 @@
 	alive = NO;
 }
 
-- (void)setOutputCode: (NSString *)newValue
+- (void)setOutputCode: (NSString *)newValue report: (BOOL)report
 {
 	assert(alive);
-	_outputCode = newValue;
+	outputCode = newValue;
 	newOutputValueWanted = YES;
-}
-
-- (NSString *)outputCode
-{
-	return _outputCode;
+    reportNewOutput = report;
 }
 
 - (void)_periodic: (id)sender
@@ -199,34 +195,38 @@
     @try {
         while(alive) {
             BOOL nConnected = self.device && [self.device available];
-            uint64_t loopTimestamp = [self now];
             //
             // Compute new light level, if needed
             //
             @synchronized(self) {
                 if (newOutputValueWanted) {
-                    outputTimestamp = loopTimestamp;
-                    if ([self.outputCode isEqualToString: @"white"]) {
+                    if ([outputCode isEqualToString: @"white"]) {
                         outputLevel = 1;
                         outputLevelChanged = YES;
-                    } else if ([self.outputCode isEqualToString: @"black"]) {
+                    } else if ([outputCode isEqualToString: @"black"]) {
                         outputLevel = 0;
                         outputLevelChanged = YES;
                     } else {
                         outputLevel = (double)rand() / (double)RAND_MAX;
                     }
                     newOutputValueWanted = NO;
+                    if (reportNewOutput) {
+                        reportNewOutput = NO;
+                        [self.manager newOutputDone];
+                    }
                     if (VL_DEBUG) NSLog(@"HardwareRunManager: outputLevel %f at %lld", outputLevel, outputTimestamp);
                 }
             }
             NSString *outputLevelStr = [NSString stringWithFormat:@"%f", outputLevel];
-            if (outputLevelChanged) {
-                VL_LOG_EVENT(@"hardwareOutput", loopTimestamp, outputLevelStr);
-            }
             //
             // Set new output light level, get new input light level
             //
             double nInputLevel = [self.device light: outputLevel];
+            uint64_t loopTimestamp = [self now];
+            if (outputLevelChanged) {
+                outputTimestamp = loopTimestamp;
+                VL_LOG_EVENT(@"hardwareOutput", loopTimestamp, outputLevelStr);
+            }
             //
             // Process input level change
             //
@@ -307,7 +307,7 @@
             [self.levelStatusView.bInputValue setState: iVal];
         }
 		// Check for detections and report them if wanted
-		if (VL_DEBUG) NSLog(@" input %@ (%f  range %f..%f) output %@", inputCode, inputLevel, minInputLevel, maxInputLevel, self.outputCode);
+		if (VL_DEBUG) NSLog(@" input %@ (%f  range %f..%f) output %@", inputCode, inputLevel, minInputLevel, maxInputLevel, outputCode);
 		if (capturing) {
 			if (prevInputCode && [inputCode isEqualToString: prevInputCode]) {
 				prevInputCodeDetectionCount++;

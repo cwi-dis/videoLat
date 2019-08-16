@@ -6,6 +6,7 @@
 //
 //
 #import "protocols.h"
+#import "BaseRunManager.h"
 #import "LevelStatusView.h"
 
 ///
@@ -19,9 +20,9 @@
 
     uint64_t outputTimestamp;   //!< When the last output light level change was made
     BOOL newOutputValueWanted;  //!< True if we need to change the output light level
-	NSString *_outputCode;		//!< Current output code
+    BOOL reportNewOutput;       //!< True if we need to call the manager when the new output value was shown
+	NSString *outputCode;		//!< Current output code
 	double outputLevel;			//!< Current output light level
-    NSString *oldOutputCode;    //!< Last output code reported to collector
 
     NSString *prevInputCode;    //!< Last input code detected
     int prevInputCodeDetectionCount;    //!< How often prevInputCode was detected
@@ -30,7 +31,7 @@
     double maxInputLevel;       //!< Highest analog input level seen
     uint64_t inputTimestamp;    //!< When inputLevel was measured
 }
-@property(weak) IBOutlet id <RunInputManagerProtocol> manager;
+@property(weak) IBOutlet BaseRunManager *manager;
 @property(weak) IBOutlet LevelStatusView *levelStatusView;  //!< Assigned in NIB: visual feedback on light level detected
 @property(weak) IBOutlet NSTextField *bDriverStatus;        //!< Indicator for the user that the selected device works
 @property(weak) IBOutlet NSStepper *bSamplePeriodStepper;	//!< UI element for samplePeriodMs
@@ -38,7 +39,6 @@
 
 @property(nonatomic,readwrite) int samplePeriodMs;			//!< How often we sample the hardware
 @property NSObject <HardwareLightProtocol> *device;         //!< Hardware device handler
-@property(strong) NSString *outputCode;
 
 - (IBAction)periodChanged: (id) sender;	//!< Action message for samplePeriodMs UI elements
 
@@ -56,6 +56,8 @@
 
 - (void) stop;
 - (void) restart;
+
+- (void) setOutputCode: (NSString *)code report: (BOOL)report;
 
 - (void)_updatePeriod;	//!< Internal: update UI to show samplePeriodMs.
 ///
