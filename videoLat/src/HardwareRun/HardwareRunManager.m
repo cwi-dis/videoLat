@@ -139,7 +139,7 @@
     assert(handlesInput);
 	assert(self.preparing);
 	// Check that we have waited long enough
-	if ([self.clock now] < outputTimestamp + prepareMaxWaitTime)
+	if ([self.clock now] < outputCodeTimestamp + prepareMaxWaitTime)
 		return;
 	assert(prepareMaxWaitTime);
 	prepareMaxWaitTime *= 2;
@@ -180,12 +180,12 @@
 
 - (void)newOutputDone
 {
-    outputTimestamp = [self.clock now];
-	if (self.running && self.outputCode && ![self.outputCode isEqualToString: oldOutputCode]) {
+    outputCodeTimestamp = [self.clock now];
+	if (self.running) {
+        assert(self.outputCode);
 		// We have generated a new output code. Remember it, if we are running
-		[self.collector recordTransmission: self.outputCode at:outputTimestamp];
-		VL_LOG_EVENT(@"transmission", outputTimestamp, self.outputCode);
-		oldOutputCode = self.outputCode;
+		[self.collector recordTransmission: self.outputCode at:outputCodeTimestamp];
+		VL_LOG_EVENT(@"transmission", outputCodeTimestamp, self.outputCode);
 	}
 }
 

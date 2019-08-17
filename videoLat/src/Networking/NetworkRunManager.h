@@ -23,9 +23,11 @@
 
     uint64_t lastMessageSentTime;       //!< Internal: Last time we sent a message to the master
     uint64_t lastDetectionReceivedTime; //!< Internal: Last time we received a QR-code detection
+
     NSString *prevInputCode;			//!< Internal: for checking monotonous increase
-    NSString *prepareCode;               //!< Internal: data for prerun qrcode
     int prevInputCodeDetectionCount;    //!< Internal: Number of times we re-detected a code.
+
+    NSString *prepareCode;               //!< Internal: data for prerun qrcode
     uint64_t averageFinderDuration;		//!< Running average of how much the patternfinder takes
 #ifdef WITH_SET_MIN_CAPTURE_DURATION
 	BOOL captureDurationWasSet;

@@ -66,11 +66,11 @@
 ///
 @protocol MeasurementTypeProtocol
 @property(readonly) NSUInteger tag;     //!< Tag for this type, used to order measurement types logically in menus.
-@property(readonly) NSString *name;     //!< Human-readable type
+@property(readonly) NSString * _Nonnull name;     //!< Human-readable type
 @property(readonly) BOOL isCalibration; //!< True if this type is a calibration meaurement type
 @property BOOL inputOnlyCalibration;    //!< True if only the input should match
 @property BOOL outputOnlyCalibration;   //!< True if only the output should match
-@property(readonly) NSObject<MeasurementTypeProtocol> *requires;  //!< What this measurement type depends on (usually a calibration) or nil.
+@property(readonly) NSObject<MeasurementTypeProtocol> * _Nullable requires;  //!< What this measurement type depends on (usually a calibration) or nil.
 @end
 
 
@@ -424,7 +424,7 @@
 /// Protocol that returns answers to "Which calibrations are available for download?" queries
 ///
 @protocol DownloadQueryDelegate
-- (void) availableCalibrations: (NSArray *)allCalibrations;	//!< Reports list of all available calibrations
+- (void) availableCalibrations: (NSArray *_Nonnull)allCalibrations;	//!< Reports list of all available calibrations
 @end
 
 ///
@@ -435,7 +435,7 @@
 
 /// Create a new document for a measurement.
 /// @param dataStore The measurement data.
-- (void)openUntitledDocumentWithMeasurement: (MeasurementDataStore *)dataStore;
+- (void)openUntitledDocumentWithMeasurement: (MeasurementDataStore *_Nonnull)dataStore;
 @end
 
 

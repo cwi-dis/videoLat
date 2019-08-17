@@ -41,8 +41,8 @@
 {
     self = [super init];
 	if (self) {
-		outputStartTime = 0;
-		outputActive = NO;
+		outputCodeTimestamp = 0;
+		outputDeviceBusy = NO;
 		foundCurrentSample = NO;
 		triggerOutputWhenDone = NO;
 		prepareMaxWaitTime = 0;
@@ -75,7 +75,7 @@
 
 - (void)triggerNewOutputValue
 {
-	if (outputActive) {
+	if (outputDeviceBusy) {
 		// We cannot start a new output when one is active. Remember for later
 		triggerOutputWhenDone = YES;
 		return;
@@ -86,15 +86,15 @@
 
 - (CIImage *)getNewOutputImage
 {
-    assert(!outputActive);
-    outputActive = YES;
+    assert(!outputDeviceBusy);
+    outputDeviceBusy = YES;
     foundCurrentSample = NO;
     if ((self.running || self.preparing)) {
-        outputStartTime = [self.clock now];
-        if (VL_DEBUG) NSLog(@"AudioRun.getNewOutputImage at %lld", outputStartTime);
+        outputCodeTimestamp = [self.clock now];
+        if (VL_DEBUG) NSLog(@"AudioRun.getNewOutputImage at %lld", outputCodeTimestamp);
         if (self.running) {
-            [self.collector recordTransmission: @"audio" at: outputStartTime];
-			VL_LOG_EVENT(@"transmission", outputStartTime, @"audio");
+            [self.collector recordTransmission: @"audio" at: outputCodeTimestamp];
+			VL_LOG_EVENT(@"transmission", outputCodeTimestamp, @"audio");
 
         }
         
@@ -104,15 +104,15 @@
 
 - (void)newOutputStartAt: (uint64_t) startTime
 {
-    assert(!outputActive);
-    outputActive = YES;
+    assert(!outputDeviceBusy);
+    outputDeviceBusy = YES;
     foundCurrentSample = NO;
     if ((self.running || self.preparing)) {
-        outputStartTime = startTime;
-        if (VL_DEBUG) NSLog(@"AudioRun.getNewOutputImage at %lld clock=%lld", outputStartTime, [self.clock now]);
+        outputCodeTimestamp = startTime;
+        if (VL_DEBUG) NSLog(@"AudioRun.getNewOutputImage at %lld clock=%lld", outputCodeTimestamp, [self.clock now]);
         if (self.running) {
-            [self.collector recordTransmission: @"audio" at: outputStartTime];
-			VL_LOG_EVENT(@"transmission", outputStartTime, @"audio");
+            [self.collector recordTransmission: @"audio" at: outputCodeTimestamp];
+			VL_LOG_EVENT(@"transmission", outputCodeTimestamp, @"audio");
         }
         
     }
@@ -121,8 +121,8 @@
 - (void)newOutputDone
 {
     if (VL_DEBUG) NSLog(@"AudioRun.newOutputDone at %lld", [self.clock now]);
-	assert(outputActive);
-	outputActive = NO;
+	assert(outputDeviceBusy);
+	outputDeviceBusy = NO;
 	if (triggerOutputWhenDone)
 		[self triggerNewOutputValue];
 }
@@ -164,7 +164,7 @@
             [self.outputCompanion triggerNewOutputValueAfterDelay];
         } else {
 			// Nothing found. See whether we are still expecting something
-			if ([self.clock now] > outputStartTime + prepareMaxWaitTime) {
+			if ([self.clock now] > outputCodeTimestamp + prepareMaxWaitTime) {
 				// No we are not. Admit failure, and do another sample.
 				if (self.preparing) {
 					[self prepareReceivedNoValidCode];
@@ -191,7 +191,7 @@
     if (1||VL_DEBUG) NSLog(@"Prerun no reception\n");
     assert(self.preparing);
 	// No data found within alotted time. Double the time, reset the count, change mirroring
-	if (1 || VL_DEBUG) NSLog(@"outputStartTime=%llu, maxDelay=%llu\n", outputStartTime, prepareMaxWaitTime);
+	if (1 || VL_DEBUG) NSLog(@"outputStartTime=%llu, maxDelay=%llu\n", outputCodeTimestamp, prepareMaxWaitTime);
 	prepareMaxWaitTime = prepareMaxWaitTime + (prepareMaxWaitTime / 4);
 	prepareMoreNeeded = self.initialPrepareCount;
 	self.statusView.detectCount = [NSString stringWithFormat: @"%d more", prepareMoreNeeded];
