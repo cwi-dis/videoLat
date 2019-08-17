@@ -66,9 +66,9 @@
 - (IBAction) inputSelectionChanged: (id)sender
 {
 	assert(handlesInput);
+    assert(self.capturer);
     if (!handlesInput) return;
     NSString *selectedDevice = self.selectionView.deviceName;
-	assert(self.capturer);
     [self.capturer switchToDeviceWithName: selectedDevice];
     BOOL connected = [self.capturer available];
     assert(self.statusView);
@@ -216,18 +216,6 @@
 {
 	assert(handlesOutput);
 	return [self _prepareDevice];
-}
-
-- (void)restart
-{
-	[super restart];
-	self.outputCode = @"uncertain";
-}
-
-- (void) companionRestart
-{
-	[super companionRestart];
-	self.outputCode = @"uncertain";
 }
 
 - (void) startCapturing: (BOOL)showPreview

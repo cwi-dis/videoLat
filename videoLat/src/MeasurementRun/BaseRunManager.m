@@ -388,63 +388,68 @@ static NSMutableDictionary *runManagerSelectionNibs;
 
 - (void)restart
 {
+    assert(handlesInput);
+    assert(self.selectionView);
+    assert (self.statusView);
 	@synchronized(self) {
         if (self.measurementType == nil) {
             NSLog(@"Error: BaseRunManager.restart called without measurementType");
             return;
         }
-        assert(handlesInput);
 #ifdef WITH_APPKIT
-		if (!self.selectionView) {
-			// XXXJACK Make sure selectionView is active/visible
-			assert(0);
-		}
 		if (self.measurementType.requires == nil) {
 			[self.selectionView.bBase setEnabled: NO];
 			[self.statusView.bPrepare setEnabled: YES];
 		} else {
-			NSArray *calibrationNames = self.measurementType.requires.measurementNames;
-            [self.selectionView.bBase removeAllItems];
-			[self.selectionView.bBase addItemsWithTitles:calibrationNames];
-            if ([self.selectionView.bBase numberOfItems])
-                [self.selectionView.bBase selectItemAtIndex:0];
-			[self.selectionView.bBase setEnabled:YES];
-
-			if ([self.selectionView.bBase selectedItem]) {
-				[self.statusView.bPrepare setEnabled: YES];
-			} else {
-				[self.statusView.bPrepare setEnabled: NO];
-                NSAlert *alert = [[NSAlert alloc] init];
-                [alert setMessageText: @"No calibrations available."];
-                [alert setInformativeText: [NSString stringWithFormat:@"\"%@\" measurements should be based on a \"%@\" calibration. Please calibrate first.",
-                                            self.measurementType.name,
-                                            self.measurementType.requires.name
-                                            ]];
-                [alert addButtonWithTitle: @"OK"];
-				[alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
-			}
+            BOOL ok = [self _fillBaseMenu];
+            [self.statusView.bPrepare setEnabled: ok];
 		}
 #endif
 		self.preparing = NO;
 		self.running = NO;
+        self.outputCode = @"uncertain";
 		VL_LOG_EVENT(@"restart", 0LL, self.measurementType.name);
-        assert (self.statusView);
         BOOL devicesOK = ([self prepareInputDevice] && [self.outputCompanion prepareOutputDevice]);
+        if (!devicesOK) {
 #ifdef WITH_APPKIT
-        [self.statusView.bPrepare setEnabled: devicesOK];
-#else
-#pragma unused(devicesOK)
+            [self.statusView.bPrepare setEnabled: NO];
 #endif
+        }
         [self.statusView.bRun setEnabled: NO];
         [self.statusView.bStop setEnabled: NO];
 	}
+}
+
+- (BOOL)_fillBaseMenu
+{
+    NSArray *calibrationNames = self.measurementType.requires.measurementNames;
+    [self.selectionView.bBase removeAllItems];
+    [self.selectionView.bBase addItemsWithTitles:calibrationNames];
+    if ([self.selectionView.bBase numberOfItems])
+        [self.selectionView.bBase selectItemAtIndex:0];
+    [self.selectionView.bBase setEnabled:YES];
+    
+    BOOL ok = ([self.selectionView.bBase selectedItem] != NULL); // Anything selected?
+    if (!ok) {
+        NSAlert *alert = [[NSAlert alloc] init];
+        [alert setMessageText: @"No calibrations available."];
+        [alert setInformativeText: [NSString stringWithFormat:@"\"%@\" measurements should be based on a \"%@\" calibration. Please calibrate first.",
+                                    self.measurementType.name,
+                                    self.measurementType.requires.name
+                                    ]];
+        [alert addButtonWithTitle: @"OK"];
+        [alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
+    }
+    return ok;
 }
 
 - (void) companionRestart
 {
 	self.preparing = NO;
 	self.running = NO;
+    self.outputCode = @"uncertain";
 }
+
 - (void)stop
 {
 	[NSException raise:@"BaseRunManager" format:@"Must override stop in subclass %@", [self class]];

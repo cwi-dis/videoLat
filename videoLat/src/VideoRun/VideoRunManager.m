@@ -65,16 +65,6 @@
 #endif
 }
 
-- (void)restart
-{
-    @synchronized(self) {
-        if (self.measurementType == nil) return;
-        assert(handlesInput);
-        [super restart];
-        self.outputCode = @"uncertain";
-    }
-}
-
 - (void)stop
 {
  	if (self.capturer) [self.capturer stop];
