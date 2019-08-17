@@ -119,7 +119,7 @@
 /// Scan a grabbed image for a pattern this finder supports.
 /// @param image the grabbed image
 /// @return string representing the pattern, or nil
-- (NSString *) find: (CVImageBufferRef)image;
+- (NSString *_Nullable) find: (CVImageBufferRef _Nonnull )image;
 
 @optional
 /// Optional method to set the area within the grabbed image that should be taken into account.
@@ -134,15 +134,15 @@
 /// Generate CIImage with a detectable pattern.
 /// @param code NSString with the code to generate
 /// @return the CIImage created
-- (CIImage *) genImageForCode: (NSString *)code size: (int)size;
+- (CIImage *_Nullable) genImageForCode: (NSString *_Nonnull)code size: (int)size;
 @end
 
 ///
 /// Protocol common to input and output devices.
 ///
 @protocol CommonDeviceProtocol
-@property(readonly) NSString *deviceID;    //!< Unique string that identifies the output device
-@property(readonly) NSString *deviceName;    //!< Human-readable string that identifies the output device
+@property(readonly) NSString * _Nonnull deviceID;    //!< Unique string that identifies the output device
+@property(readonly) NSString * _Nonnull deviceName;    //!< Human-readable string that identifies the output device
 
 /// Test hardware device availability.
 /// @return True if the device exists and functions
@@ -166,8 +166,8 @@
 /// Protocol used by selectionView to communicate changes
 ///
 @protocol InputSelectionDelegate
-- (IBAction)inputSelectionChanged: (id)sender;		//!< Called whenever input device or base measurement changes
-- (IBAction)startPreMeasuring: (id)sender;		//!< Called when premeasuring button has been pressed
+- (IBAction)inputSelectionChanged: (id _Nullable )sender;		//!< Called whenever input device or base measurement changes
+- (IBAction)startPreMeasuring: (id _Nullable )sender;		//!< Called when premeasuring button has been pressed
 @end
 
 ///
@@ -176,23 +176,23 @@
 ///
 @protocol InputSelectionView
 /// Object to which this view should send changes in input device, base measurement and completion.
-@property(weak) IBOutlet NSObject <InputSelectionDelegate> *inputSelectionDelegate;
+@property(weak) IBOutlet NSObject <InputSelectionDelegate> * _Nullable inputSelectionDelegate;
 
-@property(readonly) NSString *baseName;              //!< Returns name of currently selected base measurement
-@property(readonly) NSString *deviceName;            //!< Returns name of currently selected input device
+@property(readonly) NSString * _Nullable baseName;              //!< Returns name of currently selected base measurement
+@property(readonly) NSString * _Nullable deviceName;            //!< Returns name of currently selected input device
 
 #ifdef WITH_APPKIT
-@property(weak) IBOutlet NSPopUpButton *bBase;		//!< UI element: popup showing possible base measurements
-@property(weak) IBOutlet NSPopUpButton *bInputDevices;   //!< UI element: all available hardware
+@property(weak) IBOutlet NSPopUpButton * _Nullable bBase;		//!< UI element: popup showing possible base measurements
+@property(weak) IBOutlet NSPopUpButton * _Nullable bInputDevices;   //!< UI element: all available hardware
 
 /// Called when the user makes a new selection in bInputDevices or bBase
-- (IBAction)inputDeviceSelectionChanged: (id) sender;
+- (IBAction)inputDeviceSelectionChanged: (id _Nullable ) sender;
 #endif
 
 #ifdef WITH_UIKIT
 /// Change the set of base measurements available in the UI.
 /// @param baseNames Array of base names as NSString.
-- (void)setBases: (NSArray *)baseNames;
+- (void)setBases: (NSArray *_Nonnull)baseNames;
 
 /// Disable (and possibly hide) the base measurement selector.
 - (void)disableBases;
@@ -210,13 +210,13 @@
 /// @param ip Client IP address
 /// @param port Client port
 /// @param isUs True if we are the client
-- (void) reportClient: (NSString *)ip port: (int)port isUs: (BOOL) us;
+- (void) reportClient: (NSString *_Nonnull)ip port: (int)port isUs: (BOOL) us;
 
 /// Set server identity.
 /// @param ip Server IP address
 /// @param port Server port
 /// @param isUs True if we are the server
-- (void) reportServer: (NSString *)ip port: (int)port isUs: (BOOL) us;
+- (void) reportServer: (NSString *_Nonnull)ip port: (int)port isUs: (BOOL) us;
 @end
 
 ///
@@ -226,12 +226,12 @@
 
 /// List available input devices.
 /// @return List of human-readable device names (as NSString)
-- (NSArray*) deviceNames;
+- (NSArray*_Nonnull) deviceNames;
 
 /// Switch to a different input device.
 /// @param Name of the device (as returned by deviceNames)
 /// @return True if succesful
-- (BOOL)switchToDeviceWithName: (NSString *)name;
+- (BOOL)switchToDeviceWithName: (NSString *_Nonnull)name;
 
 
 /// Start capturing, each captured frame will be forwarded to the InputRunManager
@@ -254,7 +254,7 @@
 /// Protocol for a binary (monochrome) hardware input/output device.
 ///
 @protocol HardwareLightProtocol <CommonDeviceProtocol>
-@property (readonly) NSString* lastErrorMessage;	//!< Last error encountered, for example during initialization
+@property (readonly) NSString* _Nullable lastErrorMessage;	//!< Last error encountered, for example during initialization
 
 /// Test hardware device availability.
 /// @return True if the device exists and functions
@@ -283,7 +283,7 @@
 /// Return one value.
 /// @param i The index of the value to return
 /// @return The value
-- (NSNumber *)valueForIndex: (int) i;
+- (NSNumber *_Nullable)valueForIndex: (int) i;
 @end
 
 ///
@@ -296,14 +296,14 @@
 /// @"123456789" for QR code measurements. Set by the BaseRunManager that is
 /// responsible for output, read by its inputCompanion.
 ///
-@property(strong) NSString *outputCode;
+@property(strong) NSString * _Nullable outputCode;
 /// Previous value of outputCode.
 /// Used to forestall error messages in case we get a late detection of a previous code.
-@property(strong) NSString *prevOutputCode;
+@property(strong) NSString * _Nullable prevOutputCode;
 
 
-@property(weak) IBOutlet NSObject *inputCompanion; //!< Our companion object that handles input
-@property(weak) IBOutlet NSorUIView <OutputDeviceProtocol> *outputView; //!< Assigned in NIB: Displays current output QR code
+@property(weak) IBOutlet NSObject * _Nullable inputCompanion; //!< Our companion object that handles input
+@property(weak) IBOutlet NSorUIView <OutputDeviceProtocol> * _Nullable outputView; //!< Assigned in NIB: Displays current output QR code
 
 /// Called to prepare the output device, if needed, when restarting.
 /// @return NO if not successful
@@ -330,11 +330,11 @@
 
 /// Request a new output pattern as an image.
 /// @return The pattern to display, as a CIImage.
-- (CIImage *)getNewOutputImage;
+- (CIImage *_Nullable)getNewOutputImage;
 
 /// Request string representation of new output code.
 /// @return The string representing the output code.
-- (NSString *)getNewOutputCode;
+- (NSString *_Nullable)getNewOutputCode;
 
 /// Signals that output pattern is now visible.
 /// This will record the output timestamp.
@@ -346,9 +346,9 @@
 ///
 @protocol RunInputManagerProtocol <InputSelectionDelegate>
 
-@property(weak) IBOutlet NSObject<RunOutputManagerProtocol> *outputCompanion; //!< Our companion object that handles output
-@property(weak) NSObject<ClockProtocol> *clock; //!< Input manager clock
-@property(readonly) NSObject<MeasurementTypeProtocol> *measurementType;	//!< The type of measurement we are doing
+@property(weak) IBOutlet NSObject<RunOutputManagerProtocol> * _Nullable outputCompanion; //!< Our companion object that handles output
+@property(weak) NSObject<ClockProtocol> * _Nullable clock; //!< Input manager clock
+@property(readonly) NSObject<MeasurementTypeProtocol> * _Nullable measurementType;	//!< The type of measurement we are doing
 @property(readonly) int initialPrepareCount;	//!< How many detections are needed during prerun
 @property(readonly) int initialPrepareDelay;	//!< The current (or final) delay between prerun generations.
 
@@ -361,7 +361,7 @@
 /// Implemented by the NetworkRunManager to communicate the ip/port of the listener to the remote
 /// end.
 /// @return the prerun code to use.
-- (NSString *)genPrepareCode;
+- (NSString *_Nullable)genPrepareCode;
 
 /// Signals that a measurement run should be restarted (for example because the input device has changed).
 - (void)restart;
@@ -376,12 +376,12 @@
 /// @param data The data captured
 /// @param count How often this exact data item has been detected already
 /// @param timestamp The timestamp of the first capture of this data item
-- (void) newInputDone: (NSString *)data count: (int)count at: (uint64_t) timestamp;
+- (void) newInputDone: (NSString *_Nonnull)data count: (int)count at: (uint64_t) timestamp;
 
 /// Signals that a capture cycle has ended and provides image data.
 /// @param image The image data
 /// @param timestamp The timestamp of the image capture of this data item
-- (void) newInputDone: (CVImageBufferRef)image at:(uint64_t)timestamp;
+- (void) newInputDone: (CVImageBufferRef _Nonnull )image at:(uint64_t)timestamp;
 
 /// Signals that a capture cycle has ended and provides audio data.
 /// @param buffer The audio data, as 16 bit signed integer samples
@@ -390,7 +390,7 @@
 /// @param timestamp Timestamp in microseconds of the start of this sample
 /// @param duration Duration of the sample in microseconds
 ///
-- (void)newInputDone: (void*)buffer
+- (void)newInputDone: (void*_Nonnull)buffer
     size: (int)size
     channels: (int)channels
     at: (uint64_t)timestamp
@@ -399,9 +399,9 @@
 
 #ifdef WITH_APPKIT
 /// Show an error message sheet to the user
-- (void)showErrorSheet: (NSString *)message;
+- (void)showErrorSheet: (NSString *_Nonnull)message;
 /// Show an error message to the user, and run a completion code handler after the user presses the dismiss button.
-- (void)showErrorSheet: (NSString *)message button:(NSString *)button handler:(void (^ __nullable)(void))handler;
+- (void)showErrorSheet: (NSString *_Nonnull)message button:(NSString *_Nonnull)button handler:(void (^ __nullable)(void))handler;
 #endif
 
 @end

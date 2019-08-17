@@ -19,7 +19,7 @@
 }
 
 
-- (CIImage *) genImageForCode: (NSString *)code size:(int)size;
+- (CIImage *) genImageForCode: (NSString *)code size:(int)size
 {
     if ([code isEqualToString:@"undefined"]) {
         CIImage *idleImage = [CIImage imageWithColor:[CIColor colorWithRed:0.1 green:0.4 blue:0.5]];
