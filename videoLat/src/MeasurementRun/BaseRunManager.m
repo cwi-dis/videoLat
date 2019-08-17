@@ -422,6 +422,7 @@ static NSMutableDictionary *runManagerSelectionNibs;
 
 - (BOOL)_fillBaseMenu
 {
+#ifdef WITH_APPKIT
     NSArray *calibrationNames = self.measurementType.requires.measurementNames;
     [self.selectionView.bBase removeAllItems];
     [self.selectionView.bBase addItemsWithTitles:calibrationNames];
@@ -441,6 +442,9 @@ static NSMutableDictionary *runManagerSelectionNibs;
         [alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
     }
     return ok;
+#else
+    return YES;
+#endif
 }
 
 - (void) companionRestart
