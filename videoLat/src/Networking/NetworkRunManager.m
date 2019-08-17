@@ -304,21 +304,6 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 	[NSException raise:@"NetworkRunManager" format:@"Must override setFinderRect in subclass"];
 }
 
-- (void) newInputStart:(uint64_t)timestamp
-{
-    @synchronized(self) {
-        assert(handlesInput);
-		tsFrameEarliest = tsFrameLatest;
-		tsFrameLatest = timestamp;
-
-		// Sanity check: times should be monotonically increasing
-		if (tsFrameEarliest >= tsFrameLatest) {
-			showWarningAlert(@"Input clock has gone back in time");
-		}
-    }
-}
-
-
 - (void)newInputDoneNoData
 {
     if (!self.running)
@@ -418,16 +403,10 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 /// This version of newInputDone is used when running in slave mode, it signals that the camera
 /// has captured an input.
 ///
-- (void) newInputDone: (CVImageBufferRef)image
+- (void) newInputDone: (CVImageBufferRef)image at:(uint64_t)timestamp
 {
     @synchronized(self) {
         assert(handlesInput);
-        if (tsFrameLatest == 0) {
-            NSLog(@"newInputDone called, but tsFrameLatest==0\n");
-			assert(0);
-            return;
-        }
-
 		assert(self.finder);
         uint64_t finderStartTime = [self.clock now];
         NSString *code = [self.finder find: image];
@@ -450,9 +429,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
                 // Remember when we first detected it, and then see what we should do with it.
                 prevInputCode = code;
                 prevInputCodeDetectionCount = 1;
-				uint64_t oldestTimePossible = tsFrameEarliest;
-				if (oldestTimePossible == 0) oldestTimePossible = tsFrameLatest;
-				tsLastReported = (oldestTimePossible + tsFrameLatest) / 2;
+                tsLastReported = timestamp;
 				tsLastReportedRemote = [self.remoteClock remoteNow:tsLastReported];
                 VL_LOG_EVENT(@"slaveDetectionSlaveTime", tsLastReported, code);
                 VL_LOG_EVENT(@"slaveDetectionMasterTime", tsLastReportedRemote, code);

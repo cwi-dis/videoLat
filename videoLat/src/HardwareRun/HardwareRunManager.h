@@ -23,11 +23,9 @@
 ///
 @interface HardwareRunManager : BaseRunManager {
     uint64_t outputTimestamp;   //!< When the last output light level change was made
-	double outputLevel;			//!< Current output light level
     NSString *oldOutputCode;    //!< Last output code reported to collector
     NSString *prevInputCode;    //!< Last input code detected
     int prevInputCodeDetectionCount;    //!< How often prevInputCode was detected
-    uint64_t inputTimestamp;    //!< When inputLevel was measured
 }
 
 @property(weak) IBOutlet HardwareOutputView *outputView;    //!< Assigned in NIB: visual feedback view of output for the user

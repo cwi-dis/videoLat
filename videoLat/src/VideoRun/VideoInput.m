@@ -523,16 +523,16 @@
     lastTimeStamp = timestamp;
     nFrames++;
 #endif
+
+    CVImageBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
 #if 1
-	[self.manager newInputStart: now_timestamp];
+    [self.manager newInputDone: pixelBuffer at: now_timestamp];
 #else
     // It would theoretically be better to use the real camera timestamp but
     // unfortunately this invalidates all old calibrations....
-    [self.manager newInputStart: timestamp];
+    [self.manager newInputDone: pixelBuffer at: timestamp];
 #endif
-
-    CVImageBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
-	[self.manager newInputDone: pixelBuffer];
+    
 }
 
 - (void)captureOutput:(AVCaptureOutput *)captureOutput

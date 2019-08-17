@@ -45,7 +45,7 @@
 		outputActive = NO;
 		foundCurrentSample = NO;
 		triggerOutputWhenDone = NO;
-		maxDelay = 0;
+		prepareMaxWaitTime = 0;
 		prepareMoreNeeded = 0;
 	}
     return self;
@@ -159,15 +159,15 @@
                 [self.collector recordReception: @"audio" at: [self.processor lastMatchTimestamp]];
 				VL_LOG_EVENT(@"reception", [self.processor lastMatchTimestamp], @"audio");
             } else if (self.preparing) {
-                [self _prepareRecordReception: self.outputCompanion.outputCode];
+                [self prepareReceivedValidCode: self.outputCompanion.outputCode];
             }
             [self.outputCompanion triggerNewOutputValueAfterDelay];
         } else {
 			// Nothing found. See whether we are still expecting something
-			if ([self.clock now] > outputStartTime + maxDelay) {
+			if ([self.clock now] > outputStartTime + prepareMaxWaitTime) {
 				// No we are not. Admit failure, and do another sample.
 				if (self.preparing) {
-					[self _prepareRecordNoReception];
+					[self prepareReceivedNoValidCode];
 				} else {
 					[self.collector recordReception: @"noaudio" at: [self.clock now]];
 					VL_LOG_EVENT(@"noReception", [self.clock now], @"noaudio");
@@ -185,21 +185,21 @@
     }
 }
 
-- (void) _prepareRecordNoReception
+- (void) prepareReceivedNoValidCode
 {
 	assert(handlesInput);
     if (1||VL_DEBUG) NSLog(@"Prerun no reception\n");
     assert(self.preparing);
 	// No data found within alotted time. Double the time, reset the count, change mirroring
-	if (1 || VL_DEBUG) NSLog(@"outputStartTime=%llu, maxDelay=%llu\n", outputStartTime, maxDelay);
-	maxDelay = maxDelay + (maxDelay / 4);
+	if (1 || VL_DEBUG) NSLog(@"outputStartTime=%llu, maxDelay=%llu\n", outputStartTime, prepareMaxWaitTime);
+	prepareMaxWaitTime = prepareMaxWaitTime + (prepareMaxWaitTime / 4);
 	prepareMoreNeeded = self.initialPrepareCount;
 	self.statusView.detectCount = [NSString stringWithFormat: @"%d more", prepareMoreNeeded];
 	self.statusView.detectAverage = @"";
 	[self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
 }
 
-- (void) _prepareRecordReception: (NSString *)code
+- (void) prepareReceivedValidCode: (NSString *)code
 {
     if (VL_DEBUG) NSLog(@"prerun reception %@\n", code);
     assert(self.preparing);

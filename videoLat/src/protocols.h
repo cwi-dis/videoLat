@@ -372,10 +372,6 @@
 /// Unused.
 - (void)setFinderRect: (NSorUIRect)theRect;
 
-/// Signals that a capture cycle has started at the given time.
-/// @param timestamp When the cycle started, in microseconds.
-- (void)newInputStart:(uint64_t)timestamp;
-
 /// Signals that a capture cycle has ended and provides the data.
 /// @param data The data captured
 /// @param count How often this exact data item has been detected already
@@ -384,7 +380,8 @@
 
 /// Signals that a capture cycle has ended and provides image data.
 /// @param image The image data
-- (void) newInputDone: (CVImageBufferRef)image;
+/// @param timestamp The timestamp of the image capture of this data item
+- (void) newInputDone: (CVImageBufferRef)image at:(uint64_t)timestamp;
 
 /// Signals that a capture cycle has ended and provides audio data.
 /// @param buffer The audio data, as 16 bit signed integer samples

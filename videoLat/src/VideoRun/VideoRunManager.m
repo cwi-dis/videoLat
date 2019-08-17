@@ -74,15 +74,15 @@
 }
 
 
-- (void) _prepareRecordNoReception
+- (void) prepareReceivedNoValidCode
 {
     if (VL_DEBUG) NSLog(@"Prepare no reception\n");
     assert(self.preparing);
-    if (outputFrameLatestTimestamp && [self.clock now] - outputFrameLatestTimestamp > maxDelay) {
+    if (outputCodeLatestTimestamp && [self.clock now] - outputCodeLatestTimestamp > prepareMaxWaitTime) {
         // No data found within alotted time. Double the time, reset the count, change mirroring
-        if (VL_DEBUG) NSLog(@"tsOutLatest=%llu, prepareDelay=%llu\n", outputFrameLatestTimestamp, maxDelay);
-        NSLog(@"prepare: detection %d failed for maxDelay=%lld. Doubling.", self.initialPrepareCount-prepareMoreNeeded, maxDelay);
-        maxDelay *= 2;
+        if (VL_DEBUG) NSLog(@"tsOutLatest=%llu, prepareDelay=%llu\n", outputCodeLatestTimestamp, prepareMaxWaitTime);
+        NSLog(@"prepare: detection %d failed for maxDelay=%lld. Doubling.", self.initialPrepareCount-prepareMoreNeeded, prepareMaxWaitTime);
+        prepareMaxWaitTime *= 2;
         prepareMoreNeeded = self.initialPrepareCount;
         self.statusView.detectCount = [NSString stringWithFormat: @"%d more", prepareMoreNeeded];
 		self.statusView.detectAverage = @"";
@@ -91,7 +91,7 @@
     } 
 }
 
-- (void) _prepareRecordReception: (NSString *)code
+- (void) prepareReceivedValidCode: (NSString *)code
 {
     if (VL_DEBUG) NSLog(@"prepare reception %@\n", code);
     assert(self.preparing);
@@ -122,7 +122,7 @@
     }
 	uint64_t tsForCode = [self.clock now];
 	// Sanity check: times should be monotonically increasing
-	if (outputFrameLatestTimestamp && outputFrameLatestTimestamp >= tsForCode) {
+	if (outputCodeLatestTimestamp && outputCodeLatestTimestamp >= tsForCode) {
 		showWarningAlert(@"Output clock has gone back in time");
 	}
 	
@@ -176,8 +176,8 @@
         assert(self.genner);
         outputCodeImage = [self.genner genImageForCode:self.outputCode size:size.width];
         assert(outputCodeImage);
-        outputFrameEarliestTimestamp = [self.clock now];
-        outputFrameLatestTimestamp = 0;
+        outputCodeEarliestTimestamp = [self.clock now];
+        outputCodeLatestTimestamp = 0;
         return outputCodeImage;
     }
 }
@@ -192,8 +192,8 @@
             return @"undefined";
         }
         [self _newOutputCode];
-        outputFrameEarliestTimestamp = [self.clock now];
-        outputFrameLatestTimestamp = 0;
+        outputCodeEarliestTimestamp = [self.clock now];
+        outputCodeLatestTimestamp = 0;
         return self.outputCode;
     }
 }
@@ -201,20 +201,20 @@
 - (void) newOutputDone
 {
     @synchronized(self) {
-		if (outputFrameEarliestTimestamp == 0) {
+		if (outputCodeEarliestTimestamp == 0) {
 			// We haven't generated an output code yet, so ignore this, a redraw
 			// because of some other reason
 			return;
 		}
-		if (outputFrameLatestTimestamp != 0) {
+		if (outputCodeLatestTimestamp != 0) {
 			// We have already received the redraw for our mosyt recent generated code.
 			// Again, redraw for some other reason, ignore.
 			return;
 		}
-        assert(outputFrameEarliestTimestamp);
-		assert(outputFrameLatestTimestamp == 0);
-		outputFrameLatestTimestamp = [self.clock now];
-		uint64_t tsOutToRemember = outputFrameLatestTimestamp;
+        assert(outputCodeEarliestTimestamp);
+		assert(outputCodeLatestTimestamp == 0);
+		outputCodeLatestTimestamp = [self.clock now];
+		uint64_t tsOutToRemember = outputCodeLatestTimestamp;
 		if (self.running) {
 			[self.collector recordTransmission: self.outputCode at: tsOutToRemember];
 			VL_LOG_EVENT(@"transmission", tsOutToRemember, self.outputCode);
@@ -224,7 +224,7 @@
 
 #pragma mark RunInputManagerProtocol
 
-- (void) newInputDone: (CVImageBufferRef)image
+- (void) newInputDone: (CVImageBufferRef)image at:(uint64_t)inputCodeTimestamp
 {
     assert(handlesInput);
     assert(self.finder);
@@ -240,7 +240,7 @@
         if (inputCode == NULL) {
             // Nothing found.
             if (self.preparing) {
-                [self _prepareRecordNoReception];
+                [self prepareReceivedNoValidCode];
             }
             return;
         }
@@ -285,12 +285,12 @@
             
             // Let's first report it.
             if (self.running) {
-                if (inputFrameTimestamp == 0) {
+                if (inputCodeTimestamp == 0) {
                     showWarningAlert(@"newInputDone called before newInputStart was called");
                 }
-                BOOL ok = [self.collector recordReception: self.outputCompanion.outputCode at: inputFrameTimestamp];
-                VL_LOG_EVENT(@"reception", inputFrameTimestamp, self.outputCompanion.outputCode);
-                inputFrameTimestamp = 0;
+                BOOL ok = [self.collector recordReception: self.outputCompanion.outputCode at: inputCodeTimestamp];
+                VL_LOG_EVENT(@"reception", inputCodeTimestamp, self.outputCompanion.outputCode);
+                inputCodeTimestamp = 0;
                 if (!ok) {
                     showWarningAlert([NSString stringWithFormat:@"Received code %@ before it was transmitted", self.outputCompanion.outputCode]);
                 }
@@ -304,7 +304,7 @@
                 else
                     averageFinderDuration = (averageFinderDuration+finderDuration)/2;
                 // Notify the detection
-                [self _prepareRecordReception: inputCode];
+                [self prepareReceivedValidCode: inputCode];
             }
             // Now let's remember it so we don't generate "bad code" messages
             // if we detect it a second time.
@@ -321,7 +321,7 @@
                 [self.outputCompanion triggerNewOutputValue];
 #endif
             } else if (self.preparing) {
-                [self _prepareRecordNoReception];
+                [self prepareReceivedNoValidCode];
                 prevInputCode = nil;
             }
         }
@@ -339,12 +339,6 @@
     if ([self.finder respondsToSelector:@selector(setSensitiveArea:)]) {
         [self.finder setSensitiveArea: theRect];
     }
-}
-
-
-- (void) newInputStart:(uint64_t)timestamp
-{
-    inputFrameTimestamp = timestamp;
 }
 
 @end

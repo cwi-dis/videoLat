@@ -19,9 +19,9 @@
     NSString *prevInputCode;        //!< Internal: for checking monotonous increase
     int prevInputCodeDetectionCount;    //!<Internal: Number of times we re-detected a code.
 
-	uint64_t outputFrameEarliestTimestamp;			//!< Earliest possible time our output code may have been transmitted
-	uint64_t outputFrameLatestTimestamp;			//!< Latest possible time our output code may have been transmitted
-    uint64_t inputFrameTimestamp;   //!< Timestamp of current video frame (or 0 if already processed)
+	uint64_t outputCodeEarliestTimestamp;			//!< Earliest possible time our output code may have been transmitted
+	uint64_t outputCodeLatestTimestamp;			//!< Latest possible time our output code may have been transmitted
+
     uint64_t averageFinderDuration; //!< Running average of how much the patternfinder takes
 }
 
@@ -32,7 +32,7 @@
 
 - (VideoRunManager *)init;  //!< Initializer
 
-- (void) _prepareRecordNoReception;                  //!< Internal: no QR code was received in time during prerun
-- (void) _prepareRecordReception: (NSString *)code;  //!< Internal: QR code was received in time during prerun
+- (void) prepareReceivedNoValidCode;                  //!< Internal: no QR code was received in time during prerun
+- (void) prepareReceivedValidCode: (NSString *)code;  //!< Internal: QR code was received in time during prerun
 - (void) _newOutputCode;							//!< Internal: set outputCode to a new value (depending on running/prerunning/idle)
 @end

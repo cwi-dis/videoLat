@@ -38,9 +38,11 @@
     BOOL handlesInput;		//!< true if we are responsible for input processing
     BOOL handlesOutput;		//!< true if we are responsible for output processing
     BOOL slaveHandler;      //!< true if this is a slave, i.e. it has no collector.
-    uint64_t maxDelay;   //!< Internal: How log to wait for prerun code finding
+
+    uint64_t prepareMaxWaitTime;      //!< Internal: How long to wait for prerun code finding
     int prepareMoreNeeded;   //!< Internal: How many more prerun correct catches we need
-	NSString *baseName;		//<! Name of our base (calibration) measurement
+
+    NSString *baseName;		//<! Name of our base (calibration) measurement
 }
 
 @property(weak) IBOutlet NSObject<InputSelectionView> *selectionView;         //!< Assigned in NIB: view that allows selection of input device

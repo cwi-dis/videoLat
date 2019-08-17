@@ -41,7 +41,7 @@
     self = [super init];
 	if (self) {
 		NSLog(@"HardwareLightProtocol = %@", @protocol(HardwareLightProtocol));
-        maxDelay = self.initialPrepareDelay;
+        prepareMaxWaitTime = self.initialPrepareDelay;
 	}
     return self;
 }
@@ -104,18 +104,20 @@
 			prevInputCodeDetectionCount = 0;
 			[self.outputCompanion triggerNewOutputValueAfterDelay];
 		} else if (self.preparing) {
-			[self _prepareRecordReception: inputCode];
+			[self prepareReceivedValidCode: inputCode];
 		}
 		return;
 	}
 	// We did not detect the light level we expected
 	if (self.preparing) {
-		[self _prepareRecordNoReception];
+		[self prepareReceivedNoValidCode];
 	}
 }
 
-- (void)_prepareRecordReception: (NSString *)code
+- (void)prepareReceivedValidCode: (NSString *)code
 {
+    assert(handlesInput);
+    assert(self.preparing);
 	prepareMoreNeeded--;
 	if (VL_DEBUG) NSLog(@"prepareRecordReception %@ prepareMoreMeeded=%d\n", code, prepareMoreNeeded);
 	self.statusView.detectCount = [NSString stringWithFormat: @"%d more", prepareMoreNeeded];
@@ -132,18 +134,20 @@
 	[self.outputCompanion triggerNewOutputValue];
 }
 
-- (void) _prepareRecordNoReception
+- (void)prepareReceivedNoValidCode
 {
+    assert(handlesInput);
 	assert(self.preparing);
 	// Check that we have waited long enough
-	if ([self.clock now] < outputTimestamp + maxDelay)
+	if ([self.clock now] < outputTimestamp + prepareMaxWaitTime)
 		return;
-	assert(maxDelay);
-	maxDelay *= 2;
+	assert(prepareMaxWaitTime);
+	prepareMaxWaitTime *= 2;
 	prepareMoreNeeded = self.initialPrepareCount;
-	if (VL_DEBUG) NSLog(@"prepareRecordNoReception, maxDelay is now %lld", maxDelay);
+	if (VL_DEBUG) NSLog(@"prepareRecordNoReception, maxDelay is now %lld", prepareMaxWaitTime);
 	self.statusView.detectCount = [NSString stringWithFormat: @"%d more", prepareMoreNeeded];
 	self.statusView.detectAverage = @"";
+    [self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
 	[self.outputCompanion triggerNewOutputValue];
 }
 

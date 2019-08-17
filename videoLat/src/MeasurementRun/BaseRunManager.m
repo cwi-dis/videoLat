@@ -261,7 +261,7 @@ static NSMutableDictionary *runManagerSelectionNibs;
             if (!ok) return;
         }
         // Do actual prerunning
-        maxDelay = self.initialPrepareDelay; // Start with 1ms delay (ridiculously low)
+        prepareMaxWaitTime = self.initialPrepareDelay; // Start with 1ms delay (ridiculously low)
         prepareMoreNeeded = self.initialPrepareCount;
         self.preparing = YES;
 		VL_LOG_EVENT(@"startPremeasuring", 0LL, @"");
@@ -278,7 +278,7 @@ static NSMutableDictionary *runManagerSelectionNibs;
 		self.preparing = NO;
 		// We now have a ballpark figure for the maximum delay. Use 4 times that as the highest
 		// we are willing to wait for.
-		maxDelay = maxDelay * 4;
+		prepareMaxWaitTime = prepareMaxWaitTime * 4;
         if (!handlesOutput)
             [self.outputCompanion companionStopPreMeasuring];
 		[self.capturer stopCapturing];
@@ -520,20 +520,15 @@ static NSMutableDictionary *runManagerSelectionNibs;
 	[NSException raise:@"BaseRunManager" format:@"Must override setFinderRect in subclass %@", [self class]];
 }
 
-- (void)newInputStart: (uint64_t)timestamp
-{
-	[NSException raise:@"BaseRunManager" format:@"Must override newInputStart: in subclass %@", [self class]];
-}
-
 - (void) newInputDone: (NSString *)data count: (int)count at: (uint64_t) timestamp
 {
     [NSException raise:@"BaseRunManager" format:@"Must override newInputDone:count:at in subclass %@", [self class]];
 }
 
 
-- (void) newInputDone: (CVImageBufferRef) image
+- (void) newInputDone: (CVImageBufferRef) image at: (uint64_t) timestamp
 {
-	[NSException raise:@"BaseRunManager" format:@"Must override newInputDone: in subclass %@", [self class]];
+    [NSException raise:@"BaseRunManager" format:@"Must override newInputDone:at: in subclass %@", [self class]];
 }
 
 - (void)newInputDone: (void*)buffer
