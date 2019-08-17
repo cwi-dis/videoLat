@@ -22,7 +22,6 @@
 /// selection view object functionality. Should be fixed at some point.
 ///
 @interface HardwareRunManager : BaseRunManager {
-    uint64_t outputCodeTimestamp;   //!< When the last output code change was made
 
     NSString *prevInputCode;    //!< Last input code detected
     int prevInputCodeDetectionCount;    //!< How often prevInputCode was detected

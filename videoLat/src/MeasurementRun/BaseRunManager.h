@@ -42,6 +42,8 @@
     uint64_t prepareMaxWaitTime;      //!< Internal: How long to wait for prerun code finding
     int prepareMoreNeeded;   //!< Internal: How many more prerun correct catches we need
 
+    uint64_t outputCodeTimestamp;   //!< When the last output code change was made
+
     NSString *baseName;		//<! Name of our base (calibration) measurement
 }
 

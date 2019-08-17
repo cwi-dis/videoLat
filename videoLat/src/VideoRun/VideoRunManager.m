@@ -78,9 +78,9 @@
 {
     if (VL_DEBUG) NSLog(@"Prepare no reception\n");
     assert(self.preparing);
-    if (outputCodeLatestTimestamp && [self.clock now] - outputCodeLatestTimestamp > prepareMaxWaitTime) {
+    if (outputCodeTimestamp && [self.clock now] - outputCodeTimestamp > prepareMaxWaitTime) {
         // No data found within alotted time. Double the time, reset the count, change mirroring
-        if (VL_DEBUG) NSLog(@"tsOutLatest=%llu, prepareDelay=%llu\n", outputCodeLatestTimestamp, prepareMaxWaitTime);
+        if (VL_DEBUG) NSLog(@"tsOutLatest=%llu, prepareDelay=%llu\n", outputCodeTimestamp, prepareMaxWaitTime);
         NSLog(@"prepare: detection %d failed for maxDelay=%lld. Doubling.", self.initialPrepareCount-prepareMoreNeeded, prepareMaxWaitTime);
         prepareMaxWaitTime *= 2;
         prepareMoreNeeded = self.initialPrepareCount;
@@ -122,7 +122,7 @@
     }
 	uint64_t tsForCode = [self.clock now];
 	// Sanity check: times should be monotonically increasing
-	if (outputCodeLatestTimestamp && outputCodeLatestTimestamp >= tsForCode) {
+	if (outputCodeTimestamp && outputCodeTimestamp >= tsForCode) {
 		showWarningAlert(@"Output clock has gone back in time");
 	}
 	
@@ -176,8 +176,7 @@
         assert(self.genner);
         outputCodeImage = [self.genner genImageForCode:self.outputCode size:size.width];
         assert(outputCodeImage);
-        outputCodeEarliestTimestamp = [self.clock now];
-        outputCodeLatestTimestamp = 0;
+        outputCodeTimestamp = 0;
         return outputCodeImage;
     }
 }
@@ -192,8 +191,7 @@
             return @"undefined";
         }
         [self _newOutputCode];
-        outputCodeEarliestTimestamp = [self.clock now];
-        outputCodeLatestTimestamp = 0;
+        outputCodeTimestamp = 0;
         return self.outputCode;
     }
 }
@@ -201,20 +199,14 @@
 - (void) newOutputDone
 {
     @synchronized(self) {
-		if (outputCodeEarliestTimestamp == 0) {
-			// We haven't generated an output code yet, so ignore this, a redraw
-			// because of some other reason
-			return;
-		}
-		if (outputCodeLatestTimestamp != 0) {
+		if (outputCodeTimestamp != 0) {
 			// We have already received the redraw for our mosyt recent generated code.
 			// Again, redraw for some other reason, ignore.
 			return;
 		}
-        assert(outputCodeEarliestTimestamp);
-		assert(outputCodeLatestTimestamp == 0);
-		outputCodeLatestTimestamp = [self.clock now];
-		uint64_t tsOutToRemember = outputCodeLatestTimestamp;
+		assert(outputCodeTimestamp == 0);
+		outputCodeTimestamp = [self.clock now];
+		uint64_t tsOutToRemember = outputCodeTimestamp;
 		if (self.running) {
 			[self.collector recordTransmission: self.outputCode at: tsOutToRemember];
 			VL_LOG_EVENT(@"transmission", tsOutToRemember, self.outputCode);

@@ -14,8 +14,6 @@
 /// Subclass of BaseRunManager that handles video measurements based on QR codes.
 ///
 @interface VideoRunManager : BaseRunManager {
-    uint64_t outputCodeEarliestTimestamp;            //!< Earliest possible time our output code may have been transmitted
-    uint64_t outputCodeLatestTimestamp;            //!< Latest possible time our output code may have been transmitted
     CIImage *outputCodeImage;       //!< Internal: Current code as a CIImage
 
     NSString *prevInputCode;        //!< Internal: for checking monotonous increase

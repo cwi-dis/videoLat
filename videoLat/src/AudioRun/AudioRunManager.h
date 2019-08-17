@@ -20,7 +20,6 @@
 /// or echo cancellation.
 ///
 @interface AudioRunManager : BaseRunManager {
-    uint64_t outputCodeTimestamp;       //!< When the last output was started
 	BOOL outputDeviceBusy;				//!< True while we are outputting (and can't start again
 	BOOL foundCurrentSample;		//!< True if we have found a match
 	BOOL triggerOutputWhenDone;		//!< True if we can start a new output when the current one is done
