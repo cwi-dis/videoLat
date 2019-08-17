@@ -27,6 +27,9 @@
 	return YES;
 }
 
+- (void)stop {
+}
+
 - (void) reportClient: (NSString *)ip port: (int)port isUs: (BOOL) us
 {
 	NSLog(@"NetworkSelectionView.reportClient ip=%@ port=%d isUs=%d", ip, port, us);

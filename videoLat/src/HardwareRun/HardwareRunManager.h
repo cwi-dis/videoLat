@@ -40,9 +40,6 @@
 
 - (void)triggerNewOutputValue;
 
-// MeasurementInputManagerProtocol
-- (void)restart;
-
 // InputDeviceProtocol
 - (void) startCapturing: (BOOL)showPreview;
 - (void) stopCapturing;

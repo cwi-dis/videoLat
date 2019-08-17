@@ -31,6 +31,10 @@
 	return self.hardwareInputHandler.available;
 }
 
+- (void)stop {
+    [self.hardwareInputHandler stop];
+}
+
 - (void)showNewData
 {
     NSString *code = [self.manager getNewOutputCode];

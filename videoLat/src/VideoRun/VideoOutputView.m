@@ -25,6 +25,13 @@
     assert(self.manager);
 }
 
+- (BOOL)available {
+    return YES;
+}
+
+- (void)stop {
+}
+
 #ifdef WITH_APPKIT
 //
 // Returns the io_service_t corresponding to a CG display ID, or 0 on failure.
@@ -166,10 +173,6 @@ static io_service_t IOServicePortFromCGDisplayID(CGDirectDisplayID displayID)
 #else
 	return @"screen";
 #endif
-}
-
-- (BOOL)available {
-	return YES;
 }
 
 - (void)viewWillDraw

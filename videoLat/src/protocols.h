@@ -138,21 +138,25 @@
 @end
 
 ///
-/// Protocol to determine device names
+/// Protocol common to input and output devices.
 ///
-@protocol DeviceNameProtocol
+@protocol CommonDeviceProtocol
 @property(readonly) NSString *deviceID;    //!< Unique string that identifies the output device
 @property(readonly) NSString *deviceName;    //!< Human-readable string that identifies the output device
+
+/// Test hardware device availability.
+/// @return True if the device exists and functions
+- (BOOL)available;
+
+/// Stop capturing or displaying altogether and release resources.
+- (void) stop;
 @end
 
 ///
 /// Protocol for an object that is responsible for displaying patterns, and for
 /// enabling the user to select the output device to use.
 ///
-@protocol OutputDeviceProtocol <DeviceNameProtocol>
-/// Test hardware device availability.
-/// @return True if the device exists and functions
-- (BOOL)available;
+@protocol OutputDeviceProtocol <CommonDeviceProtocol>
 
 /// Makes output viewer request a new pattern from the OutputRunManager and display it.
 - (void) showNewData;
@@ -218,7 +222,7 @@
 ///
 /// Protocol for an object that captures input patterns.
 ///
-@protocol InputDeviceProtocol <DeviceNameProtocol>
+@protocol InputDeviceProtocol <CommonDeviceProtocol>
 
 /// List available input devices.
 /// @return List of human-readable device names (as NSString)
@@ -229,9 +233,6 @@
 /// @return True if succesful
 - (BOOL)switchToDeviceWithName: (NSString *)name;
 
-/// Test hardware device availability.
-/// @return True if the device exists and functions
-- (BOOL)available;
 
 /// Start capturing, each captured frame will be forwarded to the InputRunManager
 /// @param showPreview Set to true if the capturer should show its preview window (if applicable)
@@ -244,9 +245,6 @@
 /// Stop forwarding frames to RunManager but continue running.
 - (void) stopCapturing;
 
-/// Stop capturing altogether and release resources.
-- (void) stop;
-
 /// Set the minimum interval between capture callbacks, if supported.
 /// @param interval Minimum time in microseconds between callbacks.
 - (void)setMinCaptureInterval: (uint64_t)interval;
@@ -255,7 +253,7 @@
 ///
 /// Protocol for a binary (monochrome) hardware input/output device.
 ///
-@protocol HardwareLightProtocol <DeviceNameProtocol>
+@protocol HardwareLightProtocol <CommonDeviceProtocol>
 @property (readonly) NSString* lastErrorMessage;	//!< Last error encountered, for example during initialization
 
 /// Test hardware device availability.
