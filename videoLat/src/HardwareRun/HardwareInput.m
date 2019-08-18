@@ -39,7 +39,7 @@
 - (void) awakeFromNib
 {    
     [super awakeFromNib];
-
+    if (self.outputManager == nil) self.outputManager = self.manager;
     assert(self.bDriverStatus);
 	self.samplePeriodMs = 10;
 	[self _updatePeriod];
@@ -212,7 +212,7 @@
                     newOutputValueWanted = NO;
                     if (reportNewOutput) {
                         reportNewOutput = NO;
-                        [self.manager newOutputDone];
+                        [self.outputManager newOutputDone];
                     }
                     if (VL_DEBUG) NSLog(@"HardwareRunManager: outputLevel %f at %lld", outputLevel, outputTimestamp);
                 }

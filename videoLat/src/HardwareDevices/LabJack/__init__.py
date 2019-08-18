@@ -118,7 +118,7 @@ class LabJack(NSObject, HardwareLightProtocol):
     def deviceID(self):
         """Return the unique device-ID"""
         if DEBUG: print 'LabJack: deviceID called', self
-        return 'LabJackID'
+        return 'LabJack'
 
     def deviceName(self):
         """Return the human-readable device name"""

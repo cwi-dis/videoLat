@@ -113,7 +113,7 @@ class ArduinoLed(NSObject, HardwareLightProtocol):
     def deviceID(self):
         """Return the unique device-ID"""
         if DEBUG: print 'ArduinoLed: deviceID called', self
-        return 'ArduinoLedID'
+        return 'ArduinoLed'
 
     def deviceName(self):
         """Return the human-readable device name"""

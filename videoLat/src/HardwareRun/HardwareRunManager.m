@@ -206,13 +206,37 @@
 		// Not fully initialized yet
 		return NO;
 	}
-	[self inputSelectionChanged: self];
+    if (handlesInput) {
+        [self inputSelectionChanged: self];
+    } else {
+        // We are output-only. go through the output handler to setup the device.
+        BOOL ok = [self _selectOutputDeviceBasedOnBase];
+        if (!ok) return NO;
+    }
 
 	if (!self.capturer.available) {
 		NSLog(@"HardwareRunManager: no hardware device available");
 		return NO;
 	}
 	return YES;
+}
+
+- (BOOL)_selectOutputDeviceBasedOnBase {
+    assert(handlesOutput);
+    assert(!handlesInput);
+    assert(self.outputView);
+    assert(self.outputView.hardwareInputHandler);
+    assert(self.selectionView);
+    // Get output device driver name from base measurement
+    MeasurementType *baseType = (MeasurementType *)self.inputCompanion.measurementType.requires;
+    MeasurementDataStore *baseStore = [baseType measurementNamed: self.selectionView.baseName];
+    if (baseStore == nil) {
+        [self showErrorSheet: [NSString stringWithFormat:@"HardwareRunManager: no base measurement named %@", baseName]];
+        return NO;
+    }
+    NSString *deviceName = baseStore.output.device;
+    // Tell output driver to use this device
+    return [self.outputView.hardwareInputHandler switchToDeviceWithName: deviceName];
 }
 
 - (BOOL) prepareInputDevice
