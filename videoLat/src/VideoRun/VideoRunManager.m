@@ -271,11 +271,12 @@
                     showWarningAlert(@"newInputDone called before newInputStart was called");
                 }
                 BOOL ok = [self.collector recordReception: self.outputCompanion.outputCode at: inputCodeTimestamp];
+                if (!ok) {
+                    NSLog(@"Received code %@ before it was transmitted", self.outputCompanion.outputCode);
+                    return;
+                }
                 VL_LOG_EVENT(@"reception", inputCodeTimestamp, self.outputCompanion.outputCode);
                 inputCodeTimestamp = 0;
-                if (!ok) {
-                    showWarningAlert([NSString stringWithFormat:@"Received code %@ before it was transmitted", self.outputCompanion.outputCode]);
-                }
                 self.statusView.detectCount = [NSString stringWithFormat: @"%d", self.collector.count];
                 self.statusView.detectAverage = [NSString stringWithFormat: @"%.3f ms ± %.3f", self.collector.average / 1000.0, self.collector.stddev / 1000.0];
                 [self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];

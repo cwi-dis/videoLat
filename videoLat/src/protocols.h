@@ -166,8 +166,9 @@
 /// Protocol used by selectionView to communicate changes
 ///
 @protocol InputSelectionDelegate
+#ifdef WITH_APPKIT
 - (IBAction)inputSelectionChanged: (id _Nullable )sender;		//!< Called whenever input device or base measurement changes
-- (IBAction)startPreMeasuring: (id _Nullable )sender;		//!< Called when premeasuring button has been pressed
+#endif
 @end
 
 ///

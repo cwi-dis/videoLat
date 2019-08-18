@@ -194,10 +194,25 @@ static NSMutableDictionary *runManagerSelectionNibs;
 }
 #endif
 
-- (IBAction)inputSelectionChanged: (id) sender
+#ifdef WITH_APPKIT
+- (IBAction) inputSelectionChanged: (id)sender
 {
-	NSLog(@"BaseRunManager: device changed");
+    assert(handlesInput);
+    if (!handlesInput) return;
+    assert(self.capturer);
+    assert(self.selectionView);
+    assert(self.statusView);
+    NSString *selectedDevice = self.selectionView.deviceName;
+    [self.capturer switchToDeviceWithName: selectedDevice];
+    BOOL connected = [self.capturer available];
+    [self.statusView.bPrepare setEnabled: connected];
+    [self.statusView.bRun setEnabled: NO];
+    [self.statusView.bRun setEnabled: NO];
+    self.running = NO;
+    self.preparing = NO;
+    self.running = NO;
 }
+#endif
 
 - (IBAction)startPreMeasuring: (id)sender
 {

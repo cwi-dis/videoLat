@@ -227,9 +227,7 @@
         return;
     }
     if (calibration || input.calibration || output.calibration) {
-        NSLog(@"MeasurementDataStore: attempt to set calibration a second time");
-        abort();
-        return;
+        NSLog(@"MeasurementDataStore: warning: set calibration a second time");
     }
     calibration = _calibration;
 }

@@ -229,11 +229,6 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 	});
 }
 
-- (IBAction)inputSelectionChanged:(id)sender
-{
-	assert(handlesInput);
-}
-
 - (BOOL)prepareInputDevice
 {
     if (handlesInput && ![self.capturer isKindOfClass: [NetworkInput class]]) {

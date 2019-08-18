@@ -49,10 +49,9 @@
 - (void)awakeFromNib
 {
     [super awakeFromNib];
-    // The hardware run manager is its own capturer and clock
+    assert(self.clock);
     if (handlesInput) {
 		assert(self.capturer);
-		assert(self.clock);
     } else {
         assert(self.inputCompanion);
         assert(self.capturer == nil);
@@ -61,23 +60,6 @@
     }
     if (handlesOutput) assert(self.outputView);
     assert(self.clock);
-}
-
-- (IBAction) inputSelectionChanged: (id)sender
-{
-	assert(handlesInput);
-    assert(self.capturer);
-    if (!handlesInput) return;
-    NSString *selectedDevice = self.selectionView.deviceName;
-    [self.capturer switchToDeviceWithName: selectedDevice];
-    BOOL connected = [self.capturer available];
-    assert(self.statusView);
-    [self.statusView.bRun setEnabled: NO];
-    [self.statusView.bPrepare setEnabled: connected];
-    [self.statusView.bRun setEnabled: NO];
-    self.running = NO;
-    self.preparing = NO;
-    self.running = NO;
 }
 
 - (void)newInputDone:(NSString *)inputCode count:(int)count at:(uint64_t)inputTimestamp
@@ -95,7 +77,11 @@
 	// Is this the code we wanted?
 	if ([inputCode isEqualToString: self.outputCompanion.outputCode]) {
 		if (self.running) {
-			[self.collector recordReception:inputCode at:inputTimestamp];
+			BOOL ok = [self.collector recordReception:inputCode at:inputTimestamp];
+            if (!ok) {
+                NSLog(@"Received code %@ before it was transmitted", self.outputCompanion.outputCode);
+                return;
+            }
 			VL_LOG_EVENT(@"reception", inputTimestamp, inputCode);
 			self.statusView.detectCount = [NSString stringWithFormat: @"%d", self.collector.count];
 			self.statusView.detectAverage = [NSString stringWithFormat: @"%.3f ms ± %.3f", self.collector.average / 1000.0, self.collector.stddev / 1000.0];
