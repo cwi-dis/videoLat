@@ -35,6 +35,9 @@ class LabJack(NSObject, HardwareLightProtocol):
         self.lock = threading.Lock()
         return self
     
+    def stop(self):
+        self.u3device = None
+    
     def awakeFromNib(self):
         """Standard initializer"""
         if DEBUG: print 'LabJack: awakeFromNib called', self

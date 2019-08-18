@@ -36,6 +36,9 @@ class Arduino(NSObject, HardwareLightProtocol):
     def dealloc(self):
         self.arduino = None
 
+    def stop(self):
+        self.arduino = None
+    
     def awakeFromNib(self):
         """Standard initializer"""
         if DEBUG: print 'Arduino: awakeFromNib called', self
