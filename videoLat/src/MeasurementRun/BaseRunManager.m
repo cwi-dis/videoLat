@@ -388,6 +388,10 @@ static NSMutableDictionary *runManagerSelectionNibs;
 
 - (void)restart
 {
+    if (!handlesInput && !handlesOutput) {
+        // Not initialized/awokenFromNib yet. Ignore.
+        return;
+    }
     assert(handlesInput);
     assert(self.selectionView);
     assert (self.statusView);

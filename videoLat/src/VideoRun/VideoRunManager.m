@@ -78,39 +78,37 @@
 {
     if (VL_DEBUG) NSLog(@"Prepare no reception\n");
     assert(self.preparing);
-    if (outputCodeTimestamp && [self.clock now] - outputCodeTimestamp > prepareMaxWaitTime) {
-        // No data found within alotted time. Double the time, reset the count, change mirroring
-        if (VL_DEBUG) NSLog(@"tsOutLatest=%llu, prepareDelay=%llu\n", outputCodeTimestamp, prepareMaxWaitTime);
-        NSLog(@"prepare: detection %d failed for maxDelay=%lld. Doubling.", self.initialPrepareCount-prepareMoreNeeded, prepareMaxWaitTime);
-        prepareMaxWaitTime *= 2;
-        prepareMoreNeeded = self.initialPrepareCount;
-        self.statusView.detectCount = [NSString stringWithFormat: @"%d more", prepareMoreNeeded];
-		self.statusView.detectAverage = @"";
-        [self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
-        [self.outputCompanion triggerNewOutputValue];
-    } 
+    // Check that we have waited long enough
+    if ([self.clock now] < outputCodeTimestamp + prepareMaxWaitTime) return;
+    // No data found within alotted time. Double the time, reset the count, change mirroring
+    if (VL_DEBUG) NSLog(@"tsOutLatest=%llu, prepareDelay=%llu\n", outputCodeTimestamp, prepareMaxWaitTime);
+    NSLog(@"prepare: detection %d failed for maxDelay=%lld. Doubling.", self.initialPrepareCount-prepareMoreNeeded, prepareMaxWaitTime);
+    prepareMaxWaitTime *= 2;
+    prepareMoreNeeded = self.initialPrepareCount;
+    self.statusView.detectCount = [NSString stringWithFormat: @"%d more", prepareMoreNeeded];
+    self.statusView.detectAverage = @"";
+    [self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
+    [self.outputCompanion triggerNewOutputValue];
 }
 
 - (void) prepareReceivedValidCode: (NSString *)code
 {
     if (VL_DEBUG) NSLog(@"prepare reception %@\n", code);
     assert(self.preparing);
-    if (self.preparing) {
-        prepareMoreNeeded -= 1;
-        self.statusView.detectCount = [NSString stringWithFormat: @"%d more", prepareMoreNeeded];
-		self.statusView.detectAverage = @"";
-        [self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
-        if (VL_DEBUG) NSLog(@"prepareMoreMeeded=%d\n", prepareMoreNeeded);
-        if (prepareMoreNeeded == 0) {
-            NSLog(@"average detection algorithm duration=%lld µS", averageFinderDuration);
+    prepareMoreNeeded -= 1;
+    self.statusView.detectCount = [NSString stringWithFormat: @"%d more", prepareMoreNeeded];
+    self.statusView.detectAverage = @"";
+    [self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
+    if (VL_DEBUG) NSLog(@"prepareMoreMeeded=%d\n", prepareMoreNeeded);
+    if (prepareMoreNeeded == 0) {
+        NSLog(@"average detection algorithm duration=%lld µS", averageFinderDuration);
 #ifdef WITH_SET_MIN_CAPTURE_DURATION
-            [self.capturer setMinCaptureInterval: averageFinderDuration*2];
+        [self.capturer setMinCaptureInterval: averageFinderDuration*2];
 #endif
-            self.statusView.detectCount = @"";
-			self.statusView.detectAverage = @"";
-            [self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
-            [self performSelectorOnMainThread: @selector(stopPreMeasuring:) withObject: self waitUntilDone: NO];
-        }
+        self.statusView.detectCount = @"";
+        self.statusView.detectAverage = @"";
+        [self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
+        [self performSelectorOnMainThread: @selector(stopPreMeasuring:) withObject: self waitUntilDone: NO];
     }
 }
 
@@ -157,16 +155,6 @@
     assert(self.genner);
     // Called from the redraw routine, should generate a new output code only when needed.
     @synchronized(self) {
-        
-#if 0
-        // If we are not running we should display a blue-grayish square
-        if (!self.running && !self.preparing) {
-            CIImage *idleImage = [CIImage imageWithColor:[CIColor colorWithRed:0.1 green:0.4 blue:0.5]];
-            CGRect rect = {0, 0, 480, 480};
-            idleImage = [idleImage imageByCroppingToRect: rect];
-            return idleImage;
-        }
-#endif
         // If we have already generated a QR code that hasn't been detected yet we return that.
         if (outputCodeImage)
             return outputCodeImage;
@@ -176,6 +164,7 @@
         assert(self.genner);
         outputCodeImage = [self.genner genImageForCode:self.outputCode size:size.width];
         assert(outputCodeImage);
+        // Set outputCodeTimestamp to 0 to signal we have not reported this outputcode yet
         outputCodeTimestamp = 0;
         return outputCodeImage;
     }
@@ -191,6 +180,7 @@
             return @"undefined";
         }
         [self _newOutputCode];
+        // Set outputCodeTimestamp to 0 to signal we have not reported this outputcode yet
         outputCodeTimestamp = 0;
         return self.outputCode;
     }

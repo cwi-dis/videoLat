@@ -124,9 +124,8 @@
 	self.statusView.detectAverage = @"";
 	[self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
 	if (prepareMoreNeeded == 0) {
-		self.outputCode = @"uncertain";
 		self.statusView.detectCount = @"";
-		//self.statusView.detectAverage = @"";
+		self.statusView.detectAverage = @"";
 		[self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
 		[self performSelectorOnMainThread: @selector(stopPreMeasuring:) withObject: self waitUntilDone: NO];
 		return;
@@ -141,6 +140,7 @@
 	// Check that we have waited long enough
 	if ([self.clock now] < outputCodeTimestamp + prepareMaxWaitTime)
 		return;
+    // No data found within alotted time. Double the time, reset the count, change mirroring
 	assert(prepareMaxWaitTime);
 	prepareMaxWaitTime *= 2;
 	prepareMoreNeeded = self.initialPrepareCount;
@@ -155,7 +155,7 @@
 {
     if (!self.running && !self.preparing) {
         // Idle, show intermediate value
-        self.outputCode = @"uncertain";
+        self.outputCode = @"undefined";
     } else {
         if ([self.outputCode isEqualToString:@"black"]) {
             self.outputCode = @"white";
@@ -168,25 +168,44 @@
 - (void)triggerNewOutputValue
 {
     assert(handlesOutput);
-    [self _newOutputCode];
-    if (VL_DEBUG) NSLog(@"triggerNewOutputValue called");
-    [self.outputView showNewData];
+    @synchronized (self) {
+        if (VL_DEBUG) NSLog(@"triggerNewOutputValue called");
+        [self.outputView performSelectorOnMainThread:@selector(showNewData) withObject:nil waitUntilDone:NO ];
+    }
 }
 
 - (NSString *)getNewOutputCode
 {
-    return self.outputCode;
+    // Called from the redraw routine, should generate a new output code only when needed.
+    @synchronized(self) {
+        
+        // If we are not running we should display a blue-grayish square
+        if (!self.running && !self.preparing) {
+            return @"undefined";
+        }
+        [self _newOutputCode];
+        // Set outputCodeTimestamp to 0 to signal we have not reported this outputcode yet
+        outputCodeTimestamp = 0;
+        return self.outputCode;
+    }
 }
 
 - (void)newOutputDone
 {
-    outputCodeTimestamp = [self.clock now];
-	if (self.running) {
-        assert(self.outputCode);
-		// We have generated a new output code. Remember it, if we are running
-		[self.collector recordTransmission: self.outputCode at:outputCodeTimestamp];
-		VL_LOG_EVENT(@"transmission", outputCodeTimestamp, self.outputCode);
-	}
+    @synchronized(self) {
+        if (outputCodeTimestamp != 0) {
+            // We have already received the redraw for our mosyt recent generated code.
+            // Again, redraw for some other reason, ignore.
+            return;
+        }
+        assert(outputCodeTimestamp == 0);
+        outputCodeTimestamp = [self.clock now];
+        uint64_t tsOutToRemember = outputCodeTimestamp;
+        if (self.running) {
+            [self.collector recordTransmission: self.outputCode at: tsOutToRemember];
+            VL_LOG_EVENT(@"transmission", tsOutToRemember, self.outputCode);
+        }
+    }
 }
 
 - (IBAction)stopPreMeasuring: (id)sender
