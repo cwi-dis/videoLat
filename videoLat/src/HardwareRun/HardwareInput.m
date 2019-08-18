@@ -40,6 +40,7 @@
 {    
     [super awakeFromNib];
     if (self.outputManager == nil) self.outputManager = self.manager;
+    if (self.clock == nil) self.clock = self;
     assert(self.bDriverStatus);
 	self.samplePeriodMs = 10;
 	[self _updatePeriod];
@@ -104,9 +105,9 @@
     self.bDriverStatus.stringValue = @"Loading...";
     [self.bDriverStatus display];
     PythonLoader *pl = [PythonLoader sharedPythonLoader];
-    uint64_t loadStartTime = [self now];
+    uint64_t loadStartTime = [self.clock now];
     BOOL ok = [pl loadPackageNamed: selectedDevice];
-    uint64_t loadDoneTime = [self now];
+    uint64_t loadDoneTime = [self.clock now];
     NSLog(@"Loading %@ Python code took %f seconds", selectedDevice, ((float)(loadDoneTime-loadStartTime)/1000000.0));
     if (!ok) {
         self.bDriverStatus.stringValue = @"Not loaded";
@@ -222,7 +223,7 @@
             // Set new output light level, get new input light level
             //
             double nInputLevel = [self.device light: outputLevel];
-            uint64_t loopTimestamp = [self now];
+            uint64_t loopTimestamp = [self.clock now];
             if (outputLevelChanged) {
                 outputTimestamp = loopTimestamp;
                 VL_LOG_EVENT(@"hardwareOutput", loopTimestamp, outputLevelStr);
@@ -268,7 +269,7 @@
                     first = NO;
                 }
                 // Finally, if we are not running, we change the light level every once in a while
-                if (!capturing && [self now] > outputTimestamp + IDLE_LIGHT_INTERVAL)
+                if (!capturing && [self.clock now] > outputTimestamp + IDLE_LIGHT_INTERVAL)
                     newOutputValueWanted = YES;
             }
             outputLevelChanged = NO;
