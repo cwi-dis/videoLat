@@ -27,7 +27,7 @@
 
 - (NSString *)baseName {
     NSLog(@"networkSelectionView baseName called");
-    return nil;
+    assert(0); // to be implemented
 }
 
 - (NSString *)deviceName {
@@ -43,8 +43,8 @@
 
 - (BOOL)setBases: (NSArray *)baseNames
 {
-    NSLog(@"networkInputSelectionView setBases called");
-    assert(0);
+    NSLog(@"xxxjack NetworkInputSelectionView: Ignoring setBases %@", baseNames);
+    return YES;
 }
 
 - (void)disableBases
