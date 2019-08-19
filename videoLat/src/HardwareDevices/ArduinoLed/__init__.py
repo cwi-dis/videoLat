@@ -119,5 +119,9 @@ class ArduinoLed(NSObject, HardwareLightProtocol):
         """Return the human-readable device name"""
         if DEBUG: print 'ArduinoLed: deviceName called', self
         return 'ArduinoLed'
+        
+    def switchToDeviceWithName_(self, name):
+        """Switch to this device. Returns true if it is "our" device"""
+        return name == "ArduinoLed"
 
         

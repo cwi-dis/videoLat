@@ -253,6 +253,7 @@ static NSMutableDictionary *runManagerSelectionNibs;
 					assert(self.outputView);
 				}
 				// For runs where we are responsible for output the output device should match
+                NSLog(@"xxxjack base %@ %@, current %@ %@",baseStore.output.deviceID, baseStore.output.device,self.outputView.deviceID, self.outputView.deviceName);
                 if (!self.measurementType.outputOnlyCalibration && ![baseStore.output.deviceID isEqualToString:self.outputView.deviceID]) {
 					errorMessage = [NSString stringWithFormat:@"Output %@ selected, base measurement done with %@", self.outputView.deviceName, baseStore.output.device];
 				}

@@ -124,3 +124,7 @@ class LabJack(NSObject, HardwareLightProtocol):
         """Return the human-readable device name"""
         if DEBUG: print 'LabJack: deviceName called', self
         return 'LabJack'
+        
+    def switchToDeviceWithName_(self, name):
+        """Switch to this device. Returns true if it is "our" device"""
+        return name == "LabJack"

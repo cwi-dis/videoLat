@@ -160,6 +160,10 @@ class Arduino(NSObject, HardwareLightProtocol):
         """Return the human-readable device name"""
         if DEBUG: print 'Arduino: deviceName called', self
         return 'Arduino'
+        
+    def switchToDeviceWithName_(self, name):
+        """Switch to this device. Returns true if it is "our" device"""
+        return name == "Arduino"
 
 if 0:  # __name__ == '__main__':
     import random

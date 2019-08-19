@@ -30,8 +30,7 @@
 {
 	assert(self.hardwareInputHandler);
 	// Video output devices cannot switch (they're tied to the display their window is on)
-	NSString *currentName = self.deviceName;
-	return [name isEqualToString:currentName];
+    return [self.hardwareInputHandler switchToDeviceWithName: name];
 }
 
 - (BOOL)available {
