@@ -204,6 +204,8 @@ static NSMutableDictionary *runManagerSelectionNibs;
     assert(self.statusView);
     NSString *selectedDevice = self.selectionView.deviceName;
     [self.capturer switchToDeviceWithName: selectedDevice];
+    [self restart];
+#if 0
     BOOL connected = [self.capturer available];
     [self.statusView.bPrepare setEnabled: connected];
     [self.statusView.bRun setEnabled: NO];
@@ -211,6 +213,7 @@ static NSMutableDictionary *runManagerSelectionNibs;
     self.running = NO;
     self.preparing = NO;
     self.running = NO;
+#endif
 }
 #endif
 

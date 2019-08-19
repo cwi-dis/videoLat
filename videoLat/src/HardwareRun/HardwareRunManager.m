@@ -200,27 +200,6 @@
 	self.outputCode = @"uncertain";
 }
 
-- (BOOL) _prepareDevice
-{
-	if (self.selectionView == nil) {
-		// Not fully initialized yet
-		return NO;
-	}
-    if (handlesInput) {
-        [self inputSelectionChanged: self];
-    } else {
-        // We are output-only. go through the output handler to setup the device.
-        BOOL ok = [self _selectOutputDeviceBasedOnBase];
-        if (!ok) return NO;
-    }
-
-	if (!self.capturer.available) {
-		NSLog(@"HardwareRunManager: no hardware device available");
-		return NO;
-	}
-	return YES;
-}
-
 - (BOOL)_selectOutputDeviceBasedOnBase {
     assert(handlesOutput);
     assert(!handlesInput);
@@ -251,7 +230,14 @@
 - (BOOL) prepareOutputDevice
 {
 	assert(handlesOutput);
-	return [self _prepareDevice];
+    assert(self.selectionView);
+    if (handlesInput) {
+        assert(self.outputView.hardwareInputHandler == self.capturer);
+        return self.outputView.available;
+    }
+    // We are output-only. go through the output handler to setup the device.
+    BOOL ok = [self _selectOutputDeviceBasedOnBase];
+    return ok;
 }
 
 - (void) startCapturing: (BOOL)showPreview
