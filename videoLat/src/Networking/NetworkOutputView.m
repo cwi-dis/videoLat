@@ -21,8 +21,8 @@
 
 - (BOOL)switchToDeviceWithName: (NSString *)name
 {
-	NSLog(@"xxxjack unsure what to do here");
-	assert(0);
+    NSLog(@"xxxjack NetworkOutputView: Assuming OK to switch to %@", name);
+    return YES;
 }
 
 
