@@ -225,7 +225,6 @@
     assert(handlesOutput);
     assert(!handlesInput);
     assert(self.outputView);
-    assert(self.outputView.hardwareInputHandler);
     assert(self.selectionView);
     // Get output device driver name from base measurement
     MeasurementType *baseType = (MeasurementType *)self.inputCompanion.measurementType.requires;
@@ -236,7 +235,11 @@
     }
     NSString *deviceName = baseStore.output.device;
     // Tell output driver to use this device
-    return [self.outputView.hardwareInputHandler switchToDeviceWithName: deviceName];
+    BOOL ok = [self.outputView switchToDeviceWithName: deviceName];
+    if (!ok) {
+    	[self showErrorSheet: [NSString stringWithFormat:@"HardwareRunManager: cannot switch to output device %@", deviceName]];
+	}
+	return ok;
 }
 
 - (BOOL) prepareInputDevice

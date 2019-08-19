@@ -175,6 +175,13 @@ static io_service_t IOServicePortFromCGDisplayID(CGDirectDisplayID displayID)
 #endif
 }
 
+- (BOOL)switchToDeviceWithName: (NSString *)name
+{
+	// Video output devices cannot switch (they're tied to the display their window is on)
+	NSString *currentName = self.deviceName;
+	return [name isEqualToString:currentName];
+}
+
 - (void)viewWillDraw
 {
 #ifdef WITH_APPKIT

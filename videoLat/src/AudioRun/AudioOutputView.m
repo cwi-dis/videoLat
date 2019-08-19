@@ -62,6 +62,12 @@
     return [[self class] defaultOutputDevice];
 }
 
+- (BOOL)switchToDeviceWithName: (NSString *)name
+{
+	NSString *currentName = self.deviceName;
+	return [name isEqualToString:currentName];
+}
+
 - (BOOL)available
 {
 	return YES; // xxxjack or can we actually check?

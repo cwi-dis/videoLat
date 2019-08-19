@@ -148,6 +148,11 @@
 /// @return True if the device exists and functions
 - (BOOL)available;
 
+/// Switch to a different input or output device, if possible.
+/// @param Name of the device (as returned by deviceNames)
+/// @return True if succesful
+- (BOOL)switchToDeviceWithName: (NSString *_Nonnull)name;
+
 /// Stop capturing or displaying altogether and release resources.
 - (void) stop;
 @end
@@ -228,12 +233,6 @@
 /// List available input devices.
 /// @return List of human-readable device names (as NSString)
 - (NSArray*_Nonnull) deviceNames;
-
-/// Switch to a different input device.
-/// @param Name of the device (as returned by deviceNames)
-/// @return True if succesful
-- (BOOL)switchToDeviceWithName: (NSString *_Nonnull)name;
-
 
 /// Start capturing, each captured frame will be forwarded to the InputRunManager
 /// @param showPreview Set to true if the capturer should show its preview window (if applicable)

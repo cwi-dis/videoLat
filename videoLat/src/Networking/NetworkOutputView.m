@@ -19,6 +19,13 @@
 	return @"NetworkOutput";
 }
 
+- (BOOL)switchToDeviceWithName: (NSString *)name
+{
+	NSLog(@"xxxjack unsure what to do here");
+	assert(0);
+}
+
+
 - (void) showNewData
 {
 }
