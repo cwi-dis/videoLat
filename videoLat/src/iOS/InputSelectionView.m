@@ -20,11 +20,12 @@
     }
 }
 
-- (void)setBases: (NSArray *)baseNames
+- (BOOL)setBases: (NSArray *)baseNames
 {
     assert(self.bBase);
     _baseNames = baseNames;
     [self.bBase reloadAllComponents];
+    return [baseNames count] > 0;
 }
 
 - (void)disableBases

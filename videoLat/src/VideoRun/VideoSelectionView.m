@@ -101,6 +101,27 @@
 	[self.inputSelectionDelegate inputSelectionChanged: self];
 }
 
+- (BOOL)setBases: (NSArray *)baseNames
+{
+    assert(self.bBase);
+    [self.bBase removeAllItems];
+    [self.bBase addItemsWithTitles: baseNames];
+    BOOL ok = self.bBase.numberOfItems > 0;
+    if (ok) {
+        [self.bBase selectItemAtIndex:0];
+        [self.inputSelectionDelegate inputSelectionChanged:self];
+    }
+    return ok;
+}
+
+- (void)disableBases
+{
+    if (self.bBase) {
+        [self.bBase setEnabled: NO];
+        [self.bBase selectItem: nil];
+    }
+}
+
 - (NSString *)baseName
 {
     if (self.bBase == nil) return nil;

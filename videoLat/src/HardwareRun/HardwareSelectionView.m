@@ -44,13 +44,17 @@
 }
 #endif
 
-#ifdef WITH_UIKIT
-- (void)setBases: (NSArray *)baseNames
+- (BOOL)setBases: (NSArray *)baseNames
 {
 	assert(self.bBase);
     [self.bBase removeAllItems];
     [self.bBase addItemsWithTitles: baseNames];
-	[self.inputSelectionDelegate inputSelectionChanged:self];
+    BOOL ok = self.bBase.numberOfItems > 0;
+    if (ok) {
+        [self.bBase selectItemAtIndex:0];
+        [self.inputSelectionDelegate inputSelectionChanged:self];
+    }
+    return ok;
 }
 
 - (void)disableBases
@@ -60,7 +64,6 @@
 		[self.bBase selectItem: nil];
 	}
 }
-#endif
 
 - (NSString *)baseName
 {

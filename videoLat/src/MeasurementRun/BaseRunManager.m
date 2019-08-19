@@ -205,15 +205,6 @@ static NSMutableDictionary *runManagerSelectionNibs;
     NSString *selectedDevice = self.selectionView.deviceName;
     [self.capturer switchToDeviceWithName: selectedDevice];
     [self restart];
-#if 0
-    BOOL connected = [self.capturer available];
-    [self.statusView.bPrepare setEnabled: connected];
-    [self.statusView.bRun setEnabled: NO];
-    [self.statusView.bRun setEnabled: NO];
-    self.running = NO;
-    self.preparing = NO;
-    self.running = NO;
-#endif
 }
 #endif
 
@@ -424,7 +415,8 @@ static NSMutableDictionary *runManagerSelectionNibs;
 			[self.selectionView.bBase setEnabled: NO];
 			[self.statusView.bPrepare setEnabled: YES];
 		} else {
-            BOOL ok = [self _fillBaseMenu];
+            NSArray *calibrationNames = self.measurementType.requires.measurementNames;
+            BOOL ok = [self.selectionView setBases: calibrationNames];
             [self.statusView.bPrepare setEnabled: ok];
 		}
 #endif
@@ -441,33 +433,6 @@ static NSMutableDictionary *runManagerSelectionNibs;
         [self.statusView.bRun setEnabled: NO];
         [self.statusView.bStop setEnabled: NO];
 	}
-}
-
-- (BOOL)_fillBaseMenu
-{
-#ifdef WITH_APPKIT
-    NSArray *calibrationNames = self.measurementType.requires.measurementNames;
-    [self.selectionView.bBase removeAllItems];
-    [self.selectionView.bBase addItemsWithTitles:calibrationNames];
-    if ([self.selectionView.bBase numberOfItems])
-        [self.selectionView.bBase selectItemAtIndex:0];
-    [self.selectionView.bBase setEnabled:YES];
-    
-    BOOL ok = ([self.selectionView.bBase selectedItem] != NULL); // Anything selected?
-    if (!ok) {
-        NSAlert *alert = [[NSAlert alloc] init];
-        [alert setMessageText: @"No calibrations available."];
-        [alert setInformativeText: [NSString stringWithFormat:@"\"%@\" measurements should be based on a \"%@\" calibration. Please calibrate first.",
-                                    self.measurementType.name,
-                                    self.measurementType.requires.name
-                                    ]];
-        [alert addButtonWithTitle: @"OK"];
-        [alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
-    }
-    return ok;
-#else
-    return YES;
-#endif
 }
 
 - (void) companionRestart

@@ -195,14 +195,12 @@
 - (IBAction)inputDeviceSelectionChanged: (id _Nullable ) sender;
 #endif
 
-#ifdef WITH_UIKIT
 /// Change the set of base measurements available in the UI.
 /// @param baseNames Array of base names as NSString.
-- (void)setBases: (NSArray *_Nonnull)baseNames;
+- (BOOL)setBases: (NSArray *_Nonnull)baseNames;
 
 /// Disable (and possibly hide) the base measurement selector.
 - (void)disableBases;
-#endif
 
 
 @end

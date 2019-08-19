@@ -38,6 +38,19 @@
 #ifdef WITH_APPKIT
 - (void)inputDeviceSelectionChanged:(id)sender {
     NSLog(@"networkInputSelectionView inputDeviceSelectionChanged called");
+    assert(0);
+}
+
+- (BOOL)setBases: (NSArray *)baseNames
+{
+    NSLog(@"networkInputSelectionView setBases called");
+    assert(0);
+}
+
+- (void)disableBases
+{
+    NSLog(@"networkInputSelectionView disableBases called");
+    assert(0);
 }
 #endif
 @end
