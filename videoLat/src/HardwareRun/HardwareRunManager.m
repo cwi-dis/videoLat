@@ -200,27 +200,6 @@
 	self.outputCode = @"uncertain";
 }
 
-- (BOOL)_selectOutputDeviceBasedOnBase {
-    assert(handlesOutput);
-    assert(!handlesInput);
-    assert(self.outputView);
-    assert(self.selectionView);
-    // Get output device driver name from base measurement
-    MeasurementType *baseType = (MeasurementType *)self.inputCompanion.measurementType.requires;
-    MeasurementDataStore *baseStore = [baseType measurementNamed: self.selectionView.baseName];
-    if (baseStore == nil) {
-        [self showErrorSheet: [NSString stringWithFormat:@"HardwareRunManager: no base measurement named %@", baseName]];
-        return NO;
-    }
-    NSString *deviceName = baseStore.output.device;
-    // Tell output driver to use this device
-    BOOL ok = [self.outputView switchToDeviceWithName: deviceName];
-    if (!ok) {
-    	[self showErrorSheet: [NSString stringWithFormat:@"HardwareRunManager: cannot switch to output device %@", deviceName]];
-	}
-	return ok;
-}
-
 - (BOOL) prepareInputDevice
 {
 	assert(handlesInput);
@@ -233,11 +212,8 @@
     assert(self.selectionView);
     if (handlesInput) {
         assert(self.outputView.hardwareInputHandler == self.capturer);
-        return self.outputView.available;
     }
-    // We are output-only. go through the output handler to setup the device.
-    BOOL ok = [self _selectOutputDeviceBasedOnBase];
-    return ok;
+    return self.outputView.available;
 }
 
 - (void) startCapturing: (BOOL)showPreview

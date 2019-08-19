@@ -202,8 +202,6 @@ static NSMutableDictionary *runManagerSelectionNibs;
     assert(self.capturer);
     assert(self.selectionView);
     assert(self.statusView);
-    NSString *selectedDevice = self.selectionView.deviceName;
-    [self.capturer switchToDeviceWithName: selectedDevice];
     [self restart];
 }
 #endif
@@ -406,32 +404,76 @@ static NSMutableDictionary *runManagerSelectionNibs;
     assert(self.selectionView);
     assert (self.statusView);
 	@synchronized(self) {
+#ifdef WITH_APPKIT
+        [self.statusView.bPrepare setEnabled: NO];
+#endif
+        [self.statusView.bRun setEnabled: NO];
+        [self.statusView.bStop setEnabled: NO];
+        self.preparing = NO;
+        self.running = NO;
+        self.outputCode = @"uncertain";
+        
         if (self.measurementType == nil) {
             NSLog(@"Error: BaseRunManager.restart called without measurementType");
             return;
         }
+        // Select input device (based on selection from menu)
+        NSString *selectedDevice = self.selectionView.deviceName;
+        if (selectedDevice == nil) return;
+        BOOL ok = [self.capturer switchToDeviceWithName: selectedDevice];
 #ifdef WITH_APPKIT
+        if (!ok) {
+            [self showErrorSheet: [NSString stringWithFormat:@"Cannot switch to input device %@", selectedDevice]];
+            return;
+        }
 		if (self.measurementType.requires == nil) {
 			[self.selectionView.bBase setEnabled: NO];
 			[self.statusView.bPrepare setEnabled: YES];
 		} else {
             NSArray *calibrationNames = self.measurementType.requires.measurementNames;
-            BOOL ok = [self.selectionView setBases: calibrationNames];
-            [self.statusView.bPrepare setEnabled: ok];
+            ok = [self.selectionView setBases: calibrationNames];
+            if (!ok) {
+#ifdef WITH_APPKIT
+                [self showErrorSheet: @"No suitable calibrations"];
+#else
+                showWarningAlert(@"No suitable calibrations");
+#endif
+                return;
+            }
+            baseName = self.selectionView.baseName;
 		}
 #endif
-		self.preparing = NO;
-		self.running = NO;
-        self.outputCode = @"uncertain";
-		VL_LOG_EVENT(@"restart", 0LL, self.measurementType.name);
-        BOOL devicesOK = ([self prepareInputDevice] && [self.outputCompanion prepareOutputDevice]);
-        if (!devicesOK) {
+        // Select or check output device (based on base measurement setting)
+        if (self.measurementType.requires != nil) {
+            MeasurementType *baseType = (MeasurementType *)self.measurementType.requires;
+            MeasurementDataStore *baseStore = [baseType measurementNamed: baseName];
+            if (baseStore == nil) {
 #ifdef WITH_APPKIT
-            [self.statusView.bPrepare setEnabled: NO];
+                [self showErrorSheet: [NSString stringWithFormat:@"No base measurement named %@", baseName]];
+#else
+                showWarningAlert([NSString stringWithFormat:@"No base measurement named %@", baseName]);
 #endif
+                return;
+            }
+            NSString *deviceName = baseStore.output.device;
+            ok = [self.outputCompanion.outputView switchToDeviceWithName: deviceName];
+            if (!ok) {
+#ifdef WITH_APPKIT
+                [self showErrorSheet: [NSString stringWithFormat:@"Cannot switch to output device %@", deviceName]];
+#else
+                showWarningAlert([NSString stringWithFormat:@"Cannot switch to output device %@", deviceName]);
+#endif
+                return;
+            }
         }
-        [self.statusView.bRun setEnabled: NO];
-        [self.statusView.bStop setEnabled: NO];
+        // Finally tell the input and output device handlers to get ready (if needed)
+        ok = ([self prepareInputDevice] && [self.outputCompanion prepareOutputDevice]);
+        if (!ok) return;
+        // All is well.
+        VL_LOG_EVENT(@"restart", 0LL, self.measurementType.name);
+#ifdef WITH_APPKIT
+        [self.statusView.bPrepare setEnabled: YES];
+#endif
 	}
 }
 

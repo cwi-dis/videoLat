@@ -216,6 +216,10 @@
 	AVCaptureDevice* dev = [self _deviceWithName:name];
     if (dev == nil)
         return NO;
+    // Check whether we already use this device
+    if (session && [name isEqualToString:deviceName]) {
+        return YES;
+    }
 	[self _switchToDevice:dev];
     [[NSUserDefaults standardUserDefaults] setObject:name forKey:@"Camera"];
     return YES;
