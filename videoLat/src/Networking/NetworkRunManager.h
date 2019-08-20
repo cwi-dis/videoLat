@@ -32,7 +32,7 @@
 #ifdef WITH_SET_MIN_CAPTURE_DURATION
 	BOOL captureDurationWasSet;
 #endif
-	NSObject <RemoteClockProtocol> *_keepRemoteClock;	//!< Internal: retain self-allocated clock
+	NSObject <RemoteClockProtocol> *remoteClock;	//!< Internal: retain self-allocated clock
 	DeviceDescription *remoteDevice;	//!< Internal: description of device used at the remote end
 	DeviceDescription *deviceDescriptorToSend;	//!< Internal: description of local device, to be sent to remote
 	NSString *statusToPeer;				//!< Internal: status update to be transmitted to peer
@@ -41,7 +41,6 @@
 }
 
 @property(weak) IBOutlet id <ClockProtocol> clock;              //!< Assigned in NIB: clock source
-@property(weak) IBOutlet id <RemoteClockProtocol> remoteClock;	//!< Can be assigned in NIB: object keeping remote time.
 @property(weak) IBOutlet NetworkSelectionView *selectionView;   //!< UI element: all available cameras
 @property(weak) IBOutlet id <InputVideoFindProtocol> finder;    //!< Assigned in NIB: matches incoming QR codes
 //@property(weak) IBOutlet NetworkOutputView *outputView;         //!< Assigned in NIB: visual feedback view of output for the user

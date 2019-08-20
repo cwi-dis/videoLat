@@ -206,10 +206,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
     // we only allocate a clock, the client-side of the network connection will be created once we
     // know ip/port (which will come in encoded as a QR-code)
     if (handlesOutput) {
-        if (self.remoteClock == nil) {
-            _keepRemoteClock = [[SimpleRemoteClock alloc] init];
-            self.remoteClock = _keepRemoteClock;
-        }
+        remoteClock = [[SimpleRemoteClock alloc] init];
     }
 }
 
@@ -425,7 +422,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
                 prevInputCode = code;
                 prevInputCodeDetectionCount = 1;
                 tsLastReported = timestamp;
-				tsLastReportedRemote = [self.remoteClock remoteNow:tsLastReported];
+				tsLastReportedRemote = [remoteClock remoteNow:tsLastReported];
                 VL_LOG_EVENT(@"slaveDetectionSlaveTime", tsLastReported, code);
                 VL_LOG_EVENT(@"slaveDetectionMasterTime", tsLastReportedRemote, code);
                 if (VL_DEBUG) NSLog(@"Found QR-code: %@", code);
@@ -487,9 +484,9 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
             // All QR codes are sent back to the master, assuming we have a connection to the master already.
             if (self.protocol) {
                 uint64_t now = [self.clock now];
-                uint64_t remoteNow = [self.remoteClock remoteNow: now];
-                uint64_t rtt = [self.remoteClock rtt];
-				uint64_t clockInterval = [self.remoteClock clockInterval];
+                uint64_t remoteNow = [remoteClock remoteNow: now];
+                uint64_t rtt = [remoteClock rtt];
+				uint64_t clockInterval = [remoteClock clockInterval];
                 NSMutableDictionary *msg = [@{
                                       @"code" : code,
                                       @"masterDetectTime": [NSString stringWithFormat:@"%lld", tsLastReportedRemote],
@@ -518,9 +515,9 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
              // No QR-code detected. Send a heartbeat every second.
             uint64_t now = [self.clock now];
             if (self.protocol && now - lastMessageSentTime > HEARTBEAT_INTERVAL) {
-                uint64_t remoteNow = [self.remoteClock remoteNow: now];
-                uint64_t rtt = [self.remoteClock rtt];
-				uint64_t clockInterval = [self.remoteClock clockInterval];
+                uint64_t remoteNow = [remoteClock remoteNow: now];
+                uint64_t rtt = [remoteClock rtt];
+				uint64_t clockInterval = [remoteClock clockInterval];
                 NSMutableDictionary *msg = [@{
                                       @"slaveTime" : [NSString stringWithFormat:@"%lld", now],
                                       @"masterTime" : [NSString stringWithFormat:@"%lld", remoteNow],
@@ -602,13 +599,13 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
         uint64_t masterTimestamp = getTimestamp(data, @"lastMasterTime");
         if (slaveTimestamp && masterTimestamp) {
             uint64_t now = [self.clock now];
-            [self.remoteClock remote:masterTimestamp between:slaveTimestamp and:now];
+            [remoteClock remote:masterTimestamp between:slaveTimestamp and:now];
             if ([self.outputView isKindOfClass:[NetworkOutputView class]]) {
                 NetworkOutputView *nov = (NetworkOutputView *)self.outputView;
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    nov.bPeerRTT.stringValue = [NSString stringWithFormat:@"%lld (best %lld)", [self.remoteClock rtt]/1000, [self.remoteClock clockInterval]/1000];
+                    nov.bPeerRTT.stringValue = [NSString stringWithFormat:@"%lld (best %lld)", [remoteClock rtt]/1000, [remoteClock clockInterval]/1000];
                     });
-            //NSLog(@"master %lld in %lld..%lld (delta=%lld)", masterTimestamp, slaveTimestamp, now, [self.remoteClock rtt]);
+            //NSLog(@"master %lld in %lld..%lld (delta=%lld)", masterTimestamp, slaveTimestamp, now, [remoteClock rtt]);
             }
         } else {
             NSLog(@"unexpected data from master: %@", data);
