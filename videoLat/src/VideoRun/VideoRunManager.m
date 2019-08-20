@@ -124,13 +124,13 @@
 		showWarningAlert(@"Output clock has gone back in time");
 	}
 	
-	// Generate the new output code. During preRunning, our input companion can
-	// supply the codes, if it wants to (the NetworkRunManager does this, so the
+	// Generate the new output code. During preRunning, our input device can
+	// supply the codes, if it wants to (the NetworkInput does this, so the
 	// codes contain the ip/port combination of the server)
 	self.prevOutputCode = self.outputCode;
 	self.outputCode = nil;
-	if (self.preparing && [self.inputCompanion respondsToSelector:@selector(genPrepareCode)]) {
-		self.outputCode = [self.inputCompanion genPrepareCode];
+	if (self.preparing && [self.capturer respondsToSelector:@selector(genPrepareCode)]) {
+		self.outputCode = [self.capturer genPrepareCode];
 	}
 	if (self.outputCode == nil) {
 		self.outputCode = [NSString stringWithFormat:@"%lld", tsForCode];

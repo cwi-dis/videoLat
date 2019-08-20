@@ -12,49 +12,17 @@
 #import "NetworkInput.h"
 #import "EventLogger.h"
 
-#ifdef WITH_UIKIT
-// Gross....
-#define stringValue text
-#endif
-
 ///
 /// How many times do we want to get a message that the prerun code has been detected?
 /// This define is used on the master side, and stops the prerun sequence. It should be high enough that we
 /// have a reasonable measurement of the RTT and the clock difference.
 #define PREPARE_COUNT 32
 
-///
-/// How often do we send a message if we have not received a QR-code (in microseconds)?
-/// This define is used on the slave side, it keeps the connection open and the RTT clock difference.
-/// In addition, it will trigger the master side to emit a fresh QR code if the current QR code hasn't been
-/// detected for some time.
-#define HEARTBEAT_INTERVAL 1000000LL
 
 ///
 /// What is the maximum time we try to detect a QR-code (in microseconds)?
 /// This define is used on the master side, to trigger a new QR code if the old one was never detected, for some reason.
 #define MAX_DETECTION_INTERVAL 5000000LL
-
-
-///
-/// Helper function: get an uint64_t from a dictionary item, if it exists
-static uint64_t getTimestamp(NSDictionary *data, NSString *key)
-{
-    id timeObject = [data objectForKey: key];
-    if (timeObject == nil) {
-        NSLog(@"No key %@ in %@", key, data);
-        return 0;
-    }
-    if ([timeObject respondsToSelector:@selector(unsignedLongLongValue)]) {
-        return [timeObject unsignedLongLongValue];
-    }
-    uint64_t timestamp;
-    if (sscanf([timeObject UTF8String], "%lld", &timestamp) == 1) {
-        return timestamp;
-    }
-    NSLog(@"Cannot convert to uint64: %@", timeObject);
-    return 0;
-}
 
 @implementation NetworkRunManager
 @synthesize selectionView;
@@ -94,9 +62,6 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
         handlesInput = NO;
         handlesOutput = NO;
         slaveHandler = NO;
-		remoteDevice = nil;
-		statusToPeer = nil;
-		didReceiveData = NO;
     }
     return self;
 }
@@ -113,6 +78,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
     }
     [super awakeFromNib];
     assert(self.clock);
+    assert(self.networkDevice);
     if (handlesInput) {
 #if 0
         // This isn't set for screen calibrate using remote camera...
@@ -127,39 +93,14 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
     // If we don't handle output (i.e. output is going through video) we start the server and
     // report the port number
     if (!handlesOutput) {
-        assert(self.protocol == nil);
-        self.protocol = [[NetworkProtocolServer alloc] init];
-        self.protocol.delegate = self;
-        self.selectionViewForStatusOnly.bOurPort.stringValue = [NSString stringWithFormat:@"%@:%d", self.protocol.host, self.protocol.port];
+        [self.networkDevice tmpOpenServer];
     }
-    // If we handle output (i.e. we get video from the camera and report QR codes to the server)
-    // we only allocate a clock, the client-side of the network connection will be created once we
-    // know ip/port (which will come in encoded as a QR-code)
-    if (handlesOutput) {
-        remoteClock = [[RemoteClock alloc] init];
-    }
-}
-
-- (void) _updateStatus: (NSString *)status
-{
-    NetworkOutputView *nov = NULL;
-    if ([self.outputView isKindOfClass:[NetworkOutputView class]]) {
-        nov = (NetworkOutputView *)self.outputView;
-    }
-	dispatch_async(dispatch_get_main_queue(), ^{
-		if (nov) {
-			nov.bPeerStatus.stringValue = status;
-		}
-		if (self.selectionViewForStatusOnly) {
-			self.selectionViewForStatusOnly.bOurStatus.stringValue = status;
-		}
-	});
 }
 
 - (BOOL)prepareInputDevice
 {
     if (handlesInput && ![self.capturer isKindOfClass: [NetworkInput class]]) {
-		deviceDescriptorToSend = nil;
+        DeviceDescription *deviceDescriptorToSend = nil;
         if (self.measurementType.isCalibration) {
             if (self.selectionView) assert(self.selectionView.bBase == nil);
 			assert(self.capturer);
@@ -177,6 +118,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
             assert(baseStore.input);
             deviceDescriptorToSend = [[DeviceDescription alloc] initFromCalibrationInput: baseStore];
         }
+        [self.networkDevice tmpSetDeviceDescriptor: deviceDescriptorToSend];
 		[self.capturer startCapturing:YES];
 	}
 	return YES;
@@ -186,20 +128,10 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 {
 	self.running = NO;
 	self.preparing = NO;
-	[self _updateStatus: @"Measurements complete"];
-	statusToPeer = @"Measurements complete";
+	[self.networkDevice tmpUpdateStatus: @"Measurements complete"];
     MeasurementDataStore *ds = self.collector.dataStore;
 	[ds trim];
-    if (self.protocol && ds) {
-        NSData *dsData = [NSKeyedArchiver archivedDataWithRootObject: ds];
-        assert(dsData);
-        NSString *dsString = [dsData base64EncodedStringWithOptions:0];
-        assert(dsString);
-        [self.protocol send: @{@"measurementResults" : dsString}];
-        [self.protocol close];
-        self.protocol.delegate = nil;
-        self.protocol = nil;
-    }
+    [self.networkDevice tmpSendResult: ds];
 }
 
 - (void)triggerNewOutputValue
@@ -253,6 +185,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 {
     lastDetectionReceivedTime = timestamp;
     if (self.preparing) {
+        NSString *prepareCode = [self.capturer genPrepareCode];
         if (prepareCode == nil || ![prepareCode isEqualToString:code]) {
             NSLog(@"Peer sent us code %@ but we expected %@", code, prepareCode);
             return;
@@ -321,6 +254,23 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
     }
 }
 
+- (void)reportRemoteResults: (MeasurementDataStore *)mr
+{
+    mr.measurementType = self.measurementType.name;
+    if (self.capturer) [self.capturer stop];
+    if (self.completionHandler) {
+        [self.completionHandler performSelectorOnMainThread:@selector(openUntitledDocumentWithMeasurement:) withObject:mr waitUntilDone:NO];
+    } else {
+#ifdef WITH_APPKIT
+        AppDelegate *d = (AppDelegate *)[[NSApplication sharedApplication] delegate];
+        [d performSelectorOnMainThread:@selector(openUntitledDocumentWithMeasurement:) withObject:mr waitUntilDone:NO];
+        [self.statusView.window close];
+#else
+        assert(0);
+#endif
+    }
+}
+
 ///
 /// This version of newInputDone is used when running in slave mode, it signals that the camera
 /// has captured an input.
@@ -345,16 +295,13 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
             if (prevInputCode && [code isEqualToString: prevInputCode]) {
                 // We have seen this code before. Only increment the detection count.
                 prevInputCodeDetectionCount++;
-				if (VL_DEBUG) NSLog(@"Found %d copies since %lld (%lld) of %@", prevInputCodeDetectionCount, tsLastReported, tsLastReportedRemote, prevInputCode);
+				if (VL_DEBUG) NSLog(@"Found %d copies since %lld of %@", prevInputCodeDetectionCount, tsLastReported, prevInputCode);
             } else {
                 // We found a new QR code (at least, different from the last detection).
                 // Remember when we first detected it, and then see what we should do with it.
                 prevInputCode = code;
                 prevInputCodeDetectionCount = 1;
                 tsLastReported = timestamp;
-				tsLastReportedRemote = [remoteClock remoteNow:tsLastReported];
-                VL_LOG_EVENT(@"slaveDetectionSlaveTime", tsLastReported, code);
-                VL_LOG_EVENT(@"slaveDetectionMasterTime", tsLastReportedRemote, code);
                 if (VL_DEBUG) NSLog(@"Found QR-code: %@", code);
                 
                 // If it is a URL it is probably a prerun QR-code (which is a URL, so that if
@@ -363,43 +310,8 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
                 // The prerun QR-code contains contact information for the server running on the
                 // master copy of videoLat.
 				if ([code hasPrefix:@"http"]) {
-                    NSURLComponents *urlComps = [NSURLComponents componentsWithString: code];
-					assert(!self.protocol);	// If multiple different prearm codes are sent by the master this needs to be revisited
-					assert(deviceDescriptorToSend); // Or could this be set at initialization?
-					if ([urlComps.path isEqualToString: @"/landing"] && self.protocol == nil) {
-						NSString *query = urlComps.query;
-						NSLog(@"Server info: %@", query);
-                        const char *cQuery = [query UTF8String];
-                        char ipBuffer[128];
-                        int port;
-                        int rv = sscanf(cQuery, "ip=%126[^&]&port=%d", ipBuffer, &port);
-                        if (rv != 2) {
-                            [self _updateStatus: [NSString stringWithFormat: @"Unexcepted URL: %@", code] ];
-                        } else {
-                            NetworkOutputView *nov = NULL;
-                            if ([self.outputView isKindOfClass:[NetworkOutputView class]]) {
-                                nov = (NetworkOutputView *)self.outputView;
-                            }
-                            NSString *ipAddress = [NSString stringWithUTF8String:ipBuffer];
-							dispatch_async(dispatch_get_main_queue(), ^{
-								nov.bPeerIPAddress.stringValue = ipAddress;
-								nov.bPeerPort.stringValue = [NSString stringWithFormat:@"%d", port];
-								nov.bPeerStatus.stringValue = @"Connecting...";
-							});
+                    [self.networkDevice tmpOpenClient: code];
 
-                            self.protocol = [[NetworkProtocolClient alloc] initWithPort:port host: ipAddress];
-							NSString *status;
-                            if (self.protocol == nil) {
-                                status = @"Failed to connect";
-                            } else {
-                                self.protocol.delegate = self;
-                                status = @"Connection established";
-                            }
-							dispatch_async(dispatch_get_main_queue(), ^{
-								nov.bPeerStatus.stringValue = status;
-							});
-                        }
-					}
 				}
 				else {
 #ifdef WITH_SET_MIN_CAPTURE_DURATION
@@ -412,63 +324,10 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
                 
             }
             // All QR codes are sent back to the master, assuming we have a connection to the master already.
-            if (self.protocol) {
-                uint64_t now = [self.clock now];
-                uint64_t remoteNow = [remoteClock remoteNow: now];
-                uint64_t rtt = [remoteClock rtt];
-				uint64_t clockInterval = [remoteClock clockInterval];
-                NSMutableDictionary *msg = [@{
-                                      @"code" : code,
-                                      @"masterDetectTime": [NSString stringWithFormat:@"%lld", tsLastReportedRemote],
-                                      @"slaveTime" : [NSString stringWithFormat:@"%lld", now],
-                                      @"masterTime" : [NSString stringWithFormat:@"%lld", remoteNow],
-                                      @"count" : [NSString stringWithFormat:@"%d", prevInputCodeDetectionCount],
-                                      @"rtt" : [NSString stringWithFormat:@"%lld", rtt],
-                                      @"clockInterval" : [NSString stringWithFormat:@"%lld", clockInterval]
-                                      } mutableCopy];
-				if (deviceDescriptorToSend) {
-                    NSData *ddData = [NSKeyedArchiver archivedDataWithRootObject: deviceDescriptorToSend];
-                    assert(ddData);
-                    NSString *ddString = [ddData base64EncodedStringWithOptions:0];
-                    assert(ddString);
-					[msg setObject: ddString forKey:@"inputDeviceDescriptor"];
-					deviceDescriptorToSend = nil;
-				}
-				if (statusToPeer) {
-					[msg setObject: statusToPeer forKey: @"peerStatus"];
-					statusToPeer = nil;
-				}
-                [self.protocol send: msg];
-                lastMessageSentTime = now;
-            }
+            [self.networkDevice tmpReport:code count:prevInputCodeDetectionCount at:tsLastReported];
         } else {
              // No QR-code detected. Send a heartbeat every second.
-            uint64_t now = [self.clock now];
-            if (self.protocol && now - lastMessageSentTime > HEARTBEAT_INTERVAL) {
-                uint64_t remoteNow = [remoteClock remoteNow: now];
-                uint64_t rtt = [remoteClock rtt];
-				uint64_t clockInterval = [remoteClock clockInterval];
-                NSMutableDictionary *msg = [@{
-                                      @"slaveTime" : [NSString stringWithFormat:@"%lld", now],
-                                      @"masterTime" : [NSString stringWithFormat:@"%lld", remoteNow],
-                                      @"rtt" : [NSString stringWithFormat:@"%lld", rtt],
-                                      @"clockInterval" : [NSString stringWithFormat:@"%lld", clockInterval]
-                                      } mutableCopy];
-				if (deviceDescriptorToSend) {
-                    NSData *ddData = [NSKeyedArchiver archivedDataWithRootObject: deviceDescriptorToSend];
-                    assert(ddData);
-                    NSString *ddString = [ddData base64EncodedStringWithOptions:0];
-                    assert(ddString);
-                    [msg setObject: ddString forKey:@"inputDeviceDescriptor"];
-                    deviceDescriptorToSend = nil;
-				}
-				if (statusToPeer) {
-					[msg setObject: statusToPeer forKey: @"peerStatus"];
-					statusToPeer = nil;
-				}
-                [self.protocol send: msg];
-                lastMessageSentTime = now;
-            }
+            [self.networkDevice tmpHeartbeat];
         }
     }
 }
@@ -481,174 +340,11 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 	[NSException raise:@"NetworkRunManager" format:@"Must override newInputDone in subclass"];
 }
 
-- (void)received:(NSDictionary *)data from: (id)connection
-{
-	if (!didReceiveData) {
-		[self _updateStatus: @"Connected"];
-		didReceiveData = YES;
-	}
-    if (!self.protocol) {
-        NSLog(@"NetworkRunManager: discarding data received after connection close");
-        return;
-    }
-    if (handlesOutput) {
-        // This code runs in the slave (video receiver, network transmitter)
-        assert(self.outputView);
-        
-        // Let's first check whether this message has the results, in that case we display them and are done.
-        NSString *mrString = [data objectForKey: @"measurementResults"];
-        if (mrString) {
-            NSData *mrData = [[NSData alloc] initWithBase64EncodedString:mrString options:NSDataBase64DecodingIgnoreUnknownCharacters];
-            assert(mrData);
-            MeasurementDataStore *mr = [NSKeyedUnarchiver unarchiveObjectWithData:mrData];
-            assert(mr);
-            //
-            // Override description with our description
-            //
-            mr.measurementType = self.measurementType.name;
-            [self.protocol close];
-            if (self.protocol) self.protocol.delegate = nil;
-            self.protocol = nil;
-            if (self.capturer) [self.capturer stop];
-            [self _updateStatus:@"Complete"];
-			if (self.completionHandler) {
-                [self.completionHandler performSelectorOnMainThread:@selector(openUntitledDocumentWithMeasurement:) withObject:mr waitUntilDone:NO];
-			} else {
-#ifdef WITH_APPKIT
-				AppDelegate *d = (AppDelegate *)[[NSApplication sharedApplication] delegate];
-                [d performSelectorOnMainThread:@selector(openUntitledDocumentWithMeasurement:) withObject:mr waitUntilDone:NO];
-				[self.statusView.window close];
-#else
-				assert(0);
-#endif
-			}
-			return;
-        }
-        //NSLog(@"received %@ from %@ (our protocol %@)", data, connection, self.protocol);
-        uint64_t slaveTimestamp = getTimestamp(data, @"lastSlaveTime");
-        uint64_t masterTimestamp = getTimestamp(data, @"lastMasterTime");
-        if (slaveTimestamp && masterTimestamp) {
-            uint64_t now = [self.clock now];
-            [remoteClock remote:masterTimestamp between:slaveTimestamp and:now];
-            if ([self.outputView isKindOfClass:[NetworkOutputView class]]) {
-                NetworkOutputView *nov = (NetworkOutputView *)self.outputView;
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    nov.bPeerRTT.stringValue = [NSString stringWithFormat:@"%lld (best %lld)", [remoteClock rtt]/1000, [remoteClock clockInterval]/1000];
-                    });
-            //NSLog(@"master %lld in %lld..%lld (delta=%lld)", masterTimestamp, slaveTimestamp, now, [remoteClock rtt]);
-            }
-        } else {
-            NSLog(@"unexpected data from master: %@", data);
-        }
-		NSString *peerStatus = [data objectForKey:@"peerStatus"];
-		if (peerStatus) {
-			[self _updateStatus: peerStatus];
-		}
-		NSString *statusCount = [data objectForKey:@"statusCount"];
-		NSString *statusAverage = [data objectForKey: @"statusAverage"];
-		if (self.statusView && (statusCount || statusAverage)) {
-			self.statusView.detectCount = statusCount;
-			self.statusView.detectAverage = statusAverage;
-			[self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
-		}
-    } else {
-        // This code runs in the master (video sender, network receiver)
-#ifdef WITH_APPKIT
-        if(!self.selectionView) NSLog(@"Warning: NetworkrunManager has no selectionView");
-#endif
-
-        uint64_t slaveTimestamp = getTimestamp(data, @"slaveTime");
-        uint64_t masterTimestamp = getTimestamp(data, @"masterTime");
-		uint64_t masterDetectionTimestamp = getTimestamp(data, @"masterDetectTime");
-        uint64_t rtt = getTimestamp(data, @"rtt");
-        uint64_t clockInterval = getTimestamp(data, @"clockInterval");
-        NSString *code = [data objectForKey: @"code"];
-        
-        if (slaveTimestamp) {
-            uint64_t now = [self.clock now];
-            NSMutableDictionary *msg = [@{
-                                  @"lastMasterTime": [NSString stringWithFormat:@"%lld", now],
-                                  @"lastSlaveTime" : [NSString stringWithFormat:@"%lld", slaveTimestamp],
-                                  } mutableCopy];
-			if (statusToPeer) {
-				[msg setObject: statusToPeer forKey: @"peerStatus"];
-				statusToPeer = nil;
-			}
-			if (self.collector && self.collector.count) {
-				[msg setObject: [NSString stringWithFormat: @"%d", self.collector.count] forKey: @"statusCount"];
-				[msg setObject: [NSString stringWithFormat: @"%.3f ms ± %.3f", self.collector.average / 1000.0, self.collector.stddev / 1000.0] forKey: @"statusAverage"];
-			}
-            [self.protocol send: msg];
-        }
-        
-		// Let's see whether they transmitted the device descriptor
-		NSString *ddString = [data objectForKey: @"inputDeviceDescriptor"];
-		if (ddString) {
-            NSData *ddData = [[NSData alloc] initWithBase64EncodedString:ddString options:0];
-            assert(ddData);
-            DeviceDescription *dd = [NSKeyedUnarchiver unarchiveObjectWithData:ddData];
-            assert(dd);
-            if (remoteDevice) {
-                // This should probably be an alert.
-                NSLog(@"Received second remote device descriptor %@", dd);
-            }
-			remoteDevice = dd;
-		}
-		// And update our status, if needed
-		NSString *peerStatus = [data objectForKey:@"peerStatus"];
-		if (peerStatus) {
-			[self _updateStatus: peerStatus];
-		}
-
-        if (rtt) {
-            if (rtt > 10000000) {
-                // RTT bigger than 10 seconds is preposterous
-                NSLog(@"NetworkRunManager: preposterous RTT of %lld ms",(rtt/1000));
-            }
-			dispatch_async(dispatch_get_main_queue(), ^{
-				self.selectionViewForStatusOnly.bRTT.stringValue = [NSString stringWithFormat:@"%lld (best %lld)", rtt/1000, clockInterval/1000];
-				});
-        }
-        
-        if(code && masterDetectionTimestamp) {
-			uint64_t count = getTimestamp(data, @"count");
-            [self newInputDone: code count: (int)count at: masterDetectionTimestamp];
-        } else if (code && self.preparing) {
-			uint64_t count = getTimestamp(data, @"count");
-            [self newInputDone: code count: (int)count at: 0];
-		} else {
-            if (VL_DEBUG) NSLog(@"NetworkRunManager: received no qr-code at %lld,code=%@,masterDetectionTimestamp=%lld", masterTimestamp,code, masterDetectionTimestamp);
-            [self newInputDoneNoData];
-        }
-    }
-}
-
-- (void)disconnected:(id)connection
-{
-    NSLog(@"received disconnect from %@ (our protocol %@)", connection, self.protocol);
-	[self.protocol close];
-	if (self.protocol) self.protocol.delegate = nil;
-	self.protocol = nil;
-	[self _updateStatus: @"Disconnected"];
-    if (self.preparing)
-        [self performSelectorOnMainThread:@selector(stopPreMeasuring:) withObject:self waitUntilDone:NO];
-
-}
-
-- (NSString *)genPrepareCode
-{
-    assert (self.protocol);
-    if (prepareCode == nil) {
-        prepareCode = [NSString stringWithFormat:@"https://videolat.org/landing?ip=%@&port=%d", self.protocol.host, self.protocol.port];
-    }
-    return prepareCode;
-}
 
 - (IBAction)startPreMeasuring: (id)sender
 {
     @synchronized(self) {
-		[self _updateStatus: @"Determining RTT"];
-		statusToPeer = @"Determining RTT";
+		[self.networkDevice tmpUpdateStatus: @"Determining RTT"];
         assert(handlesInput);
         assert(self.statusView);
 #ifdef WITH_APPKIT
@@ -711,12 +407,12 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
                 }
             }
         }
-        if (errorMessage == nil && remoteDevice == nil) {
+        DeviceDescription *remoteDeviceDescription = [self.networkDevice remoteDeviceDescription];
+        if (errorMessage == nil && remoteDeviceDescription == nil) {
             errorMessage = @"No device description received from remote (slave) partner.";
         }
         if (errorMessage) {
-			[self _updateStatus: @"Missing calibration"];
-			statusToPeer = @"Missing calibration";
+			[self.networkDevice tmpUpdateStatus: @"Missing calibration"];
 			showWarningAlert(errorMessage);
 	   }
         // Remember the input and output device in the collector
@@ -725,10 +421,9 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
         } else {
             self.collector.dataStore.output = [[DeviceDescription alloc] initFromOutputDevice: self.outputCompanion.outputView];
         }
-        self.collector.dataStore.input = remoteDevice;
+        self.collector.dataStore.input = remoteDeviceDescription;
 
-		[self _updateStatus: @"Ready to run"];
-		statusToPeer = @"Ready to run";
+		[self.networkDevice tmpUpdateStatus: @"Ready to run"];
 
         if (!self.statusView) {
             // XXXJACK Make sure statusview is active/visible
@@ -743,8 +438,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 - (IBAction)startMeasuring: (id)sender
 {
     @synchronized(self) {
-		[self _updateStatus: @"Running measurements"];
-		statusToPeer = @"Running measurements";
+		[self.networkDevice tmpUpdateStatus: @"Running measurements"];
         if (!self.statusView) {
             // XXXJACK Make sure statusview is active/visible
         }

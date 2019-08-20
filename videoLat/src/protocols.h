@@ -220,6 +220,14 @@
 /// Set the minimum interval between capture callbacks, if supported.
 /// @param interval Minimum time in microseconds between callbacks.
 - (void)setMinCaptureInterval: (uint64_t)interval;
+
+@optional
+/// Can be overridden by RunManagers responsible for input, to enforce certain codes to be
+/// used during prerunning.
+/// Implemented by the NetworkRunManager to communicate the ip/port of the listener to the remote
+/// end.
+/// @return the prerun code to use.
+- (NSString *_Nullable)genPrepareCode;
 @end
 
 ///
@@ -327,13 +335,6 @@
 /// Called to prepare the input device, if needed, when restarting.
 /// @return NO if not successful
 - (BOOL) prepareInputDevice;
-
-/// Can be overridden by RunManagers responsible for input, to enforce certain codes to be
-/// used during prerunning.
-/// Implemented by the NetworkRunManager to communicate the ip/port of the listener to the remote
-/// end.
-/// @return the prerun code to use.
-- (NSString *_Nullable)genPrepareCode;
 
 /// Signals that a measurement run should be restarted (for example because the input device has changed).
 - (void)restart;

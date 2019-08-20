@@ -32,11 +32,19 @@
                 <outlet property="clock" destination="136" id="139"/>
                 <outlet property="collector" destination="330" id="333"/>
                 <outlet property="measurementMaster" destination="-2" id="140"/>
+                <outlet property="networkDevice" destination="lR4-Aw-WZg" id="HP7-YK-joo"/>
                 <outlet property="outputCompanion" destination="1" id="133"/>
                 <outlet property="outputView" destination="4" id="0Ht-P0-N7P"/>
                 <outlet property="selectionView" destination="4" id="210"/>
                 <outlet property="selectionViewForStatusOnly" destination="4" id="4gm-dd-n2b"/>
                 <outlet property="statusView" destination="275" id="334"/>
+            </connections>
+        </customObject>
+        <customObject id="lR4-Aw-WZg" userLabel="NetworkDevice" customClass="NetworkInput">
+            <connections>
+                <outlet property="clock" destination="136" id="b0a-a8-4cS"/>
+                <outlet property="manager" destination="125" id="9Qb-9i-f37"/>
+                <outlet property="selectionViewForStatusOnly" destination="4" id="nA3-i1-NzX"/>
             </connections>
         </customObject>
         <customObject id="136" customClass="NetworkInput">
