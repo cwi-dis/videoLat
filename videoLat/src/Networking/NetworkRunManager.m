@@ -56,76 +56,6 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
     return 0;
 }
 
-@interface SimpleRemoteClock : NSObject  <RemoteClockProtocol> {
-	int64_t localTimeToRemoteTime;
-	uint64_t clockInterval;
-    uint64_t rtt;
-    bool initialized;
-};
-- (uint64_t)remoteNow: (uint64_t) now;
-- (void)remote: (uint64_t)remote between: (uint64_t)start and: (uint64_t) finish;
-- (uint64_t)rtt;
-- (uint64_t)clockInterval;
-@end
-
-/// Define this to always use the latest measurement as the correct time.
-#undef WITH_TIMESYNC_LATEST
-/// Define this to use the best measurement (shortest RTT) as the correct time.
-#define WITH_TIMESYNC_BEST
-
-@implementation SimpleRemoteClock
-- (SimpleRemoteClock *) init
-{
-	self = [super init];
-	localTimeToRemoteTime = 0;
-    initialized = false;
-	return self;
-}
-
-- (uint64_t)remoteNow: (uint64_t) now
-{
-    if (!initialized) return 0;
-	return now + localTimeToRemoteTime;
-}
-
-- (void)remote: (uint64_t)remote between: (uint64_t)start and: (uint64_t) finish
-{
-    if (finish < start) {
-        NSLog(@"SimpleRemoteClock: local timeinterval start %lld > end %lld, assuming local NTP re-sync", start, finish);
-        VL_LOG_EVENT(@"negativeRTT", start-finish, @"");
-        return;
-    }
-	rtt = finish-start;
-    VL_LOG_EVENT(@"RTT", rtt, @"");
-	uint64_t mid = (finish+start)/2;
-	uint64_t newLocalTimeToRemoteTime = (int64_t)remote - (int64_t)mid;
-#ifdef WITH_TIMESYNC_BEST
-	if (rtt <= clockInterval || !initialized) {
-		clockInterval = rtt;
-		localTimeToRemoteTime = newLocalTimeToRemoteTime;
-	}
-#elif WITH_TIMESYNC_LATEST
-	clockInterval = rtt;
-	localTimeToRemoteTime = newLocalTimeToRemoteTime;
-#else
-#error No timesync algorithm selected
-#endif
-    VL_LOG_EVENT(@"NewMasterTime", [self remoteNow: finish], @"");
-    initialized = true;
-}
-
-- (uint64_t) rtt
-{
-    return rtt;
-}
-
-- (uint64_t) clockInterval
-{
-    return clockInterval;
-}
-
-@end
-
 @implementation NetworkRunManager
 @synthesize selectionView;
 @synthesize outputView;
@@ -206,7 +136,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
     // we only allocate a clock, the client-side of the network connection will be created once we
     // know ip/port (which will come in encoded as a QR-code)
     if (handlesOutput) {
-        remoteClock = [[SimpleRemoteClock alloc] init];
+        remoteClock = [[RemoteClock alloc] init];
     }
 }
 

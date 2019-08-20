@@ -24,6 +24,7 @@
 		040E77371AB72002001A7918 /* DocumentDescriptionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 040E77361AB72002001A7918 /* DocumentDescriptionView.m */; };
 		040E773A1AB7200F001A7918 /* GraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = 040E77391AB7200F001A7918 /* GraphView.m */; };
 		040E77431AB73634001A7918 /* Document.m in Sources */ = {isa = PBXBuildFile; fileRef = 040E77421AB73634001A7918 /* Document.m */; };
+		0412D549230C800B009275C3 /* RemoteClock.m in Sources */ = {isa = PBXBuildFile; fileRef = 0412D548230C800B009275C3 /* RemoteClock.m */; };
 		04138C6C1AB319B9003D8167 /* MeasurementType.m in Sources */ = {isa = PBXBuildFile; fileRef = 04138C6B1AB319B9003D8167 /* MeasurementType.m */; };
 		04138C731AB31A2C003D8167 /* CalibrationSharing.m in Sources */ = {isa = PBXBuildFile; fileRef = 04138C721AB31A2C003D8167 /* CalibrationSharing.m */; };
 		04138C7E1AB31E9F003D8167 /* MeasurementDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 04138C7B1AB31E9F003D8167 /* MeasurementDataStore.m */; };
@@ -126,6 +127,8 @@
 		040E77391AB7200F001A7918 /* GraphView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GraphView.m; path = src/Document/GraphView.m; sourceTree = SOURCE_ROOT; };
 		040E77411AB73634001A7918 /* Document.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Document.h; path = src/Document/Document.h; sourceTree = SOURCE_ROOT; };
 		040E77421AB73634001A7918 /* Document.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Document.m; path = src/Document/Document.m; sourceTree = SOURCE_ROOT; };
+		0412D547230C800A009275C3 /* RemoteClock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RemoteClock.h; path = src/Networking/RemoteClock.h; sourceTree = SOURCE_ROOT; };
+		0412D548230C800B009275C3 /* RemoteClock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RemoteClock.m; path = src/Networking/RemoteClock.m; sourceTree = SOURCE_ROOT; };
 		04138C681AB31980003D8167 /* xibfiles.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = xibfiles.h; path = src/xibfiles.h; sourceTree = SOURCE_ROOT; };
 		04138C691AB31980003D8167 /* protocols.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = protocols.h; path = src/protocols.h; sourceTree = SOURCE_ROOT; };
 		04138C6A1AB319B9003D8167 /* MeasurementType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MeasurementType.h; path = src/MeasurementType.h; sourceTree = SOURCE_ROOT; };
@@ -391,6 +394,8 @@
 				041C8FFC1AC41B2300539C68 /* NetworkSelectionView.h */,
 				041C8FFD1AC41B2300539C68 /* NetworkSelectionView.m */,
 				04FAAAA81ACAA04C0094A5E9 /* NetworkInputSelectionView.xib */,
+				0412D547230C800A009275C3 /* RemoteClock.h */,
+				0412D548230C800B009275C3 /* RemoteClock.m */,
 			);
 			name = Networking;
 			sourceTree = "<group>";
@@ -732,6 +737,7 @@
 				0409FDD01ACE9E2C00851D80 /* MainMenuTableViewController.m in Sources */,
 				04155EA61AB647C500DD53D9 /* AudioRunManager.m in Sources */,
 				04155E971AB6251900DD53D9 /* NewMeasurementTableViewController.m in Sources */,
+				0412D549230C800B009275C3 /* RemoteClock.m in Sources */,
 				040E77341AB71FF2001A7918 /* DocumentView.m in Sources */,
 				04F7B83D1AC02F4400BEFDD5 /* VideoOutputView.m in Sources */,
 			);

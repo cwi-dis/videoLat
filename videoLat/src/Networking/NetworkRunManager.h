@@ -10,6 +10,7 @@
 #import "NetworkSelectionView.h"
 #import "NetworkOutputView.h"
 #import "NetworkProtocol.h"
+#import "RemoteClock.h"
 
 ///
 /// Subclass of BaseRunManager that handles transmitting and receiving measurement
@@ -32,7 +33,7 @@
 #ifdef WITH_SET_MIN_CAPTURE_DURATION
 	BOOL captureDurationWasSet;
 #endif
-	NSObject <RemoteClockProtocol> *remoteClock;	//!< Internal: retain self-allocated clock
+	RemoteClock *remoteClock;	        //!< Internal: retain self-allocated clock
 	DeviceDescription *remoteDevice;	//!< Internal: description of device used at the remote end
 	DeviceDescription *deviceDescriptorToSend;	//!< Internal: description of local device, to be sent to remote
 	NSString *statusToPeer;				//!< Internal: status update to be transmitted to peer
