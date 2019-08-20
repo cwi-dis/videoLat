@@ -6,8 +6,7 @@
 //
 //
 #import "protocols.h"
-#import "GenQRcode.h"
-
+#import "BaseRunManager.h"
 
 ///
 /// Class that implements InputDeviceProtocol (and ClockProtocol) for data that
@@ -15,7 +14,9 @@
 ///
 @interface NetworkInput : NSObject <ClockProtocol, InputDeviceProtocol> {
 }
-@property(weak) IBOutlet id <RunInputManagerProtocol> manager;
+@property(weak) IBOutlet BaseRunManager *manager;           //!< Our input manager
+@property(weak) IBOutlet BaseRunManager *outputManager;     //!< Our output manager, if different
+@property(weak) IBOutlet NSObject<ClockProtocol> *clock;    //!< Our clock, if not ourselves
 
 - (uint64_t)now;
 - (void) startCapturing: (BOOL) showPreview;

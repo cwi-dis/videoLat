@@ -6,32 +6,6 @@
 
 @implementation NetworkInput
 
-- (NSArray *)deviceNames
-{
-	return @[];
-}
-
-- (NSString *)deviceID
-{
-    return @"NetworkInput";
-}
-
-- (NSString *)deviceName
-{
-    return @"NetworkInput";
-}
-
-
-- (BOOL)available {
-	return YES; // xxxjack or should we test this?
-}
-
-- (BOOL)switchToDeviceWithName:(NSString *)name
-{
-	assert([name isEqualToString:@"NetworkInput"]);
-    return true;
-}
-
 - (NetworkInput *)init
 {
     self = [super init];
@@ -44,24 +18,48 @@
 {
     [super awakeFromNib];
     assert(self.manager);
+    if (self.outputManager == nil) self.outputManager = self.manager;
+    if (self.clock == nil) self.clock = self;
 }
 
 - (void)dealloc
 {
-	[self stop];
+    [self stop];
 }
 
 - (uint64_t)now
 {
-    return monotonicMicroSecondClock();
+    UInt64 timestamp;
+    timestamp = monotonicMicroSecondClock();
+    return timestamp;
 }
 
-- (void) stop
+- (BOOL)available {
+	return YES; // xxxjack or should we test this?
+}
+
+- (NSArray *)deviceNames
 {
-
+    return @[];
 }
 
-- (void)setMinCaptureInterval: (uint64_t)interval
+- (NSString *)deviceID
+{
+    return @"NetworkInput";
+}
+
+- (NSString *)deviceName
+{
+    return @"NetworkInput";
+}
+
+- (BOOL)switchToDeviceWithName:(NSString *)name
+{
+	assert([name isEqualToString:@"NetworkInput"]);
+    return true;
+}
+
+- (void) pauseCapturing:(BOOL)pause
 {
 }
 
@@ -75,8 +73,26 @@
 //	capturing = NO;
 }
 
-- (void) pauseCapturing:(BOOL)pause
+- (void)setMinCaptureInterval: (uint64_t)interval
 {
+}
+
+- (void) restart
+{
+}
+
+- (void) stop
+{
+}
+
+- (void)setOutputCode: (NSString *)newValue report: (BOOL)report
+{
+#if 0
+    assert(alive);
+    outputCode = newValue;
+    newOutputValueWanted = YES;
+    reportNewOutput = report;
+#endif
 }
 
 @end

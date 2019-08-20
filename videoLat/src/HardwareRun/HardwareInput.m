@@ -19,6 +19,22 @@
     return self;
 }
 
+- (void) awakeFromNib
+{
+    [super awakeFromNib];
+    assert(self.manager);
+    if (self.outputManager == nil) self.outputManager = self.manager;
+    if (self.clock == nil) self.clock = self;
+    assert(self.bDriverStatus);
+    self.samplePeriodMs = 10;
+    [self _updatePeriod];
+    [self restart];
+    
+    // Setup for callbacks
+    
+    if (VL_DEBUG) NSLog(@"Devices: %@\n", [self deviceNames]);
+}
+
 - (void)dealloc
 {
 	[self stop];
@@ -34,21 +50,6 @@
 {
 	self.bSamplePeriodStepper.intValue = self.samplePeriodMs;
 	self.bSamplePeriodValue.intValue = self.samplePeriodMs;
-}
-
-- (void) awakeFromNib
-{    
-    [super awakeFromNib];
-    if (self.outputManager == nil) self.outputManager = self.manager;
-    if (self.clock == nil) self.clock = self;
-    assert(self.bDriverStatus);
-	self.samplePeriodMs = 10;
-	[self _updatePeriod];
-    [self restart];
-
-    // Setup for callbacks
-
-	if (VL_DEBUG) NSLog(@"Devices: %@\n", [self deviceNames]);
 }
 
 - (uint64_t)now
