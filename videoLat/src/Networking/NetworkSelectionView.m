@@ -24,12 +24,6 @@
     NSLog(@"NetworkSelectionView.reportServer ip=%@ port=%d isUs=%d", ip, port, us);
 }
 
-
-- (NSString *)baseName {
-    NSLog(@"networkSelectionView baseName called");
-    assert(0); // to be implemented
-}
-
 - (NSString *)deviceName {
     NSLog(@"networkSelectionView deviceName called");
     return @"NetworkInput";
@@ -43,14 +37,36 @@
 
 - (BOOL)setBases: (NSArray *)baseNames
 {
-    NSLog(@"xxxjack NetworkInputSelectionView: Ignoring setBases %@", baseNames);
-    return YES;
+    assert(self.bBase);
+    NSArray *oldNames = self.bBase.itemTitles;
+    if ([baseNames isEqualToArray:oldNames]) {
+        return YES;
+    }
+    [self.bBase removeAllItems];
+    [self.bBase addItemsWithTitles: baseNames];
+    BOOL ok = self.bBase.numberOfItems > 0;
+    if (ok) {
+        [self.bBase selectItemAtIndex:0];
+        [self.inputSelectionDelegate inputSelectionChanged:self];
+    }
+    return ok;
 }
 
 - (void)disableBases
 {
-    NSLog(@"networkInputSelectionView disableBases called");
-    assert(0);
+    if (self.bBase) {
+        [self.bBase setEnabled: NO];
+        [self.bBase selectItem: nil];
+    }
 }
+
+- (NSString *)baseName
+{
+    if (self.bBase == nil) return nil;
+    NSMenuItem *item = [self.bBase selectedItem];
+    if (item == nil) return nil;
+    return [item title];
+}
+
 #endif
 @end
