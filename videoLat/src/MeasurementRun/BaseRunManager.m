@@ -130,18 +130,6 @@ static NSMutableDictionary *runManagerSelectionNibs;
 - (void) awakeFromNib
 {
     [super awakeFromNib];
-    if (handlesInput) assert(self.capturer);
-    if (handlesOutput) {
-        assert(self.outputView);
-        assert(self.collector);
-    }
-    if (handlesInput) assert(self.statusView);
-#ifdef WITH_APPKIT
-    assert(self.selectionView);
-    assert(self.measurementMaster);
-#endif
-
-    NSString *errorMessage = nil;
     handlesInput = self.inputCompanion == nil;
     handlesOutput = self.outputCompanion == nil;
     if (handlesInput && handlesOutput) {
@@ -149,28 +137,29 @@ static NSMutableDictionary *runManagerSelectionNibs;
         self.inputCompanion = self;
         self.outputCompanion = self;
     }
-    if (!handlesInput) assert(self.inputCompanion);
-    if (!handlesOutput) assert(self.outputCompanion);
+
+    assert(self.clock);
+#ifdef WITH_APPKIT
+    assert(self.selectionView);
+    assert(self.measurementMaster);
+#endif
     if (handlesInput) {
-        // We handle only input. Assert output handler exists and points back to us
-        if (self.outputCompanion.inputCompanion != self) {
-            errorMessage = [NSString stringWithFormat:@"Programmer error: %@ has outputCompanion %@ but it has inputCompanion %@",
-                            self, self.outputCompanion, self.outputCompanion.inputCompanion];
-        }
+        assert(self.capturer);
+        assert(self.statusView);
+        assert(self.outputCompanion.inputCompanion == self);
+    } else {
+        assert(self.inputCompanion);
+        assert(self.capturer == nil);
+        assert(self.clock == self.inputCompanion.clock);
     }
     if (handlesOutput) {
-        // We handle only output. Assert input handler exists and points back to us
-        if (self.inputCompanion.outputCompanion != self) {
-            errorMessage = [NSString stringWithFormat:@"Programmer error: %@ has inputCompanion %@ but it has outputCompanion %@",
-                            self, self.inputCompanion, self.inputCompanion.outputCompanion];
-        }
+        assert(self.outputView);
+        assert(self.inputCompanion.outputCompanion == self);
+    } else {
+        assert(self.outputCompanion);
     }
-    if (self.collector == nil && !slaveHandler) {
-        errorMessage = [NSString stringWithFormat:@"Programmer error: %@ has collector==nil", self];
-    }
-    
-    if (errorMessage) {
-        showWarningAlert(errorMessage);
+    if (!slaveHandler) {
+        assert(self.collector);
     }
 }
 
@@ -297,6 +286,7 @@ static NSMutableDictionary *runManagerSelectionNibs;
 		[self.statusView.bRun setEnabled: YES];
 		[self.statusView.bStop setEnabled: NO];
 		VL_LOG_EVENT(@"stopPremeasuring", 0LL, @"");
+        self.outputCode = @"uncertain";
 	}
 }
 
@@ -386,12 +376,16 @@ static NSMutableDictionary *runManagerSelectionNibs;
 
 - (BOOL) prepareInputDevice
 {
-	return YES;
+    assert(handlesInput);
+    return self.capturer.available;
 }
 
 - (BOOL) prepareOutputDevice
 {
-	return YES;
+    assert(handlesOutput);
+    assert(self.selectionView);
+    assert(self.outputView);
+    return self.outputView.available;
 }
 
 - (void)restart
@@ -486,10 +480,12 @@ static NSMutableDictionary *runManagerSelectionNibs;
 
 - (void)stop
 {
-	[NSException raise:@"BaseRunManager" format:@"Must override stop in subclass %@", [self class]];
+    if (self.capturer) [self.capturer stop];
+    self.capturer = nil;
+    self.clock = nil;
+    self.inputCompanion = nil;
 }
 
-    
 - (IBAction)stopMeasuring: (id)sender
 {
 	VL_LOG_EVENT(@"stop", 0LL, @"");

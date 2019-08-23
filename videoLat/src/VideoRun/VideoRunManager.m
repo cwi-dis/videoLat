@@ -53,26 +53,7 @@
 - (void) awakeFromNib
 {
     [super awakeFromNib];
-    assert(self.clock);
-    if (handlesInput) {
-    } else {
-        assert(self.inputCompanion);
-        assert(self.capturer == nil);
-        assert(self.clock == self.inputCompanion.clock);
-    }
-#ifdef WITH_APPKIT
-    assert(self.selectionView);
-#endif
 }
-
-- (void)stop
-{
- 	if (self.capturer) [self.capturer stop];
-	self.capturer = nil;
-	self.clock = nil;
-    self.inputCompanion = nil;
-}
-
 
 - (void) prepareReceivedNoValidCode
 {

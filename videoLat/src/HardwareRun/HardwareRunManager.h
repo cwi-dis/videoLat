@@ -33,12 +33,6 @@
 + (void)initialize;
 - (HardwareRunManager *)init;   //!< Initializer
 
-- (IBAction)stopPreMeasuring: (id)sender;
-
 - (void)triggerNewOutputValue;
-
-// InputDeviceProtocol
-- (void) startCapturing: (BOOL)showPreview;
-- (void) stopCapturing;
 
 @end

@@ -34,13 +34,13 @@
     [BaseRunManager registerClass: [self class] forMeasurementType: @"Transmission Calibrate using Hardware"];
     [BaseRunManager registerNib: @"ScreenToHardwareRun" forMeasurementType: @"Transmission Calibrate using Hardware"];
     // We should also ensure that the hardware protocol is actually part of the binary
+    NSLog(@"HardwareLightProtocol = %@", @protocol(HardwareLightProtocol));
 }
 
 - (HardwareRunManager*)init
 {
     self = [super init];
 	if (self) {
-		NSLog(@"HardwareLightProtocol = %@", @protocol(HardwareLightProtocol));
         prepareMaxWaitTime = self.initialPrepareDelay;
 	}
     return self;
@@ -49,17 +49,6 @@
 - (void)awakeFromNib
 {
     [super awakeFromNib];
-    assert(self.clock);
-    if (handlesInput) {
-		assert(self.capturer);
-    } else {
-        assert(self.inputCompanion);
-        assert(self.capturer == nil);
-        assert(self.clock);
-        assert(self.clock == self.inputCompanion.clock);
-    }
-    if (handlesOutput) assert(self.outputView);
-    assert(self.clock);
 }
 
 - (void)newInputDone:(NSString *)inputCode count:(int)count at:(uint64_t)inputTimestamp
@@ -194,43 +183,5 @@
     }
 }
 
-- (IBAction)stopPreMeasuring: (id)sender
-{
-	[super stopPreMeasuring: sender];
-	self.outputCode = @"uncertain";
-}
-
-- (BOOL) prepareInputDevice
-{
-	assert(handlesInput);
-	return self.capturer.available;
-}
-
-- (BOOL) prepareOutputDevice
-{
-	assert(handlesOutput);
-    assert(self.selectionView);
-    if (handlesInput) {
-        assert(self.outputView.hardwareInputHandler == self.capturer);
-    }
-    return self.outputView.available;
-}
-
-- (void) startCapturing: (BOOL)showPreview
-{
-}
-
-- (void)pauseCapturing: (BOOL)onoff
-{
-}
-
-- (void) stopCapturing
-{
-}
-
-- (void)stop
-{
-    [self.capturer stop];
-}
 
 @end

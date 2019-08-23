@@ -34,6 +34,7 @@
 }
 
 - (BOOL)available {
+    assert(self.hardwareInputHandler);
 	return self.hardwareInputHandler.available;
 }
 
