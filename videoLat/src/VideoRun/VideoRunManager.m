@@ -55,32 +55,6 @@
     [super awakeFromNib];
 }
 
-- (void) _newOutputCode
-{
-    if (!self.running && !self.preparing) {
-        self.outputCode =  @"undefined";
-        return;
-    }
-	uint64_t tsForCode = [self.clock now];
-	// Sanity check: times should be monotonically increasing
-	if (outputCodeTimestamp && outputCodeTimestamp >= tsForCode) {
-		showWarningAlert(@"Output clock has gone back in time");
-	}
-	
-	// Generate the new output code. During preRunning, our input device can
-	// supply the codes, if it wants to (the NetworkInput does this, so the
-	// codes contain the ip/port combination of the server)
-	self.prevOutputCode = self.outputCode;
-	self.outputCode = nil;
-	if (self.preparing && [self.inputCompanion.capturer respondsToSelector:@selector(genPrepareCode)]) {
-		self.outputCode = [self.inputCompanion.capturer genPrepareCode];
-	}
-	if (self.outputCode == nil) {
-		self.outputCode = [NSString stringWithFormat:@"%lld", tsForCode];
-	}
-	if (VL_DEBUG) NSLog(@"New output code: %@", self.outputCode);
-}
-
 #pragma mark RunOutputManagerProtocol
 
 - (void)triggerNewOutputValue
@@ -101,7 +75,7 @@
         // If we have already generated a QR code that hasn't been detected yet we return that.
         if (outputCodeImage)
             return outputCodeImage;
-        [self _newOutputCode];
+        [self getNewOutputCode];
         
         CGSize size = {480, 480};
         assert(self.genner);
@@ -120,9 +94,27 @@
         
         // If we are not running we should display a blue-grayish square
         if (!self.running && !self.preparing) {
-            return @"undefined";
+            self.outputCode =  @"undefined";
+            return self.outputCode;;
         }
-        [self _newOutputCode];
+        uint64_t tsForCode = [self.clock now];
+        // Sanity check: times should be monotonically increasing
+        if (outputCodeTimestamp && outputCodeTimestamp >= tsForCode) {
+            showWarningAlert(@"Output clock has gone back in time");
+        }
+        
+        // Generate the new output code. During preRunning, our input device can
+        // supply the codes, if it wants to (the NetworkInput does this, so the
+        // codes contain the ip/port combination of the server)
+        self.prevOutputCode = self.outputCode;
+        self.outputCode = nil;
+        if (self.preparing && [self.inputCompanion.capturer respondsToSelector:@selector(genPrepareCode)]) {
+            self.outputCode = [self.inputCompanion.capturer genPrepareCode];
+        }
+        if (self.outputCode == nil) {
+            self.outputCode = [NSString stringWithFormat:@"%lld", tsForCode];
+        }
+        if (VL_DEBUG) NSLog(@"New output code: %@", self.outputCode);
         // Set outputCodeTimestamp to 0 to signal we have not reported this outputcode yet
         outputCodeTimestamp = 0;
         return self.outputCode;

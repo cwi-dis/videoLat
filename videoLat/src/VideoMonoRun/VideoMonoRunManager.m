@@ -42,18 +42,25 @@
     return self;
 }
 
-- (void) _newOutputCode
+- (NSString *)getNewOutputCode
 {
-	if (!self.running && !self.preparing) {
-		// Idle, show intermediate value
-		self.outputCode = @"undefined";
-	} else {
-		if ([self.outputCode isEqualToString:@"black"]) {
-			self.outputCode = @"white";
-		} else {
-			self.outputCode = @"black";
-		}
-	}
+    // Called from the redraw routine, should generate a new output code only when needed.
+    @synchronized(self) {
+        
+        // If we are not running we should display a blue-grayish square
+        if (!self.running && !self.preparing) {
+            self.outputCode =  @"undefined";
+            return self.outputCode;
+        }
+        if ([self.outputCode isEqualToString:@"black"]) {
+            self.outputCode = @"white";
+        } else {
+            self.outputCode = @"black";
+        }
+        if (VL_DEBUG) NSLog(@"New output code: %@", self.outputCode);
+        // Set outputCodeTimestamp to 0 to signal we have not reported this outputcode yet
+        outputCodeTimestamp = 0;
+        return self.outputCode;
+    }
 }
-
 @end

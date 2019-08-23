@@ -89,20 +89,6 @@
 	}
 }
 
-- (void) _newOutputCode
-{
-    if (!self.running && !self.preparing) {
-        // Idle, show intermediate value
-        self.outputCode = @"undefined";
-    } else {
-        if ([self.outputCode isEqualToString:@"black"]) {
-            self.outputCode = @"white";
-        } else {
-            self.outputCode = @"black";
-        }
-    }
-}
-
 - (void)triggerNewOutputValue
 {
     assert(handlesOutput);
@@ -121,7 +107,16 @@
         if (!self.running && !self.preparing) {
             return @"undefined";
         }
-        [self _newOutputCode];
+        if (!self.running && !self.preparing) {
+            // Idle, show intermediate value
+            self.outputCode = @"undefined";
+        } else {
+            if ([self.outputCode isEqualToString:@"black"]) {
+                self.outputCode = @"white";
+            } else {
+                self.outputCode = @"black";
+            }
+        }
         // Set outputCodeTimestamp to 0 to signal we have not reported this outputcode yet
         outputCodeTimestamp = 0;
         return self.outputCode;

@@ -27,6 +27,4 @@
 @property(weak) IBOutlet NSObject<OutputVideoGenProtocol> *genner;        //!< Assigned in NIB: generates QR codes for output
 
 - (VideoRunManager *)init;  //!< Initializer
-
-- (void) _newOutputCode;							//!< Internal: set outputCode to a new value (depending on running/prerunning/idle)
 @end
