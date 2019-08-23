@@ -14,12 +14,13 @@
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
-        <customObject id="74" customClass="NetworkRunManager">
+        <customObject id="74" userLabel="Manager" customClass="NetworkRunManager">
             <connections>
                 <outlet property="capturer" destination="3" id="207"/>
                 <outlet property="clock" destination="3" id="89"/>
                 <outlet property="finder" destination="209" id="210"/>
                 <outlet property="measurementMaster" destination="-2" id="180"/>
+                <outlet property="networkDevice" destination="7wW-YQ-nwo" id="tLn-Rr-dVa"/>
                 <outlet property="outputView" destination="77" id="200"/>
                 <outlet property="selectionView" destination="4" id="437"/>
                 <outlet property="statusView" destination="442" id="514"/>
@@ -29,6 +30,13 @@
             <connections>
                 <outlet property="manager" destination="74" id="208"/>
                 <outlet property="selfView" destination="8" id="54"/>
+            </connections>
+        </customObject>
+        <customObject id="7wW-YQ-nwo" customClass="NetworkInput">
+            <connections>
+                <outlet property="clock" destination="3" id="6xz-e0-Pdr"/>
+                <outlet property="manager" destination="74" id="bve-EA-fR4"/>
+                <outlet property="selectionViewForStatusOnly" destination="77" id="k0X-Qc-vWK"/>
             </connections>
         </customObject>
         <customObject id="209" customClass="FindQRcode"/>
@@ -348,10 +356,10 @@
                             <constraint firstItem="286" firstAttribute="baseline" secondItem="285" secondAttribute="baseline" id="360"/>
                         </constraints>
                         <connections>
+                            <outlet property="bNetworkStatus" destination="265" id="279"/>
                             <outlet property="bPeerIPAddress" destination="223" id="277"/>
                             <outlet property="bPeerPort" destination="229" id="278"/>
                             <outlet property="bPeerRTT" destination="286" id="336"/>
-                            <outlet property="bPeerStatus" destination="265" id="279"/>
                         </connections>
                     </view>
                 </subviews>

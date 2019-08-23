@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14460.31"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -371,10 +370,10 @@
                             <constraint firstItem="286" firstAttribute="baseline" secondItem="285" secondAttribute="baseline" id="360"/>
                         </constraints>
                         <connections>
+                            <outlet property="bNetworkStatus" destination="265" id="279"/>
                             <outlet property="bPeerIPAddress" destination="223" id="277"/>
                             <outlet property="bPeerPort" destination="229" id="278"/>
                             <outlet property="bPeerRTT" destination="286" id="336"/>
-                            <outlet property="bPeerStatus" destination="265" id="279"/>
                         </connections>
                     </view>
                 </subviews>

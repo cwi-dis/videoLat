@@ -129,8 +129,8 @@
 	// codes contain the ip/port combination of the server)
 	self.prevOutputCode = self.outputCode;
 	self.outputCode = nil;
-	if (self.preparing && [self.capturer respondsToSelector:@selector(genPrepareCode)]) {
-		self.outputCode = [self.capturer genPrepareCode];
+	if (self.preparing && [self.inputCompanion.capturer respondsToSelector:@selector(genPrepareCode)]) {
+		self.outputCode = [self.inputCompanion.capturer genPrepareCode];
 	}
 	if (self.outputCode == nil) {
 		self.outputCode = [NSString stringWithFormat:@"%lld", tsForCode];

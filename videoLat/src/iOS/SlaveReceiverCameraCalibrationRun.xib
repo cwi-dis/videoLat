@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -172,10 +168,10 @@
                         <constraint firstItem="o1W-W1-bsq" firstAttribute="top" secondItem="JoS-6n-f5y" secondAttribute="bottom" constant="8" symbolic="YES" id="xiV-m8-tie"/>
                     </constraints>
                     <connections>
+                        <outlet property="bNetworkStatus" destination="ABk-eh-HVE" id="LvP-Ng-RRr"/>
                         <outlet property="bPeerIPAddress" destination="5yJ-li-1Af" id="Ja6-dB-YK2"/>
                         <outlet property="bPeerPort" destination="lNA-Ld-V3F" id="JGn-pU-3DJ"/>
                         <outlet property="bPeerRTT" destination="BJL-hu-Hn0" id="ntM-Xd-eIi"/>
-                        <outlet property="bPeerStatus" destination="ABk-eh-HVE" id="LvP-Ng-RRr"/>
                     </connections>
                 </view>
             </subviews>

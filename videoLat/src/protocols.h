@@ -204,7 +204,7 @@
 
 /// List available input devices.
 /// @return List of human-readable device names (as NSString)
-- (NSArray*_Nonnull) deviceNames;
+- (NSArray* _Nonnull) deviceNames;
 
 /// Start capturing, each captured frame will be forwarded to the InputRunManager
 /// @param showPreview Set to true if the capturer should show its preview window (if applicable)
@@ -326,6 +326,7 @@
 ///
 @protocol RunInputManagerProtocol <InputSelectionDelegate>
 
+@property(weak) IBOutlet NSObject<InputDeviceProtocol> * _Nullable capturer;
 @property(weak) IBOutlet NSObject<RunOutputManagerProtocol> * _Nullable outputCompanion; //!< Our companion object that handles output
 @property(weak) NSObject<ClockProtocol> * _Nullable clock; //!< Input manager clock
 @property(readonly) NSObject<MeasurementTypeProtocol> * _Nullable measurementType;	//!< The type of measurement we are doing

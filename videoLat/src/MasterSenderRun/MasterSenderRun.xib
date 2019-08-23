@@ -32,16 +32,17 @@
                 <outlet property="clock" destination="136" id="139"/>
                 <outlet property="collector" destination="330" id="333"/>
                 <outlet property="measurementMaster" destination="-2" id="140"/>
+                <outlet property="networkDevice" destination="136" id="rff-CT-Iqf"/>
                 <outlet property="outputCompanion" destination="1" id="133"/>
                 <outlet property="outputView" destination="4" id="Nby-Tj-yuE"/>
                 <outlet property="selectionView" destination="4" id="210"/>
-                <outlet property="selectionViewForStatusOnly" destination="4" id="gWy-Co-IbA"/>
                 <outlet property="statusView" destination="275" id="334"/>
             </connections>
         </customObject>
         <customObject id="136" customClass="NetworkInput">
             <connections>
                 <outlet property="manager" destination="125" id="137"/>
+                <outlet property="selectionViewForStatusOnly" destination="4" id="dVW-jR-E6e"/>
             </connections>
         </customObject>
         <customObject id="211" customClass="GenQRcode"/>
@@ -196,8 +197,8 @@
                         </constraints>
                         <connections>
                             <outlet property="bBase" destination="184" id="206"/>
+                            <outlet property="bNetworkStatus" destination="151" id="208"/>
                             <outlet property="bOurPort" destination="117" id="207"/>
-                            <outlet property="bOurStatus" destination="151" id="208"/>
                             <outlet property="bRTT" destination="215" id="227"/>
                         </connections>
                     </customView>

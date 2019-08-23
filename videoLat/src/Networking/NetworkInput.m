@@ -321,7 +321,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
             dispatch_async(dispatch_get_main_queue(), ^{
                 nov.bPeerIPAddress.stringValue = ipAddress;
                 nov.bPeerPort.stringValue = [NSString stringWithFormat:@"%d", port];
-                nov.bPeerStatus.stringValue = @"Connecting...";
+                nov.bNetworkStatus.stringValue = @"Connecting...";
             });
             
             self.protocol = [[NetworkProtocolClient alloc] initWithPort:port host: ipAddress];
@@ -333,7 +333,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
                 status = @"Connection established";
             }
             dispatch_async(dispatch_get_main_queue(), ^{
-                nov.bPeerStatus.stringValue = status;
+                nov.bNetworkStatus.stringValue = status;
             });
         }
     }
@@ -428,10 +428,10 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
     }
     dispatch_async(dispatch_get_main_queue(), ^{
         if (nov) {
-            nov.bPeerStatus.stringValue = status;
+            nov.bNetworkStatus.stringValue = status;
         }
         if (self.selectionViewForStatusOnly) {
-            self.selectionViewForStatusOnly.bOurStatus.stringValue = status;
+            self.selectionViewForStatusOnly.bNetworkStatus.stringValue = status;
         }
     });
 }

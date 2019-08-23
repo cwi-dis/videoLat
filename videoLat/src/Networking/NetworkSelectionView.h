@@ -30,11 +30,11 @@
 
 #ifdef WITH_UIKIT
 @property(weak) IBOutlet UILabel *bOurPort;     //!< UI element: shows server port
-@property(weak) IBOutlet UILabel *bOurStatus;   //!< UI element: shows connection status
+@property(weak) IBOutlet UILabel *bNetworkStatus;   //!< UI element: shows connection status
 @property(weak) IBOutlet UILabel *bRTT;         //!< UI element: shows round-trip-time
 #else
 @property(weak) IBOutlet NSTextField *bOurPort;     //!< UI element: shows server port
-@property(weak) IBOutlet NSTextField *bOurStatus;   //!< UI element: shows connection status
+@property(weak) IBOutlet NSTextField *bNetworkStatus;   //!< UI element: shows connection status
 @property(weak) IBOutlet NSTextField *bRTT;         //!< UI element: shows round-trip-time
 #endif
 
