@@ -23,8 +23,6 @@
 ///
 @interface HardwareRunManager : BaseRunManager {
 
-    NSString *prevInputCode;    //!< Last input code detected
-    int prevInputCodeDetectionCount;    //!< How often prevInputCode was detected
 }
 
 @property(weak) IBOutlet HardwareOutputView *outputView;    //!< Assigned in NIB: visual feedback view of output for the user

@@ -22,9 +22,6 @@
 
     uint64_t lastDetectionReceivedTime; //!< Internal: Last time we received a QR-code detection
 
-    NSString *prevInputCode;			//!< Internal: for checking monotonous increase
-    int prevInputCodeDetectionCount;    //!< Internal: Number of times we re-detected a code.
-
 #ifdef WITH_SET_MIN_CAPTURE_DURATION
 	BOOL captureDurationWasSet;
 #endif

@@ -607,11 +607,78 @@ static NSMutableDictionary *runManagerSelectionNibs;
 	[NSException raise:@"BaseRunManager" format:@"Must override setFinderRect in subclass %@", [self class]];
 }
 
-- (void) newInputDone: (NSString *)data count: (int)count at: (uint64_t) timestamp
-{
-    [NSException raise:@"BaseRunManager" format:@"Must override newInputDone:count:at in subclass %@", [self class]];
-}
 
+- (void)newInputDone:(NSString *)inputCode count:(int)count at:(uint64_t)inputTimestamp
+{
+    assert(handlesInput);
+    if (self.outputCompanion.outputCode == nil) {
+        if (VL_DEBUG) NSLog(@"newInputDone called, but no output code yet\n");
+        return;
+    }
+    if ([inputCode isEqualToString:@"undetectable"]) {
+        // black/white detector needs to be kicked (black and white levels have come too close)
+        NSLog(@"Detector range too small, generating new code");
+        [self.outputCompanion triggerNewOutputValue];
+        return;
+    }
+    if ([inputCode isEqualToString:@"uncertain"]) {
+        // Unsure what we have detected, probably nothing. Leave it be for a while then change.
+        prevInputCodeDetectionCount++;
+        if (prevInputCodeDetectionCount % 250 == 0) {
+            NSLog(@"Received uncertain code for too long. Generating new one.");
+            [self.outputCompanion triggerNewOutputValue];
+        }
+        return;
+    }
+    // Is this code the same as the previous one detected?
+    if (prevInputCode && [inputCode isEqualToString: prevInputCode]) {
+        prevInputCodeDetectionCount++;
+        if (prevInputCodeDetectionCount == 3) {
+            // Aftter we've detected 3 frames with the right light level
+            // we generate a new one.
+            [self.outputCompanion triggerNewOutputValueAfterDelay];
+        }
+        // And if we keep on detecting the same code after that we eventually give up.
+        if ((prevInputCodeDetectionCount % 250) == 0) {
+            showWarningAlert(@"Old code detected too often. Generating new one.");
+            [self.outputCompanion triggerNewOutputValue];
+        }
+        return;
+    }
+    // Is this the code we wanted?
+    if ([inputCode isEqualToString: self.outputCompanion.outputCode]) {
+        if (self.running) {
+            if (inputTimestamp == 0) {
+                showWarningAlert(@"newInputDone called before newInputStart was called");
+            }
+            BOOL ok = [self.collector recordReception:inputCode at:inputTimestamp];
+            if (!ok) {
+                NSLog(@"Received code %@ before it was transmitted", self.outputCompanion.outputCode);
+                return;
+            }
+            VL_LOG_EVENT(@"reception", inputTimestamp, inputCode);
+            self.statusView.detectCount = [NSString stringWithFormat: @"%d", self.collector.count];
+            self.statusView.detectAverage = [NSString stringWithFormat: @"%.3f ms ± %.3f", self.collector.average / 1000.0, self.collector.stddev / 1000.0];
+            [self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
+            prevInputCode = self.outputCompanion.outputCode;
+            prevInputCodeDetectionCount = 0;
+            if (VL_DEBUG) NSLog(@"Received: %@", self.outputCompanion.outputCode);
+            // Generate new output code later, after we've detected this one a few times.
+        } else if (self.preparing) {
+            [self prepareReceivedValidCode: inputCode];
+        }
+        return;
+    }
+    // We did not detect the code we expected
+    if (self.preparing) {
+        [self prepareReceivedNoValidCode];
+        return;
+    }
+    // While idle, change output value once in a while
+    if (!self.running && !self.preparing) {
+        [self.outputCompanion triggerNewOutputValue];
+    }
+}
 
 - (void) newInputDone: (CVImageBufferRef) image at: (uint64_t) timestamp
 {
