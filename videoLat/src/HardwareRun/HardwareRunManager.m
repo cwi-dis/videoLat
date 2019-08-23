@@ -114,25 +114,4 @@
     }
 }
 
-- (void)newOutputDone
-{
-    assert(handlesOutput);
-    assert(self.collector);
-    @synchronized(self) {
-        if (outputCodeTimestamp != 0) {
-            // We have already received the redraw for our mosyt recent generated code.
-            // Again, redraw for some other reason, ignore.
-            return;
-        }
-        assert(outputCodeTimestamp == 0);
-        outputCodeTimestamp = [self.clock now];
-        uint64_t tsOutToRemember = outputCodeTimestamp;
-        if (self.running) {
-            [self.collector recordTransmission: self.outputCode at: tsOutToRemember];
-            VL_LOG_EVENT(@"transmission", tsOutToRemember, self.outputCode);
-        }
-    }
-}
-
-
 @end

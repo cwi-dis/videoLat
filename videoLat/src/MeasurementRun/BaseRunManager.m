@@ -513,6 +513,10 @@ static NSMutableDictionary *runManagerSelectionNibs;
 
 - (void)triggerNewOutputValue
 {
+    if (!self.outputView) {
+        // We have stopped measuring in the mean time
+        return;
+    }
     assert(handlesOutput);
     assert(self.outputView);
     if (VL_DEBUG) NSLog(@"triggerNewOutputValue called");
@@ -580,7 +584,22 @@ static NSMutableDictionary *runManagerSelectionNibs;
 
 - (void)newOutputDone
 {
-	[NSException raise:@"BaseRunManager" format:@"Must override newOutputDone in subclass %@", [self class]];
+    assert(handlesOutput);
+    assert(self.collector);
+    @synchronized(self) {
+        if (outputCodeTimestamp != 0) {
+            // We have already received the redraw for our mosyt recent generated code.
+            // Again, redraw for some other reason, ignore.
+            return;
+        }
+        assert(outputCodeTimestamp == 0);
+        outputCodeTimestamp = [self.clock now];
+        uint64_t tsOutToRemember = outputCodeTimestamp;
+        if (self.running) {
+            [self.collector recordTransmission: self.outputCode at: tsOutToRemember];
+            VL_LOG_EVENT(@"transmission", tsOutToRemember, self.outputCode);
+        }
+    }
 }
 
 - (void)setFinderRect: (NSorUIRect)theRect
