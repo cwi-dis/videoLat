@@ -134,19 +134,6 @@
     [self.networkDevice tmpSendResult: ds];
 }
 
-- (void)triggerNewOutputValue
-{
-	[NSException raise:@"NetworkRunManager" format:@"Must override triggerNewOutputValue in subclass"];
-    assert(handlesOutput);
-}
-
-- (CIImage *)getNewOutputImage
-{
-	[NSException raise:@"NetworkRunManager" format:@"Must override getNewOutputImage in subclass"];
-    assert(handlesOutput);
-	return nil;
-}
-
 - (void)newOutputDone
 {
 	[NSException raise:@"NetworkRunManager" format:@"Must override newOutputDone in subclass"];

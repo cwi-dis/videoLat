@@ -89,15 +89,6 @@
 	}
 }
 
-- (void)triggerNewOutputValue
-{
-    assert(handlesOutput);
-    @synchronized (self) {
-        if (VL_DEBUG) NSLog(@"triggerNewOutputValue called");
-        [self.outputView performSelectorOnMainThread:@selector(showNewData) withObject:nil waitUntilDone:NO ];
-    }
-}
-
 - (NSString *)getNewOutputCode
 {
     // Called from the redraw routine, should generate a new output code only when needed.
@@ -125,6 +116,8 @@
 
 - (void)newOutputDone
 {
+    assert(handlesOutput);
+    assert(self.collector);
     @synchronized(self) {
         if (outputCodeTimestamp != 0) {
             // We have already received the redraw for our mosyt recent generated code.

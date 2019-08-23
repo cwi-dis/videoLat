@@ -59,11 +59,8 @@
 
 - (void)triggerNewOutputValue
 {
-	assert(handlesOutput);
-	@synchronized(self) {
-		outputCodeImage = nil;
-		[self.outputView performSelectorOnMainThread:@selector(showNewData) withObject:nil waitUntilDone:NO ];
-	}
+    outputCodeImage = nil;
+    [super triggerNewOutputValue];
 }
 
 - (CIImage *)getNewOutputImage
@@ -95,7 +92,7 @@
         // If we are not running we should display a blue-grayish square
         if (!self.running && !self.preparing) {
             self.outputCode =  @"undefined";
-            return self.outputCode;;
+            return self.outputCode;
         }
         uint64_t tsForCode = [self.clock now];
         // Sanity check: times should be monotonically increasing

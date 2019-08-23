@@ -33,6 +33,4 @@
 + (void)initialize;
 - (HardwareRunManager *)init;   //!< Initializer
 
-- (void)triggerNewOutputValue;
-
 @end

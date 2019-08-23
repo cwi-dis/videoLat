@@ -510,11 +510,14 @@ static NSMutableDictionary *runManagerSelectionNibs;
 	}
 }
 
+
 - (void)triggerNewOutputValue
 {
-	[NSException raise:@"BaseRunManager" format:@"Must override triggerNewOutputValue in subclass %@", [self class]];
+    assert(handlesOutput);
+    assert(self.outputView);
+    if (VL_DEBUG) NSLog(@"triggerNewOutputValue called");
+    [self.outputView performSelectorOnMainThread:@selector(showNewData) withObject:nil waitUntilDone:NO ];
 }
-
 - (void)triggerNewOutputValueAfterDelay
 {
     // Randomize a 0..100ms delay before producing the next code.
