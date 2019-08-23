@@ -183,7 +183,10 @@
 
 - (void)setOutputCode: (NSString *)newValue report: (BOOL)report
 {
-	assert(alive);
+    if (!alive) {
+        NSLog(@"HardwareInput setOutputCode: called but not alive...");
+        return;
+    }
 	outputCode = newValue;
 	newOutputValueWanted = YES;
     reportNewOutput = report;

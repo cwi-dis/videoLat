@@ -89,43 +89,6 @@
 	}
 }
 
-- (void)prepareReceivedValidCode: (NSString *)code
-{
-    assert(handlesInput);
-    assert(self.preparing);
-	prepareMoreNeeded--;
-	if (VL_DEBUG) NSLog(@"prepareRecordReception %@ prepareMoreMeeded=%d\n", code, prepareMoreNeeded);
-	self.statusView.detectCount = [NSString stringWithFormat: @"%d more", prepareMoreNeeded];
-	self.statusView.detectAverage = @"";
-	[self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
-	if (prepareMoreNeeded == 0) {
-		self.statusView.detectCount = @"";
-		self.statusView.detectAverage = @"";
-		[self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
-		[self performSelectorOnMainThread: @selector(stopPreMeasuring:) withObject: self waitUntilDone: NO];
-		return;
-	}
-	[self.outputCompanion triggerNewOutputValue];
-}
-
-- (void)prepareReceivedNoValidCode
-{
-    assert(handlesInput);
-	assert(self.preparing);
-	// Check that we have waited long enough
-	if ([self.clock now] < outputCodeTimestamp + prepareMaxWaitTime)
-		return;
-    // No data found within alotted time. Double the time, reset the count, change mirroring
-	assert(prepareMaxWaitTime);
-	prepareMaxWaitTime *= 2;
-	prepareMoreNeeded = self.initialPrepareCount;
-	if (VL_DEBUG) NSLog(@"prepareRecordNoReception, maxDelay is now %lld", prepareMaxWaitTime);
-	self.statusView.detectCount = [NSString stringWithFormat: @"%d more", prepareMoreNeeded];
-	self.statusView.detectAverage = @"";
-    [self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
-	[self.outputCompanion triggerNewOutputValue];
-}
-
 - (void) _newOutputCode
 {
     if (!self.running && !self.preparing) {
