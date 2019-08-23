@@ -524,6 +524,45 @@ static NSMutableDictionary *runManagerSelectionNibs;
     });
 }
 
+- (void) prepareReceivedNoValidCode
+{
+    if (VL_DEBUG) NSLog(@"Prepare no reception\n");
+    assert(self.preparing);
+    // Check that we have waited long enough
+    if ([self.clock now] < outputCodeTimestamp + prepareMaxWaitTime) return;
+    // No data found within alotted time. Double the time, reset the count, change mirroring
+    if (VL_DEBUG) NSLog(@"tsOutLatest=%llu, prepareDelay=%llu\n", outputCodeTimestamp, prepareMaxWaitTime);
+    NSLog(@"prepare: detection %d failed for maxDelay=%lld. Doubling.", self.initialPrepareCount-prepareMoreNeeded, prepareMaxWaitTime);
+    prepareMaxWaitTime *= 2;
+    prepareMoreNeeded = self.initialPrepareCount;
+    self.statusView.detectCount = [NSString stringWithFormat: @"%d more", prepareMoreNeeded];
+    self.statusView.detectAverage = @"";
+    [self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
+    [self.outputCompanion triggerNewOutputValue];
+}
+
+- (void) prepareReceivedValidCode: (NSString *)code
+{
+    if (VL_DEBUG) NSLog(@"prepare reception %@\n", code);
+    assert(self.preparing);
+    prepareMoreNeeded -= 1;
+    self.statusView.detectCount = [NSString stringWithFormat: @"%d more", prepareMoreNeeded];
+    self.statusView.detectAverage = @"";
+    [self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
+    if (VL_DEBUG) NSLog(@"prepareMoreMeeded=%d\n", prepareMoreNeeded);
+    if (prepareMoreNeeded == 0) {
+#ifdef WITH_SET_MIN_CAPTURE_DURATION
+        NSLog(@"average detection algorithm duration=%lld µS", averageFinderDuration);
+        [self.capturer setMinCaptureInterval: averageFinderDuration*2];
+#endif
+        self.statusView.detectCount = @"";
+        self.statusView.detectAverage = @"";
+        [self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
+        [self performSelectorOnMainThread: @selector(stopPreMeasuring:) withObject: self waitUntilDone: NO];
+    }
+    [self.outputCompanion triggerNewOutputValue];
+}
+
 - (CIImage *)getNewOutputImage
 {
     [NSException raise:@"BaseRunManager" format:@"Must override getNewOutputImage in subclass %@", [self class]];

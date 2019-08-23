@@ -19,7 +19,6 @@
     NSString *prevInputCode;        //!< Internal: for checking monotonous increase
     int prevInputCodeDetectionCount;    //!<Internal: Number of times we re-detected a code.
 
-    uint64_t averageFinderDuration; //!< Running average of how much the patternfinder takes
 }
 
 @property(weak) IBOutlet VideoSelectionView *selectionView;         //!< Assigned in NIB: view that allows selection of input device
@@ -29,7 +28,5 @@
 
 - (VideoRunManager *)init;  //!< Initializer
 
-- (void) prepareReceivedNoValidCode;                  //!< Internal: no QR code was received in time during prerun
-- (void) prepareReceivedValidCode: (NSString *)code;  //!< Internal: QR code was received in time during prerun
 - (void) _newOutputCode;							//!< Internal: set outputCode to a new value (depending on running/prerunning/idle)
 @end

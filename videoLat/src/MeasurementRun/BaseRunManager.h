@@ -42,6 +42,8 @@
     uint64_t prepareMaxWaitTime;      //!< Internal: How long to wait for prerun code finding
     int prepareMoreNeeded;   //!< Internal: How many more prerun correct catches we need
 
+    uint64_t averageFinderDuration; //!< Running average of how much the patternfinder takes
+
     uint64_t outputCodeTimestamp;   //!< When the last output code change was made
 
     NSString *baseName;		//<! Name of our base (calibration) measurement
@@ -138,6 +140,9 @@
 /// Prepare data for a new delay measurement, possibly after a delay to forestall lock-step behaviour.
 /// Called on the output companion, will call triggerNewOutputValue after a delay.
 - (void)triggerNewOutputValueAfterDelay;
+
+- (void) prepareReceivedNoValidCode;                  //!< Internal: no QR code was received in time during prerun
+- (void) prepareReceivedValidCode: (NSString *)code;  //!< Internal: QR code was received in time during prerun
 
 /// Can be overridden by RunManagers responsible for input, to enforce certain codes to be
 /// used during prerunning.
