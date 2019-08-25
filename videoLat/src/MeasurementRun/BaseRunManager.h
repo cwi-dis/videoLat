@@ -18,6 +18,8 @@
 #ifdef WITH_APPKIT
 #import "RunManagerView.h"
 #endif
+// Forward delcaration
+@class NetworkInput;
 
 ///
 /// Base class for objects that control a delay measurement run, i.e. a sequence of
@@ -38,6 +40,7 @@
     BOOL handlesInput;		//!< true if we are responsible for input processing
     BOOL handlesOutput;		//!< true if we are responsible for output processing
     BOOL slaveHandler;      //!< true if this is a slave, i.e. it has no collector.
+    BOOL networkServer;       //!< true if this run manager is a network server (i.e. producing visual output to let the other side connect back here)
 
     uint64_t prepareMaxWaitTime;      //!< Internal: How long to wait for prerun code finding
     int prepareMoreNeeded;   //!< Internal: How many more prerun correct catches we need
@@ -56,6 +59,8 @@
 @property(weak) IBOutlet NSObject<InputDeviceProtocol> *capturer;    //!< Assigned in NIB: input capturer
 @property(weak) IBOutlet NSorUIView <OutputDeviceProtocol> *outputView; //!< Assigned in NIB: Displays current output QR code
 @property(weak) IBOutlet NSObject<NewMeasurementDelegate> *completionHandler;	//!< Optionally assigned in NIB: handler to open completed measurement
+@property(weak) IBOutlet NetworkInput *networkDevice;   //!< For hetwork measurements: the connection to the other side
+
 + (void)initialize;	//!< Class initializer.
 
 ///
@@ -164,6 +169,16 @@
 #else
 @property(weak) IBOutlet RunManagerView *measurementMaster;	//!< Initialized in the NIB, our parent object.
 #endif
+
+/// Update settings to measurement based on parameters (device name, etc) received from a remote
+/// input or output handler.
+- (BOOL)prepareMeasurementFromRemoteData;
+
+/// Report device name and other parameters to remote side.
+- (BOOL)reportDeviceToRemote;
+
+/// Report measurement results to remote input or output handler.
+- (void)reportResultsToRemote: (MeasurementDataStore *)mr;
 
 //@{
 /// The inputCompanion and outputCompanion properties need a bit of explanation.

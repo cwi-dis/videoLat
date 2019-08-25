@@ -172,8 +172,8 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
             [self.protocol close];
             if (self.protocol) self.protocol.delegate = nil;
             self.protocol = nil;
-            assert(0);
-            // [self.manager reportRemoteResults: mr];
+            assert(0); // xxxjack this has to go somewhere...
+            // [self.manager reportResultsToRemote: mr];
             //
             // Override description with our description
             //
