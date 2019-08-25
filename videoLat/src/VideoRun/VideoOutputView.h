@@ -24,7 +24,7 @@
 {
 }
 
-@property(weak) IBOutlet id <RunOutputManagerProtocol> manager; //!< Set by NIB: our run manager
+@property(weak) IBOutlet id <RunManagerProtocol> manager; //!< Set by NIB: our run manager
 
 #ifdef WITH_APPKIT
 /// Internal: the screen our window was on during the last redraw.

@@ -159,9 +159,9 @@
                 [self.collector recordReception: @"audio" at: [self.processor lastMatchTimestamp]];
 				VL_LOG_EVENT(@"reception", [self.processor lastMatchTimestamp], @"audio");
             } else if (self.preparing) {
-                [self prepareReceivedValidCode: self.outputCompanion.outputCode];
+                [self prepareReceivedValidCode: self.outputCode];
             }
-            [self.outputCompanion triggerNewOutputValueAfterDelay];
+            [self triggerNewOutputValueAfterDelay];
         } else {
 			// Nothing found. See whether we are still expecting something
 			if ([self.clock now] > outputCodeTimestamp + prepareMaxWaitTime) {
@@ -172,7 +172,7 @@
 					[self.collector recordReception: @"noaudio" at: [self.clock now]];
 					VL_LOG_EVENT(@"noReception", [self.clock now], @"noaudio");
 				}
-				[self.outputCompanion triggerNewOutputValue];
+				[self triggerNewOutputValue];
 			}
         }
 

@@ -25,20 +25,13 @@
 /// Base class for objects that control a delay measurement run, i.e. a sequence of
 /// many individual delay measurements and collects and stores the individual delays.
 ///
-/// Implementations of this class should be able to handle both input and output, but
-/// they may have to handle only one of those, based on how things are initialized in the NIB.
-/// If the object should handle both (for example during a VideoRun) both inputCompanion
-/// and outputCompanion refer to self.
-/// If the object should handle only input or output (for example during a MixedRun)
-/// the inputCompanion of the output object refers to the other object
-/// and vice versa.
+/// The class is also responsible for reporting measurements to a remote side (if this
+/// is a two-ended measurement run).
 ///
 /// In addition, the class methods implement a repository for remembering all available
 /// measurement types and their NIBs (initialized by the class initializers of the subclasses).
 ///
-@interface BaseRunManager : NSObject <RunOutputManagerProtocol, RunInputManagerProtocol> {
-    BOOL handlesInput;		//!< true if we are responsible for input processing
-    BOOL handlesOutput;		//!< true if we are responsible for output processing
+@interface BaseRunManager : NSObject <RunManagerProtocol> {
     BOOL slaveHandler;      //!< true if this is a slave, i.e. it has no collector.
     BOOL networkServer;       //!< true if this run manager is a network server (i.e. producing visual output to let the other side connect back here)
 
@@ -110,9 +103,6 @@
 
 @property(strong) MeasurementType *measurementType;
 
-/// Textual representation of the current output code, for example @"white", or
-/// @"123456789" for QR code measurements. Set by the BaseRunManager that is
-/// responsible for output, read by its inputCompanion.
 @property(strong) NSString *outputCode;           // Current code on the display
 
 - (void)terminate;	//!< Prepare for deallocation. Severs links with companion and releases resources.
@@ -180,19 +170,5 @@
 /// Report measurement results to remote input or output handler.
 - (void)reportResultsToRemote: (MeasurementDataStore *)mr;
 
-//@{
-/// The inputCompanion and outputCompanion properties need a bit of explanation.
-/// If the same RunManager is used for
-/// both input and output the following two outlets are NOT assigned in the NIB.
-/// The will then be both set to self in awakeFromNib, and this run manager handles both
-/// input and output.
-/// But for non-symetric measurements (say, hardware light to camera) the NIB instantiates
-/// two BaseRunManager subclass instances, and ties them together through the inputCompanion
-/// and outputCompanion.
-///
-@property(weak) IBOutlet NSObject<RunInputManagerProtocol> *inputCompanion; //!< Our companion object that handles input
-
-@property(weak) IBOutlet NSObject<RunOutputManagerProtocol> *outputCompanion; //!< Our companion object that handles output
-//@}
 
 @end

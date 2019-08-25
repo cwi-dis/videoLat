@@ -10,6 +10,7 @@
 #import "GenQRcode.h"
 #import "EventLogger.h"
 #import <sys/sysctl.h>
+#import "NetworkInput.h"
 
 
 @implementation VideoRunManager
@@ -63,7 +64,6 @@
 
 - (CIImage *)getNewOutputImage
 {
-    assert(handlesOutput);
     assert(self.genner);
     // Called from the redraw routine, should generate a new output code only when needed.
     @synchronized(self) {
@@ -103,8 +103,8 @@
         // codes contain the ip/port combination of the server)
         self.prevOutputCode = self.outputCode;
         self.outputCode = nil;
-        if (self.preparing && [self.inputCompanion.capturer respondsToSelector:@selector(genPrepareCode)]) {
-            self.outputCode = [self.inputCompanion.capturer genPrepareCode];
+        if (self.preparing && self.networkDevice) {
+            self.outputCode = [self.networkDevice genPrepareCode];
         }
         if (self.outputCode == nil) {
             self.outputCode = [NSString stringWithFormat:@"%lld", tsForCode];
@@ -118,7 +118,6 @@
 
 - (void) newInputDone: (CVImageBufferRef)image at:(uint64_t)inputTimestamp
 {
-    assert(handlesInput);
     assert(self.finder);
     @synchronized(self) {
         uint64_t finderStartTime = [self.clock now];
@@ -144,7 +143,6 @@
 #endif
 - (void)setFinderRect: (NSorUIRect)theRect
 {
-    assert(handlesInput);
     assert(self.finder);
     if ([self.finder respondsToSelector:@selector(setSensitiveArea:)]) {
         [self.finder setSensitiveArea: theRect];

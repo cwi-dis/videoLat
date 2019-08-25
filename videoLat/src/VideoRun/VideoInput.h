@@ -60,7 +60,7 @@
 	int nFramesDropped;
 #endif
 }
-@property(weak) IBOutlet id <RunInputManagerProtocol> manager;
+@property(weak) IBOutlet id <RunManagerProtocol> manager;
 @property(weak) IBOutlet VideoInputView *selfView;	//!< View showing what our camera sees
 @property NSArray* overlayRects;
 

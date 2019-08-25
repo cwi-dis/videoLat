@@ -58,9 +58,6 @@
 /// having a (potentially much) larger inaccuracy.
 #undef WITH_SET_MIN_CAPTURE_DURATION
 
-// Forward declarations
-@protocol RunInputManagerProtocol;
-
 ///
 /// Protocol implemented by MeasurementType, which describes details of what the measurement needs.
 ///
@@ -267,36 +264,28 @@
 @end
 
 ///
-/// Protocol used by OutputDeviceProtocol objects to request new data and report results.
+/// Protocol used by InputDeviceProtocol objects to report new data and timing.
 ///
-@protocol RunOutputManagerProtocol
+@protocol RunManagerProtocol <InputSelectionDelegate>
+
+- (void)terminate;                        //<! RunManager is about to disappear, clean up.
 
 /// Textual representation of the current output code.
 /// For example @"white", or
-/// @"123456789" for QR code measurements. Set by the BaseRunManager that is
-/// responsible for output, read by its inputCompanion.
-///
+/// @"123456789" for QR code measurements.
 @property(strong) NSString * _Nullable outputCode;
 /// Previous value of outputCode.
 /// Used to forestall error messages in case we get a late detection of a previous code.
 @property(strong) NSString * _Nullable prevOutputCode;
 
-
-@property(weak) IBOutlet NSObject * _Nullable inputCompanion; //!< Our companion object that handles input
 @property(weak) IBOutlet NSorUIView <OutputDeviceProtocol> * _Nullable outputView; //!< Assigned in NIB: Displays current output QR code
+@property(weak) IBOutlet NSObject<InputDeviceProtocol> * _Nullable capturer;
+@property(weak) NSObject<ClockProtocol> * _Nullable clock; //!< Input manager clock
+@property(readonly) NSObject<MeasurementTypeProtocol> * _Nullable measurementType;    //!< The type of measurement we are doing
 
 /// Called to prepare the output device, if needed, when restarting.
 /// @return NO if not successful
 - (BOOL) prepareOutputDevice;
-
-
-- (BOOL)companionStartPreMeasuring;		//!< outputCompanion portion of startPreMeasuring
-- (void)companionStopPreMeasuring;		//!< outputCompanion portion of stopPreMeasuring
-- (void)companionStartMeasuring;		//!< outputCompanion portion of startMeasuring
-- (void)companionStopMeasuring;			//!< outputCompanion portion of stopMeasuring
-- (void)companionRestart;				//!< outputCompanion portion of restart
-- (void)terminate;						//<! RunManager is about to disappear, clean up.
-
 
 /// Prepare data for a new delay measurement.
 /// Called on the output companion, should
@@ -319,17 +308,7 @@
 /// Signals that output pattern is now visible.
 /// This will record the output timestamp.
 - (void)newOutputDone;
-@end
 
-///
-/// Protocol used by InputDeviceProtocol objects to report new data and timing.
-///
-@protocol RunInputManagerProtocol <InputSelectionDelegate>
-
-@property(weak) IBOutlet NSObject<InputDeviceProtocol> * _Nullable capturer;
-@property(weak) IBOutlet NSObject<RunOutputManagerProtocol> * _Nullable outputCompanion; //!< Our companion object that handles output
-@property(weak) NSObject<ClockProtocol> * _Nullable clock; //!< Input manager clock
-@property(readonly) NSObject<MeasurementTypeProtocol> * _Nullable measurementType;	//!< The type of measurement we are doing
 @property(readonly) int initialPrepareCount;	//!< How many detections are needed during prerun
 @property(readonly) int initialPrepareDelay;	//!< The current (or final) delay between prerun generations.
 
@@ -340,10 +319,7 @@
 /// Signals that a measurement run should be restarted (for example because the input device has changed).
 - (void)restart;
 
-/// RunManager is about to disappear, clean up.
-- (void)terminate;
-
-/// Unused.
+/// Change the active area for light detection in the input image.
 - (void)setFinderRect: (NSorUIRect)theRect;
 
 /// Signals that a capture cycle has ended and provides the data.

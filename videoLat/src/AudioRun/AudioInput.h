@@ -23,7 +23,7 @@
     uint64_t epoch;
 	BOOL capturing;
 }
-@property(weak) IBOutlet id <RunInputManagerProtocol> manager;
+@property(weak) IBOutlet id <RunManagerProtocol> manager;
 #ifdef WITH_UIKIT
 @property(weak) IBOutlet UIProgressView *bInputValue;
 #else
