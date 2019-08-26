@@ -480,7 +480,7 @@ static NSMutableDictionary *runManagerSelectionNibs;
 		}
 #endif
         // Select or check output device (based on base measurement setting)
-        if (self.measurementType.requires != nil) {
+        if (self.measurementType.requires != nil && !self.measurementType.outputOnlyCalibration) {
             MeasurementType *baseType = (MeasurementType *)self.measurementType.requires;
             MeasurementDataStore *baseStore = [baseType measurementNamed: baseName];
             if (baseStore == nil) {
