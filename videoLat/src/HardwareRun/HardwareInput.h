@@ -32,7 +32,6 @@
     uint64_t inputTimestamp;    //!< When inputLevel was measured
 }
 @property(weak) IBOutlet BaseRunManager *manager;           //!< Our input manager
-@property(weak) IBOutlet BaseRunManager *outputManager;     //!< Our output manager, if different
 @property(weak) IBOutlet NSObject<ClockProtocol> *clock;    //!< Our clock, if not ourselves
 @property(weak) IBOutlet LevelStatusView *levelStatusView;  //!< Assigned in NIB: visual feedback on light level detected
 @property(weak) IBOutlet NSTextField *bDriverStatus;        //!< Indicator for the user that the selected device works

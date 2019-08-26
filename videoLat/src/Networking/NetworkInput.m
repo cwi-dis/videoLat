@@ -60,7 +60,6 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 {
     [super awakeFromNib];
     assert(self.manager);
-    if (self.outputManager == nil) self.outputManager = self.manager;
     if (self.clock == nil) self.clock = self;
 }
 
