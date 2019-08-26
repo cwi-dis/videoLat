@@ -333,7 +333,9 @@ static NSMutableDictionary *runManagerSelectionNibs;
 {
     DeviceDescription *deviceDescriptorToSend = nil;
     if (self.measurementType.isCalibration) {
+#ifdef WITH_APPKIT
         if (self.selectionView) assert(self.selectionView.bBase == nil);
+#endif
         assert(self.capturer);
         deviceDescriptorToSend = [[DeviceDescription alloc] initFromInputDevice: self.capturer];
     } else {
