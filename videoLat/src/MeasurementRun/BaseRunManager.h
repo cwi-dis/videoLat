@@ -53,7 +53,7 @@
 @property(weak) IBOutlet NSorUIView <OutputDeviceProtocol> *outputView; //!< Assigned in NIB: Displays current output QR code
 @property(weak) IBOutlet NSObject<NewMeasurementDelegate> *completionHandler;	//!< Optionally assigned in NIB: handler to open completed measurement
 @property(weak) IBOutlet NetworkInput *networkDevice;   //!< For hetwork measurements: the connection to the other side
-@property(weak) NSObject<ClockProtocol> *clock; //!< Input manager clock
+@property(weak) IBOutlet NSObject<ClockProtocol> *clock; //!< Input manager clock
 
 + (void)initialize;	//!< Class initializer.
 

@@ -31,8 +31,7 @@
 
 + (void)initialize
 {
-    // Unsure whether we need to register our class?
-
+#if 0
     // We also register ourselves for send-only, as a slave. At the very least we must make
     // sure the nibfile is registered...
     [BaseRunManager registerClass: [self class] forMeasurementType: @"QR Code Transmission"];
@@ -52,6 +51,7 @@
     [BaseRunManager registerSelectionNib: @"VideoInputSelectionView" forMeasurementType: @"Reception Calibrate using Other Device"];
     [BaseRunManager registerSelectionNib: @"NetworkInputSelectionView" forMeasurementType: @"QR Code Transmission"];
     [BaseRunManager registerSelectionNib: @"NetworkInputSelectionView" forMeasurementType: @"Transmission Calibrate using Other Device"];
+#endif
 #endif
 }
 

@@ -134,6 +134,10 @@ static NSMutableDictionary *runManagerSelectionNibs;
     if (!slaveHandler) {
         assert(self.collector);
     }
+    // xxxjack this needs to be done differently, based on a subclass
+    if (self.networkDevice && self.networkDevice == self.capturer) {
+        networkServer = YES;
+    }
     if (networkServer) {
         assert(self.networkDevice);
         [self.networkDevice tmpOpenServer];
@@ -189,22 +193,34 @@ static NSMutableDictionary *runManagerSelectionNibs;
 			if (baseType == nil) {
 				errorMessage = @"No base (calibration) measurement selected.";
 			} else {
+                BOOL inputDeviceShouldMatch = !self.measurementType.inputOnlyCalibration;
+                BOOL outputDeviceShouldMatch = !self.measurementType.outputOnlyCalibration;
+                // We relax the requirements if we're network-based
+                if (self.networkDevice) {
+                    if (self.networkDevice == self.capturer) {
+                        // We are using networked input.
+                        inputDeviceShouldMatch = false;
+                    } else {
+                        // Assume we are using networked output.
+                        outputDeviceShouldMatch = false;
+                    }
+                }
+
 				// Check that the base measurement is compatible with this measurement,
 				NSString *hwName = [[MachineDescription thisMachine] machineTypeID];
 				// For all runs that are not single-ended clibrations the hardware platform should match the one in the calibration run
-                if (!self.measurementType.outputOnlyCalibration && ![baseStore.output.machineTypeID isEqualToString:hwName]) {
+                if (outputDeviceShouldMatch && ![baseStore.output.machineTypeID isEqualToString:hwName]) {
                     errorMessage = [NSString stringWithFormat:@"Current machine is %@, Output base measurement done on %@", hwName, baseStore.output.machineTypeID];
                 }
-                if (!self.measurementType.inputOnlyCalibration && ![baseStore.input.machineTypeID isEqualToString:hwName]) {
+                if (inputDeviceShouldMatch && ![baseStore.input.machineTypeID isEqualToString:hwName]) {
                     errorMessage = [NSString stringWithFormat:@"Current machine is %@, input base measurement done on %@", hwName, baseStore.input.machineTypeID];
                 }
                 // For runs where we are responsible for input the input device should match
-                if (!self.measurementType.inputOnlyCalibration && ![baseStore.input.deviceID isEqualToString:self.capturer.deviceID]) {
+                if (inputDeviceShouldMatch && ![baseStore.input.deviceID isEqualToString:self.capturer.deviceID]) {
                     errorMessage = [NSString stringWithFormat:@"Input %@ selected, base measurement done with %@", self.capturer.deviceName, baseStore.input.device];
                 }
 				// For runs where we are responsible for output the output device should match
-                NSLog(@"xxxjack base %@ %@, current %@ %@",baseStore.output.deviceID, baseStore.output.device,self.outputView.deviceID, self.outputView.deviceName);
-                if (!self.measurementType.outputOnlyCalibration && ![baseStore.output.deviceID isEqualToString:self.outputView.deviceID]) {
+                if (outputDeviceShouldMatch && ![baseStore.output.deviceID isEqualToString:self.outputView.deviceID]) {
 					errorMessage = [NSString stringWithFormat:@"Output %@ selected, base measurement done with %@", self.outputView.deviceName, baseStore.output.device];
 				}
 			}
@@ -418,8 +434,8 @@ static NSMutableDictionary *runManagerSelectionNibs;
     BOOL ok;
     ok = self.capturer.available;
     if (!ok) return NO;
-    if (self.networkDevice) {
-        assert(0); // Only do this for slave input devices....
+    if (self.networkDevice && self.networkDevice != self.capturer) {
+        // Only do this for slave input devices....
         ok = [self reportDeviceToRemote];
         if (!ok) return NO;
         if (slaveHandler) {

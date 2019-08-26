@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
+        <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14460.31"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -15,32 +16,20 @@
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customObject id="1" customClass="VideoRunManager">
             <connections>
+                <outlet property="capturer" destination="136" id="TGd-Sy-20O"/>
                 <outlet property="clock" destination="136" id="141"/>
                 <outlet property="collector" destination="330" id="331"/>
                 <outlet property="genner" destination="211" id="212"/>
-                <outlet property="inputCompanion" destination="125" id="126"/>
                 <outlet property="measurementMaster" destination="-2" id="74"/>
+                <outlet property="networkDevice" destination="136" id="JHe-RM-OXr"/>
                 <outlet property="outputView" destination="2" id="50"/>
                 <outlet property="selectionView" destination="4" id="51"/>
                 <outlet property="statusView" destination="275" id="332"/>
             </connections>
         </customObject>
-        <customObject id="125" customClass="NetworkRunManager">
+        <customObject id="136" userLabel="NetworkInput" customClass="NetworkInput">
             <connections>
-                <outlet property="capturer" destination="136" id="138"/>
-                <outlet property="clock" destination="136" id="139"/>
-                <outlet property="collector" destination="330" id="333"/>
-                <outlet property="measurementMaster" destination="-2" id="140"/>
-                <outlet property="networkDevice" destination="136" id="aan-Ht-Z1i"/>
-                <outlet property="outputCompanion" destination="1" id="133"/>
-                <outlet property="outputView" destination="4" id="0Ht-P0-N7P"/>
-                <outlet property="selectionView" destination="4" id="210"/>
-                <outlet property="statusView" destination="275" id="334"/>
-            </connections>
-        </customObject>
-        <customObject id="136" customClass="NetworkInput">
-            <connections>
-                <outlet property="manager" destination="125" id="137"/>
+                <outlet property="manager" destination="1" id="VYL-8Q-zi9"/>
                 <outlet property="networkStatusView" destination="4" id="eNH-Qk-0RH"/>
             </connections>
         </customObject>
@@ -230,7 +219,7 @@
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="stopMeasuring:" target="125" id="347"/>
+                                    <action selector="stopMeasuring:" target="1" id="Ewt-h0-BLx"/>
                                 </connections>
                             </button>
                             <button toolTip="Start doing a measurement run" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="6">
@@ -240,7 +229,7 @@
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="startMeasuring:" target="125" id="135"/>
+                                    <action selector="startMeasuring:" target="1" id="jWs-Wg-5i2"/>
                                 </connections>
                             </button>
                             <button toolTip="Do initial measurements to check everything works and detect mirroring" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="sDa-Ef-wJZ">
@@ -253,7 +242,7 @@
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="startPreMeasuring:" target="125" id="Bur-f4-gpg"/>
+                                    <action selector="startPreMeasuring:" target="1" id="paG-zY-0C3"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -310,7 +299,7 @@
                 </constraints>
                 <connections>
                     <outlet property="outputView" destination="2" id="329"/>
-                    <outlet property="runManager" destination="125" id="335"/>
+                    <outlet property="runManager" destination="1" id="buc-YX-nGG"/>
                     <outlet property="selectionView" destination="4" id="336"/>
                     <outlet property="statusView" destination="275" id="309"/>
                 </connections>
