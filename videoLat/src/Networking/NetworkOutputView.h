@@ -14,9 +14,9 @@
 ///
 @interface NetworkOutputView
 #ifdef WITH_UIKIT
-: UIView <OutputDeviceProtocol, NetworkViewProtocol>
+: UIView <OutputDeviceProtocol, NetworkStatusProtocol>
 #else
-: NSView <OutputDeviceProtocol, NetworkViewProtocol>
+: NSView <OutputDeviceProtocol, NetworkStatusProtocol>
 #endif
 #ifdef WITH_UIKIT
 @property(weak) IBOutlet UILabel *bPeerIPAddress;   //!< UI element: shows server IP address
@@ -30,9 +30,5 @@
 @property(weak) IBOutlet NSTextField *bPeerRTT;      //!< UI element: shows roundtrip time
 #endif
 - (void) showNewData;   //!< Called when new data should be shown
-
-- (void) reportClient: (NSString *)ip port: (int)port isUs: (BOOL) us;
-- (void) reportServer: (NSString *)ip port: (int)port isUs: (BOOL) us;
-
 
 @end

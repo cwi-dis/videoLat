@@ -18,14 +18,14 @@
 ///
 @interface NetworkSelectionView
 #ifdef WITH_UIKIT
-: InputSelectionView<NetworkViewProtocol>
+: InputSelectionView<NetworkStatusProtocol>
 #else
-: NSView<InputSelectionView, NetworkViewProtocol>
+: NSView<InputSelectionView, NetworkStatusProtocol>
 #endif
 #ifdef WITH_APPKIT
 // These are not picked up from the InputSelectionProtocol in the XIB builder. Don't know why...
-@property(weak) IBOutlet NSPopUpButton *bBase;        //!< UI element: popup showing possible base measurements
-@property(weak) IBOutlet NSPopUpButton *bInputDevices;   //!< UI element: all available hardware
+@property(weak) IBOutlet NSPopUpButton * _Nullable bBase;        //!< UI element: popup showing possible base measurements
+@property(weak) IBOutlet NSPopUpButton * _Nullable bInputDevices;   //!< UI element: all available hardware
 #endif
 
 #ifdef WITH_UIKIT
@@ -33,12 +33,15 @@
 @property(weak) IBOutlet UILabel *bNetworkStatus;   //!< UI element: shows connection status
 @property(weak) IBOutlet UILabel *bRTT;         //!< UI element: shows round-trip-time
 #else
-@property(weak) IBOutlet NSTextField *bOurPort;     //!< UI element: shows server port
-@property(weak) IBOutlet NSTextField *bNetworkStatus;   //!< UI element: shows connection status
-@property(weak) IBOutlet NSTextField *bRTT;         //!< UI element: shows round-trip-time
+@property(weak) IBOutlet NSTextField * _Nullable bOurPort;     //!< UI element: shows server port
+@property(weak) IBOutlet NSTextField * _Nullable bNetworkStatus;   //!< UI element: shows connection status
+@property(weak) IBOutlet NSTextField * _Nullable bRTT;         //!< UI element: shows round-trip-time
 #endif
 
-- (void) reportClient: (NSString *)ip port: (int)port isUs: (BOOL) us;
-- (void) reportServer: (NSString *)ip port: (int)port isUs: (BOOL) us;
+#pragma mark NetworkStatusProtocol
+
+- (void) reportServer: (NSString *_Nonnull)ip port: (int)port isUs: (BOOL) us;
+- (void) reportStatus: (NSString *_Nonnull)status;
+- (void) reportRTT: (uint64_t)rtt best:(uint64_t)best;
 
 @end

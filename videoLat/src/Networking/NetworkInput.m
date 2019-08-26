@@ -185,13 +185,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
         if (slaveTimestamp && masterTimestamp) {
             uint64_t now = [self.clock now];
             [remoteClock remote:masterTimestamp between:slaveTimestamp and:now];
-            if ([self.manager.outputView isKindOfClass:[NetworkOutputView class]]) {
-                NetworkOutputView *nov = (NetworkOutputView *)self.manager.outputView;
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    nov.bPeerRTT.stringValue = [NSString stringWithFormat:@"%lld (best %lld)", [self->remoteClock rtt]/1000, [self->remoteClock clockInterval]/1000];
-                });
-                //NSLog(@"master %lld in %lld..%lld (delta=%lld)", masterTimestamp, slaveTimestamp, now, [remoteClock rtt]);
-            }
+            [self.networkStatusView reportRTT:[self->remoteClock rtt]/1000 best:[self->remoteClock clockInterval]];
         } else {
             NSLog(@"unexpected data from master: %@", data);
         }
@@ -260,9 +254,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
                 // RTT bigger than 10 seconds is preposterous
                 NSLog(@"NetworkRunManager: preposterous RTT of %lld ms",(rtt/1000));
             }
-            dispatch_async(dispatch_get_main_queue(), ^{
-                self.selectionViewForStatusOnly.bRTT.stringValue = [NSString stringWithFormat:@"%lld (best %lld)", rtt/1000, clockInterval/1000];
-            });
+            [self.networkStatusView reportRTT: rtt best:(uint64_t)clockInterval];
         }
         
         if(code) {
@@ -291,10 +283,12 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 - (void)tmpOpenServer
 {
     assert(self.protocol == nil);
+    assert(self.networkStatusView);
     isServer = YES;
     self.protocol = [[NetworkProtocolServer alloc] init];
     self.protocol.delegate = self;
-    self.selectionViewForStatusOnly.bOurPort.stringValue = [NSString stringWithFormat:@"%@:%d", self.protocol.host, self.protocol.port];
+    
+    [self.networkStatusView reportServer: self.protocol.host port: self.protocol.port isUs: YES];
 }
 
 - (void)tmpOpenClient: (NSString *)url
@@ -313,17 +307,10 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
         if (rv != 2) {
             [self tmpUpdateStatus: [NSString stringWithFormat: @"Unexcepted URL: %@", url] ];
         } else {
-            NetworkOutputView *nov = NULL;
-            if ([self.manager.outputView isKindOfClass:[NetworkOutputView class]]) {
-                nov = (NetworkOutputView *)self.manager.outputView;
-            }
             NSString *ipAddress = [NSString stringWithUTF8String:ipBuffer];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                nov.bPeerIPAddress.stringValue = ipAddress;
-                nov.bPeerPort.stringValue = [NSString stringWithFormat:@"%d", port];
-                nov.bNetworkStatus.stringValue = @"Connecting...";
-            });
-            
+            assert(self.networkStatusView);
+            [self.networkStatusView reportServer: ipAddress port: port isUs: NO];
+            [self.networkStatusView reportStatus: @"Connecting..."];
             self.protocol = [[NetworkProtocolClient alloc] initWithPort:port host: ipAddress];
             NSString *status;
             if (self.protocol == nil) {
@@ -332,10 +319,11 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
                 self.protocol.delegate = self;
                 status = @"Connection established";
             }
-            dispatch_async(dispatch_get_main_queue(), ^{
-                nov.bNetworkStatus.stringValue = status;
-            });
+            [self.networkStatusView reportStatus: status];
         }
+    } else {
+        NSLog(@"Unexpected URL: %@", url);
+        [self.networkStatusView reportStatus: @"Unexpected URL"];
     }
 }
 
@@ -422,18 +410,8 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 - (void)tmpUpdateStatus: (NSString *)status
 {
     statusToPeer = status;
-    NetworkOutputView *nov = NULL;
-    if ([self.manager.outputView isKindOfClass:[NetworkOutputView class]]) {
-        nov = (NetworkOutputView *)self.manager.outputView;
-    }
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if (nov) {
-            nov.bNetworkStatus.stringValue = status;
-        }
-        if (self.selectionViewForStatusOnly) {
-            self.selectionViewForStatusOnly.bNetworkStatus.stringValue = status;
-        }
-    });
+    assert(self.networkStatusView);
+    [self.networkStatusView reportStatus: status];
 }
 
 - (void)tmpSetDeviceDescriptor: (DeviceDescription *)descr

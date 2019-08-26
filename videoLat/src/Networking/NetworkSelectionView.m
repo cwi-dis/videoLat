@@ -14,15 +14,34 @@
 #endif
 @synthesize inputSelectionDelegate;
 
-- (void) reportClient: (NSString *)ip port: (int)port isUs: (BOOL) us
-{
-    NSLog(@"NetworkSelectionView.reportClient ip=%@ port=%d isUs=%d", ip, port, us);
-}
+#ifdef WITH_UIKIT
+// Gross....
+#define stringValue text
+#endif
+
 
 - (void) reportServer: (NSString *)ip port: (int)port isUs: (BOOL) us
 {
-    NSLog(@"NetworkSelectionView.reportServer ip=%@ port=%d isUs=%d", ip, port, us);
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.bOurPort.stringValue = [NSString stringWithFormat:@"%@:%d", ip, port];
+    });
 }
+
+- (void) reportStatus: (NSString *_Nonnull)status
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.bNetworkStatus.stringValue = status;
+    });
+}
+
+- (void) reportRTT: (uint64_t)rtt best: (uint64_t)best
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.bRTT.stringValue = [NSString stringWithFormat:@"%lld (best %lld)", rtt/1000, best/1000];
+    });
+}
+
+
 
 - (NSString *)deviceName {
     NSLog(@"networkSelectionView deviceName called");

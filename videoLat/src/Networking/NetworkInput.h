@@ -29,7 +29,7 @@
 @property(weak) IBOutlet BaseRunManager *manager;           //!< Our input manager
 @property(weak) IBOutlet BaseRunManager *outputManager;     //!< Our output manager, if different
 @property(weak) IBOutlet NSObject<ClockProtocol> *clock;    //!< Our clock, if not ourselves
-@property(weak) IBOutlet NetworkSelectionView *selectionViewForStatusOnly;         //!< Assigned in NIB: view that allows viewing network status
+@property(weak) IBOutlet NSObject<NetworkStatusProtocol> *networkStatusView;         //!< Assigned in NIB: view that allows viewing network status
 //@property(weak) IBOutlet id selectionViewForStatusOnly;         //!< Assigned in NIB: view that allows viewing network status
 
 @property(strong) NetworkProtocolCommon *protocol;

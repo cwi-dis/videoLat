@@ -179,19 +179,19 @@
 ///
 /// Protocol for a view that shows the state of the network connection.
 ///
-@protocol NetworkViewProtocol
+@protocol NetworkStatusProtocol
 
-/// Set client identity.
-/// @param ip Client IP address
-/// @param port Client port
-/// @param isUs True if we are the client
-- (void) reportClient: (NSString *_Nonnull)ip port: (int)port isUs: (BOOL) us;
-
-/// Set server identity.
+/// Report server identity.
 /// @param ip Server IP address
 /// @param port Server port
 /// @param isUs True if we are the server
 - (void) reportServer: (NSString *_Nonnull)ip port: (int)port isUs: (BOOL) us;
+
+/// Report status.
+- (void) reportStatus: (NSString *_Nonnull)status;
+
+/// Report Roundtrip time.
+- (void) reportRTT: (uint64_t)rtt best:(uint64_t)best;
 @end
 
 ///
