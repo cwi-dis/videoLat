@@ -268,34 +268,6 @@
 ///
 @protocol RunManagerProtocol <InputSelectionDelegate>
 
-- (void)terminate;                        //<! RunManager is about to disappear, clean up.
-
-/// Textual representation of the current output code.
-/// For example @"white", or
-/// @"123456789" for QR code measurements.
-@property(strong) NSString * _Nullable outputCode;
-/// Previous value of outputCode.
-/// Used to forestall error messages in case we get a late detection of a previous code.
-@property(strong) NSString * _Nullable prevOutputCode;
-
-@property(weak) IBOutlet NSorUIView <OutputDeviceProtocol> * _Nullable outputView; //!< Assigned in NIB: Displays current output QR code
-@property(weak) IBOutlet NSObject<InputDeviceProtocol> * _Nullable capturer;
-@property(weak) NSObject<ClockProtocol> * _Nullable clock; //!< Input manager clock
-@property(readonly) NSObject<MeasurementTypeProtocol> * _Nullable measurementType;    //!< The type of measurement we are doing
-
-/// Called to prepare the output device, if needed, when restarting.
-/// @return NO if not successful
-- (BOOL) prepareOutputDevice;
-
-/// Prepare data for a new delay measurement.
-/// Called on the output companion, should
-/// create a pattern that is distinghuisable from the previous pattern and display it.
-///
-- (void)triggerNewOutputValue;
-
-/// Prepare data for a new delay measurement, possibly after a delay to forestall lock-step behaviour.
-/// Called on the output companion, will call triggerNewOutputValue after a delay.
-- (void)triggerNewOutputValueAfterDelay;
 
 /// Request a new output pattern as an image.
 /// @return The pattern to display, as a CIImage.
@@ -308,13 +280,6 @@
 /// Signals that output pattern is now visible.
 /// This will record the output timestamp.
 - (void)newOutputDone;
-
-@property(readonly) int initialPrepareCount;	//!< How many detections are needed during prerun
-@property(readonly) int initialPrepareDelay;	//!< The current (or final) delay between prerun generations.
-
-/// Called to prepare the input device, if needed, when restarting.
-/// @return NO if not successful
-- (BOOL) prepareInputDevice;
 
 /// Signals that a measurement run should be restarted (for example because the input device has changed).
 - (void)restart;

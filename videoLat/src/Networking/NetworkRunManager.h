@@ -27,7 +27,6 @@
     BOOL sendMeasurementResults;        //!< Internal: send measurement results to remote
 }
 
-@property(weak) IBOutlet id <ClockProtocol> clock;              //!< Assigned in NIB: clock source
 @property(weak) IBOutlet NetworkSelectionView *selectionView;   //!< UI element: all available cameras
 @property(weak) IBOutlet id <InputVideoFindProtocol> finder;    //!< Assigned in NIB: matches incoming QR codes
 //@property(weak) IBOutlet NetworkOutputView *outputView;         //!< Assigned in NIB: visual feedback view of output for the user

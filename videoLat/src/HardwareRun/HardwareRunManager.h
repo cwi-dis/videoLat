@@ -26,7 +26,6 @@
 }
 
 @property(weak) IBOutlet HardwareOutputView *outputView;    //!< Assigned in NIB: visual feedback view of output for the user
-@property(weak) IBOutlet NSObject <ClockProtocol> *clock;   //!< Assigned in NIB: clock source
 
 + (void)initialize;
 - (HardwareRunManager *)init;   //!< Initializer

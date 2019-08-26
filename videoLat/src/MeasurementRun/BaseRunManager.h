@@ -53,6 +53,7 @@
 @property(weak) IBOutlet NSorUIView <OutputDeviceProtocol> *outputView; //!< Assigned in NIB: Displays current output QR code
 @property(weak) IBOutlet NSObject<NewMeasurementDelegate> *completionHandler;	//!< Optionally assigned in NIB: handler to open completed measurement
 @property(weak) IBOutlet NetworkInput *networkDevice;   //!< For hetwork measurements: the connection to the other side
+@property(weak) NSObject<ClockProtocol> *clock; //!< Input manager clock
 
 + (void)initialize;	//!< Class initializer.
 
@@ -103,7 +104,13 @@
 
 @property(strong) MeasurementType *measurementType;
 
-@property(strong) NSString *outputCode;           // Current code on the display
+/// Textual representation of the current output code.
+/// For example @"white", or
+/// @"123456789" for QR code measurements.
+@property(strong) NSString * outputCode;
+/// Previous value of outputCode.
+/// Used to forestall error messages in case we get a late detection of a previous code.
+@property(strong) NSString * prevOutputCode;
 
 - (void)terminate;	//!< Prepare for deallocation. Severs links with companion and releases resources.
 - (void)stop;	//!< Called when the user stops a measurement run, via stopMeasuring from RunTypeView
