@@ -1,4 +1,4 @@
-#import "HardwareInput.h"
+#import "HardwareIODevice.h"
 #import "EventLogger.h"
 #import "PythonLoader.h"
 
@@ -6,11 +6,11 @@
 // prerunning. In microseconds.
 #define IDLE_LIGHT_INTERVAL 200000
 
-@implementation HardwareInput
+@implementation HardwareIODevice
 @synthesize deviceID;
 @synthesize deviceName;
 
-- (HardwareInput *)init
+- (HardwareIODevice *)init
 {
     self = [super init];
     if (self) {

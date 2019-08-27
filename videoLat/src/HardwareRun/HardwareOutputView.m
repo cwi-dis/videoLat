@@ -13,39 +13,39 @@
 {
     [super awakeFromNib];
     assert(self.manager);
-    assert(self.hardwareInputHandler);
+    assert(self.hardwareIODevice);
 }
 
 - (NSString *)deviceID
 {
-	return self.hardwareInputHandler.deviceID;
+	return self.hardwareIODevice.deviceID;
 }
 
 - (NSString *)deviceName
 {
-	return self.hardwareInputHandler.deviceID;
+	return self.hardwareIODevice.deviceID;
 }
 
 - (BOOL)switchToDeviceWithName: (NSString *)name
 {
-	assert(self.hardwareInputHandler);
+	assert(self.hardwareIODevice);
 	// Video output devices cannot switch (they're tied to the display their window is on)
-    return [self.hardwareInputHandler switchToDeviceWithName: name];
+    return [self.hardwareIODevice switchToDeviceWithName: name];
 }
 
 - (BOOL)available {
-    assert(self.hardwareInputHandler);
-	return self.hardwareInputHandler.available;
+    assert(self.hardwareIODevice);
+	return self.hardwareIODevice.available;
 }
 
 - (void)stop {
-    [self.hardwareInputHandler stop];
+    [self.hardwareIODevice stop];
 }
 
 - (void)showNewData
 {
     NSString *code = [self.manager getNewOutputCode];
-    [self.hardwareInputHandler setOutputCode:code report:YES];
+    [self.hardwareIODevice setOutputCode:code report:YES];
     [self performSelectorOnMainThread:@selector(showCode:) withObject:code waitUntilDone:NO];
 }
 

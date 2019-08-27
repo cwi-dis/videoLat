@@ -39,7 +39,7 @@
 		04155EA31AB6471900DD53D9 /* AudioProcess.m in Sources */ = {isa = PBXBuildFile; fileRef = 04155EA21AB6471900DD53D9 /* AudioProcess.m */; };
 		04155EA61AB647C500DD53D9 /* AudioRunManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 04155EA51AB647C500DD53D9 /* AudioRunManager.m */; };
 		04155EA91AB6481000DD53D9 /* BaseRunManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 04155EA81AB6481000DD53D9 /* BaseRunManager.m */; };
-		041C8FFE1AC41B2300539C68 /* NetworkInput.m in Sources */ = {isa = PBXBuildFile; fileRef = 041C8FF51AC41B2300539C68 /* NetworkInput.m */; };
+		041C8FFE1AC41B2300539C68 /* NetworkIODevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 041C8FF51AC41B2300539C68 /* NetworkIODevice.m */; };
 		041C8FFF1AC41B2300539C68 /* NetworkOutputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 041C8FF71AC41B2300539C68 /* NetworkOutputView.m */; };
 		041C90001AC41B2300539C68 /* NetworkProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 041C8FF91AC41B2300539C68 /* NetworkProtocol.m */; };
 		041C90011AC41B2300539C68 /* NetworkRunManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 041C8FFB1AC41B2300539C68 /* NetworkRunManager.m */; };
@@ -158,8 +158,8 @@
 		04155EA51AB647C500DD53D9 /* AudioRunManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AudioRunManager.m; path = src/AudioRun/AudioRunManager.m; sourceTree = SOURCE_ROOT; };
 		04155EA71AB6481000DD53D9 /* BaseRunManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BaseRunManager.h; path = src/MeasurementRun/BaseRunManager.h; sourceTree = SOURCE_ROOT; };
 		04155EA81AB6481000DD53D9 /* BaseRunManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BaseRunManager.m; path = src/MeasurementRun/BaseRunManager.m; sourceTree = SOURCE_ROOT; };
-		041C8FF41AC41B2300539C68 /* NetworkInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NetworkInput.h; path = src/Networking/NetworkInput.h; sourceTree = SOURCE_ROOT; };
-		041C8FF51AC41B2300539C68 /* NetworkInput.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NetworkInput.m; path = src/Networking/NetworkInput.m; sourceTree = SOURCE_ROOT; };
+		041C8FF41AC41B2300539C68 /* NetworkIODevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NetworkIODevice.h; path = src/Networking/NetworkIODevice.h; sourceTree = SOURCE_ROOT; };
+		041C8FF51AC41B2300539C68 /* NetworkIODevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NetworkIODevice.m; path = src/Networking/NetworkIODevice.m; sourceTree = SOURCE_ROOT; };
 		041C8FF61AC41B2300539C68 /* NetworkOutputView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NetworkOutputView.h; path = src/Networking/NetworkOutputView.h; sourceTree = SOURCE_ROOT; };
 		041C8FF71AC41B2300539C68 /* NetworkOutputView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NetworkOutputView.m; path = src/Networking/NetworkOutputView.m; sourceTree = SOURCE_ROOT; };
 		041C8FF81AC41B2300539C68 /* NetworkProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NetworkProtocol.h; path = src/Networking/NetworkProtocol.h; sourceTree = SOURCE_ROOT; };
@@ -383,8 +383,8 @@
 		041C8FF31AC41B0400539C68 /* Networking */ = {
 			isa = PBXGroup;
 			children = (
-				041C8FF41AC41B2300539C68 /* NetworkInput.h */,
-				041C8FF51AC41B2300539C68 /* NetworkInput.m */,
+				041C8FF41AC41B2300539C68 /* NetworkIODevice.h */,
+				041C8FF51AC41B2300539C68 /* NetworkIODevice.m */,
 				041C8FF61AC41B2300539C68 /* NetworkOutputView.h */,
 				041C8FF71AC41B2300539C68 /* NetworkOutputView.m */,
 				041C8FF81AC41B2300539C68 /* NetworkProtocol.h */,
@@ -724,7 +724,7 @@
 				040E771F1AB6ED25001A7918 /* MeasurementContainerViewController.m in Sources */,
 				04F7B8431AC0407700BEFDD5 /* InputSelectionViewController.m in Sources */,
 				041C90001AC41B2300539C68 /* NetworkProtocol.m in Sources */,
-				041C8FFE1AC41B2300539C68 /* NetworkInput.m in Sources */,
+				041C8FFE1AC41B2300539C68 /* NetworkIODevice.m in Sources */,
 				04FC55B11AC3681E00D17C58 /* InputSelectionView.m in Sources */,
 				041C90021AC41B2300539C68 /* NetworkSelectionView.m in Sources */,
 				04138C731AB31A2C003D8167 /* CalibrationSharing.m in Sources */,

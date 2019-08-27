@@ -10,7 +10,7 @@
 #import "MachineDescription.h"
 #import "AppDelegate.h"
 #import "EventLogger.h"
-#import "NetworkInput.h"
+#import "NetworkIODevice.h"
 
 static NSMutableDictionary *runManagerClasses;
 static NSMutableDictionary *runManagerNibs;
@@ -135,12 +135,12 @@ static NSMutableDictionary *runManagerSelectionNibs;
         assert(self.collector);
     }
     // xxxjack this needs to be done differently, based on a subclass
-    if (self.networkDevice && self.networkDevice == self.capturer) {
+    if (self.networkIODevice && self.networkIODevice == self.capturer) {
         networkServer = YES;
     }
     if (networkServer) {
-        assert(self.networkDevice);
-        [self.networkDevice tmpOpenServer];
+        assert(self.networkIODevice);
+        [self.networkIODevice tmpOpenServer];
     }
         
 }
@@ -196,8 +196,8 @@ static NSMutableDictionary *runManagerSelectionNibs;
                 BOOL inputDeviceShouldMatch = !self.measurementType.inputOnlyCalibration;
                 BOOL outputDeviceShouldMatch = !self.measurementType.outputOnlyCalibration;
                 // We relax the requirements if we're network-based
-                if (self.networkDevice) {
-                    if (self.networkDevice == self.capturer) {
+                if (self.networkIODevice) {
+                    if (self.networkIODevice == self.capturer) {
                         // We are using networked input.
                         inputDeviceShouldMatch = false;
                     } else {
@@ -244,8 +244,8 @@ static NSMutableDictionary *runManagerSelectionNibs;
 		VL_LOG_EVENT(@"startPremeasuring", 0LL, @"");
 		[self.capturer startCapturing: YES];
 		[self triggerNewOutputValue];
-        if (self.networkDevice) {
-            [self.networkDevice tmpUpdateStatus: @"Determining RTT"];
+        if (self.networkIODevice) {
+            [self.networkIODevice tmpUpdateStatus: @"Determining RTT"];
         }
 	}
 }
@@ -267,7 +267,7 @@ static NSMutableDictionary *runManagerSelectionNibs;
 		[self.statusView.bStop setEnabled: NO];
         // See whether we have received enough information for the measurement to start if we
         // have a remote companion
-        if (self.networkDevice) {
+        if (self.networkIODevice) {
             bool ok = [self prepareMeasurementFromRemoteData];
             if (!ok) return;
         }
@@ -306,12 +306,12 @@ static NSMutableDictionary *runManagerSelectionNibs;
             }
         }
     }
-    DeviceDescription *remoteDeviceDescription = [self.networkDevice remoteDeviceDescription];
+    DeviceDescription *remoteDeviceDescription = [self.networkIODevice remoteDeviceDescription];
     if (errorMessage == nil && remoteDeviceDescription == nil) {
         errorMessage = @"No device description received from remote (slave) partner.";
     }
     if (errorMessage) {
-        [self.networkDevice tmpUpdateStatus: @"Missing calibration"];
+        [self.networkIODevice tmpUpdateStatus: @"Missing calibration"];
         showWarningAlert(errorMessage);
         return NO;
     }
@@ -323,7 +323,7 @@ static NSMutableDictionary *runManagerSelectionNibs;
     }
     self.collector.dataStore.input = remoteDeviceDescription;
     
-    [self.networkDevice tmpUpdateStatus: @"Ready to run"];
+    [self.networkIODevice tmpUpdateStatus: @"Ready to run"];
     return YES;
 }
 
@@ -367,7 +367,7 @@ static NSMutableDictionary *runManagerSelectionNibs;
         assert(baseStore.input);
         deviceDescriptorToSend = [[DeviceDescription alloc] initFromCalibrationInput: baseStore];
     }
-    [self.networkDevice tmpSetDeviceDescriptor: deviceDescriptorToSend];
+    [self.networkIODevice tmpSetDeviceDescriptor: deviceDescriptorToSend];
     return YES;
 }
 
@@ -392,8 +392,8 @@ static NSMutableDictionary *runManagerSelectionNibs;
         [self.capturer startCapturing: NO];
         [self.collector startCollecting: self.measurementType.name input: self.capturer.deviceID name: self.capturer.deviceName output: self.outputView.deviceID name: self.outputView.deviceName];
         [self triggerNewOutputValue];
-        if (self.networkDevice) {
-            [self.networkDevice tmpUpdateStatus: @"Running measurements"];
+        if (self.networkIODevice) {
+            [self.networkIODevice tmpUpdateStatus: @"Running measurements"];
         }
     }
 }
@@ -434,7 +434,7 @@ static NSMutableDictionary *runManagerSelectionNibs;
     BOOL ok;
     ok = self.capturer.available;
     if (!ok) return NO;
-    if (self.networkDevice && self.networkDevice != self.capturer) {
+    if (self.networkIODevice && self.networkIODevice != self.capturer) {
         // Only do this for slave input devices....
         ok = [self reportDeviceToRemote];
         if (!ok) return NO;
@@ -533,11 +533,11 @@ static NSMutableDictionary *runManagerSelectionNibs;
 {
     self.running = NO;
     self.preparing = NO;
-    if (self.networkDevice) {
-        [self.networkDevice tmpUpdateStatus: @"Measurements complete"];
+    if (self.networkIODevice) {
+        [self.networkIODevice tmpUpdateStatus: @"Measurements complete"];
         MeasurementDataStore *ds = self.collector.dataStore;
         [ds trim];
-        [self.networkDevice tmpSendResult: ds];
+        [self.networkIODevice tmpSendResult: ds];
     }
     if (self.capturer) [self.capturer stop];
     self.capturer = nil;
@@ -639,7 +639,7 @@ static NSMutableDictionary *runManagerSelectionNibs;
     return nil;
 }
 
-- (void)newOutputDone
+- (void)newOutputDoneAt: (uint64_t)timestamp
 {
     assert(self.collector);
     @synchronized(self) {
@@ -649,13 +649,19 @@ static NSMutableDictionary *runManagerSelectionNibs;
             return;
         }
         assert(outputCodeTimestamp == 0);
-        outputCodeTimestamp = [self.clock now];
+        outputCodeTimestamp = timestamp;
         uint64_t tsOutToRemember = outputCodeTimestamp;
         if (self.running) {
             [self.collector recordTransmission: self.outputCode at: tsOutToRemember];
             VL_LOG_EVENT(@"transmission", tsOutToRemember, self.outputCode);
         }
     }
+}
+
+- (void)newOutputDone
+{
+    assert(self.collector);
+    [self newOutputDoneAt: [self.clock now]];
 }
 
 - (void)setFinderRect: (NSorUIRect)theRect
@@ -674,7 +680,7 @@ static NSMutableDictionary *runManagerSelectionNibs;
         // black/white detector needs to be kicked (black and white levels have come too close)
         NSLog(@"Detector range too small, generating new code");
         [self triggerNewOutputValue];
-        if (self.networkDevice) [self.networkDevice tmpHeartbeat];
+        if (self.networkIODevice) [self.networkIODevice tmpHeartbeat];
         return;
     }
     if ([inputCode isEqualToString:@"uncertain"]) {
@@ -684,7 +690,7 @@ static NSMutableDictionary *runManagerSelectionNibs;
             NSLog(@"Received uncertain code for too long. Generating new one.");
             [self triggerNewOutputValue];
         }
-        if (self.networkDevice) [self.networkDevice tmpHeartbeat];
+        if (self.networkIODevice) [self.networkIODevice tmpHeartbeat];
         return;
     }
     //
@@ -692,7 +698,7 @@ static NSMutableDictionary *runManagerSelectionNibs;
     // in a networked session,
     if ([inputCode hasPrefix:@"http"]) {
         prevInputCode = inputCode;
-        if (!self.networkDevice) {
+        if (!self.networkIODevice) {
             showWarningAlert([NSString stringWithFormat:@"Not in network session. Received unexpected URL code: %@", inputCode]);
             return;
         }
@@ -705,7 +711,7 @@ static NSMutableDictionary *runManagerSelectionNibs;
             NSLog(@"BaseRunManager (with network server): prepare code reported back");
             return;
         } else {
-            [self.networkDevice tmpOpenClient: inputCode];
+            [self.networkIODevice tmpOpenClient: inputCode];
         }
     }
 
@@ -728,8 +734,8 @@ static NSMutableDictionary *runManagerSelectionNibs;
     // If we are in a netwrk session we report the code back to the other side,
     // or send a heartbeat every second.
     //
-    if (self.networkDevice) {
-        [self.networkDevice tmpReport:inputCode count:prevInputCodeDetectionCount at:inputTimestamp];
+    if (self.networkIODevice) {
+        [self.networkIODevice tmpReport:inputCode count:prevInputCodeDetectionCount at:inputTimestamp];
     }
     // Is this the code we wanted?
     if ([inputCode isEqualToString: self.outputCode]) {

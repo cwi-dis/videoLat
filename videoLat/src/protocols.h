@@ -278,8 +278,11 @@
 - (NSString *_Nullable)getNewOutputCode;
 
 /// Signals that output pattern is now visible.
-/// This will record the output timestamp.
+/// This will record the output timestamp from the manager clock.
 - (void)newOutputDone;
+
+/// Signals that output pattern has been visible since the given timestamp.
+- (void)newOutputDoneAt: (uint64_t)timestamp;
 
 /// Signals that a measurement run should be restarted (for example because the input device has changed).
 - (void)restart;

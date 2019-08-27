@@ -15,7 +15,7 @@
 /// Class that implements InputDeviceProtocol (and ClockProtocol) for data that
 /// is actually captured remotely, and for which the data is sent to us over the network.
 ///
-@interface NetworkInput : NSObject <ClockProtocol, InputDeviceProtocol, NetworkProtocolDelegate> {
+@interface NetworkIODevice : NSObject <ClockProtocol, InputDeviceProtocol, NetworkProtocolDelegate> {
     BOOL isClient;                //!< True if we are running in the network client (camera input, outputnet)
     BOOL isServer;                //!< True if we are running in the network server (net input, screen output)
     NSString *prepareCode;        //!< Internal: data for prerun qrcode

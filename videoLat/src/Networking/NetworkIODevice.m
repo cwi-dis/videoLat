@@ -1,4 +1,4 @@
-#import "NetworkInput.h"
+#import "NetworkIODevice.h"
 #import "NetworkOutputView.h"
 #import "EventLogger.h"
 #import <QuartzCore/QuartzCore.h>
@@ -38,9 +38,9 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
     return 0;
 }
 
-@implementation NetworkInput
+@implementation NetworkIODevice
 
-- (NetworkInput *)init
+- (NetworkIODevice *)init
 {
     self = [super init];
     if (self) {

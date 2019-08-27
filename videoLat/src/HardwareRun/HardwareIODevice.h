@@ -12,7 +12,7 @@
 ///
 /// Class that implements InputDeviceProtocol (and ClockProtocol) for hardware input.
 ///
-@interface HardwareInput : NSObject <ClockProtocol, InputDeviceProtocol> {
+@interface HardwareIODevice : NSObject <ClockProtocol, InputDeviceProtocol> {
     BOOL alive;                 //!< True when the _periodic method should run
     BOOL connected;             //!< True if the hardware device is connected
     NSString *lastError;        //!< Last error message from device

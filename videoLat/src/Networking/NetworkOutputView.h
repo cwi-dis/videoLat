@@ -18,6 +18,7 @@
 #else
 : NSView <OutputDeviceProtocol, NetworkStatusProtocol>
 #endif
+@property(weak) IBOutlet NSObject<OutputDeviceProtocol> *networkDevice;
 #ifdef WITH_UIKIT
 @property(weak) IBOutlet UILabel *bPeerIPAddress;   //!< UI element: shows server IP address
 @property(weak) IBOutlet UILabel *bPeerPort;        //!< UI element: shows server port

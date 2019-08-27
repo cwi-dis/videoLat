@@ -19,7 +19,7 @@
 #import "RunManagerView.h"
 #endif
 // Forward delcaration
-@class NetworkInput;
+@class NetworkIODevice;
 
 ///
 /// Base class for objects that control a delay measurement run, i.e. a sequence of
@@ -52,7 +52,7 @@
 @property(weak) IBOutlet NSObject<InputDeviceProtocol> *capturer;    //!< Assigned in NIB: input capturer
 @property(weak) IBOutlet NSorUIView <OutputDeviceProtocol> *outputView; //!< Assigned in NIB: Displays current output QR code
 @property(weak) IBOutlet NSObject<NewMeasurementDelegate> *completionHandler;	//!< Optionally assigned in NIB: handler to open completed measurement
-@property(weak) IBOutlet NetworkInput *networkDevice;   //!< For hetwork measurements: the connection to the other side
+@property(weak) IBOutlet NetworkIODevice *networkIODevice;   //!< For hetwork measurements: the connection to the other side
 @property(weak) IBOutlet NSObject<ClockProtocol> *clock; //!< Input manager clock
 
 + (void)initialize;	//!< Class initializer.

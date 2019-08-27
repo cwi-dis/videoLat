@@ -9,7 +9,7 @@
 #import "NetworkRunManager.h"
 #import "AppDelegate.h"
 #import "MachineDescription.h"
-#import "NetworkInput.h"
+#import "NetworkIODevice.h"
 #import "EventLogger.h"
 
 ///
@@ -68,10 +68,10 @@
 
 - (void) awakeFromNib
 {
-    if (self.capturer && ![self.capturer isKindOfClass: [NetworkInput class]]) {
+    if (self.capturer && ![self.capturer isKindOfClass: [NetworkIODevice class]]) {
         slaveHandler = YES;
     }
-    assert(self.networkDevice);
+    assert(self.networkIODevice);
     [super awakeFromNib];
 }
 @end

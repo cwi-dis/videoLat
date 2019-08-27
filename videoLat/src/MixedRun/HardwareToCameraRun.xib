@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14460.31"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -26,7 +25,7 @@
                 <outlet property="statusView" destination="369" id="452"/>
             </connections>
         </customObject>
-        <customObject id="ECR-OS-7nF" userLabel="HardwareDriver" customClass="HardwareInput">
+        <customObject id="ECR-OS-7nF" userLabel="HardwareDriver" customClass="HardwareIODevice">
             <connections>
                 <outlet property="bDriverStatus" destination="jVR-XG-ska" id="cPo-zW-yR0"/>
                 <outlet property="bSamplePeriodStepper" destination="475" id="Syr-3J-ecA"/>
@@ -202,7 +201,7 @@ Optionally you can select a region-of-interest (the LED) in the Video Preview on
                         </constraints>
                         <connections>
                             <outlet property="bOutputValue" destination="78" id="199"/>
-                            <outlet property="hardwareInputHandler" destination="ECR-OS-7nF" id="SiZ-YX-bOI"/>
+                            <outlet property="hardwareIODevice" destination="ECR-OS-7nF" id="SiZ-YX-bOI"/>
                             <outlet property="manager" destination="74" id="5p7-O5-Xg1"/>
                         </connections>
                     </view>

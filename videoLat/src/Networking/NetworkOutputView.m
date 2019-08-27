@@ -33,6 +33,8 @@
 
 - (void) showNewData
 {
+    assert(self.networkDevice);
+    [self.networkDevice showNewData];
 }
 
 - (BOOL)available {

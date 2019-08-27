@@ -10,7 +10,7 @@
 #import "GenQRcode.h"
 #import "EventLogger.h"
 #import <sys/sysctl.h>
-#import "NetworkInput.h"
+#import "NetworkIODevice.h"
 
 
 @implementation VideoRunManager
@@ -122,8 +122,8 @@
         // codes contain the ip/port combination of the server)
         self.prevOutputCode = self.outputCode;
         self.outputCode = nil;
-        if (self.preparing && self.networkDevice) {
-            self.outputCode = [self.networkDevice genPrepareCode];
+        if (self.preparing && self.networkIODevice) {
+            self.outputCode = [self.networkIODevice genPrepareCode];
         }
         if (self.outputCode == nil) {
             self.outputCode = [NSString stringWithFormat:@"%lld", tsForCode];
