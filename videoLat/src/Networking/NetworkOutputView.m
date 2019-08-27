@@ -46,7 +46,7 @@
 
 - (void) reportServer: (NSString *)ip port: (int)port isUs: (BOOL) us
 {
-	NSLog(@"NetworkSelectionView.reportServer ip=%@ port=%d isUs=%d", ip, port, us);
+	NSLog(@"NetworkOutputView.reportServer ip=%@ port=%d isUs=%d", ip, port, us);
     dispatch_async(dispatch_get_main_queue(), ^{
         self.bPeerIPAddress.stringValue = ip;
         self.bPeerPort.stringValue = [NSString stringWithFormat:@"%d", port];
