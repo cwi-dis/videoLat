@@ -23,9 +23,9 @@
 		044F3D81183A467F0008CBA3 /* libpython2.7.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 044F3D80183A467F0008CBA3 /* libpython2.7.dylib */; };
 		044F3D83183A469D0008CBA3 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 044F3D82183A469D0008CBA3 /* IOKit.framework */; };
 		044F3D85183A47170008CBA3 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 044F3D84183A47170008CBA3 /* QuartzCore.framework */; };
-		045AA71619E71BA400E28AED /* MasterSenderRun.xib in Resources */ = {isa = PBXBuildFile; fileRef = 045AA71519E71BA300E28AED /* MasterSenderRun.xib */; };
-		0461ED201A9FCD1F00439749 /* MasterSenderScreenCalibrationRun.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0461ED1F1A9FCD1F00439749 /* MasterSenderScreenCalibrationRun.xib */; };
-		0461ED221A9FCD9600439749 /* SlaveReceiverRun.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0461ED211A9FCD9600439749 /* SlaveReceiverRun.xib */; };
+		045AA71619E71BA400E28AED /* RemoteSlaveScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 045AA71519E71BA300E28AED /* RemoteSlaveScreen.xib */; };
+		0461ED201A9FCD1F00439749 /* CalibrateScreenFromRemoteCamera.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0461ED1F1A9FCD1F00439749 /* CalibrateScreenFromRemoteCamera.xib */; };
+		0461ED221A9FCD9600439749 /* RemoteSlaveCamera.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0461ED211A9FCD9600439749 /* RemoteSlaveCamera.xib */; };
 		0472F3AE1AD7D07700415BA9 /* EventLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 0472F3AD1AD7D07700415BA9 /* EventLogger.m */; };
 		0478A56C22AC3DBA00331696 /* GenQRcode.m in Sources */ = {isa = PBXBuildFile; fileRef = 0478A56A22AC3DB900331696 /* GenQRcode.m */; };
 		047DD1C2183A3B4C00A04F83 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 047DD1C1183A3B4C00A04F83 /* Cocoa.framework */; };
@@ -46,9 +46,8 @@
 		0497260F18FD580300625326 /* VideoSelectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0497260818FD580300625326 /* VideoSelectionView.m */; };
 		0497261318FD581700625326 /* VideoMonoRunManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0497261118FD581700625326 /* VideoMonoRunManager.m */; };
 		0497261418FD581700625326 /* VideoMonoRun.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0497261218FD581700625326 /* VideoMonoRun.xib */; };
-		0497261818FD582600625326 /* VideoCalibrationRunManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0497261618FD582600625326 /* VideoCalibrationRunManager.m */; };
 		0497261918FD582600625326 /* VideoCalibrationRun.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0497261718FD582600625326 /* VideoCalibrationRun.xib */; };
-		0497261B18FD585600625326 /* HardwareToCameraRun.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0497261A18FD585600625326 /* HardwareToCameraRun.xib */; };
+		0497261B18FD585600625326 /* CalibrateCameraFromHardware.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0497261A18FD585600625326 /* CalibrateCameraFromHardware.xib */; };
 		0497262518FD589300625326 /* AudioInput.m in Sources */ = {isa = PBXBuildFile; fileRef = 0497261D18FD589300625326 /* AudioInput.m */; };
 		0497262618FD589300625326 /* AudioOutputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0497261F18FD589300625326 /* AudioOutputView.m */; };
 		0497262718FD589300625326 /* AudioRunManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0497262118FD589300625326 /* AudioRunManager.m */; };
@@ -66,10 +65,9 @@
 		0497264418FD5E5F00625326 /* sounds in Resources */ = {isa = PBXBuildFile; fileRef = 0497264318FD5E5F00625326 /* sounds */; };
 		04A6D93B1AB7820A0065FEA5 /* DeviceDescriptionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A6D93A1AB7820A0065FEA5 /* DeviceDescriptionView.m */; };
 		04A9C14819216EB70016E6C0 /* AudioCalibrationRun.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04A9C14719216EB70016E6C0 /* AudioCalibrationRun.xib */; };
-		04A9C14B19216F320016E6C0 /* AudioCalibrationRunManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A9C14A19216F320016E6C0 /* AudioCalibrationRunManager.m */; };
 		04AD64F422B981A2003E7693 /* videoLatUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 04AD64F222B981A2003E7693 /* videoLatUITests.m */; };
 		04B1915119D2ECBC001ABA66 /* Doxyfile in Resources */ = {isa = PBXBuildFile; fileRef = 04B1915019D2ECBC001ABA66 /* Doxyfile */; };
-		04B6A69E19ED63C300E1E3B6 /* ScreenToHardwareRun.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04B6A69D19ED63C300E1E3B6 /* ScreenToHardwareRun.xib */; };
+		04B6A69E19ED63C300E1E3B6 /* CalibrateScreenFromHardware.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04B6A69D19ED63C300E1E3B6 /* CalibrateScreenFromHardware.xib */; };
 		04BFC60B1AD3E0A20061972D /* CommonAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 042ABE311AD1E21A00FB877A /* CommonAppDelegate.m */; };
 		04C4F4872305A0FC008A1709 /* HardwareIODevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C4F4852305A0FC008A1709 /* HardwareIODevice.m */; };
 		04CC193822AD6AC60047D818 /* FindQRcode.m in Sources */ = {isa = PBXBuildFile; fileRef = 04502F551AF7B8190023462A /* FindQRcode.m */; };
@@ -80,7 +78,7 @@
 		04DE78C81A11759A002BA654 /* HardwareSelectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DE78C71A11759A002BA654 /* HardwareSelectionView.m */; };
 		04E4586B18FEB39C005712F6 /* AudioProcess.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E4586A18FEB39C005712F6 /* AudioProcess.m */; };
 		04ED2A181A9D23E2001FA0AC /* NewMeasurementView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04ED2A171A9D23E2001FA0AC /* NewMeasurementView.m */; };
-		04EEC1CC19DC4C5E0056899C /* SlaveReceiverCameraCalibrationRun.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04EEC1CB19DC4C5E0056899C /* SlaveReceiverCameraCalibrationRun.xib */; };
+		04EEC1CC19DC4C5E0056899C /* CalibrateCameraFromRemoteScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04EEC1CB19DC4C5E0056899C /* CalibrateCameraFromRemoteScreen.xib */; };
 		04EEC1D019DC4D9E0056899C /* NetworkOutputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04EEC1CF19DC4D9E0056899C /* NetworkOutputView.m */; };
 		04EEC1D919DC8E2E0056899C /* NetworkSelectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04EEC1D619DC8E2E0056899C /* NetworkSelectionView.m */; };
 		04EEC1DC19DC93A70056899C /* NetworkRunManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 04EEC1DB19DC93A70056899C /* NetworkRunManager.m */; };
@@ -135,11 +133,11 @@
 		044F3D84183A47170008CBA3 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = ../../../../System/Library/Frameworks/QuartzCore.framework; sourceTree = "<group>"; };
 		04502F541AF7B8190023462A /* FindQRcode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FindQRcode.h; path = VideoRun/FindQRcode.h; sourceTree = "<group>"; };
 		04502F551AF7B8190023462A /* FindQRcode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FindQRcode.m; path = VideoRun/FindQRcode.m; sourceTree = "<group>"; };
-		045AA71519E71BA300E28AED /* MasterSenderRun.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MasterSenderRun.xib; path = MasterSenderRun/MasterSenderRun.xib; sourceTree = "<group>"; };
+		045AA71519E71BA300E28AED /* RemoteSlaveScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RemoteSlaveScreen.xib; path = MasterSenderRun/RemoteSlaveScreen.xib; sourceTree = "<group>"; };
 		045FCCA122AE6E0100846451 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = mac/Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		045FCCA222AE6E0100846451 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = mac/Base.lproj/Document.xib; sourceTree = "<group>"; };
-		0461ED1F1A9FCD1F00439749 /* MasterSenderScreenCalibrationRun.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MasterSenderScreenCalibrationRun.xib; path = MasterSenderRun/MasterSenderScreenCalibrationRun.xib; sourceTree = "<group>"; };
-		0461ED211A9FCD9600439749 /* SlaveReceiverRun.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SlaveReceiverRun.xib; path = SlaveReceiverRun/SlaveReceiverRun.xib; sourceTree = "<group>"; };
+		0461ED1F1A9FCD1F00439749 /* CalibrateScreenFromRemoteCamera.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CalibrateScreenFromRemoteCamera.xib; path = MasterSenderRun/CalibrateScreenFromRemoteCamera.xib; sourceTree = "<group>"; };
+		0461ED211A9FCD9600439749 /* RemoteSlaveCamera.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RemoteSlaveCamera.xib; path = SlaveReceiverRun/RemoteSlaveCamera.xib; sourceTree = "<group>"; };
 		0472F3AC1AD7D07700415BA9 /* EventLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventLogger.h; sourceTree = "<group>"; };
 		0472F3AD1AD7D07700415BA9 /* EventLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventLogger.m; sourceTree = "<group>"; };
 		0478A56A22AC3DB900331696 /* GenQRcode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GenQRcode.m; path = VideoRun/GenQRcode.m; sourceTree = "<group>"; };
@@ -177,10 +175,8 @@
 		0497261018FD581700625326 /* VideoMonoRunManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VideoMonoRunManager.h; path = VideoMonoRun/VideoMonoRunManager.h; sourceTree = "<group>"; };
 		0497261118FD581700625326 /* VideoMonoRunManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VideoMonoRunManager.m; path = VideoMonoRun/VideoMonoRunManager.m; sourceTree = "<group>"; };
 		0497261218FD581700625326 /* VideoMonoRun.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = VideoMonoRun.xib; path = VideoMonoRun/VideoMonoRun.xib; sourceTree = "<group>"; };
-		0497261518FD582600625326 /* VideoCalibrationRunManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VideoCalibrationRunManager.h; path = VideoCalibrationRun/VideoCalibrationRunManager.h; sourceTree = "<group>"; };
-		0497261618FD582600625326 /* VideoCalibrationRunManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VideoCalibrationRunManager.m; path = VideoCalibrationRun/VideoCalibrationRunManager.m; sourceTree = "<group>"; };
 		0497261718FD582600625326 /* VideoCalibrationRun.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = VideoCalibrationRun.xib; path = VideoCalibrationRun/VideoCalibrationRun.xib; sourceTree = "<group>"; };
-		0497261A18FD585600625326 /* HardwareToCameraRun.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = HardwareToCameraRun.xib; path = MixedRun/HardwareToCameraRun.xib; sourceTree = "<group>"; };
+		0497261A18FD585600625326 /* CalibrateCameraFromHardware.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CalibrateCameraFromHardware.xib; path = MixedRun/CalibrateCameraFromHardware.xib; sourceTree = "<group>"; };
 		0497261C18FD589300625326 /* AudioInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioInput.h; path = AudioRun/AudioInput.h; sourceTree = "<group>"; };
 		0497261D18FD589300625326 /* AudioInput.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AudioInput.m; path = AudioRun/AudioInput.m; sourceTree = "<group>"; };
 		0497261E18FD589300625326 /* AudioOutputView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioOutputView.h; path = AudioRun/AudioOutputView.h; sourceTree = "<group>"; };
@@ -210,15 +206,13 @@
 		04A6D9391AB7820A0065FEA5 /* DeviceDescriptionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeviceDescriptionView.h; path = Document/DeviceDescriptionView.h; sourceTree = "<group>"; };
 		04A6D93A1AB7820A0065FEA5 /* DeviceDescriptionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DeviceDescriptionView.m; path = Document/DeviceDescriptionView.m; sourceTree = "<group>"; };
 		04A9C14719216EB70016E6C0 /* AudioCalibrationRun.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AudioCalibrationRun.xib; path = AudioCalibrationRun/AudioCalibrationRun.xib; sourceTree = "<group>"; };
-		04A9C14919216F320016E6C0 /* AudioCalibrationRunManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioCalibrationRunManager.h; path = AudioCalibrationRun/AudioCalibrationRunManager.h; sourceTree = "<group>"; };
-		04A9C14A19216F320016E6C0 /* AudioCalibrationRunManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AudioCalibrationRunManager.m; path = AudioCalibrationRun/AudioCalibrationRunManager.m; sourceTree = "<group>"; };
 		04AD00EF19D3097200DDFDE6 /* xibfiles.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xibfiles.h; sourceTree = "<group>"; };
 		04AD64E722B9754B003E7693 /* videoLatUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = videoLatUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		04AD64F222B981A2003E7693 /* videoLatUITests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = videoLatUITests.m; sourceTree = "<group>"; };
 		04AD64F322B981A2003E7693 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		04B1915019D2ECBC001ABA66 /* Doxyfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Doxyfile; sourceTree = "<group>"; };
 		04B58F18183A3CF000360A61 /* protocols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = protocols.h; sourceTree = "<group>"; };
-		04B6A69D19ED63C300E1E3B6 /* ScreenToHardwareRun.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ScreenToHardwareRun.xib; path = MixedRun/ScreenToHardwareRun.xib; sourceTree = "<group>"; };
+		04B6A69D19ED63C300E1E3B6 /* CalibrateScreenFromHardware.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CalibrateScreenFromHardware.xib; path = MixedRun/CalibrateScreenFromHardware.xib; sourceTree = "<group>"; };
 		04BFC60A1AD3E0270061972D /* compat.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = compat.h; sourceTree = "<group>"; };
 		04C4F4852305A0FC008A1709 /* HardwareIODevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HardwareIODevice.m; path = HardwareRun/HardwareIODevice.m; sourceTree = "<group>"; };
 		04C4F4862305A0FC008A1709 /* HardwareIODevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HardwareIODevice.h; path = HardwareRun/HardwareIODevice.h; sourceTree = "<group>"; };
@@ -233,7 +227,7 @@
 		04E4586A18FEB39C005712F6 /* AudioProcess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AudioProcess.m; path = AudioRun/AudioProcess.m; sourceTree = "<group>"; };
 		04ED2A161A9D23E2001FA0AC /* NewMeasurementView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NewMeasurementView.h; path = MeasurementRun/NewMeasurementView.h; sourceTree = "<group>"; };
 		04ED2A171A9D23E2001FA0AC /* NewMeasurementView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NewMeasurementView.m; path = MeasurementRun/NewMeasurementView.m; sourceTree = "<group>"; };
-		04EEC1CB19DC4C5E0056899C /* SlaveReceiverCameraCalibrationRun.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SlaveReceiverCameraCalibrationRun.xib; path = SlaveReceiverRun/SlaveReceiverCameraCalibrationRun.xib; sourceTree = "<group>"; };
+		04EEC1CB19DC4C5E0056899C /* CalibrateCameraFromRemoteScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CalibrateCameraFromRemoteScreen.xib; path = SlaveReceiverRun/CalibrateCameraFromRemoteScreen.xib; sourceTree = "<group>"; };
 		04EEC1CE19DC4D9E0056899C /* NetworkOutputView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NetworkOutputView.h; path = Networking/NetworkOutputView.h; sourceTree = "<group>"; };
 		04EEC1CF19DC4D9E0056899C /* NetworkOutputView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NetworkOutputView.m; path = Networking/NetworkOutputView.m; sourceTree = "<group>"; };
 		04EEC1D519DC8E2E0056899C /* NetworkSelectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NetworkSelectionView.h; path = Networking/NetworkSelectionView.h; sourceTree = "<group>"; };
@@ -322,13 +316,8 @@
 				049725DC18FD563E00625326 /* RunManagerView.m */,
 				04DCC18C1867913800592A1F /* HardwareRun */,
 				040CF9D6183E4B570094C0D8 /* VideoRun */,
-				049725FB18FD57E200625326 /* VideoCalibrationRun */,
 				049725FA18FD57D200625326 /* VideoMonoRun */,
-				0412725618731D4B00CB014F /* MixedRun */,
 				049903E718F94BD600085C91 /* AudioRun */,
-				04A9C14619216E300016E6C0 /* AudioCalibrationRun */,
-				04EEC1C919DC4B8F0056899C /* MasterSenderRun */,
-				04EEC1CA19DC4BCE0056899C /* SlaveReceiverRun */,
 				04EEC1CD19DC4D1A0056899C /* Networking */,
 			);
 			name = MeasurementRun;
@@ -352,19 +341,11 @@
 				0497260418FD580300625326 /* VideoRunManager.h */,
 				0497260518FD580300625326 /* VideoRunManager.m */,
 				0497260618FD580300625326 /* VideoRun.xib */,
+				0497261718FD582600625326 /* VideoCalibrationRun.xib */,
 				0497260718FD580300625326 /* VideoSelectionView.h */,
 				0497260818FD580300625326 /* VideoSelectionView.m */,
 			);
 			name = VideoRun;
-			sourceTree = "<group>";
-		};
-		0412725618731D4B00CB014F /* MixedRun */ = {
-			isa = PBXGroup;
-			children = (
-				0497261A18FD585600625326 /* HardwareToCameraRun.xib */,
-				04B6A69D19ED63C300E1E3B6 /* ScreenToHardwareRun.xib */,
-			);
-			name = MixedRun;
 			sourceTree = "<group>";
 		};
 		0425748F1AA8F1B000CFD180 /* Sharing */ = {
@@ -474,20 +455,12 @@
 				0497261018FD581700625326 /* VideoMonoRunManager.h */,
 				0497261118FD581700625326 /* VideoMonoRunManager.m */,
 				0497261218FD581700625326 /* VideoMonoRun.xib */,
-				04D411101A02CABC009AFEED /* CalibrateScreenFromCameraRun.xib */,
 				04D411111A02CABC009AFEED /* CalibrateCameraFromScreenRun.xib */,
+				0497261A18FD585600625326 /* CalibrateCameraFromHardware.xib */,
+				04D411101A02CABC009AFEED /* CalibrateScreenFromCameraRun.xib */,
+				04B6A69D19ED63C300E1E3B6 /* CalibrateScreenFromHardware.xib */,
 			);
 			name = VideoMonoRun;
-			sourceTree = "<group>";
-		};
-		049725FB18FD57E200625326 /* VideoCalibrationRun */ = {
-			isa = PBXGroup;
-			children = (
-				0497261518FD582600625326 /* VideoCalibrationRunManager.h */,
-				0497261618FD582600625326 /* VideoCalibrationRunManager.m */,
-				0497261718FD582600625326 /* VideoCalibrationRun.xib */,
-			);
-			name = VideoCalibrationRun;
 			sourceTree = "<group>";
 		};
 		049903E718F94BD600085C91 /* AudioRun */ = {
@@ -501,22 +474,13 @@
 				0497262018FD589300625326 /* AudioRunManager.h */,
 				0497262118FD589300625326 /* AudioRunManager.m */,
 				0497262218FD589300625326 /* AudioRun.xib */,
+				04A9C14719216EB70016E6C0 /* AudioCalibrationRun.xib */,
 				0497262318FD589300625326 /* AudioSelectionView.h */,
 				0497262418FD589300625326 /* AudioSelectionView.m */,
 				04E4586818FEAEAD005712F6 /* AudioProcess.h */,
 				04E4586A18FEB39C005712F6 /* AudioProcess.m */,
 			);
 			name = AudioRun;
-			sourceTree = "<group>";
-		};
-		04A9C14619216E300016E6C0 /* AudioCalibrationRun */ = {
-			isa = PBXGroup;
-			children = (
-				04A9C14719216EB70016E6C0 /* AudioCalibrationRun.xib */,
-				04A9C14919216F320016E6C0 /* AudioCalibrationRunManager.h */,
-				04A9C14A19216F320016E6C0 /* AudioCalibrationRunManager.m */,
-			);
-			name = AudioCalibrationRun;
 			sourceTree = "<group>";
 		};
 		04AD64E822B9754B003E7693 /* videoLatUITests */ = {
@@ -572,24 +536,6 @@
 			name = HardwareRun;
 			sourceTree = "<group>";
 		};
-		04EEC1C919DC4B8F0056899C /* MasterSenderRun */ = {
-			isa = PBXGroup;
-			children = (
-				045AA71519E71BA300E28AED /* MasterSenderRun.xib */,
-				0461ED1F1A9FCD1F00439749 /* MasterSenderScreenCalibrationRun.xib */,
-			);
-			name = MasterSenderRun;
-			sourceTree = "<group>";
-		};
-		04EEC1CA19DC4BCE0056899C /* SlaveReceiverRun */ = {
-			isa = PBXGroup;
-			children = (
-				0461ED211A9FCD9600439749 /* SlaveReceiverRun.xib */,
-				04EEC1CB19DC4C5E0056899C /* SlaveReceiverCameraCalibrationRun.xib */,
-			);
-			name = SlaveReceiverRun;
-			sourceTree = "<group>";
-		};
 		04EEC1CD19DC4D1A0056899C /* Networking */ = {
 			isa = PBXGroup;
 			children = (
@@ -605,6 +551,10 @@
 				04EEC1D619DC8E2E0056899C /* NetworkSelectionView.m */,
 				0412D544230C7E84009275C3 /* RemoteClock.h */,
 				0412D545230C7E85009275C3 /* RemoteClock.m */,
+				045AA71519E71BA300E28AED /* RemoteSlaveScreen.xib */,
+				0461ED211A9FCD9600439749 /* RemoteSlaveCamera.xib */,
+				0461ED1F1A9FCD1F00439749 /* CalibrateScreenFromRemoteCamera.xib */,
+				04EEC1CB19DC4C5E0056899C /* CalibrateCameraFromRemoteScreen.xib */,
 			);
 			name = Networking;
 			sourceTree = "<group>";
@@ -717,21 +667,21 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				04EEC1CC19DC4C5E0056899C /* SlaveReceiverCameraCalibrationRun.xib in Resources */,
+				04EEC1CC19DC4C5E0056899C /* CalibrateCameraFromRemoteScreen.xib in Resources */,
 				0497264418FD5E5F00625326 /* sounds in Resources */,
 				049725DE18FD563E00625326 /* NewMeasurementView.xib in Resources */,
-				045AA71619E71BA400E28AED /* MasterSenderRun.xib in Resources */,
+				045AA71619E71BA400E28AED /* RemoteSlaveScreen.xib in Resources */,
 				0497260E18FD580300625326 /* VideoRun.xib in Resources */,
-				04B6A69E19ED63C300E1E3B6 /* ScreenToHardwareRun.xib in Resources */,
+				04B6A69E19ED63C300E1E3B6 /* CalibrateScreenFromHardware.xib in Resources */,
 				04D411121A02CABC009AFEED /* CalibrateScreenFromCameraRun.xib in Resources */,
 				0497264218FD5BDA00625326 /* icon.icns in Resources */,
 				049725E918FD568A00625326 /* HardwareRun.xib in Resources */,
 				0436C91D22F5D7C00060A5E1 /* Images.xcassets in Resources */,
 				0497264118FD5BDA00625326 /* docicon.icns in Resources */,
-				0461ED201A9FCD1F00439749 /* MasterSenderScreenCalibrationRun.xib in Resources */,
+				0461ED201A9FCD1F00439749 /* CalibrateScreenFromRemoteCamera.xib in Resources */,
 				0497262818FD589300625326 /* AudioRun.xib in Resources */,
 				0497261418FD581700625326 /* VideoMonoRun.xib in Resources */,
-				0497261B18FD585600625326 /* HardwareToCameraRun.xib in Resources */,
+				0497261B18FD585600625326 /* CalibrateCameraFromHardware.xib in Resources */,
 				04B1915119D2ECBC001ABA66 /* Doxyfile in Resources */,
 				04FFFC6E1AB2F0F20023ED13 /* InfoPlist.strings in Resources */,
 				0497261918FD582600625326 /* VideoCalibrationRun.xib in Resources */,
@@ -743,7 +693,7 @@
 				04FFFC6C1AB2F0F20023ED13 /* Credits.rtf in Resources */,
 				048FB6F519FD21040023D29C /* HardwareDevices in Resources */,
 				04FFDF94185A6FAE00B1CCCC /* videoLat.help in Resources */,
-				0461ED221A9FCD9600439749 /* SlaveReceiverRun.xib in Resources */,
+				0461ED221A9FCD9600439749 /* RemoteSlaveCamera.xib in Resources */,
 				04FFFC5F1AB2F03B0023ED13 /* videoLat.entitlements in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -821,14 +771,12 @@
 				04FFFC5D1AB2F02B0023ED13 /* PythonLoader.m in Sources */,
 				0497260F18FD580300625326 /* VideoSelectionView.m in Sources */,
 				0497263A18FD592C00625326 /* MeasurementDataStore.m in Sources */,
-				0497261818FD582600625326 /* VideoCalibrationRunManager.m in Sources */,
 				04EEC1D919DC8E2E0056899C /* NetworkSelectionView.m in Sources */,
 				0497260D18FD580300625326 /* VideoRunManager.m in Sources */,
 				049725E118FD563E00625326 /* RunManagerView.m in Sources */,
 				0497262618FD589300625326 /* AudioOutputView.m in Sources */,
 				04E4586B18FEB39C005712F6 /* AudioProcess.m in Sources */,
 				04FFFC611AB2F0770023ED13 /* main.m in Sources */,
-				04A9C14B19216F320016E6C0 /* AudioCalibrationRunManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

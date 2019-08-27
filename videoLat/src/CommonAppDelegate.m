@@ -7,9 +7,7 @@
 
 #import "CommonAppDelegate.h"
 #import "VideoRunManager.h"
-#import "VideoCalibrationRunManager.h"
 #import "AudioRunManager.h"
-#import "AudioCalibrationRunManager.h"
 #import "NetworkRunManager.h"
 #import "FindQRcode.h"
 
@@ -41,9 +39,7 @@
     // else.
     [FindQRcode class];
     [VideoRunManager class];
-    [VideoCalibrationRunManager class];
     [AudioRunManager class];
-    [AudioCalibrationRunManager class];
     [NetworkRunManager class];
 #if !TARGET_OS_IPHONE
     [VideoMonoRunManager class];

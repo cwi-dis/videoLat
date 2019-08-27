@@ -32,7 +32,7 @@
     [BaseRunManager registerNib: @"HardwareRun" forMeasurementType: @"Hardware Calibrate"];
 
     [BaseRunManager registerClass: [self class] forMeasurementType: @"Transmission Calibrate using Hardware"];
-    [BaseRunManager registerNib: @"ScreenToHardwareRun" forMeasurementType: @"Transmission Calibrate using Hardware"];
+    [BaseRunManager registerNib: @"CalibrateScreenFromHardware" forMeasurementType: @"Transmission Calibrate using Hardware"];
     // We should also ensure that the hardware protocol is actually part of the binary
     NSLog(@"HardwareLightProtocol = %@", @protocol(HardwareLightProtocol));
 }

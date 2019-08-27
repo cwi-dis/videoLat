@@ -24,7 +24,7 @@
     // We also register ourselves for camera calibration. At the very least we must make
     // sure the nibfile is registered...
     [BaseRunManager registerClass: [self class] forMeasurementType: @"Reception Calibrate using Hardware"];
-    [BaseRunManager registerNib: @"HardwareToCameraRun" forMeasurementType: @"Reception Calibrate using Hardware"];
+    [BaseRunManager registerNib: @"CalibrateCameraFromHardware" forMeasurementType: @"Reception Calibrate using Hardware"];
     
     [BaseRunManager registerClass: [self class] forMeasurementType: @"Reception Calibrate using Calibrated Screen"];
     [BaseRunManager registerNib: @"CalibrateCameraFromScreenRun" forMeasurementType: @"Reception Calibrate using Calibrated Screen"];
