@@ -15,13 +15,16 @@
 /// Class that implements InputDeviceProtocol (and ClockProtocol) for data that
 /// is actually captured remotely, and for which the data is sent to us over the network.
 ///
-@interface NetworkIODevice : NSObject <ClockProtocol, InputDeviceProtocol, NetworkProtocolDelegate> {
+@interface NetworkIODevice : NSObject <ClockProtocol, InputDeviceProtocol, OutputDeviceProtocol, NetworkProtocolDelegate> {
     BOOL isClient;                //!< True if we are running in the network client (camera input, outputnet)
     BOOL isServer;                //!< True if we are running in the network server (net input, screen output)
     NSString *prepareCode;        //!< Internal: data for prerun qrcode
     NSString *statusToPeer;       //!< Internal: status update to be transmitted to peer
     BOOL didReceiveData;          //!< Internal: true once we have received any data
-    DeviceDescription *deviceDescriptorToSend;    //!< Internal: description of local device, to be sent to remote
+    DeviceDescription *inputDeviceDescriptorToSend;    //!< Internal: description of local input device, to be sent to remote
+    DeviceDescription *outputDeviceDescriptorToSend;    //!< Internal: description of local output device, to be sent to remote
+    NSString *requestTransmissionCode;     //!< Internal: this side wants the other side to do a new transmission
+    NSString *lastRequestTransmissionCode;  //!< Internal: last transmission requested
     RemoteClock *remoteClock;     //!< Internal: retain self-allocated clock
     uint64_t lastMessageSentTime; //!< Internal: Last time we sent a message to the master
 }
@@ -32,7 +35,8 @@
 //@property(weak) IBOutlet id selectionViewForStatusOnly;         //!< Assigned in NIB: view that allows viewing network status
 
 @property(strong) NetworkProtocolCommon *protocol;
-@property(strong) DeviceDescription *remoteDeviceDescription;
+@property(strong) DeviceDescription *remoteInputDeviceDescription;
+@property(strong) DeviceDescription *remoteOutputDeviceDescription;
 
 - (uint64_t)now;
 - (void) startCapturing: (BOOL) showPreview;
@@ -41,11 +45,13 @@
 - (NSString *)genPrepareCode;    //!< Returns QR-code containing our IP/port combination
 
 // xxxjack temp
-- (void)tmpOpenServer;
-- (void)tmpOpenClient: (NSString *)url;
-- (void)tmpSendResult: (MeasurementDataStore *)ds;
-- (void)tmpReport: (NSString *)code count:(int)count at:(uint64_t)tsLastReported;
-- (void)tmpHeartbeat;
-- (void)tmpUpdateStatus: (NSString *)status;
-- (void)tmpSetDeviceDescriptor: (DeviceDescription *)descr;
+- (void)openServer;
+- (void)openClient: (NSString *)url;
+- (void)reportResult: (MeasurementDataStore *)ds;
+- (void)reportReception: (NSString *)code count:(int)count at:(uint64_t)timestamp;
+- (void)reportTransmission: (NSString *)code at:(uint64_t)timestamp;
+- (void)reportHeartbeat;
+- (void)reportStatus: (NSString *)status;
+- (void)reportInputDevice: (DeviceDescription *)descr;
+- (void)reportOutputDevice: (DeviceDescription *)descr;
 @end

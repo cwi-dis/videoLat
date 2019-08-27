@@ -180,15 +180,11 @@
 	alive = NO;
 }
 
-- (void)setOutputCode: (NSString *)newValue report: (BOOL)report
-{
-    if (!alive) {
-        NSLog(@"HardwareInput setOutputCode: called but not alive...");
-        return;
-    }
-	outputCode = newValue;
-	newOutputValueWanted = YES;
-    reportNewOutput = report;
+
+- (void)showNewData {
+    outputCode = [self.manager getNewOutputCode];
+    newOutputValueWanted = YES;
+    reportNewOutput = YES;
 }
 
 - (void)_periodic: (id)sender

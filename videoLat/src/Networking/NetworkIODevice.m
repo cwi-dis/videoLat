@@ -48,7 +48,8 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
         slaveHandler = NO;
         statusToPeer = nil;
 #endif
-        self.remoteDeviceDescription = nil;
+        self.remoteInputDeviceDescription = nil;
+        self.remoteOutputDeviceDescription = nil;
         isClient = NO;
         isServer = NO;
         didReceiveData = NO;
@@ -135,14 +136,11 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
     return prepareCode;
 }
 
-- (void)setOutputCode: (NSString *)newValue report: (BOOL)report
-{
-#if 0
-    assert(alive);
-    outputCode = newValue;
-    newOutputValueWanted = YES;
-    reportNewOutput = report;
-#endif
+
+
+- (void)showNewData {
+    assert(0);
+    requestTransmissionCode = [self.manager getNewOutputCode];
 }
 
 #pragma mark NetworkProtocolDelegate
@@ -150,7 +148,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 - (void)received:(NSDictionary *)data from: (id)connection
 {
     if (!didReceiveData) {
-        [self tmpUpdateStatus: @"Connected"];
+        [self reportStatus: @"Connected"];
         didReceiveData = YES;
     }
     if (!self.protocol) {
@@ -167,7 +165,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
             assert(mrData);
             MeasurementDataStore *mr = [NSKeyedUnarchiver unarchiveObjectWithData:mrData];
             assert(mr);
-            [self tmpUpdateStatus:@"Complete"];
+            [self reportStatus:@"Complete"];
             [self.protocol close];
             if (self.protocol) self.protocol.delegate = nil;
             self.protocol = nil;
@@ -190,7 +188,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
         }
         NSString *peerStatus = [data objectForKey:@"peerStatus"];
         if (peerStatus) {
-            [self tmpUpdateStatus: peerStatus];
+            [self reportStatus: peerStatus];
         }
         NSString *statusCount = [data objectForKey:@"statusCount"];
         NSString *statusAverage = [data objectForKey: @"statusAverage"];
@@ -198,6 +196,10 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
             self.manager.statusView.detectCount = statusCount;
             self.manager.statusView.detectAverage = statusAverage;
             [self.manager.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
+        }
+        NSString *requestTransmission = [data objectForKey: @"requestTransmission"];
+        if (requestTransmission) {
+            assert(0);
         }
     } else {
         // This code runs in the master (video sender, network receiver)
@@ -211,7 +213,8 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
         uint64_t rtt = getTimestamp(data, @"rtt");
         uint64_t clockInterval = getTimestamp(data, @"clockInterval");
         NSString *code = [data objectForKey: @"code"];
-        
+        NSString *transmittedCode = [data objectForKey: @"transmittedCode"];
+
         if (slaveTimestamp) {
             uint64_t now = [self.clock now];
             NSMutableDictionary *msg = [@{
@@ -229,23 +232,37 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
             [self.protocol send: msg];
         }
         
-        // Let's see whether they transmitted the device descriptor
-        NSString *ddString = [data objectForKey: @"inputDeviceDescriptor"];
+        // Let's see whether they transmitted the input device descriptor
+        NSString *ddString;
+        ddString = [data objectForKey: @"inputDeviceDescriptor"];
         if (ddString) {
             NSData *ddData = [[NSData alloc] initWithBase64EncodedString:ddString options:0];
             assert(ddData);
             DeviceDescription *dd = [NSKeyedUnarchiver unarchiveObjectWithData:ddData];
             assert(dd);
-            if (self.remoteDeviceDescription) {
+            if (self.remoteInputDeviceDescription) {
                 // This should probably be an alert.
                 NSLog(@"Received second remote device descriptor %@", dd);
             }
-            self.remoteDeviceDescription = dd;
+            self.remoteInputDeviceDescription = dd;
+        }
+        // Let's see whether they transmitted the output device descriptor
+        ddString = [data objectForKey: @"outputDeviceDescriptor"];
+        if (ddString) {
+            NSData *ddData = [[NSData alloc] initWithBase64EncodedString:ddString options:0];
+            assert(ddData);
+            DeviceDescription *dd = [NSKeyedUnarchiver unarchiveObjectWithData:ddData];
+            assert(dd);
+            if (self.remoteOutputDeviceDescription) {
+                // This should probably be an alert.
+                NSLog(@"Received second remote device descriptor %@", dd);
+            }
+            self.remoteOutputDeviceDescription = dd;
         }
         // And update our status, if needed
         NSString *peerStatus = [data objectForKey:@"peerStatus"];
         if (peerStatus) {
-            [self tmpUpdateStatus: peerStatus];
+            [self reportStatus: peerStatus];
         }
         
         if (rtt) {
@@ -259,7 +276,16 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
         if(code) {
             uint64_t count = getTimestamp(data, @"count");
             [self.manager newInputDone: code count: (int)count at: masterDetectionTimestamp];
+        } else if(transmittedCode) {
+            if (![transmittedCode isEqualToString:lastRequestTransmissionCode]) {
+                NSLog(@"NetworkRunManager: received transmitted code %@ but expected %@", transmittedCode, lastRequestTransmissionCode);
+                return;
+            }
+            lastRequestTransmissionCode = nil;
+            uint64_t masterTransmitTime = getTimestamp(data, @"masterTransmitTime");
+            [self.manager newOutputDoneAt: masterTransmitTime];
         } else {
+            // xxxjack is this correct? Also for transmitting slave?
             if (VL_DEBUG) NSLog(@"NetworkRunManager: received no qr-code at %lld,code=%@,masterDetectionTimestamp=%lld", masterTimestamp,code, masterDetectionTimestamp);
             [self.manager newInputDone:@"nothing" count:0 at:0];
         }
@@ -272,14 +298,12 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
     [self.protocol close];
     if (self.protocol) self.protocol.delegate = nil;
     self.protocol = nil;
-    [self tmpUpdateStatus: @"Disconnected"];
+    [self reportStatus: @"Disconnected"];
     [self.manager stop]; // xxxjack or is this too rigorous???
     
 }
 
-#pragma mark xxxjack temporary
-
-- (void)tmpOpenServer
+- (void)openServer
 {
     assert(self.protocol == nil);
     assert(self.networkStatusView);
@@ -290,12 +314,12 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
     [self.networkStatusView reportServer: self.protocol.host port: self.protocol.port isUs: YES];
 }
 
-- (void)tmpOpenClient: (NSString *)url
+- (void)openClient: (NSString *)url
 {
     assert(self.protocol == nil);
     isClient = YES;
     NSURLComponents *urlComps = [NSURLComponents componentsWithString: url];
-    assert(deviceDescriptorToSend); // Or could this be set at initialization?
+    assert(inputDeviceDescriptorToSend||outputDeviceDescriptorToSend); // Or could this be set at initialization?
     if ([urlComps.path isEqualToString: @"/landing"] && self.protocol == nil) {
         NSString *query = urlComps.query;
         NSLog(@"Server info: %@", query);
@@ -304,7 +328,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
         int port;
         int rv = sscanf(cQuery, "ip=%126[^&]&port=%d", ipBuffer, &port);
         if (rv != 2) {
-            [self tmpUpdateStatus: [NSString stringWithFormat: @"Unexcepted URL: %@", url] ];
+            [self reportStatus: [NSString stringWithFormat: @"Unexcepted URL: %@", url] ];
         } else {
             NSString *ipAddress = [NSString stringWithUTF8String:ipBuffer];
             assert(self.networkStatusView);
@@ -326,7 +350,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
     }
 }
 
-- (void)tmpSendResult: (MeasurementDataStore *)ds
+- (void)reportResult: (MeasurementDataStore *)ds
 {
     if (self.protocol && ds) {
         NSData *dsData = [NSKeyedArchiver archivedDataWithRootObject: ds];
@@ -341,32 +365,40 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 
 }
 
-- (void)tmpReport: (NSString *)code count:(int)count at:(uint64_t)tsLastReported
+- (void)reportReception: (NSString *)code count:(int)count at:(uint64_t)timestamp
 {
     if (self.protocol == nil) return;
-    VL_LOG_EVENT(@"slaveDetectionSlaveTime", tsLastReported, code);
-    uint64_t tsLastReportedRemote = [remoteClock remoteNow:tsLastReported];
-    VL_LOG_EVENT(@"slaveDetectionMasterTime", tsLastReportedRemote, code);
+    VL_LOG_EVENT(@"slaveDetectionSlaveTime", timestamp, code);
+    uint64_t timestampRemote = [remoteClock remoteNow:timestamp];
+    VL_LOG_EVENT(@"slaveDetectionMasterTime", timestampRemote, code);
     uint64_t now = [self.clock now];
     uint64_t remoteNow = [remoteClock remoteNow: now];
     uint64_t rtt = [remoteClock rtt];
     uint64_t clockInterval = [remoteClock clockInterval];
     NSMutableDictionary *msg = [@{
                                   @"code" : code,
-                                  @"masterDetectTime": [NSString stringWithFormat:@"%lld", tsLastReportedRemote],
+                                  @"masterDetectTime": [NSString stringWithFormat:@"%lld", timestampRemote],
                                   @"slaveTime" : [NSString stringWithFormat:@"%lld", now],
                                   @"masterTime" : [NSString stringWithFormat:@"%lld", remoteNow],
                                   @"count" : [NSString stringWithFormat:@"%d", count],
                                   @"rtt" : [NSString stringWithFormat:@"%lld", rtt],
                                   @"clockInterval" : [NSString stringWithFormat:@"%lld", clockInterval]
                                   } mutableCopy];
-    if (deviceDescriptorToSend) {
-        NSData *ddData = [NSKeyedArchiver archivedDataWithRootObject: deviceDescriptorToSend];
+    if (inputDeviceDescriptorToSend) {
+        NSData *ddData = [NSKeyedArchiver archivedDataWithRootObject: inputDeviceDescriptorToSend];
         assert(ddData);
         NSString *ddString = [ddData base64EncodedStringWithOptions:0];
         assert(ddString);
         [msg setObject: ddString forKey:@"inputDeviceDescriptor"];
-        deviceDescriptorToSend = nil;
+        inputDeviceDescriptorToSend = nil;
+    }
+    if (outputDeviceDescriptorToSend) {
+        NSData *ddData = [NSKeyedArchiver archivedDataWithRootObject: outputDeviceDescriptorToSend];
+        assert(ddData);
+        NSString *ddString = [ddData base64EncodedStringWithOptions:0];
+        assert(ddString);
+        [msg setObject: ddString forKey:@"outputDeviceDescriptor"];
+        outputDeviceDescriptorToSend = nil;
     }
     if (statusToPeer) {
         [msg setObject: statusToPeer forKey: @"peerStatus"];
@@ -376,7 +408,49 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
     lastMessageSentTime = now;
 }
 
-- (void)tmpHeartbeat
+- (void)reportTransmission: (NSString *)code at:(uint64_t)timestamp
+{
+    if (self.protocol == nil) return;
+    VL_LOG_EVENT(@"slaveTransmissionSlaveTime", timestamp, code);
+    uint64_t timestampRemote = [remoteClock remoteNow:timestamp];
+    VL_LOG_EVENT(@"slaveTransmissionMasterTime", timestampRemote, code);
+    uint64_t now = [self.clock now];
+    uint64_t remoteNow = [remoteClock remoteNow: now];
+    uint64_t rtt = [remoteClock rtt];
+    uint64_t clockInterval = [remoteClock clockInterval];
+    NSMutableDictionary *msg = [@{
+                                  @"transmittedCode" : code,
+                                  @"masterTransmitTime": [NSString stringWithFormat:@"%lld", timestampRemote],
+                                  @"slaveTime" : [NSString stringWithFormat:@"%lld", now],
+                                  @"masterTime" : [NSString stringWithFormat:@"%lld", remoteNow],
+                                  @"rtt" : [NSString stringWithFormat:@"%lld", rtt],
+                                  @"clockInterval" : [NSString stringWithFormat:@"%lld", clockInterval]
+                                  } mutableCopy];
+    if (inputDeviceDescriptorToSend) {
+        NSData *ddData = [NSKeyedArchiver archivedDataWithRootObject: inputDeviceDescriptorToSend];
+        assert(ddData);
+        NSString *ddString = [ddData base64EncodedStringWithOptions:0];
+        assert(ddString);
+        [msg setObject: ddString forKey:@"inputDeviceDescriptor"];
+        inputDeviceDescriptorToSend = nil;
+    }
+    if (outputDeviceDescriptorToSend) {
+        NSData *ddData = [NSKeyedArchiver archivedDataWithRootObject: outputDeviceDescriptorToSend];
+        assert(ddData);
+        NSString *ddString = [ddData base64EncodedStringWithOptions:0];
+        assert(ddString);
+        [msg setObject: ddString forKey:@"outputDeviceDescriptor"];
+        outputDeviceDescriptorToSend = nil;
+    }
+    if (statusToPeer) {
+        [msg setObject: statusToPeer forKey: @"peerStatus"];
+        statusToPeer = nil;
+    }
+    [self.protocol send: msg];
+    lastMessageSentTime = now;
+}
+
+- (void)reportHeartbeat
 {
     if (self.protocol == nil) return;
     uint64_t now = [self.clock now];
@@ -390,13 +464,25 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
                                   @"rtt" : [NSString stringWithFormat:@"%lld", rtt],
                                   @"clockInterval" : [NSString stringWithFormat:@"%lld", clockInterval]
                                   } mutableCopy];
-    if (deviceDescriptorToSend) {
-        NSData *ddData = [NSKeyedArchiver archivedDataWithRootObject: deviceDescriptorToSend];
+    if (inputDeviceDescriptorToSend) {
+        NSData *ddData = [NSKeyedArchiver archivedDataWithRootObject: inputDeviceDescriptorToSend];
         assert(ddData);
         NSString *ddString = [ddData base64EncodedStringWithOptions:0];
         assert(ddString);
         [msg setObject: ddString forKey:@"inputDeviceDescriptor"];
-        deviceDescriptorToSend = nil;
+        inputDeviceDescriptorToSend = nil;
+    }
+    if (outputDeviceDescriptorToSend) {
+        NSData *ddData = [NSKeyedArchiver archivedDataWithRootObject: inputDeviceDescriptorToSend];
+        assert(ddData);
+        NSString *ddString = [ddData base64EncodedStringWithOptions:0];
+        assert(ddString);
+        [msg setObject: ddString forKey:@"inputDeviceDescriptor"];
+        outputDeviceDescriptorToSend = nil;
+    }
+    if (requestTransmissionCode) {
+        [msg setObject: requestTransmissionCode forKey: @"requestTransmission"];
+        lastRequestTransmissionCode = requestTransmissionCode;
     }
     if (statusToPeer) {
         [msg setObject: statusToPeer forKey: @"peerStatus"];
@@ -406,15 +492,20 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
     lastMessageSentTime = now;
 }
 
-- (void)tmpUpdateStatus: (NSString *)status
+- (void)reportStatus: (NSString *)status
 {
     statusToPeer = status;
     assert(self.networkStatusView);
     [self.networkStatusView reportStatus: status];
 }
 
-- (void)tmpSetDeviceDescriptor: (DeviceDescription *)descr
+- (void)reportInputDevice: (DeviceDescription *)descr
 {
-    deviceDescriptorToSend = descr;
+    inputDeviceDescriptorToSend = descr;
+}
+
+- (void)reportOutputDevice: (DeviceDescription *)descr
+{
+    outputDeviceDescriptorToSend = descr;
 }
 @end

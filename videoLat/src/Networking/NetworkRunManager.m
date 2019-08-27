@@ -68,9 +68,7 @@
 
 - (void) awakeFromNib
 {
-    if (self.capturer && ![self.capturer isKindOfClass: [NetworkIODevice class]]) {
-        slaveHandler = YES;
-    }
+    slaveHandler = YES;
     assert(self.networkIODevice);
     [super awakeFromNib];
 }

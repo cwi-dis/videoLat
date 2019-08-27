@@ -34,6 +34,10 @@
 - (DeviceDescription *)initFromCalibrationInput: (MeasurementDataStore *)_calibration;
 
 /// Initializer for sending DeviceDescription to remote location.
+/// Initializes geolocation to here, and other fields from calibration output device.
+- (DeviceDescription *)initFromCalibrationOutput: (MeasurementDataStore *)_calibration;
+
+/// Initializer for sending DeviceDescription to remote location.
 /// Initialize everything from input device
 - (DeviceDescription *)initFromInputDevice: (id<InputDeviceProtocol>)inputDevice;
 

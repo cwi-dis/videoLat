@@ -139,6 +139,31 @@
 @end
 
 ///
+/// Protocol for an object that captures input patterns.
+///
+@protocol InputDeviceProtocol <CommonDeviceProtocol>
+
+/// List available input devices.
+/// @return List of human-readable device names (as NSString)
+- (NSArray* _Nonnull) deviceNames;
+
+/// Start capturing, each captured frame will be forwarded to the InputRunManager
+/// @param showPreview Set to true if the capturer should show its preview window (if applicable)
+- (void) startCapturing: (BOOL)showPreview;
+
+/// Pause or resume capturer, and release resources.
+/// @param pause True for pausing, false for resuming
+- (void) pauseCapturing: (BOOL)pause;
+
+/// Stop forwarding frames to RunManager but continue running.
+- (void) stopCapturing;
+
+/// Set the minimum interval between capture callbacks, if supported.
+/// @param interval Minimum time in microseconds between callbacks.
+- (void)setMinCaptureInterval: (uint64_t)interval;
+@end
+
+///
 /// Protocol used by selectionView to communicate changes
 ///
 @protocol InputSelectionDelegate
@@ -192,39 +217,6 @@
 
 /// Report Roundtrip time.
 - (void) reportRTT: (uint64_t)rtt best:(uint64_t)best;
-@end
-
-///
-/// Protocol for an object that captures input patterns.
-///
-@protocol InputDeviceProtocol <CommonDeviceProtocol>
-
-/// List available input devices.
-/// @return List of human-readable device names (as NSString)
-- (NSArray* _Nonnull) deviceNames;
-
-/// Start capturing, each captured frame will be forwarded to the InputRunManager
-/// @param showPreview Set to true if the capturer should show its preview window (if applicable)
-- (void) startCapturing: (BOOL)showPreview;
-
-/// Pause or resume capturer, and release resources.
-/// @param pause True for pausing, false for resuming
-- (void) pauseCapturing: (BOOL)pause;
-
-/// Stop forwarding frames to RunManager but continue running.
-- (void) stopCapturing;
-
-/// Set the minimum interval between capture callbacks, if supported.
-/// @param interval Minimum time in microseconds between callbacks.
-- (void)setMinCaptureInterval: (uint64_t)interval;
-
-@optional
-/// Can be overridden by RunManagers responsible for input, to enforce certain codes to be
-/// used during prerunning.
-/// Implemented by the NetworkRunManager to communicate the ip/port of the listener to the remote
-/// end.
-/// @return the prerun code to use.
-- (NSString *_Nullable)genPrepareCode;
 @end
 
 ///

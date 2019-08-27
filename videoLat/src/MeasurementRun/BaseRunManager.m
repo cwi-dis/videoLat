@@ -140,7 +140,7 @@ static NSMutableDictionary *runManagerSelectionNibs;
     }
     if (networkServer) {
         assert(self.networkIODevice);
-        [self.networkIODevice tmpOpenServer];
+        [self.networkIODevice openServer];
     }
         
 }
@@ -245,7 +245,7 @@ static NSMutableDictionary *runManagerSelectionNibs;
 		[self.capturer startCapturing: YES];
 		[self triggerNewOutputValue];
         if (self.networkIODevice) {
-            [self.networkIODevice tmpUpdateStatus: @"Determining RTT"];
+            [self.networkIODevice reportStatus: @"Determining RTT"];
         }
 	}
 }
@@ -306,12 +306,13 @@ static NSMutableDictionary *runManagerSelectionNibs;
             }
         }
     }
-    DeviceDescription *remoteDeviceDescription = [self.networkIODevice remoteDeviceDescription];
-    if (errorMessage == nil && remoteDeviceDescription == nil) {
+    DeviceDescription *remoteInputDeviceDescription = [self.networkIODevice remoteInputDeviceDescription];
+    DeviceDescription *remoteOutputDeviceDescription = [self.networkIODevice remoteOutputDeviceDescription];
+    if (errorMessage == nil && remoteInputDeviceDescription == nil && remoteOutputDeviceDescription) {
         errorMessage = @"No device description received from remote (slave) partner.";
     }
     if (errorMessage) {
-        [self.networkIODevice tmpUpdateStatus: @"Missing calibration"];
+        [self.networkIODevice reportStatus: @"Missing calibration"];
         showWarningAlert(errorMessage);
         return NO;
     }
@@ -321,9 +322,10 @@ static NSMutableDictionary *runManagerSelectionNibs;
     } else {
         self.collector.dataStore.output = [[DeviceDescription alloc] initFromOutputDevice: self.outputView];
     }
-    self.collector.dataStore.input = remoteDeviceDescription;
-    
-    [self.networkIODevice tmpUpdateStatus: @"Ready to run"];
+    if (remoteInputDeviceDescription) self.collector.dataStore.input = remoteInputDeviceDescription;
+    if (remoteOutputDeviceDescription) self.collector.dataStore.output = remoteOutputDeviceDescription;
+
+    [self.networkIODevice reportStatus: @"Ready to run"];
     return YES;
 }
 
@@ -345,7 +347,7 @@ static NSMutableDictionary *runManagerSelectionNibs;
     }
 }
 
-- (BOOL)reportDeviceToRemote
+- (BOOL)reportInputDeviceToRemote
 {
     DeviceDescription *deviceDescriptorToSend = nil;
     if (self.measurementType.isCalibration) {
@@ -367,7 +369,30 @@ static NSMutableDictionary *runManagerSelectionNibs;
         assert(baseStore.input);
         deviceDescriptorToSend = [[DeviceDescription alloc] initFromCalibrationInput: baseStore];
     }
-    [self.networkIODevice tmpSetDeviceDescriptor: deviceDescriptorToSend];
+    [self.networkIODevice reportInputDevice: deviceDescriptorToSend];
+    return YES;
+}
+
+- (BOOL)reportOutputDeviceToRemote
+{
+    DeviceDescription *deviceDescriptorToSend = nil;
+    if (self.measurementType.isCalibration) {
+        assert(self.outputView);
+        deviceDescriptorToSend = [[DeviceDescription alloc] initFromOutputDevice: self.outputView];
+    } else {
+        assert(self.selectionView);
+        baseName = self.selectionView.baseName;
+        if (baseName == nil) {
+            NSLog(@"NetworkRunManager: baseName == nil");
+            return NO;
+        }
+        MeasurementType *baseType;
+        baseType = (MeasurementType *)self.measurementType.requires;
+        MeasurementDataStore *baseStore = [baseType measurementNamed: baseName];
+        assert(baseStore.output);
+        deviceDescriptorToSend = [[DeviceDescription alloc] initFromCalibrationOutput: baseStore];
+    }
+    [self.networkIODevice reportOutputDevice: deviceDescriptorToSend];
     return YES;
 }
 
@@ -393,7 +418,7 @@ static NSMutableDictionary *runManagerSelectionNibs;
         [self.collector startCollecting: self.measurementType.name input: self.capturer.deviceID name: self.capturer.deviceName output: self.outputView.deviceID name: self.outputView.deviceName];
         [self triggerNewOutputValue];
         if (self.networkIODevice) {
-            [self.networkIODevice tmpUpdateStatus: @"Running measurements"];
+            [self.networkIODevice reportStatus: @"Running measurements"];
         }
     }
 }
@@ -431,12 +456,12 @@ static NSMutableDictionary *runManagerSelectionNibs;
 
 - (BOOL) prepareInputDevice
 {
-    BOOL ok;
-    ok = self.capturer.available;
+    BOOL ok = self.capturer.available;
     if (!ok) return NO;
+    // xxxjack should happen only for slaves managers
     if (self.networkIODevice && self.networkIODevice != self.capturer) {
         // Only do this for slave input devices....
-        ok = [self reportDeviceToRemote];
+        ok = [self reportInputDeviceToRemote];
         if (!ok) return NO;
         if (slaveHandler) {
             [self.capturer startCapturing:YES];
@@ -448,7 +473,14 @@ static NSMutableDictionary *runManagerSelectionNibs;
 - (BOOL) prepareOutputDevice
 {
     assert(self.outputView);
-    return self.outputView.available;
+    BOOL ok = self.outputView.available;
+    if (!ok) return NO;
+    // xxxjack should happen only for slaves managers
+    if (self.networkIODevice && self.networkIODevice == self.capturer) {
+        // Only do this for slave output devices....
+        ok = [self reportOutputDeviceToRemote];
+    }
+    return ok;
 }
 
 - (void)restart
@@ -534,10 +566,10 @@ static NSMutableDictionary *runManagerSelectionNibs;
     self.running = NO;
     self.preparing = NO;
     if (self.networkIODevice) {
-        [self.networkIODevice tmpUpdateStatus: @"Measurements complete"];
+        [self.networkIODevice reportStatus: @"Measurements complete"];
         MeasurementDataStore *ds = self.collector.dataStore;
         [ds trim];
-        [self.networkIODevice tmpSendResult: ds];
+        [self.networkIODevice reportResult: ds];
     }
     if (self.capturer) [self.capturer stop];
     self.capturer = nil;
@@ -680,7 +712,7 @@ static NSMutableDictionary *runManagerSelectionNibs;
         // black/white detector needs to be kicked (black and white levels have come too close)
         NSLog(@"Detector range too small, generating new code");
         [self triggerNewOutputValue];
-        if (self.networkIODevice) [self.networkIODevice tmpHeartbeat];
+        if (self.networkIODevice) [self.networkIODevice reportHeartbeat];
         return;
     }
     if ([inputCode isEqualToString:@"uncertain"]) {
@@ -690,7 +722,7 @@ static NSMutableDictionary *runManagerSelectionNibs;
             NSLog(@"Received uncertain code for too long. Generating new one.");
             [self triggerNewOutputValue];
         }
-        if (self.networkIODevice) [self.networkIODevice tmpHeartbeat];
+        if (self.networkIODevice) [self.networkIODevice reportHeartbeat];
         return;
     }
     //
@@ -703,7 +735,7 @@ static NSMutableDictionary *runManagerSelectionNibs;
             return;
         }
         if (networkServer) {
-            NSString *prepareCode = [self.capturer genPrepareCode];
+            NSString *prepareCode = [self.networkIODevice genPrepareCode];
             if (inputCode != prepareCode) {
                 showWarningAlert([NSString stringWithFormat:@"This side is a network server. Received unexpected URL code: %@", inputCode]);
                 return;
@@ -711,7 +743,7 @@ static NSMutableDictionary *runManagerSelectionNibs;
             NSLog(@"BaseRunManager (with network server): prepare code reported back");
             return;
         } else {
-            [self.networkIODevice tmpOpenClient: inputCode];
+            [self.networkIODevice openClient: inputCode];
         }
     }
 
@@ -735,7 +767,7 @@ static NSMutableDictionary *runManagerSelectionNibs;
     // or send a heartbeat every second.
     //
     if (self.networkIODevice) {
-        [self.networkIODevice tmpReport:inputCode count:prevInputCodeDetectionCount at:inputTimestamp];
+        [self.networkIODevice reportReception:inputCode count:prevInputCodeDetectionCount at:inputTimestamp];
     }
     // Is this the code we wanted?
     if ([inputCode isEqualToString: self.outputCode]) {
@@ -786,8 +818,4 @@ static NSMutableDictionary *runManagerSelectionNibs;
 	[NSException raise:@"BaseRunManager" format:@"Must override newInputDone:buffer:size:channels:at in subclass %@", [self class]];
 }
 
-- (NSString *)genPrepareCode
-{
-    return nil;
-}
 @end

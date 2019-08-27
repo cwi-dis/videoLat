@@ -44,11 +44,13 @@
 
 - (void)showNewData
 {
-    NSString *code = [self.manager getNewOutputCode];
-    [self.hardwareIODevice setOutputCode:code report:YES];
-    [self performSelectorOnMainThread:@selector(showCode:) withObject:code waitUntilDone:NO];
+    [self.hardwareIODevice showNewData];
+#if 0
+    [self.showCode: xxxxx];
+#endif
 }
 
+#if 0
 - (void)showCode: (NSString *)code
 {
     NSCellStateValue oVal = NSMixedState;
@@ -59,4 +61,5 @@
     }
     [self.bOutputValue setState: oVal];
 }
+#endif
 @end

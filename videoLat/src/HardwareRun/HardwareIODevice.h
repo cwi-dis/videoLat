@@ -12,7 +12,7 @@
 ///
 /// Class that implements InputDeviceProtocol (and ClockProtocol) for hardware input.
 ///
-@interface HardwareIODevice : NSObject <ClockProtocol, InputDeviceProtocol> {
+@interface HardwareIODevice : NSObject <ClockProtocol, InputDeviceProtocol, OutputDeviceProtocol> {
     BOOL alive;                 //!< True when the _periodic method should run
     BOOL connected;             //!< True if the hardware device is connected
     NSString *lastError;        //!< Last error message from device
@@ -57,8 +57,6 @@
 
 - (void) stop;
 - (void) restart;
-
-- (void) setOutputCode: (NSString *)code report: (BOOL)report;
 
 - (void)_updatePeriod;	//!< Internal: update UI to show samplePeriodMs.
 ///

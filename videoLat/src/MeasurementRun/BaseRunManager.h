@@ -149,13 +149,6 @@
 - (void) prepareReceivedNoValidCode;                  //!< Internal: no QR code was received in time during prerun
 - (void) prepareReceivedValidCode: (NSString *)code;  //!< Internal: QR code was received in time during prerun
 
-/// Can be overridden by RunManagers responsible for input, to enforce certain codes to be
-/// used during prerunning.
-/// Implemented by the NetworkRunManager to communicate the ip/port of the listener to the remote
-/// end.
-/// @return the prerun code to use.
-- (NSString *)genPrepareCode;
-
 @property bool running;		//!< True after user has pressed "run" button, false again after pressing "stop".
 @property bool preparing;	//!< True after user has pressed "prepare" button, false again after pressing "run".
 
@@ -171,8 +164,11 @@
 /// input or output handler.
 - (BOOL)prepareMeasurementFromRemoteData;
 
-/// Report device name and other parameters to remote side.
-- (BOOL)reportDeviceToRemote;
+/// Report input device name and other parameters to remote side.
+- (BOOL)reportInputDeviceToRemote;
+
+/// Report output device name and other parameters to remote side.
+- (BOOL)reportOutputDeviceToRemote;
 
 /// Report measurement results to remote input or output handler.
 - (void)reportResultsToRemote: (MeasurementDataStore *)mr;
