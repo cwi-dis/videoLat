@@ -572,6 +572,8 @@ static NSMutableDictionary *runManagerSelectionNibs;
         MeasurementDataStore *ds = self.collector.dataStore;
         [ds trim];
         [self.networkIODevice reportResult: ds];
+        // And show blue screen
+        [self triggerNewOutputValue];
     }
     if (self.capturer) [self.capturer stop];
     self.capturer = nil;
