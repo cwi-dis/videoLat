@@ -67,6 +67,11 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 - (void)dealloc
 {
     [self stop];
+    if (self.protocol) {
+        [self.protocol close];
+        self.protocol.delegate = nil;
+    }
+    self.protocol = nil;
 }
 
 - (uint64_t)now
