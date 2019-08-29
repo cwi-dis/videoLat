@@ -297,6 +297,12 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
     }
 }
 
+- (void)connected:(id)connection
+{
+    assert(self.networkStatusView);
+    [self.networkStatusView reportStatus: @"Connection established"];
+}
+
 - (void)disconnected:(id)connection
 {
     NSLog(@"received disconnect from %@ (our protocol %@)", connection, self.protocol);
@@ -317,6 +323,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
     self.protocol.delegate = self;
     
     [self.networkStatusView reportServer: self.protocol.host port: self.protocol.port isUs: YES];
+    [self.networkStatusView reportStatus: @"Waiting for connection"];
 }
 
 - (void)openClient: (NSString *)url

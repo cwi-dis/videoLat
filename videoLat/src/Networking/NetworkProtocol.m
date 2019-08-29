@@ -206,6 +206,7 @@
         [self.delegate disconnected: self];
         return;
     }
+    [self.delegate connected: self];
     close(sock);
     sock = connSock;
     [super main];
@@ -231,6 +232,7 @@
             NSLog(@"connect failed: %s", strerror(errno));
             return nil;
         }
+        [self.delegate connected: self];
         [self start];
     }
     return self;

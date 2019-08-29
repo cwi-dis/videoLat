@@ -18,6 +18,10 @@
 /// @param connection The connection that received the message.
 - (void)received: (NSDictionary *)data from: (id)connection;
 
+/// Connection was opened.
+/// @param connection Which connection was connected.
+- (void)connected:(id)connection;
+
 /// Connection was closed.
 /// @param connection Which connection was closed.
 - (void)disconnected:(id)connection;

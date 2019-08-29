@@ -244,9 +244,11 @@ static NSMutableDictionary *runManagerSelectionNibs;
 		VL_LOG_EVENT(@"startPremeasuring", 0LL, @"");
 		[self.capturer startCapturing: YES];
 		[self triggerNewOutputValue];
+#if 0
         if (self.networkIODevice) {
             [self.networkIODevice reportStatus: @"Determining RTT"];
         }
+#endif
 	}
 }
 
