@@ -760,6 +760,10 @@ static NSMutableDictionary *runManagerSelectionNibs;
     // Is this code the same as the previous one detected?
     if (prevInputCode && [inputCode isEqualToString: prevInputCode]) {
         prevInputCodeDetectionCount++;
+        if (slaveHandler) {
+            // xxxjack is this correct for slave displays too????
+            return;
+        }
         if (prevInputCodeDetectionCount == 3) {
             // Aftter we've detected 3 frames with the right light level
             // we generate a new one.
