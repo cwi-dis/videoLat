@@ -49,6 +49,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
         isClient = NO;
         isServer = NO;
         didReceiveData = NO;
+        connected = NO;
         remoteClock = [[RemoteClock alloc] init];
     }
     return self;
@@ -132,6 +133,9 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 - (NSString *)genPrepareCode
 {
     assert (self.protocol);
+    // If we are already connected we don't need to return a connectable code
+    if (connected) return nil;
+    // If we are not connected we generate a new URL=based connection code.
     if (prepareCode == nil) {
         prepareCode = [NSString stringWithFormat:@"https://videolat.org/landing?ip=%@&port=%d", self.protocol.host, self.protocol.port];
     }
@@ -304,6 +308,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 {
     assert(self.networkStatusView);
     [self.networkStatusView reportStatus: @"Connection established"];
+    connected = YES;
 }
 
 - (void)disconnected:(id)connection

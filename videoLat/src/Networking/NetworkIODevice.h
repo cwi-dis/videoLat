@@ -17,6 +17,7 @@
 @interface NetworkIODevice : NSObject <ClockProtocol, InputDeviceProtocol, OutputDeviceProtocol, NetworkProtocolDelegate> {
     BOOL isClient;                //!< True if we are running in the network client (camera input, outputnet)
     BOOL isServer;                //!< True if we are running in the network server (net input, screen output)
+    BOOL connected;               //!< True if we are connected
     NSString *prepareCode;        //!< Internal: data for prerun qrcode
     NSString *statusToPeer;       //!< Internal: status update to be transmitted to peer
     BOOL didReceiveData;          //!< Internal: true once we have received any data
