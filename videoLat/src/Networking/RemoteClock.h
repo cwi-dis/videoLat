@@ -38,14 +38,3 @@
 /// @return Best rtt measured
 - (uint64_t)clockInterval;
 @end
-
-@protocol RemoteClockProtocol
-
-- (uint64_t)remoteNow: (uint64_t) now;
-
-- (void)remote: (uint64_t)remote between: (uint64_t)start and: (uint64_t) finish;
-
-- (uint64_t)rtt;
-
-- (uint64_t)clockInterval;
-@end

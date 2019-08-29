@@ -44,15 +44,12 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 {
     self = [super init];
     if (self) {
-#if 0
-        slaveHandler = NO;
-        statusToPeer = nil;
-#endif
         self.remoteInputDeviceDescription = nil;
         self.remoteOutputDeviceDescription = nil;
         isClient = NO;
         isServer = NO;
         didReceiveData = NO;
+        remoteClock = [[RemoteClock alloc] init];
     }
     return self;
 }
@@ -187,9 +184,9 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
         if (slaveTimestamp && masterTimestamp) {
             uint64_t now = [self.clock now];
             [remoteClock remote:masterTimestamp between:slaveTimestamp and:now];
-            [self.networkStatusView reportRTT:[self->remoteClock rtt]/1000 best:[self->remoteClock clockInterval]];
+            [self.networkStatusView reportRTT:[remoteClock rtt]/1000 best:[remoteClock clockInterval]];
         } else {
-            NSLog(@"unexpected data from master: %@", data);
+            NSLog(@"no timestamps yet from slave: %@", data);
         }
         NSString *peerStatus = [data objectForKey:@"peerStatus"];
         if (peerStatus) {
@@ -205,6 +202,12 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
         NSString *requestTransmission = [data objectForKey: @"requestTransmission"];
         if (requestTransmission) {
             assert(0);
+        }
+        NSString *code = [data objectForKey: @"code"];
+        if(code) {
+            uint64_t count = getTimestamp(data, @"count");
+            uint64_t masterDetectionTimestamp = getTimestamp(data, @"masterDetectTime");
+            [self.manager newInputDone: code count: (int)count at: masterDetectionTimestamp];
         }
     } else {
         // This code runs in the master (video sender, network receiver)
@@ -277,7 +280,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
             }
             [self.networkStatusView reportRTT: rtt best:(uint64_t)clockInterval];
         }
-        
+
         if(code) {
             uint64_t count = getTimestamp(data, @"count");
             [self.manager newInputDone: code count: (int)count at: masterDetectionTimestamp];
