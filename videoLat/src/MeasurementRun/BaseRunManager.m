@@ -739,11 +739,6 @@ static NSMutableDictionary *runManagerSelectionNibs;
             return;
         }
         if (networkServer) {
-            NSString *prepareCode = [self.networkIODevice genPrepareCode];
-            if (inputCode != prepareCode) {
-                showWarningAlert([NSString stringWithFormat:@"This side is a network server. Received unexpected URL code: %@", inputCode]);
-                return;
-            }
             NSLog(@"BaseRunManager (with network server): prepare code reported back");
             return;
         } else {
