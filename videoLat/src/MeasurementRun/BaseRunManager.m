@@ -729,6 +729,8 @@ static NSMutableDictionary *runManagerSelectionNibs;
     // Check to see whether the code appears to be a URL. If this is the case, and we are
     // in a networked session,
     if ([inputCode hasPrefix:@"http"]) {
+        // First check that we haven't processed it already
+        if ([inputCode isEqualToString: prevInputCode]) return;
         prevInputCode = inputCode;
         if (!self.networkIODevice) {
             showWarningAlert([NSString stringWithFormat:@"Not in network session. Received unexpected URL code: %@", inputCode]);
