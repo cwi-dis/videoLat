@@ -732,9 +732,7 @@ static NSMutableDictionary *runManagerSelectionNibs;
     //
     // Check to see whether the code appears to be a URL. If this is the case, and we are
     // in a networked session,
-    if ([inputCode hasPrefix:@"http"]) {
-        // First check that we haven't processed it already
-        if ([inputCode isEqualToString: prevInputCode]) return;
+    if ([inputCode hasPrefix:@"http"] && ![inputCode isEqualToString: prevInputCode]) {
         prevInputCode = inputCode;
         if (!self.networkIODevice) {
             showWarningAlert([NSString stringWithFormat:@"Not in network session. Received unexpected URL code: %@", inputCode]);
@@ -753,6 +751,12 @@ static NSMutableDictionary *runManagerSelectionNibs;
         }
     }
 
+    //
+    // If we are in a netwrk session we report the code back to the other side.
+    //
+    if (self.networkIODevice) {
+        [self.networkIODevice reportReception:inputCode count:prevInputCodeDetectionCount at:inputTimestamp];
+    }
     // Is this code the same as the previous one detected?
     if (prevInputCode && [inputCode isEqualToString: prevInputCode]) {
         prevInputCodeDetectionCount++;
@@ -767,13 +771,6 @@ static NSMutableDictionary *runManagerSelectionNibs;
             [self triggerNewOutputValue];
         }
         return;
-    }
-    //
-    // If we are in a netwrk session we report the code back to the other side,
-    // or send a heartbeat every second.
-    //
-    if (self.networkIODevice) {
-        [self.networkIODevice reportReception:inputCode count:prevInputCodeDetectionCount at:inputTimestamp];
     }
     // Is this the code we wanted?
     if ([inputCode isEqualToString: self.outputCode]) {
