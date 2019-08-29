@@ -36,10 +36,6 @@
     // sure the nibfile is registered...
     [BaseRunManager registerClass: [self class] forMeasurementType: @"QR Code Transmission"];
     [BaseRunManager registerNib: @"RemoteSlaveScreen" forMeasurementType: @"QR Code Transmission"];
-    // We register ourselves for receive-only, as a slave. At the very least we must make
-    // sure the nibfile is registered...
-    [BaseRunManager registerClass: [self class] forMeasurementType: @"QR Code Reception"];
-    [BaseRunManager registerNib: @"RemoteSlaveCamera" forMeasurementType: @"QR Code Reception"];
     // And we handle camera and screen calibrations using a second networked device
     [BaseRunManager registerClass: [self class] forMeasurementType: @"Reception Calibrate using Other Device"];
     [BaseRunManager registerNib: @"CalibrateCameraFromRemoteScreen" forMeasurementType: @"Reception Calibrate using Other Device"];
@@ -49,7 +45,6 @@
 #ifdef WITH_UIKIT
     [BaseRunManager registerSelectionNib: @"VideoInputSelectionView" forMeasurementType: @"QR Code Roundtrip"];
     [BaseRunManager registerSelectionNib: @"VideoInputSelectionView" forMeasurementType: @"QR Code Roundtrip Calibrate"];
-    [BaseRunManager registerSelectionNib: @"VideoInputSelectionView" forMeasurementType: @"QR Code Reception"];
     [BaseRunManager registerSelectionNib: @"VideoInputSelectionView" forMeasurementType: @"Reception Calibrate using Other Device"];
     [BaseRunManager registerSelectionNib: @"NetworkInputSelectionView" forMeasurementType: @"QR Code Transmission"];
     [BaseRunManager registerSelectionNib: @"NetworkInputSelectionView" forMeasurementType: @"Transmission Calibrate using Other Device"];

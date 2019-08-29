@@ -33,6 +33,10 @@
 
 - (void) showNewData
 {
+    if (!self.networkDevice) {
+        NSLog(@"NetworkOutputView.showNewData: ignoring, no networkDevice");
+        return;
+    }
     assert(self.networkDevice);
     [self.networkDevice showNewData];
 }

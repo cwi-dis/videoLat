@@ -14,12 +14,13 @@
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
-        <customObject id="74" customClass="NetworkRunManager">
+        <customObject id="74" userLabel="Manager" customClass="NetworkRunManager">
             <connections>
                 <outlet property="capturer" destination="3" id="207"/>
                 <outlet property="clock" destination="3" id="89"/>
                 <outlet property="finder" destination="209" id="210"/>
                 <outlet property="measurementMaster" destination="-2" id="180"/>
+                <outlet property="networkIODevice" destination="n2l-j2-CJa" id="gjd-Tb-o9d"/>
                 <outlet property="outputView" destination="77" id="200"/>
                 <outlet property="selectionView" destination="4" id="437"/>
                 <outlet property="statusView" destination="442" id="512"/>
@@ -400,5 +401,12 @@
                 </connections>
             </view>
         </window>
+        <customObject id="n2l-j2-CJa" customClass="NetworkIODevice">
+            <connections>
+                <outlet property="clock" destination="3" id="r1y-CX-g2b"/>
+                <outlet property="manager" destination="74" id="Pgy-pQ-gcJ"/>
+                <outlet property="networkStatusView" destination="77" id="Z3K-ub-IH4"/>
+            </connections>
+        </customObject>
     </objects>
 </document>

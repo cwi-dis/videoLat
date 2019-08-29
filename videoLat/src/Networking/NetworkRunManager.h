@@ -6,8 +6,8 @@
 //
 //
 
-#import "BaseRunManager.h"
-#import "NetworkSelectionView.h"
+#import "VideoRunManager.h"
+//#import "NetworkSelectionView.h"
 #import "NetworkOutputView.h"
 
 ///
@@ -16,10 +16,10 @@
 /// or a screen, but not both. It does not have a collector but sends capture times
 /// or transmission times back to the remote master device.
 ///
-@interface NetworkRunManager : BaseRunManager {
+@interface NetworkRunManager : VideoRunManager {
 }
 
-@property(weak) IBOutlet NetworkSelectionView *selectionView;   //!< UI element: all available cameras
+//@property(weak) IBOutlet NetworkSelectionView *selectionView;   //!< UI element: all available cameras
 //@property(weak) IBOutlet NetworkOutputView *outputView;         //!< Assigned in NIB: visual feedback view of output for the user
 
 + (void)initialize;	//!< Class initializer.
