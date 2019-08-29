@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
+        <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14460.31"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -19,7 +20,7 @@
                 <outlet property="clock" destination="3" id="89"/>
                 <outlet property="finder" destination="209" id="210"/>
                 <outlet property="measurementMaster" destination="-2" id="180"/>
-                <outlet property="networkDevice" destination="7wW-YQ-nwo" id="tLn-Rr-dVa"/>
+                <outlet property="networkIODevice" destination="7wW-YQ-nwo" id="T3n-sH-93Y"/>
                 <outlet property="outputView" destination="77" id="200"/>
                 <outlet property="selectionView" destination="4" id="437"/>
                 <outlet property="statusView" destination="442" id="514"/>
