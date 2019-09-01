@@ -24,7 +24,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 {
     id timeObject = [data objectForKey: key];
     if (timeObject == nil) {
-        NSLog(@"No key %@ in %@", key, data);
+        NSLog(@"No key %@ in received dictionary", key);
         return 0;
     }
     if ([timeObject respondsToSelector:@selector(unsignedLongLongValue)]) {
@@ -226,6 +226,14 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
         uint64_t clockInterval = getTimestamp(data, @"clockInterval");
         NSString *code = [data objectForKey: @"code"];
         NSString *transmittedCode = [data objectForKey: @"transmittedCode"];
+
+        if (slaveTimestamp && masterTimestamp) {
+            uint64_t now = [self.clock now];
+            [remoteClock remote:slaveTimestamp between:masterTimestamp and:now];
+            [self.networkStatusView reportRTT:[remoteClock rtt]/1000 best:[remoteClock clockInterval]];
+        } else {
+            NSLog(@"no timestamps yet from slave: %@", data);
+        }
 
         if (slaveTimestamp) {
             uint64_t now = [self.clock now];
