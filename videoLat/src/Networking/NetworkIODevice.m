@@ -80,7 +80,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 }
 
 - (BOOL)available {
-	return YES; // xxxjack or should we test this?
+	return connected;
 }
 
 - (NSArray *)deviceNames
@@ -306,9 +306,12 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 
 - (void)connected:(id)connection
 {
+    assert(!connected);
+    connected = YES;
     assert(self.networkStatusView);
     [self.networkStatusView reportStatus: @"Connection established"];
-    connected = YES;
+    assert(self.manager);
+    [self.manager performSelectorOnMainThread:@selector(restart) withObject:nil waitUntilDone:NO];
 }
 
 - (void)disconnected:(id)connection

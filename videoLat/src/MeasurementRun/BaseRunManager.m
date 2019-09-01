@@ -514,7 +514,6 @@ static NSMutableDictionary *runManagerSelectionNibs;
         }
 		if (self.measurementType.requires == nil) {
 			[self.selectionView.bBase setEnabled: NO];
-			[self.statusView.bPrepare setEnabled: YES];
 		} else {
             NSArray *calibrationNames = self.measurementType.requires.measurementNames;
             ok = [self.selectionView setBases: calibrationNames];
@@ -765,7 +764,7 @@ static NSMutableDictionary *runManagerSelectionNibs;
             [self triggerNewOutputValueAfterDelay];
         }
         // And if we keep on detecting the same code after that we eventually give up.
-        if ((prevInputCodeDetectionCount % 250) == 0) {
+        if ((self.running || self.preparing) && (prevInputCodeDetectionCount % 250) == 0) {
             showWarningAlert(@"Old code detected too often. Generating new one.");
             [self triggerNewOutputValue];
         }

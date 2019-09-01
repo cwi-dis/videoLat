@@ -107,7 +107,13 @@
         
         // If we are not running we should display a blue-grayish square
         if (!self.running && !self.preparing) {
-            self.outputCode =  @"undefined";
+            self.outputCode = nil;
+            if (self.networkIODevice) {
+                self.outputCode = [self.networkIODevice genPrepareCode];
+            }
+            if (!self.outputCode) {
+                self.outputCode =  @"undefined";
+            }
             return self.outputCode;
         }
         uint64_t tsForCode = [self.clock now];
