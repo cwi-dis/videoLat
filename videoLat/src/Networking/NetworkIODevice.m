@@ -145,8 +145,8 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 
 
 - (void)showNewData {
-    assert(0);
     requestTransmissionCode = [self.manager getNewOutputCode];
+    [self reportHeartbeat];
 }
 
 #pragma mark NetworkProtocolDelegate

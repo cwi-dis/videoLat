@@ -461,12 +461,12 @@ static NSMutableDictionary *runManagerSelectionNibs;
     BOOL ok = self.capturer.available;
     if (!ok) return NO;
     if (self.networkIODevice && self.networkIODevice != self.capturer) {
-        // Only do this for helper input devices....
+        // If we have a network connection and this network connection is _not_
+        // the input device we assume it is a camera and we start capturing, so we
+        // can detect the QR-code containing the IP address and port.
         ok = [self reportInputDeviceToRemote];
         if (!ok) return NO;
-        if (networkHelper) {
-            [self.capturer startCapturing:YES];
-        }
+        [self.capturer startCapturing:YES];
     }
     return YES;
 }
@@ -740,6 +740,7 @@ static NSMutableDictionary *runManagerSelectionNibs;
             return;
         } else {
             [self.networkIODevice openClient: inputCode];
+            [self performSelectorOnMainThread:@selector(restart) withObject:nil waitUntilDone:NO];
         }
     }
 
