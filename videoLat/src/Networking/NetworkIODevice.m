@@ -370,6 +370,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
             if (self.protocol == nil) {
                 status = @"Failed to connect";
             } else {
+                connected = YES;
                 self.protocol.delegate = self;
                 status = @"Connection established";
             }

@@ -187,6 +187,9 @@
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
+                                <connections>
+                                    <action selector="startMeasuring:" target="74" id="IWt-ir-b89"/>
+                                </connections>
                             </button>
                             <button toolTip="Do initial measurements to check everything works and detect mirroring" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ema-Q3-Fmo">
                                 <rect key="frame" x="14" y="13" width="79" height="32"/>
@@ -197,6 +200,9 @@
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
+                                <connections>
+                                    <action selector="startPreMeasuring:" target="74" id="LVD-bb-Kra"/>
+                                </connections>
                             </button>
                             <button toolTip="Stop measuring and present results" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="8jn-wc-Nie">
                                 <rect key="frame" x="175" y="13" width="79" height="32"/>
@@ -204,6 +210,9 @@
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
+                                <connections>
+                                    <action selector="stopMeasuring:" target="74" id="Jvw-ei-Oqi"/>
+                                </connections>
                             </button>
                         </subviews>
                         <constraints>
