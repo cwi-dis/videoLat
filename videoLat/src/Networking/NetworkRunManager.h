@@ -17,11 +17,13 @@
 /// or transmission times back to the remote master device.
 ///
 @interface NetworkRunManager : VideoRunManager {
+    NSString *codeRequested;    //<! QR-code requested to be shown by remote side
 }
 
 //@property(weak) IBOutlet NetworkSelectionView *selectionView;   //!< UI element: all available cameras
 //@property(weak) IBOutlet NetworkOutputView *outputView;         //!< Assigned in NIB: visual feedback view of output for the user
 
 + (void)initialize;	//!< Class initializer.
+- (void)codeRequestedByMaster: (NSString *)code;
 
 @end

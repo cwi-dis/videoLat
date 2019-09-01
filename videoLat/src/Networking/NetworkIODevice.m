@@ -205,7 +205,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
         }
         NSString *requestTransmission = [data objectForKey: @"requestTransmission"];
         if (requestTransmission) {
-            assert(0);
+            [self.manager codeRequestedByMaster:requestTransmission];
         }
         NSString *code = [data objectForKey: @"code"];
         if(code) {

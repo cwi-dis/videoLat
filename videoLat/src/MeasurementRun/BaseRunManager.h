@@ -173,5 +173,8 @@
 /// Report measurement results to remote input or output handler.
 - (void)reportResultsToRemote: (MeasurementDataStore *)mr;
 
+/// Called when an incoming request for showing a code is received over the network.
+- (void)codeRequestedByMaster: (NSString *)code;
+
 
 @end

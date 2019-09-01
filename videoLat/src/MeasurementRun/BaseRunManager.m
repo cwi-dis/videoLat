@@ -818,4 +818,9 @@ static NSMutableDictionary *runManagerSelectionNibs;
 	[NSException raise:@"BaseRunManager" format:@"Must override newInputDone:buffer:size:channels:at in subclass %@", [self class]];
 }
 
+- (void)codeRequestedByMaster: (NSString *)code
+{
+    [NSException raise:@"BaseRunManager" format:@"Must override codeRequestedByMaster: in subclass %@", [self class]];
+}
+
 @end

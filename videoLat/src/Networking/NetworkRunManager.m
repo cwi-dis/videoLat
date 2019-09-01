@@ -46,6 +46,9 @@
 - (NetworkRunManager *) init
 {
     self = [super init];
+    if (self) {
+        codeRequested = nil;
+    }
     return self;
 }
 
@@ -59,5 +62,32 @@
     networkHelper = YES;
     assert(self.networkIODevice);
     [super awakeFromNib];
+}
+
+- (void)codeRequestedByMaster: (NSString *)code
+{
+    codeRequested = code;
+}
+
+- (NSString *)getNewOutputCode
+{
+    if (codeRequested) {
+        NSString *rv = codeRequested;
+        return rv;
+    }
+    return [super getNewOutputCode];
+}
+
+- (void)newOutputDoneAt: (uint64_t)timestamp
+{
+    assert(codeRequested);
+    assert(self.networkIODevice);
+    [self.networkIODevice reportTransmission:codeRequested at:timestamp];
+    codeRequested = nil;
+}
+
+- (void)newOutputDone
+{
+    assert(0);
 }
 @end
