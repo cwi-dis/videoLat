@@ -42,7 +42,7 @@
 }
 
 - (BOOL)available {
-	return YES;
+    return self.networkDevice && self.networkDevice.available;
 }
 
 - (void)stop {
