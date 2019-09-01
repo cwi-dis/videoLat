@@ -32,10 +32,10 @@
     // We are also responsible for QR-code roundtrip calibrations
     [BaseRunManager registerClass: [self class] forMeasurementType: @"QR Code Roundtrip Calibrate"];
     [BaseRunManager registerNib: @"VideoCalibrationRun" forMeasurementType: @"QR Code Roundtrip Calibrate"];
-    // We also register ourselves for send-only, as a slave. At the very least we must make
+    // We also register ourselves for send-only, as a helper. At the very least we must make
     // sure the nibfile is registered...
     [BaseRunManager registerClass: [self class] forMeasurementType: @"QR Code Transmission"];
-    [BaseRunManager registerNib: @"RemoteSlaveScreen" forMeasurementType: @"QR Code Transmission"];
+    [BaseRunManager registerNib: @"VideoSenderRun" forMeasurementType: @"QR Code Transmission"];
     // And we handle camera and screen calibrations using a second networked device
     [BaseRunManager registerClass: [self class] forMeasurementType: @"Reception Calibrate using Other Device"];
     [BaseRunManager registerNib: @"CalibrateCameraFromRemoteScreen" forMeasurementType: @"Reception Calibrate using Other Device"];

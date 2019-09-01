@@ -23,9 +23,10 @@
 		044F3D81183A467F0008CBA3 /* libpython2.7.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 044F3D80183A467F0008CBA3 /* libpython2.7.dylib */; };
 		044F3D83183A469D0008CBA3 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 044F3D82183A469D0008CBA3 /* IOKit.framework */; };
 		044F3D85183A47170008CBA3 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 044F3D84183A47170008CBA3 /* QuartzCore.framework */; };
-		045AA71619E71BA400E28AED /* RemoteSlaveScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 045AA71519E71BA300E28AED /* RemoteSlaveScreen.xib */; };
+		0452C798231BE52600F3DE1F /* VideoSenderRun.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0452C797231BE52600F3DE1F /* VideoSenderRun.xib */; };
+		045AA71619E71BA400E28AED /* RemoteHelperScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 045AA71519E71BA300E28AED /* RemoteHelperScreen.xib */; };
 		0461ED201A9FCD1F00439749 /* CalibrateScreenFromRemoteCamera.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0461ED1F1A9FCD1F00439749 /* CalibrateScreenFromRemoteCamera.xib */; };
-		0461ED221A9FCD9600439749 /* RemoteSlaveCamera.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0461ED211A9FCD9600439749 /* RemoteSlaveCamera.xib */; };
+		0461ED221A9FCD9600439749 /* RemoteHelperCamera.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0461ED211A9FCD9600439749 /* RemoteHelperCamera.xib */; };
 		0472F3AE1AD7D07700415BA9 /* EventLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 0472F3AD1AD7D07700415BA9 /* EventLogger.m */; };
 		0478A56C22AC3DBA00331696 /* GenQRcode.m in Sources */ = {isa = PBXBuildFile; fileRef = 0478A56A22AC3DB900331696 /* GenQRcode.m */; };
 		047DD1C2183A3B4C00A04F83 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 047DD1C1183A3B4C00A04F83 /* Cocoa.framework */; };
@@ -133,11 +134,12 @@
 		044F3D84183A47170008CBA3 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = ../../../../System/Library/Frameworks/QuartzCore.framework; sourceTree = "<group>"; };
 		04502F541AF7B8190023462A /* FindQRcode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FindQRcode.h; path = VideoRun/FindQRcode.h; sourceTree = "<group>"; };
 		04502F551AF7B8190023462A /* FindQRcode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FindQRcode.m; path = VideoRun/FindQRcode.m; sourceTree = "<group>"; };
-		045AA71519E71BA300E28AED /* RemoteSlaveScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RemoteSlaveScreen.xib; path = MasterSenderRun/RemoteSlaveScreen.xib; sourceTree = "<group>"; };
+		0452C797231BE52600F3DE1F /* VideoSenderRun.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = VideoSenderRun.xib; path = MasterSenderRun/VideoSenderRun.xib; sourceTree = "<group>"; };
+		045AA71519E71BA300E28AED /* RemoteHelperScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RemoteHelperScreen.xib; path = MasterSenderRun/RemoteHelperScreen.xib; sourceTree = "<group>"; };
 		045FCCA122AE6E0100846451 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = mac/Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		045FCCA222AE6E0100846451 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = mac/Base.lproj/Document.xib; sourceTree = "<group>"; };
 		0461ED1F1A9FCD1F00439749 /* CalibrateScreenFromRemoteCamera.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CalibrateScreenFromRemoteCamera.xib; path = MasterSenderRun/CalibrateScreenFromRemoteCamera.xib; sourceTree = "<group>"; };
-		0461ED211A9FCD9600439749 /* RemoteSlaveCamera.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RemoteSlaveCamera.xib; path = SlaveReceiverRun/RemoteSlaveCamera.xib; sourceTree = "<group>"; };
+		0461ED211A9FCD9600439749 /* RemoteHelperCamera.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RemoteHelperCamera.xib; path = SlaveReceiverRun/RemoteHelperCamera.xib; sourceTree = "<group>"; };
 		0472F3AC1AD7D07700415BA9 /* EventLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventLogger.h; sourceTree = "<group>"; };
 		0472F3AD1AD7D07700415BA9 /* EventLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventLogger.m; sourceTree = "<group>"; };
 		0478A56A22AC3DB900331696 /* GenQRcode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GenQRcode.m; path = VideoRun/GenQRcode.m; sourceTree = "<group>"; };
@@ -342,6 +344,7 @@
 				0497260518FD580300625326 /* VideoRunManager.m */,
 				0497260618FD580300625326 /* VideoRun.xib */,
 				0497261718FD582600625326 /* VideoCalibrationRun.xib */,
+				0452C797231BE52600F3DE1F /* VideoSenderRun.xib */,
 				0497260718FD580300625326 /* VideoSelectionView.h */,
 				0497260818FD580300625326 /* VideoSelectionView.m */,
 			);
@@ -551,8 +554,8 @@
 				04EEC1D619DC8E2E0056899C /* NetworkSelectionView.m */,
 				0412D544230C7E84009275C3 /* RemoteClock.h */,
 				0412D545230C7E85009275C3 /* RemoteClock.m */,
-				045AA71519E71BA300E28AED /* RemoteSlaveScreen.xib */,
-				0461ED211A9FCD9600439749 /* RemoteSlaveCamera.xib */,
+				045AA71519E71BA300E28AED /* RemoteHelperScreen.xib */,
+				0461ED211A9FCD9600439749 /* RemoteHelperCamera.xib */,
 				0461ED1F1A9FCD1F00439749 /* CalibrateScreenFromRemoteCamera.xib */,
 				04EEC1CB19DC4C5E0056899C /* CalibrateCameraFromRemoteScreen.xib */,
 			);
@@ -670,7 +673,7 @@
 				04EEC1CC19DC4C5E0056899C /* CalibrateCameraFromRemoteScreen.xib in Resources */,
 				0497264418FD5E5F00625326 /* sounds in Resources */,
 				049725DE18FD563E00625326 /* NewMeasurementView.xib in Resources */,
-				045AA71619E71BA400E28AED /* RemoteSlaveScreen.xib in Resources */,
+				045AA71619E71BA400E28AED /* RemoteHelperScreen.xib in Resources */,
 				0497260E18FD580300625326 /* VideoRun.xib in Resources */,
 				04B6A69E19ED63C300E1E3B6 /* CalibrateScreenFromHardware.xib in Resources */,
 				04D411121A02CABC009AFEED /* CalibrateScreenFromCameraRun.xib in Resources */,
@@ -688,12 +691,13 @@
 				04D411131A02CABC009AFEED /* CalibrateCameraFromScreenRun.xib in Resources */,
 				04FFFC6F1AB2F0F20023ED13 /* MainMenu.xib in Resources */,
 				041E097F1A9DDAAC006A241C /* TemplateRun.xib in Resources */,
+				0452C798231BE52600F3DE1F /* VideoSenderRun.xib in Resources */,
 				04A9C14819216EB70016E6C0 /* AudioCalibrationRun.xib in Resources */,
 				04FFFC6D1AB2F0F20023ED13 /* Document.xib in Resources */,
 				04FFFC6C1AB2F0F20023ED13 /* Credits.rtf in Resources */,
 				048FB6F519FD21040023D29C /* HardwareDevices in Resources */,
 				04FFDF94185A6FAE00B1CCCC /* videoLat.help in Resources */,
-				0461ED221A9FCD9600439749 /* RemoteSlaveCamera.xib in Resources */,
+				0461ED221A9FCD9600439749 /* RemoteHelperCamera.xib in Resources */,
 				04FFFC5F1AB2F03B0023ED13 /* videoLat.entitlements in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

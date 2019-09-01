@@ -98,13 +98,14 @@
    AudioSelectionView and AudioProcess.
  - Audio calibration roundtrip, specialisation of audio roundtrip to measure the audio delay of the videoLat system.
    Contained in AudioCalibrationRun.xib.
- - One-way measurements, with different sender and receiver machines that comminucate over the network, are
-   implemented with NetworkRunManager and NetworkProtocol and 4 distinct XIB files. RemoteSlaveScreen.xib is used
+ - One-way measurements, with different sender and receiver machines that communicate over the network, are
+   implemented with NetworkRunManager and NetworkProtocol and 4 distinct XIB files. VideoSenderRun.xib is used
    on the image-transmitting side for normal measurements, it listens to a socket and communicates its port and
-   IP through the first QR-code shown. RemoteSlaveCamera.xib waits until it sees that QR code on the camera, connects to the
-   server and then the measurement can proceed. There are two more XIB files that are very similar to these two, but
-   for a slightly different purpose, they are used to calibrate the local camera (on the slave side) or the
-   local screen (on the master side): CalibrateScreenFromRemoteCamera.xib and CalibrateCameraFromRemoteScreen.xib.
+   IP through the first QR-code shown. CalibrateScreenFromRemoteCamera.xib is similar but for calibrating the local screen.
+   RemoteHelperCamera.xib waits until it sees that QR code on the camera, connects to the
+   server and then the measurement can proceed and is used as the companion to the two measurements above.
+   CalibrateCameraFromRemoteScreen.xib runs a calibration for the local camera, using a second device running
+   RemoteHelperScreen.xib.
   
  In the XCode project, these measurements are grouped by type and contained in subgroups of the "MeasurementRun" group.
 */
@@ -171,22 +172,22 @@ select a calibration to download from videolat.org.
  */
 
 /**
-@file RemoteSlaveScreen/RemoteSlaveScreen.xib
-@brief NIB file for sending (server) side of asymetric measurements.
+ @file RemoteHelperScreen/RemoteHelperScreen.xib
+ @brief NIB file for sending (server) side of asymetric measurements.
  */
 
 /**
-@file RemoteSlaveScreen/CalibrateScreenFromRemoteCamera.xib
+@file RemoteHelperScreen/CalibrateScreenFromRemoteCamera.xib
 @brief NIB file for sending (server) side of asymetric measurements to do a screen calibration.
  */
 
 /**
-@file RemoteSlaveCamera/RemoteSlaveCamera.xib
+@file RemoteHelperCamera/RemoteHelperCamera.xib
 @brief NIB file for receiving (client) side of asymetric measurements.
  */
 
 /**
-@file RemoteSlaveCamera/CalibrateCameraFromRemoteScreen.xib
+@file RemoteHelperCamera/CalibrateCameraFromRemoteScreen.xib
 @brief NIB file for sending (server) side of asymetric measurements to do a camera calibration.
  */
 

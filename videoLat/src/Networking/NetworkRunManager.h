@@ -12,7 +12,7 @@
 
 ///
 /// Subclass of BaseRunManager that handles transmitting and receiving measurement
-/// data over the network as a slave device. This manager can handle either a camera
+/// data over the network as a helper device. This manager can handle either a camera
 /// or a screen, but not both. It does not have a collector but sends capture times
 /// or transmission times back to the remote master device.
 ///

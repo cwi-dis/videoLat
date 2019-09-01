@@ -30,10 +30,10 @@ em { color: blue; }
 
 	<p>On the other, calibrated, device select <em>New Measurement</em>, 
 	then <em>QR Code Transmission</em>. A QR-code will be shown on the
-	master device and is picked up by the slave device, and it will connect to the master device
-	over Wi-Fi, check the status indicators on the top of the slave device screen.</p>
+	transmitting device. When this QR-code is picked up by the camera of the device to calibrate it will connect to the transmitting device
+	over Wi-Fi. Check the status indicators on the top of the device screen.</p>
 
-	<p>On the master device press <em>Run</em>, and after a few hundred measurements
+	<p>On the device to calibrate press <em>Run</em>, and after a few hundred measurements
 	<em>Stop</em>. You will be
 	shown the results of the measurement, on both devices.</p>
 
@@ -43,13 +43,13 @@ em { color: blue; }
 	you already have calibrations. Both devices should be on the same Wi-Fi network.</p>
 
 	<p>On the other, calibrated, device select <em>New Measurement</em>, 
-	then <em>QR Code Transmission</em>. It will show a QR code.</p>
+	then <em>QR Code Reception</em>.
 
 	<p>On this device select <em>New Calibration</em>, then
 	<em>Transmission Calibrate using Other Device</em>.
-    Point this camera at the QR-code shown on the
-	master device and this device will connect to the master device
-	over Wi-Fi, check the status indicators on the top of the slave device screen.</p>
+    Point this camera of the calibrated device at the QR-code shown on the
+	master device and calibrated device will connect to the master device
+	over Wi-Fi. Check the status indicators on the top of the device screen.</p>
 
 	<p>On the master device press <em>Run</em>, and after a few hundred measurements
 	<em>Stop</em>. You will be
@@ -59,18 +59,21 @@ em { color: blue; }
 
 	<p>For a one-way measurement you need two devices with videoLat and the required
 	calibrations. The master device must be on a network (Wi-Fi or Cellular) that is
-	reachable by the slave device.</p>
+	reachable by the helper device. The master device shows QR codes, which should be picked up by
+    the camera of the system-under-test. The output screen of the system-under-test should be picked
+    up by the helper videoLat camera. It will transmit the QR-codes detected back to the master
+    videoLat over the network.</p>
 
-	<p>On the slave device do <em>New Measurement</em>, 
-	then <em>QR Code Slave Camera</em>. Make sure the camera of this slave
+	<p>On the secondary device do <em>New Measurement</em>,
+	then <em>QR Code Camera Helper</em>. Make sure the camera of this helper
 	device can see the screen of the system-under-test.</p>
 	
 	<p>On the master device do <em>New Measurement</em>, 
 	then <em>QR Code Transmission</em>. Make sure the screen of the master
 	device is picked up by the camera of the system-under-test. 
 	A QR-code will be shown on the
-	master device and is picked up by the slave device, and it will connect to the master device
-	over Wi-Fi, check the status indicators on the top of the slave device screen.</p>
+	master device and is picked up by the helper device, and it will connect to the master device
+	over Wi-Fi. Check the status indicators on the top of the device screen.</p>
 
 	<p>On the master device press <em>Run</em>, and after a few hundred measurements
 	<em>Stop</em>. You will be

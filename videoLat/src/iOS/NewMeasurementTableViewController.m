@@ -16,7 +16,7 @@
 {
 	return @[
         @"QR Code Transmission",
-        @"QR Code Slave Camera",
+        @"QR Code Camera Helper",
 		@"QR Code Roundtrip",
 		@"Audio Roundtrip",
 		];

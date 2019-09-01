@@ -162,7 +162,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
         return;
     }
     if (isServer) {
-        // This code runs in the slave (video receiver, network transmitter)
+        // This code runs in the server (video receiver, network transmitter)
         
         // Let's first check whether this message has the results, in that case we display them and are done.
         NSString *mrString = [data objectForKey: @"measurementResults"];
@@ -183,14 +183,14 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
             return;
         }
         //NSLog(@"received %@ from %@ (our protocol %@)", data, connection, self.protocol);
-        uint64_t slaveTimestamp = getTimestamp(data, @"lastSlaveTime");
+        uint64_t helperTimestamp = getTimestamp(data, @"lastSlaveTime");
         uint64_t masterTimestamp = getTimestamp(data, @"lastMasterTime");
-        if (slaveTimestamp && masterTimestamp) {
+        if (helperTimestamp && masterTimestamp) {
             uint64_t now = [self.clock now];
-            [remoteClock remote:masterTimestamp between:slaveTimestamp and:now];
+            [remoteClock remote:masterTimestamp between:helperTimestamp and:now];
             [self.networkStatusView reportRTT:[remoteClock rtt]/1000 best:[remoteClock clockInterval]];
         } else {
-            NSLog(@"no timestamps yet from slave: %@", data);
+            NSLog(@"no timestamps yet from helper: %@", data);
         }
         NSString *peerStatus = [data objectForKey:@"peerStatus"];
         if (peerStatus) {
@@ -219,7 +219,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
         if(!self.manager.selectionView) NSLog(@"Warning: NetworkrunManager has no selectionView");
 #endif
         
-        uint64_t slaveTimestamp = getTimestamp(data, @"slaveTime");
+        uint64_t helperTimestamp = getTimestamp(data, @"slaveTime");
         uint64_t masterTimestamp = getTimestamp(data, @"masterTime");
         uint64_t masterDetectionTimestamp = getTimestamp(data, @"masterDetectTime");
         uint64_t rtt = getTimestamp(data, @"rtt");
@@ -227,19 +227,19 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
         NSString *code = [data objectForKey: @"code"];
         NSString *transmittedCode = [data objectForKey: @"transmittedCode"];
 
-        if (slaveTimestamp && masterTimestamp) {
+        if (helperTimestamp && masterTimestamp) {
             uint64_t now = [self.clock now];
-            [remoteClock remote:slaveTimestamp between:masterTimestamp and:now];
+            [remoteClock remote:helperTimestamp between:masterTimestamp and:now];
             [self.networkStatusView reportRTT:[remoteClock rtt]/1000 best:[remoteClock clockInterval]];
         } else {
-            NSLog(@"no timestamps yet from slave: %@", data);
+            NSLog(@"no timestamps yet from helper: %@", data);
         }
 
-        if (slaveTimestamp) {
+        if (helperTimestamp) {
             uint64_t now = [self.clock now];
             NSMutableDictionary *msg = [@{
                                           @"lastMasterTime": [NSString stringWithFormat:@"%lld", now],
-                                          @"lastSlaveTime" : [NSString stringWithFormat:@"%lld", slaveTimestamp],
+                                          @"lastSlaveTime" : [NSString stringWithFormat:@"%lld", helperTimestamp],
                                           } mutableCopy];
             if (statusToPeer) {
                 [msg setObject: statusToPeer forKey: @"peerStatus"];
@@ -305,7 +305,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
             uint64_t masterTransmitTime = getTimestamp(data, @"masterTransmitTime");
             [self.manager newOutputDoneAt: masterTransmitTime];
         } else {
-            // xxxjack is this correct? Also for transmitting slave?
+            // xxxjack is this correct? Also for helper that is transmitter?
             if (VL_DEBUG) NSLog(@"NetworkRunManager: received no qr-code at %lld,code=%@,masterDetectionTimestamp=%lld", masterTimestamp,code, masterDetectionTimestamp);
             [self.manager newInputDone:@"nothing" count:0 at:0];
         }

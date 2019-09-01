@@ -102,7 +102,7 @@ static NSMutableDictionary *runManagerSelectionNibs;
 {
     self = [super init];
     if (self) {
-        slaveHandler = NO;
+        networkHelper = NO;
     }
     return self;
 }
@@ -131,7 +131,7 @@ static NSMutableDictionary *runManagerSelectionNibs;
     assert(self.capturer);
     assert(self.statusView);
     assert(self.outputView);
-    if (!slaveHandler) {
+    if (!networkHelper) {
         assert(self.collector);
     }
     // xxxjack this needs to be done differently, based on a subclass
@@ -156,7 +156,7 @@ static NSMutableDictionary *runManagerSelectionNibs;
 {
 	baseName = baseMeasurementName;
 	[self selectMeasurementType:measurementTypeName];
-	if (!slaveHandler)
+	if (!networkHelper)
 		[self startPreMeasuring:self];
 }
 #endif
@@ -311,7 +311,7 @@ static NSMutableDictionary *runManagerSelectionNibs;
     DeviceDescription *remoteInputDeviceDescription = [self.networkIODevice remoteInputDeviceDescription];
     DeviceDescription *remoteOutputDeviceDescription = [self.networkIODevice remoteOutputDeviceDescription];
     if (errorMessage == nil && remoteInputDeviceDescription == nil && remoteOutputDeviceDescription) {
-        errorMessage = @"No device description received from remote (slave) partner.";
+        errorMessage = @"No device description received from remote helper.";
     }
     if (errorMessage) {
         [self.networkIODevice reportStatus: @"Missing calibration"];
@@ -460,12 +460,11 @@ static NSMutableDictionary *runManagerSelectionNibs;
 {
     BOOL ok = self.capturer.available;
     if (!ok) return NO;
-    // xxxjack should happen only for slaves managers
     if (self.networkIODevice && self.networkIODevice != self.capturer) {
-        // Only do this for slave input devices....
+        // Only do this for helper input devices....
         ok = [self reportInputDeviceToRemote];
         if (!ok) return NO;
-        if (slaveHandler) {
+        if (networkHelper) {
             [self.capturer startCapturing:YES];
         }
     }
@@ -477,9 +476,8 @@ static NSMutableDictionary *runManagerSelectionNibs;
     assert(self.outputView);
     BOOL ok = self.outputView.available;
     if (!ok) return NO;
-    // xxxjack should happen only for slaves managers
     if (self.networkIODevice && self.networkIODevice == self.capturer) {
-        // Only do this for slave output devices....
+        // Only do this for helper output devices....
         ok = [self reportOutputDeviceToRemote];
     }
     return ok;
@@ -754,8 +752,8 @@ static NSMutableDictionary *runManagerSelectionNibs;
     // Is this code the same as the previous one detected?
     if (prevInputCode && [inputCode isEqualToString: prevInputCode]) {
         prevInputCodeDetectionCount++;
-        if (slaveHandler) {
-            // xxxjack is this correct for slave displays too????
+        if (networkHelper) {
+            // xxxjack is this correct for display helpers too????
             return;
         }
         if (prevInputCodeDetectionCount == 3) {
