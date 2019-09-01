@@ -80,14 +80,10 @@
 
 - (void)newOutputDoneAt: (uint64_t)timestamp
 {
-    assert(codeRequested);
+    if (!codeRequested) return;
     assert(self.networkIODevice);
     [self.networkIODevice reportTransmission:codeRequested at:timestamp];
     codeRequested = nil;
 }
 
-- (void)newOutputDone
-{
-    assert(0);
-}
 @end
