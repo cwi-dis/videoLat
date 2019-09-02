@@ -360,7 +360,6 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
     assert(self.protocol == nil);
     isHelper = asHelper;
     NSURLComponents *urlComps = [NSURLComponents componentsWithString: url];
-    assert(inputDeviceDescriptorToSend||outputDeviceDescriptorToSend); // Or could this be set at initialization?
     if ([urlComps.path isEqualToString: @"/landing"] && self.protocol == nil) {
         NSString *query = urlComps.query;
         NSLog(@"Server info: %@", query);
@@ -434,14 +433,6 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
         [msg setObject: ddString forKey:@"inputDeviceDescriptor"];
         inputDeviceDescriptorToSend = nil;
     }
-    if (outputDeviceDescriptorToSend) {
-        NSData *ddData = [NSKeyedArchiver archivedDataWithRootObject: outputDeviceDescriptorToSend];
-        assert(ddData);
-        NSString *ddString = [ddData base64EncodedStringWithOptions:0];
-        assert(ddString);
-        [msg setObject: ddString forKey:@"outputDeviceDescriptor"];
-        outputDeviceDescriptorToSend = nil;
-    }
     if (statusToPeer) {
         [msg setObject: statusToPeer forKey: @"peerStatus"];
         statusToPeer = nil;
@@ -470,14 +461,6 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
                                   @"rtt" : [NSString stringWithFormat:@"%lld", rtt],
                                   @"clockInterval" : [NSString stringWithFormat:@"%lld", clockInterval]
                                   } mutableCopy];
-    if (inputDeviceDescriptorToSend) {
-        NSData *ddData = [NSKeyedArchiver archivedDataWithRootObject: inputDeviceDescriptorToSend];
-        assert(ddData);
-        NSString *ddString = [ddData base64EncodedStringWithOptions:0];
-        assert(ddString);
-        [msg setObject: ddString forKey:@"inputDeviceDescriptor"];
-        inputDeviceDescriptorToSend = nil;
-    }
     if (outputDeviceDescriptorToSend) {
         NSData *ddData = [NSKeyedArchiver archivedDataWithRootObject: outputDeviceDescriptorToSend];
         assert(ddData);

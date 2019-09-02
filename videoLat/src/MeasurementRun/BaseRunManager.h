@@ -159,16 +159,13 @@
 #else
 @property(weak) IBOutlet RunManagerView *measurementMaster;	//!< Initialized in the NIB, our parent object.
 #endif
+- (BOOL) prepareInputDevice;
+
+- (BOOL) prepareOutputDevice;
 
 /// Update settings to measurement based on parameters (device name, etc) received from a remote
 /// input or output handler.
 - (BOOL)prepareMeasurementFromRemoteData;
-
-/// Report input device name and other parameters to remote side.
-- (BOOL)reportInputDeviceToRemote;
-
-/// Report output device name and other parameters to remote side.
-- (BOOL)reportOutputDeviceToRemote;
 
 /// Report measurement results to remote input or output handler.
 - (void)reportResultsToRemote: (MeasurementDataStore *)mr;

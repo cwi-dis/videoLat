@@ -26,4 +26,10 @@
 + (void)initialize;	//!< Class initializer.
 - (void)codeRequestedByMaster: (NSString *)code;
 
+/// Report input device name and other parameters to remote side.
+- (BOOL)reportInputDeviceToRemote;
+
+/// Report output device name and other parameters to remote side.
+- (BOOL)reportOutputDeviceToRemote;
+
 @end

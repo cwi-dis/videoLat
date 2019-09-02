@@ -351,55 +351,6 @@ static NSMutableDictionary *runManagerSelectionNibs;
     }
 }
 
-- (BOOL)reportInputDeviceToRemote
-{
-    DeviceDescription *deviceDescriptorToSend = nil;
-    if (self.measurementType.isCalibration) {
-#ifdef WITH_APPKIT
-        if (self.selectionView) assert(self.selectionView.bBase == nil);
-#endif
-        assert(self.capturer);
-        deviceDescriptorToSend = [[DeviceDescription alloc] initFromInputDevice: self.capturer];
-    } else {
-        assert(self.selectionView);
-        baseName = self.selectionView.baseName;
-        if (baseName == nil) {
-            NSLog(@"NetworkRunManager: baseName == nil");
-            return NO;
-        }
-        MeasurementType *baseType;
-        baseType = (MeasurementType *)self.measurementType.requires;
-        MeasurementDataStore *baseStore = [baseType measurementNamed: baseName];
-        assert(baseStore.input);
-        deviceDescriptorToSend = [[DeviceDescription alloc] initFromCalibrationInput: baseStore];
-    }
-    [self.networkIODevice reportInputDevice: deviceDescriptorToSend];
-    return YES;
-}
-
-- (BOOL)reportOutputDeviceToRemote
-{
-    DeviceDescription *deviceDescriptorToSend = nil;
-    if (self.measurementType.isCalibration) {
-        assert(self.outputView);
-        deviceDescriptorToSend = [[DeviceDescription alloc] initFromOutputDevice: self.outputView];
-    } else {
-        assert(self.selectionView);
-        baseName = self.selectionView.baseName;
-        if (baseName == nil) {
-            NSLog(@"NetworkRunManager: baseName == nil");
-            return NO;
-        }
-        MeasurementType *baseType;
-        baseType = (MeasurementType *)self.measurementType.requires;
-        MeasurementDataStore *baseStore = [baseType measurementNamed: baseName];
-        assert(baseStore.output);
-        deviceDescriptorToSend = [[DeviceDescription alloc] initFromCalibrationOutput: baseStore];
-    }
-    [self.networkIODevice reportOutputDevice: deviceDescriptorToSend];
-    return YES;
-}
-
 - (IBAction)startMeasuring: (id)sender
 {
     @synchronized(self) {
@@ -461,29 +412,13 @@ static NSMutableDictionary *runManagerSelectionNibs;
 
 - (BOOL) prepareInputDevice
 {
-    BOOL ok = self.capturer.available;
-    if (!ok) return NO;
-    if (self.networkIODevice && self.networkIODevice != self.capturer) {
-        // If we have a network connection and this network connection is _not_
-        // the input device we assume it is a camera and we start capturing, so we
-        // can detect the QR-code containing the IP address and port.
-        ok = [self reportInputDeviceToRemote];
-        if (!ok) return NO;
-        [self.capturer startCapturing:YES];
-    }
-    return YES;
+    return self.capturer.available;
 }
 
 - (BOOL) prepareOutputDevice
 {
     assert(self.outputView);
-    BOOL ok = self.outputView.available;
-    if (!ok) return NO;
-    if (self.networkIODevice && self.networkIODevice == self.capturer) {
-        // Only do this for helper output devices....
-        ok = [self reportOutputDeviceToRemote];
-    }
-    return ok;
+    return self.outputView.available;
 }
 
 - (void)restart
