@@ -169,7 +169,6 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
         } else {
             [self reportStatus: @"Both sides run as helper"];
         }
-        return;
     }
     
     if (!isHelper) {
