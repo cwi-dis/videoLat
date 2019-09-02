@@ -742,6 +742,9 @@ static NSMutableDictionary *runManagerSelectionNibs;
             [self prepareReceivedValidCode: inputCode];
         }
         return;
+    } else {
+        NSLog(@"Received code we dont remember transmitting: %@", inputCode);
+        //[self triggerNewOutputValue];
     }
     // We did not detect the code we expected
     if (self.preparing) {
