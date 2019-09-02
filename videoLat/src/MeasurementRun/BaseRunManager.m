@@ -754,7 +754,8 @@ static NSMutableDictionary *runManagerSelectionNibs;
     //
     // If we are in a netwrk session we report the code back to the other side.
     //
-    if (self.networkIODevice) {
+    if (networkHelper) {
+        assert(self.networkIODevice);
         [self.networkIODevice reportReception:inputCode count:prevInputCodeDetectionCount at:inputTimestamp];
     }
     // Is this code the same as the previous one detected?
