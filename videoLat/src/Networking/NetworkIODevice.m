@@ -172,98 +172,12 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
     }
     
     if (!isHelper) {
-        // This code runs in the server (video receiver, network transmitter)
+        // This code runs in the master (video receiver, network transmitter)
         
-        // Let's first check whether this message has the results, in that case we display them and are done.
-        NSString *mrString = [data objectForKey: @"measurementResults"];
-        if (mrString) {
-            NSData *mrData = [[NSData alloc] initWithBase64EncodedString:mrString options:NSDataBase64DecodingIgnoreUnknownCharacters];
-            assert(mrData);
-            MeasurementDataStore *mr = [NSKeyedUnarchiver unarchiveObjectWithData:mrData];
-            assert(mr);
-            [self reportStatus:@"Complete"];
-            [self.protocol close];
-            if (self.protocol) self.protocol.delegate = nil;
-            self.protocol = nil;
-            assert(0); // xxxjack this has to go somewhere...
-            // [self.manager reportResultsToRemote: mr];
-            //
-            // Override description with our description
-            //
-            return;
-        }
-        //NSLog(@"received %@ from %@ (our protocol %@)", data, connection, self.protocol);
-        uint64_t helperTimestamp = getTimestamp(data, @"lastSlaveTime");
-        uint64_t masterTimestamp = getTimestamp(data, @"lastMasterTime");
-        if (helperTimestamp && masterTimestamp) {
-            uint64_t now = [self.clock now];
-            [remoteClock remote:masterTimestamp between:helperTimestamp and:now];
-            [self.networkStatusView reportRTT:[remoteClock rtt]/1000 best:[remoteClock clockInterval]];
-        } else {
-            NSLog(@"no timestamps yet from helper: %@", data);
-        }
         NSString *peerStatus = [data objectForKey:@"peerStatus"];
         if (peerStatus) {
             [self reportStatus: peerStatus];
         }
-        NSString *statusCount = [data objectForKey:@"statusCount"];
-        NSString *statusAverage = [data objectForKey: @"statusAverage"];
-        if (self.manager.statusView && (statusCount || statusAverage)) {
-            self.manager.statusView.detectCount = statusCount;
-            self.manager.statusView.detectAverage = statusAverage;
-            [self.manager.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
-        }
-        NSString *requestTransmission = [data objectForKey: @"requestTransmission"];
-        if (requestTransmission) {
-            [self.manager codeRequestedByMaster:requestTransmission];
-        }
-        NSString *code = [data objectForKey: @"code"];
-        if(code) {
-            uint64_t count = getTimestamp(data, @"count");
-            uint64_t masterDetectionTimestamp = getTimestamp(data, @"masterDetectTime");
-            [self.manager newInputDone: code count: (int)count at: masterDetectionTimestamp];
-        }
-    } else {
-        // This code runs in the master (video sender, network receiver)
-#ifdef WITH_APPKIT
-        if(!self.manager.selectionView) NSLog(@"Warning: NetworkrunManager has no selectionView");
-#endif
-        
-        uint64_t helperTimestamp = getTimestamp(data, @"slaveTime");
-        uint64_t masterTimestamp = getTimestamp(data, @"masterTime");
-        uint64_t masterDetectionTimestamp = getTimestamp(data, @"masterDetectTime");
-        uint64_t rtt = getTimestamp(data, @"rtt");
-        uint64_t clockInterval = getTimestamp(data, @"clockInterval");
-        NSString *code = [data objectForKey: @"code"];
-        NSString *transmittedCode = [data objectForKey: @"transmittedCode"];
-
-        if (helperTimestamp && masterTimestamp) {
-            uint64_t now = [self.clock now];
-            [remoteClock remote:helperTimestamp between:masterTimestamp and:now];
-            [self.networkStatusView reportRTT:[remoteClock rtt]/1000 best:[remoteClock clockInterval]];
-        } else {
-            NSLog(@"no timestamps yet from helper: %@", data);
-        }
-
-        if (helperTimestamp) {
-            uint64_t now = [self.clock now];
-            NSMutableDictionary *msg = [@{
-                                          @"lastMasterTime": [NSString stringWithFormat:@"%lld", now],
-                                          @"lastSlaveTime" : [NSString stringWithFormat:@"%lld", helperTimestamp],
-                                          } mutableCopy];
-            if (statusToPeer) {
-                [msg setObject: statusToPeer forKey: @"peerStatus"];
-                statusToPeer = nil;
-            }
-            if (!isHelper)
-                [msg setObject: @"YES" forKey: @"fromMaster"];
-            if (self.manager.collector && self.manager.collector.count) {
-                [msg setObject: [NSString stringWithFormat: @"%d", self.manager.collector.count] forKey: @"statusCount"];
-                [msg setObject: [NSString stringWithFormat: @"%.3f ms ± %.3f", self.manager.collector.average / 1000.0, self.manager.collector.stddev / 1000.0] forKey: @"statusAverage"];
-            }
-            [self.protocol send: msg];
-        }
-        
         // Let's see whether they transmitted the input device descriptor
         NSString *ddString;
         ddString = [data objectForKey: @"inputDeviceDescriptor"];
@@ -291,22 +205,44 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
             }
             self.remoteOutputDeviceDescription = dd;
         }
-        // And update our status, if needed
-        NSString *peerStatus = [data objectForKey:@"peerStatus"];
-        if (peerStatus) {
-            [self reportStatus: peerStatus];
+        uint64_t helperTimestamp = getTimestamp(data, @"slaveTime");
+        uint64_t masterTimestamp = getTimestamp(data, @"masterTime");
+        uint64_t masterDetectionTimestamp = getTimestamp(data, @"masterDetectTime");
+        uint64_t rtt = getTimestamp(data, @"rtt");
+        uint64_t clockInterval = getTimestamp(data, @"clockInterval");
+        NSString *code = [data objectForKey: @"code"];
+        NSString *transmittedCode = [data objectForKey: @"transmittedCode"];
+        
+        if (helperTimestamp && masterTimestamp) {
+            uint64_t now = [self.clock now];
+            [remoteClock remote:helperTimestamp between:masterTimestamp and:now];
+            [self.networkStatusView reportRTT:[remoteClock rtt]/1000 best:[remoteClock clockInterval]];
+        } else {
+            NSLog(@"no timestamps yet from helper: %@", data);
         }
         
-        if (rtt) {
-            if (rtt > 10000000) {
-                // RTT bigger than 10 seconds is preposterous
-                NSLog(@"NetworkRunManager: preposterous RTT of %lld ms",(rtt/1000));
+        if (helperTimestamp) {
+            uint64_t now = [self.clock now];
+            NSMutableDictionary *msg = [@{
+                                          @"lastMasterTime": [NSString stringWithFormat:@"%lld", now],
+                                          @"lastSlaveTime" : [NSString stringWithFormat:@"%lld", helperTimestamp],
+                                          } mutableCopy];
+            if (statusToPeer) {
+                [msg setObject: statusToPeer forKey: @"peerStatus"];
+                statusToPeer = nil;
             }
-            [self.networkStatusView reportRTT: rtt best:(uint64_t)clockInterval];
+            // in this code branch we know we are master
+            [msg setObject: @"YES" forKey: @"fromMaster"];
+            if (self.manager.collector && self.manager.collector.count) {
+                [msg setObject: [NSString stringWithFormat: @"%d", self.manager.collector.count] forKey: @"statusCount"];
+                [msg setObject: [NSString stringWithFormat: @"%.3f ms ± %.3f", self.manager.collector.average / 1000.0, self.manager.collector.stddev / 1000.0] forKey: @"statusAverage"];
+            }
+            [self.protocol send: msg];
         }
-
+        // And check for a QR-code detection
         if(code) {
             uint64_t count = getTimestamp(data, @"count");
+            uint64_t masterDetectionTimestamp = getTimestamp(data, @"masterDetectTime");
             [self.manager newInputDone: code count: (int)count at: masterDetectionTimestamp];
         } else if(transmittedCode) {
             if (![transmittedCode isEqualToString:lastRequestTransmissionCode]) {
@@ -320,6 +256,65 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
             // xxxjack is this correct? Also for helper that is transmitter?
             if (VL_DEBUG) NSLog(@"NetworkRunManager: received no qr-code at %lld,code=%@,masterDetectionTimestamp=%lld", masterTimestamp,code, masterDetectionTimestamp);
             [self.manager newInputDone:@"nothing" count:0 at:0];
+        }
+        if (rtt) {
+            if (rtt > 10000000) {
+                // RTT bigger than 10 seconds is preposterous
+                NSLog(@"NetworkRunManager: preposterous RTT of %lld ms",(rtt/1000));
+            }
+            [self.networkStatusView reportRTT: rtt best:(uint64_t)clockInterval];
+        }
+        
+    } else {
+        // This code runs in the helper (video sender, network receiver)
+        // Let's first check whether this message has the results, in that case we display them and are done.
+        NSString *mrString = [data objectForKey: @"measurementResults"];
+        if (mrString) {
+            NSData *mrData = [[NSData alloc] initWithBase64EncodedString:mrString options:NSDataBase64DecodingIgnoreUnknownCharacters];
+            assert(mrData);
+            MeasurementDataStore *mr = [NSKeyedUnarchiver unarchiveObjectWithData:mrData];
+            assert(mr);
+            [self reportStatus:@"Complete"];
+            [self.protocol close];
+            if (self.protocol) self.protocol.delegate = nil;
+            self.protocol = nil;
+            assert(0); // xxxjack this has to go somewhere...
+            // [self.manager reportResultsToRemote: mr];
+            //
+            // Override description with our description
+            //
+            return;
+        }
+#ifdef WITH_APPKIT
+        if(!self.manager.selectionView) NSLog(@"Warning: NetworkrunManager has no selectionView");
+#endif
+        //NSLog(@"received %@ from %@ (our protocol %@)", data, connection, self.protocol);
+        uint64_t helperTimestamp = getTimestamp(data, @"lastSlaveTime");
+        uint64_t masterTimestamp = getTimestamp(data, @"lastMasterTime");
+        if (helperTimestamp && masterTimestamp) {
+            uint64_t now = [self.clock now];
+            [remoteClock remote:masterTimestamp between:helperTimestamp and:now];
+            [self.networkStatusView reportRTT:[remoteClock rtt]/1000 best:[remoteClock clockInterval]];
+        } else {
+            NSLog(@"no timestamps yet from helper: %@", data);
+        }
+        NSString *requestTransmission = [data objectForKey: @"requestTransmission"];
+        if (requestTransmission) {
+            [self.manager codeRequestedByMaster:requestTransmission];
+        }
+
+        NSString *statusCount = [data objectForKey:@"statusCount"];
+        NSString *statusAverage = [data objectForKey: @"statusAverage"];
+        if (self.manager.statusView && (statusCount || statusAverage)) {
+            self.manager.statusView.detectCount = statusCount;
+            self.manager.statusView.detectAverage = statusAverage;
+            [self.manager.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
+        }
+
+        // And update our status, if needed
+        NSString *peerStatus = [data objectForKey:@"peerStatus"];
+        if (peerStatus) {
+            [self reportStatus: peerStatus];
         }
     }
 }
@@ -530,6 +525,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
         outputDeviceDescriptorToSend = nil;
     }
     if (requestTransmissionCode) {
+        assert(!isHelper);
         [msg setObject: requestTransmissionCode forKey: @"requestTransmission"];
         lastRequestTransmissionCode = requestTransmissionCode;
     }
