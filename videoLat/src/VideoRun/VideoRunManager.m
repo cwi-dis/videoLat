@@ -88,7 +88,7 @@
         // If we have already generated a QR code that hasn't been detected yet we return that.
         if (outputCodeImage)
             return outputCodeImage;
-        [self getNewOutputCode];
+        self.outputCode = [self getNewOutputCode];
         
         CGSize size = {480, 480};
         assert(self.genner);
