@@ -33,11 +33,14 @@
 - (void)awakeFromNib
 {
     [super awakeFromNib];
+#if 0
+    // These won't exist if we are a helper....
 #ifdef WITH_APPKIT
     assert(self.bPrepare);
 #endif
     assert(self.bRun);
     assert(self.bStop);
+#endif
 }
 
 - (void) dealloc

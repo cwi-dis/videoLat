@@ -128,6 +128,7 @@
 	char *buffer = malloc(bufsiz);
     while (sock >= 0) {
 		char *bufptr = buffer;
+        *buffer = '\0';
 		ssize_t rv;
 		while(1) {
 			if (buffer == NULL || bufptr == NULL) {
