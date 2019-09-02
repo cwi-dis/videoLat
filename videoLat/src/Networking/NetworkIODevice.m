@@ -46,8 +46,8 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
     if (self) {
         self.remoteInputDeviceDescription = nil;
         self.remoteOutputDeviceDescription = nil;
-        isClient = NO;
         isServer = NO;
+        isHelper = NO;
         didReceiveData = NO;
         connected = NO;
         remoteClock = [[RemoteClock alloc] init];
@@ -161,7 +161,18 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
         NSLog(@"NetworkRunManager: discarding data received after connection close");
         return;
     }
-    if (isServer) {
+    BOOL fromMaster = ([data objectForKey: @"fromMaster"] != nil);
+    if (fromMaster != isHelper) {
+        // Both sides think they are master, or both sides think they are helper.
+        if (fromMaster) {
+            [self reportStatus: @"Both sides run as master"];
+        } else {
+            [self reportStatus: @"Both sides run as helper"];
+        }
+        return;
+    }
+    
+    if (!isHelper) {
         // This code runs in the server (video receiver, network transmitter)
         
         // Let's first check whether this message has the results, in that case we display them and are done.
@@ -245,6 +256,8 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
                 [msg setObject: statusToPeer forKey: @"peerStatus"];
                 statusToPeer = nil;
             }
+            if (!isHelper)
+                [msg setObject: @"YES" forKey: @"fromMaster"];
             if (self.manager.collector && self.manager.collector.count) {
                 [msg setObject: [NSString stringWithFormat: @"%d", self.manager.collector.count] forKey: @"statusCount"];
                 [msg setObject: [NSString stringWithFormat: @"%.3f ms ± %.3f", self.manager.collector.average / 1000.0, self.manager.collector.stddev / 1000.0] forKey: @"statusAverage"];
@@ -333,11 +346,12 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
     
 }
 
-- (void)openServer
+- (void)openServer: (BOOL)asHelper
 {
     assert(self.protocol == nil);
     assert(self.networkStatusView);
     isServer = YES;
+    isHelper = asHelper;
     self.protocol = [[NetworkProtocolServer alloc] init];
     self.protocol.delegate = self;
     
@@ -345,10 +359,10 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
     [self.networkStatusView reportStatus: @"Waiting for connection"];
 }
 
-- (void)openClient: (NSString *)url
+- (void)openClient: (BOOL) asHelper url:(NSString *)url
 {
     assert(self.protocol == nil);
-    isClient = YES;
+    isHelper = asHelper;
     NSURLComponents *urlComps = [NSURLComponents componentsWithString: url];
     assert(inputDeviceDescriptorToSend||outputDeviceDescriptorToSend); // Or could this be set at initialization?
     if ([urlComps.path isEqualToString: @"/landing"] && self.protocol == nil) {
@@ -436,6 +450,8 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
         [msg setObject: statusToPeer forKey: @"peerStatus"];
         statusToPeer = nil;
     }
+    if (!isHelper)
+        [msg setObject: @"YES" forKey: @"fromMaster"];
     [self.protocol send: msg];
     lastMessageSentTime = now;
 }
@@ -478,6 +494,8 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
         [msg setObject: statusToPeer forKey: @"peerStatus"];
         statusToPeer = nil;
     }
+    if (!isHelper)
+        [msg setObject: @"YES" forKey: @"fromMaster"];
     [self.protocol send: msg];
     lastMessageSentTime = now;
 }
@@ -520,6 +538,8 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
         [msg setObject: statusToPeer forKey: @"peerStatus"];
         statusToPeer = nil;
     }
+    if (!isHelper)
+        [msg setObject: @"YES" forKey: @"fromMaster"];
     [self.protocol send: msg];
     lastMessageSentTime = now;
 }

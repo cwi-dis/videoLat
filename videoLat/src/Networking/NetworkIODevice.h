@@ -15,8 +15,8 @@
 /// is actually captured remotely, and for which the data is sent to us over the network.
 ///
 @interface NetworkIODevice : NSObject <ClockProtocol, InputDeviceProtocol, OutputDeviceProtocol, NetworkProtocolDelegate> {
-    BOOL isClient;                //!< True if we are running in the network client (camera input, outputnet)
     BOOL isServer;                //!< True if we are running in the network server (net input, screen output)
+    BOOL isHelper;                //!< True if we are running on the helper side (initially the server)
     BOOL connected;               //!< True if we are connected
     NSString *prepareCode;        //!< Internal: data for prerun qrcode
     NSString *statusToPeer;       //!< Internal: status update to be transmitted to peer
@@ -45,8 +45,8 @@
 - (NSString *)genPrepareCode;    //!< Returns QR-code containing our IP/port combination
 
 // xxxjack temp
-- (void)openServer;
-- (void)openClient: (NSString *)url;
+- (void)openServer: (BOOL)asHelper;
+- (void)openClient: (BOOL)asHelper url: (NSString *)url;
 - (void)reportResult: (MeasurementDataStore *)ds;
 - (void)reportReception: (NSString *)code count:(int)count at:(uint64_t)timestamp;
 - (void)reportTransmission: (NSString *)code at:(uint64_t)timestamp;

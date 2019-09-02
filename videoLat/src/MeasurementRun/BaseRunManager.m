@@ -140,7 +140,7 @@ static NSMutableDictionary *runManagerSelectionNibs;
     }
     if (networkServer) {
         assert(self.networkIODevice);
-        [self.networkIODevice openServer];
+        [self.networkIODevice openServer: networkHelper];
     }
         
 }
@@ -178,6 +178,7 @@ static NSMutableDictionary *runManagerSelectionNibs;
 		assert(!self.running);
         assert(self.capturer);
         assert(self.outputView);
+        assert(!networkHelper);
         // First check that everything is OK with base measurement and such
 		if (self.measurementType.requires != nil) {
 			// First check that a base measurement has been selected.
@@ -257,6 +258,7 @@ static NSMutableDictionary *runManagerSelectionNibs;
 	@synchronized(self) {
 		assert(self.preparing);
 		assert(!self.running);
+        assert(!networkHelper);
 		self.preparing = NO;
 		// We now have a ballpark figure for the maximum delay. Use 4 times that as the highest
 		// we are willing to wait for.
@@ -409,6 +411,7 @@ static NSMutableDictionary *runManagerSelectionNibs;
 		assert(self.outputView.deviceID);
 		assert(self.outputView.deviceName);
 		assert(self.statusView);
+        assert(!networkHelper);
 #ifdef WITH_APPKIT
         [self.statusView.bPrepare setEnabled: NO];
 #endif
@@ -488,11 +491,13 @@ static NSMutableDictionary *runManagerSelectionNibs;
     assert(self.selectionView);
     assert (self.statusView);
 	@synchronized(self) {
-#ifdef WITH_APPKIT
-        [self.statusView.bPrepare setEnabled: NO];
-#endif
-        [self.statusView.bRun setEnabled: NO];
-        [self.statusView.bStop setEnabled: NO];
+        if (!networkHelper) {
+    #ifdef WITH_APPKIT
+            [self.statusView.bPrepare setEnabled: NO];
+    #endif
+            [self.statusView.bRun setEnabled: NO];
+            [self.statusView.bStop setEnabled: NO];
+        }
         self.preparing = NO;
         self.running = NO;
         self.outputCode = @"uncertain";
@@ -554,9 +559,11 @@ static NSMutableDictionary *runManagerSelectionNibs;
         if (!ok) return;
         // All is well.
         VL_LOG_EVENT(@"restart", 0LL, self.measurementType.name);
+        if (!networkHelper) {
 #ifdef WITH_APPKIT
-        [self.statusView.bPrepare setEnabled: YES];
+            [self.statusView.bPrepare setEnabled: YES];
 #endif
+        }
 	}
 }
 
@@ -739,7 +746,7 @@ static NSMutableDictionary *runManagerSelectionNibs;
             NSLog(@"BaseRunManager (with network server): prepare code reported back");
             return;
         } else {
-            [self.networkIODevice openClient: inputCode];
+            [self.networkIODevice openClient: networkHelper url: inputCode];
             [self performSelectorOnMainThread:@selector(restart) withObject:nil waitUntilDone:NO];
         }
     }
