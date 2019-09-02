@@ -66,7 +66,9 @@
 
 - (void)codeRequestedByMaster: (NSString *)code
 {
+    assert(self.capturer == self.networkIODevice);
     codeRequested = code;
+    [self triggerNewOutputValueAfterDelay];
 }
 
 - (NSString *)getNewOutputCode
@@ -80,10 +82,16 @@
 
 - (void)newOutputDoneAt: (uint64_t)timestamp
 {
-    if (!codeRequested) return;
-    assert(self.networkIODevice);
-    [self.networkIODevice reportTransmission:codeRequested at:timestamp];
-    codeRequested = nil;
+    if (codeRequested) {
+        assert(self.networkIODevice);
+        [self.networkIODevice reportTransmission:codeRequested at:timestamp];
+        // not needed? codeRequested = nil;
+    } else {
+        if (self.capturer == self.networkIODevice) {
+            // We are an output-only helper. Get ready for a new display.
+            [self triggerNewOutputValueAfterDelay];
+        }
+    }
 }
 
 @end

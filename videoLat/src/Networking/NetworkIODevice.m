@@ -205,14 +205,15 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
             }
             self.remoteOutputDeviceDescription = dd;
         }
-        uint64_t helperTimestamp = getTimestamp(data, @"slaveTime");
-        uint64_t masterTimestamp = getTimestamp(data, @"masterTime");
-        uint64_t masterDetectionTimestamp = getTimestamp(data, @"masterDetectTime");
-        uint64_t rtt = getTimestamp(data, @"rtt");
-        uint64_t clockInterval = getTimestamp(data, @"clockInterval");
         NSString *code = [data objectForKey: @"code"];
+        uint64_t masterDetectionTimestamp = getTimestamp(data, @"masterDetectTime");
         NSString *transmittedCode = [data objectForKey: @"transmittedCode"];
         
+        // Clock and RTT handling
+        uint64_t helperTimestamp = getTimestamp(data, @"slaveTime");
+        uint64_t masterTimestamp = getTimestamp(data, @"masterTime");
+        uint64_t rtt = getTimestamp(data, @"rtt");
+        uint64_t clockInterval = getTimestamp(data, @"clockInterval");
         if (helperTimestamp && masterTimestamp) {
             uint64_t now = [self.clock now];
             [remoteClock remote:helperTimestamp between:masterTimestamp and:now];
@@ -239,6 +240,13 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
             }
             [self.protocol send: msg];
         }
+        if (rtt) {
+            if (rtt > 10000000) {
+                // RTT bigger than 10 seconds is preposterous
+                NSLog(@"NetworkRunManager: preposterous RTT of %lld ms",(rtt/1000));
+            }
+            [self.networkStatusView reportRTT: rtt best:(uint64_t)clockInterval];
+        }
         // And check for a QR-code detection
         if(code) {
             uint64_t count = getTimestamp(data, @"count");
@@ -256,13 +264,6 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
             // xxxjack is this correct? Also for helper that is transmitter?
             if (VL_DEBUG) NSLog(@"NetworkRunManager: received no qr-code at %lld,code=%@,masterDetectionTimestamp=%lld", masterTimestamp,code, masterDetectionTimestamp);
             [self.manager newInputDone:@"nothing" count:0 at:0];
-        }
-        if (rtt) {
-            if (rtt > 10000000) {
-                // RTT bigger than 10 seconds is preposterous
-                NSLog(@"NetworkRunManager: preposterous RTT of %lld ms",(rtt/1000));
-            }
-            [self.networkStatusView reportRTT: rtt best:(uint64_t)clockInterval];
         }
         
     } else {
@@ -296,8 +297,9 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
             [remoteClock remote:masterTimestamp between:helperTimestamp and:now];
             [self.networkStatusView reportRTT:[remoteClock rtt]/1000 best:[remoteClock clockInterval]];
         } else {
-            NSLog(@"no timestamps yet from helper: %@", data);
+            NSLog(@"no timestamps yet from master: %@", data);
         }
+        // Does the master want a new trnsmission?
         NSString *requestTransmission = [data objectForKey: @"requestTransmission"];
         if (requestTransmission) {
             [self.manager codeRequestedByMaster:requestTransmission];
@@ -502,12 +504,18 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
     uint64_t remoteNow = [remoteClock remoteNow: now];
     uint64_t rtt = [remoteClock rtt];
     uint64_t clockInterval = [remoteClock clockInterval];
-    NSMutableDictionary *msg = [@{
+    NSMutableDictionary *msg;
+    if (isHelper) {
+        msg = [@{
                                   @"slaveTime" : [NSString stringWithFormat:@"%lld", now],
                                   @"masterTime" : [NSString stringWithFormat:@"%lld", remoteNow],
                                   @"rtt" : [NSString stringWithFormat:@"%lld", rtt],
                                   @"clockInterval" : [NSString stringWithFormat:@"%lld", clockInterval]
                                   } mutableCopy];
+    } else {
+        msg = [[NSMutableDictionary alloc] init];
+    }
+    
     if (inputDeviceDescriptorToSend) {
         NSData *ddData = [NSKeyedArchiver archivedDataWithRootObject: inputDeviceDescriptorToSend];
         assert(ddData);
