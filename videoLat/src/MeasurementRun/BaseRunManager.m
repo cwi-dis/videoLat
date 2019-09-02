@@ -412,8 +412,15 @@ static NSMutableDictionary *runManagerSelectionNibs;
 
 - (BOOL) prepareInputDevice
 {
-    return self.capturer.available;
-}
+    BOOL ok = self.capturer.available;
+    if (!ok) return NO;
+    if (self.networkIODevice && self.networkIODevice != self.capturer) {
+        // If we have a network connection and this network connection is _not_
+        // the input device we assume it is a camera and we start capturing, so we
+        // can detect the QR-code containing the IP address and port.
+        [self.capturer startCapturing:YES];
+    }
+    return YES;}
 
 - (BOOL) prepareOutputDevice
 {
