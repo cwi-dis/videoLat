@@ -173,5 +173,7 @@
 /// Called when an incoming request for showing a code is received over the network.
 - (void)codeRequestedByMaster: (NSString *)code;
 
+/// Called whenever "nothing really happened", will cause a heartbeat to be sent when helper.
+- (void)reportHeartbeat;
 
 @end

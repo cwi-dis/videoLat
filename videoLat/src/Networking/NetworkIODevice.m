@@ -50,7 +50,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
         isHelper = NO;
         didReceiveData = NO;
         connected = NO;
-        remoteClock = [[RemoteClock alloc] init];
+        remoteClock = nil;
     }
     return self;
 }
@@ -145,6 +145,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 
 
 - (void)showNewData {
+    assert(!isHelper);
     requestTransmissionCode = [self.manager getNewOutputCode];
     [self reportHeartbeat];
 }
@@ -215,15 +216,18 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
         uint64_t rtt = getTimestamp(data, @"rtt");
         uint64_t clockInterval = getTimestamp(data, @"clockInterval");
         if (helperTimestamp && masterTimestamp) {
-            uint64_t now = [self.clock now];
-            [remoteClock remote:helperTimestamp between:masterTimestamp and:now];
-            [self.networkStatusView reportRTT:[remoteClock rtt]/1000 best:[remoteClock clockInterval]];
+            [self.networkStatusView reportRTT:rtt best:clockInterval];
         } else {
             NSLog(@"no timestamps yet from helper: %@", data);
         }
         
         if (helperTimestamp) {
             uint64_t now = [self.clock now];
+            [self reportMaster:@{
+                                 @"lastMasterTime": [NSString stringWithFormat:@"%lld", now],
+                                 @"lastSlaveTime" : [NSString stringWithFormat:@"%lld", helperTimestamp],
+                                 }];
+#if 0
             NSMutableDictionary *msg = [@{
                                           @"lastMasterTime": [NSString stringWithFormat:@"%lld", now],
                                           @"lastSlaveTime" : [NSString stringWithFormat:@"%lld", helperTimestamp],
@@ -239,6 +243,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
                 [msg setObject: [NSString stringWithFormat: @"%.3f ms ± %.3f", self.manager.collector.average / 1000.0, self.manager.collector.stddev / 1000.0] forKey: @"statusAverage"];
             }
             [self.protocol send: msg];
+#endif
         }
         if (rtt) {
             if (rtt > 10000000) {
@@ -294,6 +299,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
         uint64_t masterTimestamp = getTimestamp(data, @"lastMasterTime");
         if (helperTimestamp && masterTimestamp) {
             uint64_t now = [self.clock now];
+            assert(remoteClock);
             [remoteClock remote:masterTimestamp between:helperTimestamp and:now];
             [self.networkStatusView reportRTT:[remoteClock rtt]/1000 best:[remoteClock clockInterval]];
         } else {
@@ -345,9 +351,13 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 - (void)openServer: (BOOL)asHelper
 {
     assert(self.protocol == nil);
+    assert(remoteClock == nil);
     assert(self.networkStatusView);
     isServer = YES;
     isHelper = asHelper;
+    if (isHelper) {
+        remoteClock = [[RemoteClock alloc] init];
+    }
     self.protocol = [[NetworkProtocolServer alloc] init];
     self.protocol.delegate = self;
     
@@ -358,7 +368,11 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 - (void)openClient: (BOOL) asHelper url:(NSString *)url
 {
     assert(self.protocol == nil);
+    assert(remoteClock == nil);
     isHelper = asHelper;
+    if (isHelper) {
+        remoteClock = [[RemoteClock alloc] init];
+    }
     NSURLComponents *urlComps = [NSURLComponents componentsWithString: url];
     if ([urlComps.path isEqualToString: @"/landing"] && self.protocol == nil) {
         NSString *query = urlComps.query;
@@ -409,6 +423,8 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 - (void)reportReception: (NSString *)code count:(int)count at:(uint64_t)timestamp
 {
     if (self.protocol == nil) return;
+    assert(remoteClock);
+    assert(isHelper);
     VL_LOG_EVENT(@"slaveDetectionSlaveTime", timestamp, code);
     uint64_t timestampRemote = [remoteClock remoteNow:timestamp];
     VL_LOG_EVENT(@"slaveDetectionMasterTime", timestampRemote, code);
@@ -446,6 +462,8 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 - (void)reportTransmission: (NSString *)code at:(uint64_t)timestamp
 {
     if (self.protocol == nil) return;
+    assert(remoteClock);
+    assert(isHelper);
     VL_LOG_EVENT(@"slaveTransmissionSlaveTime", timestamp, code);
     uint64_t timestampRemote = [remoteClock remoteNow:timestamp];
     VL_LOG_EVENT(@"slaveTransmissionMasterTime", timestampRemote, code);
@@ -482,6 +500,8 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 - (void)reportHeartbeat
 {
     if (self.protocol == nil) return;
+    assert(remoteClock);
+    assert(isHelper);
     uint64_t now = [self.clock now];
     if (now - lastMessageSentTime < HEARTBEAT_INTERVAL) return;
     uint64_t remoteNow = [remoteClock remoteNow: now];
@@ -515,19 +535,41 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
         [msg setObject: ddString forKey:@"inputDeviceDescriptor"];
         outputDeviceDescriptorToSend = nil;
     }
+    if (statusToPeer) {
+        [msg setObject: statusToPeer forKey: @"peerStatus"];
+        statusToPeer = nil;
+    }
+    [self.protocol send: msg];
+    lastMessageSentTime = now;
+}
+
+- (void)reportMaster: (NSDictionary *)values
+{
+    assert(!isHelper);
+    NSMutableDictionary *msg;
+    if (values) {
+        msg = [values mutableCopy];
+    } else {
+        msg = [[NSMutableDictionary alloc] init];
+    }
+    [msg setObject: @"YES" forKey: @"fromMaster"];
+
     if (requestTransmissionCode) {
         assert(!isHelper);
         [msg setObject: requestTransmissionCode forKey: @"requestTransmission"];
         lastRequestTransmissionCode = requestTransmissionCode;
     }
+
     if (statusToPeer) {
         [msg setObject: statusToPeer forKey: @"peerStatus"];
         statusToPeer = nil;
     }
-    if (!isHelper)
-        [msg setObject: @"YES" forKey: @"fromMaster"];
+
+    if (self.manager.collector && self.manager.collector.count) {
+        [msg setObject: [NSString stringWithFormat: @"%d", self.manager.collector.count] forKey: @"statusCount"];
+        [msg setObject: [NSString stringWithFormat: @"%.3f ms ± %.3f", self.manager.collector.average / 1000.0, self.manager.collector.stddev / 1000.0] forKey: @"statusAverage"];
+    }
     [self.protocol send: msg];
-    lastMessageSentTime = now;
 }
 
 - (void)reportStatus: (NSString *)status
@@ -539,11 +581,13 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 
 - (void)reportInputDevice: (DeviceDescription *)descr
 {
+    assert(isHelper);
     inputDeviceDescriptorToSend = descr;
 }
 
 - (void)reportOutputDevice: (DeviceDescription *)descr
 {
+    assert(isHelper);
     outputDeviceDescriptorToSend = descr;
 }
 @end

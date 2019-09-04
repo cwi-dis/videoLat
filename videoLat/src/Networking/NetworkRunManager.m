@@ -166,7 +166,14 @@
         assert(baseStore.output);
         deviceDescriptorToSend = [[DeviceDescription alloc] initFromCalibrationOutput: baseStore];
     }
+    assert(self.networkIODevice);
     [self.networkIODevice reportOutputDevice: deviceDescriptorToSend];
     return YES;
+}
+
+- (void)reportHeartbeat
+{
+    assert(self.networkIODevice);
+    [self.networkIODevice reportHeartbeat];
 }
 @end

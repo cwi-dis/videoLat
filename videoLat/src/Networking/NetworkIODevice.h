@@ -51,6 +51,7 @@
 - (void)reportReception: (NSString *)code count:(int)count at:(uint64_t)timestamp;
 - (void)reportTransmission: (NSString *)code at:(uint64_t)timestamp;
 - (void)reportHeartbeat;
+- (void)reportMaster: (NSDictionary *)values;
 - (void)reportStatus: (NSString *)status;
 - (void)reportInputDevice: (DeviceDescription *)descr;
 - (void)reportOutputDevice: (DeviceDescription *)descr;

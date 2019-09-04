@@ -662,7 +662,7 @@ static NSMutableDictionary *runManagerSelectionNibs;
         // black/white detector needs to be kicked (black and white levels have come too close)
         NSLog(@"Detector range too small, generating new code");
         [self triggerNewOutputValue];
-        if (self.networkIODevice) [self.networkIODevice reportHeartbeat];
+        [self reportHeartbeat];
         return;
     }
     if ([inputCode isEqualToString:@"uncertain"]) {
@@ -672,7 +672,7 @@ static NSMutableDictionary *runManagerSelectionNibs;
             NSLog(@"Received uncertain code for too long. Generating new one.");
             [self triggerNewOutputValue];
         }
-        if (self.networkIODevice) [self.networkIODevice reportHeartbeat];
+        [self reportHeartbeat];
         return;
     }
     //
@@ -776,4 +776,7 @@ static NSMutableDictionary *runManagerSelectionNibs;
     [NSException raise:@"BaseRunManager" format:@"Must override codeRequestedByMaster: in subclass %@", [self class]];
 }
 
+- (void)reportHeartbeat
+{
+}
 @end
