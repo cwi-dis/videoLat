@@ -207,7 +207,6 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
             self.remoteOutputDeviceDescription = dd;
         }
         NSString *code = [data objectForKey: @"code"];
-        uint64_t masterDetectionTimestamp = getTimestamp(data, @"masterDetectTime");
         NSString *transmittedCode = [data objectForKey: @"transmittedCode"];
         
         // Clock and RTT handling
@@ -267,7 +266,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
             [self.manager newOutputDoneAt: masterTransmitTime];
         } else {
             // xxxjack is this correct? Also for helper that is transmitter?
-            if (VL_DEBUG) NSLog(@"NetworkRunManager: received no qr-code at %lld,code=%@,masterDetectionTimestamp=%lld", masterTimestamp,code, masterDetectionTimestamp);
+            if (VL_DEBUG) NSLog(@"NetworkRunManager: received no received nor transmitted code from helper at %lld", masterTimestamp);
             [self.manager newInputDone:@"nothing" count:0 at:0];
         }
         

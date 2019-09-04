@@ -312,7 +312,7 @@ static NSMutableDictionary *runManagerSelectionNibs;
     }
     DeviceDescription *remoteInputDeviceDescription = [self.networkIODevice remoteInputDeviceDescription];
     DeviceDescription *remoteOutputDeviceDescription = [self.networkIODevice remoteOutputDeviceDescription];
-    if (errorMessage == nil && remoteInputDeviceDescription == nil && remoteOutputDeviceDescription) {
+    if (errorMessage == nil && remoteInputDeviceDescription == nil && remoteOutputDeviceDescription == nil) {
         errorMessage = @"No device description received from remote helper.";
     }
     if (errorMessage) {
