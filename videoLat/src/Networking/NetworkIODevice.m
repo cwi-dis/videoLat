@@ -335,6 +335,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
     [self.networkStatusView reportStatus: @"Connection established"];
     assert(self.manager);
     [self.manager performSelectorOnMainThread:@selector(restart) withObject:nil waitUntilDone:NO];
+    if (isHelper) [self reportHeartbeat];
 }
 
 - (void)disconnected:(id)connection
@@ -403,6 +404,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
         NSLog(@"Unexpected URL: %@", url);
         [self.networkStatusView reportStatus: @"Unexpected URL"];
     }
+    if (isHelper) [self reportHeartbeat];
 }
 
 - (void)reportResult: (MeasurementDataStore *)ds
@@ -581,13 +583,11 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
 
 - (void)reportInputDevice: (DeviceDescription *)descr
 {
-    assert(isHelper);
     inputDeviceDescriptorToSend = descr;
 }
 
 - (void)reportOutputDevice: (DeviceDescription *)descr
 {
-    assert(isHelper);
     outputDeviceDescriptorToSend = descr;
 }
 @end
