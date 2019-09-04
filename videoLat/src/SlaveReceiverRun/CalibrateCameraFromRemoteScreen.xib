@@ -96,14 +96,6 @@
                                     <action selector="visibleChanged:" target="8" id="62"/>
                                 </connections>
                             </button>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="6Of-Km-OsJ">
-                                <rect key="frame" x="15" y="0.0" width="238" height="17"/>
-                                <textFieldCell key="cell" alignment="center" title="(Control is handled by remote sender)" id="Wyx-Nw-6e2">
-                                    <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
                         </subviews>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="9" secondAttribute="trailing" constant="20" symbolic="YES" id="13"/>
@@ -119,9 +111,7 @@
                             <constraint firstItem="36" firstAttribute="top" secondItem="9" secondAttribute="bottom" constant="8" symbolic="YES" id="389"/>
                             <constraint firstItem="8" firstAttribute="top" secondItem="7" secondAttribute="bottom" constant="8" symbolic="YES" id="403"/>
                             <constraint firstItem="7" firstAttribute="top" secondItem="4" secondAttribute="top" constant="86" id="512"/>
-                            <constraint firstItem="6Of-Km-OsJ" firstAttribute="top" secondItem="8" secondAttribute="bottom" constant="8" id="61F-br-glc"/>
-                            <constraint firstAttribute="bottom" secondItem="6Of-Km-OsJ" secondAttribute="bottom" id="YZI-Vf-plK"/>
-                            <constraint firstItem="6Of-Km-OsJ" firstAttribute="centerX" secondItem="4" secondAttribute="centerX" id="z25-Wm-2kK"/>
+                            <constraint firstAttribute="bottom" secondItem="8" secondAttribute="bottom" constant="25" id="rUp-u6-viJ"/>
                         </constraints>
                         <connections>
                             <outlet property="bInputDevices" destination="11" id="384"/>
