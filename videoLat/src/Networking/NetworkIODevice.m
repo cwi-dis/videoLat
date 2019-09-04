@@ -13,7 +13,7 @@
 
 ///
 /// How often do we send a message if we have not received a QR-code (in microseconds)?
-/// This define is used on the slave side, it keeps the connection open and the RTT clock difference.
+/// This define is used on the helper side, it keeps the connection open and the RTT clock difference.
 /// In addition, it will trigger the master side to emit a fresh QR code if the current QR code hasn't been
 /// detected for some time.
 #define HEARTBEAT_INTERVAL 1000000LL
@@ -211,7 +211,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
         NSString *transmittedCode = [data objectForKey: @"transmittedCode"];
         
         // Clock and RTT handling
-        uint64_t helperTimestamp = getTimestamp(data, @"slaveTime");
+        uint64_t helperTimestamp = getTimestamp(data, @"helperTime");
         uint64_t masterTimestamp = getTimestamp(data, @"masterTime");
         uint64_t rtt = getTimestamp(data, @"rtt");
         uint64_t clockInterval = getTimestamp(data, @"clockInterval");
@@ -225,12 +225,12 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
             uint64_t now = [self.clock now];
             [self reportMaster:@{
                                  @"lastMasterTime": [NSString stringWithFormat:@"%lld", now],
-                                 @"lastSlaveTime" : [NSString stringWithFormat:@"%lld", helperTimestamp],
+                                 @"lastHelperTime" : [NSString stringWithFormat:@"%lld", helperTimestamp],
                                  }];
 #if 0
             NSMutableDictionary *msg = [@{
                                           @"lastMasterTime": [NSString stringWithFormat:@"%lld", now],
-                                          @"lastSlaveTime" : [NSString stringWithFormat:@"%lld", helperTimestamp],
+                                          @"lastHelperTime" : [NSString stringWithFormat:@"%lld", helperTimestamp],
                                           } mutableCopy];
             if (statusToPeer) {
                 [msg setObject: statusToPeer forKey: @"peerStatus"];
@@ -295,7 +295,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
         if(!self.manager.selectionView) NSLog(@"Warning: NetworkrunManager has no selectionView");
 #endif
         //NSLog(@"received %@ from %@ (our protocol %@)", data, connection, self.protocol);
-        uint64_t helperTimestamp = getTimestamp(data, @"lastSlaveTime");
+        uint64_t helperTimestamp = getTimestamp(data, @"lastHelperTime");
         uint64_t masterTimestamp = getTimestamp(data, @"lastMasterTime");
         if (helperTimestamp && masterTimestamp) {
             uint64_t now = [self.clock now];
@@ -425,9 +425,9 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
     if (self.protocol == nil) return;
     assert(remoteClock);
     assert(isHelper);
-    VL_LOG_EVENT(@"slaveDetectionSlaveTime", timestamp, code);
+    VL_LOG_EVENT(@"detectionHelperTime", timestamp, code);
     uint64_t timestampRemote = [remoteClock remoteNow:timestamp];
-    VL_LOG_EVENT(@"slaveDetectionMasterTime", timestampRemote, code);
+    VL_LOG_EVENT(@"detectionMasterTime", timestampRemote, code);
     uint64_t now = [self.clock now];
     uint64_t remoteNow = [remoteClock remoteNow: now];
     uint64_t rtt = [remoteClock rtt];
@@ -435,7 +435,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
     NSMutableDictionary *msg = [@{
                                   @"code" : code,
                                   @"masterDetectTime": [NSString stringWithFormat:@"%lld", timestampRemote],
-                                  @"slaveTime" : [NSString stringWithFormat:@"%lld", now],
+                                  @"helperTime" : [NSString stringWithFormat:@"%lld", now],
                                   @"masterTime" : [NSString stringWithFormat:@"%lld", remoteNow],
                                   @"count" : [NSString stringWithFormat:@"%d", count],
                                   @"rtt" : [NSString stringWithFormat:@"%lld", rtt],
@@ -464,9 +464,9 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
     if (self.protocol == nil) return;
     assert(remoteClock);
     assert(isHelper);
-    VL_LOG_EVENT(@"slaveTransmissionSlaveTime", timestamp, code);
+    VL_LOG_EVENT(@"transmissionHelperTime", timestamp, code);
     uint64_t timestampRemote = [remoteClock remoteNow:timestamp];
-    VL_LOG_EVENT(@"slaveTransmissionMasterTime", timestampRemote, code);
+    VL_LOG_EVENT(@"transmissionMasterTime", timestampRemote, code);
     uint64_t now = [self.clock now];
     uint64_t remoteNow = [remoteClock remoteNow: now];
     uint64_t rtt = [remoteClock rtt];
@@ -474,7 +474,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
     NSMutableDictionary *msg = [@{
                                   @"transmittedCode" : code,
                                   @"masterTransmitTime": [NSString stringWithFormat:@"%lld", timestampRemote],
-                                  @"slaveTime" : [NSString stringWithFormat:@"%lld", now],
+                                  @"helperTime" : [NSString stringWithFormat:@"%lld", now],
                                   @"masterTime" : [NSString stringWithFormat:@"%lld", remoteNow],
                                   @"rtt" : [NSString stringWithFormat:@"%lld", rtt],
                                   @"clockInterval" : [NSString stringWithFormat:@"%lld", clockInterval]
@@ -510,7 +510,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
     NSMutableDictionary *msg;
     if (isHelper) {
         msg = [@{
-                                  @"slaveTime" : [NSString stringWithFormat:@"%lld", now],
+                                  @"helperTime" : [NSString stringWithFormat:@"%lld", now],
                                   @"masterTime" : [NSString stringWithFormat:@"%lld", remoteNow],
                                   @"rtt" : [NSString stringWithFormat:@"%lld", rtt],
                                   @"clockInterval" : [NSString stringWithFormat:@"%lld", clockInterval]
