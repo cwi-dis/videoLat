@@ -207,9 +207,9 @@
         [self.delegate disconnected: self];
         return;
     }
-    [self.delegate connected: self];
     close(sock);
     sock = connSock;
+    [self.delegate connected: self];
     [super main];
 }
 

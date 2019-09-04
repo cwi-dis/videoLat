@@ -451,6 +451,7 @@ static NSMutableDictionary *runManagerSelectionNibs;
         // Select input device (based on selection from menu)
         NSString *selectedDevice = self.selectionView.deviceName;
         if (selectedDevice == nil) return;
+        assert(self.capturer);
         BOOL ok = [self.capturer switchToDeviceWithName: selectedDevice];
 #ifdef WITH_APPKIT
         if (!ok) {
