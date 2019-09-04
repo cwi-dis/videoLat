@@ -534,7 +534,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
         assert(ddData);
         NSString *ddString = [ddData base64EncodedStringWithOptions:0];
         assert(ddString);
-        [msg setObject: ddString forKey:@"inputDeviceDescriptor"];
+        [msg setObject: ddString forKey:@"outputDeviceDescriptor"];
         outputDeviceDescriptorToSend = nil;
     }
     if (statusToPeer) {
