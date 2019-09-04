@@ -743,6 +743,8 @@ static NSMutableDictionary *runManagerSelectionNibs;
             [self prepareReceivedValidCode: inputCode];
         }
         return;
+    } else if (self.prevOutputCode && [inputCode isEqualToString: self.prevOutputCode]) {
+        return;
     } else {
         NSLog(@"Received code we dont remember transmitting: %@", inputCode);
         //[self triggerNewOutputValue];

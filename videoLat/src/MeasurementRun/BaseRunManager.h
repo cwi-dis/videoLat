@@ -108,7 +108,7 @@
 /// For example @"white", or
 /// @"123456789" for QR code measurements.
 @property(strong) NSString * outputCode;
-/// Previous value of outputCode.
+/// Previous value of outputCode, only valid if we have more than 2 output codes.
 /// Used to forestall error messages in case we get a late detection of a previous code.
 @property(strong) NSString * prevOutputCode;
 
