@@ -84,8 +84,9 @@
 {
     if (codeRequested) {
         assert(self.networkIODevice);
+        if ([codeRequested isEqualToString:codeReported]) return;
         [self.networkIODevice reportTransmission:codeRequested at:timestamp];
-        // not needed? codeRequested = nil;
+        codeReported = codeRequested;
     } else {
         if (self.capturer == self.networkIODevice) {
             // We are an output-only helper. Get ready for a new display.

@@ -18,6 +18,7 @@
 ///
 @interface NetworkRunManager : VideoRunManager {
     NSString *codeRequested;    //<! QR-code requested to be shown by remote side
+    NSString *codeReported;    //<! QR-code transmission last reported remote side
 }
 
 //@property(weak) IBOutlet NetworkSelectionView *selectionView;   //!< UI element: all available cameras
