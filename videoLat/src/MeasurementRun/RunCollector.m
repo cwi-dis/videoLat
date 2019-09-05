@@ -40,24 +40,28 @@
 - (double) stddev { return dataStore.stddev; }
 - (void) trim { [dataStore trim]; }
 
-- (void) startCollecting: (NSString*)scenario input: (NSString*)inputId name: (NSString*)inputName output:(NSString*)outputId name: (NSString*)outputName
+- (void) setInput: (NSString*)inputId name: (NSString*)inputName
 {
-	dataStore.measurementType = scenario;
-	MachineDescription *md = [MachineDescription thisMachine];
-	dataStore.input.machineID = md.machineID;
+    MachineDescription *md = [MachineDescription thisMachine];
+    dataStore.input.machineID = md.machineID;
     dataStore.input.machine = md.machineName;
-	dataStore.input.machineTypeID = md.machineTypeID;
-	dataStore.input.os = md.os;
-	dataStore.input.videoLatVersion = VIDEOLAT_VERSION_NSSTRING;
-	dataStore.input.device = inputName;
-	dataStore.input.deviceID = inputId;
+    dataStore.input.machineTypeID = md.machineTypeID;
+    dataStore.input.os = md.os;
+    dataStore.input.videoLatVersion = VIDEOLAT_VERSION_NSSTRING;
+    dataStore.input.device = inputName;
+    dataStore.input.deviceID = inputId;
+}
+
+- (void) setOutput:(NSString*)outputId name: (NSString*)outputName
+{
+    MachineDescription *md = [MachineDescription thisMachine];
     dataStore.output.machineID = md.machineID;
     dataStore.output.machine = md.machineName;
     dataStore.output.machineTypeID = md.machineTypeID;
-	dataStore.output.os = md.os;
-	dataStore.output.videoLatVersion = VIDEOLAT_VERSION_NSSTRING;
-	dataStore.output.device = outputName;
-	dataStore.output.deviceID = outputId;
+    dataStore.output.os = md.os;
+    dataStore.output.videoLatVersion = VIDEOLAT_VERSION_NSSTRING;
+    dataStore.output.device = outputName;
+    dataStore.output.deviceID = outputId;
 }
 
 - (void) startCollecting: (NSString*)scenario
