@@ -66,8 +66,8 @@
 		04F7B8471AC16E4900BEFDD5 /* AudioInputSelectionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04F7B8461AC16E4900BEFDD5 /* AudioInputSelectionView.xib */; };
 		04F7B84A1AC18EB600BEFDD5 /* VideoRunManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F7B8491AC18EB600BEFDD5 /* VideoRunManager.m */; };
 		04FAAAA91ACAA04C0094A5E9 /* NetworkInputSelectionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04FAAAA81ACAA04C0094A5E9 /* NetworkInputSelectionView.xib */; };
-		04FAAAAB1ACAD2D30094A5E9 /* RemoteSlaveCamera.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04FAAAAA1ACAD2D30094A5E9 /* RemoteSlaveCamera.xib */; };
-		04FAAAAD1ACAD2DE0094A5E9 /* RemoteSlaveScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04FAAAAC1ACAD2DE0094A5E9 /* RemoteSlaveScreen.xib */; };
+		04FAAAAB1ACAD2D30094A5E9 /* RemoteHelperCamera.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04FAAAAA1ACAD2D30094A5E9 /* RemoteHelperCamera.xib */; };
+		04FAAAAD1ACAD2DE0094A5E9 /* RemoteHelperScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04FAAAAC1ACAD2DE0094A5E9 /* RemoteHelperScreen.xib */; };
 		04FAAAAF1ACAD2FB0094A5E9 /* AudioRun.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04FAAAAE1ACAD2FB0094A5E9 /* AudioRun.xib */; };
 		04FC55B11AC3681E00D17C58 /* InputSelectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FC55B01AC3681E00D17C58 /* InputSelectionView.m */; };
 		04FFFC7A1AB2FA8E0023ED13 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FFFC771AB2FA8E0023ED13 /* AppDelegate.m */; };
@@ -204,8 +204,8 @@
 		04F7B8481AC18EB600BEFDD5 /* VideoRunManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VideoRunManager.h; path = src/VideoRun/VideoRunManager.h; sourceTree = SOURCE_ROOT; };
 		04F7B8491AC18EB600BEFDD5 /* VideoRunManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VideoRunManager.m; path = src/VideoRun/VideoRunManager.m; sourceTree = SOURCE_ROOT; };
 		04FAAAA81ACAA04C0094A5E9 /* NetworkInputSelectionView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = NetworkInputSelectionView.xib; path = src/iOS/NetworkInputSelectionView.xib; sourceTree = SOURCE_ROOT; };
-		04FAAAAA1ACAD2D30094A5E9 /* RemoteSlaveCamera.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RemoteSlaveCamera.xib; path = src/iOS/RemoteSlaveCamera.xib; sourceTree = SOURCE_ROOT; };
-		04FAAAAC1ACAD2DE0094A5E9 /* RemoteSlaveScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RemoteSlaveScreen.xib; path = src/iOS/RemoteSlaveScreen.xib; sourceTree = SOURCE_ROOT; };
+		04FAAAAA1ACAD2D30094A5E9 /* RemoteHelperCamera.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RemoteHelperCamera.xib; path = src/iOS/RemoteHelperCamera.xib; sourceTree = SOURCE_ROOT; };
+		04FAAAAC1ACAD2DE0094A5E9 /* RemoteHelperScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RemoteHelperScreen.xib; path = src/iOS/RemoteHelperScreen.xib; sourceTree = SOURCE_ROOT; };
 		04FAAAAE1ACAD2FB0094A5E9 /* AudioRun.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AudioRun.xib; path = src/iOS/AudioRun.xib; sourceTree = SOURCE_ROOT; };
 		04FC55AF1AC3681E00D17C58 /* InputSelectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InputSelectionView.h; path = src/iOS/InputSelectionView.h; sourceTree = SOURCE_ROOT; };
 		04FC55B01AC3681E00D17C58 /* InputSelectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InputSelectionView.m; path = src/iOS/InputSelectionView.m; sourceTree = SOURCE_ROOT; };
@@ -380,8 +380,8 @@
 				0412D548230C800B009275C3 /* RemoteClock.m */,
 				041C90051AC4219900539C68 /* CalibrateCameraFromRemoteScreen.xib */,
 				040728B21AC9F86B00191022 /* CalibrateScreenFromRemoteCamera.xib */,
-				04FAAAAA1ACAD2D30094A5E9 /* RemoteSlaveCamera.xib */,
-				04FAAAAC1ACAD2DE0094A5E9 /* RemoteSlaveScreen.xib */,
+				04FAAAAA1ACAD2D30094A5E9 /* RemoteHelperCamera.xib */,
+				04FAAAAC1ACAD2DE0094A5E9 /* RemoteHelperScreen.xib */,
 			);
 			name = Networking;
 			sourceTree = "<group>";
@@ -611,13 +611,13 @@
 				040728B31AC9F86B00191022 /* CalibrateScreenFromRemoteCamera.xib in Resources */,
 				04155E9A1AB6311C00DD53D9 /* sounds in Resources */,
 				042935381AE7C4B10045C310 /* videolat_ios_help.html in Resources */,
-				04FAAAAD1ACAD2DE0094A5E9 /* RemoteSlaveScreen.xib in Resources */,
+				04FAAAAD1ACAD2DE0094A5E9 /* RemoteHelperScreen.xib in Resources */,
 				042422CB1ACEE2C3003A153C /* DocumentView.xib in Resources */,
 				0462CC171AC2F0E00077383B /* VideoCalibrationRun.xib in Resources */,
 				04FFFC831AB2FACB0023ED13 /* Images.xcassets in Resources */,
 				041C90061AC4219900539C68 /* CalibrateCameraFromRemoteScreen.xib in Resources */,
 				04F7B8451AC040AE00BEFDD5 /* VideoInputSelectionView.xib in Resources */,
-				04FAAAAB1ACAD2D30094A5E9 /* RemoteSlaveCamera.xib in Resources */,
+				04FAAAAB1ACAD2D30094A5E9 /* RemoteHelperCamera.xib in Resources */,
 				04FAAAAF1ACAD2FB0094A5E9 /* AudioRun.xib in Resources */,
 				04FAAAA91ACAA04C0094A5E9 /* NetworkInputSelectionView.xib in Resources */,
 				04FFFC811AB2FABE0023ED13 /* Main.storyboard in Resources */,
