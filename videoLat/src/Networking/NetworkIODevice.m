@@ -210,46 +210,29 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
         NSString *transmittedCode = [data objectForKey: @"transmittedCode"];
         
         // Clock and RTT handling
-        uint64_t helperTimestamp = getTimestamp(data, @"helperTime");
-        uint64_t masterTimestamp = getTimestamp(data, @"masterTime");
-        uint64_t rtt = getTimestamp(data, @"rtt");
-        uint64_t clockInterval = getTimestamp(data, @"clockInterval");
-        if (helperTimestamp && masterTimestamp) {
-            [self.networkStatusView reportRTT:rtt best:clockInterval];
-        } else {
-            NSLog(@"no timestamps yet from helper: %@", data);
-        }
-        
-        if (helperTimestamp) {
-            uint64_t now = [self.clock now];
-            [self reportMaster:@{
-                                 @"lastMasterTime": [NSString stringWithFormat:@"%lld", now],
-                                 @"lastHelperTime" : [NSString stringWithFormat:@"%lld", helperTimestamp],
-                                 }];
-#if 0
-            NSMutableDictionary *msg = [@{
-                                          @"lastMasterTime": [NSString stringWithFormat:@"%lld", now],
-                                          @"lastHelperTime" : [NSString stringWithFormat:@"%lld", helperTimestamp],
-                                          } mutableCopy];
-            if (statusToPeer) {
-                [msg setObject: statusToPeer forKey: @"peerStatus"];
-                statusToPeer = nil;
+        if ([data objectForKey:@"helperTime"]) {
+            uint64_t helperTimestamp = getTimestamp(data, @"helperTime");
+            uint64_t masterTimestamp = getTimestamp(data, @"masterTime");
+            uint64_t rtt = getTimestamp(data, @"rtt");
+            uint64_t clockInterval = getTimestamp(data, @"clockInterval");
+            if (helperTimestamp && masterTimestamp) {
+                [self.networkStatusView reportRTT:rtt best:clockInterval];
             }
-            // in this code branch we know we are master
-            [msg setObject: @"YES" forKey: @"fromMaster"];
-            if (self.manager.collector && self.manager.collector.count) {
-                [msg setObject: [NSString stringWithFormat: @"%d", self.manager.collector.count] forKey: @"statusCount"];
-                [msg setObject: [NSString stringWithFormat: @"%.3f ms ± %.3f", self.manager.collector.average / 1000.0, self.manager.collector.stddev / 1000.0] forKey: @"statusAverage"];
+            if (helperTimestamp) {
+                uint64_t now = [self.clock now];
+                [self reportMaster:@{
+                                     @"lastMasterTime": [NSString stringWithFormat:@"%lld", now],
+                                     @"lastHelperTime" : [NSString stringWithFormat:@"%lld", helperTimestamp],
+                                     }];
             }
-            [self.protocol send: msg];
-#endif
-        }
-        if (rtt) {
-            if (rtt > 10000000) {
-                // RTT bigger than 10 seconds is preposterous
-                NSLog(@"NetworkRunManager: preposterous RTT of %lld ms",(rtt/1000));
+            if (rtt) {
+                if (rtt > 10000000) {
+                    // RTT bigger than 10 seconds is preposterous
+                    NSLog(@"NetworkRunManager: preposterous RTT of %lld ms",(rtt/1000));
+                }
+                [self.networkStatusView reportRTT: rtt best:(uint64_t)clockInterval];
             }
-            [self.networkStatusView reportRTT: rtt best:(uint64_t)clockInterval];
+
         }
         // And check for a QR-code detection
         if(code) {
@@ -266,7 +249,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
             [self.manager newOutputDoneAt: masterTransmitTime];
         } else {
             // xxxjack is this correct? Also for helper that is transmitter?
-            if (VL_DEBUG) NSLog(@"NetworkRunManager: received no received nor transmitted code from helper at %lld", masterTimestamp);
+            if (VL_DEBUG) NSLog(@"NetworkRunManager: received no received nor transmitted code from helper");
             [self.manager newInputDone:@"nothing" count:0 at:0];
         }
         
@@ -302,7 +285,8 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
             [remoteClock remote:masterTimestamp between:helperTimestamp and:now];
             [self.networkStatusView reportRTT:[remoteClock rtt]/1000 best:[remoteClock clockInterval]];
         } else {
-            NSLog(@"no timestamps yet from master: %@", data);
+            if ([remoteClock remoteNow:[self.clock now]] == 0)
+                NSLog(@"no timestamps yet from master: %@", data);
         }
         // Does the master want a new trnsmission?
         NSString *requestTransmission = [data objectForKey: @"requestTransmission"];
