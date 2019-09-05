@@ -12,7 +12,6 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MeasurementContainerViewController">
             <connections>
                 <outlet property="measurementView" destination="iN0-l3-epB" id="DAv-uP-AJz"/>
-                <outlet property="runManager" destination="xLb-FZ-TDy" id="r8X-nm-vUE"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -20,7 +19,7 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YgM-JI-wCV" customClass="NetworkSelectionView">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YgM-JI-wCV" userLabel="Network Status View" customClass="NetworkSelectionView">
                     <rect key="frame" x="0.0" y="440" width="375" height="91"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Status:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u9e-0E-c4l">
@@ -116,7 +115,7 @@
                                 <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
                             <connections>
-                                <action selector="stopMeasuring:" destination="xLb-FZ-TDy" eventType="touchUpInside" id="dEe-KR-yaP"/>
+                                <action selector="stopMeasuring:" destination="JIP-ay-XCU" eventType="touchUpOutside" id="2EE-RT-u55"/>
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="atg-2a-hK6">
@@ -125,7 +124,7 @@
                                 <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
                             <connections>
-                                <action selector="startMeasuring:" destination="xLb-FZ-TDy" eventType="touchUpInside" id="3He-FV-GZa"/>
+                                <action selector="startMeasuring:" destination="JIP-ay-XCU" eventType="touchUpInside" id="vh5-La-u8g"/>
                             </connections>
                         </button>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Count:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Uf5-jO-9tP">
@@ -193,30 +192,21 @@
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics"/>
             <point key="canvasLocation" x="165.59999999999999" y="238.83058470764618"/>
         </view>
-        <customObject id="xLb-FZ-TDy" customClass="NetworkRunManager">
-            <connections>
-                <outlet property="capturer" destination="Dqb-g0-h0U" id="4Fh-Jq-flR"/>
-                <outlet property="clock" destination="Dqb-g0-h0U" id="Eng-Ct-gGK"/>
-                <outlet property="collector" destination="axw-Ql-4SI" id="lPj-sC-vCq"/>
-                <outlet property="completionHandler" destination="-1" id="kaO-sT-aBI"/>
-                <outlet property="outputCompanion" destination="JIP-ay-XCU" id="BcE-rc-Jd3"/>
-                <outlet property="selectionViewForStatusOnly" destination="YgM-JI-wCV" id="Fqb-ck-0hl"/>
-                <outlet property="statusView" destination="IoA-hh-w9S" id="EMy-6N-8Ut"/>
-            </connections>
-        </customObject>
         <customObject id="JIP-ay-XCU" customClass="VideoRunManager">
             <connections>
-                <outlet property="clock" destination="Dqb-g0-h0U" id="edg-LA-PmK"/>
+                <outlet property="capturer" destination="3As-tb-0Ye" id="BtR-bV-MOJ"/>
+                <outlet property="clock" destination="3As-tb-0Ye" id="QV4-eg-BUe"/>
                 <outlet property="collector" destination="axw-Ql-4SI" id="hgQ-WK-ghV"/>
                 <outlet property="genner" destination="DU7-pa-PaD" id="5q9-zw-55w"/>
-                <outlet property="inputCompanion" destination="xLb-FZ-TDy" id="xl4-Cj-tnB"/>
+                <outlet property="networkIODevice" destination="3As-tb-0Ye" id="6k3-0A-vqT"/>
                 <outlet property="outputView" destination="xuL-9Z-d7r" id="DGw-XQ-LVX"/>
                 <outlet property="statusView" destination="IoA-hh-w9S" id="e3w-ih-X9o"/>
             </connections>
         </customObject>
-        <customObject id="Dqb-g0-h0U" customClass="NetworkIODevice">
+        <customObject id="3As-tb-0Ye" userLabel="NetworkIO" customClass="NetworkIODevice">
             <connections>
-                <outlet property="manager" destination="xLb-FZ-TDy" id="TGs-DV-PhV"/>
+                <outlet property="manager" destination="JIP-ay-XCU" id="1hO-o3-joe"/>
+                <outlet property="networkStatusView" destination="YgM-JI-wCV" id="cJt-2g-PGk"/>
             </connections>
         </customObject>
         <customObject id="DU7-pa-PaD" customClass="GenQRcode"/>

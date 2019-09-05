@@ -95,6 +95,8 @@
                     <connections>
                         <outlet property="bAverage" destination="ybG-d6-LPD" id="ogV-3i-zrM"/>
                         <outlet property="bCount" destination="tpy-DY-Rco" id="OPS-G6-Es9"/>
+                        <outlet property="bRun" destination="6J8-fi-L6X" id="Tp5-Vz-dNs"/>
+                        <outlet property="bStop" destination="RNf-sb-fvZ" id="GB7-mK-k9A"/>
                     </connections>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ThF-UP-I4h" customClass="NetworkOutputView">
@@ -230,7 +232,6 @@
                 <outlet property="collector" destination="UlW-iz-hyn" id="4DV-tc-gtW"/>
                 <outlet property="completionHandler" destination="-1" id="EOi-r0-PzC"/>
                 <outlet property="finder" destination="Y97-bc-Xqm" id="hCC-U3-lL2"/>
-                <outlet property="measurementMaster" destination="-1" id="pNT-Jx-WeP"/>
                 <outlet property="networkIODevice" destination="Xt2-Ak-gPQ" id="4ho-8J-kYz"/>
                 <outlet property="outputView" destination="ThF-UP-I4h" id="V4T-Gx-hRi"/>
                 <outlet property="statusView" destination="Aid-Op-h2w" id="O7D-nP-O84"/>
