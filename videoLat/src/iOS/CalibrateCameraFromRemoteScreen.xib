@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -46,20 +50,46 @@
                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RNf-sb-fvZ">
+                            <rect key="frame" x="315" y="72" width="52" height="30"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="52" id="7f8-dh-YKe"/>
+                            </constraints>
+                            <state key="normal" title="Stop">
+                                <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </state>
+                            <connections>
+                                <action selector="stopMeasuring:" destination="87u-6Q-QkS" eventType="touchUpOutside" id="zRd-SW-8Tx"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6J8-fi-L6X">
+                            <rect key="frame" x="8" y="72" width="30" height="30"/>
+                            <state key="normal" title="Run">
+                                <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </state>
+                            <connections>
+                                <action selector="startMeasuring:" destination="87u-6Q-QkS" eventType="touchUpInside" id="cHP-fQ-cxs"/>
+                            </connections>
+                        </button>
                     </subviews>
                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
+                        <constraint firstItem="RNf-sb-fvZ" firstAttribute="baseline" secondItem="6J8-fi-L6X" secondAttribute="baseline" id="1Rq-Yo-jOA"/>
                         <constraint firstAttribute="bottom" secondItem="0No-qU-YKP" secondAttribute="bottom" constant="40" id="1UN-Zw-sxS"/>
                         <constraint firstItem="tpy-DY-Rco" firstAttribute="leading" secondItem="ybG-d6-LPD" secondAttribute="leading" id="JUs-oB-XZa"/>
                         <constraint firstItem="Tbn-eG-9yM" firstAttribute="leading" secondItem="Aid-Op-h2w" secondAttribute="leading" constant="20" id="JnA-lQ-Wak"/>
                         <constraint firstItem="Tbn-eG-9yM" firstAttribute="leading" secondItem="0No-qU-YKP" secondAttribute="leading" id="JnQ-GU-5ih"/>
                         <constraint firstItem="ybG-d6-LPD" firstAttribute="leading" secondItem="0No-qU-YKP" secondAttribute="trailing" constant="8" symbolic="YES" id="PwK-T0-eK3"/>
                         <constraint firstItem="Tbn-eG-9yM" firstAttribute="top" secondItem="Aid-Op-h2w" secondAttribute="top" constant="20" id="V46-HP-RPf"/>
+                        <constraint firstAttribute="trailing" secondItem="RNf-sb-fvZ" secondAttribute="trailing" constant="8" id="Xci-2x-l8q"/>
                         <constraint firstItem="tpy-DY-Rco" firstAttribute="trailing" secondItem="Aid-Op-h2w" secondAttribute="trailingMargin" id="aXt-k8-IEf"/>
                         <constraint firstItem="0No-qU-YKP" firstAttribute="baseline" secondItem="ybG-d6-LPD" secondAttribute="baseline" id="c0c-yP-aIw"/>
                         <constraint firstItem="0No-qU-YKP" firstAttribute="top" secondItem="Tbn-eG-9yM" secondAttribute="bottom" constant="8" symbolic="YES" id="cSg-Jh-JdI"/>
                         <constraint firstItem="Tbn-eG-9yM" firstAttribute="baseline" secondItem="tpy-DY-Rco" secondAttribute="baseline" id="lNq-Ec-7Cy"/>
+                        <constraint firstAttribute="bottom" secondItem="6J8-fi-L6X" secondAttribute="bottom" constant="8" id="pOW-JE-XZN"/>
                         <constraint firstItem="tpy-DY-Rco" firstAttribute="leading" secondItem="Tbn-eG-9yM" secondAttribute="trailing" constant="24" id="qs3-eD-gET"/>
+                        <constraint firstAttribute="bottom" secondItem="RNf-sb-fvZ" secondAttribute="bottom" constant="8" id="r4x-PT-lLO"/>
+                        <constraint firstItem="6J8-fi-L6X" firstAttribute="leading" secondItem="Aid-Op-h2w" secondAttribute="leading" constant="8" id="rmj-dC-gmR"/>
                         <constraint firstItem="tpy-DY-Rco" firstAttribute="trailing" secondItem="ybG-d6-LPD" secondAttribute="trailing" id="sG8-h5-J4s"/>
                     </constraints>
                     <connections>
@@ -122,20 +152,21 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sfc-Zt-omN" customClass="VideoInputView">
-                            <rect key="frame" x="8" y="154" width="359" height="329"/>
+                            <rect key="frame" x="8" y="203" width="359" height="280"/>
                             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         </view>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(Note: remote side controls)" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dxl-av-IMT">
-                            <rect key="frame" x="52" y="123" width="271" height="20"/>
-                            <fontDescription key="fontDescription" type="italicSystem" pointSize="17"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(Other side should run &quot;QR Code Transmission to Camera Helper&quot;)" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dxl-av-IMT">
+                            <rect key="frame" x="8" y="115" width="359" height="73"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="73" id="Z5g-OF-K7d"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="17"/>
                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                             <nil key="highlightedColor"/>
                         </label>
                     </subviews>
                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
-                        <constraint firstItem="Dxl-av-IMT" firstAttribute="leading" secondItem="ThF-UP-I4h" secondAttribute="leading" constant="52" id="2n1-xl-L0C"/>
-                        <constraint firstItem="Dxl-av-IMT" firstAttribute="centerX" secondItem="sfc-Zt-omN" secondAttribute="centerX" id="3GI-Qz-gQv"/>
                         <constraint firstItem="lNA-Ld-V3F" firstAttribute="leading" secondItem="BJL-hu-Hn0" secondAttribute="leading" id="3Yu-Dx-sh6"/>
                         <constraint firstItem="BJL-hu-Hn0" firstAttribute="trailing" secondItem="sfc-Zt-omN" secondAttribute="trailing" id="58y-oL-s9a"/>
                         <constraint firstItem="lNA-Ld-V3F" firstAttribute="centerY" secondItem="2fQ-Vk-9ya" secondAttribute="centerY" id="5vU-pm-DqS"/>
@@ -150,6 +181,7 @@
                         <constraint firstItem="JoS-6n-f5y" firstAttribute="leading" secondItem="o1W-W1-bsq" secondAttribute="leading" id="JnH-YY-uXG"/>
                         <constraint firstItem="5yJ-li-1Af" firstAttribute="leading" secondItem="o1W-W1-bsq" secondAttribute="trailing" constant="24" id="JuX-XB-04P"/>
                         <constraint firstItem="sfc-Zt-omN" firstAttribute="bottom" secondItem="ThF-UP-I4h" secondAttribute="bottomMargin" id="K3H-k9-pMU"/>
+                        <constraint firstItem="Dxl-av-IMT" firstAttribute="top" secondItem="R9U-dD-OEU" secondAttribute="bottom" id="NV3-eP-hJJ"/>
                         <constraint firstItem="lNA-Ld-V3F" firstAttribute="leading" secondItem="5yJ-li-1Af" secondAttribute="leading" id="Of1-RM-Xog"/>
                         <constraint firstItem="2fQ-Vk-9ya" firstAttribute="top" secondItem="o1W-W1-bsq" secondAttribute="bottom" constant="8" symbolic="YES" id="Ovd-kw-TIe"/>
                         <constraint firstItem="lNA-Ld-V3F" firstAttribute="trailing" secondItem="BJL-hu-Hn0" secondAttribute="trailing" id="Qgu-K5-DfT"/>
@@ -158,12 +190,14 @@
                         <constraint firstItem="BJL-hu-Hn0" firstAttribute="leading" secondItem="R9U-dD-OEU" secondAttribute="trailing" constant="8" symbolic="YES" id="Yyj-7J-aeh"/>
                         <constraint firstItem="ABk-eh-HVE" firstAttribute="leading" secondItem="JoS-6n-f5y" secondAttribute="trailing" constant="48" id="ZiJ-CE-nyh"/>
                         <constraint firstItem="o1W-W1-bsq" firstAttribute="baseline" secondItem="5yJ-li-1Af" secondAttribute="baseline" id="bJc-Km-3oS"/>
-                        <constraint firstItem="sfc-Zt-omN" firstAttribute="top" secondItem="Dxl-av-IMT" secondAttribute="bottom" constant="11" id="bsY-CX-UET"/>
-                        <constraint firstItem="Dxl-av-IMT" firstAttribute="top" secondItem="R9U-dD-OEU" secondAttribute="bottom" constant="8" symbolic="YES" id="cRk-m0-SwS"/>
                         <constraint firstItem="o1W-W1-bsq" firstAttribute="leading" secondItem="2fQ-Vk-9ya" secondAttribute="leading" id="cSV-9n-UGO"/>
+                        <constraint firstItem="Dxl-av-IMT" firstAttribute="leading" secondItem="R9U-dD-OEU" secondAttribute="leading" id="cjM-hw-k82"/>
                         <constraint firstItem="lNA-Ld-V3F" firstAttribute="firstBaseline" secondItem="2fQ-Vk-9ya" secondAttribute="firstBaseline" id="js4-hA-vex"/>
+                        <constraint firstAttribute="trailing" secondItem="Dxl-av-IMT" secondAttribute="trailing" constant="8" id="mMq-zb-UoD"/>
                         <constraint firstItem="R9U-dD-OEU" firstAttribute="leading" secondItem="sfc-Zt-omN" secondAttribute="leading" id="nPc-Sz-9Iz"/>
                         <constraint firstItem="2fQ-Vk-9ya" firstAttribute="leading" secondItem="R9U-dD-OEU" secondAttribute="leading" id="okL-dm-lnH"/>
+                        <constraint firstItem="Dxl-av-IMT" firstAttribute="leading" secondItem="ThF-UP-I4h" secondAttribute="leading" constant="8" id="sfU-Zs-IYM"/>
+                        <constraint firstItem="sfc-Zt-omN" firstAttribute="top" secondItem="Dxl-av-IMT" secondAttribute="bottom" constant="15" id="wIx-dY-43x"/>
                         <constraint firstItem="R9U-dD-OEU" firstAttribute="top" secondItem="2fQ-Vk-9ya" secondAttribute="bottom" constant="8" symbolic="YES" id="xcZ-vI-Ko4"/>
                         <constraint firstItem="o1W-W1-bsq" firstAttribute="top" secondItem="JoS-6n-f5y" secondAttribute="bottom" constant="8" symbolic="YES" id="xiV-m8-tie"/>
                     </constraints>
@@ -188,12 +222,15 @@
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics"/>
             <point key="canvasLocation" x="375.19999999999999" y="500.59970014992507"/>
         </view>
-        <customObject id="87u-6Q-QkS" customClass="NetworkRunManager">
+        <customObject id="87u-6Q-QkS" customClass="VideoRunManager">
             <connections>
                 <outlet property="capturer" destination="T5Q-3d-7Y4" id="E81-xg-KH1"/>
                 <outlet property="clock" destination="T5Q-3d-7Y4" id="QRE-nP-9O3"/>
+                <outlet property="collector" destination="UlW-iz-hyn" id="4DV-tc-gtW"/>
                 <outlet property="completionHandler" destination="-1" id="EOi-r0-PzC"/>
                 <outlet property="finder" destination="Y97-bc-Xqm" id="hCC-U3-lL2"/>
+                <outlet property="measurementMaster" destination="-1" id="pNT-Jx-WeP"/>
+                <outlet property="networkIODevice" destination="Xt2-Ak-gPQ" id="4ho-8J-kYz"/>
                 <outlet property="outputView" destination="ThF-UP-I4h" id="V4T-Gx-hRi"/>
                 <outlet property="statusView" destination="Aid-Op-h2w" id="O7D-nP-O84"/>
             </connections>
@@ -204,6 +241,14 @@
                 <outlet property="selfView" destination="sfc-Zt-omN" id="q2h-of-OO9"/>
             </connections>
         </customObject>
+        <customObject id="Xt2-Ak-gPQ" customClass="NetworkIODevice">
+            <connections>
+                <outlet property="clock" destination="T5Q-3d-7Y4" id="6qv-kh-RQn"/>
+                <outlet property="manager" destination="87u-6Q-QkS" id="lSF-d9-YRw"/>
+                <outlet property="networkStatusView" destination="ThF-UP-I4h" id="3Cx-hM-cX1"/>
+            </connections>
+        </customObject>
         <customObject id="Y97-bc-Xqm" customClass="FindQRcode"/>
+        <customObject id="UlW-iz-hyn" customClass="RunCollector"/>
     </objects>
 </document>

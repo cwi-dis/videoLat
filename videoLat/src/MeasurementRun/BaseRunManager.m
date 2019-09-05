@@ -183,8 +183,10 @@ static NSMutableDictionary *runManagerSelectionNibs;
 		if (self.measurementType.requires != nil) {
 			// First check that a base measurement has been selected.
 			NSString *errorMessage;
+#ifdef WITH_APPKIT
             assert(self.selectionView);
             baseName = self.selectionView.baseName;
+#endif
             if (baseName == nil) {
                 NSLog(@"BaseRunManager: baseName == nil");
                 return;
@@ -288,8 +290,10 @@ static NSMutableDictionary *runManagerSelectionNibs;
     MeasurementDataStore *baseStore = nil;
     if (!self.measurementType.isCalibration) {
         // If this is not a calibration we should check our base type
+#ifdef WITH_APPKIT
         assert(self.selectionView);
         baseName = self.selectionView.baseName;
+#endif
         MeasurementType *baseType = self.measurementType.requires;
         baseStore = [baseType measurementNamed: baseName];
         if (baseType == nil) {
@@ -438,13 +442,16 @@ static NSMutableDictionary *runManagerSelectionNibs;
 
 - (void)restart
 {
+#ifdef WITH_APPKIT
     assert(self.selectionView);
+#endif
     assert (self.statusView);
 	@synchronized(self) {
+        BOOL ok;
         if (!networkHelper) {
-    #ifdef WITH_APPKIT
+#ifdef WITH_APPKIT
             [self.statusView.bPrepare setEnabled: NO];
-    #endif
+#endif
             [self.statusView.bRun setEnabled: NO];
             [self.statusView.bStop setEnabled: NO];
         }
@@ -456,12 +463,12 @@ static NSMutableDictionary *runManagerSelectionNibs;
             NSLog(@"Error: BaseRunManager.restart called without measurementType");
             return;
         }
+#ifdef WITH_APPKIT
         // Select input device (based on selection from menu)
         NSString *selectedDevice = self.selectionView.deviceName;
         if (selectedDevice == nil) return;
         assert(self.capturer);
-        BOOL ok = [self.capturer switchToDeviceWithName: selectedDevice];
-#ifdef WITH_APPKIT
+        ok = [self.capturer switchToDeviceWithName: selectedDevice];
         if (!ok) {
             [self showErrorSheet: [NSString stringWithFormat:@"Cannot switch to input device %@", selectedDevice]];
             return;
@@ -472,11 +479,7 @@ static NSMutableDictionary *runManagerSelectionNibs;
             NSArray *calibrationNames = self.measurementType.requires.measurementNames;
             ok = [self.selectionView setBases: calibrationNames];
             if (!ok) {
-#ifdef WITH_APPKIT
                 [self showErrorSheet: @"No suitable calibrations"];
-#else
-                showWarningAlert(@"No suitable calibrations");
-#endif
                 return;
             }
             baseName = self.selectionView.baseName;
