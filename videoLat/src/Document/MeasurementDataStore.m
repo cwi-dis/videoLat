@@ -256,6 +256,10 @@
         abort();
         return;
     }
+    if (calibration == _outputCalibration) {
+        // We already knew this
+        return;
+    }
     if (calibration || output.calibration) {
         NSLog(@"MeasurementDataStore: attempt to set calibration a second time");
         abort();
