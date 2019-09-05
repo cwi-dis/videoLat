@@ -176,4 +176,6 @@
 /// Called whenever "nothing really happened", will cause a heartbeat to be sent when helper.
 - (void)reportHeartbeat;
 
+/// Called when a measurement report has been received from the master
+- (void)receivedMeasurementResult: (MeasurementDataStore *)result;
 @end

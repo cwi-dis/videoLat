@@ -186,4 +186,21 @@
     assert(self.networkIODevice);
     [self.networkIODevice reportHeartbeat];
 }
+
+- (void)receivedMeasurementResult: (MeasurementDataStore *)result
+{
+    if (self.capturer) [self.capturer stop];
+    if (self.completionHandler) {
+        [self.completionHandler performSelectorOnMainThread:@selector(openUntitledDocumentWithMeasurement:) withObject:result waitUntilDone:NO];
+    } else {
+#ifdef WITH_APPKIT
+        AppDelegate *d = (AppDelegate *)[[NSApplication sharedApplication] delegate];
+        [d performSelectorOnMainThread:@selector(openUntitledDocumentWithMeasurement:) withObject:result waitUntilDone:NO];
+        [self.statusView.window close];
+#else
+        assert(0);
+#endif
+    }
+}
+
 @end
