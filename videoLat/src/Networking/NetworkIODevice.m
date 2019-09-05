@@ -266,11 +266,7 @@ static uint64_t getTimestamp(NSDictionary *data, NSString *key)
             [self.protocol close];
             if (self.protocol) self.protocol.delegate = nil;
             self.protocol = nil;
-            NSLog(@"xxxjack ignoring results returned by master for now....");
-            // [self.manager reportResultsToRemote: mr];
-            //
-            // Override description with our description
-            //
+            [self.manager receivedMeasurementResult:mr];
             return;
         }
 #ifdef WITH_APPKIT

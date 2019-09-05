@@ -784,4 +784,11 @@ static NSMutableDictionary *runManagerSelectionNibs;
 - (void)reportHeartbeat
 {
 }
+
+- (void)receivedMeasurementResult: (MeasurementDataStore *)result
+{
+    NSLog(@"Received measurement result while not network helper");
+    assert(0);
+}
+
 @end
