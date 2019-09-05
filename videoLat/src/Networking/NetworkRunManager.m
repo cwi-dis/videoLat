@@ -95,6 +95,15 @@
     }
 }
 
+- (void)triggerNewOutputValue
+{
+    if (self.capturer != self.networkIODevice) {
+        // We handle input, not output. Nothing to trigger.
+        return;
+    }
+    [super triggerNewOutputValue];
+}
+
 - (BOOL) prepareInputDevice
 {
     BOOL ok = [super prepareInputDevice];
