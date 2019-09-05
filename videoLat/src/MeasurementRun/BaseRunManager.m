@@ -745,10 +745,11 @@ static NSMutableDictionary *runManagerSelectionNibs;
         return;
     } else if (self.prevOutputCode && [inputCode isEqualToString: self.prevOutputCode]) {
         return;
+    } else if ([inputCode isEqualToString:@"nothing"]) {
+        // Received nothing, from a networked helper. No problem.
     } else {
         if (!networkHelper)
             NSLog(@"Received code we dont remember transmitting: %@", inputCode);
-        //[self triggerNewOutputValue];
     }
     // We did not detect the code we expected
     if (self.preparing) {
