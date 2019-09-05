@@ -156,7 +156,7 @@ static NSMutableDictionary *runManagerSelectionNibs;
 {
 	baseName = baseMeasurementName;
 	[self selectMeasurementType:measurementTypeName];
-	if (!networkHelper)
+	if (self.networkIODevice == nil)
 		[self startPreMeasuring:self];
 }
 #endif
@@ -516,6 +516,10 @@ static NSMutableDictionary *runManagerSelectionNibs;
         if (!networkHelper) {
 #ifdef WITH_APPKIT
             [self.statusView.bPrepare setEnabled: YES];
+#else
+            if (self.networkIODevice) {
+                [self startPreMeasuring:self];
+            }
 #endif
         }
 	}
