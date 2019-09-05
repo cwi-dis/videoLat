@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14460.31"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14490.70"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -17,7 +16,7 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="1056" y="1064" width="480" height="183"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
             <view key="contentView" id="qyg-y8-V7w">
                 <rect key="frame" x="0.0" y="0.0" width="480" height="183"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -45,16 +44,16 @@ DQ
                                             </connections>
                                         </button>
                                         <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="CXB-GS-KFB">
-                                            <rect key="frame" x="15" y="63" width="405" height="26"/>
+                                            <rect key="frame" x="15" y="63" width="405" height="25"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="400" id="UYW-HT-fzS"/>
                                             </constraints>
-                                            <popUpButtonCell key="cell" type="push" title="QR Code Transmission" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="7" imageScaling="proportionallyDown" inset="2" autoenablesItems="NO" selectedItem="Brj-eH-pgx" id="1QG-s6-T0k">
+                                            <popUpButtonCell key="cell" type="push" title="QR Code Transmission to Camera Helper" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="7" imageScaling="proportionallyDown" inset="2" autoenablesItems="NO" selectedItem="Brj-eH-pgx" id="1QG-s6-T0k">
                                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="menu"/>
                                                 <menu key="menu" title="OtherViews" autoenablesItems="NO" id="A3x-cu-h0s">
                                                     <items>
-                                                        <menuItem title="QR Code Transmission" state="on" tag="7" enabled="NO" toolTip="Two-device measurement, transmitter" id="Brj-eH-pgx"/>
+                                                        <menuItem title="QR Code Transmission to Camera Helper" state="on" tag="7" enabled="NO" toolTip="Two-device measurement, transmitter" id="Brj-eH-pgx"/>
                                                         <menuItem title="QR Code Roundtrip" tag="2" enabled="NO" toolTip="Measurement of display to camera delay using QR-codes" id="O3P-iE-5AA"/>
                                                         <menuItem title="Audio Roundtrip" tag="9" enabled="NO" toolTip="Measurement of speaker to microphone delay" id="DoQ-UJ-EAt"/>
                                                         <menuItem isSeparatorItem="YES" id="YR2-f4-uXj">
@@ -119,7 +118,7 @@ DQ
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="R1R-eM-Heb">
-                                            <rect key="frame" x="15" y="63" width="405" height="26"/>
+                                            <rect key="frame" x="15" y="63" width="405" height="25"/>
                                             <popUpButtonCell key="cell" type="push" title="Retrieving Calibrations..." bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="C7O-6s-Dxh" id="p4N-Dr-5hl">
                                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="menu"/>

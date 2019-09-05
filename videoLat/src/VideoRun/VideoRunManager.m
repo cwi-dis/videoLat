@@ -34,8 +34,8 @@
     [BaseRunManager registerNib: @"VideoCalibrationRun" forMeasurementType: @"QR Code Roundtrip Calibrate"];
     // We also register ourselves for send-only, as a helper. At the very least we must make
     // sure the nibfile is registered...
-    [BaseRunManager registerClass: [self class] forMeasurementType: @"QR Code Transmission"];
-    [BaseRunManager registerNib: @"VideoSenderRun" forMeasurementType: @"QR Code Transmission"];
+    [BaseRunManager registerClass: [self class] forMeasurementType: @"QR Code Transmission to Camera Helper"];
+    [BaseRunManager registerNib: @"VideoSenderRun" forMeasurementType: @"QR Code Transmission to Camera Helper"];
     // And we handle camera and screen calibrations using a second networked device
     [BaseRunManager registerClass: [self class] forMeasurementType: @"Reception Calibrate using Other Device"];
     [BaseRunManager registerNib: @"CalibrateCameraFromRemoteScreen" forMeasurementType: @"Reception Calibrate using Other Device"];
@@ -46,7 +46,7 @@
     [BaseRunManager registerSelectionNib: @"VideoInputSelectionView" forMeasurementType: @"QR Code Roundtrip"];
     [BaseRunManager registerSelectionNib: @"VideoInputSelectionView" forMeasurementType: @"QR Code Roundtrip Calibrate"];
     [BaseRunManager registerSelectionNib: @"VideoInputSelectionView" forMeasurementType: @"Reception Calibrate using Other Device"];
-    [BaseRunManager registerSelectionNib: @"NetworkInputSelectionView" forMeasurementType: @"QR Code Transmission"];
+    [BaseRunManager registerSelectionNib: @"NetworkInputSelectionView" forMeasurementType: @"QR Code Transmission to Camera Helper"];
     [BaseRunManager registerSelectionNib: @"NetworkInputSelectionView" forMeasurementType: @"Transmission Calibrate using Other Device"];
 #endif
 }
