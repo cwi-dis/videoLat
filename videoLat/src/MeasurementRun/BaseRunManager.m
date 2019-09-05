@@ -371,8 +371,14 @@ static NSMutableDictionary *runManagerSelectionNibs;
         self.running = YES;
 		VL_LOG_EVENT(@"startMeasuring", 0LL, @"");
         [self.capturer startCapturing: NO];
-        [self.collector setInput: self.capturer.deviceID name: self.capturer.deviceName];
-        [self.collector setOutput: self.outputView.deviceID name: self.outputView.deviceName];
+        BOOL hasRemoteInput = (self.networkIODevice && self.capturer == self.networkIODevice);
+        BOOL hasRemoteOutput = (self.networkIODevice && self.capturer != self.networkIODevice);
+        if (!hasRemoteInput) {
+            [self.collector setInput: self.capturer.deviceID name: self.capturer.deviceName];
+        }
+        if (!hasRemoteOutput) {
+            [self.collector setOutput: self.outputView.deviceID name: self.outputView.deviceName];
+        }
         [self.collector startCollecting: self.measurementType.name];
         [self triggerNewOutputValue];
         if (self.networkIODevice) {

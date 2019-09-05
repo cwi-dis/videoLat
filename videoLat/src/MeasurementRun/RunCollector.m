@@ -101,7 +101,6 @@
 		assert(dataStore.output.device);
 		assert(dataStore.output.deviceID);
 	}
-
 }
 
 - (BOOL) recordTransmission: (NSString*)data at: (uint64_t)now
