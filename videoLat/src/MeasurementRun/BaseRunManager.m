@@ -103,6 +103,7 @@ static NSMutableDictionary *runManagerSelectionNibs;
     self = [super init];
     if (self) {
         networkHelper = NO;
+        showPreviewDuringRun = YES;
     }
     return self;
 }
@@ -374,7 +375,7 @@ static NSMutableDictionary *runManagerSelectionNibs;
 		[self.statusView.bStop setEnabled: YES];
         self.running = YES;
 		VL_LOG_EVENT(@"startMeasuring", 0LL, @"");
-        [self.capturer startCapturing: NO];
+        [self.capturer startCapturing: showPreviewDuringRun];
         BOOL hasRemoteInput = (self.networkIODevice && self.capturer == self.networkIODevice);
         BOOL hasRemoteOutput = (self.networkIODevice && self.capturer != self.networkIODevice);
         if (!hasRemoteInput) {

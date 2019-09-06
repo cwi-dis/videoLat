@@ -34,7 +34,7 @@
 @interface BaseRunManager : NSObject <RunManagerProtocol> {
     BOOL networkHelper;      //!< true if this is a networked helper, i.e. it has no collector.
     BOOL networkServer;       //!< true if this run manager is a network server (i.e. producing visual output to let the other side connect back here)
-
+    BOOL showPreviewDuringRun;  //!< True if we want to see the preview while running (false for QR-code roundtrip)
     uint64_t prepareMaxWaitTime;      //!< Internal: How long to wait for prerun code finding
     int prepareMoreNeeded;   //!< Internal: How many more prerun correct catches we need
 
