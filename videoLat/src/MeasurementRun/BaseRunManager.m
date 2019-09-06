@@ -534,7 +534,9 @@ static NSMutableDictionary *runManagerSelectionNibs;
         [self.networkIODevice reportStatus: @"Measurements complete"];
         MeasurementDataStore *ds = self.collector.dataStore;
         [ds trim];
-        [self.networkIODevice reportResult: ds];
+        if (!self.measurementType.isCalibration) {
+            [self.networkIODevice reportResult: ds];
+        }
         // And show blue screen
         [self triggerNewOutputValue];
     }
