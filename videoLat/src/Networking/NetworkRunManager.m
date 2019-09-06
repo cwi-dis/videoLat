@@ -141,8 +141,10 @@
         assert(self.capturer);
         deviceDescriptorToSend = [[DeviceDescription alloc] initFromInputDevice: self.capturer];
     } else {
+#ifdef WITH_APPKIT
         assert(self.selectionView);
         baseName = self.selectionView.baseName;
+#endif
         if (baseName == nil) {
             NSLog(@"NetworkRunManager: baseName == nil");
             return NO;
@@ -164,8 +166,10 @@
         assert(self.outputView);
         deviceDescriptorToSend = [[DeviceDescription alloc] initFromOutputDevice: self.outputView];
     } else {
+#ifdef WITH_APPKIT
         assert(self.selectionView);
         baseName = self.selectionView.baseName;
+#endif
         if (baseName == nil) {
             NSLog(@"NetworkRunManager: baseName == nil");
             return NO;
