@@ -40,8 +40,12 @@
     [BaseRunManager registerClass: [self class] forMeasurementType: @"Reception Calibrate using Other Device"];
     [BaseRunManager registerNib: @"CalibrateCameraFromRemoteScreen" forMeasurementType: @"Reception Calibrate using Other Device"];
     [BaseRunManager registerClass: [self class] forMeasurementType: @"Transmission Calibrate using Other Device"];
+#ifdef WITH_APPKIT
     [BaseRunManager registerNib: @"CalibrateScreenFromRemoteCamera" forMeasurementType: @"Transmission Calibrate using Other Device"];
-
+#else
+    [BaseRunManager registerNib: @"VideoSenderRun" forMeasurementType: @"Transmission Calibrate using Other Device"];
+#endif
+    
 #ifdef WITH_UIKIT
     [BaseRunManager registerSelectionNib: @"VideoInputSelectionView" forMeasurementType: @"QR Code Roundtrip"];
     [BaseRunManager registerSelectionNib: @"VideoInputSelectionView" forMeasurementType: @"QR Code Roundtrip Calibrate"];
