@@ -26,32 +26,37 @@
 
 + (void) initialize
 {
-    // Obviously we are responsible for QR-code roundtrip measurements
+    // This class is responsible for handling a whole slew of measurements....
+    
     [BaseRunManager registerClass: [self class] forMeasurementType: @"QR Code Roundtrip"];
     [BaseRunManager registerNib: @"VideoRun" forMeasurementType: @"QR Code Roundtrip"];
-    // We are also responsible for QR-code roundtrip calibrations
+
     [BaseRunManager registerClass: [self class] forMeasurementType: @"QR Code Roundtrip Calibrate"];
     [BaseRunManager registerNib: @"VideoCalibrationRun" forMeasurementType: @"QR Code Roundtrip Calibrate"];
-    // We also register ourselves for send-only, as a helper. At the very least we must make
-    // sure the nibfile is registered...
+
     [BaseRunManager registerClass: [self class] forMeasurementType: @"QR Code Transmission to Camera Helper"];
     [BaseRunManager registerNib: @"VideoSenderRun" forMeasurementType: @"QR Code Transmission to Camera Helper"];
-    // And we handle camera and screen calibrations using a second networked device
-    [BaseRunManager registerClass: [self class] forMeasurementType: @"Reception Calibrate using Other Device"];
-    [BaseRunManager registerNib: @"CalibrateCameraFromRemoteScreen" forMeasurementType: @"Reception Calibrate using Other Device"];
+
     [BaseRunManager registerClass: [self class] forMeasurementType: @"Transmission Calibrate using Other Device"];
 #ifdef WITH_APPKIT
     [BaseRunManager registerNib: @"CalibrateScreenFromRemoteCamera" forMeasurementType: @"Transmission Calibrate using Other Device"];
 #else
     [BaseRunManager registerNib: @"VideoSenderRun" forMeasurementType: @"Transmission Calibrate using Other Device"];
 #endif
+
+    [BaseRunManager registerClass: [self class] forMeasurementType: @"QR Code Reception from Screen Helper"];
+    [BaseRunManager registerNib: @"VideoReceiverRun" forMeasurementType: @"QR Code Reception from Screen Helper"];
+
+    [BaseRunManager registerClass: [self class] forMeasurementType: @"Reception Calibrate using Other Device"];
+    [BaseRunManager registerNib: @"CalibrateCameraFromRemoteScreen" forMeasurementType: @"Reception Calibrate using Other Device"];
     
 #ifdef WITH_UIKIT
     [BaseRunManager registerSelectionNib: @"VideoInputSelectionView" forMeasurementType: @"QR Code Roundtrip"];
     [BaseRunManager registerSelectionNib: @"VideoInputSelectionView" forMeasurementType: @"QR Code Roundtrip Calibrate"];
-    [BaseRunManager registerSelectionNib: @"VideoInputSelectionView" forMeasurementType: @"Reception Calibrate using Other Device"];
     [BaseRunManager registerSelectionNib: @"NetworkInputSelectionView" forMeasurementType: @"QR Code Transmission to Camera Helper"];
     [BaseRunManager registerSelectionNib: @"NetworkInputCalibrationSelectionView" forMeasurementType: @"Transmission Calibrate using Other Device"];
+    [BaseRunManager registerSelectionNib: @"VideoInputSelectionView" forMeasurementType: @"QR Code Reception from Screen Helper"];
+    [BaseRunManager registerSelectionNib: @"VideoInputSelectionView" forMeasurementType: @"Reception Calibrate using Other Device"];
 #endif
 }
 

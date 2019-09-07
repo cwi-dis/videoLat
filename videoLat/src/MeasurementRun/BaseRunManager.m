@@ -287,6 +287,7 @@ static NSMutableDictionary *runManagerSelectionNibs;
 
 - (BOOL)prepareMeasurementFromRemoteData
 {
+    assert(self.networkIODevice);
     NSString *errorMessage = nil;
     MeasurementDataStore *baseStore = nil;
     if (!self.measurementType.isCalibration) {
@@ -299,26 +300,41 @@ static NSMutableDictionary *runManagerSelectionNibs;
         baseStore = [baseType measurementNamed: baseName];
         if (baseType == nil) {
             errorMessage = @"No base (calibration) measurement selected.";
-        } else if (baseStore == nil) {
-            
-        } else {
-            // Check that the base measurement is compatible with this measurement,
-            NSString *hwName = [[MachineDescription thisMachine] machineTypeID];
-            // The hardware platform should match the one in the calibration run
-            if (![baseStore.output.machineTypeID isEqualToString:hwName]) {
-                errorMessage = [NSString stringWithFormat:@"Base measurement output done on %@, current hardware is %@", baseStore.output.machine, hwName];
-            }
-            assert(self.outputView);
-            // For runs where we are responsible for output the output device should match
-            if (![baseStore.output.deviceID isEqualToString:self.outputView.deviceID]) {
-                errorMessage = [NSString stringWithFormat:@"Base measurement uses output %@, current measurement uses %@", baseStore.output.device, self.outputView.deviceName];
-            }
+
         }
     }
     DeviceDescription *remoteInputDeviceDescription = [self.networkIODevice remoteInputDeviceDescription];
     DeviceDescription *remoteOutputDeviceDescription = [self.networkIODevice remoteOutputDeviceDescription];
     if (errorMessage == nil && remoteInputDeviceDescription == nil && remoteOutputDeviceDescription == nil) {
         errorMessage = @"No device description received from remote helper.";
+    }
+    if (remoteInputDeviceDescription == nil) {
+        // We are responsible for input. Check that the base measurement is correct.
+        // Check that the base measurement is compatible with this measurement,
+        NSString *hwName = [[MachineDescription thisMachine] machineTypeID];
+        // The hardware platform should match the one in the calibration run
+        if (![baseStore.input.machineTypeID isEqualToString:hwName]) {
+            errorMessage = [NSString stringWithFormat:@"Base measurement input done on %@, current hardware is %@", baseStore.input.machine, hwName];
+        }
+        assert(self.capturer);
+        // For runs where we are responsible for input the input device should match
+        if (![baseStore.input.deviceID isEqualToString:self.capturer.deviceID]) {
+            errorMessage = [NSString stringWithFormat:@"Base measurement uses input %@, current measurement uses %@", baseStore.input.device, self.capturer.deviceName];
+        }
+    }
+    if (remoteOutputDeviceDescription == nil) {
+        // We are responsible for output. Check that the base measurement is correct.
+        // Check that the base measurement is compatible with this measurement,
+        NSString *hwName = [[MachineDescription thisMachine] machineTypeID];
+        // The hardware platform should match the one in the calibration run
+        if (![baseStore.output.machineTypeID isEqualToString:hwName]) {
+            errorMessage = [NSString stringWithFormat:@"Base measurement output done on %@, current hardware is %@", baseStore.output.machine, hwName];
+        }
+        assert(self.outputView);
+        // For runs where we are responsible for output the output device should match
+        if (![baseStore.output.deviceID isEqualToString:self.outputView.deviceID]) {
+            errorMessage = [NSString stringWithFormat:@"Base measurement uses output %@, current measurement uses %@", baseStore.output.device, self.outputView.deviceName];
+        }
     }
     if (errorMessage) {
         [self.networkIODevice reportStatus: @"Missing calibration"];

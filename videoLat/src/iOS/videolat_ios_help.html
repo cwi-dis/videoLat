@@ -16,7 +16,8 @@ em { color: blue; }
 
 	<p>Before you can do real measurements you must obtain calibrations for
 	your input and output devices. Try downloading calibrations from videolat.org
-	first. If the calibrations you need are not available you must do them yourself.</p>
+	first. Calibrations are shown for your specific iPhone or iPad type.
+    If the calibrations you need are not available you must do them yourself.</p>
 
 <h2>Camera Calibration using Remote Calibrated Screen</h2>
 
@@ -29,13 +30,13 @@ em { color: blue; }
 	the other device.</p>
 
 	<p>On the other, calibrated, device select <em>New Measurement</em>, 
-	then <em>QR Code Transmission to Camera Helper</em>. A QR-code will be shown on the
+	then <em>QR Code Screen Helper</em>. A QR-code will be shown on the
 	transmitting device. When this QR-code is picked up by the camera of the device to calibrate it will connect to the transmitting device
 	over Wi-Fi. Check the status indicators on the top of the device screen.</p>
 
 	<p>On the device to calibrate press <em>Run</em>, and after a few hundred measurements
 	<em>Stop</em>. You will be
-	shown the results of the measurement, on both devices.</p>
+	shown the results of the measurement and if it looks good you can save the calibration.</p>
 
 <h2>Screen Calibration using Remote Calibrated Camera</h2>
 
@@ -43,12 +44,12 @@ em { color: blue; }
 	you already have calibrations. Both devices should be on the same Wi-Fi network.</p>
 
 	<p>On the other, calibrated, device select <em>New Measurement</em>, 
-	then <em>QR Code Reception</em>.
+	then <em>QR Code Camera Helper</em>.
 
 	<p>On this device select <em>New Calibration</em>, then
 	<em>Transmission Calibrate using Other Device</em>.
-    Point this camera of the calibrated device at the QR-code shown on the
-	master device and calibrated device will connect to the master device
+    Point the camera of the calibrated device at the QR-code shown on the
+    device to calibrate it will connect to the master device
 	over Wi-Fi. Check the status indicators on the top of the device screen.</p>
 
 	<p>On the master device press <em>Run</em>, and after a few hundred measurements
@@ -58,23 +59,23 @@ em { color: blue; }
 <h2>Video measurement</h2>
 
 	<p>For a one-way measurement you need two devices with videoLat and the required
-	calibrations. The master device must be on a network (Wi-Fi or Cellular) that is
-	reachable by the helper device. The master device shows QR codes, which should be picked up by
+	calibrations. The device that transmits QR codes over video must be on a network (Wi-Fi, Cellular or Ethernet) that is
+	reachable by the receiver device. The transmitter device shows QR codes, which should be picked up by
     the camera of the system-under-test. The output screen of the system-under-test should be picked
-    up by the helper videoLat camera. It will transmit the QR-codes detected back to the master
+    up by the receiver videoLat camera. It will transmit the QR-codes detected back to the transmitter
     videoLat over the network.</p>
+    
+    <p>This measurement can be run with <em>QR Code Transmission to Camera Helper</em> and <em>QR Code Camera Helper</em>,
+    but it can also be run using <em>QR Code Reception from Screen Helper<em> and <em>QR Code Screen Helper</em>.
+    The results should be identical, and the only difference is which device has the user interface to control (start, stop)
+    the measurement. With mobile phones or tablets it is probably most convenient to use <em>QR Code Reception from Screen Helper<em>
+    because that screen (with the buttons) is probably easier to see.</p>
 
-	<p>On the secondary device do <em>New Measurement</em>,
-	then <em>QR Code Camera Helper</em>. Make sure the camera of this helper
-	device can see the screen of the system-under-test.</p>
-	
-	<p>On the master device do <em>New Measurement</em>, 
-	then <em>QR Code Transmission to Camera Helper</em>. Make sure the screen of the master
-	device is picked up by the camera of the system-under-test. 
-	A QR-code will be shown on the
-	master device and is picked up by the helper device, and it will connect to the master device
-	over Wi-Fi. Check the status indicators on the top of the device screen.</p>
-
+    <p>Select the master (user interface) and helper measurements on the two devices. Point the camera of the system under test
+    at the screen showing the QR code. Point the camera of the receiving videoLat at the screen of the system under test.
+    The QR code should now be detected and the receiver videoLat will contact the sender videoLat over the network. A few initial QR codes
+    will be exchanged to determine parameters such as network roundtrip time.. </p>
+    
 	<p>On the master device press <em>Run</em>, and after a few hundred measurements
 	<em>Stop</em>. You will be
 	shown the results of the measurement, on both devices.</p>
@@ -108,7 +109,7 @@ em { color: blue; }
 
 <h2>Privacy Policy</h2>
 
-    <p>VideoLat does transmit any data to cloud services, except when you upload
+    <p>VideoLat does not transmit any data to cloud services, except when you upload
     a calibration measurement. The full privacy policy can be viewed at
     <a href="https://videolat.org/privacypolicy">https://videolat.org/privacypolicy</a>.
     </p>

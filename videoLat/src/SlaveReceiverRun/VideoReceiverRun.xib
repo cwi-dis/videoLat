@@ -41,7 +41,7 @@
             </connections>
         </customObject>
         <customObject id="209" customClass="FindQRcode"/>
-        <window title="Camera Calibrate using Remote Calibrated Screen (Master)" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" id="440">
+        <window title="Video Receiver (Master)" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" id="440">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="196" y="240" width="956" height="684"/>
@@ -96,6 +96,22 @@
                                     <action selector="visibleChanged:" target="8" id="62"/>
                                 </connections>
                             </button>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="q4N-y3-2hx">
+                                <rect key="frame" x="18" y="316" width="38" height="17"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" enabled="NO" sendsActionOnEndEditing="YES" title="Base:" id="x8T-XU-nP3">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <popUpButton toolTip="Self-measurement for this camera/display combination" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Ym7-Gc-bhM">
+                                <rect key="frame" x="77" y="309" width="174" height="26"/>
+                                <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" enabled="NO" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="8Wv-5K-TGC">
+                                    <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="menu"/>
+                                    <menu key="menu" title="OtherViews" id="uYl-SB-8gn"/>
+                                </popUpButtonCell>
+                            </popUpButton>
                         </subviews>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="9" secondAttribute="trailing" constant="20" symbolic="YES" id="13"/>
@@ -110,10 +126,19 @@
                             <constraint firstItem="11" firstAttribute="baseline" secondItem="36" secondAttribute="baseline" id="381"/>
                             <constraint firstItem="36" firstAttribute="top" secondItem="9" secondAttribute="bottom" constant="8" symbolic="YES" id="389"/>
                             <constraint firstItem="8" firstAttribute="top" secondItem="7" secondAttribute="bottom" constant="8" symbolic="YES" id="403"/>
-                            <constraint firstItem="7" firstAttribute="top" secondItem="4" secondAttribute="top" constant="86" id="512"/>
+                            <constraint firstItem="Ym7-Gc-bhM" firstAttribute="trailing" secondItem="11" secondAttribute="trailing" id="4GF-kd-TBo"/>
+                            <constraint firstItem="q4N-y3-2hx" firstAttribute="top" secondItem="36" secondAttribute="bottom" constant="8" id="Bji-B8-Eze"/>
+                            <constraint firstItem="Ym7-Gc-bhM" firstAttribute="leading" secondItem="11" secondAttribute="leading" id="OrN-Kd-SM1"/>
+                            <constraint firstItem="7" firstAttribute="top" secondItem="Ym7-Gc-bhM" secondAttribute="bottom" constant="4" id="Tiq-9z-M55"/>
+                            <constraint firstAttribute="trailing" secondItem="Ym7-Gc-bhM" secondAttribute="trailing" constant="20" id="X3D-J3-gne"/>
+                            <constraint firstItem="Ym7-Gc-bhM" firstAttribute="baseline" secondItem="q4N-y3-2hx" secondAttribute="baseline" id="hKj-JO-A8Z"/>
+                            <constraint firstItem="q4N-y3-2hx" firstAttribute="leading" secondItem="36" secondAttribute="leading" id="ihf-7q-p99"/>
+                            <constraint firstItem="7" firstAttribute="leading" secondItem="36" secondAttribute="leading" id="j9h-IF-MHM"/>
                             <constraint firstAttribute="bottom" secondItem="8" secondAttribute="bottom" constant="25" id="rUp-u6-viJ"/>
                         </constraints>
                         <connections>
+                            <outlet property="bBase" destination="Ym7-Gc-bhM" id="FM7-ty-1um"/>
+                            <outlet property="bBaseLabel" destination="q4N-y3-2hx" id="hPL-qJ-coH"/>
                             <outlet property="bInputDevices" destination="11" id="384"/>
                             <outlet property="inputHandler" destination="3" id="59"/>
                             <outlet property="inputSelectionDelegate" destination="74" id="tTc-zv-nRM"/>
@@ -241,7 +266,7 @@
                         <subviews>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="84">
                                 <rect key="frame" x="18" y="603" width="604" height="17"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Video Input, Sending QR-codes back over the network" id="85">
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Video Input, displaying QR-codes on a remote helper." id="85">
                                     <font key="font" metaFont="systemBold"/>
                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -326,7 +351,7 @@
                                 <autoresizingMask key="autoresizingMask"/>
                                 <textFieldCell key="cell" selectable="YES" id="rYp-or-RAZ">
                                     <font key="font" metaFont="system"/>
-                                    <mutableString key="title">Quick instructions:  The other device should run "QR Code Transmission to Camera Helper". Control (the user interface buttons) is handled on this device.  Point the camera of this computer at the QR code displayed by the other device and IP address and port (above) will be filled in. this computer will then connect to the other devie.  Note that for this connection to work both computers need to be on the same WiFi network or the other computer must have a public IP address.</mutableString>
+                                    <mutableString key="title">Quick instructions:  The other device should run "QR Code Camera Helper". Control (the user interface buttons) is handled on this device.  Point the camera of this computer at the QR code displayed by the other device and IP address and port (above) will be filled in. this computer will then connect to the other devie.  Note that for this connection to work both computers need to be on the same WiFi network or the other computer must have a public IP address.  The results are shown on both devices.</mutableString>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>

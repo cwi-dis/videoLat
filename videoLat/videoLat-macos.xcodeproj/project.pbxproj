@@ -17,6 +17,7 @@
 		041714DD19DDEF340019FA45 /* NetworkProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 041714DC19DDEF340019FA45 /* NetworkProtocol.m */; };
 		041E097F1A9DDAAC006A241C /* TemplateRun.xib in Resources */ = {isa = PBXBuildFile; fileRef = 041E097E1A9DDAAC006A241C /* TemplateRun.xib */; };
 		042574921AA8F28800CFD180 /* CalibrationSharing.m in Sources */ = {isa = PBXBuildFile; fileRef = 042574911AA8F28800CFD180 /* CalibrationSharing.m */; };
+		04282EF52324431F00696C24 /* VideoReceiverRun.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04282EF42324431F00696C24 /* VideoReceiverRun.xib */; };
 		0436C91D22F5D7C00060A5E1 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0436C91C22F5D7C00060A5E1 /* Images.xcassets */; };
 		044F3D7D183A46390008CBA3 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 044F3D7C183A46390008CBA3 /* AVFoundation.framework */; };
 		044F3D7F183A46540008CBA3 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 044F3D7E183A46540008CBA3 /* CoreMedia.framework */; settings = {ATTRIBUTES = (Required, ); }; };
@@ -124,6 +125,7 @@
 		041E097E1A9DDAAC006A241C /* TemplateRun.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = TemplateRun.xib; path = MeasurementRun/TemplateRun.xib; sourceTree = "<group>"; };
 		042574901AA8F28800CFD180 /* CalibrationSharing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CalibrationSharing.h; path = Sharing/CalibrationSharing.h; sourceTree = "<group>"; };
 		042574911AA8F28800CFD180 /* CalibrationSharing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CalibrationSharing.m; path = Sharing/CalibrationSharing.m; sourceTree = "<group>"; };
+		04282EF42324431F00696C24 /* VideoReceiverRun.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = VideoReceiverRun.xib; path = SlaveReceiverRun/VideoReceiverRun.xib; sourceTree = "<group>"; };
 		042ABE301AD1E21A00FB877A /* CommonAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonAppDelegate.h; sourceTree = "<group>"; };
 		042ABE311AD1E21A00FB877A /* CommonAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommonAppDelegate.m; sourceTree = "<group>"; };
 		0436C91C22F5D7C00060A5E1 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ../src/mac/Images.xcassets; sourceTree = "<group>"; };
@@ -344,6 +346,7 @@
 				0497260518FD580300625326 /* VideoRunManager.m */,
 				0497260618FD580300625326 /* VideoRun.xib */,
 				0497261718FD582600625326 /* VideoCalibrationRun.xib */,
+				04282EF42324431F00696C24 /* VideoReceiverRun.xib */,
 				0452C797231BE52600F3DE1F /* VideoSenderRun.xib */,
 				0497260718FD580300625326 /* VideoSelectionView.h */,
 				0497260818FD580300625326 /* VideoSelectionView.m */,
@@ -680,6 +683,7 @@
 				0497264218FD5BDA00625326 /* icon.icns in Resources */,
 				049725E918FD568A00625326 /* HardwareRun.xib in Resources */,
 				0436C91D22F5D7C00060A5E1 /* Images.xcassets in Resources */,
+				04282EF52324431F00696C24 /* VideoReceiverRun.xib in Resources */,
 				0497264118FD5BDA00625326 /* docicon.icns in Resources */,
 				0461ED201A9FCD1F00439749 /* CalibrateScreenFromRemoteCamera.xib in Resources */,
 				0497262818FD589300625326 /* AudioRun.xib in Resources */,
