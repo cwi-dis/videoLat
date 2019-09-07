@@ -642,7 +642,6 @@ static NSMutableDictionary *runManagerSelectionNibs;
 
 - (void)newOutputDoneAt: (uint64_t)timestamp
 {
-    assert(self.collector);
     @synchronized(self) {
         if (outputCodeTimestamp != 0) {
             // We have already received the redraw for our mosyt recent generated code.
@@ -653,6 +652,7 @@ static NSMutableDictionary *runManagerSelectionNibs;
         outputCodeTimestamp = timestamp;
         uint64_t tsOutToRemember = outputCodeTimestamp;
         if (self.running) {
+            assert(self.collector);
             [self.collector recordTransmission: self.outputCode at: tsOutToRemember];
             VL_LOG_EVENT(@"transmission", tsOutToRemember, self.outputCode);
         }
