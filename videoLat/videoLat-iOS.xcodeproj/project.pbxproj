@@ -58,6 +58,7 @@
 		0478E1711ABF7E250057548C /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0478E1701ABF7E250057548C /* libz.dylib */; };
 		0478E1781ABF808C0057548C /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0478E1471ABF6F240057548C /* libiconv.dylib */; };
 		04C5FF1F1AB85EB800F4EC25 /* DeviceDescriptionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C5FF1E1AB85EB800F4EC25 /* DeviceDescriptionView.m */; };
+		04E92432232417CB009E64DF /* NetworkInputCalibrationSelectionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04E92431232417CB009E64DF /* NetworkInputCalibrationSelectionView.xib */; };
 		04F7B83C1AC02F4400BEFDD5 /* VideoInput.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F7B8391AC02F4400BEFDD5 /* VideoInput.m */; };
 		04F7B83D1AC02F4400BEFDD5 /* VideoOutputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F7B83B1AC02F4400BEFDD5 /* VideoOutputView.m */; };
 		04F7B8401AC02F4C00BEFDD5 /* VideoSelectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F7B83F1AC02F4C00BEFDD5 /* VideoSelectionView.m */; };
@@ -191,6 +192,7 @@
 		048BFCE31AB2EE2C0026D104 /* videoLat-iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "videoLat-iOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		04C5FF1D1AB85EB800F4EC25 /* DeviceDescriptionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeviceDescriptionView.h; path = src/Document/DeviceDescriptionView.h; sourceTree = SOURCE_ROOT; };
 		04C5FF1E1AB85EB800F4EC25 /* DeviceDescriptionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DeviceDescriptionView.m; path = src/Document/DeviceDescriptionView.m; sourceTree = SOURCE_ROOT; };
+		04E92431232417CB009E64DF /* NetworkInputCalibrationSelectionView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = NetworkInputCalibrationSelectionView.xib; path = src/iOS/NetworkInputCalibrationSelectionView.xib; sourceTree = SOURCE_ROOT; };
 		04F7B8381AC02F4400BEFDD5 /* VideoInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VideoInput.h; path = src/VideoRun/VideoInput.h; sourceTree = SOURCE_ROOT; };
 		04F7B8391AC02F4400BEFDD5 /* VideoInput.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VideoInput.m; path = src/VideoRun/VideoInput.m; sourceTree = SOURCE_ROOT; };
 		04F7B83A1AC02F4400BEFDD5 /* VideoOutputView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VideoOutputView.h; path = src/VideoRun/VideoOutputView.h; sourceTree = SOURCE_ROOT; };
@@ -376,6 +378,7 @@
 				041C8FFC1AC41B2300539C68 /* NetworkSelectionView.h */,
 				041C8FFD1AC41B2300539C68 /* NetworkSelectionView.m */,
 				04FAAAA81ACAA04C0094A5E9 /* NetworkInputSelectionView.xib */,
+				04E92431232417CB009E64DF /* NetworkInputCalibrationSelectionView.xib */,
 				0412D547230C800A009275C3 /* RemoteClock.h */,
 				0412D548230C800B009275C3 /* RemoteClock.m */,
 				041C90051AC4219900539C68 /* CalibrateCameraFromRemoteScreen.xib */,
@@ -611,6 +614,7 @@
 				040728B31AC9F86B00191022 /* CalibrateScreenFromRemoteCamera.xib in Resources */,
 				04155E9A1AB6311C00DD53D9 /* sounds in Resources */,
 				042935381AE7C4B10045C310 /* videolat_ios_help.html in Resources */,
+				04E92432232417CB009E64DF /* NetworkInputCalibrationSelectionView.xib in Resources */,
 				04FAAAAD1ACAD2DE0094A5E9 /* RemoteHelperScreen.xib in Resources */,
 				042422CB1ACEE2C3003A153C /* DocumentView.xib in Resources */,
 				0462CC171AC2F0E00077383B /* VideoCalibrationRun.xib in Resources */,

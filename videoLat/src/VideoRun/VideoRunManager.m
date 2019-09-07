@@ -47,7 +47,7 @@
     [BaseRunManager registerSelectionNib: @"VideoInputSelectionView" forMeasurementType: @"QR Code Roundtrip Calibrate"];
     [BaseRunManager registerSelectionNib: @"VideoInputSelectionView" forMeasurementType: @"Reception Calibrate using Other Device"];
     [BaseRunManager registerSelectionNib: @"NetworkInputSelectionView" forMeasurementType: @"QR Code Transmission to Camera Helper"];
-    [BaseRunManager registerSelectionNib: @"NetworkInputSelectionView" forMeasurementType: @"Transmission Calibrate using Other Device"];
+    [BaseRunManager registerSelectionNib: @"NetworkInputCalibrationSelectionView" forMeasurementType: @"Transmission Calibrate using Other Device"];
 #endif
 }
 
