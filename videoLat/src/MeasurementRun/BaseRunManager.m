@@ -661,7 +661,6 @@ static NSMutableDictionary *runManagerSelectionNibs;
 
 - (void)newOutputDone
 {
-    assert(self.collector);
     [self newOutputDoneAt: [self.clock now]];
 }
 
