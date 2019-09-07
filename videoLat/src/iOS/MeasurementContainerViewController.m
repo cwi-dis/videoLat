@@ -45,6 +45,15 @@
 	[self.view setNeedsLayout];
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    if (self.runManager) {
+        [self.runManager stop];
+        [self.runManager terminate];
+    }
+    self.runManager = nil;
+}
+
 - (BOOL)shouldAutorotate
 {
     BOOL hasVideoPreviewView = YES;
@@ -95,5 +104,4 @@
 
 	}
 }
-
 @end
