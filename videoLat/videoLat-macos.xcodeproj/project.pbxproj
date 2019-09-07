@@ -15,7 +15,6 @@
 		040E771C1AB6E0D6001A7918 /* compat.m in Sources */ = {isa = PBXBuildFile; fileRef = 040E771B1AB6E0D6001A7918 /* compat.m */; };
 		0412D546230C7E85009275C3 /* RemoteClock.m in Sources */ = {isa = PBXBuildFile; fileRef = 0412D545230C7E85009275C3 /* RemoteClock.m */; };
 		041714DD19DDEF340019FA45 /* NetworkProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 041714DC19DDEF340019FA45 /* NetworkProtocol.m */; };
-		041E097F1A9DDAAC006A241C /* TemplateRun.xib in Resources */ = {isa = PBXBuildFile; fileRef = 041E097E1A9DDAAC006A241C /* TemplateRun.xib */; };
 		042574921AA8F28800CFD180 /* CalibrationSharing.m in Sources */ = {isa = PBXBuildFile; fileRef = 042574911AA8F28800CFD180 /* CalibrationSharing.m */; };
 		04282EF723245A0B00696C24 /* AudioCalibrationRun.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04282EF623245A0B00696C24 /* AudioCalibrationRun.xib */; };
 		04282EF923245A3600696C24 /* AudioRun.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04282EF823245A3600696C24 /* AudioRun.xib */; };
@@ -33,6 +32,7 @@
 		04282F1223245BFC00696C24 /* CalibrateScreenFromCameraRun.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04282F0F23245BFC00696C24 /* CalibrateScreenFromCameraRun.xib */; };
 		04282F1323245BFC00696C24 /* VideoMonoRun.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04282F1023245BFC00696C24 /* VideoMonoRun.xib */; };
 		04282F1523245C1C00696C24 /* VideoRun.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04282F1423245C1C00696C24 /* VideoRun.xib */; };
+		04282F3123245E6300696C24 /* NewMeasurementView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04282F3023245E6300696C24 /* NewMeasurementView.xib */; };
 		0436C91D22F5D7C00060A5E1 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0436C91C22F5D7C00060A5E1 /* Images.xcassets */; };
 		044F3D7D183A46390008CBA3 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 044F3D7C183A46390008CBA3 /* AVFoundation.framework */; };
 		044F3D7F183A46540008CBA3 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 044F3D7E183A46540008CBA3 /* CoreMedia.framework */; settings = {ATTRIBUTES = (Required, ); }; };
@@ -45,7 +45,6 @@
 		047F65E01A9620B400D86391 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 047F65DF1A9620B400D86391 /* SystemConfiguration.framework */; };
 		048FB6F519FD21040023D29C /* HardwareDevices in Resources */ = {isa = PBXBuildFile; fileRef = 048FB6F419FD21040023D29C /* HardwareDevices */; };
 		049725DD18FD563E00625326 /* BaseRunManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 049725D518FD563E00625326 /* BaseRunManager.m */; };
-		049725DE18FD563E00625326 /* NewMeasurementView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 049725D618FD563E00625326 /* NewMeasurementView.xib */; };
 		049725DF18FD563E00625326 /* RunCollector.m in Sources */ = {isa = PBXBuildFile; fileRef = 049725D818FD563E00625326 /* RunCollector.m */; };
 		049725E018FD563E00625326 /* RunStatusView.m in Sources */ = {isa = PBXBuildFile; fileRef = 049725DA18FD563E00625326 /* RunStatusView.m */; };
 		049725E118FD563E00625326 /* RunManagerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 049725DC18FD563E00625326 /* RunManagerView.m */; };
@@ -122,7 +121,6 @@
 		0412D545230C7E85009275C3 /* RemoteClock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RemoteClock.m; path = Networking/RemoteClock.m; sourceTree = "<group>"; };
 		041714DB19DDECBE0019FA45 /* NetworkProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NetworkProtocol.h; path = Networking/NetworkProtocol.h; sourceTree = "<group>"; };
 		041714DC19DDEF340019FA45 /* NetworkProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NetworkProtocol.m; path = Networking/NetworkProtocol.m; sourceTree = "<group>"; };
-		041E097E1A9DDAAC006A241C /* TemplateRun.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = TemplateRun.xib; path = MeasurementRun/TemplateRun.xib; sourceTree = "<group>"; };
 		042574901AA8F28800CFD180 /* CalibrationSharing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CalibrationSharing.h; path = Sharing/CalibrationSharing.h; sourceTree = "<group>"; };
 		042574911AA8F28800CFD180 /* CalibrationSharing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CalibrationSharing.m; path = Sharing/CalibrationSharing.m; sourceTree = "<group>"; };
 		04282EF623245A0B00696C24 /* AudioCalibrationRun.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AudioCalibrationRun.xib; path = mac/xibfiles/AudioCalibrationRun.xib; sourceTree = "<group>"; };
@@ -141,6 +139,7 @@
 		04282F0F23245BFC00696C24 /* CalibrateScreenFromCameraRun.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CalibrateScreenFromCameraRun.xib; path = mac/xibfiles/CalibrateScreenFromCameraRun.xib; sourceTree = "<group>"; };
 		04282F1023245BFC00696C24 /* VideoMonoRun.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = VideoMonoRun.xib; path = mac/xibfiles/VideoMonoRun.xib; sourceTree = "<group>"; };
 		04282F1423245C1C00696C24 /* VideoRun.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = VideoRun.xib; path = mac/xibfiles/VideoRun.xib; sourceTree = "<group>"; };
+		04282F3023245E6300696C24 /* NewMeasurementView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = NewMeasurementView.xib; path = mac/xibfiles/NewMeasurementView.xib; sourceTree = "<group>"; };
 		042ABE301AD1E21A00FB877A /* CommonAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonAppDelegate.h; sourceTree = "<group>"; };
 		042ABE311AD1E21A00FB877A /* CommonAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommonAppDelegate.m; sourceTree = "<group>"; };
 		0436C91C22F5D7C00060A5E1 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ../src/mac/Images.xcassets; sourceTree = "<group>"; };
@@ -166,7 +165,6 @@
 		048FB6F419FD21040023D29C /* HardwareDevices */ = {isa = PBXFileReference; lastKnownFileType = folder; path = HardwareDevices; sourceTree = "<group>"; };
 		049725D418FD563E00625326 /* BaseRunManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BaseRunManager.h; path = MeasurementRun/BaseRunManager.h; sourceTree = "<group>"; };
 		049725D518FD563E00625326 /* BaseRunManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BaseRunManager.m; path = MeasurementRun/BaseRunManager.m; sourceTree = "<group>"; };
-		049725D618FD563E00625326 /* NewMeasurementView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = NewMeasurementView.xib; path = MeasurementRun/NewMeasurementView.xib; sourceTree = "<group>"; };
 		049725D718FD563E00625326 /* RunCollector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RunCollector.h; path = MeasurementRun/RunCollector.h; sourceTree = "<group>"; };
 		049725D818FD563E00625326 /* RunCollector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RunCollector.m; path = MeasurementRun/RunCollector.m; sourceTree = "<group>"; };
 		049725D918FD563E00625326 /* RunStatusView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RunStatusView.h; path = MeasurementRun/RunStatusView.h; sourceTree = "<group>"; };
@@ -309,7 +307,6 @@
 			children = (
 				049725D418FD563E00625326 /* BaseRunManager.h */,
 				049725D518FD563E00625326 /* BaseRunManager.m */,
-				041E097E1A9DDAAC006A241C /* TemplateRun.xib */,
 				049725D718FD563E00625326 /* RunCollector.h */,
 				0401ED8022E659CE00FB72E4 /* LevelStatusView.h */,
 				0401ED8122E659CF00FB72E4 /* LevelStatusView.m */,
@@ -520,7 +517,7 @@
 			children = (
 				04ED2A161A9D23E2001FA0AC /* NewMeasurementView.h */,
 				04ED2A171A9D23E2001FA0AC /* NewMeasurementView.m */,
-				049725D618FD563E00625326 /* NewMeasurementView.xib */,
+				04282F3023245E6300696C24 /* NewMeasurementView.xib */,
 				04F9AA981AACF95D00AE5413 /* DownloadCalibrationViewController.h */,
 				04F9AA991AACF95D00AE5413 /* DownloadCalibrationViewController.m */,
 			);
@@ -676,7 +673,6 @@
 				0497264418FD5E5F00625326 /* sounds in Resources */,
 				04282F0523245B3100696C24 /* CalibrateCameraFromHardware.xib in Resources */,
 				04282F0123245AD800696C24 /* CalibrateScreenFromRemoteCamera.xib in Resources */,
-				049725DE18FD563E00625326 /* NewMeasurementView.xib in Resources */,
 				04282EFD23245AA300696C24 /* VideoSenderRun.xib in Resources */,
 				04282F0B23245BA000696C24 /* CalibrateCameraFromRemoteScreen.xib in Resources */,
 				04282EFF23245AC000696C24 /* RemoteHelperScreen.xib in Resources */,
@@ -686,6 +682,7 @@
 				04282EF723245A0B00696C24 /* AudioCalibrationRun.xib in Resources */,
 				0436C91D22F5D7C00060A5E1 /* Images.xcassets in Resources */,
 				0497264118FD5BDA00625326 /* docicon.icns in Resources */,
+				04282F3123245E6300696C24 /* NewMeasurementView.xib in Resources */,
 				04B1915119D2ECBC001ABA66 /* Doxyfile in Resources */,
 				04282F0723245B7400696C24 /* VideoReceiverRun.xib in Resources */,
 				04FFFC6E1AB2F0F20023ED13 /* InfoPlist.strings in Resources */,
@@ -696,7 +693,6 @@
 				04282EF923245A3600696C24 /* AudioRun.xib in Resources */,
 				04282F0923245B8D00696C24 /* RemoteHelperCamera.xib in Resources */,
 				04FFFC6F1AB2F0F20023ED13 /* MainMenu.xib in Resources */,
-				041E097F1A9DDAAC006A241C /* TemplateRun.xib in Resources */,
 				04FFFC6D1AB2F0F20023ED13 /* Document.xib in Resources */,
 				04282EFB23245A7700696C24 /* HardwareRun.xib in Resources */,
 				04FFFC6C1AB2F0F20023ED13 /* Credits.rtf in Resources */,
