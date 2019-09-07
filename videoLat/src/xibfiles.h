@@ -142,61 +142,97 @@ select a calibration to download from videolat.org.
  */
 
 /**
-@file VideoRun/VideoRun.xib
+@file mac/xibfiles/VideoRun.xib
 @brief NIB file for VideoRunManager run.
  */
 
  /**
-@file VideoCalibrationRun/VideoCalibrationRun.xib
+@file mac/xibfiles/VideoCalibrationRun.xib
 @brief NIB file for VideoCalibrationRunManager run.
  */
 
  /**
-@file VideoMonoRun.xib
+@file mac/xibfiles/VideoMonoRun.xib
 @brief NIB file for VideoMonoRunManager run.
  */
 
  /**
-@file HardwareRun.xib
+@file mac/xibfiles/HardwareRun.xib
 @brief NIB file for HardwareRunManager run.
  */
 
 /**
-@file CalibrateCameraFromHardware.xib
-@brief NIB file for hardware-to-camera light measurement run.
+@file mac/xibfiles/CalibrateCameraFromHardware.xib
+@brief NIB file for hardware-to-camera light measurement to calibrate camera.
  */
 
 /**
-@file CalibrateScreenFromHardware.xib
-@brief NIB file for hardware-to-camera light measurement run.
+@file mac/xibfiles/CalibrateScreenFromHardware.xib
+@brief NIB file for screen-to-hardware light measurement to calibrate screen.
  */
 
 /**
  @file RemoteHelperScreen/RemoteHelperScreen.xib
- @brief NIB file for sending (server) side of asymetric measurements.
+ @brief NIB file for screen-only helper run that transmits output times back to master over the net.
  */
 
 /**
-@file RemoteHelperScreen/CalibrateScreenFromRemoteCamera.xib
-@brief NIB file for sending (server) side of asymetric measurements to do a screen calibration.
+ @file mac/xibfiles/CalibrateScreenFromRemoteCamera.xib
+ @brief NIB file for calibrating a screen using a remote helper camera.
  */
 
 /**
-@file RemoteHelperCamera/RemoteHelperCamera.xib
-@brief NIB file for receiving (client) side of asymetric measurements.
+ @file mac/xibfiles/CalibrateScreenFromRemoteCamera.xib
+ @brief NIB file for calibrating a screen using a remote helper camera.
  */
 
 /**
-@file RemoteHelperCamera/CalibrateCameraFromRemoteScreen.xib
+@file mac/xibfiles/RemoteHelperCamera.xib
+@brief NIB file for camera-only helper that transmits reception times back to master over the net.
+ */
+
+/**
+@file mac/xibfiles/CalibrateCameraFromRemoteScreen.xib
 @brief NIB file for sending (server) side of asymetric measurements to do a camera calibration.
  */
 
 /**
-@file AudioRun/AudioRun.xib
+@file mac/xibfiles/AudioRun.xib
 @brief NIB file for AudioRunManager run.
  */
 
 /**
-@file AudioCalibrationRun/AudioCalibrationRun.xib
-@brief NIB file for AudioCalibrationRunManager run.
-*/
+ @file mac/xibfiles/AudioCalibrationRun.xib
+ @brief NIB file for AudioCalibrationRunManager run.
+ */
+
+/**
+ @file mac/xibfiles/CalibrateCameraFromScreenRun.xib
+ @brief NIB file to calibrate your camera if your screen is already calibrated.
+ */
+
+/**
+ @file mac/xibfiles/CalibrateScreenFromCamera.xib
+ @brief NIB file to calibrate your screen if your camera is already calibrated
+ */
+
+/**
+ @file mac/xibfiles/NewMeasrurementView.xib
+ @brief NIB file for the window where you select the measurement to run.
+ */
+
+/**
+ @file mac/xibfiles/RemoteHelperScreen.xib
+ @brief NIB file for a network helper that displays QR-codes and sends the time back to the master.
+ */
+
+/**
+ @file mac/xibfiles/VideoReceiverRun.xib
+ @brief NIB file for running a measurement with the camera locally and a remote helper screen.
+ */
+
+/**
+ @file mac/xibfiles/VideoSenderRun.xib
+ @brief NIB file for running a measurement with the screen locally and a remote helper camera.
+ */
+
