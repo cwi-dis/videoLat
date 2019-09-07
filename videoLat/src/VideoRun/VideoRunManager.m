@@ -48,8 +48,12 @@
     [BaseRunManager registerNib: @"VideoReceiverRun" forMeasurementType: @"QR Code Reception from Screen Helper"];
 
     [BaseRunManager registerClass: [self class] forMeasurementType: @"Reception Calibrate using Other Device"];
+#ifdef WITH_APPKIT
     [BaseRunManager registerNib: @"CalibrateCameraFromRemoteScreen" forMeasurementType: @"Reception Calibrate using Other Device"];
-    
+#else
+    [BaseRunManager registerNib: @"VideoReceiverRun" forMeasurementType: @"Reception Calibrate using Other Device"];
+#endif
+
 #ifdef WITH_UIKIT
     [BaseRunManager registerSelectionNib: @"VideoInputSelectionView" forMeasurementType: @"QR Code Roundtrip"];
     [BaseRunManager registerSelectionNib: @"VideoInputSelectionView" forMeasurementType: @"QR Code Roundtrip Calibrate"];

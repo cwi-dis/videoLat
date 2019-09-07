@@ -43,7 +43,7 @@
 		041C90001AC41B2300539C68 /* NetworkProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 041C8FF91AC41B2300539C68 /* NetworkProtocol.m */; };
 		041C90011AC41B2300539C68 /* NetworkRunManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 041C8FFB1AC41B2300539C68 /* NetworkRunManager.m */; };
 		041C90021AC41B2300539C68 /* NetworkSelectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 041C8FFD1AC41B2300539C68 /* NetworkSelectionView.m */; };
-		041C90061AC4219900539C68 /* CalibrateCameraFromRemoteScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 041C90051AC4219900539C68 /* CalibrateCameraFromRemoteScreen.xib */; };
+		041C90061AC4219900539C68 /* VideoReceiverRun.xib in Resources */ = {isa = PBXBuildFile; fileRef = 041C90051AC4219900539C68 /* VideoReceiverRun.xib */; };
 		042422C61ACEE254003A153C /* CommonAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 042422C51ACEE254003A153C /* CommonAppDelegate.m */; };
 		042422C91ACEE299003A153C /* DocumentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 042422C81ACEE299003A153C /* DocumentViewController.m */; };
 		042422CB1ACEE2C3003A153C /* DocumentView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 042422CA1ACEE2C3003A153C /* DocumentView.xib */; };
@@ -165,7 +165,7 @@
 		041C8FFB1AC41B2300539C68 /* NetworkRunManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NetworkRunManager.m; path = src/Networking/NetworkRunManager.m; sourceTree = SOURCE_ROOT; };
 		041C8FFC1AC41B2300539C68 /* NetworkSelectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NetworkSelectionView.h; path = src/Networking/NetworkSelectionView.h; sourceTree = SOURCE_ROOT; };
 		041C8FFD1AC41B2300539C68 /* NetworkSelectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NetworkSelectionView.m; path = src/Networking/NetworkSelectionView.m; sourceTree = SOURCE_ROOT; };
-		041C90051AC4219900539C68 /* CalibrateCameraFromRemoteScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CalibrateCameraFromRemoteScreen.xib; path = src/iOS/CalibrateCameraFromRemoteScreen.xib; sourceTree = SOURCE_ROOT; };
+		041C90051AC4219900539C68 /* VideoReceiverRun.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = VideoReceiverRun.xib; path = src/iOS/VideoReceiverRun.xib; sourceTree = SOURCE_ROOT; };
 		042422C41ACEE254003A153C /* CommonAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CommonAppDelegate.h; path = src/CommonAppDelegate.h; sourceTree = SOURCE_ROOT; };
 		042422C51ACEE254003A153C /* CommonAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CommonAppDelegate.m; path = src/CommonAppDelegate.m; sourceTree = SOURCE_ROOT; };
 		042422C71ACEE299003A153C /* DocumentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DocumentViewController.h; path = src/iOS/DocumentViewController.h; sourceTree = SOURCE_ROOT; };
@@ -381,7 +381,7 @@
 				04E92431232417CB009E64DF /* NetworkInputCalibrationSelectionView.xib */,
 				0412D547230C800A009275C3 /* RemoteClock.h */,
 				0412D548230C800B009275C3 /* RemoteClock.m */,
-				041C90051AC4219900539C68 /* CalibrateCameraFromRemoteScreen.xib */,
+				041C90051AC4219900539C68 /* VideoReceiverRun.xib */,
 				040728B21AC9F86B00191022 /* VideoSenderRun.xib */,
 				04FAAAAA1ACAD2D30094A5E9 /* RemoteHelperCamera.xib */,
 				04FAAAAC1ACAD2DE0094A5E9 /* RemoteHelperScreen.xib */,
@@ -619,7 +619,7 @@
 				042422CB1ACEE2C3003A153C /* DocumentView.xib in Resources */,
 				0462CC171AC2F0E00077383B /* VideoCalibrationRun.xib in Resources */,
 				04FFFC831AB2FACB0023ED13 /* Images.xcassets in Resources */,
-				041C90061AC4219900539C68 /* CalibrateCameraFromRemoteScreen.xib in Resources */,
+				041C90061AC4219900539C68 /* VideoReceiverRun.xib in Resources */,
 				04F7B8451AC040AE00BEFDD5 /* VideoInputSelectionView.xib in Resources */,
 				04FAAAAB1ACAD2D30094A5E9 /* RemoteHelperCamera.xib in Resources */,
 				04FAAAAF1ACAD2FB0094A5E9 /* AudioRun.xib in Resources */,
