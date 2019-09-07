@@ -8,19 +8,18 @@
 
 #import <Cocoa/Cocoa.h>
 #import "protocols.h"
+#import "HardwareIODevice.h"
 
 ///
-/// Subclass of NSView that adheres to OutputViewProtocol and shows currently
+/// Subclass of NSView that adheres to OutputDeviceProtocol and shows currently
 /// selected hardware output device.
 ///
-@interface HardwareOutputView : NSView <OutputViewProtocol> {
+@interface HardwareOutputView : NSView <OutputDeviceProtocol> {
 }
 
-@property(readonly) NSString *deviceID;     //!< accessor for device.deviceID
-@property(readonly) NSString *deviceName;	//!< accessor for device.deviceName
 @property(weak) IBOutlet NSButton *bOutputValue;    //!< UI element that shows current output value
-
-@property(weak) NSObject <HardwareLightProtocol> *device;  //!< our output device (assigned by HardwareRunManager)
+@property(weak) IBOutlet id <RunManagerProtocol> manager; //!< Set by NIB: our run manager
+@property(weak) IBOutlet HardwareIODevice *hardwareIODevice;  //!< our output device is actually managed by the combined input/output driver
 
 - (void) showNewData;   //!< Called when new data should be shown
  

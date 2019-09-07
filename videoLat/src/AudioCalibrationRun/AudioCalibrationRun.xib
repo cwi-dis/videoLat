@@ -14,7 +14,7 @@
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
-        <customObject id="1" customClass="AudioCalibrationRunManager">
+        <customObject id="1" customClass="AudioRunManager">
             <connections>
                 <outlet property="bDetection" destination="311" id="318"/>
                 <outlet property="capturer" destination="217" id="277"/>
@@ -132,7 +132,7 @@
                         <rect key="frame" x="20" y="20" width="268" height="136"/>
                         <subviews>
                             <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="337">
-                                <rect key="frame" x="18" y="74" width="56" height="17"/>
+                                <rect key="frame" x="18" y="74" width="45" height="17"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Count:" id="356">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -178,7 +178,7 @@
                                 </textFieldCell>
                             </textField>
                             <button toolTip="Stop measuring and present results" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="333">
-                                <rect key="frame" x="185" y="13" width="69" height="32"/>
+                                <rect key="frame" x="175" y="13" width="79" height="32"/>
                                 <buttonCell key="cell" type="push" title="Stop" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="362">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -188,13 +188,26 @@
                                 </connections>
                             </button>
                             <button toolTip="Start doing a measurement run" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="6">
-                                <rect key="frame" x="14" y="13" width="64" height="32"/>
+                                <rect key="frame" x="95" y="13" width="79" height="32"/>
                                 <buttonCell key="cell" type="push" title="Run" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="45">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
                                     <action selector="startMeasuring:" target="1" id="48"/>
+                                </connections>
+                            </button>
+                            <button toolTip="Do initial measurements to check everything works" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gMD-eh-XJ1">
+                                <rect key="frame" x="14" y="13" width="79" height="32"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="67" id="ZJo-US-GgN"/>
+                                </constraints>
+                                <buttonCell key="cell" type="push" title="Prepare" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="QYi-fB-4Ex">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="startPreMeasuring:" target="1" id="EQg-07-tCI"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -213,14 +226,18 @@
                             <constraint firstAttribute="trailing" secondItem="336" secondAttribute="trailing" constant="20" symbolic="YES" id="350"/>
                             <constraint firstAttribute="trailing" secondItem="333" secondAttribute="trailing" constant="20" symbolic="YES" id="351"/>
                             <constraint firstAttribute="bottom" secondItem="333" secondAttribute="bottom" constant="20" symbolic="YES" id="352"/>
-                            <constraint firstItem="6" firstAttribute="trailing" secondItem="337" secondAttribute="trailing" id="405"/>
                             <constraint firstItem="6" firstAttribute="top" secondItem="335" secondAttribute="bottom" constant="8" symbolic="YES" id="406"/>
                             <constraint firstItem="6" firstAttribute="baseline" secondItem="333" secondAttribute="baseline" id="407"/>
-                            <constraint firstItem="6" firstAttribute="leading" secondItem="335" secondAttribute="leading" id="408"/>
+                            <constraint firstItem="gMD-eh-XJ1" firstAttribute="leading" secondItem="329" secondAttribute="leading" constant="20" id="3gG-WR-LNB"/>
+                            <constraint firstItem="6" firstAttribute="width" secondItem="gMD-eh-XJ1" secondAttribute="width" id="6qc-KR-TiH"/>
+                            <constraint firstItem="333" firstAttribute="width" secondItem="gMD-eh-XJ1" secondAttribute="width" id="SZK-9g-IuK"/>
+                            <constraint firstAttribute="bottom" secondItem="gMD-eh-XJ1" secondAttribute="bottom" constant="20" id="utc-r7-3Gs"/>
+                            <constraint firstItem="6" firstAttribute="centerX" secondItem="329" secondAttribute="centerX" id="x2t-qU-3SE"/>
                         </constraints>
                         <connections>
                             <outlet property="bAverage" destination="336" id="365"/>
                             <outlet property="bCount" destination="334" id="366"/>
+                            <outlet property="bPrepare" destination="gMD-eh-XJ1" id="yDU-Vf-aWU"/>
                             <outlet property="bRun" destination="6" id="409"/>
                             <outlet property="bStop" destination="333" id="367"/>
                         </connections>
@@ -236,19 +253,6 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <button toolTip="Do initial measurements to check everything works" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5">
-                                <rect key="frame" x="175" y="232" width="79" height="32"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="67" id="46"/>
-                                </constraints>
-                                <buttonCell key="cell" type="push" title="Prepare" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="47">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="startPreMeasuring:" target="1" id="52"/>
-                                </connections>
-                            </button>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="8">
                                 <rect key="frame" x="0.0" y="0.0" width="268" height="219"/>
                                 <subviews>
@@ -302,7 +306,7 @@
                                     <menu key="menu" title="OtherViews" id="161"/>
                                 </popUpButtonCell>
                                 <connections>
-                                    <action selector="deviceChanged:" target="4" id="324"/>
+                                    <action selector="inputDeviceSelectionChanged:" target="4" id="324"/>
                                 </connections>
                             </popUpButton>
                         </subviews>
@@ -317,13 +321,10 @@
                             <constraint firstAttribute="trailing" secondItem="158" secondAttribute="trailing" constant="20" symbolic="YES" id="280"/>
                             <constraint firstItem="158" firstAttribute="top" secondItem="9" secondAttribute="bottom" constant="8" symbolic="YES" id="281"/>
                             <constraint firstItem="157" firstAttribute="bottom" secondItem="158" secondAttribute="bottom" id="282"/>
-                            <constraint firstItem="8" firstAttribute="top" secondItem="5" secondAttribute="bottom" constant="20" symbolic="YES" id="410"/>
-                            <constraint firstItem="5" firstAttribute="trailing" secondItem="158" secondAttribute="trailing" id="411"/>
-                            <constraint firstItem="5" firstAttribute="top" secondItem="4" secondAttribute="top" constant="134" id="412"/>
+                            <constraint firstItem="8" firstAttribute="top" secondItem="157" secondAttribute="bottom" constant="109" id="qdB-R3-NGR"/>
                         </constraints>
                         <connections>
-                            <outlet property="bDevices" destination="158" id="326"/>
-                            <outlet property="bPreRun" destination="5" id="60"/>
+                            <outlet property="bInputDevices" destination="158" id="326"/>
                             <outlet property="inputHandler" destination="217" id="218"/>
                         </connections>
                     </customView>

@@ -1,28 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14490.70"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14460.31"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="NewMeasurementViewController">
             <connections>
-                <outlet property="measurementWindow" destination="440" id="V45-fj-5z7"/>
-                <outlet property="runManagerView" destination="441" id="AVN-mU-bJr"/>
+                <outlet property="measurementWindow" destination="440" id="2AR-xA-G6Q"/>
+                <outlet property="runManagerView" destination="441" id="ZlN-d1-Qfj"/>
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
-        <customObject id="74" customClass="NetworkRunManager">
+        <customObject id="74" userLabel="Manager" customClass="VideoRunManager">
             <connections>
                 <outlet property="capturer" destination="3" id="207"/>
                 <outlet property="clock" destination="3" id="89"/>
+                <outlet property="collector" destination="ftB-MU-Tii" id="cZ8-yZ-I8c"/>
                 <outlet property="finder" destination="209" id="210"/>
                 <outlet property="measurementMaster" destination="-2" id="180"/>
+                <outlet property="networkIODevice" destination="7wW-YQ-nwo" id="T3n-sH-93Y"/>
                 <outlet property="outputView" destination="77" id="200"/>
                 <outlet property="selectionView" destination="4" id="437"/>
-                <outlet property="statusView" destination="442" id="512"/>
+                <outlet property="statusView" destination="442" id="514"/>
             </connections>
         </customObject>
         <customObject id="3" customClass="VideoInput">
@@ -31,12 +33,19 @@
                 <outlet property="selfView" destination="8" id="54"/>
             </connections>
         </customObject>
+        <customObject id="7wW-YQ-nwo" customClass="NetworkIODevice">
+            <connections>
+                <outlet property="clock" destination="3" id="6xz-e0-Pdr"/>
+                <outlet property="manager" destination="74" id="bve-EA-fR4"/>
+                <outlet property="networkStatusView" destination="77" id="k0X-Qc-vWK"/>
+            </connections>
+        </customObject>
         <customObject id="209" customClass="FindQRcode"/>
-        <window title="Video Receiver (Slave)" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" id="440">
+        <window title="Camera Calibrate using Remote Calibrated Screen (Master)" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" id="440">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="196" y="240" width="956" height="684"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
             <view key="contentView" id="441" customClass="RunManagerView">
                 <rect key="frame" x="0.0" y="0.0" width="956" height="684"/>
                 <autoresizingMask key="autoresizingMask"/>
@@ -61,14 +70,14 @@
                                 </textFieldCell>
                             </textField>
                             <popUpButton toolTip="Select camera to use for input. " verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="11">
-                                <rect key="frame" x="77" y="335" width="174" height="25"/>
+                                <rect key="frame" x="77" y="334" width="174" height="26"/>
                                 <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="39">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="menu"/>
                                     <menu key="menu" title="OtherViews" id="40"/>
                                 </popUpButtonCell>
                                 <connections>
-                                    <action selector="deviceChanged:" target="4" id="383"/>
+                                    <action selector="inputDeviceSelectionChanged:" target="4" id="383"/>
                                 </connections>
                             </popUpButton>
                             <customView toolTip="Video captured by the camera" translatesAutoresizingMaskIntoConstraints="NO" id="8" customClass="VideoInputView">
@@ -87,30 +96,6 @@
                                     <action selector="visibleChanged:" target="8" id="62"/>
                                 </connections>
                             </button>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="366">
-                                <rect key="frame" x="18" y="316" width="38" height="17"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" enabled="NO" sendsActionOnEndEditing="YES" title="Base:" id="370">
-                                    <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
-                            <popUpButton toolTip="Select hardware self-measurement for this setup" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="367">
-                                <rect key="frame" x="77" y="310" width="174" height="25"/>
-                                <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" enabled="NO" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="368">
-                                    <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="menu"/>
-                                    <menu key="menu" title="OtherViews" id="369"/>
-                                </popUpButtonCell>
-                            </popUpButton>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="s1T-rR-sOi">
-                                <rect key="frame" x="15" y="0.0" width="238" height="17"/>
-                                <textFieldCell key="cell" alignment="center" title="(Control is handled by remote sender)" id="4Aj-EY-ZOh">
-                                    <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
                         </subviews>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="9" secondAttribute="trailing" constant="20" symbolic="YES" id="13"/>
@@ -122,25 +107,16 @@
                             <constraint firstItem="8" firstAttribute="trailing" secondItem="4" secondAttribute="trailing" id="29"/>
                             <constraint firstItem="8" firstAttribute="leading" secondItem="4" secondAttribute="leading" id="32"/>
                             <constraint firstItem="9" firstAttribute="top" secondItem="4" secondAttribute="top" constant="11" id="112"/>
-                            <constraint firstItem="367" firstAttribute="baseline" secondItem="366" secondAttribute="baseline" id="375"/>
-                            <constraint firstItem="11" firstAttribute="trailing" secondItem="367" secondAttribute="trailing" id="377"/>
-                            <constraint firstItem="367" firstAttribute="leading" secondItem="11" secondAttribute="leading" id="379"/>
                             <constraint firstItem="11" firstAttribute="baseline" secondItem="36" secondAttribute="baseline" id="381"/>
                             <constraint firstItem="36" firstAttribute="top" secondItem="9" secondAttribute="bottom" constant="8" symbolic="YES" id="389"/>
-                            <constraint firstItem="366" firstAttribute="top" secondItem="36" secondAttribute="bottom" constant="8" symbolic="YES" id="399"/>
-                            <constraint firstItem="7" firstAttribute="leading" secondItem="366" secondAttribute="leading" id="401"/>
-                            <constraint firstItem="7" firstAttribute="top" secondItem="366" secondAttribute="bottom" constant="8" symbolic="YES" id="402"/>
                             <constraint firstItem="8" firstAttribute="top" secondItem="7" secondAttribute="bottom" constant="8" symbolic="YES" id="403"/>
-                            <constraint firstAttribute="bottom" secondItem="s1T-rR-sOi" secondAttribute="bottom" id="Twt-OM-95O"/>
-                            <constraint firstItem="s1T-rR-sOi" firstAttribute="centerX" secondItem="4" secondAttribute="centerX" id="Z2C-Za-5bE"/>
-                            <constraint firstItem="s1T-rR-sOi" firstAttribute="top" secondItem="8" secondAttribute="bottom" constant="8" id="xlw-WX-U9e"/>
+                            <constraint firstItem="7" firstAttribute="top" secondItem="4" secondAttribute="top" constant="86" id="512"/>
+                            <constraint firstAttribute="bottom" secondItem="8" secondAttribute="bottom" constant="25" id="rUp-u6-viJ"/>
                         </constraints>
                         <connections>
-                            <outlet property="bBase" destination="367" id="385"/>
-                            <outlet property="bDevices" destination="11" id="384"/>
-                            <outlet property="cameraPreview" destination="8" id="HUh-OQ-TEH"/>
+                            <outlet property="bInputDevices" destination="11" id="384"/>
                             <outlet property="inputHandler" destination="3" id="59"/>
-                            <outlet property="selectionDelegate" destination="74" id="RDd-oU-aHP"/>
+                            <outlet property="inputSelectionDelegate" destination="74" id="tTc-zv-nRM"/>
                         </connections>
                     </customView>
                     <customView translatesAutoresizingMaskIntoConstraints="NO" id="442" customClass="RunStatusView">
@@ -195,6 +171,39 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
+                            <button toolTip="Start doing a measurement run" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="HuN-y3-0qy">
+                                <rect key="frame" x="95" y="13" width="79" height="32"/>
+                                <buttonCell key="cell" type="push" title="Run" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="8Jg-Jy-IY2">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="startMeasuring:" target="74" id="IWt-ir-b89"/>
+                                </connections>
+                            </button>
+                            <button toolTip="Do initial measurements to check everything works and detect mirroring" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ema-Q3-Fmo">
+                                <rect key="frame" x="14" y="13" width="79" height="32"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="67" id="wt6-Ln-yJq"/>
+                                </constraints>
+                                <buttonCell key="cell" type="push" title="Prepare" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="yif-4H-0aD">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="startPreMeasuring:" target="74" id="LVD-bb-Kra"/>
+                                </connections>
+                            </button>
+                            <button toolTip="Stop measuring and present results" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="8jn-wc-Nie">
+                                <rect key="frame" x="175" y="13" width="79" height="32"/>
+                                <buttonCell key="cell" type="push" title="Stop" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="WMY-B0-aHR">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="stopMeasuring:" target="74" id="Jvw-ei-Oqi"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="451" secondAttribute="trailing" constant="20" symbolic="YES" id="452"/>
@@ -209,10 +218,22 @@
                             <constraint firstAttribute="trailing" secondItem="447" secondAttribute="trailing" constant="20" symbolic="YES" id="461"/>
                             <constraint firstItem="449" firstAttribute="baseline" secondItem="448" secondAttribute="baseline" id="462"/>
                             <constraint firstAttribute="trailing" secondItem="449" secondAttribute="trailing" constant="20" symbolic="YES" id="463"/>
+                            <constraint firstAttribute="bottom" secondItem="HuN-y3-0qy" secondAttribute="bottom" constant="20" id="3xl-Jq-wzV"/>
+                            <constraint firstAttribute="bottom" secondItem="ema-Q3-Fmo" secondAttribute="bottom" constant="20" id="4gc-JH-BYO"/>
+                            <constraint firstAttribute="trailing" secondItem="8jn-wc-Nie" secondAttribute="trailing" constant="20" id="C89-9k-y7j"/>
+                            <constraint firstItem="HuN-y3-0qy" firstAttribute="centerX" secondItem="442" secondAttribute="centerX" id="Crt-m1-Bku"/>
+                            <constraint firstItem="8jn-wc-Nie" firstAttribute="width" secondItem="ema-Q3-Fmo" secondAttribute="width" id="M64-qU-0XU"/>
+                            <constraint firstAttribute="bottom" secondItem="8jn-wc-Nie" secondAttribute="bottom" constant="20" id="UWC-PC-L3X"/>
+                            <constraint firstItem="HuN-y3-0qy" firstAttribute="baseline" secondItem="8jn-wc-Nie" secondAttribute="baseline" id="a9P-mM-2H9"/>
+                            <constraint firstItem="HuN-y3-0qy" firstAttribute="width" secondItem="ema-Q3-Fmo" secondAttribute="width" id="ccH-rt-MLA"/>
+                            <constraint firstItem="ema-Q3-Fmo" firstAttribute="leading" secondItem="442" secondAttribute="leading" constant="20" id="o6X-4L-IBE"/>
                         </constraints>
                         <connections>
                             <outlet property="bAverage" destination="449" id="478"/>
                             <outlet property="bCount" destination="447" id="479"/>
+                            <outlet property="bPrepare" destination="ema-Q3-Fmo" id="U32-N0-Js6"/>
+                            <outlet property="bRun" destination="HuN-y3-0qy" id="1z3-rO-4uL"/>
+                            <outlet property="bStop" destination="8jn-wc-Nie" id="fI8-kN-LS3"/>
                         </connections>
                     </customView>
                     <view translatesAutoresizingMaskIntoConstraints="NO" id="77" customClass="NetworkOutputView">
@@ -300,12 +321,12 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7o6-lE-Z7i">
+                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tDt-dr-oEU">
                                 <rect key="frame" x="30" y="20" width="592" height="453"/>
                                 <autoresizingMask key="autoresizingMask"/>
-                                <textFieldCell key="cell" selectable="YES" id="1cX-95-New">
+                                <textFieldCell key="cell" selectable="YES" id="rYp-or-RAZ">
                                     <font key="font" metaFont="system"/>
-                                    <mutableString key="title">Quick instructions:  The other device should run "QR Code Transmission" or "Transmission Calibrate using Other Device". Control (the user interface buttons) is on the other device.  Point the camera of this computer at the QR code displayed by the other device and IP address and port (above) will be filled in. this computer will then connect to the other devie.  Note that for this connection to work both computers need to be on the same WiFi network or the other computer must have a public IP address.  User control (the Prepare and Run buttons) are on the other device (the transmitter).</mutableString>
+                                    <mutableString key="title">Quick instructions:  The other device should run "QR Code Transmission to Camera Helper". Control (the user interface buttons) is handled on this device.  Point the camera of this computer at the QR code displayed by the other device and IP address and port (above) will be filled in. this computer will then connect to the other devie.  Note that for this connection to work both computers need to be on the same WiFi network or the other computer must have a public IP address.</mutableString>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
@@ -335,10 +356,11 @@
                             <constraint firstItem="286" firstAttribute="baseline" secondItem="285" secondAttribute="baseline" id="360"/>
                         </constraints>
                         <connections>
+                            <outlet property="bNetworkStatus" destination="265" id="279"/>
                             <outlet property="bPeerIPAddress" destination="223" id="277"/>
                             <outlet property="bPeerPort" destination="229" id="278"/>
                             <outlet property="bPeerRTT" destination="286" id="336"/>
-                            <outlet property="bPeerStatus" destination="265" id="279"/>
+                            <outlet property="networkDevice" destination="7wW-YQ-nwo" id="r1W-lc-lmE"/>
                         </connections>
                     </view>
                 </subviews>
@@ -364,5 +386,6 @@
                 </connections>
             </view>
         </window>
+        <customObject id="ftB-MU-Tii" customClass="RunCollector"/>
     </objects>
 </document>

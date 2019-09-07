@@ -30,21 +30,37 @@
 
 - (DeviceDescription *)initFromCalibrationInput:(MeasurementDataStore *)_calibration
 {
-	self = [super init];
-	if (self == nil) return nil;
-	self.location = ((AppDelegate *)[[NSorUIApplication sharedApplication] delegate]).location;
-	self.machineTypeID = _calibration.input.machineTypeID;
-	self.machineID = _calibration.input.machineID;
-	self.machine = _calibration.input.machine;
-	self.os = _calibration.input.os;
-	self.videoLatVersion = _calibration.input.videoLatVersion;
-	self.deviceID = _calibration.input.deviceID;
-	self.device = _calibration.input.device;
-	self.calibration = _calibration;
-	return self;
+    self = [super init];
+    if (self == nil) return nil;
+    self.location = ((AppDelegate *)[[NSorUIApplication sharedApplication] delegate]).location;
+    self.machineTypeID = _calibration.input.machineTypeID;
+    self.machineID = _calibration.input.machineID;
+    self.machine = _calibration.input.machine;
+    self.os = _calibration.input.os;
+    self.videoLatVersion = _calibration.input.videoLatVersion;
+    self.deviceID = _calibration.input.deviceID;
+    self.device = _calibration.input.device;
+    self.calibration = _calibration;
+    return self;
 }
 
-- (DeviceDescription *)initFromInputDevice: (id<InputCaptureProtocol>)inputDevice
+- (DeviceDescription *)initFromCalibrationOutput:(MeasurementDataStore *)_calibration
+{
+    self = [super init];
+    if (self == nil) return nil;
+    self.location = ((AppDelegate *)[[NSorUIApplication sharedApplication] delegate]).location;
+    self.machineTypeID = _calibration.input.machineTypeID;
+    self.machineID = _calibration.input.machineID;
+    self.machine = _calibration.input.machine;
+    self.os = _calibration.input.os;
+    self.videoLatVersion = _calibration.input.videoLatVersion;
+    self.deviceID = _calibration.output.deviceID;
+    self.device = _calibration.output.device;
+    self.calibration = _calibration;
+    return self;
+}
+
+- (DeviceDescription *)initFromInputDevice: (id<InputDeviceProtocol>)inputDevice
 {
     self = [super init];
     if (self == nil) return nil;
@@ -62,7 +78,7 @@
     return self;
 }
 
-- (DeviceDescription *)initFromOutputDevice: (id<OutputViewProtocol>)outputDevice
+- (DeviceDescription *)initFromOutputDevice: (id<OutputDeviceProtocol>)outputDevice
 {
     self = [super init];
     if (self == nil) return nil;

@@ -17,17 +17,14 @@
 ///
 @interface VideoOutputView
 #ifdef WITH_UIKIT
- : UIView <OutputViewProtocol>
+ : UIView <OutputDeviceProtocol>
 #else
- : NSView <OutputViewProtocol>
+ : NSView <OutputDeviceProtocol>
 #endif
 {
-	NSString *deviceID;
 }
 
-@property(readonly) NSString *deviceID;     //!< Unique string that identifies the output device
-@property(readonly) NSString *deviceName;	//!< Human-readable string that identifies the output device
-@property(weak) IBOutlet id <RunOutputManagerProtocol> manager; //!< Set by NIB: our run manager
+@property(weak) IBOutlet id <RunManagerProtocol> manager; //!< Set by NIB: our run manager
 
 #ifdef WITH_APPKIT
 /// Internal: the screen our window was on during the last redraw.

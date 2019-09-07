@@ -26,9 +26,15 @@
 	CIImage *ciImage = [CIImage imageWithCVPixelBuffer:image];
 	NSArray *features = [detector featuresInImage:ciImage];
 	if (features == nil || features.count == 0) return NULL;
+#if 0
+    // This isn't necessarily an issue: sometimes the same feature is returned with 2 set of bounds (I think)
 	if (features.count > 1) {
 		NSLog(@"Warning: Multiple QR-codes detected");
+        for(CIQRCodeFeature *feature in features) {
+            NSLog(@"- Code: %@", feature.messageString);
+        }
 	}
+#endif
 	CIQRCodeFeature *feature = features[0];
 	lastDetection = feature.messageString;
 	rect = feature.bounds;

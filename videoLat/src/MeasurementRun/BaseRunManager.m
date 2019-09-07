@@ -10,6 +10,7 @@
 #import "MachineDescription.h"
 #import "AppDelegate.h"
 #import "EventLogger.h"
+#import "NetworkIODevice.h"
 
 static NSMutableDictionary *runManagerClasses;
 static NSMutableDictionary *runManagerNibs;
@@ -19,18 +20,18 @@ static NSMutableDictionary *runManagerSelectionNibs;
 @implementation BaseRunManager
 @synthesize clock;
 @synthesize running;
-@synthesize preRunning;
+@synthesize preparing;
 @synthesize prevOutputCode;
 
-- (int) initialPrerunCount
+- (int) initialPrepareCount
 {
-	[NSException raise:@"BaseRunManager" format:@"Must override initialPrerunCount in subclass %@", [self class]];
+	[NSException raise:@"BaseRunManager" format:@"Must override initialPrepareCount in subclass %@", [self class]];
 	return 1;
 }
 
-- (int) initialPrerunDelay
+- (int) initialPrepareDelay
 {
-	[NSException raise:@"BaseRunManager" format:@"Must override initialPrerunDelay in subclass %@", [self class]];
+	[NSException raise:@"BaseRunManager" format:@"Must override initialPrepareDelay in subclass %@", [self class]];
 	return 1;
 }
 
@@ -101,20 +102,14 @@ static NSMutableDictionary *runManagerSelectionNibs;
 {
     self = [super init];
     if (self) {
-        handlesInput = NO;
-        handlesOutput = NO;
+        networkHelper = NO;
+        showPreviewDuringRun = YES;
     }
     return self;
 }
 
 - (void)terminate
 {
-    NSObject<RunInputManagerProtocol> *ic = self.inputCompanion;
-    NSObject<RunOutputManagerProtocol> *oc = self.outputCompanion;
-	self.inputCompanion = nil;
-	self.outputCompanion = nil;
-	if (ic) [ic terminate];
-	if (oc) [oc terminate];
 	self.collector = nil;
 	self.statusView = nil;
 	self.measurementMaster = nil;
@@ -123,65 +118,38 @@ static NSMutableDictionary *runManagerSelectionNibs;
 
 - (void) dealloc
 {
-    self.inputCompanion = nil;
-    self.outputCompanion = nil;
 }
 
 - (void) awakeFromNib
 {
     [super awakeFromNib];
-    if (handlesInput) assert(self.capturer);
-    if (handlesOutput) {
-        assert(self.outputView);
-        assert(self.collector);
-    }
-    if (handlesInput) assert(self.statusView);
+
+    assert(self.clock);
 #ifdef WITH_APPKIT
     assert(self.selectionView);
     assert(self.measurementMaster);
 #endif
-
-    NSString *errorMessage = nil;
-    handlesInput = self.inputCompanion == nil;
-    handlesOutput = self.outputCompanion == nil;
-    if (handlesInput && handlesOutput) {
-        // This run manager is responsible for both input and output
-        self.inputCompanion = self;
-        self.outputCompanion = self;
+    assert(self.capturer);
+    assert(self.statusView);
+    assert(self.outputView);
+    if (!networkHelper) {
+        assert(self.collector);
     }
-    if (!handlesInput) assert(self.inputCompanion);
-    if (!handlesOutput) assert(self.outputCompanion);
-    if (handlesInput) {
-        // We handle only input. Assert output handler exists and points back to us
-        if (self.outputCompanion.inputCompanion != self) {
-            errorMessage = [NSString stringWithFormat:@"Programmer error: %@ has outputCompanion %@ but it has inputCompanion %@",
-                            self, self.outputCompanion, self.outputCompanion.inputCompanion];
-        }
+    // xxxjack this needs to be done differently, based on a subclass
+    if (self.networkIODevice && self.networkIODevice == self.capturer) {
+        networkServer = YES;
     }
-    if (handlesOutput) {
-        // We handle only output. Assert input handler exists and points back to us
-        if (self.inputCompanion.outputCompanion != self) {
-            errorMessage = [NSString stringWithFormat:@"Programmer error: %@ has inputCompanion %@ but it has outputCompanion %@",
-                            self, self.inputCompanion, self.inputCompanion.outputCompanion];
-        }
+    if (networkServer) {
+        assert(self.networkIODevice);
+        [self.networkIODevice openServer: networkHelper];
     }
-    if (self.collector == nil && !slaveHandler) {
-        errorMessage = [NSString stringWithFormat:@"Programmer error: %@ has collector==nil", self];
-    }
-    
-    if (errorMessage) {
-        showWarningAlert(errorMessage);
-    }
+        
 }
 
 - (void) selectMeasurementType:(NSString *)typeName
 {
 	self.measurementType = [MeasurementType forType:typeName];
-    assert(handlesInput);
     [self restart];
-    if (!handlesOutput) {
-        [self.outputCompanion companionRestart];
-    }
 }
 
 #ifdef WITH_UIKIT
@@ -189,51 +157,74 @@ static NSMutableDictionary *runManagerSelectionNibs;
 {
 	baseName = baseMeasurementName;
 	[self selectMeasurementType:measurementTypeName];
-	if (!slaveHandler)
+	if (self.networkIODevice == nil)
 		[self startPreMeasuring:self];
 }
 #endif
 
-- (IBAction)selectionChanged: (id) sender
+#ifdef WITH_APPKIT
+- (IBAction) inputSelectionChanged: (id)sender
 {
-	NSLog(@"BaseRunManager: device changed");
+    assert(self.capturer);
+    assert(self.selectionView);
+    assert(self.statusView);
+    [self restart];
 }
+#endif
 
 - (IBAction)startPreMeasuring: (id)sender
 {
 	@synchronized(self) {
- 		assert(!self.preRunning);
+ 		assert(!self.preparing);
 		assert(!self.running);
-       assert(handlesInput);
-		// First check that everything is OK with base measurement and such
+        assert(self.capturer);
+        assert(self.outputView);
+        assert(!networkHelper);
+        // First check that everything is OK with base measurement and such
 		if (self.measurementType.requires != nil) {
 			// First check that a base measurement has been selected.
 			NSString *errorMessage;
-			if (self.selectionView) baseName = [self.selectionView baseName];
+#ifdef WITH_APPKIT
+            assert(self.selectionView);
+            baseName = self.selectionView.baseName;
+#endif
+            if (baseName == nil) {
+                NSLog(@"BaseRunManager: baseName == nil");
+                return;
+            }
 			MeasurementType *baseType = self.measurementType.requires;
 			MeasurementDataStore *baseStore = [baseType measurementNamed: baseName];
 			if (baseType == nil) {
 				errorMessage = @"No base (calibration) measurement selected.";
 			} else {
+                BOOL inputDeviceShouldMatch = !self.measurementType.inputOnlyCalibration;
+                BOOL outputDeviceShouldMatch = !self.measurementType.outputOnlyCalibration;
+                // We relax the requirements if we're network-based
+                if (self.networkIODevice) {
+                    if (self.networkIODevice == self.capturer) {
+                        // We are using networked input.
+                        inputDeviceShouldMatch = false;
+                    } else {
+                        // Assume we are using networked output.
+                        outputDeviceShouldMatch = false;
+                    }
+                }
+
 				// Check that the base measurement is compatible with this measurement,
 				NSString *hwName = [[MachineDescription thisMachine] machineTypeID];
 				// For all runs that are not single-ended clibrations the hardware platform should match the one in the calibration run
-                if (handlesOutput && !self.measurementType.outputOnlyCalibration && ![baseStore.output.machineTypeID isEqualToString:hwName]) {
-                    errorMessage = [NSString stringWithFormat:@"Current machine is %@, otput base measurement done on %@", hwName, baseStore.output.machineTypeID];
+                if (outputDeviceShouldMatch && ![baseStore.output.machineTypeID isEqualToString:hwName]) {
+                    errorMessage = [NSString stringWithFormat:@"Current machine is %@, Output base measurement done on %@", hwName, baseStore.output.machineTypeID];
                 }
-                if (handlesInput && !self.measurementType.inputOnlyCalibration && ![baseStore.input.machineTypeID isEqualToString:hwName]) {
+                if (inputDeviceShouldMatch && ![baseStore.input.machineTypeID isEqualToString:hwName]) {
                     errorMessage = [NSString stringWithFormat:@"Current machine is %@, input base measurement done on %@", hwName, baseStore.input.machineTypeID];
                 }
                 // For runs where we are responsible for input the input device should match
-				assert(self.capturer);
-                if (!self.measurementType.inputOnlyCalibration && ![baseStore.input.deviceID isEqualToString:self.capturer.deviceID]) {
+                if (inputDeviceShouldMatch && ![baseStore.input.deviceID isEqualToString:self.capturer.deviceID]) {
                     errorMessage = [NSString stringWithFormat:@"Input %@ selected, base measurement done with %@", self.capturer.deviceName, baseStore.input.device];
                 }
-				if (handlesOutput) {
-					assert(self.outputView);
-				}
 				// For runs where we are responsible for output the output device should match
-                if (!self.measurementType.outputOnlyCalibration && ![baseStore.output.deviceID isEqualToString:self.outputView.deviceID]) {
+                if (outputDeviceShouldMatch && ![baseStore.output.deviceID isEqualToString:self.outputView.deviceID]) {
 					errorMessage = [NSString stringWithFormat:@"Output %@ selected, base measurement done with %@", self.outputView.deviceName, baseStore.output.device];
 				}
 			}
@@ -243,180 +234,333 @@ static NSMutableDictionary *runManagerSelectionNibs;
 			[self.collector.dataStore useCalibration:baseStore];
 				
 		}
-#ifdef WITH_APPKIT
-		[self.selectionView.bPreRun setEnabled: NO];
-#endif
 		if (self.statusView) {
+#ifdef WITH_APPKIT
+            [self.statusView.bPrepare setEnabled: NO];
+#endif
 			[self.statusView.bRun setEnabled: NO];
 			[self.statusView.bStop setEnabled: NO];
 		}
-		// Do actual prerunning
-        if (!handlesOutput) {
-            BOOL ok = [self.outputCompanion companionStartPreMeasuring];
-            if (!ok) return;
-        }
         // Do actual prerunning
-        maxDelay = self.initialPrerunDelay; // Start with 1ms delay (ridiculously low)
-        prerunMoreNeeded = self.initialPrerunCount;
-        self.preRunning = YES;
+        prepareMaxWaitTime = self.initialPrepareDelay; // Start with 1ms delay (ridiculously low)
+        prepareMoreNeeded = self.initialPrepareCount;
+        self.preparing = YES;
 		VL_LOG_EVENT(@"startPremeasuring", 0LL, @"");
 		[self.capturer startCapturing: YES];
-		[self.outputCompanion triggerNewOutputValue];
+		[self triggerNewOutputValue];
+#if 0
+        if (self.networkIODevice) {
+            [self.networkIODevice reportStatus: @"Determining RTT"];
+        }
+#endif
 	}
 }
 
 - (IBAction)stopPreMeasuring: (id)sender
 {
 	@synchronized(self) {
-		assert(self.preRunning);
+		assert(self.preparing);
 		assert(!self.running);
-		self.preRunning = NO;
+        assert(!networkHelper);
+		self.preparing = NO;
 		// We now have a ballpark figure for the maximum delay. Use 4 times that as the highest
 		// we are willing to wait for.
-		maxDelay = maxDelay * 4;
-        if (!handlesOutput)
-            [self.outputCompanion companionStopPreMeasuring];
+		prepareMaxWaitTime = prepareMaxWaitTime * 4;
 		[self.capturer stopCapturing];
-#ifdef WITH_APPKIT
-		[self.selectionView.bPreRun setEnabled: NO];
-#endif
 		assert (self.statusView);
-		[self.statusView.bRun setEnabled: YES];
+#ifdef WITH_APPKIT
+        [self.statusView.bPrepare setEnabled: NO];
+#endif
 		[self.statusView.bStop setEnabled: NO];
+        // See whether we have received enough information for the measurement to start if we
+        // have a remote companion
+        if (self.networkIODevice) {
+            bool ok = [self prepareMeasurementFromRemoteData];
+            if (!ok) return;
+        }
+        
+        [self.statusView.bRun setEnabled: YES];
 		VL_LOG_EVENT(@"stopPremeasuring", 0LL, @"");
+        self.outputCode = @"uncertain";
 	}
+}
+
+- (BOOL)prepareMeasurementFromRemoteData
+{
+    assert(self.networkIODevice);
+    NSString *errorMessage = nil;
+    MeasurementDataStore *baseStore = nil;
+    if (!self.measurementType.isCalibration) {
+        // If this is not a calibration we should check our base type
+#ifdef WITH_APPKIT
+        assert(self.selectionView);
+        baseName = self.selectionView.baseName;
+#endif
+        MeasurementType *baseType = self.measurementType.requires;
+        baseStore = [baseType measurementNamed: baseName];
+        if (baseType == nil) {
+            errorMessage = @"No base (calibration) measurement selected.";
+
+        }
+    }
+    DeviceDescription *remoteInputDeviceDescription = [self.networkIODevice remoteInputDeviceDescription];
+    DeviceDescription *remoteOutputDeviceDescription = [self.networkIODevice remoteOutputDeviceDescription];
+    if (errorMessage == nil && remoteInputDeviceDescription == nil && remoteOutputDeviceDescription == nil) {
+        errorMessage = @"No device description received from remote helper.";
+    }
+    if (remoteInputDeviceDescription == nil) {
+        // We are responsible for input. Check that the base measurement is correct.
+        // Check that the base measurement is compatible with this measurement,
+        NSString *hwName = [[MachineDescription thisMachine] machineTypeID];
+        // The hardware platform should match the one in the calibration run
+        if (![baseStore.input.machineTypeID isEqualToString:hwName]) {
+            errorMessage = [NSString stringWithFormat:@"Base measurement input done on %@, current hardware is %@", baseStore.input.machine, hwName];
+        }
+        assert(self.capturer);
+        // For runs where we are responsible for input the input device should match
+        if (![baseStore.input.deviceID isEqualToString:self.capturer.deviceID]) {
+            errorMessage = [NSString stringWithFormat:@"Base measurement uses input %@, current measurement uses %@", baseStore.input.device, self.capturer.deviceName];
+        }
+    }
+    if (remoteOutputDeviceDescription == nil) {
+        // We are responsible for output. Check that the base measurement is correct.
+        // Check that the base measurement is compatible with this measurement,
+        NSString *hwName = [[MachineDescription thisMachine] machineTypeID];
+        // The hardware platform should match the one in the calibration run
+        if (![baseStore.output.machineTypeID isEqualToString:hwName]) {
+            errorMessage = [NSString stringWithFormat:@"Base measurement output done on %@, current hardware is %@", baseStore.output.machine, hwName];
+        }
+        assert(self.outputView);
+        // For runs where we are responsible for output the output device should match
+        if (![baseStore.output.deviceID isEqualToString:self.outputView.deviceID]) {
+            errorMessage = [NSString stringWithFormat:@"Base measurement uses output %@, current measurement uses %@", baseStore.output.device, self.outputView.deviceName];
+        }
+    }
+    if (errorMessage) {
+        [self.networkIODevice reportStatus: @"Missing calibration"];
+        showWarningAlert(errorMessage);
+        return NO;
+    }
+    // Remember the input and output device in the collector
+    if (baseStore) {
+        [self.collector.dataStore useOutputCalibration:baseStore];
+    } else {
+        self.collector.dataStore.output = [[DeviceDescription alloc] initFromOutputDevice: self.outputView];
+    }
+    if (remoteInputDeviceDescription) self.collector.dataStore.input = remoteInputDeviceDescription;
+    if (remoteOutputDeviceDescription) self.collector.dataStore.output = remoteOutputDeviceDescription;
+
+    [self.networkIODevice reportStatus: @"Ready to run"];
+    return YES;
+}
+
+
+- (void)reportResultsToRemote: (MeasurementDataStore *)mr
+{
+    mr.measurementType = self.measurementType.name;
+    if (self.capturer) [self.capturer stop];
+    if (self.completionHandler) {
+        [self.completionHandler performSelectorOnMainThread:@selector(openUntitledDocumentWithMeasurement:) withObject:mr waitUntilDone:NO];
+    } else {
+#ifdef WITH_APPKIT
+        AppDelegate *d = (AppDelegate *)[[NSApplication sharedApplication] delegate];
+        [d performSelectorOnMainThread:@selector(openUntitledDocumentWithMeasurement:) withObject:mr waitUntilDone:NO];
+        [self.statusView.window close];
+#else
+        assert(0);
+#endif
+    }
 }
 
 - (IBAction)startMeasuring: (id)sender
 {
     @synchronized(self) {
-		assert(!self.preRunning);
+		assert(!self.preparing);
 		assert(!self.running);
-        assert(handlesInput);
 		assert(self.measurementType.name);
 		assert(self.capturer.deviceID);
 		assert(self.capturer.deviceName);
-		NSorUIView <OutputViewProtocol> *outputView;
-		if (handlesOutput)
-			outputView = self.outputView;
-		else
-			outputView = self.outputCompanion.outputView;
-		assert(outputView.deviceID);
-		assert(outputView.deviceName);
-#ifdef WITH_APPKIT
-		[self.selectionView.bPreRun setEnabled: NO];
-#endif
+		assert(self.outputView.deviceID);
+		assert(self.outputView.deviceName);
 		assert(self.statusView);
+        assert(!networkHelper);
+#ifdef WITH_APPKIT
+        [self.statusView.bPrepare setEnabled: NO];
+#endif
 		[self.statusView.bRun setEnabled: NO];
 		[self.statusView.bStop setEnabled: YES];
         self.running = YES;
 		VL_LOG_EVENT(@"startMeasuring", 0LL, @"");
-        if (!handlesOutput)
-            [self.outputCompanion companionStartMeasuring];
-        [self.capturer startCapturing: NO];
-        [self.collector startCollecting: self.measurementType.name input: self.capturer.deviceID name: self.capturer.deviceName output: outputView.deviceID name: outputView.deviceName];
-        [self.outputCompanion triggerNewOutputValue];
+        [self.capturer startCapturing: showPreviewDuringRun];
+        BOOL hasRemoteInput = (self.networkIODevice && self.capturer == self.networkIODevice);
+        BOOL hasRemoteOutput = (self.networkIODevice && self.capturer != self.networkIODevice);
+        if (!hasRemoteInput) {
+            [self.collector setInput: self.capturer.deviceID name: self.capturer.deviceName];
+        }
+        if (!hasRemoteOutput) {
+            [self.collector setOutput: self.outputView.deviceID name: self.outputView.deviceName];
+        }
+        [self.collector startCollecting: self.measurementType.name];
+        [self triggerNewOutputValue];
+        if (self.networkIODevice) {
+            [self.networkIODevice reportStatus: @"Running measurements"];
+        }
     }
 }
 
-- (BOOL)companionStartPreMeasuring
+#ifdef WITH_APPKIT
+
+- (void)showErrorSheet: (NSString *)message
 {
-    self.preRunning = YES;
-    return YES;
+	if (![NSThread isMainThread]) {
+		[self performSelectorOnMainThread:@selector(showErrorSheet:) withObject:message waitUntilDone:NO];
+		return;
+	}
+    NSLog(@"%@", message);
+    NSAlert *errorAlert = [[NSAlert alloc] init];
+    errorAlert.messageText = message;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [errorAlert beginSheetModalForWindow:[self.outputView window] completionHandler:^(NSModalResponse returnCode) {}];
+    });
 }
 
-- (void)companionStopPreMeasuring
+- (void)showErrorSheet: (NSString *)message button:(NSString *)button handler:(void (^ __nullable)(void))handler
 {
-    assert(self.preRunning);
-    self.preRunning = NO;
+    NSLog(@"%@", message);
+    NSAlert *errorAlert = [[NSAlert alloc] init];
+    errorAlert.messageText = message;
+    [errorAlert addButtonWithTitle:@"OK"];
+    [errorAlert addButtonWithTitle:button];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [errorAlert beginSheetModalForWindow:[self.outputView window] completionHandler:^(NSModalResponse returnCode) {
+            if (returnCode == NSAlertSecondButtonReturn) handler();
+        }];
+    });
 }
-
-- (void)companionStartMeasuring
-{
-    self.running = YES;
-}
-
-- (void)companionStopMeasuring
-{
-    self.running = NO;
-}
+#endif
 
 - (BOOL) prepareInputDevice
 {
-	return YES;
-}
+    BOOL ok = self.capturer.available;
+    if (!ok) return NO;
+    if (self.networkIODevice && self.networkIODevice != self.capturer) {
+        // If we have a network connection and this network connection is _not_
+        // the input device we assume it is a camera and we start capturing, so we
+        // can detect the QR-code containing the IP address and port.
+        [self.capturer startCapturing:YES];
+    }
+    return YES;}
 
 - (BOOL) prepareOutputDevice
 {
-	return YES;
+    assert(self.outputView);
+    return self.outputView.available;
 }
 
 - (void)restart
 {
+#ifdef WITH_APPKIT
+    assert(self.selectionView);
+#endif
+    assert (self.statusView);
 	@synchronized(self) {
+        BOOL ok;
+        if (!networkHelper) {
+#ifdef WITH_APPKIT
+            [self.statusView.bPrepare setEnabled: NO];
+#endif
+            [self.statusView.bRun setEnabled: NO];
+            [self.statusView.bStop setEnabled: NO];
+        }
+        self.preparing = NO;
+        self.running = NO;
+        self.outputCode = @"uncertain";
+        
         if (self.measurementType == nil) {
             NSLog(@"Error: BaseRunManager.restart called without measurementType");
             return;
         }
-        assert(handlesInput);
 #ifdef WITH_APPKIT
-		if (!self.selectionView) {
-			// XXXJACK Make sure selectionView is active/visible
-			assert(0);
-		}
+        // Select input device (based on selection from menu)
+        NSString *selectedDevice = self.selectionView.deviceName;
+        if (selectedDevice == nil) return;
+        assert(self.capturer);
+        ok = [self.capturer switchToDeviceWithName: selectedDevice];
+        if (!ok) {
+            [self showErrorSheet: [NSString stringWithFormat:@"Cannot switch to input device %@", selectedDevice]];
+            return;
+        }
 		if (self.measurementType.requires == nil) {
 			[self.selectionView.bBase setEnabled: NO];
-			[self.selectionView.bPreRun setEnabled: YES];
 		} else {
-			NSArray *calibrationNames = self.measurementType.requires.measurementNames;
-            [self.selectionView.bBase removeAllItems];
-			[self.selectionView.bBase addItemsWithTitles:calibrationNames];
-            if ([self.selectionView.bBase numberOfItems])
-                [self.selectionView.bBase selectItemAtIndex:0];
-			[self.selectionView.bBase setEnabled:YES];
-
-			if ([self.selectionView.bBase selectedItem]) {
-				[self.selectionView.bPreRun setEnabled: YES];
-			} else {
-				[self.selectionView.bPreRun setEnabled: NO];
-                NSAlert *alert = [[NSAlert alloc] init];
-                [alert setMessageText: @"No calibrations available."];
-                [alert setInformativeText: [NSString stringWithFormat:@"\"%@\" measurements should be based on a \"%@\" calibration. Please calibrate first.",
-                                            self.measurementType.name,
-                                            self.measurementType.requires.name
-                                            ]];
-                [alert addButtonWithTitle: @"OK"];
-				[alert performSelectorOnMainThread:@selector(runModal) withObject:nil waitUntilDone:NO];
-			}
+            NSArray *calibrationNames = self.measurementType.requires.measurementNames;
+            ok = [self.selectionView setBases: calibrationNames];
+            if (!ok) {
+                [self showErrorSheet: @"No suitable calibrations"];
+                return;
+            }
+            baseName = self.selectionView.baseName;
 		}
 #endif
-		self.preRunning = NO;
-		self.running = NO;
-		VL_LOG_EVENT(@"restart", 0LL, self.measurementType.name);
-		if (self.statusView) {
-			[self.statusView.bRun setEnabled: NO];
-			[self.statusView.bStop setEnabled: NO];
-		}
-        BOOL devicesOK = ([self prepareInputDevice] && [self.outputCompanion prepareOutputDevice]);
+        // Select or check output device (based on base measurement setting)
+        if (self.measurementType.requires != nil && !self.measurementType.outputOnlyCalibration) {
+            MeasurementType *baseType = (MeasurementType *)self.measurementType.requires;
+            MeasurementDataStore *baseStore = [baseType measurementNamed: baseName];
+            if (baseStore == nil) {
 #ifdef WITH_APPKIT
-		[self.selectionView.bPreRun setEnabled: devicesOK];
+                [self showErrorSheet: [NSString stringWithFormat:@"No base measurement named %@", baseName]];
 #else
-#pragma unused(devicesOK)
+                showWarningAlert([NSString stringWithFormat:@"No base measurement named %@", baseName]);
 #endif
+                return;
+            }
+            NSString *deviceName = baseStore.output.device;
+            ok = [self.outputView switchToDeviceWithName: deviceName];
+            if (!ok) {
+#ifdef WITH_APPKIT
+                [self showErrorSheet: [NSString stringWithFormat:@"Cannot switch to output device %@", deviceName]];
+#else
+                showWarningAlert([NSString stringWithFormat:@"Cannot switch to output device %@", deviceName]);
+#endif
+                return;
+            }
+        }
+        // Finally tell the input and output device handlers to get ready (if needed)
+        ok = ([self prepareInputDevice] && [self prepareOutputDevice]);
+        if (!ok) return;
+        // All is well.
+        VL_LOG_EVENT(@"restart", 0LL, self.measurementType.name);
+        if (!networkHelper) {
+#ifdef WITH_APPKIT
+            [self.statusView.bPrepare setEnabled: YES];
+#else
+            if (self.networkIODevice) {
+                [self startPreMeasuring:self];
+            }
+#endif
+        }
 	}
 }
 
-- (void) companionRestart
-{
-	self.preRunning = NO;
-	self.running = NO;
-}
 - (void)stop
 {
-	[NSException raise:@"BaseRunManager" format:@"Must override stop in subclass %@", [self class]];
+    self.running = NO;
+    self.preparing = NO;
+    if (self.networkIODevice) {
+        [self.networkIODevice reportStatus: @"Measurements complete"];
+        MeasurementDataStore *ds = self.collector.dataStore;
+        [ds trim];
+        if (!self.measurementType.isCalibration) {
+            [self.networkIODevice reportResult: ds];
+        }
+        // And show blue screen
+        [self triggerNewOutputValue];
+    }
+    if (self.capturer) [self.capturer stop];
+    self.capturer = nil;
+    self.clock = nil;
 }
 
-    
 - (IBAction)stopMeasuring: (id)sender
 {
 	VL_LOG_EVENT(@"stop", 0LL, @"");
@@ -441,11 +585,17 @@ static NSMutableDictionary *runManagerSelectionNibs;
 	}
 }
 
+
 - (void)triggerNewOutputValue
 {
-	[NSException raise:@"BaseRunManager" format:@"Must override triggerNewOutputValue in subclass %@", [self class]];
+    if (!self.outputView) {
+        // We have stopped measuring in the mean time
+        return;
+    }
+    assert(self.outputView);
+    if (VL_DEBUG) NSLog(@"triggerNewOutputValue called");
+    [self.outputView performSelectorOnMainThread:@selector(showNewData) withObject:nil waitUntilDone:NO ];
 }
-
 - (void)triggerNewOutputValueAfterDelay
 {
     // Randomize a 0..100ms delay before producing the next code.
@@ -455,15 +605,79 @@ static NSMutableDictionary *runManagerSelectionNibs;
     });
 }
 
-- (CIImage *)newOutputStart
+- (void) prepareReceivedNoValidCode
 {
-	[NSException raise:@"BaseRunManager" format:@"Must override newOutputStart in subclass %@", [self class]];
-	return nil;
+    if (VL_DEBUG) NSLog(@"Prepare no reception\n");
+    assert(self.preparing);
+    // Check that we have waited long enough
+    if ([self.clock now] < outputCodeTimestamp + prepareMaxWaitTime) return;
+    // No data found within alotted time. Double the time, reset the count, change mirroring
+    if (VL_DEBUG) NSLog(@"tsOutLatest=%llu, prepareDelay=%llu\n", outputCodeTimestamp, prepareMaxWaitTime);
+    NSLog(@"prepare: detection %d failed for maxDelay=%lld. Doubling.", self.initialPrepareCount-prepareMoreNeeded, prepareMaxWaitTime);
+    prepareMaxWaitTime *= 2;
+    prepareMoreNeeded = self.initialPrepareCount;
+    self.statusView.detectCount = [NSString stringWithFormat: @"%d more", prepareMoreNeeded];
+    self.statusView.detectAverage = @"";
+    [self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
+    [self triggerNewOutputValue];
+}
+
+- (void) prepareReceivedValidCode: (NSString *)code
+{
+    if (VL_DEBUG) NSLog(@"prepare reception %@\n", code);
+    assert(self.preparing);
+    prepareMoreNeeded -= 1;
+    self.statusView.detectCount = [NSString stringWithFormat: @"%d more", prepareMoreNeeded];
+    self.statusView.detectAverage = @"";
+    [self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
+    if (VL_DEBUG) NSLog(@"prepareMoreMeeded=%d\n", prepareMoreNeeded);
+    if (prepareMoreNeeded == 0) {
+#ifdef WITH_SET_MIN_CAPTURE_DURATION
+        NSLog(@"average detection algorithm duration=%lld µS", averageFinderDuration);
+        [self.capturer setMinCaptureInterval: averageFinderDuration*2];
+#endif
+        self.statusView.detectCount = @"";
+        self.statusView.detectAverage = @"";
+        [self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
+        [self performSelectorOnMainThread: @selector(stopPreMeasuring:) withObject: self waitUntilDone: NO];
+    }
+    [self triggerNewOutputValue];
+}
+
+- (CIImage *)getNewOutputImage
+{
+    [NSException raise:@"BaseRunManager" format:@"Must override getNewOutputImage in subclass %@", [self class]];
+    return nil;
+}
+
+- (NSString *)getNewOutputCode
+{
+    [NSException raise:@"BaseRunManager" format:@"Must override getNewOutputCode in subclass %@", [self class]];
+    return nil;
+}
+
+- (void)newOutputDoneAt: (uint64_t)timestamp
+{
+    @synchronized(self) {
+        if (outputCodeTimestamp != 0) {
+            // We have already received the redraw for our mosyt recent generated code.
+            // Again, redraw for some other reason, ignore.
+            return;
+        }
+        assert(outputCodeTimestamp == 0);
+        outputCodeTimestamp = timestamp;
+        uint64_t tsOutToRemember = outputCodeTimestamp;
+        if (self.running) {
+            assert(self.collector);
+            [self.collector recordTransmission: self.outputCode at: tsOutToRemember];
+            VL_LOG_EVENT(@"transmission", tsOutToRemember, self.outputCode);
+        }
+    }
 }
 
 - (void)newOutputDone
 {
-	[NSException raise:@"BaseRunManager" format:@"Must override newOutputDone in subclass %@", [self class]];
+    [self newOutputDoneAt: [self.clock now]];
 }
 
 - (void)setFinderRect: (NSorUIRect)theRect
@@ -471,20 +685,119 @@ static NSMutableDictionary *runManagerSelectionNibs;
 	[NSException raise:@"BaseRunManager" format:@"Must override setFinderRect in subclass %@", [self class]];
 }
 
-- (void)newInputStart: (uint64_t)timestamp
+
+- (void)newInputDone:(NSString *)inputCode count:(int)count at:(uint64_t)inputTimestamp
 {
-	[NSException raise:@"BaseRunManager" format:@"Must override newInputStart: in subclass %@", [self class]];
+    if (self.outputCode == nil) {
+        if (VL_DEBUG) NSLog(@"newInputDone called, but no output code yet\n");
+        return;
+    }
+    if ([inputCode isEqualToString:@"undetectable"]) {
+        // black/white detector needs to be kicked (black and white levels have come too close)
+        NSLog(@"Detector range too small, generating new code");
+        [self triggerNewOutputValue];
+        [self reportHeartbeat];
+        return;
+    }
+    if ([inputCode isEqualToString:@"uncertain"]) {
+        // Unsure what we have detected, probably nothing. Leave it be for a while then change.
+        prevInputCodeDetectionCount++;
+        if (prevInputCodeDetectionCount % 250 == 0) {
+            NSLog(@"Received uncertain code for too long. Generating new one.");
+            [self triggerNewOutputValue];
+        }
+        [self reportHeartbeat];
+        return;
+    }
+    //
+    // Check to see whether the code appears to be a URL. If this is the case, and we are
+    // in a networked session,
+    if ([inputCode hasPrefix:@"http"] && ![inputCode isEqualToString: prevInputCode]) {
+        prevInputCode = inputCode;
+        if (!self.networkIODevice) {
+            showWarningAlert([NSString stringWithFormat:@"Not in network session. Received unexpected URL code: %@", inputCode]);
+            return;
+        }
+        if (networkServer) {
+            NSLog(@"BaseRunManager (with network server): prepare code reported back");
+            return;
+        } else {
+            [self.networkIODevice openClient: networkHelper url: inputCode];
+            [self performSelectorOnMainThread:@selector(restart) withObject:nil waitUntilDone:NO];
+        }
+    }
+
+    //
+    // If we are in a netwrk session we report the code back to the other side.
+    //
+    if (networkHelper) {
+        assert(self.networkIODevice);
+        [self.networkIODevice reportReception:inputCode count:prevInputCodeDetectionCount at:inputTimestamp];
+    }
+    // Is this code the same as the previous one detected?
+    if (prevInputCode && [inputCode isEqualToString: prevInputCode]) {
+        prevInputCodeDetectionCount++;
+        if (networkHelper) {
+            // xxxjack is this correct for display helpers too????
+            return;
+        }
+        if (prevInputCodeDetectionCount == 3) {
+            // Aftter we've detected 3 frames with the right light level
+            // we generate a new one.
+            [self triggerNewOutputValueAfterDelay];
+        }
+        // And if we keep on detecting the same code after that we eventually give up.
+        if ((self.running || self.preparing) && (prevInputCodeDetectionCount % 250) == 0) {
+            showWarningAlert(@"Old code detected too often. Generating new one.");
+            [self triggerNewOutputValue];
+        }
+        return;
+    }
+    // Is this the code we wanted?
+    if ([inputCode isEqualToString: self.outputCode]) {
+        if (self.running) {
+            if (inputTimestamp == 0) {
+                showWarningAlert(@"newInputDone called before newInputStart was called");
+            }
+            BOOL ok = [self.collector recordReception:inputCode at:inputTimestamp];
+            if (!ok) {
+                NSLog(@"Received code %@ before it was transmitted", self.outputCode);
+                return;
+            }
+            VL_LOG_EVENT(@"reception", inputTimestamp, inputCode);
+            self.statusView.detectCount = [NSString stringWithFormat: @"%d", self.collector.count];
+            self.statusView.detectAverage = [NSString stringWithFormat: @"%.3f ms ± %.3f", self.collector.average / 1000.0, self.collector.stddev / 1000.0];
+            [self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
+            prevInputCode = self.outputCode;
+            prevInputCodeDetectionCount = 0;
+            if (VL_DEBUG) NSLog(@"Received: %@", self.outputCode);
+            // Generate new output code later, after we've detected this one a few times.
+        } else if (self.preparing) {
+            [self prepareReceivedValidCode: inputCode];
+        }
+        return;
+    } else if (self.prevOutputCode && [inputCode isEqualToString: self.prevOutputCode]) {
+        return;
+    } else if ([inputCode isEqualToString:@"nothing"]) {
+        // Received nothing, from a networked helper. No problem.
+    } else {
+        if (!networkHelper)
+            NSLog(@"Received code we dont remember transmitting: %@", inputCode);
+    }
+    // We did not detect the code we expected
+    if (self.preparing) {
+        [self prepareReceivedNoValidCode];
+        return;
+    }
+    // While idle, change output value once in a while
+    if (!self.running && !self.preparing) {
+        [self triggerNewOutputValue];
+    }
 }
 
-- (void) newInputDone: (NSString *)data count: (int)count at: (uint64_t) timestamp
+- (void) newInputDone: (CVImageBufferRef) image at: (uint64_t) timestamp
 {
-    [NSException raise:@"BaseRunManager" format:@"Must override newInputDone:count:at in subclass %@", [self class]];
-}
-
-
-- (void) newInputDone: (CVImageBufferRef) image
-{
-	[NSException raise:@"BaseRunManager" format:@"Must override newInputDone: in subclass %@", [self class]];
+    [NSException raise:@"BaseRunManager" format:@"Must override newInputDone:at: in subclass %@", [self class]];
 }
 
 - (void)newInputDone: (void*)buffer
@@ -496,8 +809,19 @@ static NSMutableDictionary *runManagerSelectionNibs;
 	[NSException raise:@"BaseRunManager" format:@"Must override newInputDone:buffer:size:channels:at in subclass %@", [self class]];
 }
 
-- (NSString *)genPrerunCode
+- (void)codeRequestedByMaster: (NSString *)code
 {
-    return nil;
+    [NSException raise:@"BaseRunManager" format:@"Must override codeRequestedByMaster: in subclass %@", [self class]];
 }
+
+- (void)reportHeartbeat
+{
+}
+
+- (void)receivedMeasurementResult: (MeasurementDataStore *)result
+{
+    NSLog(@"Received measurement result while not network helper");
+    assert(0);
+}
+
 @end

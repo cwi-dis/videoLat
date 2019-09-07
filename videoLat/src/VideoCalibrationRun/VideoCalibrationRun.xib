@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
+        <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14460.31"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -13,7 +14,7 @@
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
-        <customObject id="1" customClass="VideoCalibrationRunManager">
+        <customObject id="1" customClass="VideoRunManager">
             <connections>
                 <outlet property="capturer" destination="3" id="49"/>
                 <outlet property="clock" destination="3" id="71"/>
@@ -47,7 +48,7 @@
                         <rect key="frame" x="20" y="20" width="268" height="136"/>
                         <subviews>
                             <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="128">
-                                <rect key="frame" x="18" y="74" width="56" height="17"/>
+                                <rect key="frame" x="18" y="74" width="45" height="17"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Count:" id="147">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -103,13 +104,26 @@
                                 </connections>
                             </button>
                             <button toolTip="Start doing a measurement run" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="6">
-                                <rect key="frame" x="14" y="13" width="64" height="32"/>
+                                <rect key="frame" x="95" y="13" width="79" height="32"/>
                                 <buttonCell key="cell" type="push" title="Run" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="45">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
                                     <action selector="startMeasuring:" target="1" id="48"/>
+                                </connections>
+                            </button>
+                            <button toolTip="Do initial measurements to check everything works and detect mirroring" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="TYC-z5-mir">
+                                <rect key="frame" x="14" y="13" width="79" height="32"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="67" id="2CW-l8-t67"/>
+                                </constraints>
+                                <buttonCell key="cell" type="push" title="Prepare" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="iiX-xa-9vs">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="startPreMeasuring:" target="1" id="QuC-RF-Nu2"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -129,13 +143,16 @@
                             <constraint firstAttribute="trailing" secondItem="124" secondAttribute="trailing" constant="20" symbolic="YES" id="142"/>
                             <constraint firstAttribute="bottom" secondItem="124" secondAttribute="bottom" constant="20" symbolic="YES" id="143"/>
                             <constraint firstItem="6" firstAttribute="top" secondItem="126" secondAttribute="bottom" constant="8" symbolic="YES" id="192"/>
-                            <constraint firstItem="6" firstAttribute="trailing" secondItem="128" secondAttribute="trailing" id="193"/>
                             <constraint firstItem="6" firstAttribute="baseline" secondItem="124" secondAttribute="baseline" id="194"/>
-                            <constraint firstItem="6" firstAttribute="leading" secondItem="126" secondAttribute="leading" id="195"/>
+                            <constraint firstItem="6" firstAttribute="width" secondItem="TYC-z5-mir" secondAttribute="width" id="AJ8-Ko-E2R"/>
+                            <constraint firstAttribute="bottom" secondItem="TYC-z5-mir" secondAttribute="bottom" constant="20" id="ZP1-vm-YHp"/>
+                            <constraint firstItem="TYC-z5-mir" firstAttribute="leading" secondItem="120" secondAttribute="leading" constant="20" id="hci-jd-DFg"/>
+                            <constraint firstItem="6" firstAttribute="centerX" secondItem="120" secondAttribute="centerX" id="rve-DS-7sz"/>
                         </constraints>
                         <connections>
                             <outlet property="bAverage" destination="127" id="155"/>
                             <outlet property="bCount" destination="125" id="156"/>
+                            <outlet property="bPrepare" destination="TYC-z5-mir" id="2h1-hu-Y6t"/>
                             <outlet property="bRun" destination="6" id="197"/>
                             <outlet property="bStop" destination="124" id="157"/>
                         </connections>
@@ -183,22 +200,9 @@
                                     <menu key="menu" title="OtherViews" id="40"/>
                                 </popUpButtonCell>
                                 <connections>
-                                    <action selector="deviceChanged:" target="4" id="115"/>
+                                    <action selector="inputDeviceSelectionChanged:" target="4" id="115"/>
                                 </connections>
                             </popUpButton>
-                            <button toolTip="Do initial measurements to check everything works and detect mirroring" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5">
-                                <rect key="frame" x="175" y="232" width="79" height="32"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="67" id="46"/>
-                                </constraints>
-                                <buttonCell key="cell" type="push" title="Prepare" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="47">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="startPreMeasuring:" target="1" id="52"/>
-                                </connections>
-                            </button>
                             <customView toolTip="Video captured by the camera" translatesAutoresizingMaskIntoConstraints="NO" id="8" customClass="VideoInputView">
                                 <rect key="frame" x="0.0" y="0.0" width="268" height="219"/>
                                 <connections>
@@ -234,15 +238,12 @@
                             <constraint firstItem="107" firstAttribute="baseline" secondItem="100" secondAttribute="baseline" id="111"/>
                             <constraint firstItem="107" firstAttribute="leading" secondItem="100" secondAttribute="trailing" constant="8" symbolic="YES" id="112"/>
                             <constraint firstItem="36" firstAttribute="baseline" secondItem="11" secondAttribute="baseline" id="158"/>
-                            <constraint firstItem="5" firstAttribute="top" secondItem="4" secondAttribute="top" constant="134" id="199"/>
-                            <constraint firstItem="8" firstAttribute="top" secondItem="5" secondAttribute="bottom" constant="20" symbolic="YES" id="200"/>
-                            <constraint firstItem="5" firstAttribute="trailing" secondItem="11" secondAttribute="trailing" id="201"/>
+                            <constraint firstItem="7" firstAttribute="top" secondItem="11" secondAttribute="bottom" constant="65" id="ZnI-MG-Eg8"/>
                         </constraints>
                         <connections>
-                            <outlet property="bDevices" destination="11" id="117"/>
-                            <outlet property="bPreRun" destination="5" id="60"/>
+                            <outlet property="bInputDevices" destination="11" id="117"/>
                             <outlet property="inputHandler" destination="3" id="59"/>
-                            <outlet property="selectionDelegate" destination="1" id="kJZ-jv-PgM"/>
+                            <outlet property="inputSelectionDelegate" destination="1" id="kJZ-jv-PgM"/>
                         </connections>
                     </customView>
                     <view translatesAutoresizingMaskIntoConstraints="NO" id="2" customClass="VideoOutputView">

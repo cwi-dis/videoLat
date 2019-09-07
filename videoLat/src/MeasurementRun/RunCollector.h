@@ -32,16 +32,19 @@
 
 
 ///
-/// Signals that this RunCollector should start filling its dataStore.
-/// @param scenario the measurement type in somewhat-human-readable form
+/// Fill RunCollector input parameters.
 /// @param inputId the input device in somewhat-human-readable form
 /// @param inputName the input device in human readable (but possibly ambiguous) form
+///
+- (void) setInput: (NSString*)inputId name: (NSString*)inputName;
+///
+/// Fill RunCollector output parameters.
 /// @param outputId the output device in somewhat-human-readable form
 /// @param outputName the output device in human readable (but possibly ambiguous) form
 ///
-- (void) startCollecting: (NSString*)scenario input: (NSString*)inputId name: (NSString*)inputName output:(NSString*)outputId name: (NSString*)outputName;
+- (void) setOutput:(NSString*)outputId name: (NSString*)outputName;
 ///
-/// Signals that this RunCollector should start filling its dataStore, for two-ended measurements.
+/// Signals that this RunCollector should start filling its dataStore.
 /// The input and output calibrations should have been set previously and are used to fill the devices.
 /// @param scenario the measurement type in somewhat-human-readable form
 ///

@@ -18,35 +18,43 @@
 #ifdef WITH_APPKIT
 #import "RunManagerView.h"
 #endif
+// Forward delcaration
+@class NetworkIODevice;
 
 ///
 /// Base class for objects that control a delay measurement run, i.e. a sequence of
 /// many individual delay measurements and collects and stores the individual delays.
 ///
-/// Implementations of this class should be able to handle both input and output, but
-/// they may have to handle only one of those, based on how things are initialized in the NIB.
-/// If the object should handle both (for example during a VideoRun) both inputCompanion
-/// and outputCompanion refer to self.
-/// If the object should handle only input or output (for example during a MixedRun)
-/// the inputCompanion of the output object refers to the other object
-/// and vice versa.
+/// The class is also responsible for reporting measurements to a remote side (if this
+/// is a two-ended measurement run).
 ///
 /// In addition, the class methods implement a repository for remembering all available
 /// measurement types and their NIBs (initialized by the class initializers of the subclasses).
 ///
-@interface BaseRunManager : NSObject <RunOutputManagerProtocol, RunInputManagerProtocol> {
-    BOOL handlesInput;		//!< true if we are responsible for input processing
-    BOOL handlesOutput;		//!< true if we are responsible for output processing
-    BOOL slaveHandler;      //!< true if this is a slave, i.e. it has no collector.
-    uint64_t maxDelay;   //!< Internal: How log to wait for prerun code finding
-    int prerunMoreNeeded;   //!< Internal: How many more prerun correct catches we need
-	NSString *baseName;		//<! Name of our base (calibration) measurement
+@interface BaseRunManager : NSObject <RunManagerProtocol> {
+    BOOL networkHelper;      //!< true if this is a networked helper, i.e. it has no collector.
+    BOOL networkServer;       //!< true if this run manager is a network server (i.e. producing visual output to let the other side connect back here)
+    BOOL showPreviewDuringRun;  //!< True if we want to see the preview while running (false for QR-code roundtrip)
+    uint64_t prepareMaxWaitTime;      //!< Internal: How long to wait for prerun code finding
+    int prepareMoreNeeded;   //!< Internal: How many more prerun correct catches we need
+
+    uint64_t averageFinderDuration; //!< Running average of how much the patternfinder takes
+
+    uint64_t outputCodeTimestamp;   //!< When the last output code change was made
+
+    NSString *prevInputCode;    //!< Last input code detected
+    int prevInputCodeDetectionCount;    //!< How often prevInputCode was detected
+
+    NSString *baseName;		//<! Name of our base (calibration) measurement
 }
 
-@property(weak) IBOutlet NSObject<SelectionView> *selectionView;         //!< Assigned in NIB: view that allows selection of input device
-@property(weak) IBOutlet NSObject<InputCaptureProtocol> *capturer;    //!< Assigned in NIB: input capturer
-@property(weak) IBOutlet NSorUIView <OutputViewProtocol> *outputView; //!< Assigned in NIB: Displays current output QR code
+@property(weak) IBOutlet NSObject<InputSelectionView> *selectionView;         //!< Assigned in NIB: view that allows selection of input device
+@property(weak) IBOutlet NSObject<InputDeviceProtocol> *capturer;    //!< Assigned in NIB: input capturer
+@property(weak) IBOutlet NSorUIView <OutputDeviceProtocol> *outputView; //!< Assigned in NIB: Displays current output QR code
 @property(weak) IBOutlet NSObject<NewMeasurementDelegate> *completionHandler;	//!< Optionally assigned in NIB: handler to open completed measurement
+@property(weak) IBOutlet NetworkIODevice *networkIODevice;   //!< For hetwork measurements: the connection to the other side
+@property(weak) IBOutlet NSObject<ClockProtocol> *clock; //!< Input manager clock
+
 + (void)initialize;	//!< Class initializer.
 
 ///
@@ -96,14 +104,21 @@
 
 @property(strong) MeasurementType *measurementType;
 
-/// Textual representation of the current output code, for example @"white", or
-/// @"123456789" for QR code measurements. Set by the BaseRunManager that is
-/// responsible for output, read by its inputCompanion.
-@property(strong) NSString *outputCode;           // Current code on the display
+/// Textual representation of the current output code.
+/// For example @"white", or
+/// @"123456789" for QR code measurements.
+@property(strong) NSString * outputCode;
+/// Previous value of outputCode, only valid if we have more than 2 output codes.
+/// Used to forestall error messages in case we get a late detection of a previous code.
+@property(strong) NSString * prevOutputCode;
 
 - (void)terminate;	//!< Prepare for deallocation. Severs links with companion and releases resources.
 - (void)stop;	//!< Called when the user stops a measurement run, via stopMeasuring from RunTypeView
-- (IBAction)stopMeasuring: (id)sender;	//!< Called when user presses "stop" button
+
+- (IBAction)startPreMeasuring: (id)sender;  //!< Called when premeasuring button has been pressed
+- (void)stopPreMeasuring: (id)sender; 	    //!< Stop pre-measuring because we have enough prerun samples.
+- (IBAction)startMeasuring: (id)sender;	    //!< Called when user presses "start" button.
+- (IBAction)stopMeasuring: (id)sender;	    //!< Called when user presses "stop" button
 
 /// Select the actual measurement type this run will use.
 /// @param typeName the (human readable) measurement type name.
@@ -131,15 +146,11 @@
 /// Called on the output companion, will call triggerNewOutputValue after a delay.
 - (void)triggerNewOutputValueAfterDelay;
 
-/// Can be overridden by RunManagers responsible for input, to enforce certain codes to be
-/// used during prerunning.
-/// Implemented by the NetworkRunManager to communicate the ip/port of the listener to the remote
-/// end.
-/// @return the prerun code to use.
-- (NSString *)genPrerunCode;
+- (void) prepareReceivedNoValidCode;                  //!< Internal: no QR code was received in time during prerun
+- (void) prepareReceivedValidCode: (NSString *)code;  //!< Internal: QR code was received in time during prerun
 
 @property bool running;		//!< True after user has pressed "run" button, false again after pressing "stop".
-@property bool preRunning;	//!< True after user has pressed "prepare" button, false again after pressing "run".
+@property bool preparing;	//!< True after user has pressed "prepare" button, false again after pressing "run".
 
 @property(weak) IBOutlet RunCollector *collector;			//!< Initialized in the NIB, RunCollector for this measurement run.
 @property(weak) IBOutlet RunStatusView *statusView;			//!< Initialized in the NIB, RunStatusView for this measurement run.
@@ -148,20 +159,23 @@
 #else
 @property(weak) IBOutlet RunManagerView *measurementMaster;	//!< Initialized in the NIB, our parent object.
 #endif
+- (BOOL) prepareInputDevice;
 
-//@{
-/// The inputCompanion and outputCompanion properties need a bit of explanation.
-/// If the same RunManager is used for
-/// both input and output the following two outlets are NOT assigned in the NIB.
-/// The will then be both set to self in awakeFromNib, and this run manager handles both
-/// input and output.
-/// But for non-symetric measurements (say, hardware light to camera) the NIB instantiates
-/// two BaseRunManager subclass instances, and ties them together through the inputCompanion
-/// and outputCompanion.
-///
-@property(weak) IBOutlet NSObject<RunInputManagerProtocol> *inputCompanion; //!< Our companion object that handles input
+- (BOOL) prepareOutputDevice;
 
-@property(weak) IBOutlet NSObject<RunOutputManagerProtocol> *outputCompanion; //!< Our companion object that handles output
-//@}
+/// Update settings to measurement based on parameters (device name, etc) received from a remote
+/// input or output handler.
+- (BOOL)prepareMeasurementFromRemoteData;
 
+/// Report measurement results to remote input or output handler.
+- (void)reportResultsToRemote: (MeasurementDataStore *)mr;
+
+/// Called when an incoming request for showing a code is received over the network.
+- (void)codeRequestedByMaster: (NSString *)code;
+
+/// Called whenever "nothing really happened", will cause a heartbeat to be sent when helper.
+- (void)reportHeartbeat;
+
+/// Called when a measurement report has been received from the master
+- (void)receivedMeasurementResult: (MeasurementDataStore *)result;
 @end

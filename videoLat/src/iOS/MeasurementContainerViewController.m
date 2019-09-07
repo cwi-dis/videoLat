@@ -34,15 +34,24 @@
 
     assert(self.runManager);
     assert([self.runManager class] == runClass);
+    [self.runManager runForType: measurementTypeName withBase:self.baseMeasurementName];
 	if (self.inputDeviceName) {
 		assert(self.runManager.capturer);
 		[self.runManager.capturer switchToDeviceWithName: self.inputDeviceName];
 	}
-    [self.runManager runForType: measurementTypeName withBase:self.baseMeasurementName];
 
 	self.measurementView.frame = self.view.bounds;
 	[self.view addSubview: self.measurementView];
 	[self.view setNeedsLayout];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    if (self.runManager) {
+        [self.runManager stop];
+        [self.runManager terminate];
+    }
+    self.runManager = nil;
 }
 
 - (BOOL)shouldAutorotate
@@ -95,5 +104,4 @@
 
 	}
 }
-
 @end

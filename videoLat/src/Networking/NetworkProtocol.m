@@ -128,6 +128,7 @@
 	char *buffer = malloc(bufsiz);
     while (sock >= 0) {
 		char *bufptr = buffer;
+        *buffer = '\0';
 		ssize_t rv;
 		while(1) {
 			if (buffer == NULL || bufptr == NULL) {
@@ -208,6 +209,7 @@
     }
     close(sock);
     sock = connSock;
+    [self.delegate connected: self];
     [super main];
 }
 
@@ -231,6 +233,7 @@
             NSLog(@"connect failed: %s", strerror(errno));
             return nil;
         }
+        [self.delegate connected: self];
         [self start];
     }
     return self;

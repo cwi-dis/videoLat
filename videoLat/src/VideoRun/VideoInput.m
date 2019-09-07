@@ -216,6 +216,10 @@
 	AVCaptureDevice* dev = [self _deviceWithName:name];
     if (dev == nil)
         return NO;
+    // Check whether we already use this device
+    if (session && [name isEqualToString:deviceName]) {
+        return YES;
+    }
 	[self _switchToDevice:dev];
     [[NSUserDefaults standardUserDefaults] setObject:name forKey:@"Camera"];
     return YES;
@@ -336,7 +340,7 @@
         [self.selfView setHidden: NO];
     }
     
-	if (1 || VL_DEBUG) NSLog(@"Camera format: %@ %@ %@", dev.activeFormat.mediaType, dev.activeFormat.formatDescription, dev.activeFormat.videoSupportedFrameRateRanges);
+	if (VL_DEBUG) NSLog(@"Camera format: %@ %@ %@", dev.activeFormat.mediaType, dev.activeFormat.formatDescription, dev.activeFormat.videoSupportedFrameRateRanges);
 
 	/* Let the video madness begin */
 	capturing = NO;
@@ -523,16 +527,16 @@
     lastTimeStamp = timestamp;
     nFrames++;
 #endif
+
+    CVImageBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
 #if 1
-	[self.manager newInputStart: now_timestamp];
+    [self.manager newInputDone: pixelBuffer at: now_timestamp];
 #else
     // It would theoretically be better to use the real camera timestamp but
     // unfortunately this invalidates all old calibrations....
-    [self.manager newInputStart: timestamp];
+    [self.manager newInputDone: pixelBuffer at: timestamp];
 #endif
-
-    CVImageBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
-	[self.manager newInputDone: pixelBuffer];
+    
 }
 
 - (void)captureOutput:(AVCaptureOutput *)captureOutput

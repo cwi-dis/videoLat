@@ -15,8 +15,10 @@
 - (NSArray *)measurementNames
 {
 	return @[
-        @"QR Code Transmission",
-        @"QR Code Reception",
+        @"QR Code Transmission to Camera Helper",
+        @"QR Code Reception from Screen Helper",
+        @"QR Code Screen Helper",
+        @"QR Code Camera Helper",
 		@"QR Code Roundtrip",
 		@"Audio Roundtrip",
 		];

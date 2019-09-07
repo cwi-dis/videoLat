@@ -14,8 +14,8 @@
 
 @implementation VideoMonoRunManager
 
-- (int) initialPrerunCount { return 40; }
-- (int) initialPrerunDelay { return 1000; }
+- (int) initialPrepareCount { return 40; }
+- (int) initialPrepareDelay { return 1000; }
 
 + (void) initialize
 {
@@ -24,7 +24,7 @@
     // We also register ourselves for camera calibration. At the very least we must make
     // sure the nibfile is registered...
     [BaseRunManager registerClass: [self class] forMeasurementType: @"Reception Calibrate using Hardware"];
-    [BaseRunManager registerNib: @"HardwareToCameraRun" forMeasurementType: @"Reception Calibrate using Hardware"];
+    [BaseRunManager registerNib: @"CalibrateCameraFromHardware" forMeasurementType: @"Reception Calibrate using Hardware"];
     
     [BaseRunManager registerClass: [self class] forMeasurementType: @"Reception Calibrate using Calibrated Screen"];
     [BaseRunManager registerNib: @"CalibrateCameraFromScreenRun" forMeasurementType: @"Reception Calibrate using Calibrated Screen"];
@@ -42,139 +42,25 @@
     return self;
 }
 
-- (void) awakeFromNib
+- (NSString *)getNewOutputCode
 {
-    [super awakeFromNib];
-    if (handlesInput) {
-        assert(self.finder);
-    }
-    if (handlesOutput) {
-        assert(self.genner);
-    }
-}
-
-- (void)restart
-{
+    // Called from the redraw routine, should generate a new output code only when needed.
     @synchronized(self) {
-		if (self.measurementType == nil) return;
-        assert(handlesInput);
-		[super restart];
-		self.outputCode = @"uncertain";
-        assert(self.finder);
-        (void)[self.finder init];
-        if (handlesOutput) {
-            assert(self.genner);
-            (void)[self.genner init];
+        
+        // If we are not running we should display a blue-grayish square
+        if (!self.running && !self.preparing) {
+            self.outputCode =  @"undefined";
+            return self.outputCode;
         }
-    }
-}
-
-- (void) _newOutputCode
-{
-	if (!self.running && !self.preRunning) {
-		// Idle, show intermediate value
-		self.outputCode = @"uncertain";
-	} else {
-		if ([self.outputCode isEqualToString:@"black"]) {
-			self.outputCode = @"white";
-		} else {
-			self.outputCode = @"black";
-		}
-	}
-}
-
-#pragma mark RunOutputManagerProtocol
-
-- (CIImage *)newOutputStart
-{
-    @synchronized(self) {
-        assert(handlesOutput);
-        if (outputCodeImage)
-            return outputCodeImage;
-		[self _newOutputCode];
-        outputCodeImage = [self.genner genImageForCode:self.outputCode size:480];
-        outputFrameEarliestTimestamp = [self.clock now];
-        outputFrameLatestTimestamp = 0;
-        if (VL_DEBUG) NSLog(@"VideoMonoRunManager.newOutputStart: returning %@ image", self.outputCode);
-        return outputCodeImage;
-    }
-}
-
-#pragma mark RunInputManagerProtocol
-
-- (void) newInputDone: (CVImageBufferRef)image
-{
-    @synchronized(self) {
-        assert(handlesInput);
-		if (self.outputCompanion.outputCode == nil) {
-			if (VL_DEBUG) NSLog(@"newInputDone called, but no output code yet\n");
-			return;
-		}
-        if (VL_DEBUG) NSLog(@"newInputDone: expecting code %@", self.outputCompanion.outputCode);
-        NSString *inputCode = [self.finder find:image];
-        if (VL_DEBUG) NSLog(@"newInputDone: got code %@", inputCode);
-
-        if ([inputCode isEqualToString:@"undetectable"]) {
-            // Detector needs to be kicked (black and white levels have come too close)
-            NSLog(@"Detector range too small, generating new code");
-            [self.outputCompanion triggerNewOutputValue];
-        } else if ([inputCode isEqualToString:@"uncertain"]) {
-            // Unsure what we have detected. Leave it be for a while then change.
-            prevInputCodeDetectionCount++;
-            if (prevInputCodeDetectionCount % 250 == 0) {
-                NSLog(@"Received uncertain code for too long. Generating new one.");
-                [self.outputCompanion triggerNewOutputValue];
-            }
+        if ([self.outputCode isEqualToString:@"black"]) {
+            self.outputCode = @"white";
         } else {
-            if (self.outputCompanion.prevOutputCode && [inputCode isEqualToString:self.outputCompanion.prevOutputCode]) {
-                if (VL_DEBUG) NSLog(@"Received old output code again: %@", inputCode);
-            } else if (prevInputCode && [inputCode isEqualToString: prevInputCode]) {
-                prevInputCodeDetectionCount++;
-                if (prevInputCodeDetectionCount == 3) {
-                    // Aftter we've detected 3 frames with the right light level
-                    // we generate a new one.
-                    [self.outputCompanion triggerNewOutputValueAfterDelay];
-                }
-                if (VL_DEBUG) NSLog(@"Received same code as last reception: %@, count=%d", inputCode, prevInputCodeDetectionCount);
-                if ((prevInputCodeDetectionCount % 250) == 0) {
-                    showWarningAlert(@"Old code detected too often. Generating new one.");
-                    [self.outputCompanion triggerNewOutputValue];
-                }
-            } else if ([inputCode isEqualToString: self.outputCompanion.outputCode]) {
-				if (self.running) {
-                    if (handlesOutput) {
-                        assert(outputFrameLatestTimestamp);	// Must have been set before we can detect a qr-code
-                    }
-					BOOL ok = [self.collector recordReception: self.outputCompanion.outputCode at: inputFrameTimestamp];
-					VL_LOG_EVENT(@"reception", inputFrameTimestamp, self.outputCompanion.outputCode);
-                    inputFrameTimestamp = 0;
-                    if (!ok) {
-						showWarningAlert([NSString stringWithFormat:@"Received code %@ before it was transmitted", self.outputCompanion.outputCode]);
-					}
-					self.statusView.detectCount = [NSString stringWithFormat: @"%d", self.collector.count];
-					self.statusView.detectAverage = [NSString stringWithFormat: @"%.3f ms ± %.3f", self.collector.average / 1000.0, self.collector.stddev / 1000.0];
-					[self.statusView performSelectorOnMainThread:@selector(update:) withObject:self waitUntilDone:NO];
-				} else if (self.preRunning) {
-					[self _prerunRecordReception: inputCode];
-				}
-                // Now let's remember it so we don't generate "bad code" messages
-                // if we detect it a second time.
-                prevInputCode = self.outputCompanion.outputCode;
-                prevInputCodeDetectionCount = 0;
-                if (VL_DEBUG) NSLog(@"Received: %@", self.outputCompanion.outputCode);
-                // Generate new output code later, after we've detected this one a few times.
-			} else {
-				if (self.preRunning) {
-					[self _prerunRecordNoReception];
-                    prevInputCode = nil;
-				}
-			}	
-		}
-		// While idle, change output value once in a while
-		if (!self.running && !self.preRunning) {
-			[self.outputCompanion triggerNewOutputValue];
-		}
-	}
+            self.outputCode = @"black";
+        }
+        if (VL_DEBUG) NSLog(@"New output code: %@", self.outputCode);
+        // Set outputCodeTimestamp to 0 to signal we have not reported this outputcode yet
+        outputCodeTimestamp = 0;
+        return self.outputCode;
+    }
 }
-
 @end

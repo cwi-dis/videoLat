@@ -15,12 +15,11 @@
 /// This is a separate class because it is shared among the various video-based
 /// measurement runs.
 ///
-@interface HardwareSelectionView : NSView<SelectionView>
-@property(weak) IBOutlet NSPopUpButton *bDevices;   //!< UI element: all available hardware
-@property(weak) IBOutlet NSPopUpButton *bBase;      //!< UI element: available calibration runs (nil for Hardware run)
-@property(weak) IBOutlet NSButton *bPreRun;         //!< UI element: start preparing a measurement run
-@property(weak) IBOutlet NSObject <SelectionViewDelegate> *selectionDelegate;	//!< Object we send feedback to.
-
-- (IBAction)deviceChanged: (id) sender;     //!< Called when the user makes a new selection in bDevices
-
+@interface HardwareSelectionView : NSView<InputSelectionView>
+#ifdef WITH_APPKIT
+// These are not picked up from the InputSelectionProtocol in the XIB builder. Don't know why...
+@property(weak) IBOutlet NSPopUpButton *bBase;        //!< UI element: popup showing possible base measurements
+@property(weak) IBOutlet NSPopUpButton *bInputDevices;   //!< UI element: all available hardware
+@property(weak) IBOutlet NSObject <InputSelectionDelegate> *inputSelectionDelegate;
+#endif
 @end

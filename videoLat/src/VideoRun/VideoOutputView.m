@@ -25,6 +25,13 @@
     assert(self.manager);
 }
 
+- (BOOL)available {
+    return YES;
+}
+
+- (void)stop {
+}
+
 #ifdef WITH_APPKIT
 //
 // Returns the io_service_t corresponding to a CG display ID, or 0 on failure.
@@ -168,6 +175,13 @@ static io_service_t IOServicePortFromCGDisplayID(CGDirectDisplayID displayID)
 #endif
 }
 
+- (BOOL)switchToDeviceWithName: (NSString *)name
+{
+	// Video output devices cannot switch (they're tied to the display their window is on)
+	NSString *currentName = self.deviceName;
+	return [name isEqualToString:currentName];
+}
+
 - (void)viewWillDraw
 {
 #ifdef WITH_APPKIT
@@ -189,7 +203,7 @@ static io_service_t IOServicePortFromCGDisplayID(CGDirectDisplayID displayID)
 }
 
 - (void)drawRect:(NSorUIRect)dirtyRect {
-    CIImage *newImage = [self.manager newOutputStart];
+    CIImage *newImage = [self.manager getNewOutputImage];
     assert(newImage);
     
     NSorUIRect dstRect = [self bounds];

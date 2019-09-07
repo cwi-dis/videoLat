@@ -62,8 +62,8 @@
  - a runmanager, an instance of a subclass of BaseRunManager that controls the measurement run.
  - for asymetric measurements a second BaseRunManager subclass instance to handle to output aspects of
    the measurement run.
- - An input capturer, adhering to InputCaptureProtocol, to grab images (or audio, or something else).
- - A view adhering to OutputViewProtocol to show the output codes.
+ - An input capturer, adhering to InputDeviceProtocol, to grab images (or audio, or something else).
+ - A view adhering to OutputDeviceProtocol to show the output codes.
  - a RunCollector to collect the data points (individual delay measurements).
  
  In the XCode project, these source files are contained in the "MeasurementRun" group, and the individual
@@ -79,7 +79,7 @@
    Contained in VideoRun.xib and VideoRunManager. It has helper classes VideoInput, VideoOutputView,
    VideoSelectionView, FindQRcode and GenQRcode.
  - Video calibration roundtrip, which is a specialisation of video roundtrip for calibrating the videoLat machine.
-   It uses VideoCalibrationRun.xib and VideoCalibrationRunManager.
+   It uses VideoCalibrationRun.xib.
  - Video monochrome roundtrip, which is a specialisation of video roundtrip. It shows alternating 100% black and 100% white
    images.
    It uses VideoMonoRun.xib and VideoMonoRunManager.
@@ -87,24 +87,25 @@
    USB interface or an arduino.
    It is intended to be "foton-compatible" with video monochrome roundtrip, and mainly exists to calibrate the hardware delay.
    The implementation is in HardwareRun.xib and HardwareRunManager. It has helper classes HardwareOutputView
-   and LabJackDevice.
+   and various others.
  - Mixed hardware-to-camera (OSX only). This uses an LED to generate light and detects it with the camera. The intention
    of this measurement type is to allow you to measure the delay of your input path only.
    The implementation is in HardwaretoCameraRun.xib and reuses the relevant components from video monochrome
-   roundtrip and hardware. ScreenToHardwareRun.xib is the reverse, it generates light on the screen and detects it with the
+   roundtrip and hardware. CalibrateScreenFromHardware.xib is the reverse, it generates light on the screen and detects it with the
    hardware.
  - Audio roundtrip. Plays out a sample and waits until it detects the same sample on input.
    Contained in AudioRun.xib and AudioRunManager, plus the helper classes AudioInput, AudioOutputView,
    AudioSelectionView and AudioProcess.
  - Audio calibration roundtrip, specialisation of audio roundtrip to measure the audio delay of the videoLat system.
-   Contained in AudioCalibrationRun.xib and AudioCalibrationRunManager.
- - One-way measurements, with different sender and receiver machines that comminucate over the network, are
-   implemented with NetworkRunManager and NetworkProtocol and 4 distinct XIB files. MasterSenderRun.xib is used
+   Contained in AudioCalibrationRun.xib.
+ - One-way measurements, with different sender and receiver machines that communicate over the network, are
+   implemented with NetworkRunManager and NetworkProtocol and 4 distinct XIB files. VideoSenderRun.xib is used
    on the image-transmitting side for normal measurements, it listens to a socket and communicates its port and
-   IP through the first QR-code shown. SlaveReceiverRun.xib waits until it sees that QR code on the camera, connects to the
-   server and then the measurement can proceed. There are two more XIB files that are very similar to these two, but
-   for a slightly different purpose, they are used to calibrate the local camera (on the slave side) or the
-   local screen (on the master side): MasterSenderScreenCalibrationRun.xib and SlaveReceiverCameraCalibrationRun.xib.
+   IP through the first QR-code shown. CalibrateScreenFromRemoteCamera.xib is similar but for calibrating the local screen.
+   RemoteHelperCamera.xib waits until it sees that QR code on the camera, connects to the
+   server and then the measurement can proceed and is used as the companion to the two measurements above.
+   CalibrateCameraFromRemoteScreen.xib runs a calibration for the local camera, using a second device running
+   RemoteHelperScreen.xib.
   
  In the XCode project, these measurements are grouped by type and contained in subgroups of the "MeasurementRun" group.
 */
@@ -161,32 +162,32 @@ select a calibration to download from videolat.org.
  */
 
 /**
-@file HardwareToCameraRun.xib
+@file CalibrateCameraFromHardware.xib
 @brief NIB file for hardware-to-camera light measurement run.
  */
 
 /**
-@file ScreenToHardwareRun.xib
+@file CalibrateScreenFromHardware.xib
 @brief NIB file for hardware-to-camera light measurement run.
  */
 
 /**
-@file MasterSenderRun/MasterSenderRun.xib
-@brief NIB file for sending (server) side of asymetric measurements.
+ @file RemoteHelperScreen/RemoteHelperScreen.xib
+ @brief NIB file for sending (server) side of asymetric measurements.
  */
 
 /**
-@file MasterSenderRun/MasterSenderScreenCalibrationRun.xib
+@file RemoteHelperScreen/CalibrateScreenFromRemoteCamera.xib
 @brief NIB file for sending (server) side of asymetric measurements to do a screen calibration.
  */
 
 /**
-@file SlaveReceiverRun/SlaveReceiverRun.xib
+@file RemoteHelperCamera/RemoteHelperCamera.xib
 @brief NIB file for receiving (client) side of asymetric measurements.
  */
 
 /**
-@file SlaveReceiverRun/SlaveReceiverCameraCalibrationRun.xib
+@file RemoteHelperCamera/CalibrateCameraFromRemoteScreen.xib
 @brief NIB file for sending (server) side of asymetric measurements to do a camera calibration.
  */
 

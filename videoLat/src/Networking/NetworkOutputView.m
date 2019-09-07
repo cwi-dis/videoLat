@@ -8,6 +8,11 @@
 
 #import "NetworkOutputView.h"
 
+#ifdef WITH_UIKIT
+// Gross....
+#define stringValue text
+#endif
+
 @implementation NetworkOutputView
 - (NSString *)deviceID
 {
@@ -19,19 +24,50 @@
 	return @"NetworkOutput";
 }
 
-- (void) showNewData
+- (BOOL)switchToDeviceWithName: (NSString *)name
 {
+    NSLog(@"xxxjack NetworkOutputView: Assuming OK to switch to %@", name);
+    return YES;
 }
 
 
-- (void) reportClient: (NSString *)ip port: (int)port isUs: (BOOL) us
+- (void) showNewData
 {
-    NSLog(@"NetworkSelectionView.reportClient ip=%@ port=%d isUs=%d", ip, port, us);
+    if (!self.networkDevice) {
+        NSLog(@"NetworkOutputView.showNewData: ignoring, no networkDevice");
+        return;
+    }
+    assert(self.networkDevice);
+    [self.networkDevice showNewData];
+}
+
+- (BOOL)available {
+    return self.networkDevice && self.networkDevice.available;
+}
+
+- (void)stop {
 }
 
 - (void) reportServer: (NSString *)ip port: (int)port isUs: (BOOL) us
 {
-    NSLog(@"NetworkSelectionView.reportServer ip=%@ port=%d isUs=%d", ip, port, us);
+	NSLog(@"NetworkOutputView.reportServer ip=%@ port=%d isUs=%d", ip, port, us);
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.bPeerIPAddress.stringValue = ip;
+        self.bPeerPort.stringValue = [NSString stringWithFormat:@"%d", port];
+    });
+}
+
+- (void)reportRTT:(uint64_t)rtt  best:(uint64_t)best {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.bPeerRTT.stringValue = [NSString stringWithFormat:@"%lld (best %lld)", rtt/1000, best/1000];
+    });
+}
+
+
+- (void)reportStatus:(NSString * _Nonnull)status {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.bNetworkStatus.stringValue = status;
+    });
 }
 
 @end

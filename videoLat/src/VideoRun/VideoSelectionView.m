@@ -9,7 +9,11 @@
 #import "VideoSelectionView.h"
 
 @implementation VideoSelectionView
-@synthesize selectionDelegate;
+@synthesize inputSelectionDelegate;
+#ifdef WITH_APPKIT
+@synthesize bInputDevices;
+@synthesize bBase;
+#endif
 
 - (void)awakeFromNib
 {
@@ -41,7 +45,7 @@
 #else
     if (VL_DEBUG) NSLog(@"Cameras changed\n");
     // Remember the old selection (if any)
-	NSMenuItem *oldItem = [self.bDevices selectedItem];
+	NSMenuItem *oldItem = [self.bInputDevices selectedItem];
     if (oldItem) {
         oldCam = [oldItem title];
     } else {
@@ -49,12 +53,12 @@
         oldCam = [[NSUserDefaults standardUserDefaults] stringForKey:@"Camera"];
     }
     // Add all cameras
-    [self.bDevices removeAllItems];
-    [self.bDevices addItemsWithTitles: newList];
+    [self.bInputDevices removeAllItems];
+    [self.bInputDevices addItemsWithTitles: newList];
     // Re-select old selection, if possible
     [self _reselectCamera:oldCam];
     // Tell the input handler if the device has changed
-    NSMenuItem *newItem = [self.bDevices selectedItem];
+    NSMenuItem *newItem = [self.bInputDevices selectedItem];
     newCam = [newItem title];
 #endif
     if (![newCam isEqualToString:oldCam] || notification == nil)
@@ -80,21 +84,46 @@
 - (void)_reselectCamera: (NSString *)oldCam
 {
     if (oldCam)
-        [self.bDevices selectItemWithTitle:oldCam];
+        [self.bInputDevices selectItemWithTitle:oldCam];
     // Select first item, if nothing has been selected
-    NSMenuItem *newItem = [self.bDevices selectedItem];
+    NSMenuItem *newItem = [self.bInputDevices selectedItem];
     if (newItem == nil)
-        [self.bDevices selectItemAtIndex: 0];
+        [self.bInputDevices selectItemAtIndex: 0];
 }
 
-- (IBAction)deviceChanged: (id) sender
+- (IBAction)inputDeviceSelectionChanged: (id) sender
 {
 	NSMenuItem *item = [sender selectedItem];
 	NSString *cam = [item title];
 	NSLog(@"Switch to %@\n", cam);
 	[self.inputHandler switchToDeviceWithName: cam];
-	assert(self.selectionDelegate);
-	[self.selectionDelegate selectionChanged: self];
+	assert(self.inputSelectionDelegate);
+	[self.inputSelectionDelegate inputSelectionChanged: self];
+}
+
+- (BOOL)setBases: (NSArray *)baseNames
+{
+    assert(self.bBase);
+    NSArray *oldNames = self.bBase.itemTitles;
+    if ([baseNames isEqualToArray:oldNames]) {
+        return YES;
+    }
+    [self.bBase removeAllItems];
+    [self.bBase addItemsWithTitles: baseNames];
+    BOOL ok = self.bBase.numberOfItems > 0;
+    if (ok) {
+        [self.bBase selectItemAtIndex:0];
+        [self.inputSelectionDelegate inputSelectionChanged:self];
+    }
+    return ok;
+}
+
+- (void)disableBases
+{
+    if (self.bBase) {
+        [self.bBase setEnabled: NO];
+        [self.bBase selectItem: nil];
+    }
 }
 
 - (NSString *)baseName
@@ -107,8 +136,8 @@
 
 - (NSString *)deviceName
 {
-    if(!self.bDevices) return nil;
-    NSMenuItem *item = [self.bDevices selectedItem];
+    if(!self.bInputDevices) return nil;
+    NSMenuItem *item = [self.bInputDevices selectedItem];
     if (item == nil) return nil;
     return [item title];
 }

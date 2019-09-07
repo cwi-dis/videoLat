@@ -20,22 +20,22 @@
 #ifdef WITH_UIKIT
 : InputSelectionView
 #else
-: NSView<SelectionView>
+: NSView<InputSelectionView>
+#endif
+#ifdef WITH_APPKIT
+// These are not picked up from the InputSelectionProtocol in the XIB builder. Don't know why...
+@property(weak) IBOutlet NSPopUpButton *bBase;        //!< UI element: popup showing possible base measurements
+@property(weak) IBOutlet NSPopUpButton *bInputDevices;   //!< UI element: all available hardware
 #endif
 
 #ifdef WITH_UIKIT
 @property(weak) IBOutlet UILabel *bOutputDeviceName;
-#else
-@property(weak) IBOutlet NSPopUpButton *bDevices;  //!< UI element: all available audio input sources
-@property(weak) IBOutlet NSPopUpButton *bBase;          //!< UI element: available calibration runs
-@property(weak) IBOutlet NSButton *bPreRun;             //!< UI element: start a measurement run
 #endif
 @property(weak) IBOutlet AudioInput *inputHandler;      //!< Input handler, will be told about camera changes
 
 
 - (void)_updateDeviceNames: (NSNotification*) notification; //!< Called by notification manager when audio device configuration changes.
 #ifdef WITH_APPKIT
-- (IBAction)deviceChanged: (id) sender;                  //!< Called when the user makes a new selection in bInputDevices
 - (void)_reselectInput: (NSString *)name;               //!< Internal: try to re-select our input on device change
 #endif
 

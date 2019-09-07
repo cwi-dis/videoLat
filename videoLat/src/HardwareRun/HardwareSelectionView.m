@@ -10,41 +10,51 @@
 #import "AppDelegate.h"
 
 @implementation HardwareSelectionView
+@synthesize inputSelectionDelegate;
+#ifdef WITH_APPKIT
+@synthesize bInputDevices;
+@synthesize bBase;
+#endif
 
 - (void)awakeFromNib
 {
     [super awakeFromNib];
-    assert(self.bDevices);
-    assert(self.bPreRun);
-    assert(self.selectionDelegate);
+    assert(self.bInputDevices);
+    assert(self.inputSelectionDelegate);
     NSArray *names = ((AppDelegate *)[[NSApplication sharedApplication] delegate]).hardwareNames;
     
     if ([names count]) {
-        [self.bDevices removeAllItems];
-        [self.bDevices setAutoenablesItems: NO];
-        [self.bDevices addItemWithTitle:@"Select Hardware Device"];
-        [[self.bDevices itemAtIndex:0] setEnabled: NO];
-        [self.bDevices addItemsWithTitles: names];
-        [self.bDevices selectItemAtIndex:0];
+        [self.bInputDevices removeAllItems];
+        [self.bInputDevices setAutoenablesItems: NO];
+        [self.bInputDevices addItemWithTitle:@"Select Hardware Device"];
+        [[self.bInputDevices itemAtIndex:0] setEnabled: NO];
+        [self.bInputDevices addItemsWithTitles: names];
+        [self.bInputDevices selectItemAtIndex:0];
     }
 }
 
-
-- (IBAction)deviceChanged: (id) sender
+#ifdef WITH_APPKIT
+- (IBAction)inputDeviceSelectionChanged: (id) sender
 {
 	NSMenuItem *item = [sender selectedItem];
 	NSString *device = [item title];
 	NSLog(@"Switch to %@\n", device);
-	assert(self.selectionDelegate);
-	[self.selectionDelegate selectionChanged: self];
+	assert(self.inputSelectionDelegate);
+	[self.inputSelectionDelegate inputSelectionChanged: self];
 }
+#endif
 
-- (void)setBases: (NSArray *)baseNames
+- (BOOL)setBases: (NSArray *)baseNames
 {
 	assert(self.bBase);
     [self.bBase removeAllItems];
     [self.bBase addItemsWithTitles: baseNames];
-	[self.selectionDelegate selectionChanged:self];
+    BOOL ok = self.bBase.numberOfItems > 0;
+    if (ok) {
+        [self.bBase selectItemAtIndex:0];
+        [self.inputSelectionDelegate inputSelectionChanged:self];
+    }
+    return ok;
 }
 
 - (void)disableBases
@@ -66,8 +76,8 @@
 
 - (NSString *)deviceName
 {
-	assert(self.bDevices);
-	NSMenuItem *item = [self.bDevices selectedItem];
+	assert(self.bInputDevices);
+	NSMenuItem *item = [self.bInputDevices selectedItem];
 	if (item == nil) return nil;
     if (!item.enabled) return nil;
 	return [item title];

@@ -36,6 +36,9 @@ class Arduino(NSObject, HardwareLightProtocol):
     def dealloc(self):
         self.arduino = None
 
+    def stop(self):
+        self.arduino = None
+    
     def awakeFromNib(self):
         """Standard initializer"""
         if DEBUG: print 'Arduino: awakeFromNib called', self
@@ -151,12 +154,16 @@ class Arduino(NSObject, HardwareLightProtocol):
     def deviceID(self):
         """Return the unique device-ID"""
         if DEBUG: print 'Arduino: deviceID called', self
-        return 'ArduinoID'
+        return 'Arduino'
 
     def deviceName(self):
         """Return the human-readable device name"""
         if DEBUG: print 'Arduino: deviceName called', self
         return 'Arduino'
+        
+    def switchToDeviceWithName_(self, name):
+        """Switch to this device. Returns true if it is "our" device"""
+        return name == "Arduino"
 
 if 0:  # __name__ == '__main__':
     import random

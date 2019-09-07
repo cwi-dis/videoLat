@@ -20,15 +20,13 @@
 /// or echo cancellation.
 ///
 @interface AudioRunManager : BaseRunManager {
-    uint64_t outputStartTime;       //!< When the last output was started
-	BOOL outputActive;				//!< True while we are outputting (and can't start again
+	BOOL outputDeviceBusy;				//!< True while we are outputting (and can't start again
 	BOOL foundCurrentSample;		//!< True if we have found a match
 	BOOL triggerOutputWhenDone;		//!< True if we can start a new output when the current one is done
 }
 
 @property(weak) IBOutlet AudioOutputView *outputView;           //!< Assigned in NIB: visual feedback view of output for the user
 @property(weak) IBOutlet AudioSelectionView *selectionView;     //!< Assigned in NIB: view that allows selection of input device
-@property(weak) IBOutlet id <ClockProtocol> clock;              //!< Assigned in NIB: clock source, usually same as capturer
 @property(weak) IBOutlet AudioProcess *processor;               //!< Assigned in NIB: audio sample comparator
 #ifdef WITH_UIKIT
 @property(weak) IBOutlet UISwitch *bDetection;                  //!< Assigned in NIb: UI element that signals detection to the user
@@ -40,11 +38,9 @@
 - (void)stop;
 
 - (void)triggerNewOutputValue;
-//- (void) _prerunRecordNoReception;
-//- (void) _prerunRecordReception: (NSString *)code;
 
 // MeasurementOutputManagerProtocol
-- (CIImage *)newOutputStart;
+- (CIImage *)getNewOutputImage;
 - (void)newOutputStartAt: (uint64_t) startTime;
 - (void)newOutputDone;
 

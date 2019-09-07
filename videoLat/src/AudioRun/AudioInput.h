@@ -9,25 +9,21 @@
 #import "protocols.h"
 
 ///
-/// Class that implements InputCaptureProtocol (and ClockProtocol) for audio input, using
+/// Class that implements InputDeviceProtocol (and ClockProtocol) for audio input, using
 /// AVCapture to capture an audio stream from a microphone or other audio input.
 ///
 
-@interface AudioInput : NSObject <ClockProtocol, InputCaptureProtocol, AVCaptureAudioDataOutputSampleBufferDelegate> {
+@interface AudioInput : NSObject <ClockProtocol, InputDeviceProtocol, AVCaptureAudioDataOutputSampleBufferDelegate> {
     AVCaptureAudioDataOutput *outputCapturer;
 	AVCaptureSession *session;
     dispatch_queue_t sampleBufferQueue;
-	NSString *deviceID;
-	NSString *deviceName;
 #ifdef WITH_DEVICE_CLOCK
     CMClockRef clock;
 #endif
     uint64_t epoch;
 	BOOL capturing;
 }
-@property (readonly) NSString *deviceID;
-@property (readonly) NSString *deviceName;
-@property(weak) IBOutlet id <RunInputManagerProtocol> manager;
+@property(weak) IBOutlet id <RunManagerProtocol> manager;
 #ifdef WITH_UIKIT
 @property(weak) IBOutlet UIProgressView *bInputValue;
 #else

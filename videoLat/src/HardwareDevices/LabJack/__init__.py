@@ -35,6 +35,9 @@ class LabJack(NSObject, HardwareLightProtocol):
         self.lock = threading.Lock()
         return self
     
+    def stop(self):
+        self.u3device = None
+    
     def awakeFromNib(self):
         """Standard initializer"""
         if DEBUG: print 'LabJack: awakeFromNib called', self
@@ -115,9 +118,13 @@ class LabJack(NSObject, HardwareLightProtocol):
     def deviceID(self):
         """Return the unique device-ID"""
         if DEBUG: print 'LabJack: deviceID called', self
-        return 'LabJackID'
+        return 'LabJack'
 
     def deviceName(self):
         """Return the human-readable device name"""
         if DEBUG: print 'LabJack: deviceName called', self
         return 'LabJack'
+        
+    def switchToDeviceWithName_(self, name):
+        """Switch to this device. Returns true if it is "our" device"""
+        return name == "LabJack"

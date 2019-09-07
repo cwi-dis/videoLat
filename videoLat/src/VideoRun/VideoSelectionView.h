@@ -21,24 +21,25 @@
 @interface VideoSelectionView
 #ifdef WITH_UIKIT
  : InputSelectionView
-#else
- : NSView<SelectionView>
+#endif
+#ifdef WITH_APPKIT
+ : NSView<InputSelectionView>
 #endif
 
+#ifdef WITH_APPKIT
+// These are not picked up from the InputSelectionProtocol in the XIB builder. Don't know why...
+@property(weak) IBOutlet NSPopUpButton *bBase;        //!< UI element: popup showing possible base measurements
+@property(weak) IBOutlet NSPopUpButton *bInputDevices;   //!< UI element: all available hardware
+#endif
 
 #ifdef WITH_UIKIT
 @property(weak) IBOutlet UIButton *bSwitchDevice;   //!< UI element: switch to next available cameras
 @property(weak) IBOutlet UIView *cameraPreview;		//!< UI element: preview of current camera
-#else
-@property(weak) IBOutlet NSPopUpButton *bDevices;   //!< UI element: all available cameras
-@property(weak) IBOutlet NSPopUpButton *bBase;      //!< UI element: available calibration runs
-@property(weak) IBOutlet NSButton *bPreRun;         //!< UI element: start preparing a measurement run
 #endif
 @property(weak) IBOutlet VideoInput *inputHandler;  //!< Input handler, will be told about camera changes
-@property(weak) IBOutlet NSObject <SelectionViewDelegate> *selectionDelegate;
+@property(weak) IBOutlet NSObject <InputSelectionDelegate> *inputSelectionDelegate;
 
 #ifdef WITH_APPKIT
-- (IBAction)deviceChanged: (id) sender;     //!< Called when the user makes a new selection in bCameras
 - (void)_reselectCamera: (NSString *)name;  //!< Internal: try to re-select our camera on camera change
 #endif
 - (void)_updateCameraNames: (NSNotification*) notification; //!< Called by notification manager when a camera is attached/removed.

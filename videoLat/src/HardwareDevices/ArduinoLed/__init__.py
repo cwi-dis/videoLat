@@ -34,6 +34,9 @@ class ArduinoLed(NSObject, HardwareLightProtocol):
     def dealloc(self):
         self.arduino = None
 
+    def stop(self):
+        self.arduino = None
+    
     def awakeFromNib(self):
         """Standard initializer"""
         if DEBUG: print 'ArduinoLed: awakeFromNib called', self
@@ -110,11 +113,15 @@ class ArduinoLed(NSObject, HardwareLightProtocol):
     def deviceID(self):
         """Return the unique device-ID"""
         if DEBUG: print 'ArduinoLed: deviceID called', self
-        return 'ArduinoLedID'
+        return 'ArduinoLed'
 
     def deviceName(self):
         """Return the human-readable device name"""
         if DEBUG: print 'ArduinoLed: deviceName called', self
         return 'ArduinoLed'
+        
+    def switchToDeviceWithName_(self, name):
+        """Switch to this device. Returns true if it is "our" device"""
+        return name == "ArduinoLed"
 
         

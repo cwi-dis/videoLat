@@ -12,7 +12,7 @@
 ///
 /// View that allows user to select input device and optionally base measurement.
 ///
-@interface InputSelectionView : UIView<SelectionView,UIPickerViewDataSource, UIPickerViewDelegate> {
+@interface InputSelectionView : UIView<InputSelectionView,UIPickerViewDataSource, UIPickerViewDelegate> {
     NSArray *_baseNames;
 }
 

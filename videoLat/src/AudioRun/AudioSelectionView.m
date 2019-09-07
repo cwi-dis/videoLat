@@ -10,7 +10,11 @@
 #import "AudioOutputView.h"
 
 @implementation AudioSelectionView
-@synthesize selectionDelegate;
+@synthesize inputSelectionDelegate;
+#ifdef WITH_APPKIT
+@synthesize bBase;
+@synthesize bInputDevices;
+#endif
 
 - (void)awakeFromNib
 {
@@ -36,11 +40,9 @@
 #endif
 }
 
-
 - (void)dealloc
 {
 }
-
 
 - (void)_updateDeviceNames: (NSNotification*) notification
 {
@@ -64,19 +66,19 @@
     if (1 || VL_DEBUG) NSLog(@"new audio input=%@", newInput);
     self.bOutputDeviceName.text = [AudioOutputView defaultOutputDevice];
 #else
-	NSMenuItem *oldItem = [self.bDevices selectedItem];
+	NSMenuItem *oldItem = [self.bInputDevices selectedItem];
     if (oldItem) {
         oldInput = [oldItem title];
     } else {
         // If no camera was selected we take the one from the preferences
         oldInput = [[NSUserDefaults standardUserDefaults] stringForKey:@"AudioInput"];
     }
-    [self.bDevices removeAllItems];
-    [self.bDevices addItemsWithTitles: newList];
+    [self.bInputDevices removeAllItems];
+    [self.bInputDevices addItemsWithTitles: newList];
     // Re-select old selection, if possible
     [self _reselectInput:oldInput];
     // Tell the input handler if the device has changed
-    NSMenuItem *newItem = [self.bDevices selectedItem];
+    NSMenuItem *newItem = [self.bInputDevices selectedItem];
     NSString *newInput = [newItem title];
 #endif
     if (![newInput isEqualToString:oldInput] || notification == nil)
@@ -85,28 +87,50 @@
 }
 
 #ifdef WITH_APPKIT
-- (IBAction)deviceChanged: (id) sender
+- (IBAction)inputDeviceSelectionChanged: (id) sender
 {
 	NSMenuItem *item = [sender selectedItem];
 	NSString *cam = [item title];
 	if (VL_DEBUG) NSLog(@"Switch audioInput to %@\n", cam);
 	[self.inputHandler switchToDeviceWithName: cam];
-	assert(self.selectionDelegate);
-	[self.selectionDelegate selectionChanged: self];
+	assert(self.inputSelectionDelegate);
+	[self.inputSelectionDelegate inputSelectionChanged: self];
 }
 
 - (void)_reselectInput: (NSString *)name
 {
     if (name)
-        [self.bDevices selectItemWithTitle:name];
+        [self.bInputDevices selectItemWithTitle:name];
     // Select first item, if nothing has been selected
-    NSMenuItem *newItem = [self.bDevices selectedItem];
+    NSMenuItem *newItem = [self.bInputDevices selectedItem];
     if (newItem == nil)
-        [self.bDevices selectItemAtIndex: 0];
+        [self.bInputDevices selectItemAtIndex: 0];
 }
 
 - (IBAction)outputChanged: (id) sender
 {
+}
+
+
+- (BOOL)setBases: (NSArray *)baseNames
+{
+    assert(self.bBase);
+    [self.bBase removeAllItems];
+    [self.bBase addItemsWithTitles: baseNames];
+    BOOL ok = self.bBase.numberOfItems > 0;
+    if (ok) {
+        [self.bBase selectItemAtIndex:0];
+        [self.inputSelectionDelegate inputSelectionChanged:self];
+    }
+    return ok;
+}
+
+- (void)disableBases
+{
+    if (self.bBase) {
+        [self.bBase setEnabled: NO];
+        [self.bBase selectItem: nil];
+    }
 }
 
 - (NSString *)baseName
@@ -119,12 +143,11 @@
 
 - (NSString *)deviceName
 {
-    assert(self.bDevices);
-    NSMenuItem *item = [self.bDevices selectedItem];
+    assert(self.bInputDevices);
+    NSMenuItem *item = [self.bInputDevices selectedItem];
     if (item == nil) return nil;
     return [item title];
 }
 #endif
-
 
 @end

@@ -10,12 +10,11 @@
 		0401ED8722E6673900FB72E4 /* GenQRcode.m in Sources */ = {isa = PBXBuildFile; fileRef = 0401ED8322E6673900FB72E4 /* GenQRcode.m */; };
 		0401ED8822E6673900FB72E4 /* FindQRcode.m in Sources */ = {isa = PBXBuildFile; fileRef = 0401ED8422E6673900FB72E4 /* FindQRcode.m */; };
 		040728B11AC9ED8B00191022 /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = 040728B01AC9ED8B00191022 /* iTunesArtwork */; };
-		040728B31AC9F86B00191022 /* MasterSenderScreenCalibrationRun.xib in Resources */ = {isa = PBXBuildFile; fileRef = 040728B21AC9F86B00191022 /* MasterSenderScreenCalibrationRun.xib */; };
+		040728B31AC9F86B00191022 /* VideoSenderRun.xib in Resources */ = {isa = PBXBuildFile; fileRef = 040728B21AC9F86B00191022 /* VideoSenderRun.xib */; };
 		0409FDCD1ACE977C00851D80 /* DocumentActionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0409FDCC1ACE977C00851D80 /* DocumentActionViewController.m */; };
 		0409FDD01ACE9E2C00851D80 /* MainMenuTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0409FDCF1ACE9E2C00851D80 /* MainMenuTableViewController.m */; };
 		040E77181AB6DBBC001A7918 /* compat.m in Sources */ = {isa = PBXBuildFile; fileRef = 040E77171AB6DBBC001A7918 /* compat.m */; };
 		040E771F1AB6ED25001A7918 /* MeasurementContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 040E771E1AB6ED25001A7918 /* MeasurementContainerViewController.m */; };
-		040E77231AB6F314001A7918 /* AudioCalibrationRunManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 040E77221AB6F314001A7918 /* AudioCalibrationRunManager.m */; };
 		040E77251AB6F42B001A7918 /* AudioCalibrationRun.xib in Resources */ = {isa = PBXBuildFile; fileRef = 040E77241AB6F42B001A7918 /* AudioCalibrationRun.xib */; };
 		040E77281AB6F5B1001A7918 /* RunCollector.m in Sources */ = {isa = PBXBuildFile; fileRef = 040E77271AB6F5B1001A7918 /* RunCollector.m */; };
 		040E772B1AB707B2001A7918 /* AudioSelectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 040E772A1AB707B2001A7918 /* AudioSelectionView.m */; };
@@ -24,6 +23,7 @@
 		040E77371AB72002001A7918 /* DocumentDescriptionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 040E77361AB72002001A7918 /* DocumentDescriptionView.m */; };
 		040E773A1AB7200F001A7918 /* GraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = 040E77391AB7200F001A7918 /* GraphView.m */; };
 		040E77431AB73634001A7918 /* Document.m in Sources */ = {isa = PBXBuildFile; fileRef = 040E77421AB73634001A7918 /* Document.m */; };
+		0412D549230C800B009275C3 /* RemoteClock.m in Sources */ = {isa = PBXBuildFile; fileRef = 0412D548230C800B009275C3 /* RemoteClock.m */; };
 		04138C6C1AB319B9003D8167 /* MeasurementType.m in Sources */ = {isa = PBXBuildFile; fileRef = 04138C6B1AB319B9003D8167 /* MeasurementType.m */; };
 		04138C731AB31A2C003D8167 /* CalibrationSharing.m in Sources */ = {isa = PBXBuildFile; fileRef = 04138C721AB31A2C003D8167 /* CalibrationSharing.m */; };
 		04138C7E1AB31E9F003D8167 /* MeasurementDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 04138C7B1AB31E9F003D8167 /* MeasurementDataStore.m */; };
@@ -38,12 +38,12 @@
 		04155EA31AB6471900DD53D9 /* AudioProcess.m in Sources */ = {isa = PBXBuildFile; fileRef = 04155EA21AB6471900DD53D9 /* AudioProcess.m */; };
 		04155EA61AB647C500DD53D9 /* AudioRunManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 04155EA51AB647C500DD53D9 /* AudioRunManager.m */; };
 		04155EA91AB6481000DD53D9 /* BaseRunManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 04155EA81AB6481000DD53D9 /* BaseRunManager.m */; };
-		041C8FFE1AC41B2300539C68 /* NetworkInput.m in Sources */ = {isa = PBXBuildFile; fileRef = 041C8FF51AC41B2300539C68 /* NetworkInput.m */; };
+		041C8FFE1AC41B2300539C68 /* NetworkIODevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 041C8FF51AC41B2300539C68 /* NetworkIODevice.m */; };
 		041C8FFF1AC41B2300539C68 /* NetworkOutputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 041C8FF71AC41B2300539C68 /* NetworkOutputView.m */; };
 		041C90001AC41B2300539C68 /* NetworkProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 041C8FF91AC41B2300539C68 /* NetworkProtocol.m */; };
 		041C90011AC41B2300539C68 /* NetworkRunManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 041C8FFB1AC41B2300539C68 /* NetworkRunManager.m */; };
 		041C90021AC41B2300539C68 /* NetworkSelectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 041C8FFD1AC41B2300539C68 /* NetworkSelectionView.m */; };
-		041C90061AC4219900539C68 /* SlaveReceiverCameraCalibrationRun.xib in Resources */ = {isa = PBXBuildFile; fileRef = 041C90051AC4219900539C68 /* SlaveReceiverCameraCalibrationRun.xib */; };
+		041C90061AC4219900539C68 /* VideoReceiverRun.xib in Resources */ = {isa = PBXBuildFile; fileRef = 041C90051AC4219900539C68 /* VideoReceiverRun.xib */; };
 		042422C61ACEE254003A153C /* CommonAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 042422C51ACEE254003A153C /* CommonAppDelegate.m */; };
 		042422C91ACEE299003A153C /* DocumentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 042422C81ACEE299003A153C /* DocumentViewController.m */; };
 		042422CB1ACEE2C3003A153C /* DocumentView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 042422CA1ACEE2C3003A153C /* DocumentView.xib */; };
@@ -58,6 +58,7 @@
 		0478E1711ABF7E250057548C /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0478E1701ABF7E250057548C /* libz.dylib */; };
 		0478E1781ABF808C0057548C /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0478E1471ABF6F240057548C /* libiconv.dylib */; };
 		04C5FF1F1AB85EB800F4EC25 /* DeviceDescriptionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C5FF1E1AB85EB800F4EC25 /* DeviceDescriptionView.m */; };
+		04E92432232417CB009E64DF /* NetworkInputCalibrationSelectionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04E92431232417CB009E64DF /* NetworkInputCalibrationSelectionView.xib */; };
 		04F7B83C1AC02F4400BEFDD5 /* VideoInput.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F7B8391AC02F4400BEFDD5 /* VideoInput.m */; };
 		04F7B83D1AC02F4400BEFDD5 /* VideoOutputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F7B83B1AC02F4400BEFDD5 /* VideoOutputView.m */; };
 		04F7B8401AC02F4C00BEFDD5 /* VideoSelectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F7B83F1AC02F4C00BEFDD5 /* VideoSelectionView.m */; };
@@ -65,10 +66,9 @@
 		04F7B8451AC040AE00BEFDD5 /* VideoInputSelectionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04F7B8441AC040AE00BEFDD5 /* VideoInputSelectionView.xib */; };
 		04F7B8471AC16E4900BEFDD5 /* AudioInputSelectionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04F7B8461AC16E4900BEFDD5 /* AudioInputSelectionView.xib */; };
 		04F7B84A1AC18EB600BEFDD5 /* VideoRunManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F7B8491AC18EB600BEFDD5 /* VideoRunManager.m */; };
-		04F7B8521AC18F0500BEFDD5 /* VideoCalibrationRunManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F7B8511AC18F0500BEFDD5 /* VideoCalibrationRunManager.m */; };
 		04FAAAA91ACAA04C0094A5E9 /* NetworkInputSelectionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04FAAAA81ACAA04C0094A5E9 /* NetworkInputSelectionView.xib */; };
-		04FAAAAB1ACAD2D30094A5E9 /* SlaveReceiverRun.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04FAAAAA1ACAD2D30094A5E9 /* SlaveReceiverRun.xib */; };
-		04FAAAAD1ACAD2DE0094A5E9 /* MasterSenderRun.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04FAAAAC1ACAD2DE0094A5E9 /* MasterSenderRun.xib */; };
+		04FAAAAB1ACAD2D30094A5E9 /* RemoteHelperCamera.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04FAAAAA1ACAD2D30094A5E9 /* RemoteHelperCamera.xib */; };
+		04FAAAAD1ACAD2DE0094A5E9 /* RemoteHelperScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04FAAAAC1ACAD2DE0094A5E9 /* RemoteHelperScreen.xib */; };
 		04FAAAAF1ACAD2FB0094A5E9 /* AudioRun.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04FAAAAE1ACAD2FB0094A5E9 /* AudioRun.xib */; };
 		04FC55B11AC3681E00D17C58 /* InputSelectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FC55B01AC3681E00D17C58 /* InputSelectionView.m */; };
 		04FFFC7A1AB2FA8E0023ED13 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FFFC771AB2FA8E0023ED13 /* AppDelegate.m */; };
@@ -101,7 +101,7 @@
 		0401ED8522E6673900FB72E4 /* GenQRcode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GenQRcode.h; path = src/VideoRun/GenQRcode.h; sourceTree = SOURCE_ROOT; };
 		0401ED8622E6673900FB72E4 /* FindQRcode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FindQRcode.h; path = src/VideoRun/FindQRcode.h; sourceTree = SOURCE_ROOT; };
 		040728B01AC9ED8B00191022 /* iTunesArtwork */ = {isa = PBXFileReference; lastKnownFileType = file; name = iTunesArtwork; path = icons/iTunesArtwork; sourceTree = SOURCE_ROOT; };
-		040728B21AC9F86B00191022 /* MasterSenderScreenCalibrationRun.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MasterSenderScreenCalibrationRun.xib; path = src/iOS/MasterSenderScreenCalibrationRun.xib; sourceTree = SOURCE_ROOT; };
+		040728B21AC9F86B00191022 /* VideoSenderRun.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = VideoSenderRun.xib; path = src/iOS/VideoSenderRun.xib; sourceTree = SOURCE_ROOT; };
 		0409FDCB1ACE977C00851D80 /* DocumentActionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DocumentActionViewController.h; path = src/iOS/DocumentActionViewController.h; sourceTree = SOURCE_ROOT; };
 		0409FDCC1ACE977C00851D80 /* DocumentActionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DocumentActionViewController.m; path = src/iOS/DocumentActionViewController.m; sourceTree = SOURCE_ROOT; };
 		0409FDCE1ACE9E2C00851D80 /* MainMenuTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MainMenuTableViewController.h; path = src/iOS/MainMenuTableViewController.h; sourceTree = SOURCE_ROOT; };
@@ -109,8 +109,6 @@
 		040E77171AB6DBBC001A7918 /* compat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = compat.m; path = src/compat.m; sourceTree = SOURCE_ROOT; };
 		040E771D1AB6ED25001A7918 /* MeasurementContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MeasurementContainerViewController.h; path = src/iOS/MeasurementContainerViewController.h; sourceTree = SOURCE_ROOT; };
 		040E771E1AB6ED25001A7918 /* MeasurementContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MeasurementContainerViewController.m; path = src/iOS/MeasurementContainerViewController.m; sourceTree = SOURCE_ROOT; };
-		040E77211AB6F314001A7918 /* AudioCalibrationRunManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioCalibrationRunManager.h; path = src/AudioCalibrationRun/AudioCalibrationRunManager.h; sourceTree = SOURCE_ROOT; };
-		040E77221AB6F314001A7918 /* AudioCalibrationRunManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AudioCalibrationRunManager.m; path = src/AudioCalibrationRun/AudioCalibrationRunManager.m; sourceTree = SOURCE_ROOT; };
 		040E77241AB6F42B001A7918 /* AudioCalibrationRun.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AudioCalibrationRun.xib; path = src/iOS/AudioCalibrationRun.xib; sourceTree = SOURCE_ROOT; };
 		040E77261AB6F5B1001A7918 /* RunCollector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RunCollector.h; path = src/MeasurementRun/RunCollector.h; sourceTree = SOURCE_ROOT; };
 		040E77271AB6F5B1001A7918 /* RunCollector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RunCollector.m; path = src/MeasurementRun/RunCollector.m; sourceTree = SOURCE_ROOT; };
@@ -126,6 +124,8 @@
 		040E77391AB7200F001A7918 /* GraphView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GraphView.m; path = src/Document/GraphView.m; sourceTree = SOURCE_ROOT; };
 		040E77411AB73634001A7918 /* Document.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Document.h; path = src/Document/Document.h; sourceTree = SOURCE_ROOT; };
 		040E77421AB73634001A7918 /* Document.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Document.m; path = src/Document/Document.m; sourceTree = SOURCE_ROOT; };
+		0412D547230C800A009275C3 /* RemoteClock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RemoteClock.h; path = src/Networking/RemoteClock.h; sourceTree = SOURCE_ROOT; };
+		0412D548230C800B009275C3 /* RemoteClock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RemoteClock.m; path = src/Networking/RemoteClock.m; sourceTree = SOURCE_ROOT; };
 		04138C681AB31980003D8167 /* xibfiles.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = xibfiles.h; path = src/xibfiles.h; sourceTree = SOURCE_ROOT; };
 		04138C691AB31980003D8167 /* protocols.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = protocols.h; path = src/protocols.h; sourceTree = SOURCE_ROOT; };
 		04138C6A1AB319B9003D8167 /* MeasurementType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MeasurementType.h; path = src/MeasurementType.h; sourceTree = SOURCE_ROOT; };
@@ -155,8 +155,8 @@
 		04155EA51AB647C500DD53D9 /* AudioRunManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AudioRunManager.m; path = src/AudioRun/AudioRunManager.m; sourceTree = SOURCE_ROOT; };
 		04155EA71AB6481000DD53D9 /* BaseRunManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BaseRunManager.h; path = src/MeasurementRun/BaseRunManager.h; sourceTree = SOURCE_ROOT; };
 		04155EA81AB6481000DD53D9 /* BaseRunManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BaseRunManager.m; path = src/MeasurementRun/BaseRunManager.m; sourceTree = SOURCE_ROOT; };
-		041C8FF41AC41B2300539C68 /* NetworkInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NetworkInput.h; path = src/Networking/NetworkInput.h; sourceTree = SOURCE_ROOT; };
-		041C8FF51AC41B2300539C68 /* NetworkInput.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NetworkInput.m; path = src/Networking/NetworkInput.m; sourceTree = SOURCE_ROOT; };
+		041C8FF41AC41B2300539C68 /* NetworkIODevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NetworkIODevice.h; path = src/Networking/NetworkIODevice.h; sourceTree = SOURCE_ROOT; };
+		041C8FF51AC41B2300539C68 /* NetworkIODevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NetworkIODevice.m; path = src/Networking/NetworkIODevice.m; sourceTree = SOURCE_ROOT; };
 		041C8FF61AC41B2300539C68 /* NetworkOutputView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NetworkOutputView.h; path = src/Networking/NetworkOutputView.h; sourceTree = SOURCE_ROOT; };
 		041C8FF71AC41B2300539C68 /* NetworkOutputView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NetworkOutputView.m; path = src/Networking/NetworkOutputView.m; sourceTree = SOURCE_ROOT; };
 		041C8FF81AC41B2300539C68 /* NetworkProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NetworkProtocol.h; path = src/Networking/NetworkProtocol.h; sourceTree = SOURCE_ROOT; };
@@ -165,7 +165,7 @@
 		041C8FFB1AC41B2300539C68 /* NetworkRunManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NetworkRunManager.m; path = src/Networking/NetworkRunManager.m; sourceTree = SOURCE_ROOT; };
 		041C8FFC1AC41B2300539C68 /* NetworkSelectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NetworkSelectionView.h; path = src/Networking/NetworkSelectionView.h; sourceTree = SOURCE_ROOT; };
 		041C8FFD1AC41B2300539C68 /* NetworkSelectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NetworkSelectionView.m; path = src/Networking/NetworkSelectionView.m; sourceTree = SOURCE_ROOT; };
-		041C90051AC4219900539C68 /* SlaveReceiverCameraCalibrationRun.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SlaveReceiverCameraCalibrationRun.xib; path = src/iOS/SlaveReceiverCameraCalibrationRun.xib; sourceTree = SOURCE_ROOT; };
+		041C90051AC4219900539C68 /* VideoReceiverRun.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = VideoReceiverRun.xib; path = src/iOS/VideoReceiverRun.xib; sourceTree = SOURCE_ROOT; };
 		042422C41ACEE254003A153C /* CommonAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CommonAppDelegate.h; path = src/CommonAppDelegate.h; sourceTree = SOURCE_ROOT; };
 		042422C51ACEE254003A153C /* CommonAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CommonAppDelegate.m; path = src/CommonAppDelegate.m; sourceTree = SOURCE_ROOT; };
 		042422C71ACEE299003A153C /* DocumentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DocumentViewController.h; path = src/iOS/DocumentViewController.h; sourceTree = SOURCE_ROOT; };
@@ -192,6 +192,7 @@
 		048BFCE31AB2EE2C0026D104 /* videoLat-iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "videoLat-iOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		04C5FF1D1AB85EB800F4EC25 /* DeviceDescriptionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeviceDescriptionView.h; path = src/Document/DeviceDescriptionView.h; sourceTree = SOURCE_ROOT; };
 		04C5FF1E1AB85EB800F4EC25 /* DeviceDescriptionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DeviceDescriptionView.m; path = src/Document/DeviceDescriptionView.m; sourceTree = SOURCE_ROOT; };
+		04E92431232417CB009E64DF /* NetworkInputCalibrationSelectionView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = NetworkInputCalibrationSelectionView.xib; path = src/iOS/NetworkInputCalibrationSelectionView.xib; sourceTree = SOURCE_ROOT; };
 		04F7B8381AC02F4400BEFDD5 /* VideoInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VideoInput.h; path = src/VideoRun/VideoInput.h; sourceTree = SOURCE_ROOT; };
 		04F7B8391AC02F4400BEFDD5 /* VideoInput.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VideoInput.m; path = src/VideoRun/VideoInput.m; sourceTree = SOURCE_ROOT; };
 		04F7B83A1AC02F4400BEFDD5 /* VideoOutputView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VideoOutputView.h; path = src/VideoRun/VideoOutputView.h; sourceTree = SOURCE_ROOT; };
@@ -204,11 +205,9 @@
 		04F7B8461AC16E4900BEFDD5 /* AudioInputSelectionView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AudioInputSelectionView.xib; path = src/iOS/AudioInputSelectionView.xib; sourceTree = SOURCE_ROOT; };
 		04F7B8481AC18EB600BEFDD5 /* VideoRunManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VideoRunManager.h; path = src/VideoRun/VideoRunManager.h; sourceTree = SOURCE_ROOT; };
 		04F7B8491AC18EB600BEFDD5 /* VideoRunManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VideoRunManager.m; path = src/VideoRun/VideoRunManager.m; sourceTree = SOURCE_ROOT; };
-		04F7B8501AC18F0500BEFDD5 /* VideoCalibrationRunManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VideoCalibrationRunManager.h; path = src/VideoCalibrationRun/VideoCalibrationRunManager.h; sourceTree = SOURCE_ROOT; };
-		04F7B8511AC18F0500BEFDD5 /* VideoCalibrationRunManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VideoCalibrationRunManager.m; path = src/VideoCalibrationRun/VideoCalibrationRunManager.m; sourceTree = SOURCE_ROOT; };
 		04FAAAA81ACAA04C0094A5E9 /* NetworkInputSelectionView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = NetworkInputSelectionView.xib; path = src/iOS/NetworkInputSelectionView.xib; sourceTree = SOURCE_ROOT; };
-		04FAAAAA1ACAD2D30094A5E9 /* SlaveReceiverRun.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SlaveReceiverRun.xib; path = src/iOS/SlaveReceiverRun.xib; sourceTree = SOURCE_ROOT; };
-		04FAAAAC1ACAD2DE0094A5E9 /* MasterSenderRun.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MasterSenderRun.xib; path = src/iOS/MasterSenderRun.xib; sourceTree = SOURCE_ROOT; };
+		04FAAAAA1ACAD2D30094A5E9 /* RemoteHelperCamera.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RemoteHelperCamera.xib; path = src/iOS/RemoteHelperCamera.xib; sourceTree = SOURCE_ROOT; };
+		04FAAAAC1ACAD2DE0094A5E9 /* RemoteHelperScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RemoteHelperScreen.xib; path = src/iOS/RemoteHelperScreen.xib; sourceTree = SOURCE_ROOT; };
 		04FAAAAE1ACAD2FB0094A5E9 /* AudioRun.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AudioRun.xib; path = src/iOS/AudioRun.xib; sourceTree = SOURCE_ROOT; };
 		04FC55AF1AC3681E00D17C58 /* InputSelectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InputSelectionView.h; path = src/iOS/InputSelectionView.h; sourceTree = SOURCE_ROOT; };
 		04FC55B01AC3681E00D17C58 /* InputSelectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InputSelectionView.m; path = src/iOS/InputSelectionView.m; sourceTree = SOURCE_ROOT; };
@@ -248,16 +247,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		040E77201AB6F2F7001A7918 /* AudioCalibrationRun */ = {
-			isa = PBXGroup;
-			children = (
-				040E77211AB6F314001A7918 /* AudioCalibrationRunManager.h */,
-				040E77221AB6F314001A7918 /* AudioCalibrationRunManager.m */,
-				040E77241AB6F42B001A7918 /* AudioCalibrationRun.xib */,
-			);
-			name = AudioCalibrationRun;
-			sourceTree = "<group>";
-		};
 		04138C6D1AB319CB003D8167 /* Document */ = {
 			isa = PBXGroup;
 			children = (
@@ -326,11 +315,7 @@
 				040E772C1AB70A12001A7918 /* RunStatusView.h */,
 				040E772D1AB70A12001A7918 /* RunStatusView.m */,
 				04155E981AB6310C00DD53D9 /* AudioRun */,
-				040E77201AB6F2F7001A7918 /* AudioCalibrationRun */,
 				04138C891AB330C4003D8167 /* VideoRun */,
-				04F7B84B1AC18EC000BEFDD5 /* VideoCalibrationRun */,
-				041C90041AC4216700539C68 /* SlaveReceiverRun */,
-				041C90031AC4215C00539C68 /* MasterSenderRun */,
 				041C8FF31AC41B0400539C68 /* Networking */,
 			);
 			name = MeasurementRun;
@@ -353,6 +338,7 @@
 				04F7B83F1AC02F4C00BEFDD5 /* VideoSelectionView.m */,
 				04F7B8441AC040AE00BEFDD5 /* VideoInputSelectionView.xib */,
 				042E0F2D1AC30DFD003D6267 /* VideoRun.xib */,
+				0462CC161AC2F0E00077383B /* VideoCalibrationRun.xib */,
 			);
 			name = VideoRun;
 			sourceTree = "<group>";
@@ -373,6 +359,7 @@
 				04155EA21AB6471900DD53D9 /* AudioProcess.m */,
 				04F7B8461AC16E4900BEFDD5 /* AudioInputSelectionView.xib */,
 				04FAAAAE1ACAD2FB0094A5E9 /* AudioRun.xib */,
+				040E77241AB6F42B001A7918 /* AudioCalibrationRun.xib */,
 			);
 			name = AudioRun;
 			sourceTree = "<group>";
@@ -380,8 +367,8 @@
 		041C8FF31AC41B0400539C68 /* Networking */ = {
 			isa = PBXGroup;
 			children = (
-				041C8FF41AC41B2300539C68 /* NetworkInput.h */,
-				041C8FF51AC41B2300539C68 /* NetworkInput.m */,
+				041C8FF41AC41B2300539C68 /* NetworkIODevice.h */,
+				041C8FF51AC41B2300539C68 /* NetworkIODevice.m */,
 				041C8FF61AC41B2300539C68 /* NetworkOutputView.h */,
 				041C8FF71AC41B2300539C68 /* NetworkOutputView.m */,
 				041C8FF81AC41B2300539C68 /* NetworkProtocol.h */,
@@ -391,26 +378,15 @@
 				041C8FFC1AC41B2300539C68 /* NetworkSelectionView.h */,
 				041C8FFD1AC41B2300539C68 /* NetworkSelectionView.m */,
 				04FAAAA81ACAA04C0094A5E9 /* NetworkInputSelectionView.xib */,
+				04E92431232417CB009E64DF /* NetworkInputCalibrationSelectionView.xib */,
+				0412D547230C800A009275C3 /* RemoteClock.h */,
+				0412D548230C800B009275C3 /* RemoteClock.m */,
+				041C90051AC4219900539C68 /* VideoReceiverRun.xib */,
+				040728B21AC9F86B00191022 /* VideoSenderRun.xib */,
+				04FAAAAA1ACAD2D30094A5E9 /* RemoteHelperCamera.xib */,
+				04FAAAAC1ACAD2DE0094A5E9 /* RemoteHelperScreen.xib */,
 			);
 			name = Networking;
-			sourceTree = "<group>";
-		};
-		041C90031AC4215C00539C68 /* MasterSenderRun */ = {
-			isa = PBXGroup;
-			children = (
-				04FAAAAC1ACAD2DE0094A5E9 /* MasterSenderRun.xib */,
-				040728B21AC9F86B00191022 /* MasterSenderScreenCalibrationRun.xib */,
-			);
-			name = MasterSenderRun;
-			sourceTree = "<group>";
-		};
-		041C90041AC4216700539C68 /* SlaveReceiverRun */ = {
-			isa = PBXGroup;
-			children = (
-				04FAAAAA1ACAD2D30094A5E9 /* SlaveReceiverRun.xib */,
-				041C90051AC4219900539C68 /* SlaveReceiverCameraCalibrationRun.xib */,
-			);
-			name = SlaveReceiverRun;
 			sourceTree = "<group>";
 		};
 		0427A4F222B98AF900A536D9 /* videoLatUITests */ = {
@@ -518,16 +494,6 @@
 				042935371AE7C4B10045C310 /* videolat_ios_help.html */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		04F7B84B1AC18EC000BEFDD5 /* VideoCalibrationRun */ = {
-			isa = PBXGroup;
-			children = (
-				04F7B8501AC18F0500BEFDD5 /* VideoCalibrationRunManager.h */,
-				04F7B8511AC18F0500BEFDD5 /* VideoCalibrationRunManager.m */,
-				0462CC161AC2F0E00077383B /* VideoCalibrationRun.xib */,
-			);
-			name = VideoCalibrationRun;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -645,16 +611,17 @@
 			files = (
 				04F7B8471AC16E4900BEFDD5 /* AudioInputSelectionView.xib in Resources */,
 				040728B11AC9ED8B00191022 /* iTunesArtwork in Resources */,
-				040728B31AC9F86B00191022 /* MasterSenderScreenCalibrationRun.xib in Resources */,
+				040728B31AC9F86B00191022 /* VideoSenderRun.xib in Resources */,
 				04155E9A1AB6311C00DD53D9 /* sounds in Resources */,
 				042935381AE7C4B10045C310 /* videolat_ios_help.html in Resources */,
-				04FAAAAD1ACAD2DE0094A5E9 /* MasterSenderRun.xib in Resources */,
+				04E92432232417CB009E64DF /* NetworkInputCalibrationSelectionView.xib in Resources */,
+				04FAAAAD1ACAD2DE0094A5E9 /* RemoteHelperScreen.xib in Resources */,
 				042422CB1ACEE2C3003A153C /* DocumentView.xib in Resources */,
 				0462CC171AC2F0E00077383B /* VideoCalibrationRun.xib in Resources */,
 				04FFFC831AB2FACB0023ED13 /* Images.xcassets in Resources */,
-				041C90061AC4219900539C68 /* SlaveReceiverCameraCalibrationRun.xib in Resources */,
+				041C90061AC4219900539C68 /* VideoReceiverRun.xib in Resources */,
 				04F7B8451AC040AE00BEFDD5 /* VideoInputSelectionView.xib in Resources */,
-				04FAAAAB1ACAD2D30094A5E9 /* SlaveReceiverRun.xib in Resources */,
+				04FAAAAB1ACAD2D30094A5E9 /* RemoteHelperCamera.xib in Resources */,
 				04FAAAAF1ACAD2FB0094A5E9 /* AudioRun.xib in Resources */,
 				04FAAAA91ACAA04C0094A5E9 /* NetworkInputSelectionView.xib in Resources */,
 				04FFFC811AB2FABE0023ED13 /* Main.storyboard in Resources */,
@@ -709,9 +676,7 @@
 				04F7B83C1AC02F4400BEFDD5 /* VideoInput.m in Sources */,
 				042422C91ACEE299003A153C /* DocumentViewController.m in Sources */,
 				04138C7E1AB31E9F003D8167 /* MeasurementDataStore.m in Sources */,
-				04F7B8521AC18F0500BEFDD5 /* VideoCalibrationRunManager.m in Sources */,
 				0478E1391AB9B7D80057548C /* OpenDocumentTableViewController.m in Sources */,
-				040E77231AB6F314001A7918 /* AudioCalibrationRunManager.m in Sources */,
 				040E77181AB6DBBC001A7918 /* compat.m in Sources */,
 				04138C6C1AB319B9003D8167 /* MeasurementType.m in Sources */,
 				04138C7F1AB31E9F003D8167 /* MeasurementDistribution.m in Sources */,
@@ -719,7 +684,7 @@
 				040E771F1AB6ED25001A7918 /* MeasurementContainerViewController.m in Sources */,
 				04F7B8431AC0407700BEFDD5 /* InputSelectionViewController.m in Sources */,
 				041C90001AC41B2300539C68 /* NetworkProtocol.m in Sources */,
-				041C8FFE1AC41B2300539C68 /* NetworkInput.m in Sources */,
+				041C8FFE1AC41B2300539C68 /* NetworkIODevice.m in Sources */,
 				04FC55B11AC3681E00D17C58 /* InputSelectionView.m in Sources */,
 				041C90021AC41B2300539C68 /* NetworkSelectionView.m in Sources */,
 				04138C731AB31A2C003D8167 /* CalibrationSharing.m in Sources */,
@@ -732,6 +697,7 @@
 				0409FDD01ACE9E2C00851D80 /* MainMenuTableViewController.m in Sources */,
 				04155EA61AB647C500DD53D9 /* AudioRunManager.m in Sources */,
 				04155E971AB6251900DD53D9 /* NewMeasurementTableViewController.m in Sources */,
+				0412D549230C800B009275C3 /* RemoteClock.m in Sources */,
 				040E77341AB71FF2001A7918 /* DocumentView.m in Sources */,
 				04F7B83D1AC02F4400BEFDD5 /* VideoOutputView.m in Sources */,
 			);

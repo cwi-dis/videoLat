@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14490.70"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14460.31"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -14,11 +13,10 @@
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
-        <customObject id="1" customClass="HardwareRunManager">
+        <customObject id="1" userLabel="RunManager" customClass="HardwareRunManager">
             <connections>
-                <outlet property="bDriverStatus" destination="fyc-4s-Yfv" id="6fW-dd-BiR"/>
-                <outlet property="bSamplePeriodStepper" destination="6Sc-hd-lQl" id="z7s-2F-nNf"/>
-                <outlet property="bSamplePeriodValue" destination="ybB-q1-sOc" id="JwF-vg-aEe"/>
+                <outlet property="capturer" destination="6t3-F6-bxv" id="HPk-KO-yjW"/>
+                <outlet property="clock" destination="6t3-F6-bxv" id="V5R-RV-0aL"/>
                 <outlet property="collector" destination="316" id="317"/>
                 <outlet property="measurementMaster" destination="-2" id="74"/>
                 <outlet property="outputView" destination="2" id="50"/>
@@ -30,7 +28,7 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="196" y="240" width="956" height="684"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
             <view key="contentView" id="248" customClass="RunManagerView">
                 <rect key="frame" x="0.0" y="0.0" width="956" height="684"/>
                 <autoresizingMask key="autoresizingMask"/>
@@ -39,7 +37,7 @@
                         <rect key="frame" x="20" y="20" width="268" height="136"/>
                         <subviews>
                             <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="257">
-                                <rect key="frame" x="18" y="74" width="56" height="17"/>
+                                <rect key="frame" x="18" y="74" width="45" height="17"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Count:" id="276">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -85,7 +83,7 @@
                                 </textFieldCell>
                             </textField>
                             <button toolTip="Stop measuring and present results" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="253">
-                                <rect key="frame" x="185" y="-7" width="69" height="32"/>
+                                <rect key="frame" x="175" y="13" width="79" height="32"/>
                                 <buttonCell key="cell" type="push" title="Stop" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="282">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -95,13 +93,26 @@
                                 </connections>
                             </button>
                             <button toolTip="Start doing a measurement run" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="6">
-                                <rect key="frame" x="14" y="-7" width="64" height="32"/>
+                                <rect key="frame" x="95" y="13" width="79" height="32"/>
                                 <buttonCell key="cell" type="push" title="Run" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="45">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
                                     <action selector="startMeasuring:" target="1" id="48"/>
+                                </connections>
+                            </button>
+                            <button toolTip="Do initial measurements to check everything works and detect mirroring" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="baK-ca-Cek">
+                                <rect key="frame" x="14" y="13" width="79" height="32"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="67" id="toU-cn-bgK"/>
+                                </constraints>
+                                <buttonCell key="cell" type="push" title="Prepare" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="DWa-a3-zCU">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="startPreMeasuring:" target="1" id="qLM-9t-tCT"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -118,15 +129,19 @@
                             <constraint firstAttribute="trailing" secondItem="254" secondAttribute="trailing" constant="20" symbolic="YES" id="268"/>
                             <constraint firstItem="256" firstAttribute="baseline" secondItem="255" secondAttribute="baseline" id="269"/>
                             <constraint firstAttribute="trailing" secondItem="256" secondAttribute="trailing" constant="20" symbolic="YES" id="270"/>
-                            <constraint firstAttribute="trailing" secondItem="253" secondAttribute="trailing" constant="20" symbolic="YES" id="271"/>
-                            <constraint firstItem="6" firstAttribute="trailing" secondItem="257" secondAttribute="trailing" id="325"/>
-                            <constraint firstItem="6" firstAttribute="leading" secondItem="255" secondAttribute="leading" id="326"/>
-                            <constraint firstAttribute="bottom" secondItem="6" secondAttribute="bottom" id="327"/>
-                            <constraint firstItem="6" firstAttribute="baseline" secondItem="253" secondAttribute="baseline" id="328"/>
+                            <constraint firstItem="253" firstAttribute="width" secondItem="baK-ca-Cek" secondAttribute="width" id="1Io-fL-t0v"/>
+                            <constraint firstAttribute="bottom" secondItem="baK-ca-Cek" secondAttribute="bottom" constant="20" id="RVY-Cb-hnX"/>
+                            <constraint firstAttribute="trailing" secondItem="253" secondAttribute="trailing" constant="20" id="TOP-zv-ko4"/>
+                            <constraint firstItem="6" firstAttribute="centerX" secondItem="249" secondAttribute="centerX" id="dCh-x1-2DJ"/>
+                            <constraint firstItem="6" firstAttribute="width" secondItem="baK-ca-Cek" secondAttribute="width" id="lkh-EJ-vza"/>
+                            <constraint firstAttribute="bottom" secondItem="253" secondAttribute="bottom" constant="20" id="mSb-Kc-HGO"/>
+                            <constraint firstAttribute="bottom" secondItem="6" secondAttribute="bottom" constant="20" id="ovy-h3-EFT"/>
+                            <constraint firstItem="baK-ca-Cek" firstAttribute="leading" secondItem="249" secondAttribute="leading" constant="20" id="pfm-fJ-C1K"/>
                         </constraints>
                         <connections>
                             <outlet property="bAverage" destination="256" id="284"/>
                             <outlet property="bCount" destination="254" id="285"/>
+                            <outlet property="bPrepare" destination="baK-ca-Cek" id="CBo-zx-rxr"/>
                             <outlet property="bRun" destination="6" id="329"/>
                             <outlet property="bStop" destination="253" id="286"/>
                         </connections>
@@ -143,26 +158,13 @@
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="36">
-                                <rect key="frame" x="18" y="323" width="45" height="17"/>
+                                <rect key="frame" x="18" y="324" width="45" height="17"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Driver:" id="37">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <button toolTip="Do initial measurements to check everything works and detect mirroring" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5">
-                                <rect key="frame" x="110" y="229" width="79" height="32"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="67" id="46"/>
-                                </constraints>
-                                <buttonCell key="cell" type="push" title="Prepare" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="47">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="startPreMeasuring:" target="1" id="52"/>
-                                </connections>
-                            </button>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="8" customClass="LevelStatusView">
                                 <rect key="frame" x="0.0" y="0.0" width="268" height="219"/>
                                 <subviews>
@@ -254,13 +256,16 @@
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                         </textFieldCell>
                                         <connections>
-                                            <action selector="periodChanged:" target="1" id="ZrO-Q2-9kB"/>
+                                            <action selector="periodChanged:" target="6t3-F6-bxv" id="RDE-Lp-IwJ"/>
                                         </connections>
                                     </textField>
                                     <stepper horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6Sc-hd-lQl">
                                         <rect key="frame" x="216" y="76" width="19" height="27"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <stepperCell key="cell" continuous="YES" alignment="left" maxValue="100" id="IMU-eJ-Sh9"/>
+                                        <connections>
+                                            <action selector="periodChanged:" target="6t3-F6-bxv" id="tQ7-Ix-Xux"/>
+                                        </connections>
                                     </stepper>
                                 </subviews>
                                 <constraints>
@@ -291,7 +296,7 @@
                                 </connections>
                             </customView>
                             <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="154">
-                                <rect key="frame" x="74" y="318" width="177" height="25"/>
+                                <rect key="frame" x="74" y="318" width="177" height="26"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="172" id="168"/>
                                 </constraints>
@@ -305,7 +310,7 @@
                                     </menu>
                                 </popUpButtonCell>
                                 <connections>
-                                    <action selector="deviceChanged:" target="4" id="178"/>
+                                    <action selector="inputDeviceSelectionChanged:" target="4" id="178"/>
                                 </connections>
                             </popUpButton>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fyc-4s-Yfv">
@@ -336,16 +341,13 @@
                             <constraint firstItem="8" firstAttribute="bottom" secondItem="4" secondAttribute="bottom" id="30"/>
                             <constraint firstItem="8" firstAttribute="leading" secondItem="4" secondAttribute="leading" id="32"/>
                             <constraint firstItem="8" firstAttribute="top" secondItem="4" secondAttribute="top" constant="175" id="85"/>
-                            <constraint firstItem="5" firstAttribute="top" secondItem="4" secondAttribute="top" constant="137" id="149"/>
                             <constraint firstItem="154" firstAttribute="baseline" secondItem="36" secondAttribute="baseline" id="165"/>
                             <constraint firstItem="154" firstAttribute="top" secondItem="4" secondAttribute="top" constant="52" id="166"/>
                             <constraint firstItem="9" firstAttribute="trailing" secondItem="154" secondAttribute="trailing" id="167"/>
-                            <constraint firstItem="5" firstAttribute="leading" secondItem="4" secondAttribute="leading" constant="116" id="324"/>
                         </constraints>
                         <connections>
-                            <outlet property="bDevices" destination="154" id="176"/>
-                            <outlet property="bPreRun" destination="5" id="60"/>
-                            <outlet property="selectionDelegate" destination="1" id="323"/>
+                            <outlet property="bInputDevices" destination="154" id="176"/>
+                            <outlet property="inputSelectionDelegate" destination="1" id="Xf8-P4-gN9"/>
                         </connections>
                     </customView>
                     <view translatesAutoresizingMaskIntoConstraints="NO" id="2" customClass="HardwareOutputView">
@@ -376,6 +378,8 @@
                         </constraints>
                         <connections>
                             <outlet property="bOutputValue" destination="137" id="152"/>
+                            <outlet property="hardwareIODevice" destination="6t3-F6-bxv" id="pCE-Bf-xPH"/>
+                            <outlet property="manager" destination="1" id="kpN-h3-5vl"/>
                         </connections>
                     </view>
                 </subviews>
@@ -402,6 +406,15 @@
             </view>
             <point key="canvasLocation" x="781" y="-657"/>
         </window>
+        <customObject id="6t3-F6-bxv" userLabel="capturer" customClass="HardwareIODevice">
+            <connections>
+                <outlet property="bDriverStatus" destination="fyc-4s-Yfv" id="9uk-P3-wOe"/>
+                <outlet property="bSamplePeriodStepper" destination="6Sc-hd-lQl" id="Y09-pu-ExV"/>
+                <outlet property="bSamplePeriodValue" destination="ybB-q1-sOc" id="UyY-AA-fZ3"/>
+                <outlet property="levelStatusView" destination="8" id="3QB-Q8-Z9V"/>
+                <outlet property="manager" destination="1" id="r5j-0T-kit"/>
+            </connections>
+        </customObject>
         <customObject id="316" customClass="RunCollector"/>
     </objects>
 </document>

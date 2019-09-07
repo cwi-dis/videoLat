@@ -67,9 +67,11 @@ static NSMutableDictionary *byTag;
     cal_OUT2.outputOnlyCalibration = YES;
     [cal_OUT2 setIsSubtypeOf: cal_OUT];
 
-    [self addType: @"QR Code Transmission" tag: 6 isCalibration: NO requires: cal_OUT];
-    [self addType: @"QR Code Reception" tag: 7 isCalibration: NO requires: cal_IN];
-    
+    [self addType: @"QR Code Transmission to Camera Helper" tag: 6 isCalibration: NO requires: cal_OUT];
+    [self addType: @"QR Code Reception from Screen Helper" tag: 11 isCalibration: NO requires: cal_IN];
+    [self addType: @"QR Code Camera Helper" tag: 7 isCalibration: NO requires: cal_IN];
+    [self addType: @"QR Code Screen Helper" tag: 10 isCalibration: NO requires: cal_OUT];
+
     MeasurementType *cal_IN3 = [self addType: @"Reception Calibrate using Other Device" tag: 4 isCalibration: YES requires: nil];
     cal_IN3.inputOnlyCalibration = YES;
     [cal_IN3 setIsSubtypeOf: cal_IN];

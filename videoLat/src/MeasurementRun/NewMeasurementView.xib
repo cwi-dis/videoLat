@@ -49,16 +49,21 @@ DQ
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="400" id="UYW-HT-fzS"/>
                                             </constraints>
-                                            <popUpButtonCell key="cell" type="push" title="QR Code Transmission" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="7" imageScaling="proportionallyDown" inset="2" autoenablesItems="NO" selectedItem="Brj-eH-pgx" id="1QG-s6-T0k">
+                                            <popUpButtonCell key="cell" type="push" title="QR Code Transmission to Camera Helper" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="7" imageScaling="proportionallyDown" inset="2" autoenablesItems="NO" selectedItem="Brj-eH-pgx" id="1QG-s6-T0k">
                                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="menu"/>
                                                 <menu key="menu" title="OtherViews" autoenablesItems="NO" id="A3x-cu-h0s">
                                                     <items>
-                                                        <menuItem title="QR Code Transmission" state="on" tag="7" enabled="NO" toolTip="Two-device measurement, transmitter" id="Brj-eH-pgx"/>
-                                                        <menuItem title="QR Code Reception" tag="6" enabled="NO" toolTip="Two-device measurement, receiver" id="a22-DG-zuN"/>
+                                                        <menuItem title="QR Code Transmission to Camera Helper" state="on" tag="7" enabled="NO" toolTip="Two-device measurement, transmitter" id="Brj-eH-pgx"/>
+                                                        <menuItem title="QR Code Reception from Screen Helper" state="on" tag="7" enabled="NO" toolTip="Two-device measurement, transmitter" id="x6E-S9-2Jp"/>
                                                         <menuItem title="QR Code Roundtrip" tag="2" enabled="NO" toolTip="Measurement of display to camera delay using QR-codes" id="O3P-iE-5AA"/>
                                                         <menuItem title="Audio Roundtrip" tag="9" enabled="NO" toolTip="Measurement of speaker to microphone delay" id="DoQ-UJ-EAt"/>
                                                         <menuItem isSeparatorItem="YES" id="YR2-f4-uXj">
+                                                            <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                                                        </menuItem>
+                                                        <menuItem title="QR Code Camera Helper" tag="6" enabled="NO" toolTip="Two-device measurement, this device is camera helper" id="a22-DG-zuN"/>
+                                                        <menuItem title="QR Code Screen Helper" tag="6" enabled="NO" toolTip="Two-device measurement, this device is screen helper" id="AQq-Gi-ly0" userLabel="QR Code Screen Helper"/>
+                                                        <menuItem isSeparatorItem="YES" id="Eke-KO-Dof">
                                                             <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                                                         </menuItem>
                                                         <menuItem title="Transmission Calibrate using Other Device" toolTip="Calibrate your screen for transmission, using another device with a calibrated camera." id="ccI-Su-loC">
