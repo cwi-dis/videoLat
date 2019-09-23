@@ -308,7 +308,7 @@ static NSMutableDictionary *runManagerSelectionNibs;
     if (errorMessage == nil && remoteInputDeviceDescription == nil && remoteOutputDeviceDescription == nil) {
         errorMessage = @"No device description received from remote helper.";
     }
-    if (remoteInputDeviceDescription == nil) {
+    if (remoteInputDeviceDescription == nil && !self.measurementType.inputOnlyCalibration) {
         // We are responsible for input. Check that the base measurement is correct.
         // Check that the base measurement is compatible with this measurement,
         NSString *hwName = [[MachineDescription thisMachine] machineTypeID];
@@ -322,7 +322,7 @@ static NSMutableDictionary *runManagerSelectionNibs;
             errorMessage = [NSString stringWithFormat:@"Base measurement uses input %@, current measurement uses %@", baseStore.input.device, self.capturer.deviceName];
         }
     }
-    if (remoteOutputDeviceDescription == nil) {
+    if (remoteOutputDeviceDescription == nil && !self.measurementType.outputOnlyCalibration) {
         // We are responsible for output. Check that the base measurement is correct.
         // Check that the base measurement is compatible with this measurement,
         NSString *hwName = [[MachineDescription thisMachine] machineTypeID];
