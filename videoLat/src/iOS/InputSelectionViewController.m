@@ -11,6 +11,15 @@
 
 @implementation InputSelectionViewController
 
+- (InputSelectionViewController *)init
+{
+    self = [super init];
+    if (self) {
+        self.measurementTypeName = nil;
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
