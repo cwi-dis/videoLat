@@ -17,14 +17,14 @@ DEBUG=False
 
 HardwareLightProtocol = objc.protocolNamed('HardwareLightProtocol')
 
-class ArduinoLed(NSObject, HardwareLightProtocol):
+class ArduinoInOut(NSObject, HardwareLightProtocol):
     """Implementation of HardwareLightProtocol using an Arduino."""
     BAUD=115200
 
     def init(self):
         """ObjC-style initializer function"""
-        if DEBUG: print 'ArduinoLed: init called', self
-        self = super(ArduinoLed, self).init()
+        if DEBUG: print 'ArduinoInOut: init called', self
+        self = super(ArduinoInOut, self).init()
         self.arduino = None
         self._lastErrorMessage = None
         self._seqno = 0
@@ -39,7 +39,7 @@ class ArduinoLed(NSObject, HardwareLightProtocol):
     
     def awakeFromNib(self):
         """Standard initializer"""
-        if DEBUG: print 'ArduinoLed: awakeFromNib called', self
+        if DEBUG: print 'ArduinoInOut: awakeFromNib called', self
     
     def _tryOpen(self):
         """Open a serial link to the one arduino connected to this system"""
@@ -53,7 +53,7 @@ class ArduinoLed(NSObject, HardwareLightProtocol):
                 description = p[1]
                 device = p[0]
             if description.startswith('Arduino') or description.startswith('FT232'):
-                print 'ArduinoLed: found', device
+                print 'ArduinoInOut: found', device
                 if found:
                     self._lastErrorMessage = 'Multiple Arduinos connected to system'
                     return False
@@ -62,7 +62,7 @@ class ArduinoLed(NSObject, HardwareLightProtocol):
             self._lastErrorMessage = 'No Arduinos connected'
             return False
         self.arduino = serial.Serial(found, baudrate=self.BAUD, timeout=4)
-        print 'ArduinoLed: device opened, fd=%d' % self.arduino.fd
+        print 'ArduinoInOut: device opened, fd=%d' % self.arduino.fd
         return True
 
     def lastErrorMessage(self):
@@ -76,13 +76,13 @@ class ArduinoLed(NSObject, HardwareLightProtocol):
         """Returns true if the library is installed and the hardware connected."""
         with self.lock:
             try:
-                if DEBUG: print 'ArduinoLed: available called', self
+                if DEBUG: print 'ArduinoInOut: available called', self
                 if not self.arduino:
                     self._tryOpen()
                 if DEBUG: print 'available: arduino is', self.arduino
                 return not not self.arduino
             except:
-                self._lastErrorMessage = 'Exception during ArduinoLed.available'
+                self._lastErrorMessage = 'Exception during ArduinoInOut.available'
                 traceback.print_exc()
             return False
 
@@ -92,37 +92,46 @@ class ArduinoLed(NSObject, HardwareLightProtocol):
             if not self.arduino:
                 self._lastErrorMessage = 'Arduino not connected'
                 return -1
-            self.arduino.flushInput()
-
+            self._lastErrorMessage = None
             if level < 0.5:
+                if DEBUG: print 'ArduinoInOut: send 0'
                 self.arduino.write('0\n')
             else:
+                if DEBUG: print 'ArduinoInOut: send 1'
                 self.arduino.write('1\n')
 
-            result = ''
             result = self.arduino.readline()
+            if DEBUG: print 'ArduinoInOut: recv', repr(result)
             result = result.strip()
+            if DEBUG: print 'ArduinoInOut: strip', repr(result)
+            # Try one more time if empty
+            if not result:
+                result = self.arduino.readline()
+                if DEBUG: print 'ArduinoInOut: recv', repr(result)
+                result = result.strip()
+                if DEBUG: print 'ArduinoInOut: strip', repr(result)
+            self.arduino.flushInput()
             try:
-                return int(result)
+                return int(result)/255.0
             except ValueError:
                 pass
             self._lastErrorMessage = 'Unexpected Arduino reply: ' + repr(result)
-            print 'ArduinoLed:', self._lastErrorMessage
-            return -1
+            print 'ArduinoInOut:', self._lastErrorMessage
+            return -1.0
 
                     
     def deviceID(self):
         """Return the unique device-ID"""
-        if DEBUG: print 'ArduinoLed: deviceID called', self
-        return 'ArduinoLed'
+        if DEBUG: print 'ArduinoInOut: deviceID called', self
+        return 'ArduinoInOut'
 
     def deviceName(self):
         """Return the human-readable device name"""
-        if DEBUG: print 'ArduinoLed: deviceName called', self
-        return 'ArduinoLed'
+        if DEBUG: print 'ArduinoInOut: deviceName called', self
+        return 'ArduinoInOut'
         
     def switchToDeviceWithName_(self, name):
         """Switch to this device. Returns true if it is "our" device"""
-        return name == "ArduinoLed"
+        return name == "ArduinoInOut"
 
         
