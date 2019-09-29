@@ -25,7 +25,9 @@
     // sure the nibfile is registered...
     [BaseRunManager registerClass: [self class] forMeasurementType: @"Reception Calibrate using Hardware"];
     [BaseRunManager registerNib: @"CalibrateCameraFromHardware" forMeasurementType: @"Reception Calibrate using Hardware"];
-    
+    [BaseRunManager registerClass: [self class] forMeasurementType: @"Transmission Calibrate using Hardware"];
+    [BaseRunManager registerNib: @"CalibrateScreenFromHardware" forMeasurementType: @"Transmission Calibrate using Hardware"];
+
     [BaseRunManager registerClass: [self class] forMeasurementType: @"Reception Calibrate using Calibrated Screen"];
     [BaseRunManager registerNib: @"CalibrateCameraFromScreenRun" forMeasurementType: @"Reception Calibrate using Calibrated Screen"];
     [BaseRunManager registerClass: [self class] forMeasurementType: @"Transmission Calibrate using Calibrated Camera"];

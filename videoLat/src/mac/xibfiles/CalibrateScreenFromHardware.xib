@@ -14,26 +14,23 @@
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
-        <customObject id="1" customClass="VideoMonoRunManager">
+        <customObject id="1" userLabel="RunManager" customClass="VideoMonoRunManager">
             <connections>
-                <outlet property="clock" destination="74" id="297"/>
+                <outlet property="capturer" destination="utc-E9-jJ7" id="ITD-TW-4DZ"/>
+                <outlet property="clock" destination="utc-E9-jJ7" id="xjU-kY-aft"/>
                 <outlet property="collector" destination="426" id="437"/>
                 <outlet property="genner" destination="0Pf-VW-jbC" id="TKq-In-2ze"/>
-                <outlet property="inputCompanion" destination="74" id="251"/>
                 <outlet property="measurementMaster" destination="-2" id="70"/>
                 <outlet property="outputView" destination="270" id="288"/>
                 <outlet property="selectionView" destination="203" id="325"/>
+                <outlet property="statusView" destination="368" id="sYu-xu-W9a"/>
             </connections>
         </customObject>
-        <customObject id="74" userLabel="Input Companion" customClass="HardwareRunManager">
+        <customObject id="utc-E9-jJ7" userLabel="HardwareIODevice" customClass="HardwareIODevice">
             <connections>
-                <outlet property="bDriverStatus" destination="k6h-8Z-ghY" id="OKc-O3-iug"/>
-                <outlet property="collector" destination="426" id="432"/>
-                <outlet property="levelStatusView" destination="205" id="PdQ-I1-M5K"/>
-                <outlet property="measurementMaster" destination="-2" id="180"/>
-                <outlet property="outputCompanion" destination="1" id="250"/>
-                <outlet property="selectionView" destination="203" id="364"/>
-                <outlet property="statusView" destination="368" id="431"/>
+                <outlet property="bDriverStatus" destination="k6h-8Z-ghY" id="69T-kL-K92"/>
+                <outlet property="levelStatusView" destination="205" id="eVF-XI-Aph"/>
+                <outlet property="manager" destination="1" id="uFw-Kc-2Xf"/>
             </connections>
         </customObject>
         <customObject id="0Pf-VW-jbC" customClass="GenMono"/>
@@ -82,9 +79,6 @@
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
-                                <connections>
-                                    <action selector="stopMeasuring:" target="74" id="468"/>
-                                </connections>
                             </button>
                             <button toolTip="Start doing a measurement run" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="223">
                                 <rect key="frame" x="91" y="43" width="79" height="32"/>
@@ -92,9 +86,6 @@
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
-                                <connections>
-                                    <action selector="startMeasuring:" target="74" id="329"/>
-                                </connections>
                             </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="377">
                                 <rect key="frame" x="18" y="129" width="126" height="17"/>
@@ -124,9 +115,6 @@
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
-                                <connections>
-                                    <action selector="startPreMeasuring:" target="74" id="y6P-Ms-pw4"/>
-                                </connections>
                             </button>
                         </subviews>
                         <constraints>
@@ -186,7 +174,7 @@
                             </textField>
                             <popUpButton toolTip="Select hardware self-measurement for this setup" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="258">
                                 <rect key="frame" x="80" y="270" width="168" height="26"/>
-                                <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" enabled="NO" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="259">
+                                <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="259">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="menu"/>
                                     <menu key="menu" title="OtherViews" id="260"/>
@@ -377,6 +365,7 @@
                         <connections>
                             <outlet property="bBase" destination="258" id="322"/>
                             <outlet property="bInputDevices" destination="JAy-ML-q9o" id="TP6-H4-2xG"/>
+                            <outlet property="inputSelectionDelegate" destination="1" id="e5k-Fj-SEr"/>
                         </connections>
                     </customView>
                 </subviews>
@@ -394,7 +383,7 @@
                 </constraints>
                 <connections>
                     <outlet property="outputView" destination="270" id="429"/>
-                    <outlet property="runManager" destination="74" id="430"/>
+                    <outlet property="runManager" destination="1" id="Y0l-jx-dnp"/>
                     <outlet property="selectionView" destination="203" id="427"/>
                     <outlet property="statusView" destination="368" id="402"/>
                 </connections>
