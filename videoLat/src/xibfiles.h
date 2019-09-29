@@ -83,8 +83,7 @@
  - Video monochrome roundtrip, which is a specialisation of video roundtrip. It shows alternating 100% black and 100% white
    images.
    It uses VideoMonoRun.xib and VideoMonoRunManager.
- - Hardware (OSX only), which drives a LED to show light and uses a phototransistor to detect light, through either a LabJack U3
-   USB interface or an arduino.
+ - Hardware (OSX only), which drives a LED to show light and uses a phototransistor to detect light, through an arduino.
    It is intended to be "foton-compatible" with video monochrome roundtrip, and mainly exists to calibrate the hardware delay.
    The implementation is in HardwareRun.xib and HardwareRunManager. It has helper classes HardwareOutputView
    and various others.

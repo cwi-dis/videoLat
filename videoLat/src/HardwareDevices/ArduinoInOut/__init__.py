@@ -101,10 +101,11 @@ class ArduinoLed(NSObject, HardwareLightProtocol):
 
             result = ''
             result = self.arduino.readline()
-            if '0' in result:
-                return 0.0
-            if '1' in result:
-                return 1.0
+            result = result.strip()
+            try:
+                return int(result)
+            except ValueError:
+                pass
             self._lastErrorMessage = 'Unexpected Arduino reply: ' + repr(result)
             print 'ArduinoLed:', self._lastErrorMessage
             return -1

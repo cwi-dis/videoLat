@@ -12,7 +12,7 @@
 /// Load Python code.
 /// Because the Python code runs in the same binary as videoLat it has access to all
 /// the objects in the program, through the pyobjc pytho<->ObjC bridge.
-/// For an example, see @see LabJackDevice which implements the @see HardwareLightProtocol
+/// For an example, see @see ArduinoInOut which implements the @see HardwareLightProtocol
 /// and can then be instantiate in the NIB file and connected to the right objects.
 ///
 @interface PythonLoader : NSObject

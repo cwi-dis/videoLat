@@ -14,12 +14,8 @@
 /// measurements. It works together with an object implementing the low-level
 /// HardwareLightProtocol to generate light/no light conditions and detect them.
 ///
-/// This class works closely together with HardwareLightProtocol, and actually with
-/// its only current implementation, LabJackDevice. Testing with other hardware and
-/// allowing selection of input and output device has not been implemented.
-///
-/// When compared to the other run manager this class also implements the input and
-/// selection view object functionality. Should be fixed at some point.
+/// This class works closely together with HardwareLightProtocol, which is
+/// implemented by various Python packages in HardwareDevices.
 ///
 @interface HardwareRunManager : BaseRunManager {
 
