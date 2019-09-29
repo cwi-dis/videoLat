@@ -136,7 +136,7 @@
 
 - (void)_done: (NSData *)result
 {
-    char *s_result = (char *)[data bytes];
+    char *s_result = (char *)[result bytes];
     if (strncmp(s_result, "YES\n", 4) == 0) {
         NSLog(@"Upload successful");
     } else if (strncmp(s_result, "NO\n", 3) == 0) {
