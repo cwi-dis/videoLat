@@ -14,7 +14,7 @@
 {
     self = [super init];
     if (self) {
-		self.samplePeriodMs = 10;
+		self.samplePeriodMs = 3;
     }
     return self;
 }
@@ -25,7 +25,7 @@
     assert(self.manager);
     if (self.clock == nil) self.clock = self;
     assert(self.bDriverStatus);
-    self.samplePeriodMs = 10;
+    self.samplePeriodMs = 3;
     [self _updatePeriod];
     [self restart];
     

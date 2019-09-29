@@ -105,7 +105,7 @@ class ArduinoInOut(NSObject, HardwareLightProtocol):
             result = result.strip()
             if DEBUG: print 'ArduinoInOut: strip', repr(result)
             # Try one more time if empty
-            if not result:
+            while self.arduino.inWaiting():
                 result = self.arduino.readline()
                 if DEBUG: print 'ArduinoInOut: recv', repr(result)
                 result = result.strip()
