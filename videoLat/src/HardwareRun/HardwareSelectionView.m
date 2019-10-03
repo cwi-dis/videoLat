@@ -47,6 +47,10 @@
 - (BOOL)setBases: (NSArray *)baseNames
 {
 	assert(self.bBase);
+    NSArray *oldNames = self.bBase.itemTitles;
+    if ([baseNames isEqualToArray:oldNames]) {
+        return YES;
+    }
     [self.bBase removeAllItems];
     [self.bBase addItemsWithTitles: baseNames];
     BOOL ok = self.bBase.numberOfItems > 0;
