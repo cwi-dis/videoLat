@@ -44,6 +44,7 @@
 
     NSString *prevInputCode;    //!< Last input code detected
     int prevInputCodeDetectionCount;    //!< How often prevInputCode was detected
+    int uncertainDetectionCount;    //!< How often we detected no reasonable code
 
     NSString *baseName;		//<! Name of our base (calibration) measurement
 }

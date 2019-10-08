@@ -104,6 +104,8 @@ static NSMutableDictionary *runManagerSelectionNibs;
     if (self) {
         networkHelper = NO;
         showPreviewDuringRun = YES;
+        prevInputCodeDetectionCount = 0;
+        uncertainDetectionCount = 0;
     }
     return self;
 }
@@ -599,9 +601,11 @@ static NSMutableDictionary *runManagerSelectionNibs;
 - (void)triggerNewOutputValueAfterDelay
 {
     // Randomize a 0..100ms delay before producing the next code.
-    dispatch_time_t when = dispatch_time(DISPATCH_TIME_NOW, 1000000LL * (1+(rand()%100)));
+    int ms = (1+(rand()%100));
+    dispatch_time_t when = dispatch_time(DISPATCH_TIME_NOW, 1000000LL * ms);
     dispatch_after(when, dispatch_get_main_queue(), ^{
         [self triggerNewOutputValue];
+        NSLog(@"xxxjack tnovad done %@", self.outputCode);
     });
 }
 
@@ -701,14 +705,15 @@ static NSMutableDictionary *runManagerSelectionNibs;
     }
     if ([inputCode isEqualToString:@"uncertain"]) {
         // Unsure what we have detected, probably nothing. Leave it be for a while then change.
-        prevInputCodeDetectionCount++;
-        if (prevInputCodeDetectionCount % 250 == 0) {
+        uncertainDetectionCount++;
+        if (uncertainDetectionCount % 100 == 0) {
             NSLog(@"Received uncertain code for too long. Generating new one.");
             [self triggerNewOutputValue];
         }
         [self reportHeartbeat];
         return;
     }
+    uncertainDetectionCount = 0;
     //
     // Check to see whether the code appears to be a URL. If this is the case, and we are
     // in a networked session,
@@ -748,6 +753,8 @@ static NSMutableDictionary *runManagerSelectionNibs;
         }
         // And if we keep on detecting the same code after that we eventually give up.
         if ((self.running || self.preparing) && (prevInputCodeDetectionCount % 250) == 0) {
+            // Ensure we're not still showing the code we're detecting
+            assert(![inputCode isEqualToString:self.outputCode]);
             showWarningAlert(@"Old code detected too often. Generating new one.");
             [self triggerNewOutputValue];
         }
