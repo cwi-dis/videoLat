@@ -106,7 +106,7 @@
                             </textField>
                             <popUpButton toolTip="Self-measurement for this camera/display combination" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Ym7-Gc-bhM">
                                 <rect key="frame" x="77" y="309" width="174" height="26"/>
-                                <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" enabled="NO" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="8Wv-5K-TGC">
+                                <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="8Wv-5K-TGC">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="menu"/>
                                     <menu key="menu" title="OtherViews" id="uYl-SB-8gn"/>
@@ -351,7 +351,7 @@
                                 <autoresizingMask key="autoresizingMask"/>
                                 <textFieldCell key="cell" selectable="YES" id="rYp-or-RAZ">
                                     <font key="font" metaFont="system"/>
-                                    <mutableString key="title">Quick instructions:  The other device should run "QR Code Camera Helper". Control (the user interface buttons) is handled on this device.  Point the camera of this computer at the QR code displayed by the other device and IP address and port (above) will be filled in. this computer will then connect to the other devie.  Note that for this connection to work both computers need to be on the same WiFi network or the other computer must have a public IP address.  The results are shown on both devices.</mutableString>
+                                    <string key="title">Quick instructions:  The other device should run "QR Code Camera Helper". Control (the user interface buttons) is handled on this device.  Point the camera of this computer at the QR code displayed by the other device and IP address and port (above) will be filled in. this computer will then connect to the other devie.  Note that for this connection to work both computers need to be on the same WiFi network or the other computer must have a public IP address.  The results are shown on both devices.</string>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
