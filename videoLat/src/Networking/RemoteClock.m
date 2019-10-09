@@ -48,7 +48,7 @@
 	rtt = finish-start;
     VL_LOG_EVENT(@"RTT", rtt, @"");
 	uint64_t mid = (finish+start)/2;
-	uint64_t newLocalTimeToRemoteTime = (int64_t)remote - (int64_t)mid;
+	int64_t newLocalTimeToRemoteTime = (int64_t)remote - (int64_t)mid;
 #if defined(WITH_TIMESYNC_BEST)
 	if (rtt <= clockInterval || !initialized) {
 		clockInterval = rtt;
