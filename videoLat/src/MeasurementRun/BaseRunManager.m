@@ -613,7 +613,7 @@ static NSMutableDictionary *runManagerSelectionNibs;
     if (VL_DEBUG) NSLog(@"Prepare no reception\n");
     assert(self.preparing);
     // Check that we have waited long enough
-    if ([self.clock now] < outputCodeTimestamp + prepareMaxWaitTime) return;
+    if (outputCodeTimestamp == 0 || [self.clock now] < outputCodeTimestamp + prepareMaxWaitTime) return;
     // No data found within alotted time. Double the time, reset the count, change mirroring
     if (VL_DEBUG) NSLog(@"tsOutLatest=%llu, prepareDelay=%llu\n", outputCodeTimestamp, prepareMaxWaitTime);
     NSLog(@"prepare: detection %d failed for maxDelay=%lld. Doubling.", self.initialPrepareCount-prepareMoreNeeded, prepareMaxWaitTime);
