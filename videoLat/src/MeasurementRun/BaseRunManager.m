@@ -605,7 +605,6 @@ static NSMutableDictionary *runManagerSelectionNibs;
     dispatch_time_t when = dispatch_time(DISPATCH_TIME_NOW, 1000000LL * ms);
     dispatch_after(when, dispatch_get_main_queue(), ^{
         [self triggerNewOutputValue];
-        NSLog(@"xxxjack tnovad done %@", self.outputCode);
     });
 }
 
