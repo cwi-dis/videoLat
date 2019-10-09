@@ -16,10 +16,12 @@
 #endif
 
 /// Define this to always use the latest measurement as the correct time.
-#define WITH_TIMESYNC_LATEST
+#undef WITH_TIMESYNC_LATEST
 /// Define this to use the best measurement (shortest RTT) as the correct time.
 #undef WITH_TIMESYNC_BEST
-
+// Define this to use something of a running average
+#define WITH_TIMESYNC_AVERAGE
+#define AVERAGE_FACTOR 4
 
 @implementation RemoteClock
 - (RemoteClock *) init
@@ -55,6 +57,14 @@
 #elif  defined(WITH_TIMESYNC_LATEST)
 	clockInterval = rtt;
 	localTimeToRemoteTime = newLocalTimeToRemoteTime;
+#elif defined(WITH_TIMESYNC_AVERAGE)
+    if (!initialized) {
+        clockInterval = rtt;
+        localTimeToRemoteTime = newLocalTimeToRemoteTime;
+    } else {
+        clockInterval = ((clockInterval*(AVERAGE_FACTOR-1))+rtt)/AVERAGE_FACTOR;
+        localTimeToRemoteTime = ((localTimeToRemoteTime*(AVERAGE_FACTOR-1))+newLocalTimeToRemoteTime)/AVERAGE_FACTOR;
+    }
 #else
 #error No timesync algorithm selected
 #endif
