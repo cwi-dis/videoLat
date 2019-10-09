@@ -49,6 +49,8 @@
         if (![self.modelObject hasSeparateCalibrations]) {
 			// We have one (roundtrip) calibration, or no calibration
 			MeasurementDataStore *calibration = [self.modelObject inputCalibration];
+            MeasurementDataStore *outputCalibration = [self.modelObject outputCalibration];
+            assert(calibration == outputCalibration);
             [bOpenCalibration setEnabled:YES];
 			bOpenCalibration.hidden = NO;
 			bCalibration.hidden = NO;
