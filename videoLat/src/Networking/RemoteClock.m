@@ -16,9 +16,9 @@
 #endif
 
 /// Define this to always use the latest measurement as the correct time.
-#undef WITH_TIMESYNC_LATEST
+#define WITH_TIMESYNC_LATEST
 /// Define this to use the best measurement (shortest RTT) as the correct time.
-#define WITH_TIMESYNC_BEST
+#undef WITH_TIMESYNC_BEST
 
 
 @implementation RemoteClock
@@ -47,12 +47,12 @@
     VL_LOG_EVENT(@"RTT", rtt, @"");
 	uint64_t mid = (finish+start)/2;
 	uint64_t newLocalTimeToRemoteTime = (int64_t)remote - (int64_t)mid;
-#ifdef WITH_TIMESYNC_BEST
+#if defined(WITH_TIMESYNC_BEST)
 	if (rtt <= clockInterval || !initialized) {
 		clockInterval = rtt;
 		localTimeToRemoteTime = newLocalTimeToRemoteTime;
 	}
-#elif WITH_TIMESYNC_LATEST
+#elif  defined(WITH_TIMESYNC_LATEST)
 	clockInterval = rtt;
 	localTimeToRemoteTime = newLocalTimeToRemoteTime;
 #else
