@@ -14,6 +14,7 @@
 #if !TARGET_OS_IPHONE
 #import "HardwareRunManager.h"
 #import "VideoMonoRunManager.h"
+#import "Video3DRunManager.h"
 #endif
 @implementation CommonAppDelegate
 
@@ -44,6 +45,7 @@
 #if !TARGET_OS_IPHONE
     [VideoMonoRunManager class];
     [HardwareRunManager class];
+    [Video3DRunManager class];
 #endif
     
     // Initialize location manager stuff

@@ -45,7 +45,8 @@ static NSMutableDictionary *byTag;
     MeasurementType *cal_VR = [self addType: @"QR Code Roundtrip Calibrate" tag: 1 isCalibration: YES requires: nil];
     [self addType: @"QR Code Roundtrip" tag: 2 isCalibration: NO requires: cal_VR];
     [self addType: @"Video Mono Roundtrip" tag: 8 isCalibration: NO requires: cal_VR];
-    
+    [self addType: @"Video 3D Roundtrip" tag: 8 isCalibration: NO requires: cal_VR];
+
     MeasurementType *cal_HW = [self addType: @"Hardware Calibrate" tag: 3 isCalibration: YES requires: nil];
     
     MeasurementType *cal_IN = [self addType: @"Reception Calibrate" tag: 4 isCalibration: YES requires: nil];
@@ -81,6 +82,7 @@ static NSMutableDictionary *byTag;
 
     MeasurementType *cal_AR = [self addType: @"Audio Roundtrip Calibrate" tag: 8 isCalibration: YES requires: nil];
     [self addType: @"Audio Roundtrip" tag: 9 isCalibration: NO requires: cal_AR];
+
 
 }
 
