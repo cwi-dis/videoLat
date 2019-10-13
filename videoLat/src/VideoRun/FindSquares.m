@@ -16,21 +16,30 @@
 {
 	self = [super init];
     if (self) {
-        minInputLevel = 255;
-        maxInputLevel = 0;
-        sensitiveArea = NSorUIMakeRect(0, 0, 0, 0);
-        context = [CIContext context];
+        // Could use options:@{CIDetectorAccuracy:CIDetectorAccuracyLow}
+        detector = [CIDetector detectorOfType:CIDetectorTypeRectangle context:nil
+                      options: @{
+                                 CIDetectorAspectRatio: @(1.0)
+                                 }
+                    ];
     }
 	return self;
 }
 
-- (void) setSensitiveArea: (NSorUIRect)rect
-{
-    sensitiveArea = rect;
-}
-
 - (NSString *) find: (CVImageBufferRef)image
 {
+    assert(detector);
+    CIImage *ciImage = [CIImage imageWithCVPixelBuffer:image];
+    NSArray *features = [detector featuresInImage:ciImage];
+    NSLog(@"Found %lu squares", (unsigned long)features.count);
+    if (features == nil || features.count == 0) {
+        return NULL;
+    }
+    CIRectangleFeature *feature = features[0];
+    NSLog(@" square at %f,%f %f,%f", feature.bounds.origin.x, feature.bounds.origin.y, feature.bounds.size.width, feature.bounds.size.height);
+    return NULL;
+#if 0
+
     int average = 0;
     CIImage *ciImage = [CIImage imageWithCVPixelBuffer:image];
     NSorUIRect rect = sensitiveArea;
@@ -101,6 +110,7 @@
 #endif
     }
     return inputCode;
+#endif
 }
 
 

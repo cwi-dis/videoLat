@@ -12,9 +12,7 @@
 #import "LevelStatusView.h"
 
 @interface FindSquares : NSObject <InputVideoFindProtocol> {
-    NSorUIRect sensitiveArea;       //!< Internal: where we look for black/white in the input signal.
-    int minInputLevel;             //!< Internal: darkest color seen during prerun
-    int maxInputLevel;             //!< Internal: lightest color seen during prerun
+    CIDetector *detector;
     CIContext *context;
 }
 
@@ -22,6 +20,5 @@
 @property(weak) IBOutlet LevelStatusView *levelStatusView;  //!< Assigned in NIB: visual feedback on light level detected
 
 - (NSString *) find: (CVImageBufferRef)image;
-- (void) setSensitiveArea: (NSorUIRect)rect;
 
 @end
