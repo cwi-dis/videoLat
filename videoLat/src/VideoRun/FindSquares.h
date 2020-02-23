@@ -12,7 +12,7 @@
 #import "LevelStatusView.h"
 
 @interface FindSquares : NSObject <InputVideoFindProtocol> {
-    CIDetector *detector;
+    CIDetector *detector;   // Detect squares
     CIContext *context;
 }
 

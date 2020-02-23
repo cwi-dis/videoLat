@@ -9,6 +9,12 @@
 #import "FindSquares.h"
 #import "EventLogger.h"
 
+@interface FindSquares()
+- (CIImage *)subImage: (CIImage *)src top: (float)top left: (float)left;
+- (CIImage *)squareImageForFeature: (CIImage *)src feature: (CIRectangleFeature *)feature;
+- (void)dumpImage: (CIImage *)src to: (NSString *)filename;
+@end
+
 @implementation FindSquares
 @synthesize rect;
 
@@ -31,12 +37,41 @@
     assert(detector);
     CIImage *ciImage = [CIImage imageWithCVPixelBuffer:image];
     NSArray *features = [detector featuresInImage:ciImage];
-    NSLog(@"Found %lu squares", (unsigned long)features.count);
+    //NSLog(@"Found %lu squares", (unsigned long)features.count);
     if (features == nil || features.count == 0) {
         return NULL;
     }
     CIRectangleFeature *feature = features[0];
-    NSLog(@" square at %f,%f %f,%f", feature.bounds.origin.x, feature.bounds.origin.y, feature.bounds.size.width, feature.bounds.size.height);
+    CIImage *matchedSquareImage = [self squareImageForFeature:ciImage feature:feature];
+    //NSLog(@"Square image width=%f height=%f", matchedSquareImage.extent.size.width, matchedSquareImage.extent.size.height);
+    //[self dumpImage: matchedSquareImage to: @"xxxjack-outerSquare.png"];
+    // Now Find the five colored squares inside it
+    int nFound = 0;
+    float subRects[5][2] = {
+        {0.25, 0},
+        {0, 0.25},
+        {0.25, 0.25},
+        {0.5, 0.25},
+        {0.25, 0.5}
+    };
+    
+    for (int i=0; i<5; i++) {
+        CIImage *mid = [self subImage: matchedSquareImage top: subRects[i][0] left: subRects[i][1]];
+        // Find a square approximately in the right place
+        features = [detector featuresInImage:mid];
+        if (features.count == 1) {
+            nFound++;
+            // Average the color in the area of the inner square
+            feature = features[0];
+            CIImage *subSquareImage = [self squareImageForFeature:mid feature:feature];
+            // Average the color
+            NSLog(@"To be done: average the color");
+            // Convert to HLS or HSV or so
+            // Get the primary/secondary value
+        }
+    }
+    if (nFound != 5) return NULL;
+    NSLog(@"Found %d subsquares", nFound);
     return NULL;
 #if 0
 
@@ -113,5 +148,36 @@
 #endif
 }
 
+- (CIImage *)subImage: (CIImage *)src top: (float)top left: (float)left
+{
+    CGRect rect = {
+        {src.extent.origin.x + left*src.extent.size.width, src.extent.origin.y + top*src.extent.size.height},
+        {0.5*src.extent.size.width, 0.5*src.extent.size.height}};
+    return [src imageByCroppingToRect:rect];
+}
 
+- (void)dumpImage: (CIImage *)src to: (NSString *)filename
+{
+    NSBitmapImageRep *rep = [[NSBitmapImageRep alloc]initWithCIImage:src];
+    NSData *imageData = [rep representationUsingType:NSPNGFileType properties:nil];
+    bool ok = [imageData writeToFile:filename atomically:false];
+    assert(ok);
+}
+
+- (CIImage *)squareImageForFeature: (CIImage *)src feature: (CIRectangleFeature *)feature
+{
+    CIVector *topLeft = [CIVector vectorWithCGPoint: feature.topLeft];
+    CIVector *topRight = [CIVector vectorWithCGPoint: feature.topRight];
+    CIVector *bottomLeft = [CIVector vectorWithCGPoint: feature.bottomLeft];
+    CIVector *bottomRight = [CIVector vectorWithCGPoint: feature.bottomRight];
+    CIFilter *convertToSquare = [CIFilter filterWithName:@"CIPerspectiveCorrection" keysAndValues:
+                                 @"inputTopLeft", topLeft,
+                                 @"inputTopRight", topRight,
+                                 @"inputBottomLeft", bottomLeft,
+                                 @"inputBottomRight", bottomRight,
+                                 @"inputImage", src,
+                                 nil];
+    CIImage *matchedSquareImage = convertToSquare.outputImage;
+    return matchedSquareImage;
+}
 @end
