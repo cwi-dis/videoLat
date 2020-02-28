@@ -159,6 +159,9 @@
     @synchronized(self) {
         uint64_t finderStartTime = [self.clock now];
         NSString *inputCode = [self.finder find: image];
+        if ([self.capturer respondsToSelector:@selector(showFeaturesFound:)]) {
+            [(VideoInput *)self.capturer showFeaturesFound: self.finder.features];
+        }
         uint64_t finderStopTime = [self.clock now];
         if (self.preparing) {
             // Compute average duration of our code detection algorithm

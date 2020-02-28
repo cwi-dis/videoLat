@@ -12,6 +12,11 @@
 @implementation FindMono
 @synthesize rect;
 
+- (NSArray *)features
+{
+    return nil;
+}
+
 - (FindMono *)init
 {
 	self = [super init];

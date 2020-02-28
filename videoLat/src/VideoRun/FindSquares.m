@@ -17,6 +17,7 @@
 
 @implementation FindSquares
 @synthesize rect;
+@synthesize features;
 
 - (FindSquares *)init
 {
@@ -24,9 +25,12 @@
     if (self) {
         // Could use options:@{CIDetectorAccuracy:CIDetectorAccuracyLow}
         detector = [CIDetector detectorOfType:CIDetectorTypeRectangle context:nil
-                      options: @{
-                                 CIDetectorAspectRatio: @(1.0)
-                                 }
+                                      options: @{
+                                                 CIDetectorAccuracy : CIDetectorAccuracyHigh,
+                                                 CIDetectorFocalLength: @0.0,
+                                                 CIDetectorAspectRatio: @1.0,
+                                                 CIDetectorMaxFeatureCount: @6
+                                                 }
                     ];
     }
 	return self;
@@ -36,12 +40,24 @@
 {
     assert(detector);
     CIImage *ciImage = [CIImage imageWithCVPixelBuffer:image];
-    NSArray *features = [detector featuresInImage:ciImage];
-    //NSLog(@"Found %lu squares", (unsigned long)features.count);
+    features = [detector featuresInImage:ciImage];
     if (features == nil || features.count == 0) {
         return NULL;
     }
+    NSLog(@"Found %lu squares", (unsigned long)features.count);
+    return NULL;
     CIRectangleFeature *feature = features[0];
+    for (CIRectangleFeature *rect in features)
+    {
+        CGPoint p1 = rect.topLeft;
+        CGPoint p2 = rect.topRight;
+        CGFloat width = hypotf(p2.x - p1.x, p2.y - p1.y);
+        
+        CGPoint p3 = rect.topLeft;
+        CGPoint p4 = rect.bottomLeft;
+        CGFloat height = hypotf(p4.x - p3.x, p4.y - p3.y);
+        NSLog(@" h=%f w=%f area=%f", height, width, height*width);
+    }
     CIImage *matchedSquareImage = [self squareImageForFeature:ciImage feature:feature];
     //NSLog(@"Square image width=%f height=%f", matchedSquareImage.extent.size.width, matchedSquareImage.extent.size.height);
     [self dumpImage: matchedSquareImage to: @"xxxjack-outerSquare.png"];

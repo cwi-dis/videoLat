@@ -86,6 +86,7 @@
 ///
 @protocol InputVideoFindProtocol
 @property(readonly) NSorUIRect rect;	//!< Location of most recent pattern found
+@property(readonly) NSArray *_Nullable features;  //!< Features (rectangles, QRcodes) found, for visual feedback.
 
 /// Scan a grabbed image for a pattern this finder supports.
 /// @param image the grabbed image

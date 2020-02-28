@@ -63,6 +63,7 @@
 @property(weak) IBOutlet id <RunManagerProtocol> manager;
 @property(weak) IBOutlet VideoInputView *selfView;	//!< View showing what our camera sees
 @property NSArray* overlayRects;
+@property NSArray* featuresFound;
 
 + (NSArray *) allDeviceTypeIDs;	//!< Returns a list of all known video devices.
 + (NSArray*) deviceNames;
@@ -83,6 +84,7 @@
 
 // Private delegate method for same:
 - (void)focusRectSelected: (NSorUIRect)theRect;
+- (void)showFeaturesFound: (NSArray<CIFeature*>*)features;
 
 /// Delegate methods for QTCaptureVideoPreviewOutput.
 - (void)captureOutput:(AVCaptureOutput *)captureOutput

@@ -372,6 +372,22 @@
         rect.size.height *= height;
         CGContextStrokeRect(context, rect);
     }
+    CGContextSetRGBStrokeColor(context, 0, 0, 1, 1);
+    float xMod = layer.frame.size.width / xFactor;
+    float yMod = layer.frame.size.height / yFactor;
+    for (CIRectangleFeature *rect in self.featuresFound)
+    {
+        CGContextBeginPath(context);
+        CGPoint rectPoints[4] = {
+            {rect.topLeft.x*xMod, rect.topLeft.y*yMod},
+            {rect.topRight.x*xMod, rect.topRight.y*yMod},
+            {rect.bottomRight.x*xMod, rect.bottomRight.y*yMod},
+            {rect.bottomLeft.x*xMod, rect.bottomLeft.y*yMod},
+        };
+        CGContextAddLines(context, rectPoints, 4);
+        CGContextClosePath(context);
+        CGContextStrokePath(context);
+    }
 }
 
 - (void)setMinCaptureInterval: (uint64_t)interval
@@ -469,6 +485,13 @@
 	[self.manager setFinderRect: theRect];
 }
 
+- (void)showFeaturesFound: (NSArray<CIFeature*>*)features {
+    if (features == self.featuresFound) return; // Equality implies both are nil, in this case
+    self.featuresFound = features;
+    [overlayLayer performSelectorOnMainThread:@selector(setNeedsDisplay) withObject:nil waitUntilDone:NO];
+    if (features == nil) return;
+    NSLog(@"xxxjack showFeaturesFound: %d features", (int)[features count]);
+}
 
 - (void)captureOutput:(AVCaptureOutput *)captureOutput
     didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer

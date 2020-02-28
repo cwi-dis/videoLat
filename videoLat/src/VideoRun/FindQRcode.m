@@ -10,6 +10,7 @@
 
 @implementation FindQRcode
 @synthesize rect;
+@synthesize features;
 
 - (FindQRcode *)init
 {
@@ -25,7 +26,7 @@
 {
 	assert(detector);
 	CIImage *ciImage = [CIImage imageWithCVPixelBuffer:image];
-	NSArray *features = [detector featuresInImage:ciImage];
+	features = [detector featuresInImage:ciImage];
     if (features == nil || features.count == 0) {
 #ifdef WITH_QRCODE_DEBUG
         static bool saveIt = true;
