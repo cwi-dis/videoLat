@@ -10,7 +10,7 @@
 #import "EventLogger.h"
 
 @interface FindSquares()
-- (CIImage *)subImage: (CIImage *)src top: (float)top left: (float)left;
+- (CIImage *)subImage: (CIImage *)src left: (float)left top: (float)top right: (float)right bottom: (float)bottom;
 - (CIImage *)squareImageForFeature: (CIImage *)src feature: (CIRectangleFeature *)feature;
 - (void)dumpImage: (CIImage *)src to: (NSString *)filename;
 @end
@@ -29,7 +29,7 @@
                                                  CIDetectorAccuracy : CIDetectorAccuracyHigh,
                                                  CIDetectorFocalLength: @0.0,
                                                  CIDetectorAspectRatio: @1.0,
-                                                 CIDetectorMaxFeatureCount: @6
+                                                 CIDetectorMaxFeatureCount: @1
                                                  }
                     ];
     }
@@ -41,40 +41,41 @@
     assert(detector);
     CIImage *ciImage = [CIImage imageWithCVPixelBuffer:image];
     features = [detector featuresInImage:ciImage];
-    if (features == nil || features.count == 0) {
+    if (features == nil || features.count != 1) {
         return NULL;
     }
     NSLog(@"Found %lu squares", (unsigned long)features.count);
-    return NULL;
     CIRectangleFeature *feature = features[0];
-    for (CIRectangleFeature *rect in features)
-    {
-        CGPoint p1 = rect.topLeft;
-        CGPoint p2 = rect.topRight;
-        CGFloat width = hypotf(p2.x - p1.x, p2.y - p1.y);
-        
-        CGPoint p3 = rect.topLeft;
-        CGPoint p4 = rect.bottomLeft;
-        CGFloat height = hypotf(p4.x - p3.x, p4.y - p3.y);
-        NSLog(@" h=%f w=%f area=%f", height, width, height*width);
-    }
     CIImage *matchedSquareImage = [self squareImageForFeature:ciImage feature:feature];
     //NSLog(@"Square image width=%f height=%f", matchedSquareImage.extent.size.width, matchedSquareImage.extent.size.height);
     [self dumpImage: matchedSquareImage to: @"xxxjack-outerSquare.png"];
-    // Now Find the five colored squares inside it
-    int nFound = 0;
-    float subRects[5][2] = {
-        {0.25, 0},
-        {0, 0.25},
-        {0.25, 0.25},
-        {0.5, 0.25},
-        {0.25, 0.5}
+    // Now find the inner square
+    CIImage *innerSearchArea = [self subImage: matchedSquareImage left: 0.2 top: 0.2 right: 0.8 bottom: 0.8];
+    [self dumpImage: innerSearchArea to: @"xxxjack-innerSearch.png"];
+    NSArray<CIRectangleFeature *> *innerFeatures = [detector featuresInImage:innerSearchArea];
+    if (innerFeatures == nil || innerFeatures.count != 1) {
+        return NULL;
+    }
+    NSLog(@"Found %lu inner squares", (unsigned long)features.count);
+    feature = innerFeatures[0];
+    float x0 = feature.bounds.origin.x / innerSearchArea.extent.size.width;
+    float y0 = feature.bounds.origin.y / innerSearchArea.extent.size.height;
+    float x1 = (feature.bounds.origin.x + feature.bounds.size.width) / innerSearchArea.extent.size.width;
+    float y1 = (feature.bounds.origin.y + feature.bounds.size.height) / innerSearchArea.extent.size.height;
+    NSLog(@" x0=%f x1=%f y0=%f y1=%f", x0, x1, y0, y1);
+    float subRects[5][4] = {
+        {x0, 0, x1, y0},    // Top
+        {0, y0, x0, y1},    // Left
+        {x0, y0, x1, y1},   // Center
+        {x1, y0, 1, y1},    // Right
+        {x0, y1, x1, 1}     // Bottom
     };
     
     for (int i=0; i<5; i++) {
-        CIImage *midImage = [self subImage: matchedSquareImage top: subRects[i][0] left: subRects[i][1]];
+        CIImage *midImage = [self subImage: matchedSquareImage left: subRects[i][0] top: subRects[i][1] right: subRects[i][2] bottom: subRects[i][3]];
         [self dumpImage: midImage to: [NSString stringWithFormat:@"xxxjack-inner%d.png", i]];
 		NSLog(@"sub %d: midImage x=%f y=%f h=%f w=%f", i, midImage.extent.origin.x, midImage.extent.origin.y, midImage.extent.size.width, midImage.extent.size.height);
+#if 0
         // Find a square approximately in the right place
         features = [detector featuresInImage:midImage];
         if (features.count == 1) {
@@ -106,44 +107,37 @@
             // Convert to HLS or HSV or so
             // Get the primary/secondary value
         }
+#endif
     }
-    if (nFound != 5) return NULL;
-    NSLog(@"Found %d subsquares", nFound);
     return NULL;
 #if 0
-
     int average = 0;
     CIImage *ciImage = [CIImage imageWithCVPixelBuffer:image];
     NSorUIRect rect = sensitiveArea;
     if (rect.size.width == 0 || rect.size.height == 0) {
         rect = ciImage.extent;
     }
-			CIVector *ciExtent = [CIVector vectorWithX:rect.origin.x
-													 Y:rect.origin.y
-													 Z:rect.size.width
-													 W:rect.size.height];
-			CIFilter *filter = [CIFilter filterWithName:@"CIAreaAverage"
-									keysAndValues:
-									kCIInputImageKey, ciImage,
-									kCIInputExtentKey, ciExtent,
-									nil
-								];
-			[filter setValue:ciImage forKey:kCIInputImageKey];
-			CIImage *outputImage = filter.outputImage;
-			unsigned char bytes[4];
-			CGRect bounds = CGRectMake(0, 0, 1, 1);
-			[context render:outputImage toBitmap:bytes rowBytes:4 bounds:bounds format:kCIFormatL8 colorSpace:NULL];
+    CIVector *ciExtent = [CIVector vectorWithX:rect.origin.x
+                                             Y:rect.origin.y
+                                             Z:rect.size.width
+                                             W:rect.size.height];
+    CIFilter *filter = [CIFilter filterWithName:@"CIAreaAverage"
+                            keysAndValues:
+                            kCIInputImageKey, ciImage,
+                            kCIInputExtentKey, ciExtent,
+                            nil
+                        ];
+    [filter setValue:ciImage forKey:kCIInputImageKey];
+    CIImage *outputImage = filter.outputImage;
+    unsigned char bytes[4];
+    CGRect bounds = CGRectMake(0, 0, 1, 1);
+    [context render:outputImage toBitmap:bytes rowBytes:4 bounds:bounds format:kCIFormatL8 colorSpace:NULL];
     average = bytes[0];
     // Complicated way to keep black and white level but adjust to changing camera apertures
-#if 1
     minInputLevel = ((int)minInputLevel*1.05)+1;
     if (minInputLevel > 255) minInputLevel = 255;
     maxInputLevel = ((int)maxInputLevel*0.95)-1;
     if (maxInputLevel < 0) maxInputLevel = 0;
-#else
-    if (minInputLevel < 255) minInputLevel++;
-    if (maxInputLevel > 0) {maxInputLevel--;
-#endif
     if (average < minInputLevel) minInputLevel = average;
     if (average > maxInputLevel) maxInputLevel = average;
     //bool foundColorIsWhite = average > (whitelevel+blacklevel) / 2;
@@ -185,11 +179,15 @@
 #endif
 }
 
-- (CIImage *)subImage: (CIImage *)src top: (float)top left: (float)left
+- (CIImage *)subImage: (CIImage *)src left: (float)left top: (float)top right: (float)right bottom: (float)bottom
 {
+    float x0 = src.extent.origin.x + left*src.extent.size.width;
+    float y0 = src.extent.origin.y + top*src.extent.size.height;
+    float x1 = src.extent.origin.x + right*src.extent.size.width;
+    float y1 = src.extent.origin.y + bottom*src.extent.size.height;
     CGRect rect = {
-        {src.extent.origin.x + left*src.extent.size.width, src.extent.origin.y + top*src.extent.size.height},
-        {0.5*src.extent.size.width, 0.5*src.extent.size.height}};
+        {x0, y0},
+        {x1-x0, y1-y0}};
     return [src imageByCroppingToRect:rect];
 }
 
