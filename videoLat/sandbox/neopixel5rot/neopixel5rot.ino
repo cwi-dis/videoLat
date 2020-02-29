@@ -37,7 +37,7 @@ void setup() {
 #define C_BLUE 0x00001f
 #define C_CYAN 0x0003f3f
 #define C_MAGENTA 0x1f001f
-#define C_YELLOW 0x0f0f00
+#define C_YELLOW 0x1f2700
 
 int colors[] = {
   C_RED,
