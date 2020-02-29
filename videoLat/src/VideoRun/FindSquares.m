@@ -58,17 +58,23 @@
     }
     NSLog(@"Found %lu inner squares", (unsigned long)features.count);
     feature = innerFeatures[0];
-    float x0 = feature.bounds.origin.x / innerSearchArea.extent.size.width;
-    float y0 = feature.bounds.origin.y / innerSearchArea.extent.size.height;
-    float x1 = (feature.bounds.origin.x + feature.bounds.size.width) / innerSearchArea.extent.size.width;
-    float y1 = (feature.bounds.origin.y + feature.bounds.size.height) / innerSearchArea.extent.size.height;
+    float x0 = (feature.topLeft.x+feature.bottomLeft.x) / (2*innerSearchArea.extent.size.width);
+    float x1 = (feature.topRight.x+feature.bottomRight.x) / (2*innerSearchArea.extent.size.width);
+    float y0 = (feature.bottomLeft.y+feature.bottomRight.y) / (2*innerSearchArea.extent.size.height);
+    float y1 = (feature.topLeft.y+feature.topRight.y) / (2*innerSearchArea.extent.size.height);
+    // Now convert from innerSearchArea to matchedSquareImage
+    x0 = 0.2 + x0 * 0.6;
+    x1 = 0.2 + x1 * 0.6;
+    y0 = 0.2 + y0 * 0.6;
+    y1 = 0.2 + y1 * 0.6;
     NSLog(@" x0=%f x1=%f y0=%f y1=%f", x0, x1, y0, y1);
+    float edge = 0.1;
     float subRects[5][4] = {
-        {x0, 0, x1, y0},    // Top
-        {0, y0, x0, y1},    // Left
-        {x0, y0, x1, y1},   // Center
-        {x1, y0, 1, y1},    // Right
-        {x0, y1, x1, 1}     // Bottom
+        {x0+edge, 0, x1-edge, y0-edge},    // Top
+        {0, y0+edge, x0-edge, y1-edge},    // Left
+        {x0+edge, y0+edge, x1-edge, y1-edge},   // Center
+        {x1+edge, y0+edge, 1, y1-edge},    // Right
+        {x0+edge, y1+edge, x1-edge, 1}     // Bottom
     };
     
     for (int i=0; i<5; i++) {
