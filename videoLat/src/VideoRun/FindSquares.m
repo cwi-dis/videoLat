@@ -76,44 +76,53 @@
         {x1+edge, y0+edge, 1, y1-edge},    // Right
         {x0+edge, y1+edge, x1-edge, 1}     // Bottom
     };
-    
+    // Compute the hues of each of the squares
+    float lightness[5];
+    float hue[5];
     for (int i=0; i<5; i++) {
         CIImage *midImage = [self subImage: matchedSquareImage left: subRects[i][0] top: subRects[i][1] right: subRects[i][2] bottom: subRects[i][3]];
         [self dumpImage: midImage to: [NSString stringWithFormat:@"xxxjack-inner%d.png", i]];
 		NSLog(@"sub %d: midImage x=%f y=%f h=%f w=%f", i, midImage.extent.origin.x, midImage.extent.origin.y, midImage.extent.size.width, midImage.extent.size.height);
-#if 0
-        // Find a square approximately in the right place
-        features = [detector featuresInImage:midImage];
-        if (features.count == 1) {
-            nFound++;
-            // Average the color in the area of the inner square
-            feature = features[0];
-            NSLog(@"sub %d: feature %@", i, feature);
-            CIImage *subSquareImage = [self squareImageForFeature:midImage feature:feature];
-			[self dumpImage: subSquareImage to: [NSString stringWithFormat:@"xxxjack-feature%d.png", i]];
-            // Average the color
-			CIVector *subExtent = [CIVector vectorWithX:subSquareImage.extent.origin.x
-														 Y:subSquareImage.extent.origin.y
-														 Z:subSquareImage.extent.size.width
-														 W:subSquareImage.extent.size.height];
-			CIFilter *subFilter = [CIFilter filterWithName:@"CIAreaAverage"
-									keysAndValues:
-									kCIInputImageKey, subSquareImage,
-									kCIInputExtentKey, subExtent,
-									nil
-								];
-			CIImage *subPixelImage = subFilter.outputImage;
-			NSLog(@"sub %d: subSquareImage x=%f y=%f h=%f w=%f", i, subSquareImage.extent.origin.x, subSquareImage.extent.origin.y, subSquareImage.extent.size.width, subSquareImage.extent.size.height);
-			NSLog(@"sub %d: subPixelImage x=%f y=%f h=%f w=%f", i, subPixelImage.extent.origin.x, subPixelImage.extent.origin.y, subPixelImage.extent.size.width, subPixelImage.extent.size.height);
-			uint8_t subColorValues[4] = {42, 42, 42, 42};
-			CGRect bounds = CGRectMake(0, 0, 1, 1);
-			CIContext *subContext = [CIContext context];
-			[subContext render:subPixelImage toBitmap:subColorValues rowBytes:sizeof(subColorValues) bounds:bounds format:kCIFormatRGBA8 colorSpace:NULL];
-            NSLog(@"sub %d: %d %d %d %d", i, subColorValues[0], subColorValues[1], subColorValues[2], subColorValues[3]);
-            // Convert to HLS or HSV or so
-            // Get the primary/secondary value
+        CIVector *subExtent = [CIVector vectorWithX:midImage.extent.origin.x
+                                                     Y:midImage.extent.origin.y
+                                                     Z:midImage.extent.size.width
+                                                     W:midImage.extent.size.height];
+        CIFilter *subFilter = [CIFilter filterWithName:@"CIAreaAverage"
+                                keysAndValues:
+                                kCIInputImageKey, midImage,
+                                kCIInputExtentKey, subExtent,
+                                nil
+                            ];
+        CIImage *subPixelImage = subFilter.outputImage;
+        NSLog(@"sub %d: subPixelImage x=%f y=%f h=%f w=%f", i, subPixelImage.extent.origin.x, subPixelImage.extent.origin.y, subPixelImage.extent.size.width, subPixelImage.extent.size.height);
+        uint8_t subColorValues[4] = {42, 42, 42, 42};
+        CGRect bounds = CGRectMake(0, 0, 1, 1);
+        CIContext *subContext = [CIContext context];
+        [subContext render:subPixelImage toBitmap:subColorValues rowBytes:sizeof(subColorValues) bounds:bounds format:kCIFormatRGBA8 colorSpace:NULL];
+        NSLog(@"sub %d: %d %d %d %d", i, subColorValues[0], subColorValues[1], subColorValues[2], subColorValues[3]);
+        // Convert to HLS or HSV or so
+        // Get the primary/secondary value
+        float r = subColorValues[0] / 255.0;
+        float g = subColorValues[1] / 255.0;
+        float b = subColorValues[2] / 255.0;
+        float maxColor = fmax(r, fmax(g, b));
+        float minColor = fmin(r, fmin(g, b));
+        float rangeColor = maxColor-minColor;
+        lightness[i] = (maxColor+minColor)/2;
+        float hPrime = 0;
+        if (rangeColor == 0) {
+            hPrime = 0; // Undefined really
+        } else if (r == maxColor) {
+            hPrime = (g-b)/rangeColor;
+        } else if (g == maxColor) {
+            hPrime = 2+(b-r)/rangeColor;
+        } else if (b == maxColor) {
+            hPrime = 4+(r-g)/rangeColor;
         }
-#endif
+        while (hPrime < 0) hPrime += 6;
+        while (hPrime > 6) hPrime -= 6;
+        hue[i] = hPrime*60;
+        NSLog(@"sub %d: hue=%f lightness=%f", i, hue[i], lightness[i]);
     }
     return NULL;
 #if 0
