@@ -32,31 +32,35 @@ void setup() {
   pixels.begin(); // INITIALIZE NeoPixel strip object (REQUIRED)
 }
 
+#define C_RED 0x1f0000
+#define C_GREEN 0x001f00
+#define C_BLUE 0x00001f
+#define C_CYAN 0x0003f3f
+#define C_MAGENTA 0x1f001f
+#define C_YELLOW 0x0f0f00
+
 int colors[] = {
-  0xff0000,
-  0x7f7f00,
-  0x00ff00,
-  0x007f7f,
-  0x0000ff,
-  0x7f007f,
-  0x555555,
+  C_RED,
+  C_GREEN,
+  C_BLUE,
+  C_YELLOW
 };
 #define NCOLORS (sizeof(colors)/sizeof(int))
 
 int loopIndex = 0;
 
 void loop() {
-  loopIndex++;
   pixels.clear(); // Set all pixel colors to 'off'
-
+  pixels.setPixelColor(0, C_CYAN);
+  pixels.setPixelColor(NUMPIXELS-1, C_MAGENTA);
   // The first NeoPixel in a strand is #0, second is 1, all the way up
   // to the count of pixels minus one.
-  for(int i=0; i<NUMPIXELS; i++) { // For each pixel...
-    int colorIndex = ((loopIndex+i) * (i+1)) % NCOLORS;
-
+  for(int i=1; i<NUMPIXELS-1; i++) { // For each pixel...
+    loopIndex++;
+    if (loopIndex >= NCOLORS) loopIndex = 0;
     // pixels.Color() takes RGB values, from 0,0,0 up to 255,255,255
     // Here we're using a moderately bright green color:
-    pixels.setPixelColor(i, colors[colorIndex]);
+    pixels.setPixelColor(i, colors[loopIndex]);
   }
   pixels.show();   // Send the updated pixel colors to the hardware.
   delay(DELAYVAL); // Pause before next pass through loop
